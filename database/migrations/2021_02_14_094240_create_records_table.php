@@ -51,6 +51,7 @@ class CreateRecordsTable extends Migration
 
             $table->smallInteger('hasOccupation');
             $table->string('occupation')->nullable();
+            $table->enum('worksInClosedSetting', ["YES","NO","UNKNOWN"])->default("NO");
             $table->string('occupation_lotbldg')->nullable();
             $table->string('occupation_street')->nullable();
             $table->string('occupation_brgy')->nullable();

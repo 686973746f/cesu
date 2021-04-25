@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsadminToUsersTable extends Migration
+class CreateBrgyCodes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddIsadminToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('isadmin')->default('0');
+        Schema::create('brgy_codes', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('name');
         });
     }
 
@@ -25,8 +27,6 @@ class AddIsadminToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('isadmin');
-        });
+        Schema::dropIfExists('brgy_codes');
     }
 }

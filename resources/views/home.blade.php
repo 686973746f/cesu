@@ -17,7 +17,7 @@
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block">Patient Information</a>
                     <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block">View/Create CIF</a>
                     
-                    @if(auth()->user()->isadmin == 1)
+                    @if(auth()->user()->isAdmin == 1)
                         <hr>
                         <a href="" class="btn btn-primary btn-lg btn-block">Admin Panel</a>
                     @endif

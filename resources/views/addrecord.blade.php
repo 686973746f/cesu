@@ -378,7 +378,7 @@
 					<h5 class="font-weight-bold">Current Workplace Information and Address</h5>
 					<hr>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
 								<input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}">
@@ -387,13 +387,24 @@
 								@enderror
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label for="occupation_name">Name of Workplace <small>(Optional)</small></label>
 								<input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}">
 								@error('occupation_name')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+							  <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
+							  <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
+								<option value="" disabled {{(empty(old('worksInClosedSetting'))) ? 'selected' : ''}}>Choose...</option>
+								<option value="YES" {{(old('worksInClosedSetting') == "YES") ? 'selected' : ''}}>Yes</option>
+								<option value="NO" {{(old('worksInClosedSetting') == "NO") ? 'selected' : ''}}>No</option>
+								<option value="UNKNOWN" {{(old('worksInClosedSetting') == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
+							  </select>
 							</div>
 						</div>
 					</div>
@@ -757,6 +768,7 @@
 				$('occupation_brgy').prop('required', false);
 				$('occupation_lotbldg').prop('required', false);
 				$('occupation_street').prop('required', false);
+				$('worksInClosedSetting').prop('required', false);
 			}
 			else {
 				$('#occupation_div').show();
@@ -768,6 +780,7 @@
 				$('occupation_brgy').prop('required', false);
 				$('occupation_lotbldg').prop('required', false);
 				$('occupation_street').prop('required', false);
+				$('worksInClosedSetting').prop('required', true);
 			}
 		});
 	});

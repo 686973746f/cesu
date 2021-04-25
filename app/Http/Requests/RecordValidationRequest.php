@@ -50,6 +50,7 @@ class RecordValidationRequest extends FormRequest
 			'permaemail' => 'nullable|present|email',
 
 			'occupation' => ($this->hasoccupation == 1) ? 'required' : 'nullable',
+			'worksInClosedSetting' => ($this->hasoccupation == 1) ? 'required' : 'nullable',
 			'occupation_lotbldg' => 'nullable',
 			'occupation_street' => 'nullable',
 			'occupation_brgy' => 'nullable',

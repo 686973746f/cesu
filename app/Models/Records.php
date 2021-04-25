@@ -44,6 +44,7 @@ class Records extends Model
         'permaemail',
         'hasOccupation',
         'occupation',
+        'worksInClosedSetting',
         'occupation_lotbldg',
         'occupation_street',
         'occupation_brgy',
