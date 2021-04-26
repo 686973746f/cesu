@@ -1474,8 +1474,8 @@
                                                 <div class="form-group">
                                                     <label for="intWithOngoingCovid">With ongoing COVID-19 community transmission?</label>
                                                     <select class="form-control" name="intWithOngoingCovid" id="intWithOngoingCovid">
-                                                      <option value="0">No</option>
-                                                      <option value="1">Yes</option>
+                                                      <option value="NO">No</option>
+                                                      <option value="YES">Yes</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1564,8 +1564,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid1">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid1" id="locWithOngoingCovid1">
-                                                                  <option value="0">No</option>
-                                                                  <option value="1">Yes</option>
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1618,8 +1618,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid2">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid2" id="locWithOngoingCovid2">
-                                                                  <option value="0">No</option>
-                                                                  <option value="1">Yes</option>
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1672,8 +1672,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid3">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid3" id="locWithOngoingCovid3">
-                                                                  <option value="0">No</option>
-                                                                  <option value="1">Yes</option>
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1726,8 +1726,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid4">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid4" id="locWithOngoingCovid4">
-                                                                  <option value="0">No</option>
-                                                                  <option value="1">Yes</option>
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1780,8 +1780,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid5">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid5" id="locWithOngoingCovid5">
-                                                                  <option value="0">No</option>
-                                                                  <option value="1">Yes</option>
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1834,8 +1834,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid6">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid6" id="locWithOngoingCovid6">
-                                                                  <option value="0">No</option>
-                                                                  <option value="1">Yes</option>
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1888,8 +1888,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid7">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid7" id="locWithOngoingCovid7">
-                                                                  <option value="0">No</option>
-                                                                  <option value="1">Yes</option>
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
