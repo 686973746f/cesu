@@ -28,6 +28,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
     }
 
     public function map($form): array {
+        $arr_existingCase = explode(",", $form->existingCaseList);
         $arr_testingcat = explode(",", $form->testingCat);
         $arr_sas = explode(",", $form->SAS);
         $arr_como = explode(",", $form->COMO);
@@ -37,46 +38,6 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         $arr_cc = array_filter(explode(",", $form->addContName));
         $arr_num = array_filter(explode(",", $form->addContNo));
         $arr_exp = array_filter(explode(",", $form->addContExpSet));
-
-        $arc = array();
-        $arn = array();
-        $are = array();
-
-        for($i=0;$i<=9;$i++) {
-            if(!empty($arr_cc) && isset($arr_cc[$i])) {
-                $arc[$i] = $arr_cc[$i];
-            }
-            else {
-                $arc[$i] = "N/A";
-            }
-
-            if(!empty($arr_num) && isset($arr_num[$i])) {
-                $arn[$i] = $arr_num[$i];
-            }
-            else {
-                $arn[$i] = "N/A";
-            }
-
-            if(!empty($arr_exp) && isset($arr_exp[$i])) {
-                $are[$i] = $arr_exp[$i];
-            }
-            else {
-                $are[$i] = "N/A";
-            }
-        }
-
-        if($form->pType == 1) {
-            $ptypestr = "SUSPECT";
-        }
-        else if($form->pType == 2) {
-            $ptypestr = "TESTING";
-        }
-        else if($form->pType == 3) {
-            $ptypestr = "CLOSE CONTACT";
-        }
-        else if($form->pType == 4) {
-            $ptypestr = "OTHERS";
-        }
 
         return [
             $form->drunit,
@@ -88,8 +49,21 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->informantName)) ? strtoupper($form->informantName) : 'N/A',
             (!is_null($form->informantRelationship)) ? strtoupper($form->informantRelationship) : 'N/A',
             (!is_null($form->informantMobile)) ? $form->informantMobile : 'N/A',
-            $ptypestr,
-            (!is_null($form->pOthersRemarks)) ? strtoupper($form->pOthersRemarks) : 'N/A',
+
+            (in_array("1", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("2", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("3", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("4", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("5", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("6", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("7", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("8", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("9", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("10", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("11", $arr_existingCase)) ? "YES" : "NO",
+            (in_array("11", $arr_existingCase)) ? $form->ecOthersRemarks : "N/A",
+            
+            $form->pType,
             (in_array("A", $arr_testingcat)) ? "YES" : "NO",
             (in_array("B", $arr_testingcat)) ? "YES" : "NO",
             (in_array("C", $arr_testingcat)) ? "YES" : "NO",
@@ -100,6 +74,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("H", $arr_testingcat)) ? "YES" : "NO",
             (in_array("I", $arr_testingcat)) ? "YES" : "NO",
             (in_array("J", $arr_testingcat)) ? "YES" : "NO",
+
             $form->records->lname,
             $form->records->fname,
             $form->records->mname,
@@ -109,6 +84,9 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $form->records->cs,
             $form->records->nationality,
             (!is_null($form->records->occupation)) ? $form->records->occupation : 'N/A',
+            $form->records->worksInClosedSetting,
+
+            //current address
             $form->records->address_houseno,
             $form->records->address_street,
             $form->records->address_brgy,
@@ -117,6 +95,16 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->records->phoneno)) ? $form->records->phoneno : 'N/A',
             $form->records->mobile,
             (!is_null($form->records->email)) ? $form->records->email : 'N/A',
+
+            //perma address
+            $form->records->permaaddress_houseno,
+            $form->records->permaaddress_street,
+            $form->records->permaaddress_brgy,
+            $form->records->permaaddress_city,
+            $form->records->permaaddress_province,
+            (!is_null($form->records->permaphoneno)) ? $form->records->permaphoneno : 'N/A',
+            $form->records->permamobile,
+            (!is_null($form->records->permaemail)) ? $form->records->permaemail : 'N/A',
 
             (!is_null($form->records->occupation_lotbldg)) ? $form->records->occupation_lotbldg : 'N/A',
             (!is_null($form->records->occupation_street)) ? $form->records->occupation_street : 'N/A',
@@ -127,13 +115,32 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->records->occupation_mobile)) ? $form->records->occupation_mobile : 'N/A',
             (!is_null($form->records->occupation_email)) ? $form->records->occupation_email : 'N/A',
 
+            ($form->isHealthCareWorker == 1) ? 'YES' : 'NO',
+            ($form->isHealthCareWorker == 1) ? strtoupper($form->healthCareCompanyName)." - ".strtoupper($form->healthCareCompanyLocation) : 'N/A',
+            
+            ($form->isOFW == 1) ? 'YES' : 'NO',
+            ($form->isOFW == 1) ? strtoupper($form->OFWCountyOfOrigin) : 'N/A',
+            ($form->isOFW == 1 && $form->ofwType == 1) ? "YES" : "NO",
+            ($form->isOFW == 1 && $form->ofwType == 2) ? "YES" : "NO",
+
+            ($form->isFNT == 1) ? 'YES' : 'NO',
+            ($form->isFNT == 1) ? strtoupper($form->FNTCountryOfOrigin) : 'N/A',
+
+            ($form->isLSI == 1) ? 'YES' : 'NO',
+            ($form->isLSI == 1) ? strtoupper($form->LSICity).", ".strtoupper($form->LSIProvince) : 'N/A',
+            ($form->isLSI == 1 && $form->lsiType == 1) ? 'YES' : 'NO',
+            ($form->isLSI == 1 && $form->lsiType == 0) ? 'YES' : 'NO',
+
+            ($form->isLivesOnClosedSettings == 1) ? 'YES' : 'NO',
+            ($form->isLivesOnClosedSettings == 1) ? strtoupper($form->institutionType) : 'N/A',
+            ($form->isLivesOnClosedSettings == 1) ? strtoupper($form->institutionName) : 'N/A',
+
+            ($form->isIndg == 1) ? "YES" : "NO",
+            ($form->isIndg == 1) ? strtoupper($form->indgSpecify) : "N/A",
+
             ($form->havePreviousCovidConsultation == 1) ? 'YES' : 'NO',
             (!is_null($form->dateOfFirstConsult)) ? date("m/d/Y", strtotime($form->dateOfFirstConsult)) : 'N/A',
             (!is_null($form->facilityNameOfFirstConsult)) ? strtoupper($form->facilityNameOfFirstConsult) : 'N/A',
-            ($form->admittedInHealthFacility == 1) ? 'YES' : 'NO',
-            (!is_null($form->dateOfAdmissionInHealthFacility)) ? date("m/d/Y", strtotime($form->dateOfAdmissionInHealthFacility)): 'N/A',
-            (!is_null($form->facilitynameOfFirstAdmitted)) ? strtoupper($form->facilitynameOfFirstAdmitted) : 'N/A',
-            (!is_null($form->fRegionAndOffice)) ? $form->fRegionAndOffice : 'N/A',
             
             ($form->dispoType == 1) ? 'YES' : 'NO',
             ($form->dispoType == 1) ? strtoupper($form->dispoName) : 'N/A',
@@ -163,40 +170,6 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->caseClassification == "Confirmed") ? 'YES' : 'NO',
             ($form->caseClassification == "Non-COVID-19 Case") ? 'YES' : 'NO',
 
-            ($form->isHealthCareWorker == 1) ? 'YES' : 'NO',
-            ($form->isHealthCareWorker == 1) ? strtoupper($form->healthCareCompanyName)." - ".strtoupper($form->healthCareCompanyLocation) : 'N/A',
-            
-            ($form->isOFW == 1) ? 'YES' : 'NO',
-            ($form->isOFW == 1) ? strtoupper($form->OFWCountyOfOrigin) : 'N/A',
-
-            ($form->isFNT == 1) ? 'YES' : 'NO',
-            ($form->isFNT == 1) ? strtoupper($form->FNTCountryOfOrigin) : 'N/A',
-
-            ($form->isLSI == 1) ? 'YES' : 'NO',
-            ($form->isLSI == 1) ? strtoupper($form->LSICity).", ".strtoupper($form->LSIProvince) : 'N/A',
-
-            ($form->isLivesOnClosedSettings == 1) ? 'YES' : 'NO',
-            ($form->isLivesOnClosedSettings == 1) ? strtoupper($form->institutionType) : 'N/A',
-            ($form->isLivesOnClosedSettings == 1) ? strtoupper($form->institutionName) : 'N/A',
-
-            $form->records->permaaddress_houseno,
-            $form->records->permaaddress_street,
-            $form->records->permaaddress_brgy,
-            $form->records->permaaddress_city,
-            $form->records->permaaddress_province,
-            (!is_null($form->records->permaphoneno)) ? $form->records->permaphoneno : 'N/A',
-            $form->records->permamobile,
-            (!is_null($form->records->permaemail)) ? $form->records->permaemail : 'N/A',
-
-            (!is_null($form->oaddresslotbldg)) ? strtoupper($form->oaddresslotbldg) : 'N/A',
-            (!is_null($form->oaddressstreet)) ? strtoupper($form->oaddressstreet) : 'N/A',
-            (!is_null($form->oaddressscity)) ? strtoupper($form->oaddressscity) : 'N/A',
-            (!is_null($form->oaddresssprovince)) ? strtoupper($form->oaddresssprovince) : 'N/A',
-            (!is_null($form->oaddressscountry)) ? strtoupper($form->oaddressscountry) : 'N/A',
-            (!is_null($form->placeofwork)) ? strtoupper($form->placeofwork) : 'N/A',
-            (!is_null($form->employername)) ? strtoupper($form->employername) : 'N/A',
-            (!is_null($form->employercontactnumber)) ? $form->employercontactnumber : 'N/A',
-
             (!is_null($form->dateOnsetOfIllness)) ? date("m/d/Y", strtotime($form->dateOnsetOfIllness)) : 'N/A',
             (in_array("Asymptomatic", $arr_sas)) ? "YES" : "NO",
             (in_array("Fever", $arr_sas)) ? "YES" : "NO",
@@ -218,7 +191,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("Ageusia (Loss of Taste)", $arr_sas)) ? "YES" : "NO",
             (in_array("Others", $arr_sas)) ? "YES" : "NO",
             (in_array("Others", $arr_sas)) ? strtoupper($form->SASOtherRemarks) : "N/A",
-            
+
             (in_array("None", $arr_como)) ? "YES" : "NO",
             (in_array("Hypertension", $arr_como)) ? "YES" : "NO",
             (in_array("Diabetes", $arr_como)) ? "YES" : "NO",
@@ -235,66 +208,31 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->PregnantHighRisk == 1) ? "YES" : "NO",
 
             ($form->diagWithSARI == 1) ? "YES" : "NO",
-            (in_array("Chest Radiography", $arr_ima)) ? "YES" : "NO",
-            (in_array("Chest Radiography", $arr_ima)) ? $form->chestRDResult : "",
-            ($form->chestRDResult == "OTHERS") ? "YES" : "NO",
-            ($form->chestRDResult == "OTHERS") ? $form->chestRDOtherFindings : "N/A",
-            (in_array("Chest CT", $arr_ima)) ? "YES" : "NO",
-            (in_array("Chest CT", $arr_ima)) ? $form->chestCTResult : "",
-            ($form->chestCTResult == "OTHERS") ? "YES" : "NO",
-            ($form->chestCTResult == "OTHERS") ? $form->chestCTOtherFindings : "N/A",
-            (in_array("Lung Ultrasound", $arr_ima)) ? "YES" : "NO",
-            (in_array("Lung Ultrasound", $arr_ima)) ? $form->lungUSResult : "",
-            ($form->lungUSResult == "OTHERS") ? "YES" : "NO",
-            ($form->lungUSResult == "OTHERS") ? $form->lungUSOtherFindings : "N/A",
-            (in_array("None", $arr_ima)) ? "YES" : "NO",
+            ($form->imagingDone != "None") ? date('m/d/Y', strtotime($form->imagingDoneDate)) : "N/A",
+            $form->imagingDone,
+            $form->imagingResult,
+            ($form->imagingResult == "OTHERS") ? strtoupper($form->imagingOtherFindings) : "N/A",
 
-            (in_array("RT-PCR (OPS)", $arr_lab)) ? "YES" : "NO",
-            (in_array("RT-PCR (OPS)", $arr_lab) && !is_null($form->rtpcr_ops_date_collected)) ? date("m/d/Y", strtotime($form->rtpcr_ops_date_collected)) : "",
-            (in_array("RT-PCR (OPS)", $arr_lab) && !is_null($form->rtpcr_ops_laboratory)) ? strtoupper($form->rtpcr_ops_laboratory) : "",
-            (in_array("RT-PCR (OPS)", $arr_lab)) ? strtoupper($form->rtpcr_ops_results) : "",
-            (in_array("RT-PCR (OPS)", $arr_lab) && !is_null($form->rtpcr_ops_date_released)) ? date("m/d/Y", strtotime($form->rtpcr_ops_date_released)) : "",
-            
-            (in_array("RT-PCR (NPS)", $arr_lab)) ? "YES" : "NO",
-            (in_array("RT-PCR (NPS)", $arr_lab) && !is_null($form->rtpcr_nps_date_collected)) ? date("m/d/Y", strtotime($form->rtpcr_nps_date_collected)) : "",
-            (in_array("RT-PCR (NPS)", $arr_lab) && !is_null($form->rtpcr_nps_laboratory)) ? strtoupper($form->rtpcr_nps_laboratory) : "",
-            (in_array("RT-PCR (NPS)", $arr_lab)) ? strtoupper($form->rtpcr_nps_results) : "",
-            (in_array("RT-PCR (NPS)", $arr_lab) && !is_null($form->rtpcr_nps_date_released)) ? date("m/d/Y", strtotime($form->rtpcr_nps_date_released)) : "",
-            
-            (in_array("RT-PCR (OPS and NPS)", $arr_lab)) ? "YES" : "NO",
-            (in_array("RT-PCR (OPS and NPS)", $arr_lab) && !is_null($form->rtpcr_both_date_collected)) ? date("m/d/Y", strtotime($form->rtpcr_both_date_collected)) : "",
-            (in_array("RT-PCR (OPS and NPS)", $arr_lab) && !is_null($form->rtpcr_both_laboratory)) ? strtoupper($form->rtpcr_both_laboratory) : "",
-            (in_array("RT-PCR (OPS and NPS)", $arr_lab)) ? strtoupper($form->rtpcr_both_results) : "",
-            (in_array("RT-PCR (OPS and NPS)", $arr_lab) && !is_null($form->rtpcr_both_date_released)) ? date("m/d/Y", strtotime($form->rtpcr_both_date_released)) : "",
-            
-            (in_array("RT-PCR", $arr_lab)) ? "YES" : "NO",
-            (in_array("RT-PCR", $arr_lab)) ? strtoupper($form->rtpcr_spec_type) : "N/A",
-            (in_array("RT-PCR", $arr_lab) && !is_null($form->rtpcr_spec_date_collected)) ? date("m/d/Y", strtotime($form->rtpcr_spec_date_collected)) : "",
-            (in_array("RT-PCR", $arr_lab) && !is_null($form->rtpcr_spec_laboratory)) ? strtoupper($form->rtpcr_spec_laboratory) : "",
-            (in_array("RT-PCR", $arr_lab)) ? strtoupper($form->rtpcr_spec_results) : "",
-            (in_array("RT-PCR", $arr_lab) && !is_null($form->rtpcr_spec_date_released)) ? date("m/d/Y", strtotime($form->rtpcr_spec_date_released)) : "",
-            
-            (in_array("Antigen Test", $arr_lab)) ? "YES" : "NO",
-            (in_array("Antigen Test", $arr_lab) && !is_null($form->antigen_date_collected)) ? date("m/d/Y", strtotime($form->antigen_date_collected)) : "",
-            (in_array("Antigen Test", $arr_lab) && !is_null($form->antigen_laboratory)) ? strtoupper($form->antigen_laboratory) : "",
-            (in_array("Antigen Test", $arr_lab)) ? strtoupper($form->antigen_results) : "",
-            (in_array("Antigen Test", $arr_lab) && !is_null($form->antigen_date_released)) ? date("m/d/Y", strtotime($form->antigen_date_released)) : "",
-            
-            (in_array("Antibody Test", $arr_lab)) ? "YES" : "NO",
-            (in_array("Antibody Test", $arr_lab) && !is_null($form->antibody_date_collected)) ? date("m/d/Y", strtotime($form->antibody_date_collected)) : "",
-            (in_array("Antibody Test", $arr_lab) && !is_null($form->antibody_laboratory)) ? strtoupper($form->antibody_laboratory) : "",
-            (in_array("Antibody Test", $arr_lab)) ? strtoupper($form->antibody_results) : "",
-            (in_array("Antibody Test", $arr_lab) && !is_null($form->antibody_date_released)) ? date("m/d/Y", strtotime($form->antibody_date_released)) : "",
-            (in_array("Others", $arr_lab)) ? "YES" : "NO",
-            (in_array("Others", $arr_lab)) ? strtoupper($form->others_specify) : "N/A",
-            (in_array("Others", $arr_lab) && !is_null($form->others_date_collected)) ? date("m/d/Y", strtotime($form->others_date_collected)) : "",
-            (in_array("Others", $arr_lab) && !is_null($form->others_laboratory)) ? strtoupper($form->others_laboratory) : "",
-            (in_array("Others", $arr_lab)) ? strtoupper($form->others_results) : "",
-            (in_array("Others", $arr_lab) && !is_null($form->others_date_released)) ? date("m/d/Y", strtotime($form->others_date_released)) : "",
             ($form->testedPositiveUsingRTPCRBefore == 1) ? "YES" : "NO",
             ($form->testedPositiveUsingRTPCRBefore == 1) ? date("m/d/Y", strtotime($form->testedPositiveSpecCollectedDate)) : "N/A",
             ($form->testedPositiveUsingRTPCRBefore == 1) ? strtoupper($form->testedPositiveLab) : "N/A",
             strval($form->testedPositiveNumOfSwab),
+
+            date('m/d/Y', strtotime($form->testDateCollected1)),
+            date('m/d/Y', strtotime($form->testDateReleased1)),
+            strtoupper($form->testLaboratory1),
+            $form->testType1,
+            ($form->testType1 == "OTHERS" || $form->testType1 == "ANTIGEN") ? $form->testTypeOtherRemarks1 : "N/A",
+            $form->testResult1,
+            ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A",
+
+            (!is_null($form->testDateCollected2)) ? date('m/d/Y', strtotime($form->testDateCollected2)) : "N/A",
+            (!is_null($form->testDateReleased2)) ? date('m/d/Y', strtotime($form->testDateReleased2)) : "N/A",
+            (!is_null($form->testLaboratory2)) ? strtoupper($form->testLaboratory2) : "N/A",
+            $form->testType2,
+            ($form->testType2 == "OTHERS" || $form->testType2 == "ANTIGEN") ? $form->testTypeOtherRemarks2 : "N/A",
+            ($form->testType2 != "N/A") ? $form->testResult2 : "N/A",
+            ($form->testResult2 == "OTHERS") ? $form->testResultOtherRemarks2 : "N/A",
 
             ($form->outcomeCondition == "Active") ? "YES" : "NO",
             ($form->outcomeCondition == "Recovered") ? "YES" : "NO",
@@ -304,8 +242,11 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->outcomeCondition == "Died") ? strtoupper($form->deathImmeCause) : "N/A",
             ($form->outcomeCondition == "Died") ? strtoupper($form->deathAnteCause) : "N/A",
             ($form->outcomeCondition == "Died") ? strtoupper($form->deathUndeCause) : "N/A",
+            ($form->outcomeCondition == "Died") ? strtoupper($form->contriCondi) : "N/A",
+
             ($form->expoitem1 == 1) ? "YES" : "NO",
             ($form->expoitem1 == 1) ? date("m/d/Y", strtotime($form->expoDateLastCont)) : "N/A",
+
             ($form->expoitem2 == 1 || $form->expoitem2 == 3) ? "YES" : "NO",
             ($form->expoitem2 == 1 && in_array("1", $arr_exp2) || $form->expoitem2 == 3 && in_array("1", $arr_exp2)) ? "YES" : "NO",
             ($form->expoitem2 == 1 && in_array("1", $arr_exp2) || $form->expoitem2 == 3 && in_array("1", $arr_exp2)) ? strtoupper($form->vOpt1_details) : "N/A",
@@ -361,46 +302,6 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->contact3No)) ? $form->contact3No : "N/A",
             (!is_null($form->contact4Name)) ? strtoupper($form->contact4Name) : "N/A",
             (!is_null($form->contact4No)) ? $form->contact4No : "N/A",
-
-            $arc[0],
-            $arn[0],
-            $are[0],
-
-            $arc[1],
-            $arn[1],
-            $are[1],
-
-            $arc[2],
-            $arn[2],
-            $are[2],
-
-            $arc[3],
-            $arn[3],
-            $are[3],
-
-            $arc[4],
-            $arn[4],
-            $are[4],
-
-            $arc[5],
-            $arn[5],
-            $are[5],
-            
-            $arc[6],
-            $arn[6],
-            $are[6],
-            
-            $arc[7],
-            $arn[7],
-            $are[7],
-
-            $arc[8],
-            $arn[8],
-            $are[8],
-
-            $arc[9],
-            $arn[9],
-            $are[9],
         ];
     }
 

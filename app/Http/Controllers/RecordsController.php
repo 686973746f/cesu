@@ -119,7 +119,7 @@ class RecordsController extends Controller
 
 			'hasOccupation' => $request->hasoccupation,
 			'occupation' => ($request->filled('occupation') && $request->hasoccupation == 1) ? strtoupper($request->occupation) : NULL,
-			'worksInClosedSetting' => $request->worksInClosedSetting,
+			'worksInClosedSetting' => ($request->filled('occupation') && $request->hasoccupation == 1) ? $request->worksInClosedSetting : 'NO',
 			'occupation_lotbldg' => ($request->filled('occupation_lotbldg') && $request->hasoccupation == 1) ? strtoupper($request->occupation_lotbldg) : NULL,
 			'occupation_street' => ($request->filled('occupation_street') && $request->hasoccupation == 1) ? strtoupper($request->occupation_street) : NULL,
 			'occupation_brgy' => ($request->filled('occupation_brgy') && $request->hasoccupation == 1) ? strtoupper($request->occupation_brgy) : NULL,

@@ -195,9 +195,9 @@
                         <label for="pType"><span class="text-danger font-weight-bold">*</span>Type of Client</label>
                         <select class="form-control" name="pType" id="pType" required>
                         <option value="" disabled {{(is_null(old('pType'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="1" @if(old('pType') == "1"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
-                        <option value="3" @if(old('pType') == "3"){{'selected'}}@endif>Close Contact</option>
-                        <option value="2" @if(old('pType') == "2"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
+                        <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
+                        <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
+                        <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
                         </select>
                     </div>
                     <div><label for=""><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup <i>(Check all that apply)</i></label></div>
@@ -1257,12 +1257,12 @@
                                             <div class="form-group">
                                               <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
                                               <select class="form-control" name="testType1" id="testType1" required>
-                                                <option value="RT-PCR (OPS)" {{(old('testType1') == 'RT-PCR (OPS)') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                <option value="RT-PCR (NPS)" {{(old('testType1') == 'RT-PCR (NPS)') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                <option value="RT-PCR (OPS and NPS)" {{(old('testType1') == 'RT-PCR (OPS and NPS)') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                <option value="Antigen Test" {{(old('testType1') == 'Antigen Test') ? 'selected' : ''}}>Antigen Test</option>
-                                                <option value="Antibody Test" {{(old('testType1') == 'Antibody Test') ? 'selected' : ''}}>Antibody Test</option>
-                                                <option value="Others" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
+                                                <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
                                             <div id="divTypeOthers1">
@@ -1314,12 +1314,13 @@
                                             <div class="form-group">
                                               <label for="testType2"><span class="text-danger font-weight-bold">*</span>Type of test</label>
                                               <select class="form-control" name="testType2" id="testType2">
-                                                <option value="RT-PCR (OPS)" {{(old('testType2') == 'RT-PCR (OPS)') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                <option value="RT-PCR (NPS)" {{(old('testType2') == 'RT-PCR (NPS)') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                <option value="RT-PCR (OPS and NPS)" {{(old('testType2') == 'RT-PCR (OPS and NPS)') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                <option value="Antigen Test" {{(old('testType2') == 'Antigen Test') ? 'selected' : ''}}>Antigen Test</option>
-                                                <option value="Antibody Test" {{(old('testType2') == 'Antibody Test') ? 'selected' : ''}}>Antibody Test</option>
-                                                <option value="Others" {{(old('testType2') == 'Others') ? 'selected' : ''}}>Others</option>
+                                                    <option value="N/A">N/A</option>
+                                                    <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                    <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                    <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                    <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                    <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
                                             <div id="divTypeOthers2">
