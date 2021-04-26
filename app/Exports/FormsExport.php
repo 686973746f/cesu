@@ -39,6 +39,19 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         $arr_num = array_filter(explode(",", $form->addContNo));
         $arr_exp = array_filter(explode(",", $form->addContExpSet));
 
+        if($form->expoitem2 == 1) {
+            $ei2str = "NO";
+        }
+        else if($form->expoitem2 == 1) {
+            $ei2str = "YES, LOCAL";
+        }
+        else if ($form->expoitem2 == 2) {
+            $ei2str = "YES, LOCAL";
+        }
+        else if ($form->expoitem2 == 2) {
+            $ei2str = "UNKNOWN";
+        }
+
         return [
             $form->drunit,
             $form->drregion,
@@ -247,7 +260,12 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->expoitem1 == 1) ? "YES" : "NO",
             ($form->expoitem1 == 1) ? date("m/d/Y", strtotime($form->expoDateLastCont)) : "N/A",
 
-            ($form->expoitem2 == 1 || $form->expoitem2 == 3) ? "YES" : "NO",
+            $ei2str,
+            ($form->expoitem2 == 2) ? strtoupper($form->intCountry) : 'N/A',
+            ($form->expoitem2 == 2) ? date('m/d/Y', strtotime($form->intDateFrom)) : 'N/A',
+            ($form->expoitem2 == 2) ? date('m/d/Y', strtotime($form->intDateTo)) : 'N/A',
+            ($form->expoitem2 == 2)
+            
             ($form->expoitem2 == 1 && in_array("1", $arr_exp2) || $form->expoitem2 == 3 && in_array("1", $arr_exp2)) ? "YES" : "NO",
             ($form->expoitem2 == 1 && in_array("1", $arr_exp2) || $form->expoitem2 == 3 && in_array("1", $arr_exp2)) ? strtoupper($form->vOpt1_details) : "N/A",
             ($form->expoitem2 == 1 && in_array("1", $arr_exp2) || $form->expoitem2 == 3 && in_array("1", $arr_exp2)) ? date("m/d/Y", strtotime($form->vOpt1_date)) : "N/A",
