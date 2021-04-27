@@ -63,19 +63,6 @@
                         @forelse ($forms as $form)
                         <?php
 
-                            if($form->pType == 1) {
-                                $ptype = "COVID-19 Case";
-                            }
-                            else if($form->pType == 2) {
-                                $ptype = "For RT-PCR Testing";
-                            }
-                            else if($form->pType == 3) {
-                                $ptype = "Close Contact";
-                            }
-                            else if($form->pType == 4) {
-                                $ptype = "Others";
-                            }
-
                             if($form->expoitem1 == 1) {
                                 $emsg = "YES";
                             }
@@ -99,7 +86,7 @@
                             </th>
                             <td style="vertical-align: middle;">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{$form->records->gender}}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{$ptype}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{$emsg}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{$edate}}</td>  
                             <td style="vertical-align: middle;">{{$form->user->name}}</td>

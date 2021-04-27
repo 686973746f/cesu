@@ -194,7 +194,6 @@
                     <div class="form-group">
                         <label for="pType"><span class="text-danger font-weight-bold">*</span>Type of Client</label>
                         <select class="form-control" name="pType" id="pType" required>
-                        <option value="" disabled {{(is_null(old('pType'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
                         <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
                         <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
@@ -721,7 +720,6 @@
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <select class="form-control" name="healthStatus" id="healthStatus" required>
-                                                    <option value="" disabled {{(is_null(old('healthStatus'))) ? 'selected' : ''}}>Choose...</option>
                                                     <option value="Asymptomatic" {{(old('healthStatus') == 'Asymptomatic') ? 'selected' : ''}}>Asymptomatic </option>
                                                     <option value="Mild" {{(old('healthStatus') == 'Mild') ? 'selected' : ''}}>Mild</option>
                                                     <option value="Moderate" {{(old('healthStatus') == 'Moderate') ? 'selected' : ''}}>Moderate</option>
@@ -738,9 +736,8 @@
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <select class="form-control" name="caseClassification" id="caseClassification" required>
-                                                    <option value="" disabled {{(is_null(old('caseClassification'))) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="Suspect" {{(old('caseClassification') == 'Suspect') ? 'selected' : ''}}>Suspect</option>
                                                     <option value="Probable" {{(old('caseClassification') == 'Probable') ? 'selected' : ''}}>Probable</option>
+                                                    <option value="Suspect" {{(old('caseClassification') == 'Suspect') ? 'selected' : ''}}>Suspect</option>
                                                     <option value="Confirmed" {{(old('caseClassification') == 'Confirmed') ? 'selected' : ''}}>Confirmed</option>
                                                     <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case</option>
                                                 </select>
@@ -1291,10 +1288,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <hr>
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                              <label for="testDateCollected2"><span class="text-danger font-weight-bold">*</span>2. Date Collected</label>
+                                              <label for="testDateCollected2">2. Date Collected</label>
                                               <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" value="{{old('testDateCollected2')}}">
                                             </div>
                                         </div>
@@ -1306,13 +1304,13 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="testLaboratory2"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
+                                                <label for="testLaboratory2">Laboratory</label>
                                                 <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                              <label for="testType2"><span class="text-danger font-weight-bold">*</span>Type of test</label>
+                                              <label for="testType2">Type of test</label>
                                               <select class="form-control" name="testType2" id="testType2">
                                                     <option value="N/A">N/A</option>
                                                     <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
@@ -1332,7 +1330,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                              <label for="testResult2"><span class="text-danger font-weight-bold">*</span>Results</label>
+                                              <label for="testResult2">Results</label>
                                               <select class="form-control" name="testResult2" id="testResult2">
                                                 <option value="PENDING" {{(old('testResult2') == 'PENDING') ? 'selected' : ''}}>Pending</option>
                                                 <option value="POSITIVE" {{(old('testResult2') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
@@ -1459,13 +1457,13 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                   <label for="intDateFrom">From</label>
-                                                                  <input type="text" class="form-control" name="intDateFrom" id="intDateFrom">
+                                                                  <input type="date" class="form-control" name="intDateFrom" id="intDateFrom">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="intDateTo">From</label>
-                                                                    <input type="text" class="form-control" name="intDateTo" id="intDateTo">
+                                                                    <input type="date" class="form-control" name="intDateTo" id="intDateTo">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1547,13 +1545,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom1">From</label>
-                                                                                <input class="form-control" type="text" name="locDateFrom1" id="locDateFrom1">
+                                                                                <input class="form-control" type="date" name="locDateFrom1" id="locDateFrom1">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo1">To</label>
-                                                                                <input class="form-control" type="text" name="locDateTo1" id="locDateTo1">
+                                                                                <input class="form-control" type="date" name="locDateTo1" id="locDateTo1">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1601,13 +1599,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom2">From</label>
-                                                                                <input class="form-control" type="text" name="locDateFrom2" id="locDateFrom2">
+                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo2">To</label>
-                                                                                <input class="form-control" type="text" name="locDateTo2" id="locDateTo2">
+                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1655,13 +1653,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom3">From</label>
-                                                                                <input class="form-control" type="text" name="locDateFrom3" id="locDateFrom3">
+                                                                                <input class="form-control" type="date" name="locDateFrom3" id="locDateFrom3">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo3">To</label>
-                                                                                <input class="form-control" type="text" name="locDateTo3" id="locDateTo3">
+                                                                                <input class="form-control" type="date" name="locDateTo3" id="locDateTo3">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1709,13 +1707,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom4">From</label>
-                                                                                <input class="form-control" type="text" name="locDateFrom4" id="locDateFrom4">
+                                                                                <input class="form-control" type="date" name="locDateFrom4" id="locDateFrom4">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo4">To</label>
-                                                                                <input class="form-control" type="text" name="locDateTo4" id="locDateTo4">
+                                                                                <input class="form-control" type="date" name="locDateTo4" id="locDateTo4">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1763,13 +1761,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom5">From</label>
-                                                                                <input class="form-control" type="text" name="locDateFrom5" id="locDateFrom5">
+                                                                                <input class="form-control" type="date" name="locDateFrom5" id="locDateFrom5">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo5">To</label>
-                                                                                <input class="form-control" type="text" name="locDateTo5" id="locDateTo5">
+                                                                                <input class="form-control" type="date" name="locDateTo5" id="locDateTo5">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1817,13 +1815,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom6">From</label>
-                                                                                <input class="form-control" type="text" name="locDateFrom6" id="locDateFrom6">
+                                                                                <input class="form-control" type="date" name="locDateFrom6" id="locDateFrom6">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo6">To</label>
-                                                                                <input class="form-control" type="text" name="locDateTo6" id="locDateTo6">
+                                                                                <input class="form-control" type="date" name="locDateTo6" id="locDateTo6">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1871,13 +1869,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom7">From</label>
-                                                                                <input class="form-control" type="text" name="locDateFrom7" id="locDateFrom7">
+                                                                                <input class="form-control" type="date" name="locDateFrom7" id="locDateFrom7">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo7">To</label>
-                                                                                <input class="form-control" type="text" name="locDateTo7" id="locDateTo7">
+                                                                                <input class="form-control" type="date" name="locDateTo7" id="locDateTo7">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1979,7 +1977,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDateArrive2">Date of Arrival</label>
-                                                                <input type="text" class="form-control" name="localDateArrive2" id="localDateArrive2">
+                                                                <input type="date" class="form-control" name="localDateArrive2" id="localDateArrive2">
                                                             </div>
                                                         </div>
                                                     </div>

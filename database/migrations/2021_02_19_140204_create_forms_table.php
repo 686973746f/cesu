@@ -30,7 +30,7 @@ class CreateFormsTable extends Migration
             $table->string('informantMobile')->nullable();
             $table->text('existingCaseList'); // new
             $table->string('ecOthersRemarks')->nullable(); // new
-            $table->enum('pType', [1,2,3]);
+            $table->string('pType');
             $table->text('testingCat');
 
             $table->enum('havePreviousCovidConsultation', [0,1]);
@@ -92,12 +92,12 @@ class CreateFormsTable extends Migration
             $table->string('testResult1');
             $table->string('testResultOtherRemarks1')->nullable();
 
-            $table->date('testDateCollected2');
+            $table->date('testDateCollected2')->nullable();
             $table->date('testDateReleased2')->nullable();
-            $table->string('testLaboratory2');
-            $table->string('testType2');
+            $table->string('testLaboratory2')->nullable();
+            $table->string('testType2')->nullable();
             $table->string('testTypeOtherRemarks2')->nullable();
-            $table->string('testResult2');
+            $table->string('testResult2')->nullable();
             $table->string('testResultOtherRemarks2')->nullable();
 
             $table->text('outcomeCondition')->nullable();

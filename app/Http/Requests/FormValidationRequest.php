@@ -69,7 +69,6 @@ class FormValidationRequest extends FormRequest
             'pType' => 'required',
             'testingCat' => 'required',
             
-            
             //1.5 Special Population
             'isHealthCareWorker' => 'required',
             'healthCareCompanyName' => ($this->isHealthCareWorker == "1") ? 'required' : 'nullable',

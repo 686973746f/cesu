@@ -400,8 +400,8 @@
 							<div class="form-group">
 							  <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
 							  <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
-								<option value="YES" {{(old('worksInClosedSetting') == "YES") ? 'selected' : ''}}>Yes</option>
 								<option value="NO" {{(old('worksInClosedSetting') == "NO") ? 'selected' : ''}}>No</option>
+								<option value="YES" {{(old('worksInClosedSetting') == "YES") ? 'selected' : ''}}>Yes</option>
 								<option value="UNKNOWN" {{(old('worksInClosedSetting') == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
 							  </select>
 							</div>
