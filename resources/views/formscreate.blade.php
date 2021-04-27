@@ -75,7 +75,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Date of Interview</label>
-                                <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="{{old('interviewDate')}}" max="{{date('Y-m-d')}}" required>
+                                <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="{{old('interviewDate', date('Y-m-d'))}}" max="{{date('Y-m-d')}}" required>
                             </div>
                         </div>
                     </div>
@@ -1156,17 +1156,17 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                       <label for="">Date done</label>
-                                                      <input type="date" class="form-control" name="imagingDoneDate" id="imagingDoneDate">
+                                                      <input type="date" class="form-control" name="imagingDoneDate" id="imagingDoneDate" value="{{old('imagingDoneDate')}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <div class="form-group">
                                                       <label for="imagingDone">Imaging done</label>
                                                       <select class="form-control" name="imagingDone" id="imagingDone" required>
-                                                        <option value="None">None</option>
-                                                        <option value="Chest Radiography">Chest Radiography</option>
-                                                        <option value="Chest CT">Chest CT</option>
-                                                        <option value="Lung Ultrasound">Lung Ultrasound</option>
+                                                        <option value="None" {{(old('imagingDone') == "None") ? 'selected' : ''}}>None</option>
+                                                        <option value="Chest Radiography" {{(old('imagingDone') == "Chest Radiography") ? 'selected' : ''}}>Chest Radiography</option>
+                                                        <option value="Chest CT" {{(old('imagingDone') == "Chest CT") ? 'selected' : ''}}>Chest CT</option>
+                                                        <option value="Lung Ultrasound" {{(old('imagingDone') == "Lung Ultrasound") ? 'selected' : ''}}>Lung Ultrasound</option>
                                                       </select>
                                                     </div>
                                                 </div>
@@ -1185,7 +1185,7 @@
                                                     <div id="divImagingOthers">
                                                         <div class="form-group">
                                                           <label for="imagingOtherFindings"><span class="text-danger font-weight-bold">*</span>Specify findings</label>
-                                                          <input type="text" class="form-control" name="imagingOtherFindings" id="imagingOtherFindings">
+                                                          <input type="text" class="form-control" name="imagingOtherFindings" id="imagingOtherFindings" value="{{old('imagingOtherFindings')}}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1313,12 +1313,12 @@
                                               <label for="testType2">Type of test</label>
                                               <select class="form-control" name="testType2" id="testType2">
                                                     <option value="N/A">N/A</option>
-                                                    <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                    <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                    <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                    <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
-                                                    <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                    <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
+                                                    <option value="OPS" {{(old('testType2') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                    <option value="NPS" {{(old('testType2') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                    <option value="OPS AND NPS" {{(old('testType2') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                    <option value="ANTIGEN" {{(old('testType2') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                    <option value="ANTIBODY" {{(old('testType2') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="OTHERS" {{(old('testType2') == 'Others') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
                                             <div id="divTypeOthers2">
@@ -1440,7 +1440,7 @@
                                         <div class="form-group">
                                             <label for="intCountry"><span class="text-danger font-weight-bold">*</span>If International Travel, country of origin</label>
                                             <select class="form-control" name="intCountry" id="intCountry">
-                                                <option value="" {{(is_null('intCountry')) ? 'selected disabled' : ''}}>Choose...</option>
+                                                <option value="" {{(is_null(old('intCountry'))) ? 'selected disabled' : ''}}>Choose...</option>
                                                   @foreach ($countries as $country)
                                                       @if($country != 'Philippines')
                                                           <option value="{{$country}}" {{(old('intCountry') == $country) ? 'selected' : ''}}>{{$country}}</option>
@@ -1457,13 +1457,13 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                   <label for="intDateFrom">From</label>
-                                                                  <input type="date" class="form-control" name="intDateFrom" id="intDateFrom">
+                                                                  <input type="date" class="form-control" name="intDateFrom" id="intDateFrom" value="{{old('intDateFrom')}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="intDateTo">From</label>
-                                                                    <input type="date" class="form-control" name="intDateTo" id="intDateTo">
+                                                                    <input type="date" class="form-control" name="intDateTo" id="intDateTo" value="{{old('intDateTo')}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1472,8 +1472,8 @@
                                                 <div class="form-group">
                                                     <label for="intWithOngoingCovid">With ongoing COVID-19 community transmission?</label>
                                                     <select class="form-control" name="intWithOngoingCovid" id="intWithOngoingCovid">
-                                                      <option value="NO">No</option>
-                                                      <option value="YES">Yes</option>
+                                                        <option value="NO" {{(old('intWithOngoingCovid') == "NO") ? 'selected' : ''}}>No</option>
+                                                        <option value="YES" {{(old('intWithOngoingCovid') == "YES") ? 'selected' : ''}}>Yes</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1482,13 +1482,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                           <label for="intVessel">Airline/Sea vessel</label>
-                                                          <input type="text" class="form-control" name="intVessel" id="intVessel">
+                                                          <input type="text" class="form-control" name="intVessel" id="intVessel" value="{{old('intVessel')}}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="intVesselNo">Flight/Vessel Number</label>
-                                                            <input type="text" class="form-control" name="intVesselNo" id="intVesselNo">
+                                                            <input type="text" class="form-control" name="intVesselNo" id="intVesselNo" value="{{old('intVesselNo')}}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1496,13 +1496,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="intDateDepart">Date of departure</label>
-                                                            <input type="date" class="form-control" name="intDateDepart" id="intDateDepart">
+                                                            <input type="date" class="form-control" name="intDateDepart" id="intDateDepart" value="{{old('intDateDepart')}}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="intDateArrive">Date of arrival in PH</label>
-                                                            <input type="date" class="form-control" name="intDateArrive" id="intDateArrive">
+                                                            <input type="date" class="form-control" name="intDateArrive" id="intDateArrive" value="{{old('intDateArrive')}}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1517,7 +1517,7 @@
                                             <div class="card-body">
                                                 <div class="form-check">
                                                   <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited1" value="Health Facility">
+                                                    <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited1" value="Health Facility" {{(is_array(old('placevisited')) && in_array("Health Facility", old('placevisited'))) ? 'checked' : ''}}>
                                                     Health Facility
                                                   </label>
                                                 </div>
@@ -1526,13 +1526,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName1">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName1" id="locName1">
+                                                              <input class="form-control" type="text" name="locName1" id="locName1" value="{{old('locName1')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress1">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress1" id="locAddress1">
+                                                                <input class="form-control" type="text" name="locAddress1" id="locAddress1" value="{{old('locAddress1')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1545,13 +1545,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom1">From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom1" id="locDateFrom1">
+                                                                                <input class="form-control" type="date" name="locDateFrom1" id="locDateFrom1" value="{{old('locDateFrom1')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo1">To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo1" id="locDateTo1">
+                                                                                <input class="form-control" type="date" name="locDateTo1" id="locDateTo1" value="{{old('locDateTo1')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1562,8 +1562,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid1">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid1" id="locWithOngoingCovid1">
-                                                                <option value="NO">No</option>
-                                                                <option value="YES">Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid1') == "NO") ? 'selected' : ''}}>No</option>
+                                                                <option value="YES" {{(old('locWithOngoingCovid1') == "YES") ? 'selected' : ''}}>Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1571,7 +1571,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited2" value="Closed Settings">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited2" value="Closed Settings" {{(is_array(old('placevisited')) && in_array("Cloed Settings", old('placevisited'))) ? 'checked' : ''}}>
                                                       Closed Settings
                                                     </label>
                                                 </div>
@@ -1580,13 +1580,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName2">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName2" id="locName2">
+                                                              <input class="form-control" type="text" name="locName2" id="locName2" value="{{old('locName2')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress2">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress2" id="locAddress2">
+                                                                <input class="form-control" type="text" name="locAddress2" id="locAddress2" value="{{old('locAddress2')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1599,13 +1599,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom2">From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2">
+                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2" value="{{old('locDateFrom2')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo2">To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2">
+                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2" value="{{old('locDateTo2')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1616,8 +1616,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid2">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid2" id="locWithOngoingCovid2">
-                                                                <option value="NO">No</option>
-                                                                <option value="YES">Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid2') == "NO") ? 'selected' : ''}}>No</option>
+                                                                <option value="YES" {{(old('locWithOngoingCovid2') == "YES") ? 'selected' : ''}}>Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1625,7 +1625,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited3" value="School">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited3" value="School" {{(is_array(old('placevisited')) && in_array("School", old('placevisited'))) ? 'checked' : ''}}>
                                                       School
                                                     </label>
                                                 </div>
@@ -1634,13 +1634,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName3">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName3" id="locName3">
+                                                              <input class="form-control" type="text" name="locName3" id="locName3" value="{{old('locName3')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress3">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress3" id="locAddress3">
+                                                                <input class="form-control" type="text" name="locAddress3" id="locAddress3" value="{{old('locAddress3')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1653,13 +1653,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom3">From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom3" id="locDateFrom3">
+                                                                                <input class="form-control" type="date" name="locDateFrom3" id="locDateFrom3" value="{{old('locDateFrom3')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo3">To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo3" id="locDateTo3">
+                                                                                <input class="form-control" type="date" name="locDateTo3" id="locDateTo3" value="{{old('locDateTo3')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1670,8 +1670,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid3">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid3" id="locWithOngoingCovid3">
-                                                                <option value="NO">No</option>
-                                                                <option value="YES">Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid3') == "NO") ? 'selected' : ''}}>No</option>
+                                                                <option value="YES" {{(old('locWithOngoingCovid3') == "YES") ? 'selected' : ''}}>Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1679,7 +1679,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited4" value="Workplace">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited4" value="Workplace" {{(is_array(old('placevisited')) && in_array("Workplace", old('placevisited'))) ? 'checked' : ''}}>
                                                       Workplace
                                                     </label>
                                                 </div>
@@ -1688,13 +1688,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName4">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName4" id="locName4">
+                                                              <input class="form-control" type="text" name="locName4" id="locName4" value="{{old('locName4')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress4">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress4" id="locAddress4">
+                                                                <input class="form-control" type="text" name="locAddress4" id="locAddress4" value="{{old('locAddress4')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1707,13 +1707,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom4">From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom4" id="locDateFrom4">
+                                                                                <input class="form-control" type="date" name="locDateFrom4" id="locDateFrom4" value="{{old('locDateFrom4')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo4">To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo4" id="locDateTo4">
+                                                                                <input class="form-control" type="date" name="locDateTo4" id="locDateTo4" value="{{old('locDateTo4')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1724,8 +1724,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid4">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid4" id="locWithOngoingCovid4">
-                                                                <option value="NO">No</option>
-                                                                <option value="YES">Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid4') == "NO") ? 'selected' : ''}}>No</option>
+                                                                <option value="YES" {{(old('locWithOngoingCovid4') == "YES") ? 'selected' : ''}}>Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1733,7 +1733,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited5" value="Market">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited5" value="Market" {{(is_array(old('placevisited')) && in_array("Market", old('placevisited'))) ? 'checked' : ''}}>
                                                       Market
                                                     </label>
                                                 </div>
@@ -1742,13 +1742,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName5">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName5" id="locName5">
+                                                              <input class="form-control" type="text" name="locName5" id="locName5" value="{{old('locName5')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress5">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress5" id="locAddress5">
+                                                                <input class="form-control" type="text" name="locAddress5" id="locAddress5" value="{{old('locAddress5')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1761,13 +1761,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom5">From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom5" id="locDateFrom5">
+                                                                                <input class="form-control" type="date" name="locDateFrom5" id="locDateFrom5" value="{{old('locDateFrom5')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo5">To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo5" id="locDateTo5">
+                                                                                <input class="form-control" type="date" name="locDateTo5" id="locDateTo5" value="{{old('locDateTo5')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1778,8 +1778,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid5">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid5" id="locWithOngoingCovid5">
-                                                                <option value="NO">No</option>
-                                                                <option value="YES">Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid5') == "NO") ? 'selected' : ''}}>No</option>
+                                                                <option value="YES" {{(old('locWithOngoingCovid5') == "YES") ? 'selected' : ''}}>Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1787,7 +1787,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited6" value="Social Gathering">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited6" value="Social Gathering" {{(is_array(old('placevisited')) && in_array("Social Gathering", old('placevisited'))) ? 'checked' : ''}}>
                                                       Social Gathering
                                                     </label>
                                                 </div>
@@ -1796,13 +1796,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName6">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName6" id="locName6">
+                                                              <input class="form-control" type="text" name="locName6" id="locName6" value="{{old('locName6')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress6">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress6" id="locAddress6">
+                                                                <input class="form-control" type="text" name="locAddress6" id="locAddress6" value="{{old('locAddress6')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1815,13 +1815,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom6">From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom6" id="locDateFrom6">
+                                                                                <input class="form-control" type="date" name="locDateFrom6" id="locDateFrom6" value="{{old('locDateFrom6')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo6">To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo6" id="locDateTo6">
+                                                                                <input class="form-control" type="date" name="locDateTo6" id="locDateTo6" value="{{old('locDateTo6')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1832,8 +1832,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid6">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid6" id="locWithOngoingCovid6">
-                                                                <option value="NO">No</option>
-                                                                <option value="YES">Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid6') == "NO") ? 'selected' : ''}}>No</option>
+                                                                <option value="YES" {{(old('locWithOngoingCovid6') == "YES") ? 'selected' : ''}}>Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1841,7 +1841,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited7" value="Others">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited7" value="Others" {{(is_array(old('placevisited')) && in_array("Others", old('placevisited'))) ? 'checked' : ''}}>
                                                       Others
                                                     </label>
                                                 </div>
@@ -1850,13 +1850,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName7">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName7" id="locName7">
+                                                              <input class="form-control" type="text" name="locName7" id="locName7" value="{{old('locName7')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress7">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress7" id="locAddress7">
+                                                                <input class="form-control" type="text" name="locAddress7" id="locAddress7" value="{{old('locAddress7')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1869,13 +1869,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom7">From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom7" id="locDateFrom7">
+                                                                                <input class="form-control" type="date" name="locDateFrom7" id="locDateFrom7" value="{{old('locDateFrom7')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo7">To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo7" id="locDateTo7">
+                                                                                <input class="form-control" type="date" name="locDateTo7" id="locDateTo7" value="{{old('locDateTo7')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1886,8 +1886,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid7">With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid7" id="locWithOngoingCovid7">
-                                                                <option value="NO">No</option>
-                                                                <option value="YES">Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid7') == "NO") ? 'selected' : ''}}>No</option>
+                                                                <option value="YES" {{(old('locWithOngoingCovid7') == "YES") ? 'selected' : ''}}>Yes</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -1895,7 +1895,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited8" value="Transport Service">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited8" value="Transport Service" {{(is_array(old('placevisited')) && in_array("Transport Service", old('placevisited'))) ? 'checked' : ''}}>
                                                       Transport Service
                                                     </label>
                                                 </div>
@@ -1904,19 +1904,19 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                               <label for="localVessel1">1. Airline/Sea vessel/Bus line/Train</label>
-                                                              <input type="text" class="form-control" name="localVessel1" id="localVessel1">
+                                                              <input type="text" class="form-control" name="localVessel1" id="localVessel1" value="{{old('localVessel1')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localVesselNo1">Flight/Vessel/Bus No.</label>
-                                                                <input type="text" class="form-control" name="localVesselNo1" id="localVesselNo1">
+                                                                <input type="text" class="form-control" name="localVesselNo1" id="localVesselNo1" value="{{old('localVesselNo1')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localOrigin1">Place of Origin</label>
-                                                                <input type="text" class="form-control" name="localOrigin1" id="localOrigin1">
+                                                                <input type="text" class="form-control" name="localOrigin1" id="localOrigin1" value="{{old('localOrigin1')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1924,19 +1924,19 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDateDepart1">Departure Date</label>
-                                                                <input type="date" class="form-control" name="localDateDepart1" id="localDateDepart1">
+                                                                <input type="date" class="form-control" name="localDateDepart1" id="localDateDepart1" value="{{old('localDateDepart1')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDest1">Destination</label>
-                                                                <input type="text" class="form-control" name="localDest1" id="localDest1">
+                                                                <input type="text" class="form-control" name="localDest1" id="localDest1" value="{{old('localDest1')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDateArrive1">Date of Arrival</label>
-                                                                <input type="text" class="form-control" name="localDateArrive1" id="localDateArrive1">
+                                                                <input type="text" class="form-control" name="localDateArrive1" id="localDateArrive1" value="{{old('localDateArrive1')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1945,19 +1945,19 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                               <label for="localVessel2">2. Airline/Sea vessel/Bus line/Train</label>
-                                                              <input type="text" class="form-control" name="localVessel2" id="localVessel2">
+                                                              <input type="text" class="form-control" name="localVessel2" id="localVessel2" value="{{old('localVessel2')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localVesselNo2">Flight/Vessel/Bus No.</label>
-                                                                <input type="text" class="form-control" name="localVesselNo2" id="localVesselNo2">
+                                                                <input type="text" class="form-control" name="localVesselNo2" id="localVesselNo2" value="{{old('localVesselNo2')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localOrigin2">Place of Origin</label>
-                                                                <input type="text" class="form-control" name="localOrigin2" id="localOrigin2">
+                                                                <input type="text" class="form-control" name="localOrigin2" id="localOrigin2" value="{{old('localOrigin2')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1965,19 +1965,19 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDateDepart2">Departure Date</label>
-                                                                <input type="date" class="form-control" name="localDateDepart2" id="localDateDepart2">
+                                                                <input type="date" class="form-control" name="localDateDepart2" id="localDateDepart2" value="{{old('localDateDepart2')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDest2">Destination</label>
-                                                                <input type="text" class="form-control" name="localDest2" id="localDest2">
+                                                                <input type="text" class="form-control" name="localDest2" id="localDest2" value="{{old('localDest2')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDateArrive2">Date of Arrival</label>
-                                                                <input type="date" class="form-control" name="localDateArrive2" id="localDateArrive2">
+                                                                <input type="date" class="form-control" name="localDateArrive2" id="localDateArrive2" value="{{old('localDateArrive2')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2028,7 +2028,7 @@
                                                                 <input type="text" class="form-control" name="contact3No" id="contact3No" value="{{old('contact3No')}}">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact3No" id="contact3No" value="{{old('contact3No')}}">
+                                                                <input type="text" class="form-control" name="contact4No" id="contact4No" value="{{old('contact3No')}}">
                                                             </div>
                                                         </div>
                                                     </div>

@@ -112,7 +112,7 @@ class FormValidationRequest extends FormRequest
             'imagingDoneDate' => ($this->imagingDone != "None") ? 'required|date' : 'nullable',
             'imagingDone' => 'required',
             'imagingResult' => ($this->imagingDone != "None") ? 'required' : 'nullable',
-            'imagingOtherFindings' => (!is_null($this->imagingResult) && $this->imagingResult != "OTHERS") ? 'required' : 'nullable',
+            'imagingOtherFindings' => ($this->imagingDone != "None" && $this->imagingResult == "OTHERS") ? 'required' : 'nullable',
 
             'testedPositiveUsingRTPCRBefore' => 'required',
             'testedPositiveNumOfSwab' => 'required',

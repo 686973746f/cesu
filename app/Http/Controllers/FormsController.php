@@ -162,7 +162,7 @@ class FormsController extends Controller
             'imagingDoneDate' => $request->imagingDoneDate,
             'imagingDone' => $request->imagingDone,
             'imagingResult' => $request->imagingResult,
-            'imagingOtherFindings' => $request->imagingResult,
+            'imagingOtherFindings' => $request->imagingOtherFindings,
 
             'testedPositiveUsingRTPCRBefore' => $request->testedPositiveUsingRTPCRBefore,
             'testedPositiveNumOfSwab' => $request->testedPositiveNumOfSwab,
