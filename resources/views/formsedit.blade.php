@@ -2,11 +2,10 @@
 
 @section('content')
     <div class="container">
-        <form action="/forms/{{$records->id}}" method="POST">
-            @csrf
-            @method('PUT')
+        <form action="{{route('forms.store')}}" method="POST">
             <div class="card">
                 <div class="card-body">
+                    @csrf
                     <div class="alert alert-info" role="alert">
                         All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
                     </div>
@@ -21,10 +20,10 @@
                     </div>
                     <hr>
                     @endif
-
+    
                     <div class="form-group">
-                      <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
-                      <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->gender}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
+                        <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
+                        <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->gender}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
                     </div>
                     
                     <div class="row">
@@ -32,8 +31,8 @@
                             <div class="form-group">
                                 <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit</label>
                                 <select class="form-control" name="drunit" id="drunit" required>
-                                    <option value="" disabled {{(is_null($records->drunit)) ? 'selected' : ''}}>Choose...</option>
-                                    <option class="CHO GENERAL TRIAS" {{($records->drunit == "CHO GENERAL TRIAS") ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
+                                    <option value="" disabled {{(is_null(old('drunit', $records->drunit))) ? 'selected' : ''}}>Choose...</option>
+                                    <option class="CHO GENERAL TRIAS" {{(old('drunit', $records->drunit) == "CHO GENERAL TRIAS") ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
                                 </select>
                             </div>
                         </div>
@@ -41,7 +40,7 @@
                             <div class="form-group">
                                 <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region and Province</label>
                                 <select class="form-control" name="drregion" id="drregion" required>
-                                    <option value="" disabled {{(is_null($records->drregion)) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" disabled {{(is_null(old('drregion', $records->drregion))) ? 'selected' : ''}}>Choose...</option>
                                     <option class="4A CAVITE" {{($records->drregion == "4A CAVITE") ? 'selected' : ''}}>4A CAVITE</option>
                                 </select>
                             </div>
@@ -57,19 +56,19 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
-                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{strtoupper($records->interviewerName)}}" required>
+                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{strtoupper(old('interviewerName', $records->interviewerName))}}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewerMobile"><span class="text-danger font-weight-bold">*</span>Contact Number of Interviewer</label>
-                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{$records->interviewerMobile}}" required>
+                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{old('interviewerMobile', $records->interviewerMobile)}}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Date of Interview</label>
-                                <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="{{date('Y-m-d', strtotime($records->interviewDate))}}" required>
+                                <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="{{old('interviewDate', $records->interviewDate)}}" max="{{date('Y-m-d')}}" required>
                             </div>
                         </div>
                     </div>
@@ -77,35 +76,120 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="informantName">Name of Informant <small><i>(If patient unavailable)</i></small></label>
-                                <input type="text" name="informantName" id="informantName" class="form-control" value="{{strtoupper($records->informantName)}}">
+                                <input type="text" name="informantName" id="informantName" class="form-control" value="{{old('informantName', $records->informantName)}}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="informantRelationship">Relationship</label>
                                 <select class="form-control" name="informantRelationship" id="informantRelationship">
-                                <option value="" disabled {{(is_null($records->informantRelationship)) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Relative" {{($records->informantRelationship == "Relative") ? 'selected' : ''}}>Family/Relative</option>
-                                <option value="Friend" {{($records->informantRelationship == "Friend") ? 'selected' : ''}}>Friend</option>
-                                <option value="Others" {{($records->informantRelationship == "Others") ? 'selected' : ''}}>Others</option>
+                                <option value="" disabled {{(is_null(old('informantRelationship', $records->informantRelationship))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Relative" {{(old('informantRelationship', $records->informantRelationship) == "Relative") ? 'selected' : ''}}>Family/Relative</option>
+                                <option value="Friend" {{(old('informantRelationship', $records->informantRelationship) == "Friend") ? 'selected' : ''}}>Friend</option>
+                                <option value="Others" {{(old('informantRelationship', $records->informantRelationship) == "Others") ? 'selected' : ''}}>Others</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="informantMobile">Contact Number of Informant</label>
-                                <input type="number" name="informantMobile" id="informantMobile" class="form-control" value="{{$records->informantMobile}}">
+                                <input type="number" name="informantMobile" id="informantMobile" class="form-control" value="{{old('informantMobile', $records->informantMobile)}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <span class="text-danger font-weight-bold">*</span>If existing case (<i>check all that apply</i>)
+                        </div>
+                        <div class="card-body exCaseList">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" id="" name="existingCaseList[]" required {{(in_array("1", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Not applicable (New case)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="2" id="" name="existingCaseList[]" required {{(in_array("2", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Not applicable (Unknown)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="3" id="" name="existingCaseList[]" required {{(in_array("3", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update symptoms
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="4" id="" name="existingCaseList[]" required {{(in_array("4", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update health status
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="5" id="" name="existingCaseList[]" required {{(in_array("5", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update outcome
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="6" id="" name="existingCaseList[]" required {{(in_array("6", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update case classification
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="7" id="" name="existingCaseList[]" required {{(in_array("7", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update lab result
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="8" id="" name="existingCaseList[]" required {{(in_array("8", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update chest imaging findings
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="9" id="" name="existingCaseList[]" required {{(in_array("9", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update disposition
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="10" id="" name="existingCaseList[]" required {{(in_array("10", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Update exposure / travel history
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="11" id="ecothers" name="existingCaseList[]" required {{(in_array("11", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
+                                        <label class="form-check-label" for="">
+                                            Others
+                                        </label>
+                                    </div>
+                                    <div id="divECOthers">
+                                        <div class="form-group mt-2">
+                                            <label for="ecOthersRemarks"><span class="text-danger font-weight-bold">*</span>Specify</label>
+                                          <input type="text" name="ecOthersRemarks" id="ecOthersRemarks" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="pType"><span class="text-danger font-weight-bold">*</span>Type of Client</label>
                         <select class="form-control" name="pType" id="pType" required>
-                        <option value="" disabled {{(is_null($records->pType))}}>Choose...</option>
-                        <option value="1" {{($records->pType == "1") ? 'selected' : ''}}>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
-                        <option value="2" {{($records->pType == "2") ? 'selected' : ''}}>For RT-PCR Testing (Not a Case of Close Contact)</option>
-                        <option value="3" {{($records->pType == "3") ? 'selected' : ''}}>Close Contact</option>
-                        <option value="4" {{($records->pType == "4") ? 'selected' : ''}}>Others, please specify</option>
+                        <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
+                        <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
+                        <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
                         </select>
                     </div>
                     <div><label for=""><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup <i>(Check all that apply)</i></label></div>
@@ -146,7 +230,7 @@
                         <div class="card-header font-weight-bold">Part 1. Patient Information</div>
                         <div class="card-body">
                             <div class="card mb-3">
-                                <div class="card-header">2. Patient Profile</div>
+                                <div class="card-header">1.1 Patient Profile</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -189,13 +273,13 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="">Civil Status</label>
                                                 <input type="text" class="form-control" value="{{$records->records->cs}}" id="" disabled>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="">Nationality</label>
                                                 <input type="text" class="form-control" value="{{$records->records->nationality}}" id="" disabled>
@@ -207,11 +291,17 @@
                                                 <input type="text" class="form-control" value="{{(is_null($records->records->occupation)) ? 'N/A' : $records->records->occupation}}" id="" disabled>
                                             </div>
                                         </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="">Works in a Closed Setting</label>
+                                                <input type="text" class="form-control" value="{{$records->records->worksInClosedSetting}}" disabled>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card mb-3">
-                                <div class="card-header">3. Current Address in the Philippines and Contact Information</div>
+                                <div class="card-header">1.2 Current Address in the Philippines and Contact Information</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -268,344 +358,7 @@
                                 </div>
                             </div>
                             <div class="card mb-3">
-                                <div class="card-header">4. Current Workplace Address and Contact Information</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Lot/Bldg.</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_lotbldg)) ? 'N/A' : $records->records->occupation_lotbldg}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Street</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_street)) ? 'N/A' : $records->records->occupation_street}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Barangay</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_brgy)) ? 'N/A' : $records->records->occupation_brgy}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Municipality/City</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_city)) ? 'N/A' : $records->records->occupation_city}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Province</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_province)) ? 'N/A' : $records->records->occupation_province}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Name of Workplace</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_name)) ? 'N/A' : $records->records->occupation_name}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Phone No./Cellphone No.</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_mobile)) ? 'N/A' : $records->records->occupation_mobile}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Email Address</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_email)) ? 'N/A' : $records->records->occupation_email}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">5. Consultation and Admission Information</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="havePreviousCovidConsultation"><span class="text-danger font-weight-bold">*</span>Did you have previous COVID-19 related consultation?</label>
-                                                <select class="form-control" name="havePreviousCovidConsultation" id="havePreviousCovidConsultation" required>
-                                                    <option value="" disabled {{(is_null($records->havePreviousCovidConsultation)) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="1" {{($records->havePreviousCovidConsultation == 1) ? 'selected' : ''}}>Yes</option>
-                                                    <option value="0" {{($records->havePreviousCovidConsultation == 0) ? 'selected' : ''}}>No</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div id="divYes1">
-                                                <div class="form-group">
-                                                    <label for="dateOfFirstConsult"><span class="text-danger font-weight-bold">*</span>Date of First Consult</label>
-                                                    <input type="date" class="form-control" name="dateOfFirstConsult" id="dateOfFirstConsult" value="{{$records->dateOfFirstConsult}}" max="{{date('Y-m-d')}}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="divYes2">
-                                        <div class="form-group">
-                                            <label for="facilityNameOfFirstConsult"><span class="text-danger font-weight-bold">*</span>Name of facility where first consult was done</label>
-                                            <input type="text" class="form-control" name="facilityNameOfFirstConsult" id="facilityNameOfFirstConsult" value="{{strtoupper($records->facilityNameOfFirstConsult)}}">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="admittedInHealthFacility"><span class="text-danger font-weight-bold">*</span>Was the case admitted in a health facility?</label>
-                                                    <select class="form-control" name="admittedInHealthFacility" id="admittedInHealthFacility">
-                                                        <option value="" disabled {{(is_null($records->admittedInHealthFacility)) ? 'selected' : ''}}>Choose...</option>
-                                                        <option value="1" {{($records->admittedInHealthFacility == 1) ? 'selected' : ''}}>Yes</option>
-                                                        <option value="0" {{($records->admittedInHealthFacility == 0) ? 'selected' : ''}}>No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div id="divYes3">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="dateOfAdmissionInHealthFacility"><span class="text-danger font-weight-bold">*</span>Date of Admission <small><i>(Indicate earliest date)</i></small></label>
-                                                                <input type="date" class="form-control" name="dateOfAdmissionInHealthFacility" id="dateOfAdmissionInHealthFacility" value="{{$records->dateOfAdmissionInHealthFacility}}" max="{{date('Y-m-d')}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="admittedInMultipleHealthFacility"><span class="text-danger font-weight-bold">*</span>Admitted in multiple health facilities?</label>
-                                                                <select class="form-control" name="admittedInMultipleHealthFacility" id="admittedInMultipleHealthFacility">
-                                                                    <option value="" disabled {{(is_null($records->admittedInMultipleHealthFacility)) ? 'selected' : ''}}>Choose...</option>
-                                                                    <option value="1" {{($records->admittedInMultipleHealthFacility == 1) ? 'selected' : ''}}>Yes</option>
-                                                                    <option value="0" {{($records->admittedInMultipleHealthFacility == 0) ? 'selected' : ''}}>No</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="divYes4">
-                                            <div class="form-group">
-                                                <label for="facilitynameOfFirstAdmitted"><span class="text-danger font-weight-bold">*</span>Name of Facility where patient was first admitted</label>
-                                                <input type="text" class="form-control" name="facilitynameOfFirstAdmitted" id="facilitynameOfFirstAdmitted" value="{{strtoupper($records->facilitynameOfFirstAdmitted)}}">
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                      <label for="facilityregion"><span class="text-danger font-weight-bold">*</span>Region of Facility</label>
-                                                      <div class="form-group">
-                                                        <input type="text" class="form-control" name="facilityregion" id="facilityregion" value="">
-                                                      </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="facilityregion"><span class="text-danger font-weight-bold">*</span>Province of Facility</label>
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" name="facilityregion" id="facilityprovince" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">6. Disposition at Time of Report (Provide name of hospital/isolation/quarantine facility)</div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
-                                        <select class="form-control" name="dispositionType" id="dispositionType">
-                                            <option value="" {{(is_null($records->dispoType)) ? 'selected' : ''}}>N/A</option>
-                                            <option value="1" {{($records->dispoType == 1) ? 'selected' : ''}}>Admitted in hospital</option>
-                                            <option value="2" {{($records->dispoType == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
-                                            <option value="3" {{($records->dispoType == 3) ? 'selected' : ''}}>In home isolation/quarantine</option>
-                                            <option value="4" {{($records->dispoType == 4) ? 'selected' : ''}}>Discharged to home</option>
-                                            <option value="5" {{($records->dispoType == 5) ? 'selected' : ''}}>Others</option>
-                                        </select>
-                                    </div>
-                                    <div id="divYes5">
-                                        <div class="form-group">
-                                            <label for="dispositionName" id="dispositionlabel"></label>
-                                            <input type="text" class="form-control" name="dispositionName" id="dispositionName" value="{{strtoupper($records->dispoName)}}">
-                                        </div>
-                                    </div>
-                                    <div id="divYes6">
-                                        <div class="form-group">
-                                            <label for="dispositionDate" id="dispositiondatelabel"></label>
-                                            <input type="datetime-local" class="form-control" name="dispositionDate" id="dispositionDate" value="{{$records->dispoDate}}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-3">
-                                        <div class="card-header"><span class="text-danger font-weight-bold">*</span>7. Health Status at Consult</div>
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <select class="form-control" name="healthStatus" id="healthStatus" required>
-                                                    <option value="" disabled {{(is_null($records->healthStatus)) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="Asymptomatic" {{($records->healthStatus == 'Asymptomatic') ? 'selected' : ''}}>Asymptomatic </option>
-                                                    <option value="Mild" {{($records->healthStatus == 'Mild') ? 'selected' : ''}}>Mild</option>
-                                                    <option value="Moderate" {{($records->healthStatus == 'Moderate') ? 'selected' : ''}}>Moderate</option>
-                                                    <option value="Severe" {{($records->healthStatus == 'Severe') ? 'selected' : ''}}>Severe</option>
-                                                    <option value="Critical" {{($records->healthStatus == 'Critical') ? 'selected' : ''}}>Critical</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card mb-3">
-                                        <div class="card-header"><span class="text-danger font-weight-bold">*</span>8. Case Classification</div>
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <select class="form-control" name="caseClassification" id="caseClassification" required>
-                                                    <option value="" disabled {{(is_null($records->caseClassification)) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="Suspect" {{($records->caseClassification == 'Suspect') ? 'selected' : ''}}>Suspect</option>
-                                                    <option value="Probable" {{($records->caseClassification == 'Probable') ? 'selected' : ''}}>Probable</option>
-                                                    <option value="Confirmed" {{($records->caseClassification == 'Confirmed') ? 'selected' : ''}}>Confirmed</option>
-                                                    <option value="Non-COVID-19 Case" {{($records->caseClassification == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mt-3">
-                        <div class="card-header font-weight-bold">Part 2. Case Investigation Details</div>
-                        <div class="card-body">
-                            <div class="card mb-3">
-                                <div class="card-header">9. Special Population</div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="isHealthCareWorker"><span class="text-danger font-weight-bold">*</span>Health Care Worker</label>
-                                        <select class="form-control" name="isHealthCareWorker" id="isHealthCareWorker" required>
-                                            <option value="1" {{($records->isHealthCareWorker == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option value="0" {{($records->isHealthCareWorker == 0 || is_null($records->isHealthCareWorker)) ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                    <div id="divisHealthCareWorker">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="healthCareCompanyName"><span class="text-danger font-weight-bold">*</span>Name of Health Facility</label>
-                                                    <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{$records->healthCareCompanyName}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="healthCareCompanyLocation"><span class="text-danger font-weight-bold">*</span>Location of Health Facility</label>
-                                                    <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{$records->healthCareCompanyLocation}}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="isOFW"><span class="text-danger font-weight-bold">*</span>Returning Overseas Filipino</label>
-                                        <select class="form-control" name="isOFW" id="isOFW" required>
-                                            <option value="1" {{($records->isOFW == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option value="0" {{($records->isOFW == 0 || is_null($records->isOFW)) ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                    <div id="divisOFW">
-                                        <div class="form-group">
-                                            <label for="OFWCountyOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
-                                            <select name="OFWCountyOfOrigin" id="OFWCountyOfOrigin" class="form-control">
-                                                <option value="" disabled {{(is_null($records->OFWCountyOfOrigin)) ? 'selected' : ''}}>Choose...</option>
-                                                @foreach ($countries as $country)
-                                                    @if($country != 'Philippines')
-                                                        <option value="{{$country}}" {{($records->OFWCountyOfOrigin == $country) ? 'selected' : ''}}>{{$country}}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="isFNT"><span class="text-danger font-weight-bold">*</span>Foreign National Traveler</label>
-                                        <select class="form-control" name="isFNT" id="isFNT" required>
-                                            <option value="1" {{($records->isFNT == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option value="0" {{($records->isFNT == 0 || is_null($records->isFNT)) ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                    <div id="divisFNT">
-                                        <div class="form-group">
-                                            <label for="FNTCountryOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
-                                            <select name="FNTCountryOfOrigin" id="FNTCountryOfOrigin" class="form-control">
-                                                <option value="" selected disabled>Choose...</option>
-                                                @foreach ($countries as $country)
-                                                    @if($country != 'Philippines')
-                                                        <option value="{{$country}}" {{($records->FNTCountryOfOrigin == $country) ? 'selected' : ''}}>{{$country}}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="isLSI"><span class="text-danger font-weight-bold">*</span>Locally Stranded Individual/APOR/Traveler</label>
-                                        <select class="form-control" name="isLSI" id="isLSI" required>
-                                            <option value="1" {{(old('isLSI') == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option value="0" {{(old('isLSI') == 0 || is_null(old('isLSI'))) ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                    <div id="divisLSI">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                  <label for="LSIProvince"><span class="text-danger font-weight-bold">*</span>Province of Origin</label>
-                                                  <select class="form-control" name="LSIProvince" id="LSIProvince">
-                                                        <option value="" selected disabled>Choose...</option>
-                                                  </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="LSICity"><span class="text-danger font-weight-bold">*</span>City of Origin</label>
-                                                    <select class="form-control" name="LSICity" id="LSICity">
-                                                          <option value="" selected disabled>Choose...</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
-                                        <select class="form-control" name="isLivesOnClosedSettings" id="isLivesOnClosedSettings" required>
-                                            <option value="1" {{($records->isLivesOnClosedSettings == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option value="0" {{($records->isLivesOnClosedSettings == 0 || is_null($records->isLivesOnClosedSettings)) ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                    <div id="divisLivesOnClosedSettings">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                  <label for="institutionType"><span class="text-danger font-weight-bold">*</span>Specify Type of Institution</label>
-                                                  <input type="text" class="form-control" name="institutionType" id="institutionType" value="{{$records->institutionType}}">
-                                                  <small><i>(e.g. prisons, residential facilities, retirement communities, care homes, camps etc.)</i></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="institutionName"><span class="text-danger font-weight-bold">*</span>Name of Institution</label>
-                                                    <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{$records->institutionName}}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">10. Permanent Address and Contact Information (If different from current address)</div>
+                                <div class="card-header">1.3 Permanent Address and Contact Information (If different from current address)</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -662,75 +415,341 @@
                                 </div>
                             </div>
                             <div class="card mb-3">
-                                <div class="card-header">11. Address Outside the Philippines and Contact Information (for Overseas Filipino Workers and Individuals with Residence outside PH)</div>
+                                <div class="card-header">1.4 Current Workplace Address and Contact Information</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="oaddresslotbldg"><span class="text-danger font-weight-bold">*</span>Lot/Bldg.</label>
-                                                <input type="text" class="form-control" name="oaddresslotbldg" id="oaddresslotbldg" value="{{(is_null($records->oaddresslotbldg)) ? '' : $records->oaddresslotbldg}}">
+                                                <label for="">Lot/Bldg.</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_lotbldg)) ? 'N/A' : $records->records->occupation_lotbldg}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="oaddressstreet"><span class="text-danger font-weight-bold">*</span>Street</label>
-                                                <input type="text" class="form-control" name="oaddressstreet" id="oaddressstreet" value="{{(is_null($records->oaddressstreet)) ? '' : $records->oaddressstreet}}">
+                                                <label for="">Street</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_street)) ? 'N/A' : $records->records->occupation_street}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="oaddressscity"><span class="text-danger font-weight-bold">*</span>Municipality/City</label>
-                                                <input type="text" class="form-control" name="oaddressscity" id="oaddressscity" value="{{(is_null($records->oaddressscity)) ? '' : $records->oaddressscity}}">
+                                                <label for="">Barangay</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_brgy)) ? 'N/A' : $records->records->occupation_brgy}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="oaddresssprovince"><span class="text-danger font-weight-bold">*</span>Province</label>
-                                                <input type="text" class="form-control" name="oaddresssprovince" id="oaddresssprovince" value="{{(is_null($records->oaddresssprovince)) ? '' : $records->oaddresssprovince}}">
+                                                <label for="">Municipality/City</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_city)) ? 'N/A' : $records->records->occupation_city}}" disabled>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <div class="form-group">
-                                                    <label for="oaddressscountry"><span class="text-danger font-weight-bold">*</span>Country</label>
-                                                    <input type="text" class="form-control" name="oaddressscountry" id="oaddressscountry" value="{{(is_null($records->oaddressscountry)) ? '' : $records->oaddressscountry}}" readonly>
-                                                </div>
+                                                <label for="">Province</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_province)) ? 'N/A' : $records->records->occupation_province}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="placeofwork"><span class="text-danger font-weight-bold">*</span>Place of Work</label>
-                                                <input type="text" class="form-control" name="placeofwork" id="placeofwork" value="{{(is_null($records->placeofwork)) ? '' : $records->placeofwork}}">
+                                                <label for="">Name of Workplace</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_name)) ? 'N/A' : $records->records->occupation_name}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="employername"><span class="text-danger font-weight-bold">*</span>Employer's Name</label>
-                                                <input type="text" class="form-control" name="employername" id="employername" value="{{(is_null($records->employername)) ? '' : $records->employername}}">
+                                                <label for="">Phone No./Cellphone No.</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_mobile)) ? 'N/A' : $records->records->occupation_mobile}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="employercontactnumber">Employer's/Office Contact No.</label>
-                                                <input type="text" class="form-control" name="employercontactnumber" id="employercontactnumber" value="{{(is_null($records->employercontactnumber)) ? '' : $records->employercontactnumber}}">
+                                                <label for="">Email Address</label>
+                                                <input type="text" class="form-control" value="{{(is_null($records->records->occupation_email)) ? 'N/A' : $records->records->occupation_email}}" disabled>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card mb-3">
-                                <div class="card-header">12. Clinical Information</div>
+                                <div class="card-header">1.5 Special Population</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="isHealthCareWorker"><span class="text-danger font-weight-bold">*</span>Health Care Worker</label>
+                                                <select class="form-control" name="isHealthCareWorker" id="isHealthCareWorker" required>
+                                                    <option value="1" {{(old('isHealthCareWorker', $records->isHealthCareWorker) == 1) ? 'selected' : ''}}>Yes</option>
+                                                    <option value="0" {{(old('isHealthCareWorker', $records->isHealthCareWorker) == 0) ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                            <div id="divisHealthCareWorker">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="healthCareCompanyName"><span class="text-danger font-weight-bold">*</span>Name of Health Facility</label>
+                                                            <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{old('healthCareCompanyName', $records->healthCareCompanyName)}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="healthCareCompanyLocation"><span class="text-danger font-weight-bold">*</span>Location</label>
+                                                            <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{old('healthCareCompanyLocation', $records->healthCareCompanyLocation)}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="isOFW"><span class="text-danger font-weight-bold">*</span>Returning Overseas Filipino</label>
+                                                <select class="form-control" name="isOFW" id="isOFW" required>
+                                                    <option value="1" {{(old('isOFW', $records->isOFW) == 1) ? 'selected' : ''}}>Yes</option>
+                                                    <option value="0" {{(old('isOFW', $records->isOFW) == 0) ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                            <div id="divisOFW">
+                                                <div class="form-group">
+                                                    <label for="OFWCountyOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
+                                                    <select class="form-control" name="OFWCountyOfOrigin" id="OFWCountyOfOrigin">
+                                                        <option value="" disabled {{(is_null(old('OFWCountyOfOrigin', $records->OFWCountyOfOrigin))) ? 'selected' : ''}}>Choose...</option>
+                                                        @foreach ($countries as $country)
+                                                            @if($country != 'Philippines')
+                                                                <option value="{{$country}}" {{(old('OFWCountyOfOrigin', $records->OFWCountyOfOrigin) == $country) ? 'selected' : ''}}>{{$country}}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label for="ofwType"><span class="text-danger font-weight-bold">*</span>OFW?</label>
+                                                  <select class="form-control" name="ofwType" id="ofwType">
+                                                    <option value="1" {{(old('ofwType', $records->ofwType) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                    <option value="2" {{(old('ofwType', $records->ofwType) == "NO") ? 'selected' : ''}}>No (Non-OFW)</option>
+                                                  </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="isFNT"><span class="text-danger font-weight-bold">*</span>Foreign National Traveler</label>
+                                                <select class="form-control" name="isFNT" id="isFNT" required>
+                                                    <option value="1" {{(old('isFNT', $records->isFNT) == 1) ? 'selected' : ''}}>Yes</option>
+                                                    <option value="0" {{(old('isFNT', $records->isFNT) == 0 || is_null(old('isFNT', $records->isFNT))) ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                            <div id="divisFNT">
+                                                <div class="form-group">
+                                                    <label for="FNTCountryOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
+                                                    <select class="form-control" name="FNTCountryOfOrigin" id="FNTCountryOfOrigin">
+                                                        <option value="" disabled {{(is_null(old('FNTCountryOfOrigin', $records->FNTCountryOfOrigin))) ? 'selected' : ''}}>Choose...</option>
+                                                        @foreach ($countries as $country)
+                                                            @if($country != 'Philippines')
+                                                                <option value="{{$country}}" {{(old('FNTCountryOfOrigin', $records->FNTCountryOfOrigin) == $country) ? 'selected' : ''}}>{{$country}}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="isLSI"><span class="text-danger font-weight-bold">*</span>Locally Stranded Individual/APOR/Traveler</label>
+                                                <select class="form-control" name="isLSI" id="isLSI" required>
+                                                    <option value="1" {{(old('isLSI', $records->isLSI) == 1) ? 'selected' : ''}}>Yes</option>
+                                                    <option value="0" {{(old('isLSI', $records->isLSI) == 0 || is_null(old('isLSI', $records->isLSI))) ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                            <div id="divisLSI">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                          <label for="LSIProvince"><span class="text-danger font-weight-bold">*</span>Province of Origin</label>
+                                                          <select class="form-control" name="LSIProvince" id="LSIProvince">
+                                                                <option value="" disabled {{(is_null(old('LSIProvince', $records->LSIProvince))) ? 'selected' : ''}}>Choose...</option>
+                                                          </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="LSICity"><span class="text-danger font-weight-bold">*</span>City of Origin</label>
+                                                            <select class="form-control" name="LSICity" id="LSICity">
+                                                                  <option value="" disabled {{(is_null(old('LSICity', $records->LSICity))) ? 'selected' : ''}}>Choose...</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label for="lsiType"><span class="text-danger font-weight-bold">*</span>Type</label>
+                                                  <select class="form-control" name="lsiType" id="lsiType">
+                                                    <option value="1" {{(old('lsiType', $records->lsiType) == 1) ? 'selected' : ''}}>Locally Stranted Individual</option>
+                                                    <option value="0" {{(old('lsiType', $records->lsiType) == 2) ? 'selected' : ''}}>Authorized Person Outside Residence/Local Traveler</option>
+                                                  </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>        
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
+                                                <select class="form-control" name="isLivesOnClosedSettings" id="isLivesOnClosedSettings" required>
+                                                    <option value="1" {{(old('isLivesOnClosedSettings', $records->isLivesOnClosedSettings) == 1) ? 'selected' : ''}}>Yes</option>
+                                                    <option value="0" {{(old('isLivesOnClosedSettings', $records->isLivesOnClosedSettings) == 0 || is_null(old('isLivesOnClosedSettings', $records->isLivesOnClosedSettings))) ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                            <div id="divisLivesOnClosedSettings">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                          <label for="institutionType"><span class="text-danger font-weight-bold">*</span>Specify Institution Type</label>
+                                                          <input type="text" class="form-control" name="institutionType" id="institutionType" value="{{old('institutionType', $records->institutionType)}}">
+                                                          <small><i>(e.g. prisons, residential facilities, retirement communities, care homes, camps etc.)</i></small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="institutionName"><span class="text-danger font-weight-bold">*</span>Name of Institution</label>
+                                                            <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{old('institutionName', $records->institutionName)}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="isIndg"><span class="text-danger font-weight-bold">*</span>Indigenous Person</label>
+                                              <select class="form-control" name="isIndg" id="isIndg" required>
+                                                <option value="1" {{(old('isIndg', $records->isIndg) == 1) ? 'selected' : ''}}>Yes</option>
+                                                <option value="0" {{(old('isIndg', $records->isIndg) == 0 || is_null(old('isIndg', $records->isIndg))) ? 'selected' : ''}}>No</option>
+                                              </select>
+                                            </div>
+                                            <div id="divIsIndg">
+                                                <div class="form-group">
+                                                  <label for="indgSpecify"><span class="text-danger font-weight-bold">*</span>Specify Group</label>
+                                                  <input type="text" class="form-control" name="indgSpecify" id="indgSpecify" value="{{old('indgSpecify', $records->indgSpecify)}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header font-weight-bold">Part 2. Case Investigation Details</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-header">2.1 Consultation Information</div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="havePreviousCovidConsultation"><span class="text-danger font-weight-bold">*</span>Have previous COVID-19 related consultation?</label>
+                                                <select class="form-control" name="havePreviousCovidConsultation" id="havePreviousCovidConsultation" required>
+                                                    <option value="" selected disabled>Choose...</option>
+                                                    <option value="1" {{(old('havePreviousCovidConsultation', $records->havePreviousCovidConsultation) == 1) ? 'selected' : ''}}>Yes</option>
+                                                    <option value="0" {{(old('havePreviousCovidConsultation', $records->havePreviousCovidConsultation) == 0) ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                            <div id="divYes1">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="facilityNameOfFirstConsult"><span class="text-danger font-weight-bold">*</span>Name of facility where first consult was done</label>
+                                                            <input type="text" class="form-control" name="facilityNameOfFirstConsult" id="facilityNameOfFirstConsult" value="{{old('facilityNameOfFirstConsult', $records->facilityNameOfFirstConsult)}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="dateOfFirstConsult"><span class="text-danger font-weight-bold">*</span>Date of First Consult</label>
+                                                            <input type="date" class="form-control" name="dateOfFirstConsult" id="dateOfFirstConsult" value="{{old('dateOfFirstConsult', $records->dateOfFirstConsult)}}" max="{{date('Y-m-d')}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-header">2.2 Disposition at Time of Report</div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
+                                                <select class="form-control" name="dispositionType" id="dispositionType">
+                                                    <option value="" {{(is_null(old('dispositionType', $records->dispoType))) ? 'selected' : ''}}>N/A</option>
+                                                    <option value="1" {{(old('dispositionType', $records->dispoType) == 1) ? 'selected' : ''}}>Admitted in hospital</option>
+                                                    <option value="2" {{(old('dispositionType', $records->dispoType) == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
+                                                    <option value="3" {{(old('dispositionType', $records->dispoType) == 3) ? 'selected' : ''}}>In home isolation/quarantine</option>
+                                                    <option value="4" {{(old('dispositionType', $records->dispoType) == 4) ? 'selected' : ''}}>Discharged to home</option>
+                                                    <option value="5" {{(old('dispositionType', $records->dispoType) == 5) ? 'selected' : ''}}>Others</option>
+                                                </select>
+                                            </div>
+                                            <div id="divYes5">
+                                                <div class="form-group">
+                                                    <label for="dispositionName" id="dispositionlabel"></label>
+                                                    <input type="text" class="form-control" name="dispositionName" id="dispositionName" value="{{old('dispositionName', $records->dispoName)}}">
+                                                </div>
+                                            </div>
+                                            <div id="divYes6">
+                                                <div class="form-group">
+                                                    <label for="dispositionDate" id="dispositiondatelabel"></label>
+                                                    <input type="datetime-local" class="form-control" name="dispositionDate" id="dispositionDate" value="{{old('dispositionDate', $records->dispoDate)}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-header"><span class="text-danger font-weight-bold">*</span>2.3 Health Status at Consult</div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <select class="form-control" name="healthStatus" id="healthStatus" required>
+                                                    <option value="Asymptomatic" {{(old('healthStatus', $records->healthStatus) == 'Asymptomatic') ? 'selected' : ''}}>Asymptomatic </option>
+                                                    <option value="Mild" {{(old('healthStatus', $records->healthStatus) == 'Mild') ? 'selected' : ''}}>Mild</option>
+                                                    <option value="Moderate" {{(old('healthStatus', $records->healthStatus) == 'Moderate') ? 'selected' : ''}}>Moderate</option>
+                                                    <option value="Severe" {{(old('healthStatus', $records->healthStatus) == 'Severe') ? 'selected' : ''}}>Severe</option>
+                                                    <option value="Critical" {{(old('healthStatus', $records->healthStatus) == 'Critical') ? 'selected' : ''}}>Critical</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-header"><span class="text-danger font-weight-bold">*</span>2.4 Case Classification</div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <select class="form-control" name="caseClassification" id="caseClassification" required>
+                                                    <option value="Probable" {{(old('caseClassification', $records->caseClassification) == 'Probable') ? 'selected' : ''}}>Probable</option>
+                                                    <option value="Suspect" {{(old('caseClassification', $records->caseClassification) == 'Suspect') ? 'selected' : ''}}>Suspect</option>
+                                                    <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed</option>
+                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3">
+                                <div class="card-header">2.5 Clinical Information</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                               <label for="dateOnsetOfIllness">Date of Onset of Illness</label>
-                                              <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{(is_null($records->dateOnsetOfIllness)) ? date('Y-m-d') : $records->dateOnsetOfIllness}}">
+                                              <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{old('dateOnsetOfIllness', $records->dateOnsetOfIllness)}}">
                                             </div>
                                             <div class="card">
-                                                <div class="card-header">Signs and Symptoms (Check all that apply if present)</div>
+                                                <div class="card-header">Signs and Symptoms (Check all that apply)</div>
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -741,7 +760,7 @@
                                                                   value="Asymptomatic"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck1"
-                                                                  {{(in_array("Asymptomatic", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Asymptomatic", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck1">Asymptomatic</label>
                                                             </div>
@@ -752,14 +771,14 @@
                                                                   value="Fever"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck2"
-                                                                  {{(in_array("Fever", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Fever", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck2">Fever</label>
                                                             </div>
                                                             <div id="divFeverChecked">
                                                                 <div class="form-group mt-2">
                                                                   <label for="SASFeverDeg">Degrees (in Celcius)</label>
-                                                                  <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" value="{{$records->SASFeverDeg}}">
+                                                                  <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" value="{{old('SASFeverDeg')}}">
                                                                 </div>
                                                             </div>
                                                             <div class="form-check">
@@ -769,7 +788,7 @@
                                                                   value="Cough"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck3"
-                                                                  {{(in_array("Cough", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Cough", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck3">Cough</label>
                                                             </div>
@@ -780,7 +799,7 @@
                                                                   value="General Weakness"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck4"
-                                                                  {{(in_array("General Weakness", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("General Weakness", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck4">General Weakness</label>
                                                             </div>
@@ -791,7 +810,7 @@
                                                                   value="Fatigue"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck5"
-                                                                  {{(in_array("Fatigue", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Fatigue", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck5">Fatigue</label>
                                                             </div>
@@ -802,7 +821,7 @@
                                                                   value="Headache"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck6"
-                                                                  {{(in_array("Headache", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Headache", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck6">Headache</label>
                                                             </div>
@@ -813,7 +832,7 @@
                                                                   value="Myalgia"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck7"
-                                                                  {{(in_array("Myalgia", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Myalgia", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck7">Myalgia</label>
                                                             </div>
@@ -824,7 +843,7 @@
                                                                   value="Sore throat"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck8"
-                                                                  {{(in_array("Sore throat", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Sore throat", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck8">Sore Throat</label>
                                                             </div>
@@ -835,7 +854,7 @@
                                                                   value="Coryza"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck9"
-                                                                  {{(in_array("Coryza", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Coryza", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck9">Coryza</label>
                                                             </div>
@@ -848,7 +867,7 @@
                                                                   value="Dyspnea"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck10"
-                                                                  {{(in_array("Dyspnea", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Dyspnea", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck10">Dyspnea</label>
                                                             </div>
@@ -859,7 +878,7 @@
                                                                   value="Anorexia"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck11"
-                                                                  {{(in_array("Anorexia", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Anorexia", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck11">Anorexia</label>
                                                             </div>
@@ -870,7 +889,7 @@
                                                                   value="Nausea"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck12"
-                                                                  {{(in_array("Nausea", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Nausea", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck12">Nausea</label>
                                                             </div>
@@ -881,7 +900,7 @@
                                                                   value="Vomiting"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck13"
-                                                                  {{(in_array("Vomiting", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Vomiting", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck13">Vomiting</label>
                                                             </div>
@@ -892,7 +911,7 @@
                                                                   value="Diarrhea"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck14"
-                                                                  {{(in_array("Diarrhea", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Diarrhea", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck14">Diarrhea</label>
                                                             </div>
@@ -903,7 +922,7 @@
                                                                   value="Altered Mental Status"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck15"
-                                                                  {{(in_array("Altered Mental Status", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Altered Mental Status", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck15">Altered Mental Status</label>
                                                             </div>
@@ -914,9 +933,9 @@
                                                                   value="Anosmia (Loss of Smell)"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck16"
-                                                                  {{(in_array("Anosmia (Loss of Smell)", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Anosmia (Loss of Smell)", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck16">Anosmia (Loss of Smell)</label>
+                                                                <label class="form-check-label" for="signsCheck16">Anosmia <small>(loss of smell, w/o any identified cause)</small></label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -925,9 +944,9 @@
                                                                   value="Ageusia (Loss of Taste)"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck17"
-                                                                  {{(in_array("Ageusia (Loss of Taste)", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Ageusia (Loss of Taste)", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck17">Ageusia (Loss of Taste)</label>
+                                                                <label class="form-check-label" for="signsCheck17">Ageusia <small>(loss of taste, w/o any identified cause)</small></label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -936,14 +955,14 @@
                                                                   value="Others"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck18"
-                                                                  {{(in_array("Others", explode(",", $records->SAS))) ? 'checked' : ''}}
+                                                                  {{(in_array("Others", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck18">Others</label>
                                                             </div>
                                                             <div id="divSASOtherChecked">
                                                                 <div class="form-group mt-2">
                                                                   <label for="SASOtherRemarks">Specify Findings</label>
-                                                                  <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{$records->SASOtherRemarks}}">
+                                                                  <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks')}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -965,7 +984,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck1"
                                                                   required
-                                                                  
+                                                                  {{(in_array("None", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck1">None</label>
                                                             </div>
@@ -977,7 +996,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck2"
                                                                   required
-                                                                  {{(in_array("Hypertension", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Hypertension", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck2">Hypertension</label>
                                                             </div>
@@ -989,7 +1008,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck3"
                                                                   required
-                                                                  {{(in_array("Diabetes", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Diabetes", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck3">Diabetes</label>
                                                             </div>
@@ -1001,7 +1020,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck4"
                                                                   required
-                                                                  {{(in_array("Heart Disease", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Heart Disease", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck4">Heart Disease</label>
                                                             </div>
@@ -1013,7 +1032,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck5"
                                                                   required
-                                                                  {{(in_array("Lung Disease", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Lung Disease", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck5">Lung Disease</label>
                                                             </div>
@@ -1027,7 +1046,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck6"
                                                                   required
-                                                                  {{(in_array("Gastrointestinal", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Gastrointestinal", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck6">Gastrointestinal</label>
                                                             </div>
@@ -1039,7 +1058,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck7"
                                                                   required
-                                                                  {{(in_array("Genito-urinary", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Genito-urinary", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck7">Genito-urinary</label>
                                                             </div>
@@ -1051,7 +1070,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck8"
                                                                   required
-                                                                  {{(in_array("Neurological Disease", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Neurological Disease", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck8">Neurological Disease</label>
                                                             </div>
@@ -1063,7 +1082,7 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck9"
                                                                   required
-                                                                  {{(in_array("Cancer", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Cancer", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck9">Cancer</label>
                                                             </div>
@@ -1075,14 +1094,14 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck10"
                                                                   required
-                                                                  {{(in_array("Others", explode(",", $records->COMO))) ? 'checked' : ''}}
+                                                                  {{(in_array("Others", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
                                                                 <label class="form-check-label" for="comCheck10">Others</label>
                                                             </div>
                                                             <div id="divComOthersChecked">
                                                                 <div class="form-group mt-2">
                                                                   <label for="COMOOtherRemarks">Specify Findings</label>
-                                                                  <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{$records->COMOOtherRemarks}}">
+                                                                  <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks')}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1092,432 +1111,231 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for=""><span class="text-danger font-weight-bold">*</span>Are you Pregnant?</label>
+                                                        <label for=""><span class="text-danger font-weight-bold">*</span>Pregnant?</label>
                                                         <input type="text" class="form-control" value="{{($records->records->isPregnant == 1) ? "Yes" : "No"}}" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="PregnantLMP"><span class="text-danger font-weight-bold">*</span>LMP</label>
-                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{$records->PregnantLMP}}" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
+                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{old('PregnantLMP', $records->PregnantLMP)}}" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                              <label for="highRiskPregnancy"><span class="text-danger font-weight-bold">*</span>High Risk Pregnancy</label>
-                                              <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
-                                                <option value="0" {{(is_null($records->PregnantHighRisk) || $records->PregnantHighRisk == 0) ? 'selected' : ''}}>No</option>
-                                                <option value="1" {{($records->PregnantHighRisk == 1) ? 'selected' : ''}}>Yes</option>
+                                              <label for="highRiskPregnancy"><span class="text-danger font-weight-bold">*</span>High Risk Pregnancy?</label>
+                                              <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy">
+                                                <option value="0" {{(is_null(old('highRiskPregnancy', $records->pregnantHighRisk)) || old('highRiskPregnancy', $records->pregnantHighRisk) == 0) ? 'selected' : ''}}>No</option>
+                                                <option value="1" {{(old('highRiskPregnancy', $records->pregnantHighRisk) == 1) ? 'selected' : ''}}>Yes</option>
                                               </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                      <label for="diagWithSARI"><span class="text-danger font-weight-bold">*</span>Were you diagnosed to have Severe Acute Respiratory Illness? <small><i>(Refer to Appendix 2)</i></small></label>
+                                    <div class="form-group mt-3">
+                                      <label for="diagWithSARI"><span class="text-danger font-weight-bold">*</span>Was diagnosed to have Severe Acute Respiratory Illness?</label>
                                       <select class="form-control" name="diagWithSARI" id="diagWithSARI" required>
-                                        <option value="1" {{($records->diagWithSARI == 1) ? 'selected' : ''}}>Yes</option>
-                                        <option value="0" {{(is_null($records->diagWithSARI) || $records->diagWithSARI == 0) ? 'selected' : ''}}>No</option>
+                                        <option value="1" {{(old('diagWithSARI', $records->diagWithSARI) == 1) ? 'selected' : ''}}>Yes</option>
+                                        <option value="0" {{(is_null(old('diagWithSARI', $records->diagWithSARI)) || old('diagWithSARI', $records->diagWithSARI) == 0) ? 'selected' : ''}}>No</option>
                                       </select>
                                     </div>
                                     <div class="card">
                                         <div class="card-header">
                                             Chest imaging findings suggestive of COVID-19
                                             <hr>
-                                            <span class="text-danger font-weight-bold">*</span>Imaging Done (Check all that apply)
+                                            <span class="text-danger font-weight-bold">*</span>Imaging Done
                                         </div>
                                         <div class="card-body imaOptions">
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="Chest Radiography"
-                                                  name="imaCheck[]"
-                                                  id="imaCheck1"
-                                                  required
-                                                  {{(in_array("Chest Radiography", explode(",", $records->ImagingDone))) ? 'checked' : ''}}
-                                                />
-                                                <label class="form-check-label" for="imaCheck1">Chest Radiography</label>
-                                            </div>
-                                            <div id="imaCheck1div">
-                                                <div class="form-group mt-3">
-                                                    <label for="chestRDResult"><span class="text-danger font-weight-bold">*</span>Results</label>
-                                                    <select class="form-control" name="chestRDResult" id="chestRDResult">
-                                                      <option value="" disabled {{(is_null($records->chestRDResult)) ? 'selected' : ''}}>Choose...</option>
-                                                      <option value="NORMAL" {{($records->chestRDResult == "NORMAL") ? 'selected' : ''}}>Normal</option>
-                                                      <option value="HAZY" {{($records->chestRDResult == "HAZY") ? 'selected' : ''}}>Hazy opacities, often rounded in morphology, with peripheral and lower lung distribution</option>
-                                                      <option value="PENDING" {{($records->chestRDResult == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                      <option value="OTHERS" {{($records->chestRDResult == "OTHERS") ? 'selected' : ''}}>Other findings</option>
-                                                    </select>
-                                                </div>
-                                                <div id="imaCheck1Others">
+                                            <div class="row">
+                                                <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="chestRDOtherFindings"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
-                                                        <input type="text" class="form-control" name="chestRDOtherFindings" id="chestRDOtherFindings" value="{{$records->chestRDOtherFindings}}">
+                                                      <label for="">Date done</label>
+                                                      <input type="date" class="form-control" name="imagingDoneDate" id="imagingDoneDate" value="{{old('imagingDoneDate', $records->imagingDoneDate)}}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                      <label for="imagingDone">Imaging done</label>
+                                                      <select class="form-control" name="imagingDone" id="imagingDone" required>
+                                                        <option value="None" {{(old('imagingDone', $records->imagingDone) == "None") ? 'selected' : ''}}>None</option>
+                                                        <option value="Chest Radiography" {{(old('imagingDone', $records->imagingDone) == "Chest Radiography") ? 'selected' : ''}}>Chest Radiography</option>
+                                                        <option value="Chest CT" {{(old('imagingDone', $records->imagingDone) == "Chest CT") ? 'selected' : ''}}>Chest CT</option>
+                                                        <option value="Lung Ultrasound" {{(old('imagingDone', $records->imagingDone) == "Lung Ultrasound") ? 'selected' : ''}}>Lung Ultrasound</option>
+                                                      </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                      <label for="imagingResult">Results</label>
+                                                      <select class="form-control" name="imagingResult" id="imagingResult" aria-valuemax="">
+                                                      </select>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="Chest CT"
-                                                  name="imaCheck[]"
-                                                  id="imaCheck2"
-                                                  required
-                                                  {{(in_array("Chest CT", explode(",", $records->ImagingDone))) ? 'checked' : ''}}
-                                                />
-                                                <label class="form-check-label" for="imaCheck2">Chest CT</label>
-                                            </div>
-                                            <div id="imaCheck2div">
-                                                <div class="form-group mt-3">
-                                                    <label for="chestCTResult"><span class="text-danger font-weight-bold">*</span>Results</label>
-                                                    <select class="form-control" name="chestCTResult" id="chestCTResult">
-                                                      <option value="" disabled {{(is_null($records->chestCTResult)) ? 'selected' : ''}}>Choose...</option>
-                                                      <option value="NORMAL" {{($records->chestCTResult == "NORMAL") ? 'selected' : ''}}>Normal</option>
-                                                      <option value="MULTIPLE" {{($records->chestCTResult == "MULTIPLE") ? 'selected' : ''}}>Multiple bilateral ground glass opacities, often rounded in morphology, with peripheral and lower lung distribution</option>
-                                                      <option value="PENDING" {{($records->chestCTResult == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                      <option value="OTHERS" {{($records->chestCTResult == "OTHERS") ? 'selected' : ''}}>Other findings</option>
-                                                    </select>
+                                            <div class="row">
+                                                <div class="col-md-8">
                                                 </div>
-                                                <div id="imaCheck2Others">
-                                                    <div class="form-group">
-                                                        <label for="chestCTOtherFindings"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
-                                                        <input type="text" class="form-control" name="chestCTOtherFindings" id="chestCTOtherFindings" value="{{$records->chestCTOtherFindings}}">
+                                                <div class="col-md-4">
+                                                    <div id="divImagingOthers">
+                                                        <div class="form-group">
+                                                          <label for="imagingOtherFindings"><span class="text-danger font-weight-bold">*</span>Specify findings</label>
+                                                          <input type="text" class="form-control" name="imagingOtherFindings" id="imagingOtherFindings">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="Lung Ultrasound"
-                                                  name="imaCheck[]"
-                                                  id="imaCheck3"
-                                                  required
-                                                  {{(in_array("Lung Ultrasound", explode(",", $records->ImagingDone))) ? 'checked' : ''}}
-                                                />
-                                                <label class="form-check-label" for="imaCheck3">Lung Ultrasound</label>
-                                            </div>
-                                            <div id="imaCheck3div">
-                                                <div class="form-group mt-3">
-                                                    <label for="lungUSResult"><span class="text-danger font-weight-bold">*</span>Results</label>
-                                                    <select class="form-control" name="lungUSResult" id="lungUSResult">
-                                                      <option value="" disabled {{(is_null($records->lungUSResult)) ? 'selected' : ''}}>Choose...</option>
-                                                      <option value="NORMAL" {{($records->lungUSResult == "NORMAL") ? 'selected' : ''}}>Normal</option>
-                                                      <option value="THICKENED" {{($records->lungUSResult == "THICKENED") ? 'selected' : ''}}>Thickened pleural lines, B lines (multifocal, discrete, or confluent), consolidative patterns with or without air bronchograms.</option>
-                                                      <option value="PENDING" {{($records->lungUSResult == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                      <option value="OTHERS" {{($records->lungUSResult == "OTHERS") ? 'selected' : ''}}>Other findings</option>
-                                                    </select>
-                                                </div>
-                                                <div id="imaCheck3Others">
-                                                    <div class="form-group">
-                                                        <label for="lungUSOtherFindings"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
-                                                        <input type="text" class="form-control" name="lungUSOtherFindings" id="lungUSOtherFindings" value="{{$records->lungUSOtherFindings}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="None"
-                                                  name="imaCheck[]"
-                                                  id="imaCheck4"
-                                                  required
-                                                  
-                                                />
-                                                <label class="form-check-label" for="imaCheck4">None</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card mb-3">
-                                <div class="card-header">13. Laboratory Information</div>
+                                <div class="card-header">2.6 Laboratory Information</div>
                                 <div class="card-body">
-                                    <div class="labOptions">
-                                        <table class="table table-bordered">
-                                            <thead class="text-center">
-                                                <tr>
-                                                    <th style="vertical-align: middle"><span class="text-danger font-weight-bold">*</span>Test Done (Check all that apply)</th>
-                                                    <th style="vertical-align: middle"><span class="text-danger font-weight-bold">*</span>Date Collected</th>
-                                                    <th style="vertical-align: middle">Laboratory</th>
-                                                    <th style="vertical-align: middle"><span class="text-danger font-weight-bold">*</span>Results</th>
-                                                    <th style="vertical-align: middle">Date Released</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="form-check">
-                                                            <input
-                                                              class="form-check-input"
-                                                              type="checkbox"
-                                                              value="RT-PCR (OPS)"
-                                                              name="labCheck[]"
-                                                              id="labCheck1"
-                                                              required
-                                                              {{(in_array("RT-PCR (OPS)", explode(",", $records->testsDoneList))) ? 'checked' : ''}}
-                                                            />
-                                                            <label class="form-check-label" for="labCheck1">RT-PCR (OPS)</label>
-                                                        </div>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_ops_date_collected" id="rtpcr_ops_date_collected" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_ops_date_collected}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="rtpcr_ops_laboratory" id="rtpcr_ops_laboratory" value="{{$records->rtpcr_ops_laboratory}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <select class="form-control" name="rtpcr_ops_results" id="rtpcr_ops_results">
-                                                            <option value="" disabled {{(is_null($records->rtpcr_ops_results)) ? 'selected' : ''}}>Choose...</option>
-                                                            <option value="PENDING" {{($records->rtpcr_ops_results == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                            <option value="POSITIVE" {{($records->rtpcr_ops_results == "POSITIVE") ? 'selected' : ''}}>Positive</option>
-                                                            <option value="NEGATIVE" {{($records->rtpcr_ops_results == "NEGATIVE") ? 'selected' : ''}}>Negative</option>
-                                                            <option value="EQUIVOCAL" {{($records->rtpcr_ops_results == "EQUIVOCAL") ? 'selected' : ''}}>Equivocal</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_ops_date_released" id="rtpcr_ops_date_released" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_ops_date_released}}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="form-check">
-                                                            <input
-                                                              class="form-check-input"
-                                                              type="checkbox"
-                                                              value="RT-PCR (NPS)"
-                                                              name="labCheck[]"
-                                                              id="labCheck2"
-                                                              required
-                                                              {{(in_array("RT-PCR (NPS)", explode(",", $records->testsDoneList))) ? 'checked' : ''}}
-                                                            />
-                                                            <label class="form-check-label" for="labCheck2">RT-PCR (NPS)</label>
-                                                        </div>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_nps_date_collected" id="rtpcr_nps_date_collected" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_nps_date_collected}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="rtpcr_nps_laboratory" id="rtpcr_nps_laboratory" value="{{$records->rtpcr_nps_laboratory}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <select class="form-control" name="rtpcr_nps_results" id="rtpcr_nps_results">
-                                                            <option value="" disabled {{(is_null($records->rtpcr_nps_results)) ? 'selected' : ''}}>Choose...</option>
-                                                            <option value="PENDING" {{($records->rtpcr_nps_results == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                            <option value="POSITIVE" {{($records->rtpcr_nps_results == "POSITIVE") ? 'selected' : ''}}>Positive</option>
-                                                            <option value="NEGATIVE" {{($records->rtpcr_nps_results == "NEGATIVE") ? 'selected' : ''}}>Negative</option>
-                                                            <option value="EQUIVOCAL" {{($records->rtpcr_nps_results == "EQUIVOCAL") ? 'selected' : ''}}>Equivocal</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_nps_date_released" id="rtpcr_nps_date_released" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_nps_date_released}}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="form-check">
-                                                            <input
-                                                              class="form-check-input"
-                                                              type="checkbox"
-                                                              value="RT-PCR (OPS and NPS)"
-                                                              name="labCheck[]"
-                                                              id="labCheck3"
-                                                              required
-                                                              {{(in_array("RT-PCR (OPS and NPS)", explode(",", $records->testsDoneList))) ? 'checked' : ''}}
-                                                            />
-                                                            <label class="form-check-label" for="labCheck3">RT-PCR (OPS and NPS)</label>
-                                                        </div>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_both_date_collected" id="rtpcr_both_date_collected" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_both_date_collected}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="rtpcr_both_laboratory" id="rtpcr_both_laboratory" value="{{$records->rtpcr_both_laboratory}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <select class="form-control" name="rtpcr_both_results" id="rtpcr_both_results">
-                                                            <option value="" disabled {{(is_null($records->rtpcr_both_results)) ? 'selected' : ''}}>Choose...</option>
-                                                            <option value="PENDING" {{($records->rtpcr_both_results == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                            <option value="POSITIVE" {{($records->rtpcr_both_results == "POSITIVE") ? 'selected' : ''}}>Positive</option>
-                                                            <option value="NEGATIVE" {{($records->rtpcr_both_results == "NEGATIVE") ? 'selected' : ''}}>Negative</option>
-                                                            <option value="EQUIVOCAL" {{($records->rtpcr_both_results == "EQUIVOCAL") ? 'selected' : ''}}>Equivocal</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_both_date_released" id="rtpcr_both_date_released" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_both_date_released}}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="form-check">
-                                                            <input
-                                                              class="form-check-input"
-                                                              type="checkbox"
-                                                              value="RT-PCR"
-                                                              name="labCheck[]"
-                                                              id="labCheck4"
-                                                              required
-                                                              {{(in_array("RT-PCR", explode(",", $records->testsDoneList))) ? 'checked' : ''}}
-                                                            />
-                                                            <label class="form-check-label" for="labCheck4">RT-PCR</label>
-                                                        </div>
-                                                        <div class="form-group mt-3">
-                                                            <input type="text" class="form-control" name="rtpcr_spec_type" id="rtpcr_spec_type" placeholder="Specimen Type" value="{{$records->rtpcr_spec_type}}">
-                                                        </div>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_spec_date_collected" id="rtpcr_spec_date_collected" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_spec_date_collected}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="rtpcr_spec_laboratory" id="rtpcr_spec_laboratory" value="{{$records->rtpcr_spec_laboratory}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <select class="form-control" name="rtpcr_spec_results" id="rtpcr_spec_results">
-                                                            <option value="" disabled {{(is_null($records->rtpcr_spec_results)) ? 'selected' : ''}}>Choose...</option>
-                                                            <option value="PENDING" {{($records->rtpcr_spec_date_released == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                            <option value="POSITIVE" {{($records->rtpcr_spec_date_released == "POSITIVE") ? 'selected' : ''}}>Positive</option>
-                                                            <option value="NEGATIVE" {{($records->rtpcr_spec_date_released == "NEGATIVE") ? 'selected' : ''}}>Negative</option>
-                                                            <option value="EQUIVOCAL" {{($records->rtpcr_spec_date_released == "EQUIVOCAL") ? 'selected' : ''}}>Equivocal</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="rtpcr_spec_date_released" id="rtpcr_spec_date_released" max="{{date('Y-m-d')}}" value="{{$records->rtpcr_spec_date_released}}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="form-check">
-                                                            <input
-                                                              class="form-check-input"
-                                                              type="checkbox"
-                                                              value="Antigen Test"
-                                                              name="labCheck[]"
-                                                              id="labCheck5"
-                                                              required
-                                                              {{(in_array("Antigen Test", explode(",", $records->testsDoneList))) ? 'checked' : ''}}
-                                                            />
-                                                            <label class="form-check-label" for="labCheck5">Antigen Test</label>
-                                                        </div>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="antigen_date_collected" id="antigen_date_collected" max="{{date('Y-m-d')}}" value="{{$records->antigen_date_collected}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="antigen_laboratory" id="antigen_laboratory" value="{{$records->antigen_laboratory}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <select class="form-control" name="antigen_results" id="antigen_results">
-                                                            <option value="" disabled {{(is_null($records->antigen_results)) ? 'selected' : ''}}>Choose...</option>
-                                                            <option value="PENDING" {{($records->antigen_results == "PENDING") ? 'selected' : ''}}>Pending</option>
-                                                            <option value="POSITIVE" {{($records->antigen_results == "POSITIVE") ? 'selected' : ''}}>Positive</option>
-                                                            <option value="NEGATIVE" {{($records->antigen_results == "NEGATIVE") ? 'selected' : ''}}>Negative</option>
-                                                            <option value="EQUIVOCAL" {{($records->antigen_results == "EQUIVOCAL") ? 'selected' : ''}}>Equivocal</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="antigen_date_released" id="antigen_date_released" max="{{date('Y-m-d')}}" value="{{$records->antibody_date_collected}}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="form-check">
-                                                            <input
-                                                              class="form-check-input"
-                                                              type="checkbox"
-                                                              value="Antibody Test"
-                                                              name="labCheck[]"
-                                                              id="labCheck6"
-                                                              required
-                                                              {{(in_array("Antibody Test", explode(",", $records->testsDoneList))) ? 'checked' : ''}}
-                                                            />
-                                                            <label class="form-check-label" for="labCheck6">Antibody Test</label>
-                                                        </div>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="antibody_date_collected" id="antibody_date_collected" max="{{date('Y-m-d')}}" value="{{$records->antibody_date_collected}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="antibody_laboratory" id="antibody_laboratory" value="{{$records->antibody_laboratory}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <select class="form-control" name="antibody_results" id="antibody_results">
-                                                            <option value="" disabled {{(is_null($records->antibody_results)) ? 'selected' : ''}}>Choose...</option>
-                                                            <option value="M+G-" {{($records->antibody_results == "M+G-") ? 'selected' : ''}}>IgM (+) IgG (-)</option>
-                                                            <option value="G+M-" {{($records->antibody_results == "G+M-") ? 'selected' : ''}}>IgG (+) IgM (-)</option>
-                                                            <option value="M+G+" {{($records->antibody_results == "M+G+") ? 'selected' : ''}}>IgM (+) IgG (+)</option>
-                                                            <option value="M-G-" {{($records->antibody_results == "M-G-") ? 'selected' : ''}}>IgM (-) IgG (-)</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="antibody_date_released" id="antibody_date_released" max="{{date('Y-m-d')}}" value="{{$records->antibody_date_released}}">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="form-check">
-                                                            <input
-                                                              class="form-check-input"
-                                                              type="checkbox"
-                                                              value="Others"
-                                                              name="labCheck[]"
-                                                              id="labCheck7"
-                                                              required
-                                                              {{(in_array("Others", explode(",", $records->testsDoneList))) ? 'checked' : ''}}
-                                                            />
-                                                            <label class="form-check-label" for="labCheck7">Others</label>
-                                                        </div>
-                                                        <div class="form-group mt-3">
-                                                          <input type="text" class="form-control" name="others_specify" id="others_specify" placeholder="Others: Specify" value="{{$records->others_specify}}">
-                                                        </div>
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="others_date_collected" id="others_date_collected" max="{{date('Y-m-d')}}" value="{{$records->others_date_collected}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="others_laboratory" id="others_laboratory" value="{{$records->others_laboratory}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="text" class="form-control" name="others_results" id="others_results" placeholder="Specify Result" value="{{$records->others_results}}">
-                                                    </td>
-                                                    <td style="vertical-align: middle">
-                                                        <input type="date" class="form-control" name="others_date_released" id="others_date_released" max="{{date('Y-m-d')}}" value="{{$records->others_date_released}}">
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="testedPositiveUsingRTPCRBefore"><span class="text-danger font-weight-bold">*</span>Have you ever tested positive using RT-PCR before?</label>
+                                                <select class="form-control" name="testedPositiveUsingRTPCRBefore" id="testedPositiveUsingRTPCRBefore" required>
+                                                  <option value="1" {{(old('testedPositiveUsingRTPCRBefore') == 1) ? 'selected' : ''}}>Yes</option>
+                                                  <option value="0" {{(is_null(old('testedPositiveUsingRTPCRBefore')) || old('testedPositiveUsingRTPCRBefore') == 0) ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="testedPositiveNumOfSwab"><span class="text-danger font-weight-bold">*</span>Number of previous RT-PCR swabs done</label>
+                                                <input type="number" class="form-control" name="testedPositiveNumOfSwab" id="testedPositiveNumOfSwab" min="0" value="{{(is_null(old('testedPositiveNumOfSwab'))) ? '0' : old('testedPositiveNumOfSwab')}}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="divIfTestedPositiveUsingRTPCR">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="testedPositiveUsingRTPCRBefore"><span class="text-danger font-weight-bold">*</span>Have you ever tested positive using RT-PCR before?</label>
-                                                    <select class="form-control" name="testedPositiveUsingRTPCRBefore" id="testedPositiveUsingRTPCRBefore" required>
-                                                      <option value="1" {{($records->testedPositiveUsingRTPCRBefore == 1) ? 'selected' : ''}}>Yes</option>
-                                                      <option value="0" {{(is_null($records->testedPositiveUsingRTPCRBefore) || $records->testedPositiveUsingRTPCRBefore == 0) ? 'selected' : ''}}>No</option>
-                                                    </select>
+                                                    <label for="testedPositiveSpecCollectedDate"><span class="text-danger font-weight-bold">*</span>Date of Specimen Collection</label>
+                                                    <input type="date" class="form-control" name="testedPositiveSpecCollectedDate" id="testedPositiveSpecCollectedDate" max="{{date('Y-m-d')}}" value="{{old('testedPositiveSpecCollectedDate')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="testedPositiveNumOfSwab"><span class="text-danger font-weight-bold">*</span>Number of previous RT-PCR swabs done</label>
-                                                    <input type="number" class="form-control" name="testedPositiveNumOfSwab" id="testedPositiveNumOfSwab" min="0" value="{{(is_null($records->testedPositiveNumOfSwab)) ? '0' : $records->testedPositiveNumOfSwab}}" required>
+                                                  <label for="testedPositiveLab"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
+                                                  <input type="text" class="form-control" name="testedPositiveLab" id="testedPositiveLab" value="{{old('testedPositiveLab')}}">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="divIfTestedPositiveUsingRTPCR">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                      <label for="testedPositiveLab"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
-                                                      <input type="text" class="form-control" name="testedPositiveLab" id="testedPositiveLab" value="{{$records->testedPositiveLab}}">
-                                                    </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                              <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
+                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1')}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="testDateReleased1">Date released</label>
+                                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="testLaboratory1"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
+                                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1')}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                              <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
+                                              <select class="form-control" name="testType1" id="testType1" required>
+                                                <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
+                                              </select>
+                                            </div>
+                                            <div id="divTypeOthers1">
+                                                <div class="form-group">
+                                                  <label for="testTypeOtherRemarks1">Specify</label>
+                                                  <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="testedPositiveSpecCollectedDate"><span class="text-danger font-weight-bold">*</span>Date of Specimen Collection</label>
-                                                        <input type="date" class="form-control" name="testedPositiveSpecCollectedDate" id="testedPositiveSpecCollectedDate" max="{{date('Y-m-d')}}" value="{{$records->testedPositiveSpecCollectedDate}}">
-                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                              <label for="testResult1"><span class="text-danger font-weight-bold">*</span>Results</label>
+                                              <select class="form-control" name="testResult1" id="testResult1" required>
+                                                <option value="PENDING" {{(old('testResult1') == 'PENDING') ? 'selected' : ''}}>Pending</option>
+                                                <option value="POSITIVE" {{(old('testResult1') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
+                                                <option value="NEGATIVE" {{(old('testResult1') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                                <option value="EQUIVOCAL" {{(old('testResult1') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
+                                                <option value="OTHERS" {{(old('testResult1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                              </select>
+                                            </div>
+                                            <div id="divResultOthers1">
+                                                <div class="form-group">
+                                                    <label for="testResultOtherRemarks1">Specify</label>
+                                                    <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1')}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                              <label for="testDateCollected2">2. Date Collected</label>
+                                              <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" value="{{old('testDateCollected2')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="testDateReleased2">Date released</label>
+                                                <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" value="{{old('testDateReleased2')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="testLaboratory2">Laboratory</label>
+                                                <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                              <label for="testType2">Type of test</label>
+                                              <select class="form-control" name="testType2" id="testType2">
+                                                    <option value="N/A">N/A</option>
+                                                    <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                    <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                    <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                    <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                    <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
+                                              </select>
+                                            </div>
+                                            <div id="divTypeOthers2">
+                                                <div class="form-group">
+                                                  <label for="testTypeOtherRemarks2">Specify</label>
+                                                  <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2')}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                              <label for="testResult2">Results</label>
+                                              <select class="form-control" name="testResult2" id="testResult2">
+                                                <option value="PENDING" {{(old('testResult2') == 'PENDING') ? 'selected' : ''}}>Pending</option>
+                                                <option value="POSITIVE" {{(old('testResult2') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
+                                                <option value="NEGATIVE" {{(old('testResult2') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                                <option value="EQUIVOCAL" {{(old('testResult2') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
+                                                <option value="OTHERS" {{(old('testResult2') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                              </select>
+                                            </div>
+                                            <div id="divResultOthers2">
+                                                <div class="form-group">
+                                                    <label for="testResultOtherRemarks2">Specify</label>
+                                                    <input type="text" class="form-control" name="testResultOtherRemarks2" id="testResultOtherRemarks2" value="{{old('testResultOtherRemarks2')}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -1525,49 +1343,55 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-header">14. Outcome/Condition at Time of Report</div>
+                                <div class="card-header">2.7 Outcome/Condition at Time of Report</div>
                                 <div class="card-body">
                                     <div class="form-group">
                                       <label for="outcomeCondition"><span class="text-danger font-weight-bold">*</span>Select Condition</label>
                                       <select class="form-control" name="outcomeCondition" id="outcomeCondition">
-                                        <option value="" {{(is_null($records->outcomeCondition)) ? 'selected' : ''}}>N/A</option>
-                                        <option value="Active" {{($records->outcomeCondition == 'Active') ? 'selected' : ''}}>Active (Currently admitted or in isolation/quarantine)</option>
-                                        <option value="Recovered" {{($records->outcomeCondition == 'Recovered') ? 'selected' : ''}}>Recovered</option>
-                                        <option value="Died" {{($records->outcomeCondition == 'Died') ? 'selected' : ''}}>Died</option>
+                                        <option value="" {{(is_null(old('outcomeCondition'))) ? 'selected' : ''}}>N/A</option>
+                                        <option value="Active" {{(old('outcomeCondition') == 'Active') ? 'selected' : ''}}>Active (Currently admitted or in isolation/quarantine)</option>
+                                        <option value="Recovered" {{(old('outcomeCondition') == 'Recovered') ? 'selected' : ''}}>Recovered</option>
+                                        <option value="Died" {{(old('outcomeCondition') == 'Died') ? 'selected' : ''}}>Died</option>
                                       </select>
                                     </div>
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">
                                           <label for="outcomeRecovDate"><span class="text-danger font-weight-bold">*</span>Date of Recovery</label>
-                                          <input type="date" class="form-control" name="outcomeRecovDate" id="outcomeRecovDate" max="{{date('Y-m-d')}}" value="{{$records->outcomeRecovDate}}">
+                                          <input type="date" class="form-control" name="outcomeRecovDate" id="outcomeRecovDate" max="{{date('Y-m-d')}}" value="{{old('outcomeRecovDate')}}">
                                         </div>
                                     </div>
                                     <div id="ifOutcomeDied">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="outcomeDeathDate"><span class="text-danger font-weight-bold">*</span>Date of Death</label>
-                                                    <input type="date" class="form-control" name="outcomeDeathDate" id="outcomeDeathDate" max="{{date('Y-m-d')}}" value="{{$records->outcomeDeathDate}}">
+                                                    <input type="date" class="form-control" name="outcomeDeathDate" id="outcomeDeathDate" max="{{date('Y-m-d')}}" value="{{old('outcomeDeathDate')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="deathImmeCause"><span class="text-danger font-weight-bold">*</span>Immediate Cause</label>
+                                                    <input type="text" class="form-control" name="deathImmeCause" id="deathImmeCause" value="{{old('deathImmeCause')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="deathImmeCause"><span class="text-danger font-weight-bold">*</span>Immediate Cause</label>
-                                                    <input type="text" class="form-control" name="deathImmeCause" id="deathImmeCause" value="{{$records->deathImmeCause}}">
+                                                    <label for="deathAnteCause">Antecedent Cause</label>
+                                                    <input type="text" class="form-control" name="deathAnteCause" id="deathAnteCause" value="{{old('deathAnteCause')}}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="deathAnteCause">Antecedent Cause</label>
-                                                    <input type="text" class="form-control" name="deathAnteCause" id="deathAnteCause" value="{{$records->deathAnteCause}}">
+                                                    <label for="deathUndeCause">Underlying Cause</label>
+                                                    <input type="text" class="form-control" name="deathUndeCause" id="deathUndeCause" value="{{old('deathUndeCause')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="deathUndeCause">Underlying Cause</label>
-                                                    <input type="text" class="form-control" name="deathUndeCause" id="deathUndeCause" value="{{$records->deathUndeCause}}">
+                                                    <label for="deathUndeCause">Contributory Conditions</label>
+                                                    <input type="text" class="form-control" name="contriCondi" id="contriCondi" value="{{old('contriCondi')}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -1577,7 +1401,7 @@
                         </div>
                     </div>
                     <div class="card mt-3">
-                        <div class="card-header font-weight-bold">Part 3. Contact Tracing</div>
+                        <div class="card-header font-weight-bold">Part 3. Contact Tracing: Exposure and Travel History</div>
                         <div class="card-body">
                             <div class="card mb-3">
                                 <div class="card-header">15. Exposure History</div>
@@ -1585,365 +1409,571 @@
                                     <div class="form-group">
                                       <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>History of exposure to known probable and/or confirmed COVID-19 case 14 days before the onset of signs and symptoms?  OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
                                       <select class="form-control" name="expoitem1" id="expoitem1" required>
-                                        <option value="" disabled {{(is_null($records->expoitem1)) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="1" {{($records->expoitem1 == 1) ? 'selected' : ''}}>Yes</option>
-                                        <option value="2" {{($records->expoitem1 == 2) ? 'selected' : ''}}>No</option>
-                                        <option value="3" {{($records->expoitem1 == 3) ? 'selected' : ''}}>Unknown</option>
+                                            <option value="2" {{(old('expoitem1') == 2) ? 'selected' : ''}}>No</option>
+                                            <option value="1" {{(old('expoitem1') == 1) ? 'selected' : ''}}>Yes</option>
+                                            <option value="3" {{(old('expoitem1') == 3) ? 'selected' : ''}}>Unknown</option>
                                       </select>
                                     </div>
                                     <div id="divExpoitem1">
                                         <div class="form-group">
                                           <label for=""><span class="text-danger font-weight-bold">*</span>Date of Last Contact</label>
-                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" max="{{date('Y-m-d')}}" value="{{$records->expoDateLastCont}}">
+                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="expoitem2"><span class="text-danger font-weight-bold">*</span>Have you been in a place with a known COVID-19 community transmission 14 days before the onset of signs and symptoms? OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
+                                        <label for="expoitem2"><span class="text-danger font-weight-bold">*</span>Has the patient been in a place with a known COVID-19 transmission 14 days before the onset of signs and symptoms? OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
                                         <select class="form-control" name="expoitem2" id="expoitem2" required>
-                                          <option value="" disabled {{(is_null($records->expoitem2)) ? 'selected' : ''}}>Choose...</option>
-                                          <option value="1" {{($records->expoitem2 == 1) ? 'selected' : ''}}>Yes</option>
-                                          <option value="2" {{($records->expoitem2 == 2) ? 'selected' : ''}}>No</option>
-                                          <option value="3" {{($records->expoitem2 == 3) ? 'selected' : ''}}>Unknown</option>
+                                          <option value="0" {{(old('expoitem2') == 2) ? 'selected' : ''}}>No</option>
+                                          <option value="1" {{(old('expoitem2') == 1) ? 'selected' : ''}}>Yes, Local</option>
+                                          <option value="2" {{(old('expoitem2') == 1) ? 'selected' : ''}}>Yes, International</option>
+                                          <option value="3" {{(old('expoitem2') == 3) ? 'selected' : ''}}>Unknown exposure</option>
                                         </select>
                                     </div>
-                                    <div id="ifVisited">
+                                    <div id="divTravelInt">
+                                        <div class="form-group">
+                                            <label for="intCountry"><span class="text-danger font-weight-bold">*</span>If International Travel, country of origin</label>
+                                            <select class="form-control" name="intCountry" id="intCountry">
+                                                <option value="" {{(is_null('intCountry')) ? 'selected disabled' : ''}}>Choose...</option>
+                                                  @foreach ($countries as $country)
+                                                      @if($country != 'Philippines')
+                                                          <option value="{{$country}}" {{(old('intCountry') == $country) ? 'selected' : ''}}>{{$country}}</option>
+                                                      @endif
+                                                  @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card mb-3">
+                                                    <div class="card-header">Inclusive travel dates</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                  <label for="intDateFrom">From</label>
+                                                                  <input type="date" class="form-control" name="intDateFrom" id="intDateFrom">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="intDateTo">From</label>
+                                                                    <input type="date" class="form-control" name="intDateTo" id="intDateTo">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="intWithOngoingCovid">With ongoing COVID-19 community transmission?</label>
+                                                    <select class="form-control" name="intWithOngoingCovid" id="intWithOngoingCovid">
+                                                      <option value="NO">No</option>
+                                                      <option value="YES">Yes</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                          <label for="intVessel">Airline/Sea vessel</label>
+                                                          <input type="text" class="form-control" name="intVessel" id="intVessel">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="intVesselNo">Flight/Vessel Number</label>
+                                                            <input type="text" class="form-control" name="intVesselNo" id="intVesselNo">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="intDateDepart">Date of departure</label>
+                                                            <input type="date" class="form-control" name="intDateDepart" id="intDateDepart">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="intDateArrive">Date of arrival in PH</label>
+                                                            <input type="date" class="form-control" name="intDateArrive" id="intDateArrive">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="divTravelLoc">
                                         <div class="card">
-                                            <div class="card-header">Specify Place</div>
+                                            <div class="card-header">
+                                                If Local Travel, specify travel places (<i>Check all that apply, provide name of facility, address, and inclusive travel dates</i>)
+                                            </div>
                                             <div class="card-body">
-                                                <div class="alert alert-info" role="alert">
-                                                    Check all that apply, provide details such as name of establishment, transport service, venue, location, etc. And date of visit.
+                                                <div class="form-check">
+                                                  <label class="form-check-label">
+                                                    <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited1" value="Health Facility">
+                                                    Health Facility
+                                                  </label>
                                                 </div>
-                                                <table class="table table-bordered">
-                                                    <thead class="text-center">
-                                                        <tr>
-                                                            <th>Place Visited</th>
-                                                            <th>Details</th>
-                                                            <th>Date of Visit</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style="vertical-align: middle">
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="1"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt1"
-                                                                      {{(in_array(1, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt1">Health Facility</label>
+                                                <div id="divLocal1" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locName1">Name of Place</label>
+                                                              <input class="form-control" type="text" name="locName1" id="locName1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="locAddress1">Location</label>
+                                                                <input class="form-control" type="text" name="locAddress1" id="locAddress1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-header">Inclusive Travel Dates</div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateFrom1">From</label>
+                                                                                <input class="form-control" type="date" name="locDateFrom1" id="locDateFrom1">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateTo1">To</label>
+                                                                                <input class="form-control" type="date" name="locDateTo1" id="locDateTo1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt1_details" id="vOpt1_details" value="{{$records->vOpt1_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt1_date" id="vOpt1_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt1_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="2"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt2"
-                                                                      {{(in_array(2, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt2">Closed Settings (e.g. Jail)</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt2_details" id="vOpt2_details" value="{{$records->vOpt2_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt2_date" id="vOpt2_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt2_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="3"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt3"
-                                                                      {{(in_array(3, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt3">Market</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt3_details" id="vOpt3_details" value="{{$records->vOpt3_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt3_date" id="vOpt3_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt3_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="4"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt4"
-                                                                      {{(in_array(4, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt4">Home</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt4_details" id="vOpt4_details" value="{{$records->vOpt4_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt4_date" id="vOpt4_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt4_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="5"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt5"
-                                                                      {{(in_array(5, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt5">International Travel</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt5_details" id="vOpt5_details" value="{{$records->vOpt5_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt5_date" id="vOpt5_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt5_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="6"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt6"
-                                                                      {{(in_array(6, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt6">School</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt6_details" id="vOpt6_details" value="{{$records->vOpt6_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt6_date" id="vOpt6_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt6_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="7"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt7"
-                                                                      {{(in_array(7, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt7">Transportation</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt7_details" id="vOpt7_details" value="{{$records->vOpt7_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt7_date" id="vOpt7_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt7_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="8"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt8"
-                                                                      {{(in_array(8, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt8">Workplace</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt8_details" id="vOpt8_details" value="{{$records->vOpt7_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt8_date" id="vOpt8_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt8_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="9"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt9"
-                                                                      {{(in_array(9, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt9">Local Travel</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt9_details" id="vOpt9_details" value="{{$records->vOpt9_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt9_date" id="vOpt9_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt9_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="10"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt10"
-                                                                      {{(in_array(10, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt10">Social Gathering</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt10_details" id="vOpt10_details" value="{{$records->vOpt10_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt10_date" id="vOpt10_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt10_date}}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input
-                                                                      class="form-check-input"
-                                                                      type="checkbox"
-                                                                      value="11"
-                                                                      name="vOpt[]"
-                                                                      id="vOpt11"
-                                                                      {{(in_array(11, explode(",", $records->placevisited))) ? 'checked' : ''}}
-                                                                    />
-                                                                    <label class="form-check-label" for="vOpt11">Others</label>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" name="vOpt11_details" id="vOpt11_details" value="{{$records->vOpt11_details}}">
-                                                            </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="date" class="form-control" name="vOpt11_date" id="vOpt11_date" max="{{date('Y-m-d')}}" value="{{$records->vOpt11_date}}">
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">16. Travel History</div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                      <label for="hasTravHistOtherCountries"><span class="text-danger font-weight-bold">*</span>History of travel/visit/work in other countries with a known COVID-19 transmission 14 days before the onset of signs and symptoms</label>
-                                      <select class="form-control" name="hasTravHistOtherCountries" id="hasTravHistOtherCountries" required>
-                                        <option value="1" {{($records->hasTravHistOtherCountries == 1) ? 'selected' : ''}}>Yes</option>
-                                        <option value="0" {{($records->hasTravHistOtherCountries == 0 || is_null($records->hasTravHistOtherCountries)) ? 'selected' : ''}}>No</option>
-                                      </select>
-                                    </div>
-                                    <div id="div_haveHistoryOfTravelOtherCountries">
-                                        <div class="form-group">
-                                          <label for="historyCountryOfExit"><span class="text-danger font-weight-bold">*</span>Country of Exit</label>
-                                          <select class="form-control" name="historyCountryOfExit" id="historyCountryOfExit">
-                                              <option value="" {{(is_null('historyCountryOfExit')) ? 'selected disabled' : ''}}>Choose...</option>
-                                                @foreach ($countries as $country)
-                                                    @if($country != 'Philippines')
-                                                        <option value="{{$country}}" {{($records->historyCountryOfExit == $country) ? 'selected' : ''}}>{{$country}}</option>
-                                                    @endif
-                                                @endforeach
-                                          </select>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                  <label for="country_historyTypeOfTranspo"><span class="text-danger font-weight-bold">*</span>Airline/Sea Vessel</label>
-                                                  <input type="text" class="form-control" name="country_historyTypeOfTranspo" id="country_historyTypeOfTranspo" value="{{$records->country_historyTypeOfTranspo}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locWithOngoingCovid1">With ongoing COVID-19 Community Transmission?</label>
+                                                              <select class="form-control" name="locWithOngoingCovid1" id="locWithOngoingCovid1">
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
+                                                              </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="country_historyTranspoNo"><span class="text-danger font-weight-bold">*</span>Flight/Vessel Number</label>
-                                                    <input type="text" class="form-control" name="country_historyTranspoNo" id="country_historyTranspoNo" value="{{$records->country_historyTranspoNo}}">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited2" value="Closed Settings">
+                                                      Closed Settings
+                                                    </label>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="country_historyTranspoDateOfDeparture"><span class="text-danger font-weight-bold">*</span>Date of Departure</label>
-                                                    <input type="date" class="form-control" name="country_historyTranspoDateOfDeparture" id="country_historyTranspoDateOfDeparture" value="{{$records->country_historyTranspoDateOfDeparture}}">
+                                                <div id="divLocal2" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locName2">Name of Place</label>
+                                                              <input class="form-control" type="text" name="locName2" id="locName2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="locAddress2">Location</label>
+                                                                <input class="form-control" type="text" name="locAddress2" id="locAddress2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-header">Inclusive Travel Dates</div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateFrom2">From</label>
+                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateTo2">To</label>
+                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locWithOngoingCovid2">With ongoing COVID-19 Community Transmission?</label>
+                                                              <select class="form-control" name="locWithOngoingCovid2" id="locWithOngoingCovid2">
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
+                                                              </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="country_historyTranspoDateOfArrival"><span class="text-danger font-weight-bold">*</span>Date of Arrival in PH</label>
-                                                    <input type="date" class="form-control" name="country_historyTranspoDateOfArrival" id="country_historyTranspoDateOfArrival" value="{{$records->country_historyTranspoDateOfArrival}}">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited3" value="School">
+                                                      School
+                                                    </label>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="hasTravHistLocal"><span class="text-danger font-weight-bold">*</span>History of travel/visit/work in other local place with a known COVID-19 transmission 14 days before the onset of signs and symptoms</label>
-                                        <select class="form-control" name="hasTravHistLocal" id="hasTravHistLocal">
-                                          <option value="1" {{($records->hasTravHistLocal == 1) ? 'selected' : ''}}>Yes</option>
-                                          <option value="0" {{($records->hasTravHistLocal == 0 || is_null($records->hasTravHistLocal)) ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                    <div id="div_haveHistoryOfTravelLocal">
-                                        <div class="form-group">
-                                            <label for="historyPlaceOfOrigin"><span class="text-danger font-weight-bold">*</span>Place of Origin</label>
-                                            <input type="text" class="form-control" name="historyPlaceOfOrigin" id="historyPlaceOfOrigin" value="{{$records->historyPlaceOfOrigin}}">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                  <label for="local_historyTypeOfTranspo"><span class="text-danger font-weight-bold">*</span>Airline/Sea vessel/Bus line/Train</label>
-                                                  <input type="text" class="form-control" name="local_historyTypeOfTranspo" id="local_historyTypeOfTranspo" value="{{$records->local_historyTypeOfTranspo}}">
+                                                <div id="divLocal3" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locName3">Name of Place</label>
+                                                              <input class="form-control" type="text" name="locName3" id="locName3">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="locAddress3">Location</label>
+                                                                <input class="form-control" type="text" name="locAddress3" id="locAddress3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-header">Inclusive Travel Dates</div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateFrom3">From</label>
+                                                                                <input class="form-control" type="date" name="locDateFrom3" id="locDateFrom3">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateTo3">To</label>
+                                                                                <input class="form-control" type="date" name="locDateTo3" id="locDateTo3">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locWithOngoingCovid3">With ongoing COVID-19 Community Transmission?</label>
+                                                              <select class="form-control" name="locWithOngoingCovid3" id="locWithOngoingCovid3">
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
+                                                              </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="local_historyTranspoNo"><span class="text-danger font-weight-bold">*</span>Flight/Vessel Number/Bus No.</label>
-                                                    <input type="text" class="form-control" name="local_historyTranspoNo" id="local_historyTranspoNo" value="{{$records->local_historyTranspoNo}}">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited4" value="Workplace">
+                                                      Workplace
+                                                    </label>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="local_historyTranspoDateOfDeparture"><span class="text-danger font-weight-bold">*</span>Date of Departure</label>
-                                                    <input type="date" class="form-control" name="local_historyTranspoDateOfDeparture" id="local_historyTranspoDateOfDeparture" value="{{$records->local_historyTranspoDateOfDeparture}}">
+                                                <div id="divLocal4" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locName4">Name of Place</label>
+                                                              <input class="form-control" type="text" name="locName4" id="locName4">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="locAddress4">Location</label>
+                                                                <input class="form-control" type="text" name="locAddress4" id="locAddress4">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-header">Inclusive Travel Dates</div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateFrom4">From</label>
+                                                                                <input class="form-control" type="date" name="locDateFrom4" id="locDateFrom4">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateTo4">To</label>
+                                                                                <input class="form-control" type="date" name="locDateTo4" id="locDateTo4">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locWithOngoingCovid4">With ongoing COVID-19 Community Transmission?</label>
+                                                              <select class="form-control" name="locWithOngoingCovid4" id="locWithOngoingCovid4">
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
+                                                              </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="local_historyTranspoDateOfArrival"><span class="text-danger font-weight-bold">*</span>Date of Arrival in the Current City/Mun</label>
-                                                    <input type="date" class="form-control" name="local_historyTranspoDateOfArrival" id="local_historyTranspoDateOfArrival" value="{{$records->local_historyTranspoDateOfArrival}}">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited5" value="Market">
+                                                      Market
+                                                    </label>
+                                                </div>
+                                                <div id="divLocal5" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locName5">Name of Place</label>
+                                                              <input class="form-control" type="text" name="locName5" id="locName5">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="locAddress5">Location</label>
+                                                                <input class="form-control" type="text" name="locAddress5" id="locAddress5">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-header">Inclusive Travel Dates</div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateFrom5">From</label>
+                                                                                <input class="form-control" type="date" name="locDateFrom5" id="locDateFrom5">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateTo5">To</label>
+                                                                                <input class="form-control" type="date" name="locDateTo5" id="locDateTo5">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locWithOngoingCovid5">With ongoing COVID-19 Community Transmission?</label>
+                                                              <select class="form-control" name="locWithOngoingCovid5" id="locWithOngoingCovid5">
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
+                                                              </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited6" value="Social Gathering">
+                                                      Social Gathering
+                                                    </label>
+                                                </div>
+                                                <div id="divLocal6" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locName6">Name of Place</label>
+                                                              <input class="form-control" type="text" name="locName6" id="locName6">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="locAddress6">Location</label>
+                                                                <input class="form-control" type="text" name="locAddress6" id="locAddress6">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-header">Inclusive Travel Dates</div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateFrom6">From</label>
+                                                                                <input class="form-control" type="date" name="locDateFrom6" id="locDateFrom6">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateTo6">To</label>
+                                                                                <input class="form-control" type="date" name="locDateTo6" id="locDateTo6">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locWithOngoingCovid6">With ongoing COVID-19 Community Transmission?</label>
+                                                              <select class="form-control" name="locWithOngoingCovid6" id="locWithOngoingCovid6">
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
+                                                              </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited7" value="Others">
+                                                      Others
+                                                    </label>
+                                                </div>
+                                                <div id="divLocal7" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locName7">Name of Place</label>
+                                                              <input class="form-control" type="text" name="locName7" id="locName7">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="locAddress7">Location</label>
+                                                                <input class="form-control" type="text" name="locAddress7" id="locAddress7">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card">
+                                                                <div class="card-header">Inclusive Travel Dates</div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateFrom7">From</label>
+                                                                                <input class="form-control" type="date" name="locDateFrom7" id="locDateFrom7">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="locDateTo7">To</label>
+                                                                                <input class="form-control" type="date" name="locDateTo7" id="locDateTo7">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <label for="locWithOngoingCovid7">With ongoing COVID-19 Community Transmission?</label>
+                                                              <select class="form-control" name="locWithOngoingCovid7" id="locWithOngoingCovid7">
+                                                                <option value="NO">No</option>
+                                                                <option value="YES">Yes</option>
+                                                              </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited8" value="Transport Service">
+                                                      Transport Service
+                                                    </label>
+                                                </div>
+                                                <div id="divLocal8" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                              <label for="localVessel1">1. Airline/Sea vessel/Bus line/Train</label>
+                                                              <input type="text" class="form-control" name="localVessel1" id="localVessel1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localVesselNo1">Flight/Vessel/Bus No.</label>
+                                                                <input type="text" class="form-control" name="localVesselNo1" id="localVesselNo1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localOrigin1">Place of Origin</label>
+                                                                <input type="text" class="form-control" name="localOrigin1" id="localOrigin1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localDateDepart1">Departure Date</label>
+                                                                <input type="date" class="form-control" name="localDateDepart1" id="localDateDepart1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localDest1">Destination</label>
+                                                                <input type="text" class="form-control" name="localDest1" id="localDest1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localDateArrive1">Date of Arrival</label>
+                                                                <input type="text" class="form-control" name="localDateArrive1" id="localDateArrive1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                              <label for="localVessel2">2. Airline/Sea vessel/Bus line/Train</label>
+                                                              <input type="text" class="form-control" name="localVessel2" id="localVessel2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localVesselNo2">Flight/Vessel/Bus No.</label>
+                                                                <input type="text" class="form-control" name="localVesselNo2" id="localVesselNo2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localOrigin2">Place of Origin</label>
+                                                                <input type="text" class="form-control" name="localOrigin2" id="localOrigin2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localDateDepart2">Departure Date</label>
+                                                                <input type="date" class="form-control" name="localDateDepart2" id="localDateDepart2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localDest2">Destination</label>
+                                                                <input type="text" class="form-control" name="localDest2" id="localDest2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="localDateArrive2">Date of Arrival</label>
+                                                                <input type="date" class="form-control" name="localDateArrive2" id="localDateArrive2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1951,92 +1981,61 @@
                                     <div class="card mt-3">
                                         <div class="card-header">List the names of persons who were with you two days prior to onset of illness until this date and their contact numbers.</div>
                                         <div class="card-body">
-                                            <div class="alert alert-info" role="alert">
-                                                If asymptomatic, list the names of persons who were with you on the day you submitted specimen for testing until this date and their contact numbers.
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="alert alert-info" role="alert">
+                                                        <p>- If symptomatic, provide names and contact numbers of persons who were with the patient two days prior to onset of illness until this date.</p>
+                                                        <p>- If asymptomatic, provide names and contact numbers of persons who were with the patient on the day specimen was submitted for testing until this date.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="card">
+                                                        <div class="card-header">Name</div>
+                                                        <div class="card-body">
+                                                            <div class="form-group">
+                                                              <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{old('contact1Name')}}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{old('contact2Name')}}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{old('contact3Name')}}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{old('contact4Name')}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <div class="card-header">Contact Number</div>
+                                                        <div class="card-body">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="contact1No" id="contact1No" value="{{old('contact1No')}}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="contact2No" id="contact2No" value="{{old('contact2No')}}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="contact3No" id="contact3No" value="{{old('contact3No')}}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="contact3No" id="contact3No" value="{{old('contact3No')}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <table class="table table-bordered">
-                                                <thead class="text-center">
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Contact No.</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{$records->contact1Name}}">
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="number" class="form-control" name="contact1No" id="contact1No" value="{{$records->contact1No}}">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{$records->contact2Name}}">
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="number" class="form-control" name="contact2No" id="contact2No" value="{{$records->contact2No}}">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{$records->contact3Name}}">
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="number" class="form-control" name="contact3No" id="contact3No" value="{{$records->contact3No}}">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{$records->contact4Name}}">
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <input type="number" class="form-control" name="contact4No" id="contact4No" value="{{$records->contact4No}}">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">For Additional Close Contact (Include ALL Household Contacts)</div>
-                                <div class="card-body">
-                                    <?php
-                                        $aname = explode(",", $records->addContName);
-                                        $anum = explode(",", $records->addContNo);
-                                        $aexp = explode(",", $records->addContExpSet);
-                                    ?>
-                                    @for($i=1;$i<=10;$i++)
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                <label for="">{{$i}}. Name</label>
-                                                <input type="text" class="form-control" name="addContName[]" id="" value="{{(!empty($aname) && isset($aname[$i-1])) ? $aname[$i-1] : ''}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="">Contact Number</label>
-                                                    <input type="number" class="form-control" name="addContNo[]" id="" value="{{(!empty($anum) && isset($anum[$i-1])) ? $anum[$i-1] : ''}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="">Exposure Settings</label>
-                                                    <input type="text" class="form-control" name="addContExpSet[]" id="" value="{{(!empty($aexp) && isset($aexp[$i-1])) ? $aexp[$i-1] : ''}}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endfor
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary" id="formsubmit">Update</button>
+                    <button type="submit" class="btn btn-primary" id="formsubmit">Submit</button>
                 </div>
             </div>
         </form>
@@ -2044,6 +2043,7 @@
 
     <script>
         $(document).ready(function () {
+
             $('#records_id').selectize();
 
             $('#records_id').change(function (e) { 
@@ -2065,6 +2065,29 @@
                     $('#informantMobile').prop({disabled: false, required: true});
                 }
             }).trigger('keydown');
+
+            $('#ecothers').change(function (e) { 
+                e.preventDefault();
+                if($(this).prop('checked') == true) {
+                    $('#divECOthers').show();
+                    $('#ecOthersRemarks').prop('required', true);
+                }
+                else {
+                    $('#divECOthers').hide();
+                    $('#ecOthersRemarks').prop('required', false);
+                }
+            });
+
+            $(function(){
+                var requiredCheckboxes = $('.exCaseList :checkbox[required]');
+                requiredCheckboxes.change(function(){
+                    if(requiredCheckboxes.is(':checked')) {
+                        requiredCheckboxes.removeAttr('required');
+                    } else {
+                        requiredCheckboxes.attr('required', 'required');
+                    }
+                }).trigger('change');
+            });
 
             $(function(){
                 var requiredCheckboxes = $('.testingCatOptions :checkbox[required]');
@@ -2110,10 +2133,8 @@
                 }).trigger('change');;
             });
 
-            //$('#facilityprovince').prop({'disabled': true, 'required': false});
-            //$('#LSICity').prop({'disabled': true, 'required': false});
+            $('#LSICity').prop({'disabled': true, 'required': false});
 
-            /*
             $.getJSON("{{asset('json/refregion.json')}}", function(data) {
                 var sorted = data.sort(function(a, b) {
                     if (a.regDesc > b.regDesc) {
@@ -2128,9 +2149,7 @@
                     $("#sfacilityregion").append('<option value="'+val.regCode+'">'+val.regDesc+'</option>');
                 });
             });
-            */
 
-            /*
             $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
                 var sorted = data.sort(function(a, b) {
                     if (a.provDesc > b.provDesc) {
@@ -2145,9 +2164,7 @@
                     $("#LSIProvince").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
                 });
             });
-            */
 
-            /*
             $('#sfacilityregion').change(function (e) {
                 e.preventDefault();
                 $('#facilityprovince').prop({'disabled': false, 'required': true});
@@ -2171,9 +2188,7 @@
                     });
 			    });
             });
-            */
 
-            /*
             $('#LSIProvince').change(function (e) { 
                 e.preventDefault();
                 $('#LSICity').prop({'disabled': false, 'required': true});
@@ -2196,15 +2211,11 @@
                     });
 			    });
             });
-            */
 
             //$('#OFWCountyOfOrigin').selectize();
             //$('#FNTCountryOfOrigin').selectize();
         
             $('#divYes1').hide();
-            $('#divYes2').hide();
-            $('#divYes3').hide();
-            $('#divYes4').hide();
             $('#divYes5').hide();
             $('#divYes6').hide();
             
@@ -2214,39 +2225,15 @@
                 e.preventDefault();
                 if($(this).val() == '1') {
                     $('#divYes1').show();
-                    $('#divYes2').show();
 
                     $('#dateOfFirstConsult').prop('required', true);
                     $('#facilityNameOfFirstConsult').prop('required', true);
                 }
                 else {
                     $('#divYes1').hide();
-                    $('#divYes2').hide();
 
                     $('#dateOfFirstConsult').prop('required', false);
                     $('#facilityNameOfFirstConsult').prop('required', false);
-                }
-            }).trigger('change');
-
-            $('#admittedInHealthFacility').change(function (e) { 
-                e.preventDefault();
-                if($(this).val() == '1') {
-                    $('#divYes3').show();
-                    $('#divYes4').show();
-                    $('#dateOfFirstConsult').prop('required', true);
-                    $('#admittedInMultipleHealthFacility').prop('required', true);
-                    $('#facilitynameOfFirstAdmitted').prop('required', true);
-                    $('#facilityregion').prop('required', true);
-                    $('#facilityprovince').prop('required', true);
-                }
-                else {
-                    $('#divYes3').hide();
-                    $('#divYes4').hide();
-                    $('#dateOfFirstConsult').prop('required', false);
-                    $('#admittedInMultipleHealthFacility').prop('required', false);
-                    $('#facilitynameOfFirstAdmitted').prop('required', false);
-                    $('#facilityregion').prop('required', false);
-                    $('#facilityprovince').prop('required', false);
                 }
             }).trigger('change');
 
@@ -2330,6 +2317,7 @@
                     $('#divisOFW').hide();
                     $('#OFWCountyOfOrigin').prop('required', false);
 
+                    /*
                     $('#oaddresslotbldg').prop({'required': false, 'disabled': true});
                     $('#oaddressstreet').prop({'required': false, 'disabled': true});
                     $('#oaddressscity').prop({'required': false, 'disabled': true});
@@ -2347,13 +2335,16 @@
                     $('#placeofwork').val('N/A');
                     $('#employername').val('N/A');
                     $('#employercontactnumber').val('N/A');
+                    */
                 }
                 else {
                     $('#divisOFW').show();
-                    $('#OFWCountyOfOrigin').val('{{$records->OFWCountyOfOrigin}}');
-                    $('#oaddressscountry').val('{{(is_null($records->OFWCountyOfOrigin)) ? "N/A" : $records->OFWCountyOfOrigin}}');
+                    var control = $('#OFWCountyOfOrigin')[0].selectize;
+                    control.clear();
+                    $('#oaddressscountry').val('N/A');
                     $('#OFWCountyOfOrigin').prop('required', true);
 
+                    /*
                     $('#oaddresslotbldg').prop({required: true, disabled: false});
                     $('#oaddressstreet').prop({required: true, disabled: false});
                     $('#oaddressscity').prop({required: true, disabled: false});
@@ -2370,12 +2361,9 @@
                     $('#placeofwork').val('');
                     $('#employername').val('');
                     $('#employercontactnumber').val('');
+                    */
                 }
-            });
-
-            @if($records->isOFW == 0)
-                $('#isOFW').trigger('change');
-            @endif
+            }).trigger('change');
 
             $('#OFWCountyOfOrigin').change(function (e) { 
                 e.preventDefault();
@@ -2419,6 +2407,18 @@
                 }
             }).trigger('change');
 
+            $('#isIndg').change(function (e) {
+                e.preventDefault();
+                if($(this).val() == '0') {
+                    $('#divIsIndg').hide();
+                    $('#indgSpecify').prop('required', false);
+                }
+                else {
+                    $('#divIsIndg').show();
+                    $('#indgSpecify').prop('required', true);
+                }
+            }).trigger('change');
+
             $('#signsCheck2').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
@@ -2454,8 +2454,9 @@
                     $('#COMOOtherRemarks').prop('required', false);
                 }
             }).trigger('change');
-
-            $('#comCheck1').click(function (e) {
+            
+            $('#comCheck1').change(function (e) { 
+                e.preventDefault();
                 if($(this).prop('checked') == true) {
                     $('#comCheck2').prop({'disabled': true, 'checked': false});
                     $('#comCheck3').prop({'disabled': true, 'checked': false});
@@ -2480,220 +2481,110 @@
                 }
             });
 
-            @if(in_array("None", explode(",", $records->COMO)))
-                $('#comCheck1').trigger('click');
+            @if(is_null(old('comCheck', explode(",", $records->COMO))))
+                $('#comCheck1').prop('checked', true);
             @endif
 
-            $('#imaCheck1').change(function (e) {
+            $('#rec_ispregnant').val("N/A");
+            $('#PregnantLMP').prop({disabled: true, required: false});
+            $('#highRiskPregnancy').prop({disabled: true, required: false});
+
+            $('#imagingDone').change(function (e) { 
                 e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#imaCheck1div').show();
-                    $('#chestRDResult').prop('required', true);
-                }  
+                $('#divImagingOthers').hide();
+                $('#imagingOtherFindings').val("");
+                if($(this).val() == "None") {
+                    $('#imagingDoneDate').prop({disabled: true, required: false});
+                    $('#imagingResult').prop({disabled: true, required: false});
+                    $("#imagingResult").empty();
+                }
                 else {
-                    $('#imaCheck1div').hide();
-                    $('#chestRDResult').prop('required', false);
+                    $('#imagingDoneDate').prop({disabled: false, required: true});
+                    $('#imagingResult').prop({disabled: false, required: true});
+                    $("#imagingResult").empty();
+                    $("#imagingResult").append(new Option("Normal", "NORMAL"));
+                    $("#imagingResult").append(new Option("Pending", "PENDING"));
+
+                    $('#divImagingOthers').hide();
+
+                    if($(this).val() == "Chest Radiography") {
+                        $("#imagingResult").append(new Option("Hazy opacities, often rounded in morphology, with peripheral and lower lung dist.", "HAZY"));
+                    }
+                    else if($(this).val() == "Chest CT") {
+                        $("#imagingResult").append(new Option("Multiple bilateral ground glass opacities, often rounded in morphology, w/ peripheral and lower lung dist.", "MULTIPLE"));
+                    }
+                    else if($(this).val() == "Lung Ultrasound") {
+                        $("#imagingResult").append(new Option("Thickened pleural lines, B lines, consolidative patterns with or without air bronchograms.", "THICKENED"));
+                    }
+                    
+                    if($(this).val() != "OTHERS") {
+                        $("#imagingResult").append(new Option("Other findings", "OTHERS"));
+                    }
                 }
             }).trigger('change');
 
-            $('#chestRDResult').change(function (e) { 
+            $('#imagingResult').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == "4") {
-                    $('#imaCheck1Others').show();
-                    $('#chestRDOtherFindings').prop('required', true);
+                $('#imagingOtherFindings').val("");
+                if($(this).val() == "OTHERS") {
+                    $('#divImagingOthers').show();
+                    $('imagingOtherFindings').prop({disabled: false, required: true});
                 }
                 else {
-                    $('#imaCheck1Others').hide();
-                    $('#chestRDOtherFindings').prop('required', false);
+                    $('#divImagingOthers').hide();
+                    $('imagingOtherFindings').prop({disabled: true, required: false});
                 }
             }).trigger('change');
 
-            $('#imaCheck2').change(function (e) {
+            $('#testType1').change(function (e) { 
                 e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#imaCheck2div').show();
-                    $('#chestCTResult').prop('required', true);
-                }  
+                if($(this).val() == 'Others') {
+                    $('#divTypeOthers1').show();
+                    $('#testTypeOtherRemarks1').prop('required', true);
+                }
                 else {
-                    $('#imaCheck2div').hide();
-                    $('#chestCTResult').prop('required', false);
+                    $('#divTypeOthers1').hide();
+                    $('#testTypeOtherRemarks1').empty();
+                    $('#testTypeOtherRemarks1').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#chestCTResult').change(function (e) { 
+            $('#testResult1').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == "4") {
-                    $('#imaCheck2Others').show();
-                    $('#chestCTOtherFindings').prop('required', true);
+                if($(this).val() == "OTHERS") {
+                    $('#divResultOthers1').show();
+                    $('#testResultOtherRemarks1').prop('required', true);
                 }
                 else {
-                    $('#imaCheck2Others').hide();
-                    $('#chestCTOtherFindings').prop('required', false);
+                    $('#divResultOthers1').hide();
+                    $('#testResultOtherRemarks1').empty();
+                    $('#testResultOtherRemarks1').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#imaCheck3').change(function (e) {
+            $('#testType2').change(function (e) { 
                 e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#imaCheck3div').show();
-                    $('#lungUSResult').prop('required', true);
-                }  
+                if($(this).val() == 'Others') {
+                    $('#divTypeOthers2').show();
+                    $('#testTypeOtherRemarks2').prop('required', true);
+                }
                 else {
-                    $('#imaCheck3div').hide();
-                    $('#lungUSResult').prop('required', false);
+                    $('#divTypeOthers2').hide();
+                    $('#testTypeOtherRemarks2').empty();
+                    $('#testTypeOtherRemarks2').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#lungUSResult').change(function (e) {
+            $('#testResult2').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == "4") {
-                    $('#imaCheck3Others').show();
-                    $('#lungUSOtherFindings').prop('required', true);
+                if($(this).val() == "OTHERS") {
+                    $('#divResultOthers2').show();
+                    $('#testResultOtherRemarks2').prop('required', true);
                 }
                 else {
-                    $('#imaCheck3Others').hide();
-                    $('#lungUSOtherFindings').prop('required', false);
-                }
-            }).trigger('change');
-
-            //If Imaging Done list clicked 'None'
-            $('#imaCheck4').click(function (e) {
-                
-                if($(this).prop('checked') == true) {
-                    $('#imaCheck1').prop({disabled: true, checked: false});
-                    $('#imaCheck1').trigger('change');
-                    $('#imaCheck2').prop({disabled: true, checked: false});
-                    $('#imaCheck2').trigger('change');
-                    $('#imaCheck3').prop({disabled: true, checked: false});
-                    $('#imaCheck3').trigger('change');
-                }
-                else {
-                    $('#imaCheck1').prop({disabled: false, checked: false});
-                    $('#imaCheck1').trigger('change');
-                    $('#imaCheck2').prop({disabled: false, checked: false});
-                    $('#imaCheck2').trigger('change');
-                    $('#imaCheck3').prop({disabled: false, checked: false});
-                    $('#imaCheck3').trigger('change');
-                }
-            });
-
-            @if(in_array("None", explode(",", $records->ImagingDone)))
-                $('#imaCheck4').trigger('click');
-            @endif
-        
-            $('#labCheck1').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#rtpcr_ops_date_collected').prop({disabled: false, required: true});
-                    $('#rtpcr_ops_laboratory').prop({disabled: false, required: false});
-                    $('#rtpcr_ops_results').prop({disabled: false, required: true});
-                    $('#rtpcr_ops_date_released').prop({disabled: false, required: false});
-                }
-                else {
-                    $('#rtpcr_ops_date_collected').prop({disabled: true, required: false});
-                    $('#rtpcr_ops_laboratory').prop({disabled: true, required: false});
-                    $('#rtpcr_ops_results').prop({disabled: true, required: false});
-                    $('#rtpcr_ops_date_released').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
-
-            $('#labCheck2').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#rtpcr_nps_date_collected').prop({disabled: false, required: true});
-                    $('#rtpcr_nps_laboratory').prop({disabled: false, required: false});
-                    $('#rtpcr_nps_results').prop({disabled: false, required: true});
-                    $('#rtpcr_nps_date_released').prop({disabled: false, required: false});
-                }
-                else {
-                    $('#rtpcr_nps_date_collected').prop({disabled: true, required: false});
-                    $('#rtpcr_nps_laboratory').prop({disabled: true, required: false});
-                    $('#rtpcr_nps_results').prop({disabled: true, required: false});
-                    $('#rtpcr_nps_date_released').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
-
-            $('#labCheck3').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#rtpcr_both_date_collected').prop({disabled: false, required: true});
-                    $('#rtpcr_both_laboratory').prop({disabled: false, required: false});
-                    $('#rtpcr_both_results').prop({disabled: false, required: true});
-                    $('#rtpcr_both_date_released').prop({disabled: false, required: false});
-                }
-                else {
-                    $('#rtpcr_both_date_collected').prop({disabled: true, required: false});
-                    $('#rtpcr_both_laboratory').prop({disabled: true, required: false});
-                    $('#rtpcr_both_results').prop({disabled: true, required: false});
-                    $('#rtpcr_both_date_released').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
-
-            $('#labCheck4').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#rtpcr_spec_type').prop({disabled: false, required: true});
-                    $('#rtpcr_spec_date_collected').prop({disabled: false, required: true});
-                    $('#rtpcr_spec_laboratory').prop({disabled: false, required: false});
-                    $('#rtpcr_spec_results').prop({disabled: false, required: true});
-                    $('#rtpcr_spec_date_released').prop({disabled: false, required: false});
-                }
-                else {
-                    $('#rtpcr_spec_type').prop({disabled: true, required: false});
-                    $('#rtpcr_spec_date_collected').prop({disabled: true, required: false});
-                    $('#rtpcr_spec_laboratory').prop({disabled: true, required: false});
-                    $('#rtpcr_spec_results').prop({disabled: true, required: false});
-                    $('#rtpcr_spec_date_released').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
-
-            $('#labCheck5').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#antigen_date_collected').prop({disabled: false, required: true});
-                    $('#antigen_laboratory').prop({disabled: false, required: false});
-                    $('#antigen_results').prop({disabled: false, required: true});
-                    $('#antigen_date_released').prop({disabled: false, required: false});
-                }
-                else {
-                    $('#antigen_date_collected').prop({disabled: true, required: false});
-                    $('#antigen_laboratory').prop({disabled: true, required: false});
-                    $('#antigen_results').prop({disabled: true, required: false});
-                    $('#antigen_date_released').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
-
-            $('#labCheck6').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#antibody_date_collected').prop({disabled: false, required: true});
-                    $('#antibody_laboratory').prop({disabled: false, required: false});
-                    $('#antibody_results').prop({disabled: false, required: true});
-                    $('#antigen_date_released').prop({disabled: false, required: false});
-                }
-                else {
-                    $('#antibody_date_collected').prop({disabled: true, required: false});
-                    $('#antibody_laboratory').prop({disabled: true, required: false});
-                    $('#antibody_results').prop({disabled: true, required: false});
-                    $('#antibody_date_released').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
-
-            $('#labCheck7').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#others_date_collected').prop({disabled: false, required: true});
-                    $('#others_laboratory').prop({disabled: false, required: false});
-                    $('#others_results').prop({disabled: false, required: true});
-                    $('#others_date_released').prop({disabled: false, required: false});
-                    $('#others_specify').prop({disabled: false, required: true});
-                }
-                else {
-                    $('#others_date_collected').prop({disabled: true, required: false});
-                    $('#others_laboratory').prop({disabled: true, required: false});
-                    $('#others_results').prop({disabled: true, required: false});
-                    $('#others_date_released').prop({disabled: true, required: false});
-                    $('#others_specify').prop({disabled: true, required: false});
+                    $('#divResultOthers2').hide();
+                    $('#testResultOtherRemarks2').empty();
+                    $('#testResultOtherRemarks2').prop('required', false);
                 }
             }).trigger('change');
 
@@ -2721,6 +2612,7 @@
                     $('#deathImmeCause').prop('required', false);
                     $('#deathAnteCause').prop('required', false);
                     $('#deathUndeCause').prop('required', false);
+                    $('#contriCondi').prop('required', false);
                 }
                 else if($(this).val() == 'Died') {
                     $('#ifOutcomeRecovered').hide();
@@ -2730,6 +2622,7 @@
                     $('#deathImmeCause').prop('required', true);
                     $('#deathAnteCause').prop('required', true);
                     $('#deathUndeCause').prop('required', true);
+                    $('#contriCondi').prop('required', true);
                 }
                 else {
                     $('#ifOutcomeRecovered').hide();
@@ -2739,6 +2632,7 @@
                     $('#deathImmeCause').prop('required', false);
                     $('#deathAnteCause').prop('required', false);
                     $('#deathUndeCause').prop('required', false);
+                    $('#contriCondi').prop('required', false);
                 }
             }).trigger('change');
 
@@ -2756,205 +2650,244 @@
 
             $('#expoitem2').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == "1" || $(this).val() == "3") {
-                    $('#ifVisited').show();
+                if($(this).val() == 0 || $(this).val() == 3) {
+                    $('#divTravelInt').hide();
+                    $('#divTravelLoc').hide();
                 }
-                else {
-                    $('#ifVisited').hide();
-                    $('#vOpt1').prop('checked', false);
-                    $('#vOpt1').trigger('change');
-                    $('#vOpt2').prop('checked', false);
-                    $('#vOpt2').trigger('change');
-                    $('#vOpt3').prop('checked', false);
-                    $('#vOpt3').trigger('change');
-                    $('#vOpt4').prop('checked', false);
-                    $('#vOpt4').trigger('change');
-                    $('#vOpt5').prop('checked', false);
-                    $('#vOpt5').trigger('change');
-                    $('#vOpt6').prop('checked', false);
-                    $('#vOpt6').trigger('change');
-                    $('#vOpt7').prop('checked', false);
-                    $('#vOpt7').trigger('change');
-                    $('#vOpt8').prop('checked', false);
-                    $('#vOpt8').trigger('change');
-                    $('#vOpt9').prop('checked', false);
-                    $('#vOpt9').trigger('change');
-                    $('#vOpt10').prop('checked', false);
-                    $('#vOpt10').trigger('change');
-                    $('#vOpt11').prop('checked', false);
-                    $('#vOpt11').trigger('change');
+                else if($(this).val() == 1) {
+                    $('#divTravelInt').hide();
+
+                    $('#intCountry').prop('required', false);
+                    $('#intDateFrom').prop('required', false);
+                    $('#intDateTo').prop('required', false);
+                    $('#intWithOngoingCovid').prop('required', false);
+                    $('#intVessel').prop('required', false);
+                    $('#intVesselNo').prop('required', false);
+                    $('#intDateDepart').prop('required', false);
+                    $('#intDateArrive').prop('required', false);
+                    
+                    $('#divTravelLoc').show();
+                }
+                else if($(this).val() == 2) {
+                    $('#divTravelInt').show();
+
+                    $('#intCountry').prop('required', true);
+                    $('#intDateFrom').prop('required', false);
+                    $('#intDateTo').prop('required', false);
+                    $('#intWithOngoingCovid').prop('required', false);
+                    $('#intVessel').prop('required', false);
+                    $('#intVesselNo').prop('required', false);
+                    $('#intDateDepart').prop('required', false);
+                    $('#intDateArrive').prop('required', false);
+
+                    $('#divTravelLoc').hide();
                 }
             }).trigger('change');
 
-            $('#vOpt1').change(function (e) { 
+            $('#placevisited1').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt1_details').prop({disabled: false, required: true});
-                    $('#vOpt1_date').prop({disabled: false, required: true});
+                    $('#divLocal1').show();
+
+                    $('#locName1').prop('required', true);
+                    $('#locAddress1').prop('required', true);
+                    $('#locDateFrom1').prop('required', true);
+                    $('#locDateTo1').prop('required', true);
+                    $('#locWithOngoingCovid1').prop('required', true);
                 }
                 else {
-                    $('#vOpt1_details').prop({disabled: true, required: false});
-                    $('#vOpt1_date').prop({disabled: true, required: false});
+                    $('#divLocal1').hide();
+
+                    $('#locName1').prop('required', false);
+                    $('#locAddress1').prop('required', false);
+                    $('#locDateFrom1').prop('required', false);
+                    $('#locDateTo1').prop('required', false);
+                    $('#locWithOngoingCovid1').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#vOpt2').change(function (e) { 
+            $('#placevisited2').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt2_details').prop({disabled: false, required: true});
-                    $('#vOpt2_date').prop({disabled: false, required: true});
+                    $('#divLocal2').show();
+
+                    $('#locName2').prop('required', true);
+                    $('#locAddress2').prop('required', true);
+                    $('#locDateFrom2').prop('required', true);
+                    $('#locDateTo2').prop('required', true);
+                    $('#locWithOngoingCovid2').prop('required', true);
                 }
                 else {
-                    $('#vOpt2_details').prop({disabled: true, required: false});
-                    $('#vOpt2_date').prop({disabled: true, required: false});
+                    $('#divLocal2').hide();
+
+                    $('#locName2').prop('required', false);
+                    $('#locAddress2').prop('required', false);
+                    $('#locDateFrom2').prop('required', false);
+                    $('#locDateTo2').prop('required', false);
+                    $('#locWithOngoingCovid2').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#vOpt3').change(function (e) { 
+            $('#placevisited3').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt3_details').prop({disabled: false, required: true});
-                    $('#vOpt3_date').prop({disabled: false, required: true});
+                    $('#divLocal3').show();
+
+                    $('#locName3').prop('required', true);
+                    $('#locAddress3').prop('required', true);
+                    $('#locDateFrom3').prop('required', true);
+                    $('#locDateTo3').prop('required', true);
+                    $('#locWithOngoingCovid3').prop('required', true);
                 }
                 else {
-                    $('#vOpt3_details').prop({disabled: true, required: false});
-                    $('#vOpt3_date').prop({disabled: true, required: false});
+                    $('#divLocal3').hide();
+
+                    $('#locName3').prop('required', false);
+                    $('#locAddress3').prop('required', false);
+                    $('#locDateFrom3').prop('required', false);
+                    $('#locDateTo3').prop('required', false);
+                    $('#locWithOngoingCovid3').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#vOpt4').change(function (e) { 
+            $('#placevisited4').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt4_details').prop({disabled: false, required: true});
-                    $('#vOpt4_date').prop({disabled: false, required: true});
+                    $('#divLocal4').show();
+
+                    $('#locName4').prop('required', true);
+                    $('#locAddress4').prop('required', true);
+                    $('#locDateFrom4').prop('required', true);
+                    $('#locDateTo4').prop('required', true);
+                    $('#locWithOngoingCovid4').prop('required', true);
                 }
                 else {
-                    $('#vOpt4_details').prop({disabled: true, required: false});
-                    $('#vOpt4_date').prop({disabled: true, required: false});
+                    $('#divLocal4').hide();
+
+                    $('#locName4').prop('required', false);
+                    $('#locAddress4').prop('required', false);
+                    $('#locDateFrom4').prop('required', false);
+                    $('#locDateTo4').prop('required', false);
+                    $('#locWithOngoingCovid4').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#vOpt5').change(function (e) { 
+            $('#placevisited5').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt5_details').prop({disabled: false, required: true});
-                    $('#vOpt5_date').prop({disabled: false, required: true});
+                    $('#divLocal5').show();
+
+                    $('#locName5').prop('required', true);
+                    $('#locAddress5').prop('required', true);
+                    $('#locDateFrom5').prop('required', true);
+                    $('#locDateTo5').prop('required', true);
+                    $('#locWithOngoingCovid5').prop('required', true);
                 }
                 else {
-                    $('#vOpt5_details').prop({disabled: true, required: false});
-                    $('#vOpt5_date').prop({disabled: true, required: false});
+                    $('#divLocal5').hide();
+
+                    $('#locName5').prop('required', false);
+                    $('#locAddress5').prop('required', false);
+                    $('#locDateFrom5').prop('required', false);
+                    $('#locDateTo5').prop('required', false);
+                    $('#locWithOngoingCovid5').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#vOpt6').change(function (e) { 
+            $('#placevisited6').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt6_details').prop({disabled: false, required: true});
-                    $('#vOpt6_date').prop({disabled: false, required: true});
+                    $('#divLocal6').show();
+
+                    $('#locName6').prop('required', true);
+                    $('#locAddress6').prop('required', true);
+                    $('#locDateFrom6').prop('required', true);
+                    $('#locDateTo6').prop('required', true);
+                    $('#locWithOngoingCovid6').prop('required', true);
                 }
                 else {
-                    $('#vOpt6_details').prop({disabled: true, required: false});
-                    $('#vOpt6_date').prop({disabled: true, required: false});
+                    $('#divLocal6').hide();
+
+                    $('#locName6').prop('required', false);
+                    $('#locAddress6').prop('required', false);
+                    $('#locDateFrom6').prop('required', false);
+                    $('#locDateTo6').prop('required', false);
+                    $('#locWithOngoingCovid6').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#vOpt7').change(function (e) { 
+            $('#placevisited7').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt7_details').prop({disabled: false, required: true});
-                    $('#vOpt7_date').prop({disabled: false, required: true});
+                    $('#divLocal7').show();
+
+                    $('#locName7').prop('required', true);
+                    $('#locAddress7').prop('required', true);
+                    $('#locDateFrom7').prop('required', true);
+                    $('#locDateTo7').prop('required', true);
+                    $('#locWithOngoingCovid7').prop('required', true);
                 }
                 else {
-                    $('#vOpt7_details').prop({disabled: true, required: false});
-                    $('#vOpt7_date').prop({disabled: true, required: false});
+                    $('#divLocal7').hide();
+
+                    $('#locName7').prop('required', false);
+                    $('#locAddress7').prop('required', false);
+                    $('#locDateFrom7').prop('required', false);
+                    $('#locDateTo7').prop('required', false);
+                    $('#locWithOngoingCovid7').prop('required', false);
                 }
             }).trigger('change');
 
-            $('#vOpt8').change(function (e) { 
+            $('#placevisited8').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
-                    $('#vOpt8_details').prop({disabled: false, required: true});
-                    $('#vOpt8_date').prop({disabled: false, required: true});
+                    $('#divLocal8').show();
+
+                    //baguhin kapag kailangan kapag naka-check
+                    $('#localVessel1').prop('required', false);
+                    $('#localVesselNo1').prop('required', false);
+                    $('#localOrigin1').prop('required', false);
+                    $('#localDateDepart1').prop('required', false);
+                    $('#localDest1').prop('required', false);
+                    $('#localDateArrive1').prop('required', false);
+
+                    $('#localVessel2').prop('required', false);
+                    $('#localVesselNo2').prop('required', false);
+                    $('#localOrigin2').prop('required', false);
+                    $('#localDateDepart2').prop('required', false);
+                    $('#localDest2').prop('required', false);
+                    $('#localDateArrive2').prop('required', false);
                 }
                 else {
-                    $('#vOpt8_details').prop({disabled: true, required: false});
-                    $('#vOpt8_date').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
+                    $('#divLocal8').hide();
 
-            $('#vOpt9').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#vOpt9_details').prop({disabled: false, required: true});
-                    $('#vOpt9_date').prop({disabled: false, required: true});
-                }
-                else {
-                    $('#vOpt9_details').prop({disabled: true, required: false});
-                    $('#vOpt9_date').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
+                    $('#localVessel1').prop('required', false);
+                    $('#localVesselNo1').prop('required', false);
+                    $('#localOrigin1').prop('required', false);
+                    $('#localDateDepart1').prop('required', false);
+                    $('#localDest1').prop('required', false);
+                    $('#localDateArrive1').prop('required', false);
 
-            $('#vOpt10').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#vOpt10_details').prop({disabled: false, required: true});
-                    $('#vOpt10_date').prop({disabled: false, required: true});
-                }
-                else {
-                    $('#vOpt10_details').prop({disabled: true, required: false});
-                    $('#vOpt10_date').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
+                    $('#localVessel2').prop('required', false);
+                    $('#localVesselNo2').prop('required', false);
+                    $('#localOrigin2').prop('required', false);
+                    $('#localDateDepart2').prop('required', false);
+                    $('#localDest2').prop('required', false);
+                    $('#localDateArrive2').prop('required', false);
 
-            $('#vOpt11').change(function (e) { 
-                e.preventDefault();
-                if($(this).prop('checked') == true) {
-                    $('#vOpt11_details').prop({disabled: false, required: true});
-                    $('#vOpt11_date').prop({disabled: false, required: true});
-                }
-                else {
-                    $('#vOpt11_details').prop({disabled: true, required: false});
-                    $('#vOpt11_date').prop({disabled: true, required: false});
-                }
-            }).trigger('change');
+                    $('localVessel1').val("");
+                    $('localVesselNo1').val("");
+                    $('localOrigin1').val("");
+                    $('localDateDepart1').val("");
+                    $('localDest1').val("");
+                    $('localDateArrive1').val("");
 
-            $('#hasTravHistOtherCountries').change(function (e) { 
-                e.preventDefault();
-                if($(this).val() == "1") {
-                    $('#div_haveHistoryOfTravelOtherCountries').show();
-                    $('#historyCountryOfExit').prop('required', true);
-                    $('#country_historyTypeOfTranspo').prop('required', true);
-                    $('#country_historyTranspoNo').prop('required', true);
-                    $('#country_historyTranspoDateOfDeparture').prop('required', true);
-                    $('#country_historyTranspoDateOfArrival').prop('required', true);
-                }
-                else {
-                    $('#div_haveHistoryOfTravelOtherCountries').hide();
-                    $('#historyCountryOfExit').prop('required', false);
-                    $('#country_historyTypeOfTranspo').prop('required', false);
-                    $('#country_historyTranspoNo').prop('required', false);
-                    $('#country_historyTranspoDateOfDeparture').prop('required', false);
-                    $('#country_historyTranspoDateOfArrival').prop('required', false);
-                }
-            }).trigger('change');
-
-            $('#hasTravHistLocal').change(function (e) { 
-                e.preventDefault();
-                if($(this).val() == "1") {
-                    $('#div_haveHistoryOfTravelLocal').show();
-                    $('#historyPlaceOfOrigin').prop('required', true);
-                    $('#local_historyTypeOfTranspo').prop('required', true);
-                    $('#local_historyTranspoNo').prop('required', true);
-                    $('#local_historyTranspoDateOfDeparture').prop('required', true);
-                    $('#local_historyTranspoDateOfArrival').prop('required', true);
-                }
-                else{
-                    $('#div_haveHistoryOfTravelLocal').hide();
-                    $('#historyPlaceOfOrigin').prop('required', false);
-                    $('#local_historyTypeOfTranspo').prop('required', false);
-                    $('#local_historyTranspoNo').prop('required', false);
-                    $('#local_historyTranspoDateOfDeparture').prop('required', false);
-                    $('#local_historyTranspoDateOfArrival').prop('required', false);
+                    $('localVessel2').val("");
+                    $('localVesselNo2').val("");
+                    $('localOrigin2').val("");
+                    $('localDateDepart2').val("");
+                    $('localDest2').val("");
+                    $('localDateArrive2').val("");
                 }
             }).trigger('change');
         });

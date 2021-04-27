@@ -69,13 +69,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewerMobile"><span class="text-danger font-weight-bold">*</span>Contact Number of Interviewer</label>
-                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{old('interviewerMobile')}}" required>
+                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{old('interviewerMobile', '09190664324')}}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Date of Interview</label>
-                                <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="@if(!is_null(old('interviewDate'))){{old('interviewDate')}}@else{{date('Y-m-d')}}@endif" max="{{date('Y-m-d')}}" required>
+                                <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="{{old('interviewDate')}}" max="{{date('Y-m-d')}}" required>
                             </div>
                         </div>
                     </div>
