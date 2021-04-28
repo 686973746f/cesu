@@ -16,6 +16,7 @@
                     @endif
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block">Patient Information</a>
                     <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block">View/Create CIF</a>
+                    <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block">Line List</a>
                     
                     @if(auth()->user()->isAdmin == 1)
                         <hr>

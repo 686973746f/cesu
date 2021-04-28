@@ -64,6 +64,7 @@ class FormsController extends Controller
 
         $models->each(function ($item){
             $item->update(['isExported'=>'1']);
+            $item->update(['exportedDate'=>NOW()]);
         });
         
         return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y_H_i_s").'.xlsx');

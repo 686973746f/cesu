@@ -44,19 +44,26 @@
                 <table class="table table-bordered" id="table_id">
                     <thead>
                         <tr>
-                            <th colspan="10" class="text-right"><button type="submit" class="btn btn-primary" id="submit">Export to Excel</button></th>
+                            <th colspan="17" class="text-right"><button type="submit" class="btn btn-primary" id="submit">Export to Excel</button></th>
                         </tr>
                         <tr class="text-center">
                             <th></th>
-                            <th>Name</th>
-                            <th>Gender</th>
-                            <th>Type of Client</th>
-                            <th>Has Exposure History</th>
-                            <th>Date of Last Contact</th>
-                            <th>Created By</th>
-                            <th>Created At</th>
-                            <th>Printed into Excel</th>
-                            <th>Actions</th>
+                            <th style="vertical-align: middle;">Name</th>
+                            <th style="vertical-align: middle;">Philhealth</th>
+                            <th style="vertical-align: middle;">Birthdate</th>
+                            <th style="vertical-align: middle;">Age/Gender</th>
+                            <th style="vertical-align: middle;">Brgy</th>
+                            <th style="vertical-align: middle;">City</th>
+                            <th style="vertical-align: middle;">Type of Client</th>
+                            <th style="vertical-align: middle;">Has Exposure History</th>
+                            <th style="vertical-align: middle;">Date of Last Contact</th>
+                            <th style="vertical-align: middle;">Date of Collection</th>
+                            <th style="vertical-align: middle;">Test Type</th>
+                            <th style="vertical-align: middle;">Encoded By</th>
+                            <th style="vertical-align: middle;">Encoded At</th>
+                            <th style="vertical-align: middle;">Printed?</th>
+                            <th style="vertical-align: middle;">Date Printed</th>
+                            <th style="vertical-align: middle;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,13 +92,20 @@
                                 <input type="checkbox" class="checks" name="listToPrint[]" id="" value="{{$form->id}}">
                             </th>
                             <td style="vertical-align: middle;">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{$form->records->gender}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{$form->records->gender}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{$emsg}}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{$edate}}</td>  
+                            <td style="vertical-align: middle;" class="text-center">{{$edate}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{$form->testDateCollected1}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{$form->testType1}}</td>
                             <td style="vertical-align: middle;">{{$form->user->name}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y H:i:s", strtotime($form->created_at))}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y h:i A', strtotime($form->exportedDate))}}</td>
                             <td style="vertical-align: middle;" class="text-center">
                                 <a href="forms/{{$form->id}}/edit" class="btn btn-primary">Edit</a>
                             </td>

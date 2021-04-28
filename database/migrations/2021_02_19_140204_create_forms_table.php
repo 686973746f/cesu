@@ -19,6 +19,7 @@ class CreateFormsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('records_id')->constrained()->onDelete('cascade');
             $table->enum('isExported',[0,1])->default(0);
+            $table->datetime('exportedDate')->nullable();
             
             $table->string('drunit');
             $table->string('drregion');

@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('forms.store')}}" method="POST">
+        <form action="/forms/{{$records->id}}" method="POST">
+            @csrf
+            @method('PUT')
             <div class="card">
                 <div class="card-body">
                     @csrf
@@ -1252,7 +1254,7 @@
                                                 <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
                                                 <option value="ANTIGEN" {{(old('testType1', $records->testType1) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                                 <option value="ANTIBODY" {{(old('testType1', $records->testType1) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                <option value="OTHERS" {{(old('testType1', $records->testType1) == 'Others') ? 'selected' : ''}}>Others</option>
+                                                <option value="OTHERS" {{(old('testType1', $records->testType1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
                                             <div id="divTypeOthers1">
@@ -1311,7 +1313,7 @@
                                                     <option value="OPS AND NPS" {{(old('testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
                                                     <option value="ANTIGEN" {{(old('testType2', $records->testType2) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                                     <option value="ANTIBODY" {{(old('testType2', $records->testType2) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                    <option value="OTHERS" {{(old('testType2', $records->testType2) == 'Others') ? 'selected' : ''}}>Others</option>
+                                                    <option value="OTHERS" {{(old('testType2', $records->testType2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
                                             <div id="divTypeOthers2">
@@ -1423,9 +1425,9 @@
                                     <div class="form-group">
                                         <label for="expoitem2"><span class="text-danger font-weight-bold">*</span>Has the patient been in a place with a known COVID-19 transmission 14 days before the onset of signs and symptoms? OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
                                         <select class="form-control" name="expoitem2" id="expoitem2" required>
-                                          <option value="0" {{(old('expoitem2', $records->expoitem2) == 2) ? 'selected' : ''}}>No</option>
+                                          <option value="0" {{(old('expoitem2', $records->expoitem2) == 0) ? 'selected' : ''}}>No</option>
                                           <option value="1" {{(old('expoitem2', $records->expoitem2) == 1) ? 'selected' : ''}}>Yes, Local</option>
-                                          <option value="2" {{(old('expoitem2', $records->expoitem2) == 1) ? 'selected' : ''}}>Yes, International</option>
+                                          <option value="2" {{(old('expoitem2', $records->expoitem2) == 2) ? 'selected' : ''}}>Yes, International</option>
                                           <option value="3" {{(old('expoitem2', $records->expoitem2) == 3) ? 'selected' : ''}}>Unknown exposure</option>
                                         </select>
                                     </div>
@@ -1514,7 +1516,7 @@
                                                         Health Facility
                                                       </label>
                                                 </div>
-                                                <div id="divLocal1" class="mt-3">
+                                                <div id="divLocal1" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -1568,7 +1570,7 @@
                                                       Closed Settings
                                                     </label>
                                                 </div>
-                                                <div id="divLocal2" class="mt-3">
+                                                <div id="divLocal2" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -1622,7 +1624,7 @@
                                                       School
                                                     </label>
                                                 </div>
-                                                <div id="divLocal3" class="mt-3">
+                                                <div id="divLocal3" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -1676,7 +1678,7 @@
                                                       Workplace
                                                     </label>
                                                 </div>
-                                                <div id="divLocal4" class="mt-3">
+                                                <div id="divLocal4" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -1730,7 +1732,7 @@
                                                       Market
                                                     </label>
                                                 </div>
-                                                <div id="divLocal5" class="mt-3">
+                                                <div id="divLocal5" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -1784,7 +1786,7 @@
                                                       Social Gathering
                                                     </label>
                                                 </div>
-                                                <div id="divLocal6" class="mt-3">
+                                                <div id="divLocal6" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -1838,7 +1840,7 @@
                                                       Others
                                                     </label>
                                                 </div>
-                                                <div id="divLocal7" class="mt-3">
+                                                <div id="divLocal7" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -1892,7 +1894,7 @@
                                                       Transport Service
                                                     </label>
                                                 </div>
-                                                <div id="divLocal8" class="mt-3">
+                                                <div id="divLocal8" class="my-3">
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
@@ -2523,8 +2525,10 @@
                 }
             }).trigger('change');
 
-            $('#imagingResult option[value={{$records->imagingResult}}]').prop('selected', true);
-
+            if($('#imagingDone').val() != "N/A") {
+                $('#imagingResult option[value="{{$records->imagingResult}}"]').prop('selected', true);
+            }
+            
             $('#imagingResult').change(function (e) { 
                 e.preventDefault();
                 $('#imagingOtherFindings').val("");
@@ -2537,8 +2541,6 @@
                     $('imagingOtherFindings').prop({disabled: true, required: false});
                 }
             }).trigger('change');
-
-            
 
             $('#testType1').change(function (e) { 
                 e.preventDefault();

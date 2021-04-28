@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\RecordsController;
+use App\Http\Controllers\LineListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('/forms', FormsController::class);
 
     Route::post('/export', [FormsController::class, 'export'])->name('forms.export');
+
+    Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
+    Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
 });
 
 Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
