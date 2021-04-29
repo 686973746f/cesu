@@ -19,7 +19,7 @@ class CreateRecordsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('lname');
             $table->string('fname');
-            $table->string('mname');
+            $table->string('mname')->nullable();
             $table->date('bdate');
             $table->string('gender');
             $table->smallInteger('isPregnant'); //only for female

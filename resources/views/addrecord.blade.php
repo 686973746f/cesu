@@ -9,6 +9,13 @@
 				<div class="alert alert-info" role="alert">
 					All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
 				</div>
+
+				@if(session('msg'))
+					<div class="alert alert-danger" role="alert">
+						{{session('msg')}}
+					</div>
+				@endif
+
 				@csrf
 				<hr>
 				<h5 class="font-weight-bold">Patient Information</h5>
@@ -17,7 +24,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-							<input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" required>
+							<input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" required>
 							@error('lname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -25,8 +32,8 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name</label>
-							<input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" required>
+							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
+							<input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" required>
 							@error('fname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -34,8 +41,8 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="mname"><span class="text-danger font-weight-bold">*</span>Middle Name</label>
-							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" required>
+							<label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
+							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50">
 							@error('mname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror

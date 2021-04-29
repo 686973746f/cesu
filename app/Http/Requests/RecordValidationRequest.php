@@ -26,7 +26,7 @@ class RecordValidationRequest extends FormRequest
         return [
 			'lname' => 'required|max:50',
     		'fname' => 'required|max:50',
-    		'mname' => 'required|max:50',
+    		'mname' => 'nullable|max:50',
 			'gender' => 'required',
 			'cs' => 'required',
 			'nationality' => 'required',

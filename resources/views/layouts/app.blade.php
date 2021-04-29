@@ -12,9 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="{{ asset('css/fonts.css') }}" rel="stylesheet">
+    
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -70,6 +68,8 @@
             @yield('content')
         </main>
 
+        <!-- Developed by Christian James Historillo -->
+        
     </div>
 </body>
 </html>

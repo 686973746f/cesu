@@ -63,7 +63,32 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
-                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{old('interviewerName')}}" required>
+                              <select class="form-control" name="interviewerName" id="interviewerName" required>
+                                <option value="" disabled selected>Choose...</option>
+                                <option value="BARTOLOME, MARY ANN">BARTOLOME, MARY ANN</option>
+                                <option value="BROSAS, ELENA">BROSAS, ELENA</option>
+                                <option value="CANTOJA, MARIVIC">CANTOJA, MARIVIC</option>
+                                <option value="DAYRIT, BRIANNE">DAYRIT, BRIANNE</option>
+                                <option value="DE GUZMAN, EMERENCIANA">DE GUZMAN, EMERENCIANA</option>
+                                <option value="DE LEON, AMELITA">DE LEON, AMELITA</option>
+                                <option value="DINGLASAN, MARITES">DINGLASAN, MARITES</option>
+                                <option value="JAVIER, RICHELLE">JAVIER, RICHELLE</option>
+                                <option value="LACSON, LIBERTY">LACSON, LIBERTY</option>
+                                <option value="LOPEZ, JUNE PEARL">LOPEZ, JUNE PEARL</option>
+                                <option value="LUMUCSO, CARINA">LUMUCSO, CARINA</option>
+                                <option value="MAGSINO, SENELIZA">MAGSINO, SENELIZA</option>
+                                <option value="MAGSOMBOL, RICHARD">MAGSOMBOL, RICHARD</option>
+                                <option value="MANALO, AILEEN">MANALO, AILEEN</option>
+                                <option value="MENDOZA, ROSALYN">MENDOZA, ROSALYN</option>
+                                <option value="MUGOL, MA. JOSEFA">MUGOL, MA. JOSEFA</option>
+                                <option value="PAMULAYA, MELINDA">PAMULAYA, MELINDA</option>
+                                <option value="PARIN, JENNIFER">PARIN, JENNIFER</option>
+                                <option value="PINEDA, TESSIE">PINEDA, TESSIE</option>
+                                <option value="PRESA, TERESITA">PRESA, TERESITA</option>
+                                <option value="RODRIGUEZ, LORNA">RODRIGUEZ, LORNA</option>
+                                <option value="ROJAS, DAISY">ROJAS, DAISY</option>
+                                <option value="SALAZAR, MINNIE">SALAZAR, MINNIE</option>
+                              </select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -1224,7 +1249,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                  <label for="testedPositiveLab"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
+                                                  <label for="testedPositiveLab">Laboratory</label>
                                                   <input type="text" class="form-control" name="testedPositiveLab" id="testedPositiveLab" value="{{old('testedPositiveLab')}}">
                                                 </div>
                                             </div>
@@ -1235,7 +1260,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
-                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1')}}" required>
+                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1', date('Y-m-d'))}}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
