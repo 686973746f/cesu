@@ -73,7 +73,7 @@ class RecordsController extends Controller
 			$paddress_province = $request->address_province;
 			$paddress_provincejson = $request->address_provincejson;
 			$pmobile = $request->mobile;
-			$pphoneno = $request->phoneno;
+			$pphoneno = ($request->filled('phoneno')) ? $request->phoneno : NULL;
 			$pemail = $request->email;
 		}
 
@@ -94,7 +94,7 @@ class RecordsController extends Controller
 			'nationality' => strtoupper($request->nationality),
 			'bdate' => $request->bdate,
 			'mobile' => $request->mobile,
-			'phoneno' => $request->phoneno,
+			'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
 			'email' => $request->email,
 			'philhealth' => $request->philhealth,
 			'address_houseno' => strtoupper($request->address_houseno),
@@ -191,7 +191,7 @@ class RecordsController extends Controller
 			$paddress_province = $request->address_province;
 			$paddress_provincejson = $request->address_provincejson;
 			$pmobile = $request->mobile;
-			$pphoneno = $request->phoneno;
+			$pphoneno = ($request->filled('phoneno')) ? $request->phoneno : NULL;
 			$pemail = $request->email;
 		}
 
@@ -212,7 +212,7 @@ class RecordsController extends Controller
 			'nationality' => strtoupper($request->nationality),
 			'bdate' => $request->bdate,
 			'mobile' => $request->mobile,
-			'phoneno' => $request->phoneno,
+			'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
 			'email' => $request->email,
 			'philhealth' => $request->philhealth,
 			'address_houseno' => strtoupper($request->address_houseno),

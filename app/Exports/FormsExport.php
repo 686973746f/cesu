@@ -227,7 +227,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             strval($form->testedPositiveNumOfSwab),
 
             date('m/d/Y', strtotime($form->testDateCollected1)),
-            date('m/d/Y', strtotime($form->testDateReleased1)),
+            '',
+            (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A',
             strtoupper($form->testLaboratory1),
             $form->testType1,
             ($form->testType1 == "OTHERS" || $form->testType1 == "ANTIGEN") ? $form->testTypeOtherRemarks1 : "N/A",
@@ -516,6 +517,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'No. of Previous RT-PCR swabs done',
 
             'Date Collected 1 [MM/DD/YYYY]',
+            'Time Collected (ONI)',
             'Date Released 1 [MM/DD/YYYY]',
             'Laboratory 1',
             'Type of Test 1',

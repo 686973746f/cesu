@@ -41,10 +41,10 @@
 
             <form action="{{route('forms.export')}}" method="POST">
                 @csrf
-                <table class="table table-bordered" id="table_id">
+                <table class="table table-bordered table-sm" id="table_id">
                     <thead>
                         <tr>
-                            <th colspan="17" class="text-right"><button type="submit" class="btn btn-primary" id="submit">Export to Excel</button></th>
+                            <th colspan="17" class="text-right"><button type="submit" class="btn btn-primary my-2" id="submit">Export to Excel</button></th>
                         </tr>
                         <tr class="text-center">
                             <th></th>
@@ -63,7 +63,7 @@
                             <th style="vertical-align: middle;">Encoded At</th>
                             <th style="vertical-align: middle;">Printed?</th>
                             <th style="vertical-align: middle;">Date Printed</th>
-                            <th style="vertical-align: middle;">Actions</th>
+                            <th style="vertical-align: middle;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,10 +86,17 @@
                             else {
                                 $edate = date('m/d/Y', strtotime($form->expoDateLastCont));
                             }
+
+                            if($form->isExported == 1) {
+                                $textcolor = 'success';
+                            }
+                            else {
+                                $textcolor = 'warning';
+                            }
                         ?>
-                        <tr>
+                        <tr class="text-{{$textcolor}}">
                             <th class="text-center" style="vertical-align: middle;">
-                                <input type="checkbox" class="checks" name="listToPrint[]" id="" value="{{$form->id}}">
+                                <input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}">
                             </th>
                             <td style="vertical-align: middle;">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
@@ -103,11 +110,11 @@
                             <td style="vertical-align: middle;" class="text-center">{{$form->testDateCollected1}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{$form->testType1}}</td>
                             <td style="vertical-align: middle;">{{$form->user->name}}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y H:i:s", strtotime($form->created_at))}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y h:i A', strtotime($form->exportedDate))}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->exportedDate)) ? date('m/d/Y h:i A', strtotime($form->exportedDate)) : ''}}</td>
                             <td style="vertical-align: middle;" class="text-center">
-                                <a href="forms/{{$form->id}}/edit" class="btn btn-primary">Edit</a>
+                                <a href="forms/{{$form->id}}/edit" class="btn btn-primary btn-sm">Edit</a>
                             </td>
                         </tr>
                         @empty
