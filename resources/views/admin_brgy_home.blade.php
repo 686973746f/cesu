@@ -96,4 +96,32 @@
         </div>
     </div>
 </form>
+
+@if(session('process') == 'createCode')
+    <div class="modal fade" id="showCode" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Barangay Referral Code has been created!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <p>You can now share this referral code to the respective user to gain access inside the website.</p>
+                    <p></p>
+                    <p><code>http://{{route('rcode.check')}}?refCode={{session('bCode')}}</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#showCode').modal('show');
+        });
+    </script>
+@endif
+
+
 @endsection
