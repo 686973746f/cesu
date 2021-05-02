@@ -46,7 +46,7 @@ class FormsController extends Controller
             }
         }
         else {
-            $forms = Forms::orderBy('created_at', 'desc')->get();
+            $forms = Forms::where('testDateCollected1', date('Y-m-d'))->orderBy('created_at', 'desc')->get();
         }
         
 
@@ -60,12 +60,20 @@ class FormsController extends Controller
     {
         //Forms::whereIn('id',[implode(",", $request->listToPrint)])->update(['isExported'=>1]);
 
+        /*
         $models = Forms::findMany([implode(",", $request->listToPrint)]);
-
         $models->each(function ($item){
             $item->update(['isExported'=>'1']);
             $item->update(['exportedDate'=>NOW()]);
         });
+        */
+        
+        $list = $request->listToPrint;
+
+        asort($list);
+
+        $models = Forms::whereIn('id', $list)
+        ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
         
         return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y_H_i_s").'.xlsx');
     }

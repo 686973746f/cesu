@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="mname"><span class="text-danger font-weight-bold">*</span>Middle Name</label>
+                                <label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
                                 <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $record->mname)}}" max="50">
                                 @error('mname')
                                     <small class="text-danger">{{$message}}</small>

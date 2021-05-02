@@ -34,6 +34,7 @@ class UserFactory extends Factory
 
         return [
             'isAdmin' => '1',
+            'enabled' => '1',
             'name' => 'Admin',
             'email' => 'hihihisto@protonmail.com',
             'email_verified_at' => now(),

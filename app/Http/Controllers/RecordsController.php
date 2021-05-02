@@ -29,7 +29,7 @@ class RecordsController extends Controller
 
 		$records = Records::orderBy('lname','asc')->get();
 		
-        return view ('records', ['records'=>$records]);
+        return view ('records', ['records' => $records]);
     }
 
     /**

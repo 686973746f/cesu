@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class BrgyCodes extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'brgy_id',
+        'bCode'
+    ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function brgy() {
+        return $this->belongsTo(Brgy::class);
+    }
+}

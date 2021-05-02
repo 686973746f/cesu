@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrgyCodes extends Migration
+class CreateBrgy extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateBrgyCodes extends Migration
      */
     public function up()
     {
-        Schema::create('brgy_codes', function (Blueprint $table) {
+        Schema::create('brgy', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->softDeletes();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('brgy_id');
-            $table->string('bCode');
-            $table->tinyInteger('enabled')->default(1);
+            $table->string('brgyName');
         });
     }
 
@@ -31,6 +28,6 @@ class CreateBrgyCodes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brgy_codes');
+        Schema::dropIfExists('brgy');
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -17,7 +17,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+    
     protected $fillable = [
+        'brgy_id',
         'name',
         'email',
         'password',
@@ -48,5 +50,13 @@ class User extends Authenticatable
 
     public function form() {
         return $this->hasMany(Forms::class);
+    }
+
+    public function brgy() {
+        return $this->hasMany(Brgy::class);
+    }
+
+    public function brgyCode() {
+        return $this->hasMany(BrgyCodes::class);
     }
 }

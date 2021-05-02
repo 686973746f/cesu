@@ -26,7 +26,9 @@
                       <select name="records_id" id="records_id" required>
                           <option value="" selected disabled>Choose...</option>
                         @forelse($records as $record)
-                            <option value="{{$record->id}}" {{($record->id == old('records_id')) ? 'selected' : ""}}>{{$record->lname}}, {{$record->fname}} | {{$record->gender}} | {{date("m/d/Y", strtotime($record->bdate))}}</option>
+                            @if($record->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
+                                <option value="{{$record->id}}" {{($record->id == old('records_id')) ? 'selected' : ""}}>{{$record->lname}}, {{$record->fname}} | {{$record->gender}} | {{date("m/d/Y", strtotime($record->bdate))}}</option>
+                            @endif    
                         @empty
     
                         @endforelse
@@ -65,6 +67,7 @@
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
                               <select class="form-control" name="interviewerName" id="interviewerName" required>
                                 <option value="" disabled selected>Choose...</option>
+                                <option value="N/A">N/A</option>
                                 <option value="BARTOLOME, MARY ANN">BARTOLOME, MARY ANN</option>
                                 <option value="BROSAS, ELENA">BROSAS, ELENA</option>
                                 <option value="CANTOJA, MARIVIC">CANTOJA, MARIVIC</option>
@@ -1257,60 +1260,72 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
                                               <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1', date('Y-m-d'))}}" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="">Time Collected <small><i>(for ONI)</i></small></label>
+                                                <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control">
+                                              </div>
+                                            
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testDateReleased1">Date released</label>
                                                 <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1')}}">
                                             </div>
+                                            
                                         </div>
-                                        <div class="col-md-3">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testLaboratory1"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
-                                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1')}}" required>
+                                                <label for="testLaboratory1">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
+                                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1')}}">
                                             </div>
+                                            
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
-                                              <select class="form-control" name="testType1" id="testType1" required>
-                                                <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
-                                                <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
-                                              </select>
-                                            </div>
-                                            <div id="divTypeOthers1">
-                                                <div class="form-group">
-                                                  <label for="testTypeOtherRemarks1">Specify</label>
-                                                  <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
-                                                </div>
-                                            </div>
+                                                <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
+                                                <select class="form-control" name="testType1" id="testType1" required>
+                                                  <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                  <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                  <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                  <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                  <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                  <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
+                                                </select>
+                                              </div>
+                                              <div id="divTypeOthers1">
+                                                  <div class="form-group">
+                                                    <label for="testTypeOtherRemarks1">Specify</label>
+                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
+                                                  </div>
+                                              </div>
+                                            
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testResult1"><span class="text-danger font-weight-bold">*</span>Results</label>
-                                              <select class="form-control" name="testResult1" id="testResult1" required>
-                                                <option value="PENDING" {{(old('testResult1') == 'PENDING') ? 'selected' : ''}}>Pending</option>
-                                                <option value="POSITIVE" {{(old('testResult1') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
-                                                <option value="NEGATIVE" {{(old('testResult1') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
-                                                <option value="EQUIVOCAL" {{(old('testResult1') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
-                                                <option value="OTHERS" {{(old('testResult1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
-                                              </select>
-                                            </div>
-                                            <div id="divResultOthers1">
-                                                <div class="form-group">
-                                                    <label for="testResultOtherRemarks1">Specify</label>
-                                                    <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1')}}">
-                                                </div>
-                                            </div>
+                                                <label for="testResult1"><span class="text-danger font-weight-bold">*</span>Results</label>
+                                                <select class="form-control" name="testResult1" id="testResult1" required>
+                                                  <option value="PENDING" {{(old('testResult1') == 'PENDING') ? 'selected' : ''}}>Pending</option>
+                                                  <option value="POSITIVE" {{(old('testResult1') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
+                                                  <option value="NEGATIVE" {{(old('testResult1') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                                  <option value="EQUIVOCAL" {{(old('testResult1') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
+                                                  <option value="OTHERS" {{(old('testResult1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                                </select>
+                                              </div>
+                                              <div id="divResultOthers1">
+                                                  <div class="form-group">
+                                                      <label for="testResultOtherRemarks1">Specify</label>
+                                                      <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1')}}">
+                                                  </div>
+                                              </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -1329,7 +1344,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="testLaboratory2">Laboratory</label>
+                                                <label for="testLaboratory2">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
                                                 <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2')}}">
                                             </div>
                                         </div>

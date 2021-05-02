@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->tinyInteger('enabled')->default(1);
             $table->tinyInteger('isAdmin')->default(0);
             $table->integer('brgy_id')->constrained()->onDelete('cascade')->nullable();
             $table->string('name');
@@ -23,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

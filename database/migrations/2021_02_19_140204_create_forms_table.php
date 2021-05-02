@@ -87,7 +87,8 @@ class CreateFormsTable extends Migration
 
             $table->date('testDateCollected1');
             $table->date('testDateReleased1')->nullable();
-            $table->string('testLaboratory1');
+            $table->time('oniTimeCollected1')->nullable();
+            $table->string('testLaboratory1')->nullable();
             $table->string('testType1');
             $table->string('testTypeOtherRemarks1')->nullable();
             $table->string('testResult1');

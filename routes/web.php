@@ -12,6 +12,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
+use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\RegisterCodeController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +28,27 @@ use App\Http\Controllers\LineListController;
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+Route::get('/referral', [RegisterCodeController::class, 'index'])->name('rcode.index');
+Route::get('/referral/check', [RegisterCodeController::class, 'refCodeCheck'])->name('rcode.check');
 
-Route::group(['middleware' => ['auth']], function() {
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::group(['middleware' => ['verified']], function() {
     // your routes
     //Route::get('/addrecord', [AddRecordsController::class, 'index'])->name('addrecord');
     //Route::post('/addrecord', [AddRecordsController::class, 'store']);
@@ -40,6 +62,11 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
+
+    Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
+    Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
+    Route::post('/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
+    Route::post('/admin/brgy/create/code', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
 });
 
 Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
@@ -47,9 +74,10 @@ Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecor
 //Main landing page
 Route::get('/', function () {
     if(auth()->check()) {
-        return view('home');
+        return redirect()->route('home');
     }
     else {
         return view('auth.login');
-    }    
+    }
+    
 });

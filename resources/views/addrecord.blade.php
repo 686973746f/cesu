@@ -82,8 +82,7 @@
 						<div class="form-group">
 							<label for="nationality"><span class="text-danger font-weight-bold">*</span>Nationality</label>
 							<select class="form-control" id="nationality" name="nationality" required>
-								<option value="" disabled selected>Choose</option>
-								<option value="Filipino" @if(old('nationality') == 'Filipino') {{'selected'}} @endif>Filipino</option>
+								<option value="Filipino" @if(old('nationality') == 'Filipino' || empty(old('nationality'))) {{'selected'}} @endif>Filipino</option>
 								<option value="Foreign" @if(old('nationality') == 'Foreign') {{'selected'}} @endif>Foreign</option>
 							</select>
 							@error('nationality')

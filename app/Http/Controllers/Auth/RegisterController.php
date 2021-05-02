@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\BrgyCodes;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -50,6 +51,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'refCode' => ['required', 'string'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -64,10 +66,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])->first();
+
+        $brgy_id = $list->brgy_id;
+
+        $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])
+        ->update([
+            'enabled' => 0,
+        ]);
+
         return User::create([
+            'brgy_id' => $brgy_id,
+            'enabled' => 1,
+            'isAdmin' => 0,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        
     }
 }
