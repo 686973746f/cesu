@@ -43,7 +43,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         else if ($form->expoitem2 == 2) {
             $ei2str = "YES, LOCAL";
         }
-        else if ($form->expoitem2 == 2) {
+        else if ($form->expoitem2 == 3) {
             $ei2str = "UNKNOWN";
         }
 
