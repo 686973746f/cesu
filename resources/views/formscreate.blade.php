@@ -108,7 +108,6 @@
                                 <option value="SALAZAR, MINNIE">SALAZAR, MINNIE</option>
                                 <option value="SORIANO, KENNETH">SORIANO, KENNETH</option>
                                 <option value="TABUJARA, MARIA TERESA">TABUJARA, MARIA TERESA</option>
-
                               </select>
                             </div>
                         </div>
@@ -1287,7 +1286,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Time Collected <small><i>(for ONI)</i></small></label>
-                                                <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control">
+                                                <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control" value="{{old('oniTimeCollected1')}}">
                                               </div>
                                             
                                         </div>
