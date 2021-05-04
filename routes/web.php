@@ -14,6 +14,7 @@ use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\RegisterCodeController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -68,6 +69,8 @@ Route::group(['middleware' => ['verified']], function() {
     Route::post('/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
     Route::post('/admin/brgy/create/code', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
     Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
+
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 });
 
 Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
