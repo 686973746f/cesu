@@ -29,7 +29,7 @@
             <form action="{{route('forms.index')}}" method="GET">
                 <div class="input-group mb-3">
                     <select class="form-control" name="view" id="">
-                        <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All</option>
+                        <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
                         <option value="2" {{(request()->get('view') == '2') ? 'selected' : ''}}>Show All Except Records that has less than 5 Days Exposure History from this day</option>
                         <option value="3" {{(request()->get('view') == '3') ? 'selected' : ''}}>Show All Except Records that has not been exported to Excel yet</option>
                     </select>
@@ -38,6 +38,12 @@
                     </div>
                 </div>
             </form>
+
+            @if(request()->get('view') == null)
+            <div class="alert alert-info" role="alert">
+                <span>Displaying CIF results that were only scheduled for swab collection today ({{date('m/d/Y')}}). Total count is: {{count($forms)}}</span>
+            </div>
+            @endif
 
             <form action="{{route('forms.export')}}" method="POST">
                 @csrf
@@ -113,7 +119,7 @@
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testDateCollected1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testType1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testResult1}}</td>
-                                        <td style="vertical-align: middle;">{{$form->user->name}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->exportedDate)) ? date('m/d/Y h:i A', strtotime($form->exportedDate)) : ''}}</td>

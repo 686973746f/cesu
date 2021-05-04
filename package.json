@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
+        "datatables.net": "^1.10.24",
         "datatables.net-bs4": "^1.10.24",
         "jquery": "^3.5.1",
         "selectize": "^0.12.6"

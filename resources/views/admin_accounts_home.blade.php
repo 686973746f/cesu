@@ -57,9 +57,9 @@
                           </select>
                         </div>
                         <div class="form-group">
-                          <label for="">Input your password</label>
+                          <label for="pw">Input your password</label>
                           <input type="password"
-                            class="form-control" name="" id="">
+                            class="form-control" name="pw" id="pw">
                         </div>
                     </div>
                     <div class="modal-footer">

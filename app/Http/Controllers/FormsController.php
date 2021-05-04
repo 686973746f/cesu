@@ -179,6 +179,7 @@ class FormsController extends Controller
             'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
 
             'testDateCollected1' => $request->testDateCollected1,
+            'oniTimeCollected1' => $request->oniTimeCollected1,
             'testDateReleased1' => $request->testDateReleased1,
             'testLaboratory1' => $request->testLaboratory1,
             'testType1' => $request->testType1,
@@ -393,6 +394,7 @@ class FormsController extends Controller
             'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
 
             'testDateCollected1' => $request->testDateCollected1,
+            'oniTimeCollected1' => $request->oniTimeCollected1,
             'testDateReleased1' => $request->testDateReleased1,
             'testLaboratory1' => $request->testLaboratory1,
             'testType1' => $request->testType1,

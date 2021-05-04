@@ -58,7 +58,50 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
-                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{strtoupper(old('interviewerName', $records->interviewerName))}}" required>
+                              <select class="form-control" name="interviewerName" id="interviewerName" required>
+                                <option value="" disabled>Choose...</option>
+                                <option value="N/A">N/A</option>
+                                <option value="BARBUCO, CARLA MAE" {{(old('interviewerName', $records->interviewerName) == "BARBUCO, CARLA MAE") ? 'selected' : ''}}>BARBUCO, CARLA MAE</option>
+                                <option value="BARTOLOME, MARY ANN" {{(old('interviewerName', $records->interviewerName) == "BARTOLOME, MARY ANN") ? 'selected' : ''}}>BARTOLOME, MARY ANN</option>
+                                <option value="BINWEK, JENETH G." {{(old('interviewerName', $records->interviewerName) == "BINWEK, JENETH G.") ? 'selected' : ''}}>BINWEK, JENETH G.</option>
+                                <option value="BROSAS, ELENA" {{(old('interviewerName', $records->interviewerName) == "BROSAS, ELENA") ? 'selected' : ''}}>BROSAS, ELENA</option>
+                                <option value="CANTOJA, MARIVIC" {{(old('interviewerName', $records->interviewerName) == "CANTOJA, MARIVIC") ? 'selected' : ''}}>CANTOJA, MARIVIC</option>
+                                <option value="CERVANTES, ANA CARMELA" {{(old('interviewerName', $records->interviewerName) == "CERVANTES, ANA CARMELA") ? 'selected' : ''}}>CERVANTES, ANA CARMELA</option>
+                                <option value="COLIBAO, HUMBLELINE LOUISE" {{(old('interviewerName', $records->interviewerName) == "COLIBAO, HUMBLELINE LOUISE") ? 'selected' : ''}}>COLIBAO, HUMBLELINE LOUISE</option>
+                                <option value="DE GUZMAN, EMERENCIANA" {{(old('interviewerName', $records->interviewerName) == "DE GUZMAN, EMERENCIANA") ? 'selected' : ''}}>DE GUZMAN, EMERENCIANA</option>
+                                <option value="DE LEON, AMELITA" {{(old('interviewerName', $records->interviewerName) == "DE LEON, AMELITA") ? 'selected' : ''}}>DE LEON, AMELITA</option>
+                                <option value="DINGLASAN, MARITES" {{(old('interviewerName', $records->interviewerName) == "DINGLASAN, MARITES") ? 'selected' : ''}}>DINGLASAN, MARITES</option>
+                                <option value="ESPAÑOLA, KRIZA MARIELL" {{(old('interviewerName', $records->interviewerName) == "ESPAÑOLA, KRIZA MARIELL") ? 'selected' : ''}}>ESPAÑOLA, KRIZA MARIELL</option>
+                                <option value="ESTANISLAO, MELIROSE" {{(old('interviewerName', $records->interviewerName) == "ESTANISLAO, MELIROSE") ? 'selected' : ''}}>ESTANISLAO, MELIROSE</option>
+                                <option value="JAPAY, MARLA SAMANTHA" {{(old('interviewerName', $records->interviewerName) == "JAPAY, MARLA SAMANTHA") ? 'selected' : ''}}>JAPAY, MARLA SAMANTHA</option>
+                                <option value="JAVIER, RICHELLE" {{(old('interviewerName', $records->interviewerName) == "JAVIER, RICHELLE") ? 'selected' : ''}}>JAVIER, RICHELLE</option>
+                                <option value="LACSON, LIBERTY" {{(old('interviewerName', $records->interviewerName) == "LACSON, LIBERTY") ? 'selected' : ''}}>LACSON, LIBERTY</option>
+                                <option value="LAGLAG, JACKELYN F." {{(old('interviewerName', $records->interviewerName) == "LAGLAG, JACKELYN F.") ? 'selected' : ''}}>LAGLAG, JACKELYN F.</option>
+                                <option value="LOPEZ, JUNE PEARL" {{(old('interviewerName', $records->interviewerName) == "LOPEZ, JUNE PEARL") ? 'selected' : ''}}>LOPEZ, JUNE PEARL</option>
+                                <option value="LORIA, RAYMART" {{(old('interviewerName', $records->interviewerName) == "LORIA, RAYMART") ? 'selected' : ''}}>LORIA, RAYMART</option>
+                                <option value="LOVELY, JOE KENNETH" {{(old('interviewerName', $records->interviewerName) == "LOVELY, JOE KENNETH") ? 'selected' : ''}}>LOVELY, JOE KENNETH</option>
+                                <option value="LUMUCSO, CARINA" {{(old('interviewerName', $records->interviewerName) == "LUMUCSO, CARINA") ? 'selected' : ''}}>LUMUCSO, CARINA</option>
+                                <option value="MACALAWA, JHED" {{(old('interviewerName', $records->interviewerName) == "MACALAWA, JHED") ? 'selected' : ''}}>MACALAWA, JHED</option>
+                                <option value="MAGSINO, SENELIZA" {{(old('interviewerName', $records->interviewerName) == "MAGSINO, SENELIZA") ? 'selected' : ''}}>MAGSINO, SENELIZA</option>
+                                <option value="MAGSOMBOL, RICHARD" {{(old('interviewerName', $records->interviewerName) == "MAGSOMBOL, RICHARD") ? 'selected' : ''}}>MAGSOMBOL, RICHARD</option>
+                                <option value="MANALO, AILEEN" {{(old('interviewerName', $records->interviewerName) == "MANALO, AILEEN") ? 'selected' : ''}}>MANALO, AILEEN</option>
+                                <option value="MARQUEDA, JESSA D." {{(old('interviewerName', $records->interviewerName) == "MARQUEDA, JESSA D.") ? 'selected' : ''}}>MARQUEDA, JESSA D.</option>
+                                <option value="MENDOZA, ROSALYN" {{(old('interviewerName', $records->interviewerName) == "MENDOZA, ROSALYN") ? 'selected' : ''}}>MENDOZA, ROSALYN</option>
+                                <option value="MONTALLANA, MA. LORETA" {{(old('interviewerName', $records->interviewerName) == "MONTALLANA, MA. LORETA") ? 'selected' : ''}}>MONTALLANA, MA. LORETA</option>
+                                <option value="MUGOL, MA. JOSEFA" {{(old('interviewerName', $records->interviewerName) == "MUGOL, MA. JOSEFA") ? 'selected' : ''}}>MUGOL, MA. JOSEFA</option>
+                                <option value="PAMULAYA, MELINDA" {{(old('interviewerName', $records->interviewerName) == "PAMULAYA, MELINDA") ? 'selected' : ''}}>PAMULAYA, MELINDA</option>
+                                <option value="PARIN, JENNIDER" {{(old('interviewerName', $records->interviewerName) == "PARIN, JENNIDER") ? 'selected' : ''}}>PARIN, JENNIDER</option>
+                                <option value="PASTRANA, CHERRY MAE ANN" {{(old('interviewerName', $records->interviewerName) == "PASTRANA, CHERRY MAE ANN") ? 'selected' : ''}}>PASTRANA, CHERRY MAE ANN</option>
+                                <option value="PINEDA, TESSIA" {{(old('interviewerName', $records->interviewerName) == "PINEDA, TESSIA") ? 'selected' : ''}}>PINEDA, TESSIA</option>
+                                <option value="PLAN, JELLY ANN" {{(old('interviewerName', $records->interviewerName) == "PLAN, JELLY ANN") ? 'selected' : ''}}>PLAN, JELLY ANN</option>
+                                <option value="PRESA, TERESITA" {{(old('interviewerName', $records->interviewerName) == "PRESA, TERESITA") ? 'selected' : ''}}>PRESA, TERESITA</option>
+                                <option value="RELOX, LADYBIRD" {{(old('interviewerName', $records->interviewerName) == "RELOX, LADYBIRD") ? 'selected' : ''}}>RELOX, LADYBIRD</option>
+                                <option value="RODRIGUEZ, LORNA" {{(old('interviewerName', $records->interviewerName) == "RODRIGUEZ, LORNA") ? 'selected' : ''}}>RODRIGUEZ, LORNA</option>
+                                <option value="ROJAS, DAISY" {{(old('interviewerName', $records->interviewerName) == "ROJAS, DAISY") ? 'selected' : ''}}>ROJAS, DAISY</option>
+                                <option value="SALAZAR, MINNIE" {{(old('interviewerName', $records->interviewerName) == "SALAZAR, MINNIE") ? 'selected' : ''}}>SALAZAR, MINNIE</option>
+                                <option value="SORIANO, KENNETH" {{(old('interviewerName', $records->interviewerName) == "SORIANO, KENNETH") ? 'selected' : ''}}>SORIANO, KENNETH</option>
+                                <option value="TABUJARA, MARIA TERESA" {{(old('interviewerName', $records->interviewerName) == "TABUJARA, MARIA TERESA") ? 'selected' : ''}}>TABUJARA, MARIA TERESA</option>
+                              </select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -1227,60 +1270,72 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
                                               <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1', $records->testDateCollected1)}}" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="">Time Collected <small><i>(for ONI)</i></small></label>
+                                                <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control" value="{{old('oniTimeCollected1', $records->oniTimeCollected1)}}">
+                                              </div>
+                                            
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testDateReleased1">Date released</label>
                                                 <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
                                             </div>
+                                            
                                         </div>
-                                        <div class="col-md-3">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testLaboratory1"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
-                                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1', $records->testLaboratory1)}}" required>
+                                                <label for="testLaboratory1">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
+                                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1', $records->testLaboratory1)}}">
                                             </div>
+                                            
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
-                                              <select class="form-control" name="testType1" id="testType1" required>
-                                                <option value="OPS" {{(old('testType1', $records->testType1) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                <option value="NPS" {{(old('testType1', $records->testType1) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                <option value="ANTIGEN" {{(old('testType1', $records->testType1) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
-                                                <option value="ANTIBODY" {{(old('testType1', $records->testType1) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                <option value="OTHERS" {{(old('testType1', $records->testType1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
-                                              </select>
-                                            </div>
-                                            <div id="divTypeOthers1">
-                                                <div class="form-group">
-                                                  <label for="testTypeOtherRemarks1">Specify</label>
-                                                  <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', $records->testTypeOtherRemarks1)}}">
-                                                </div>
-                                            </div>
+                                                <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
+                                                <select class="form-control" name="testType1" id="testType1" required>
+                                                    <option value="OPS" {{(old('testType1', $records->testType1) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                    <option value="NPS" {{(old('testType1', $records->testType1) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                    <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                    <option value="ANTIGEN" {{(old('testType1', $records->testType1) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                    <option value="ANTIBODY" {{(old('testType1', $records->testType1) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="OTHERS" {{(old('testType1', $records->testType1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                                </select>
+                                              </div>
+                                              <div id="divTypeOthers1">
+                                                  <div class="form-group">
+                                                    <label for="testTypeOtherRemarks1">Specify</label>
+                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', $records->testTypeOtherRemarks1)}}">
+                                                  </div>
+                                              </div>
+                                            
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testResult1"><span class="text-danger font-weight-bold">*</span>Results</label>
-                                              <select class="form-control" name="testResult1" id="testResult1" required>
-                                                <option value="PENDING" {{(old('testResult1', $records->testResult1) == 'PENDING') ? 'selected' : ''}}>Pending</option>
-                                                <option value="POSITIVE" {{(old('testResult1', $records->testResult1) == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
-                                                <option value="NEGATIVE" {{(old('testResult1', $records->testResult1) == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
-                                                <option value="EQUIVOCAL" {{(old('testResult1', $records->testResult1) == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
-                                                <option value="OTHERS" {{(old('testResult1', $records->testResult1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
-                                              </select>
-                                            </div>
-                                            <div id="divResultOthers1">
-                                                <div class="form-group">
-                                                    <label for="testResultOtherRemarks1">Specify</label>
-                                                    <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', $records->testResultOtherRemarks1)}}">
-                                                </div>
-                                            </div>
+                                                <label for="testResult1"><span class="text-danger font-weight-bold">*</span>Results</label>
+                                                <select class="form-control" name="testResult1" id="testResult1" required>
+                                                    <option value="PENDING" {{(old('testResult1', $records->testResult1) == 'PENDING') ? 'selected' : ''}}>Pending</option>
+                                                    <option value="POSITIVE" {{(old('testResult1', $records->testResult1) == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
+                                                    <option value="NEGATIVE" {{(old('testResult1', $records->testResult1) == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                                    <option value="EQUIVOCAL" {{(old('testResult1', $records->testResult1) == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
+                                                    <option value="OTHERS" {{(old('testResult1', $records->testResult1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                                </select>
+                                              </div>
+                                              <div id="divResultOthers1">
+                                                  <div class="form-group">
+                                                      <label for="testResultOtherRemarks1">Specify</label>
+                                                      <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', $records->testResultOtherRemarks1)}}">
+                                                  </div>
+                                              </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -1299,7 +1354,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="testLaboratory2">Laboratory</label>
+                                                <label for="testLaboratory2">Laboratory <small><i>(Leave blank if N/A)</i></small></label>
                                                 <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2', $records->testLaboratory2)}}">
                                             </div>
                                         </div>

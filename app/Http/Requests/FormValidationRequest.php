@@ -120,6 +120,7 @@ class FormValidationRequest extends FormRequest
             'testedPositiveSpecCollectedDate' => ($this->testedPositiveUsingRTPCRBefore == "1") ? 'required|date' : 'nullable|date',
 
             'testDateCollected1' => 'required|date',
+            'oniTimeCollected1' => 'nullable',
             'testDateReleased1' => 'nullable|date',
             'testLaboratory1' => 'nullable',
             'testType1' => 'required',
