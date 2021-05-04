@@ -51,13 +51,13 @@
                                 <th style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
                                 <th style="vertical-align: middle;">Name</th>
                                 <th style="vertical-align: middle;">Philhealth</th>
+                                <th style="vertical-align: middle;">Mobile</th>
                                 <th style="vertical-align: middle;">Birthdate</th>
                                 <th style="vertical-align: middle;">Age/Gender</th>
+                                <th style="vertical-align: middle;">Street</th>
                                 <th style="vertical-align: middle;">Brgy</th>
                                 <th style="vertical-align: middle;">City</th>
                                 <th style="vertical-align: middle;">Type of Client</th>
-                                <th style="vertical-align: middle;">Has Exposure History</th>
-                                <th style="vertical-align: middle;">Date of Last Contact</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
@@ -97,19 +97,19 @@
                                             $textcolor = 'warning';
                                         }
                                     ?>
-                                    <tr class="text-{{$textcolor}}">
+                                    <tr class="bg-{{$textcolor}}">
                                         <th class="text-center" style="vertical-align: middle;">
                                             <input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}">
                                         </th>
                                         <td style="vertical-align: middle;">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{$form->records->mobile}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{$form->records->gender}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{$form->records->address_street}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$emsg}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$edate}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testDateCollected1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testType1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testResult1}}</td>
