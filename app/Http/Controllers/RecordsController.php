@@ -98,11 +98,16 @@ class RecordsController extends Controller
 			$param2 = 0;
 		}
 
-		if(Records::where('mname', strtoupper($request->mname))->exists()) {
-			$param3 = 1;
+		if($request->filled('mname') && strtoupper($request->mname) != "N/A") {
+			if(Records::where('mname', strtoupper($request->mname))->exists()) {
+				$param3 = 1;
+			}
+			else {
+				$param3 = 0;
+			}
 		}
 		else {
-			$param3 = 0;
+			$param3 = 1;
 		}
 
 		if(Records::where('gender', strtoupper($request->gender))->exists()) {
@@ -128,7 +133,7 @@ class RecordsController extends Controller
 			$request->user()->records()->create([
 				'lname' => strtoupper($request->lname),
 				'fname' => strtoupper($request->fname),
-				'mname' => strtoupper($request->mname),
+				'mname' => ($request->filled('mname') && strtoupper($request->mname) != "N/A") ? strtoupper($request->mname) : null,
 				'gender' => strtoupper($request->gender),
 				'isPregnant' => $isPregnant,
 				'cs' => strtoupper($request->cs),
@@ -137,7 +142,7 @@ class RecordsController extends Controller
 				'mobile' => $request->mobile,
 				'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
 				'email' => $request->email,
-				'philhealth' => $request->philhealth,
+				'philhealth' => ($request->filled('philhealth') && $request->philhealth != "N/A") ? $request->philhealth : null,
 				'address_houseno' => strtoupper($request->address_houseno),
 				'address_street' => strtoupper($request->address_street),
 				'address_brgy' => strtoupper($request->address_brgy),

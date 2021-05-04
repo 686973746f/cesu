@@ -63,7 +63,7 @@
                                 <th style="vertical-align: middle;">Street</th>
                                 <th style="vertical-align: middle;">Brgy</th>
                                 <th style="vertical-align: middle;">City</th>
-                                <th style="vertical-align: middle;">Type of Client</th>
+                                <th style="vertical-align: middle;">Case Classification</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>

@@ -3034,7 +3034,7 @@
                         $('#rec_ispregnant').val((response['data'][0].isPregnant == 1) ? "Yes" : "No");
 
                         if(response['data'][0].isPregnant == 1) {
-                            $('#PregnantLMP').prop({disabled: false, required: true});
+                            $('#PregnantLMP').prop({disabled: false, required: false});
                             $('#highRiskPregnancy').prop({disabled: false, required: true});
                         }
                         else {

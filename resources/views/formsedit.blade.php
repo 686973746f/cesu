@@ -1163,13 +1163,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="PregnantLMP"><span class="text-danger font-weight-bold">*</span>LMP</label>
-                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{old('PregnantLMP', $records->PregnantLMP)}}" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
+                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{old('PregnantLMP', $records->PregnantLMP)}}" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? '' : 'disabled'}}>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                               <label for="highRiskPregnancy"><span class="text-danger font-weight-bold">*</span>High Risk Pregnancy?</label>
-                                              <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy">
+                                              <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
                                                 <option value="0" {{(is_null(old('highRiskPregnancy', $records->pregnantHighRisk)) || old('highRiskPregnancy', $records->pregnantHighRisk) == 0) ? 'selected' : ''}}>No</option>
                                                 <option value="1" {{(old('highRiskPregnancy', $records->pregnantHighRisk) == 1) ? 'selected' : ''}}>Yes</option>
                                               </select>
@@ -2526,25 +2526,17 @@
                     $('#comCheck10').prop({'disabled': true, 'checked': false});
                 }
                 else {
-                    $('#comCheck2').prop({'disabled': false, 'checked': false});
-                    $('#comCheck3').prop({'disabled': false, 'checked': false});
-                    $('#comCheck4').prop({'disabled': false, 'checked': false});
-                    $('#comCheck5').prop({'disabled': false, 'checked': false});
-                    $('#comCheck6').prop({'disabled': false, 'checked': false});
-                    $('#comCheck7').prop({'disabled': false, 'checked': false});
-                    $('#comCheck8').prop({'disabled': false, 'checked': false});
-                    $('#comCheck9').prop({'disabled': false, 'checked': false});
-                    $('#comCheck10').prop({'disabled': false, 'checked': false});
+                    $('#comCheck2').prop({'disabled': false});
+                    $('#comCheck3').prop({'disabled': false});
+                    $('#comCheck4').prop({'disabled': false});
+                    $('#comCheck5').prop({'disabled': false});
+                    $('#comCheck6').prop({'disabled': false});
+                    $('#comCheck7').prop({'disabled': false});
+                    $('#comCheck8').prop({'disabled': false});
+                    $('#comCheck9').prop({'disabled': false});
+                    $('#comCheck10').prop({'disabled': false});
                 }
             });
-
-            @if(is_null(old('comCheck', explode(",", $records->COMO))))
-                $('#comCheck1').prop('checked', true);
-            @endif
-
-            $('#rec_ispregnant').val("N/A");
-            $('#PregnantLMP').prop({disabled: true, required: false});
-            $('#highRiskPregnancy').prop({disabled: true, required: false});
 
             $('#imagingDone').change(function (e) { 
                 e.preventDefault();
