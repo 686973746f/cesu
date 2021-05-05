@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forms;
 use Illuminate\Http\Request;
 
 class LineListController extends Controller
@@ -11,6 +12,9 @@ class LineListController extends Controller
     }
 
     public function createoni() {
-        return view('linelist_createoni');
+
+        $list = Forms::where('testDateCollected1', date('Y-m-d'))->get();
+
+        return view('linelist_createoni', ['list' => $list]);
     }
 }
