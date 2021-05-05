@@ -110,7 +110,7 @@
                 <div class="modal-body">
                     <p>You can now share this referral code to the respective user to gain access inside the website.</p>
                     <p></p>
-                    <p><code>http://{{route('rcode.check')}}?refCode={{session('bCode')}}</code></p>
+                    <p><code>{{route('rcode.check')}}?refCode={{session('bCode')}}</code></p>
                 </div>
             </div>
         </div>
