@@ -91,7 +91,7 @@
                                 <option value="MONTALLANA, MA. LORETA" {{(old('interviewerName', $records->interviewerName) == "MONTALLANA, MA. LORETA") ? 'selected' : ''}}>MONTALLANA, MA. LORETA</option>
                                 <option value="MUGOL, MA. JOSEFA" {{(old('interviewerName', $records->interviewerName) == "MUGOL, MA. JOSEFA") ? 'selected' : ''}}>MUGOL, MA. JOSEFA</option>
                                 <option value="PAMULAYA, MELINDA" {{(old('interviewerName', $records->interviewerName) == "PAMULAYA, MELINDA") ? 'selected' : ''}}>PAMULAYA, MELINDA</option>
-                                <option value="PARIN, JENNIDER" {{(old('interviewerName', $records->interviewerName) == "PARIN, JENNIDER") ? 'selected' : ''}}>PARIN, JENNIDER</option>
+                                <option value="PARIN, JENNIFER" {{(old('interviewerName', $records->interviewerName) == "PARIN, JENNIFER") ? 'selected' : ''}}>PARIN, JENNIFER</option>
                                 <option value="PASTRANA, CHERRY MAE ANN" {{(old('interviewerName', $records->interviewerName) == "PASTRANA, CHERRY MAE ANN") ? 'selected' : ''}}>PASTRANA, CHERRY MAE ANN</option>
                                 <option value="PINEDA, TESSIA" {{(old('interviewerName', $records->interviewerName) == "PINEDA, TESSIA") ? 'selected' : ''}}>PINEDA, TESSIA</option>
                                 <option value="PLAN, JELLY ANN" {{(old('interviewerName', $records->interviewerName) == "PLAN, JELLY ANN") ? 'selected' : ''}}>PLAN, JELLY ANN</option>
@@ -1172,8 +1172,8 @@
                                             <div class="form-group">
                                               <label for="highRiskPregnancy"><span class="text-danger font-weight-bold">*</span>High Risk Pregnancy?</label>
                                               <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
-                                                <option value="0" {{(is_null(old('highRiskPregnancy', $records->pregnantHighRisk)) || old('highRiskPregnancy', $records->pregnantHighRisk) == 0) ? 'selected' : ''}}>No</option>
-                                                <option value="1" {{(old('highRiskPregnancy', $records->pregnantHighRisk) == 1) ? 'selected' : ''}}>Yes</option>
+                                                <option value="0" {{(old('highRiskPregnancy', $records->PregnantHighRisk) == 0) ? 'selected' : ''}}>No</option>
+                                                <option value="1" {{(old('highRiskPregnancy', $records->PregnantHighRisk) == 1) ? 'selected' : ''}}>Yes</option>
                                               </select>
                                             </div>
                                         </div>
