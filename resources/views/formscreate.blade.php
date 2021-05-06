@@ -27,7 +27,7 @@
                           <option value="" selected disabled>Choose...</option>
                         @forelse($records as $record)
                             @if($record->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
-                                <option value="{{$record->id}}" {{($record->id == old('records_id')) ? 'selected' : ""}}>{{$record->lname}}, {{$record->fname}} | {{$record->gender}} | {{date("m/d/Y", strtotime($record->bdate))}}</option>
+                                <option value="{{$record->id}}" {{($record->id == old('records_id')) ? 'selected' : ""}}>{{$record->lname}}, {{$record->fname}} {{$record->mname}}| {{$record->gender}} | {{date("m/d/Y", strtotime($record->bdate))}}</option>
                             @endif    
                         @empty
     
@@ -90,6 +90,7 @@
                                 <option value="LORIA, RAYMART">LORIA, RAYMART (MANGGAHAN)</option>
                                 <option value="LOVELY, JOE KENNETH">LOVELY, JOE KENNETH (MANGGAHAN)</option>
                                 <option value="LUMUCSO, CARINA">LUMUCSO, CARINA (NAVARRO)</option>
+                                <option value="MABUTE, JOHN ANTHONY">MABUTE, JOHN ANTHONY</option>
                                 <option value="MACALAWA, JHED">MACALAWA, JHED (LRTA SANTIAGO)</option>
                                 <option value="MAGSINO, SENELIZA">MAGSINO, SENELIZA (BACAO 1)</option>
                                 <option value="MAGSOMBOL, RICHARD">MAGSOMBOL, RICHARD (PK1 - BELVEDERE)</option>
@@ -105,6 +106,7 @@
                                 <option value="PLAN, JELLY ANN">PLAN, JELLY ANN (DE FUEGO SF)</option>
                                 <option value="PRESA, TERESITA">PRESA, TERESITA (STA. CLARA)</option>
                                 <option value="RAMOS, MIRANDA C.">RAMOS, MIRANDA C.</option>
+                                <option value="RAMOS, NELLY">RAMOS, NELLY</option>
                                 <option value="RELOX, LADYBIRD">RELOX, LADYBIRD (PASCAM 2 PROPER)</option>
                                 <option value="RODRIGUEZ, LORNA">RODRIGUEZ, LORNA (SAN FRANCISCO - SUNNY BROOKE 1)</option>
                                 <option value="ROJAS, DAISY">ROJAS, DAISY (PK2 - PROPER)</option>

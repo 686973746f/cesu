@@ -24,7 +24,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-							<input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" required>
+							<input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" autofocus required>
 							@error('lname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
