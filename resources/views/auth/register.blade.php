@@ -31,6 +31,7 @@
                                     </div>
                                 </div>
 
+                                @if($item->brgy_id != 0)
                                 <div class="form-group row">
                                     <label for="brgy" class="col-md-4 col-form-label text-md-right">{{ __('Barangay') }}</label>
         
@@ -44,6 +45,7 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
 
                                 <div class="form-group row">
                                     <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>

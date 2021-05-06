@@ -49,7 +49,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::group(['middleware' => ['verified']], function() {
+Route::group(['middleware' => ['auth','verified']], function() {
     // your routes
     //Route::get('/addrecord', [AddRecordsController::class, 'index'])->name('addrecord');
     //Route::post('/addrecord', [AddRecordsController::class, 'store']);
@@ -64,13 +64,18 @@ Route::group(['middleware' => ['verified']], function() {
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
 
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index'); 
+});
+
+Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()
+{
     Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
     Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
     Route::post('/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
     Route::post('/admin/brgy/create/code', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
+    
     Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
-
-    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
 });
 
 Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);

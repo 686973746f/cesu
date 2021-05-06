@@ -84,6 +84,19 @@ class RecordsController extends Controller
 			$isPregnant = $request->pregnant;
 		}
 
+		if($request->filled('philhealth')) {
+			if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
+				$philhealth_organized = $request->philhealth;
+			}
+			else {
+				$philhealth_organized = str_replace('-','', $request->philhealth);
+				$philhealth_organized = substr($philhealth_organized, 0, 2)."-".substr($philhealth_organized,2,9)."-".substr($philhealth_organized,11,1);
+			}
+		}
+		else {
+			$philhealth_organized = null;
+		}
+
 		if(Records::where('lname', strtoupper($request->lname))->exists()) {
 			$param1 = 1;
 		}
@@ -127,7 +140,7 @@ class RecordsController extends Controller
 		if($param1 == 1 && $param2 == 1 && $param3 == 1 && $param4 == 1 && $param5 == 1) {
 			return back()
 			->withInput()
-			->with('msg', 'Could not create. Patient Record already exists.');
+			->with('msg', 'Double Entry Error. Patient Record already exists.');
 		}
 		else {
 			$request->user()->records()->create([
@@ -142,7 +155,7 @@ class RecordsController extends Controller
 				'mobile' => $request->mobile,
 				'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
 				'email' => $request->email,
-				'philhealth' => ($request->filled('philhealth') && $request->philhealth != "N/A") ? $request->philhealth : null,
+				'philhealth' => $philhealth_organized,
 				'address_houseno' => strtoupper($request->address_houseno),
 				'address_street' => strtoupper($request->address_street),
 				'address_brgy' => strtoupper($request->address_brgy),
@@ -249,6 +262,19 @@ class RecordsController extends Controller
 			$isPregnant = $request->pregnant;
 		}
 
+		if($request->filled('philhealth')) {
+			if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
+				$philhealth_organized = $request->philhealth;
+			}
+			else {
+				$philhealth_organized = str_replace('-','', $request->philhealth);
+				$philhealth_organized = substr($philhealth_organized, 0, 2)."-".substr($philhealth_organized,2,9)."-".substr($philhealth_organized,11,1);
+			}
+		}
+		else {
+			$philhealth_organized = null;
+		}
+
         $record = Records::where('id', $id)->update([
 			'lname' => strtoupper($request->lname),
 			'fname' => strtoupper($request->fname),
@@ -261,7 +287,7 @@ class RecordsController extends Controller
 			'mobile' => $request->mobile,
 			'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
 			'email' => $request->email,
-			'philhealth' => $request->philhealth,
+			'philhealth' => $philhealth_organized,
 			'address_houseno' => strtoupper($request->address_houseno),
 			'address_street' => strtoupper($request->address_street),
 			'address_brgy' => strtoupper($request->address_brgy),

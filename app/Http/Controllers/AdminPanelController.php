@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brgy;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
 
 class AdminPanelController extends Controller
@@ -23,6 +24,30 @@ class AdminPanelController extends Controller
         $lists = User::where('isAdmin', 1)->get();
 
         return view('admin_accounts_home', ['lists' => $lists]);
+    }
+
+    public function adminCodeStore(Request $request) {
+        $request->validate([
+            'adminType' => 'required',
+            'pw' => 'required',
+        ]);
+        
+        $hashedPassword = User::find(auth()->user()->id)->password;
+
+        if (Hash::check($request->pw, $hashedPassword)) {
+            $code = strtoupper(Str::random(6));
+
+            $request->user()->brgyCode()->create([
+                'brgy_id' => null,
+                'bCode' => $code,
+                'adminType' => $request->adminType
+            ]);
+
+            return redirect()->action([AdminPanelController::class, 'accountIndex'])->with('process', 'createAccount')->with('statustype', 'success')->with('bCode', $code);
+        }
+        else {
+            return redirect()->action([AdminPanelController::class, 'accountIndex'])->with('modalstatus', 'Your password is incorrect. Please try again.')->with('statustype', 'danger');
+        }
     }
 
     public function brgyStore(Request $request) {

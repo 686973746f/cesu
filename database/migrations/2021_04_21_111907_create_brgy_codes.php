@@ -18,8 +18,9 @@ class CreateBrgyCodes extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('brgy_id');
+            $table->integer('brgy_id')->nullable();
             $table->string('bCode');
+            $table->tinyInteger('adminType')->default(0);
             $table->tinyInteger('enabled')->default(1);
         });
     }

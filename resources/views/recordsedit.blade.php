@@ -123,7 +123,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="phoneno">Home Phone No. (& Area Code)</label>
-                                <input type="number" class="form-control" id="phoneno" name="phoneno" value="{{old('phoneno', $record->phoneno)}}">
+                                <input type="text" class="form-control" id="phoneno" name="phoneno" value="{{old('phoneno', $record->phoneno)}}">
                                 @error('phoneno')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror

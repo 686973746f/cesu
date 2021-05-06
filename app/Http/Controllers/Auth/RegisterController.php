@@ -70,6 +70,7 @@ class RegisterController extends Controller
         $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])->first();
 
         $brgy_id = $list->brgy_id;
+        $adminType = $list->adminType;
 
         $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])
         ->update([
@@ -79,7 +80,7 @@ class RegisterController extends Controller
         return User::create([
             'brgy_id' => $brgy_id,
             'enabled' => 1,
-            'isAdmin' => 0,
+            'isAdmin' => $adminType,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

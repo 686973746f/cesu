@@ -21,7 +21,7 @@ class CreateInterviewersTable extends Migration
             $table->string('lname');
             $table->string('fname');
             $table->string('mname');
-            $table->foreignId('brgy_id')->constrained('brgy')->onDelete('cascade');
+            $table->foreignId('brgy_id')->constrained('brgy')->onDelete('cascade')->nullable();
         });
     }
 

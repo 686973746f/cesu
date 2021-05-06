@@ -24,9 +24,9 @@ class RecordValidationRequest extends FormRequest
     public function rules()
     {
         return [
-			'lname' => 'required|max:50',
-    		'fname' => 'required|max:50',
-    		'mname' => 'nullable|max:50',
+			'lname' => 'required|string|max:50',
+    		'fname' => 'required|string|max:50',
+    		'mname' => 'nullable|string|max:50',
 			'gender' => 'required',
 			'cs' => 'required',
 			'nationality' => 'required',
@@ -34,7 +34,7 @@ class RecordValidationRequest extends FormRequest
 			'mobile' => 'required|numeric|digits:11',
 			'phoneno' => 'nullable|numeric',
 			'email' => 'nullable|email',
-			'philhealth' => 'nullable',
+			'philhealth' => 'nullable|regex:/^([0-9-]+)$/',
 			'address_houseno' => 'required',
 			'address_street' => 'required',
 			'address_brgy' => 'required',

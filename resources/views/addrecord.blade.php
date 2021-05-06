@@ -126,7 +126,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="phoneno">Home Phone No. (& Area Code)</label>
-							<input type="number" class="form-control" id="phoneno" name="phoneno" value="{{old('phoneno')}}">
+							<input type="text" class="form-control" id="phoneno" name="phoneno" value="{{old('phoneno')}}">
 							@error('phoneno')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -144,7 +144,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="philhealth">Philhealth No. <small><i>(Leave blank if N/A)</i></small></label>
-							<input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}">
+							<input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
 							@error('philhealth')
 								<small class="text-danger">{{$message}}</small>
 							@enderror

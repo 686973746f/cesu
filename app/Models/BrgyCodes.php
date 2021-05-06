@@ -11,7 +11,8 @@ class BrgyCodes extends Model
 
     protected $fillable = [
         'brgy_id',
-        'bCode'
+        'bCode',
+        'adminType'
     ];
 
     public function user() {
