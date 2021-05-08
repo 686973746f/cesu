@@ -32,7 +32,7 @@
                     @foreach($lists as $list)
                     <tr>
                         <td scope="row">{{$list->brgyName}}</td>
-                        <td>{{$users->where('brgy_id', $list->brgy_id)->count()}}</td>
+                        <td>{{$users->where('brgy_id', $list->id)->count()}}</td>
                         <td></td>
                     </tr>
                     @endforeach
