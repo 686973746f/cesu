@@ -21,6 +21,6 @@ class Interviewers extends Model
     }
 
     public function brgy() {
-        return $this->hasMany(Brgy::class);
+        return $this->belongsTo(Brgy::class);
     }
 }

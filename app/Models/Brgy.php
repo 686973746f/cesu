@@ -22,8 +22,4 @@ class Brgy extends Model
     public function brgyCode() {
         return $this->hasMany(BrgyCodes::class);
     }
-
-    public function interviewer() {
-        return $this->belongsTo(Interviewers::class);
-    }
 }
