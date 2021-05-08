@@ -61,7 +61,7 @@
                               <select class="form-control" name="interviewerName" id="interviewerName" required>
                                 <option value="" disabled {{(empty(old('interviewerName', $records->interviewerName))) ? 'selected' : ''}}>Choose...</option>
                                   @foreach($interviewers as $key => $interviewer)
-                                    <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName', $records->interviewerName) == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname." (".$interviewer->brgy->brgyName.")"}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
+                                  <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName', $records->interviewerName) == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname}}{{(!is_null($interviewer->brgy_id)) ? " (".$interviewer->brgy->brgyName.")" : ''}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
                                   @endforeach
                               </select>
                             </div>
