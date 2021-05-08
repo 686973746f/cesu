@@ -15,6 +15,8 @@ class LineListController extends Controller
 
         $list = Forms::where('testDateCollected1', date('Y-m-d'))->get();
 
+        $list = json_encode($list);
+
         return view('linelist_createoni', ['list' => $list]);
     }
 }

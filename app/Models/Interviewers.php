@@ -5,25 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Brgy extends Model
+class Interviewers extends Model
 {
     use HasFactory;
 
-    protected $table = 'brgy';
-
     protected $fillable = [
-        'brgyName'
+        'lname',
+        'fname',
+        'mname',
+        'brgy_id'
     ];
 
     public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function brgyCode() {
-        return $this->hasMany(BrgyCodes::class);
-    }
-
-    public function interviewer() {
-        return $this->belongsTo(Interviewers::class);
+    public function brgy() {
+        return $this->hasMany(Brgy::class);
     }
 }

@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="pregnant">Is the Patient Pregnant?</label>
+                                    <label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
                                     <select class="form-control" name="pregnant" id="pregnant" required>
                                       <option value="0" {{(old('pregnant', $record->isPregnant) == 0) ? 'selected' : ''}}>NO</option>
                                       <option value="1" {{(old('pregnant', $record->isPregnant) == 1) ? 'selected' : ''}}>YES</option>

@@ -112,7 +112,10 @@
 
     <script>
         $(document).ready(function () {
-            var data = {{$list->toJson(JSON_PRETTY_PRINT)}}
+            alert('budol');
+            //var data = {{$list}};
+
+            
         });
     </script>
 @endsection

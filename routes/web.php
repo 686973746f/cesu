@@ -15,6 +15,7 @@ use App\Http\Controllers\LineListController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\RegisterCodeController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\InterviewersController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -76,6 +77,8 @@ Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdmin
     
     Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
     Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
+
+    Route::resource('/interviewers', InterviewersController::class);
 });
 
 Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);

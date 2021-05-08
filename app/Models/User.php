@@ -60,4 +60,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function brgyCode() {
         return $this->hasMany(BrgyCodes::class);
     }
+
+    public function interviewer() {
+        return $this->hasMany(Interviewers::class);
+    }
 }

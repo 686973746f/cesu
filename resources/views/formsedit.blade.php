@@ -72,7 +72,7 @@
                                 <option value="DE GUZMAN, EMERENCIANA" {{(old('interviewerName', $records->interviewerName) == "DE GUZMAN, EMERENCIANA") ? 'selected' : ''}}>DE GUZMAN, EMERENCIANA</option>
                                 <option value="DE LEON, AMELITA" {{(old('interviewerName', $records->interviewerName) == "DE LEON, AMELITA") ? 'selected' : ''}}>DE LEON, AMELITA</option>
                                 <option value="DINGLASAN, MARITES" {{(old('interviewerName', $records->interviewerName) == "DINGLASAN, MARITES") ? 'selected' : ''}}>DINGLASAN, MARITES</option>
-                                <option value="ESPAÑOLA, KRIZA MARIELL" {{(old('interviewerName', $records->interviewerName) == "ESPAÑOLA, KRIZA MARIELL") ? 'selected' : ''}}>ESPAÑOLA, KRIZA MARIELL</option>
+                                <option value="ESPAﾃ前LA, KRIZA MARIELL" {{(old('interviewerName', $records->interviewerName) == "ESPAﾃ前LA, KRIZA MARIELL") ? 'selected' : ''}}>ESPAﾃ前LA, KRIZA MARIELL</option>
                                 <option value="ESTANISLAO, MELIROSE" {{(old('interviewerName', $records->interviewerName) == "ESTANISLAO, MELIROSE") ? 'selected' : ''}}>ESTANISLAO, MELIROSE</option>
                                 <option value="JAPAY, MARLA SAMANTHA" {{(old('interviewerName', $records->interviewerName) == "JAPAY, MARLA SAMANTHA") ? 'selected' : ''}}>JAPAY, MARLA SAMANTHA</option>
                                 <option value="JAVIER, RICHELLE" {{(old('interviewerName', $records->interviewerName) == "JAVIER, RICHELLE") ? 'selected' : ''}}>JAVIER, RICHELLE</option>
@@ -133,7 +133,7 @@
                                 <label for="informantRelationship">Relationship</label>
                                 <select class="form-control" name="informantRelationship" id="informantRelationship">
                                 <option value="" disabled {{(is_null(old('informantRelationship', $records->informantRelationship))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Relative" {{(old('informantRelationship', $records->informantRelationship) == "Relative") ? 'selected' : ''}}>Family/Relative</option>
+                                <option value="Relative" {{(old('informantRelationship', $records->informantRelationship) == "RELATIVE") ? 'selected' : ''}}>Family/Relative</option>
                                 <option value="Friend" {{(old('informantRelationship', $records->informantRelationship) == "Friend") ? 'selected' : ''}}>Friend</option>
                                 <option value="Others" {{(old('informantRelationship', $records->informantRelationship) == "Others") ? 'selected' : ''}}>Others</option>
                                 </select>
@@ -2126,6 +2126,10 @@
                     $('#informantMobile').prop({disabled: false, required: true});
                 }
             }).trigger('keydown');
+            
+            @if(!is_null($records->informantRelationship))
+                $('#informantRelationship').val("{{$records->informantRelationship}}");
+            @endif
 
             $('#ecothers').change(function (e) { 
                 e.preventDefault();

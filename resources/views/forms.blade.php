@@ -145,7 +145,11 @@
     })
 
     $(document).ready(function () {
-        $('#table_id').DataTable();
+        $('#table_id').DataTable(
+            {
+        "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]]
+    }
+        );
 
         $('#select_all').change(function() {
         var checkboxes = $(this).closest('form').find(':checkbox');
