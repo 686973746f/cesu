@@ -64,7 +64,9 @@
 
     <script>
         $(document).ready(function () {
-            $('#table_id').DataTable();
+            $('#table_id').DataTable({
+                "order": [[0, "asc"]]
+            });
         });
     </script>
 @endsection

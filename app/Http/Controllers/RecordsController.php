@@ -27,7 +27,7 @@ class RecordsController extends Controller
 		}
 		*/
 
-		$records = Records::orderBy('lname','asc')->get();
+		$records = Records::all();
 		
         return view ('records', ['records' => $records]);
     }

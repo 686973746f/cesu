@@ -60,8 +60,6 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::resource('records', RecordsController::class);
     Route::resource('/forms', FormsController::class);
 
-    Route::post('/export', [FormsController::class, 'export'])->name('forms.export');
-
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
 
@@ -70,6 +68,8 @@ Route::group(['middleware' => ['auth','verified']], function() {
 
 Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()
 {
+    Route::post('/export', [FormsController::class, 'export'])->name('forms.export'); //print to excel, for admin only (temporary)
+
     Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
     Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
     Route::post('/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
