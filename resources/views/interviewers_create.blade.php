@@ -27,14 +27,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                      <label for="brgy_id"><span class="text-danger font-weight-bold">*</span>Barangay</label>
-                      <select class="form-control" name="brgy_id" id="brgy_id">
-                          <option value="">N/A</option>
-                          @foreach($list as $item)
-                            <option value="{{$item->id}}">{{$item->brgyName}}</option>
-                          @endforeach
-                      </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="desc">Description</label>
+                                <input type="text" class="form-control" name="desc">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="brgy_id"><span class="text-danger font-weight-bold">*</span>Barangay</label>
+                                <select class="form-control" name="brgy_id" id="brgy_id">
+                                    <option value="">N/A</option>
+                                    @foreach($list as $item)
+                                      <option value="{{$item->id}}">{{$item->brgyName}}</option>
+                                    @endforeach
+                                </select>
+                              </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">

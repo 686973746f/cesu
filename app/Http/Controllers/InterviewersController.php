@@ -46,6 +46,7 @@ class InterviewersController extends Controller
             'lname' => strtoupper($request->lname),
             'fname' => strtoupper($request->fname),
             'mname' => ($request->filled('mname')) ? strtoupper($request->mname) : null,
+            'desc' => ($request->filled('desc')) ? strtoupper($request->desc) : null,
             'brgy_id' => $request->brgy_id,
         ]);
 

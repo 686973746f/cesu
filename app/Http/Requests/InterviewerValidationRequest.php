@@ -27,7 +27,8 @@ class InterviewerValidationRequest extends FormRequest
             'lname' => 'required|string|max:50',
             'fname' => 'required|string|max:50',
             'mname' => 'nullable|string|max:50',
-            'brgy_id' => 'nullable'
+            'brgy_id' => 'nullable',
+            'desc' => 'nullable|string'
         ];
     }
 }

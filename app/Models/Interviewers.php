@@ -13,6 +13,7 @@ class Interviewers extends Model
         'lname',
         'fname',
         'mname',
+        'desc',
         'brgy_id'
     ];
 

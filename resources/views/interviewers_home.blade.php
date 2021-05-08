@@ -23,6 +23,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Brgy</th>
+                            <th>Desc</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -32,6 +33,7 @@
                             <td scope="row">{{$key+1}}</td>
                             <td>{{$item->lname.", ".$item->fname." ".$item->mname}}</td>
                             <td>{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
+                            <td>{{$item->desc}}</td>
                             <td><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
                         </tr>
                         @endforeach
