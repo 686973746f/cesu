@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<form action="{{route('adminpanel.brgy.store')}}" method="POST">
+<form action="{{route('adminpanel.brgy.store')}}" method="POST" autocomplete="off">
     @csrf
     <div class="modal fade" id="addBrgyModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">

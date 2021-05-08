@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="/interviewers/{{$record->id}}" method="POST">
+        <form action="/interviewers/{{$record->id}}" method="POST" autocomplete="off">
             @csrf
             @method('PUT')
             <div class="card">
@@ -12,7 +12,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-                              <input type="text" class="form-control" name="lname" value="{{old('lname', $record->lname)}}" required>
+                              <input type="text" class="form-control" name="lname" value="{{old('lname', $record->lname)}}" required autofocus>
                             </div>
                         </div>
                         <div class="col-md-4">

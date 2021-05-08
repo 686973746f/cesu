@@ -19,11 +19,11 @@
                 @endif
                 <table class="table">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>#</th>
                             <th>Name</th>
-                            <th>Brgy</th>
-                            <th>Desc</th>
+                            <th>Barangay</th>
+                            <th>Description</th>
                             <th></th>
                         </tr>
                     </thead>

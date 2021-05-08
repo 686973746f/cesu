@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('interviewers.store')}}" method="POST">
+        <form action="{{route('interviewers.store')}}" method="POST" autocomplete="off">
             @csrf
             <div class="card">
                 <div class="card-header">Add Interviewer</div>
@@ -11,7 +11,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-                              <input type="text" class="form-control" name="lname" value="{{old('lname')}}" required>
+                              <input type="text" class="form-control" name="lname" value="{{old('lname')}}" required autofocus>
                             </div>
                         </div>
                         <div class="col-md-4">
