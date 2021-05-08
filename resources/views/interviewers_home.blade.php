@@ -30,11 +30,11 @@
                     <tbody>
                         @foreach($list as $key => $item)
                         <tr>
-                            <td scope="row">{{$key+1}}</td>
-                            <td>{{$item->lname.", ".$item->fname." ".$item->mname}}</td>
-                            <td>{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
-                            <td>{{$item->desc}}</td>
-                            <td><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
+                            <td style="vertical-align: middle;" class="text-center" scope="row">{{$key+1}}</td>
+                            <td style="vertical-align: middle;">{{$item->lname.", ".$item->fname." ".$item->mname}}</td>
+                            <td style="vertical-align: middle;">{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
+                            <td style="vertical-align: middle;">{{$item->desc}}</td>
+                            <td style="vertical-align: middle;"><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
                         </tr>
                         @endforeach
                     </tbody>
