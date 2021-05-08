@@ -23,7 +23,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="mname">Middle Name</label>
-                                <input type="text" class="form-control" name="mname" required>
+                                <input type="text" class="form-control" name="mname">
                             </div>
                         </div>
                     </div>
