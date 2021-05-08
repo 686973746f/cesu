@@ -7,7 +7,7 @@
         <div class="card-body">
             <a class="btn btn-primary btn-block mb-3" href="{{route('adminpanel.account.index')}}" role="button">Admin Accounts</a>
             <a class="btn btn-primary btn-block mb-3" href="{{route('adminpanel.brgy.index')}}" role="button">Barangay Accounts</a>
-            <a class="btn btn-primary btn-block mb-3" href="{{route('interviewers.index')}}" role="button">Interviewers</a>
+            <a class="btn btn-primary btn-block" href="{{route('interviewers.index')}}" role="button">Interviewers</a>
         </div>
     </div>
 </div>

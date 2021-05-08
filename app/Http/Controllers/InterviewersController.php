@@ -72,7 +72,10 @@ class InterviewersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $record = Interviewers::findOrFail($id);
+        $list = Brgy::orderBy('brgyName', 'asc')->get();
+
+        return view('interviewers_edit', ['record' => $record, 'list' => $list]);
     }
 
     /**
@@ -84,7 +87,17 @@ class InterviewersController extends Controller
      */
     public function update(InterviewerValidationRequest $request, $id)
     {
-        //
+        $request->validated();
+
+        $record = Interviewers::where('id', $id)->update([
+            'lname' => strtoupper($request->lname),
+            'fname' => strtoupper($request->fname),
+            'mname' => ($request->filled('mname')) ? strtoupper($request->mname) : null,
+            'desc' => ($request->filled('desc')) ? strtoupper($request->desc) : null,
+            'brgy_id' => $request->brgy_id,
+        ]);
+
+        return redirect()->action([InterviewersController::class, 'index'])->with('status', 'Interviewer record has been updated successfully.')->with('statustype', 'success');
     }
 
     /**
