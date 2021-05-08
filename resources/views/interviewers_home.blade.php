@@ -34,7 +34,7 @@
                             <td style="vertical-align: middle;">{{$item->lname.", ".$item->fname." ".$item->mname}}</td>
                             <td style="vertical-align: middle;">{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
                             <td style="vertical-align: middle;">{{$item->desc}}</td>
-                            <td style="vertical-align: middle;"><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
+                            <td style="vertical-align: middle;" class="text-center"><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
                         </tr>
                         @endforeach
                     </tbody>
