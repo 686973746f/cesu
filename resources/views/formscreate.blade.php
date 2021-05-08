@@ -66,53 +66,10 @@
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
                               <select class="form-control" name="interviewerName" id="interviewerName" required>
-                                <option value="" disabled selected>Choose...</option>
-                                <option value="N/A">N/A</option>
-                                <option value="BARBUCO, CARLA MAE">BARBUCO, CARLA MAE (SAN JUAN 2)</option>
-                                <option value="BARTOLOME, MARY ANN">BARTOLOME, MARY ANN (SAN JUAN 1)</option>
-                                <option value="BINWEK, JENETH G.">BINWEK, JENETH G. (PASCAM 1 PROPER)</option>
-                                <option value="BROSAS, ELENA">BROSAS, ELENA (BACAO 2)</option>
-                                <option value="CANTOJA, MARIVIC">CANTOJA, MARIVIC (TEJERO)</option>
-                                <option value="CASTRO, ARLENE">CASTRO, ARLENE</option>
-                                <option value="CERVANTES, ANA CARMELA">CERVANTES, ANA CARMELA (PARKLANE SF)</option>
-                                <option value="COLIBAO, HUMBLELINE LOUISE">COLIBAO, HUMBLELINE LOUISE (BELVEDERE/PM PK2)</option>
-                                <option value="DAYRIT, BRIANNE">DAYRIT, BRIANNE (BUENO 1)</option>
-                                <option value="DE GUZMAN, EMERENCIANA">DE GUZMAN, EMERENCIANA (PASCAM 1)</option>
-                                <option value="DE LEON, AMELITA">DE LEON, AMELITA (PANUNGYANANG)</option>
-                                <option value="DINGLASAN, MARITES">DINGLASAN, MARITES (ALINGARO)</option>
-                                <option value="ESPAÑOLA, KRIZA MARIELL">ESPAÑOLA, KRIZA MARIELL (TIERRA NEVADA SF)</option>
-                                <option value="ESTANISLAO, MELIROSE">ESTANISLAO, MELIROSE (PARKLANE SANTIAGO)</option>
-                                <option value="JAPAY, MARLA SAMANTHA">JAPAY, MARLA SAMANTHA (KIKO ROSA SF)</option>
-                                <option value="JAVIER, RICHELLE">JAVIER, RICHELLE (PASCAM 2)</option>
-                                <option value="LACSON, LIBERTY">LACSON, LIBERTY (SAN FRANCISCO - SUNNY BROOKE 2)</option>
-                                <option value="LAGLAG, JACKELYN F.">LAGLAG, JACKELYN F. (ELANG SF)</option>
-                                <option value="LOPEZ, JUNE PEARL">LOPEZ, JUNE PEARL (TAHANANG YAMAN BUENA 2)</option>
-                                <option value="LORIA, RAYMART">LORIA, RAYMART (MANGGAHAN)</option>
-                                <option value="LOVELY, JOE KENNETH">LOVELY, JOE KENNETH (MANGGAHAN)</option>
-                                <option value="LUMUCSO, CARINA">LUMUCSO, CARINA (NAVARRO)</option>
-                                <option value="MABUTE, JOHN ANTHONY">MABUTE, JOHN ANTHONY</option>
-                                <option value="MACALAWA, JHED">MACALAWA, JHED (LRTA SANTIAGO)</option>
-                                <option value="MAGSINO, SENELIZA">MAGSINO, SENELIZA (BACAO 1)</option>
-                                <option value="MAGSOMBOL, RICHARD">MAGSOMBOL, RICHARD (PK1 - BELVEDERE)</option>
-                                <option value="MANALO, AILEEN">MANALO, AILEEN (SAN FRANCISCO - PABAHAY 2000)</option>
-                                <option value="MARQUEDA, JESSA D.">MARQUEDA, JESSA D. (JAVALERA)</option>
-                                <option value="MENDOZA, ROSALYN">MENDOZA, ROSALYN (TAPIA)</option>
-                                <option value="MONTALLANA, MA. LORETA">MONTALLANA, MA. LORETA (ACM NAVARRO)</option>
-                                <option value="MUGOL, MA. JOSEFA">MUGOL, MA. JOSEFA (BICLATAN)</option>
-                                <option value="PAMULAYA, MELINDA">PAMULAYA, MELINDA (PINAGTIPUNAN)</option>
-                                <option value="PARIN, JENNIFER">PARIN, JENNIFER (PASCAM 1)</option>
-                                <option value="PASTRANA, CHERRY MAE ANN">PASTRANA, CHERRY MAE ANN (BUENA 2 PROPER)</option>
-                                <option value="PINEDA, TESSIE">PINEDA, TESSIE (BUENO 3)</option>
-                                <option value="PLAN, JELLY ANN">PLAN, JELLY ANN (DE FUEGO SF)</option>
-                                <option value="PRESA, TERESITA">PRESA, TERESITA (STA. CLARA)</option>
-                                <option value="RAMOS, MIRANDA C.">RAMOS, MIRANDA C.</option>
-                                <option value="RAMOS, NELLY">RAMOS, NELLY</option>
-                                <option value="RELOX, LADYBIRD">RELOX, LADYBIRD (PASCAM 2 PROPER)</option>
-                                <option value="RODRIGUEZ, LORNA">RODRIGUEZ, LORNA (SAN FRANCISCO - SUNNY BROOKE 1)</option>
-                                <option value="ROJAS, DAISY">ROJAS, DAISY (PK2 - PROPER)</option>
-                                <option value="SALAZAR, MINNIE">SALAZAR, MINNIE (MANGGAHAN)</option>
-                                <option value="SORIANO, KENNETH">SORIANO, KENNETH (HEN. UNO PK2)</option>
-                                <option value="TABUJARA, MARIA TERESA">TABUJARA, MARIA TERESA (COUNTRY MEADOW SF)</option>
+                                  <option value="" disabled {{(empty(old('interviewerName'))) ? 'selected' : ''}}>Choose...</option>
+                                  @foreach($interviewers as $key => $interviewer)
+                                    <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName') == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname." (".$interviewer->brgy->brgyName.")"}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
+                                  @endforeach
                               </select>
                             </div>
                         </div>

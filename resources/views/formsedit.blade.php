@@ -59,52 +59,10 @@
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
                               <select class="form-control" name="interviewerName" id="interviewerName" required>
-                                <option value="" disabled>Choose...</option>
-                                <option value="N/A">N/A</option>
-                                <option value="BARBUCO, CARLA MAE" {{(old('interviewerName', $records->interviewerName) == "BARBUCO, CARLA MAE") ? 'selected' : ''}}>BARBUCO, CARLA MAE</option>
-                                <option value="BARTOLOME, MARY ANN" {{(old('interviewerName', $records->interviewerName) == "BARTOLOME, MARY ANN") ? 'selected' : ''}}>BARTOLOME, MARY ANN</option>
-                                <option value="BINWEK, JENETH G." {{(old('interviewerName', $records->interviewerName) == "BINWEK, JENETH G.") ? 'selected' : ''}}>BINWEK, JENETH G.</option>
-                                <option value="BROSAS, ELENA" {{(old('interviewerName', $records->interviewerName) == "BROSAS, ELENA") ? 'selected' : ''}}>BROSAS, ELENA</option>
-                                <option value="CANTOJA, MARIVIC" {{(old('interviewerName', $records->interviewerName) == "CANTOJA, MARIVIC") ? 'selected' : ''}}>CANTOJA, MARIVIC</option>
-                                <option value="CASTRO, ARLENE" {{(old('interviewerName', $records->interviewerName) == "CASTRO, ARLENE") ? 'selected' : ''}}>CASTRO, ARLENE</option>
-                                <option value="CERVANTES, ANA CARMELA" {{(old('interviewerName', $records->interviewerName) == "CERVANTES, ANA CARMELA") ? 'selected' : ''}}>CERVANTES, ANA CARMELA</option>
-                                <option value="COLIBAO, HUMBLELINE LOUISE" {{(old('interviewerName', $records->interviewerName) == "COLIBAO, HUMBLELINE LOUISE") ? 'selected' : ''}}>COLIBAO, HUMBLELINE LOUISE</option>
-                                <option value="DE GUZMAN, EMERENCIANA" {{(old('interviewerName', $records->interviewerName) == "DE GUZMAN, EMERENCIANA") ? 'selected' : ''}}>DE GUZMAN, EMERENCIANA</option>
-                                <option value="DE LEON, AMELITA" {{(old('interviewerName', $records->interviewerName) == "DE LEON, AMELITA") ? 'selected' : ''}}>DE LEON, AMELITA</option>
-                                <option value="DINGLASAN, MARITES" {{(old('interviewerName', $records->interviewerName) == "DINGLASAN, MARITES") ? 'selected' : ''}}>DINGLASAN, MARITES</option>
-                                <option value="ESPAﾃ前LA, KRIZA MARIELL" {{(old('interviewerName', $records->interviewerName) == "ESPAﾃ前LA, KRIZA MARIELL") ? 'selected' : ''}}>ESPAﾃ前LA, KRIZA MARIELL</option>
-                                <option value="ESTANISLAO, MELIROSE" {{(old('interviewerName', $records->interviewerName) == "ESTANISLAO, MELIROSE") ? 'selected' : ''}}>ESTANISLAO, MELIROSE</option>
-                                <option value="JAPAY, MARLA SAMANTHA" {{(old('interviewerName', $records->interviewerName) == "JAPAY, MARLA SAMANTHA") ? 'selected' : ''}}>JAPAY, MARLA SAMANTHA</option>
-                                <option value="JAVIER, RICHELLE" {{(old('interviewerName', $records->interviewerName) == "JAVIER, RICHELLE") ? 'selected' : ''}}>JAVIER, RICHELLE</option>
-                                <option value="LACSON, LIBERTY" {{(old('interviewerName', $records->interviewerName) == "LACSON, LIBERTY") ? 'selected' : ''}}>LACSON, LIBERTY</option>
-                                <option value="LAGLAG, JACKELYN F." {{(old('interviewerName', $records->interviewerName) == "LAGLAG, JACKELYN F.") ? 'selected' : ''}}>LAGLAG, JACKELYN F.</option>
-                                <option value="LOPEZ, JUNE PEARL" {{(old('interviewerName', $records->interviewerName) == "LOPEZ, JUNE PEARL") ? 'selected' : ''}}>LOPEZ, JUNE PEARL</option>
-                                <option value="LORIA, RAYMART" {{(old('interviewerName', $records->interviewerName) == "LORIA, RAYMART") ? 'selected' : ''}}>LORIA, RAYMART</option>
-                                <option value="LOVELY, JOE KENNETH" {{(old('interviewerName', $records->interviewerName) == "LOVELY, JOE KENNETH") ? 'selected' : ''}}>LOVELY, JOE KENNETH</option>
-                                <option value="LUMUCSO, CARINA" {{(old('interviewerName', $records->interviewerName) == "LUMUCSO, CARINA") ? 'selected' : ''}}>LUMUCSO, CARINA</option>
-                                <option value="MABUTE, JOHN ANTHONY" {{(old('interviewerName', $records->interviewerName) == "MABUTE, JOHN ANTHONY") ? 'selected' : ''}}>MABUTE, JOHN ANTHONY</option>
-                                <option value="MACALAWA, JHED" {{(old('interviewerName', $records->interviewerName) == "MACALAWA, JHED") ? 'selected' : ''}}>MACALAWA, JHED</option>
-                                <option value="MAGSINO, SENELIZA" {{(old('interviewerName', $records->interviewerName) == "MAGSINO, SENELIZA") ? 'selected' : ''}}>MAGSINO, SENELIZA</option>
-                                <option value="MAGSOMBOL, RICHARD" {{(old('interviewerName', $records->interviewerName) == "MAGSOMBOL, RICHARD") ? 'selected' : ''}}>MAGSOMBOL, RICHARD</option>
-                                <option value="MANALO, AILEEN" {{(old('interviewerName', $records->interviewerName) == "MANALO, AILEEN") ? 'selected' : ''}}>MANALO, AILEEN</option>
-                                <option value="MARQUEDA, JESSA D." {{(old('interviewerName', $records->interviewerName) == "MARQUEDA, JESSA D.") ? 'selected' : ''}}>MARQUEDA, JESSA D.</option>
-                                <option value="MENDOZA, ROSALYN" {{(old('interviewerName', $records->interviewerName) == "MENDOZA, ROSALYN") ? 'selected' : ''}}>MENDOZA, ROSALYN</option>
-                                <option value="MONTALLANA, MA. LORETA" {{(old('interviewerName', $records->interviewerName) == "MONTALLANA, MA. LORETA") ? 'selected' : ''}}>MONTALLANA, MA. LORETA</option>
-                                <option value="MUGOL, MA. JOSEFA" {{(old('interviewerName', $records->interviewerName) == "MUGOL, MA. JOSEFA") ? 'selected' : ''}}>MUGOL, MA. JOSEFA</option>
-                                <option value="PAMULAYA, MELINDA" {{(old('interviewerName', $records->interviewerName) == "PAMULAYA, MELINDA") ? 'selected' : ''}}>PAMULAYA, MELINDA</option>
-                                <option value="PARIN, JENNIFER" {{(old('interviewerName', $records->interviewerName) == "PARIN, JENNIFER") ? 'selected' : ''}}>PARIN, JENNIFER</option>
-                                <option value="PASTRANA, CHERRY MAE ANN" {{(old('interviewerName', $records->interviewerName) == "PASTRANA, CHERRY MAE ANN") ? 'selected' : ''}}>PASTRANA, CHERRY MAE ANN</option>
-                                <option value="PINEDA, TESSIA" {{(old('interviewerName', $records->interviewerName) == "PINEDA, TESSIA") ? 'selected' : ''}}>PINEDA, TESSIA</option>
-                                <option value="PLAN, JELLY ANN" {{(old('interviewerName', $records->interviewerName) == "PLAN, JELLY ANN") ? 'selected' : ''}}>PLAN, JELLY ANN</option>
-                                <option value="PRESA, TERESITA" {{(old('interviewerName', $records->interviewerName) == "PRESA, TERESITA") ? 'selected' : ''}}>PRESA, TERESITA</option>
-                                <option value="RAMOS, MIRANDA C." {{(old('interviewerName', $records->interviewerName) == "RAMOS, MIRANDA C.") ? 'selected' : ''}}>RAMOS, MIRANDA C.</option>
-                                <option value="RAMOS, NELLY" {{(old('interviewerName', $records->interviewerName) == "RAMOS, NELLY") ? 'selected' : ''}}>RAMOS, NELLY</option>
-                                <option value="RELOX, LADYBIRD" {{(old('interviewerName', $records->interviewerName) == "RELOX, LADYBIRD") ? 'selected' : ''}}>RELOX, LADYBIRD</option>
-                                <option value="RODRIGUEZ, LORNA" {{(old('interviewerName', $records->interviewerName) == "RODRIGUEZ, LORNA") ? 'selected' : ''}}>RODRIGUEZ, LORNA</option>
-                                <option value="ROJAS, DAISY" {{(old('interviewerName', $records->interviewerName) == "ROJAS, DAISY") ? 'selected' : ''}}>ROJAS, DAISY</option>
-                                <option value="SALAZAR, MINNIE" {{(old('interviewerName', $records->interviewerName) == "SALAZAR, MINNIE") ? 'selected' : ''}}>SALAZAR, MINNIE</option>
-                                <option value="SORIANO, KENNETH" {{(old('interviewerName', $records->interviewerName) == "SORIANO, KENNETH") ? 'selected' : ''}}>SORIANO, KENNETH</option>
-                                <option value="TABUJARA, MARIA TERESA" {{(old('interviewerName', $records->interviewerName) == "TABUJARA, MARIA TERESA") ? 'selected' : ''}}>TABUJARA, MARIA TERESA</option>
+                                <option value="" disabled {{(empty(old('interviewerName', $records->interviewerName))) ? 'selected' : ''}}>Choose...</option>
+                                  @foreach($interviewers as $key => $interviewer)
+                                    <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName', $records->interviewerName) == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname." (".$interviewer->brgy->brgyName.")"}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
+                                  @endforeach
                               </select>
                             </div>
                         </div>

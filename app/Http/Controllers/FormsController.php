@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Forms;
 use App\Models\Records;
 use App\Exports\FormsExport;
-use App\Http\Requests\FormValidationRequest;
+use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PragmaRX\Countries\Package\Countries;
+use App\Http\Requests\FormValidationRequest;
 
 class FormsController extends Controller
 {
@@ -86,10 +87,13 @@ class FormsController extends Controller
     public function create()
     {
         $records = Records::all()->sortBy('lname', SORT_NATURAL);
+        $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+
         $countries = new Countries();
         $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
         $all = $countries->all()->pluck('name.common')->toArray();
-        return view('formscreate', ['countries' => $all, 'records' => $records]);
+
+        return view('formscreate', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers]);
     }
 
     public function ajaxGetUserRecord ($id) {
@@ -315,12 +319,13 @@ class FormsController extends Controller
     public function edit($id)
     {
         $records = Forms::findOrFail($id);
+        $interviewers = Interviewers::orderBy('lname', 'asc')->get();
 
         $countries = new Countries();
         $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
         $all = $countries->all()->pluck('name.common')->toArray();
         
-        return view('formsedit', ['countries' => $all, 'records' => $records]);
+        return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers]);
     }
 
     /**
