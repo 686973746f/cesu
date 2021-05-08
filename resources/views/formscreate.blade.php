@@ -27,7 +27,7 @@
                           <option value="" selected disabled>Choose...</option>
                         @forelse($records as $record)
                             @if($record->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
-                                <option value="{{$record->id}}" {{($record->id == old('records_id')) ? 'selected' : ""}}>{{$record->lname}}, {{$record->fname}} {{$record->mname}}| {{$record->gender}} | {{date("m/d/Y", strtotime($record->bdate))}}</option>
+                                <option value="{{$record->id}}" {{($record->id == old('records_id')) ? 'selected' : ""}}>{{$record->lname}}, {{$record->fname}} {{$record->mname}} | {{$record->gender}} | {{date("m/d/Y", strtotime($record->bdate))}}</option>
                             @endif    
                         @empty
     
