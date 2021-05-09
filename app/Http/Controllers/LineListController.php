@@ -62,7 +62,7 @@ class LineListController extends Controller
     }
 
     public function ajaxGetLineList () {
-        $query = Forms::where('testDateCollected1', date('2021-05-07'))->pluck('id')->toArray();
+        $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('id')->toArray();
 
         $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
 
