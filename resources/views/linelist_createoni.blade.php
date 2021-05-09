@@ -145,7 +145,7 @@
             $(clone).find('#specNo').attr('id','specNo'+n);
             var id_num = 'specNo'+n;  
             $('#specNo').val(n);
-            $(clone).insertAfter($('#tbl tbody'));
+            $(clone).insertBefore($('#tbl tbody'));
        });
     </script>
 @endsection 
