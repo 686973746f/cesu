@@ -15,7 +15,26 @@
             </div>
         </div>
         <div class="card-body">
-
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Date Created</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($list as $key => $item)
+                    <tr>
+                        <td scope="row">{{$key+1}}</td>
+                        <td>{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
+                        <td>{{$item->created_at}}</td>
+                        <td><a class="btn btn-primary" href="linelist/oni/print/{{$item->id}}">Print</a></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

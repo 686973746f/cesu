@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Records;
+use App\Models\LinelistMaster;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -63,5 +64,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function interviewer() {
         return $this->hasMany(Interviewers::class);
+    }
+
+    public function linelistmaster() {
+        return $this->hasMany(LinelistMasters::class);
     }
 }

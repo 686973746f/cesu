@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Forms;
+use App\Models\LinelistSubs;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -67,5 +68,9 @@ class Records extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function linelistsub() {
+        return $this->hasMany(LinelistSubs::class);
     }
 }

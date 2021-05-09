@@ -62,8 +62,15 @@ Route::group(['middleware' => ['auth','verified']], function() {
 
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
+    Route::post('/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');
+
+    Route::get('/linelist/oni/print/{id}', [LineListController::class, 'printoni'])->name('linelist.oni.print');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index'); 
+
+    //ajax
+    Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
+    Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
 });
 
 Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()
@@ -81,7 +88,7 @@ Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdmin
     Route::resource('/interviewers', InterviewersController::class);
 });
 
-Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
+
 
 //Main landing page
 Route::get('/', function () {

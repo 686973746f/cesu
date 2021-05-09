@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="container-fluid">
-        <form action="">
+        <form action="{{route('linelist.oni.store')}}" method="POST">
+            @csrf
             <div class="card">
                 <div class="card-header">
                     Create ONI Line List
@@ -30,7 +31,7 @@
                     </div>
                     <hr>
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="tbl">
                             <thead>
                                 <tr class="text-center">
                                     <th>Ziplock No.</th>
@@ -44,20 +45,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr class="trclone">
                                     <td>
                                         <div class="form-group">
-                                          <input type="text" class="form-control" name="specNo[]" id="">
+                                          <input type="text" class="form-control text-center" name="specNo[]" id="specNo" value="1" readonly required>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="dateCollected[]" id="">
+                                            <input type="date" class="form-control" name="dateCollected[]" id="" value="{{date('Y-m-d')}}" required>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="time" class="form-control" name="timeCollected[]" id="">
+                                            <input type="time" class="form-control" name="timeCollected[]" id="" value="14:00" required>
                                         </div>
                                     </td>
                                     <td>
@@ -67,30 +68,32 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                          <select class="form-control" name="user" id="user">
+                                          <select class="form-control" name="user[]" id="user" required>
+                                              <option value="">Choose...</option>
                                           </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                          <select class="form-control" name="oniReferringHospital[]" id="">
+                                          <select class="form-control" name="oniReferringHospital[]" id="" required>
                                             <option value="CHO GENERAL TRIAS">CHO GENERAL TRIAS</option>
                                           </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" name="oniReferringHospital[]" id="">
+                                            <select class="form-control" name="oniSpecType[]" id="" required>
                                               <option value="OPS">OPS</option>
+                                              <option value="NPS">NPS</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" name="remarks[]" id="">
+                                            <select class="form-control" name="remarks[]" id="" required>
                                               <option value="1ST">1ST</option>
                                               <option value="2ND">2ND</option>
-                                              <option value="3RD">2ND</option>
+                                              <option value="3RD">3RD</option>
                                             </select>
                                         </div>
                                     </td>
@@ -99,23 +102,50 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="8" class="text-right">
-                                        <button class="btn btn-primary">Add</button>
+                                        <button class="btn btn-primary" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
                                     </td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </form>
     </div>
-
+    
     <script>
-        $(document).ready(function () {
-            alert('budol');
-            //var data = {{$list}};
+       $.ajax({
+            type: "GET",
+            url: "/ajaxGetLineList/",
+            data: "data",
+            dataType: "json",
+            cache: false,
+            processData: false,
+            error: function(xhr, status, error) {
+                    var err = JSON.parse(xhr.responseText);
+                    alert(err.Message);
+            },
+            success: function (response) {
+                $.each(response['data'], function (indexInArray, valueOfElement) {
+                    $('#user').append('<option value="' + response['data'][indexInArray].id + '">'+response['data'][indexInArray].lname + ', ' + response['data'][indexInArray].fname + ' ' + response['data'][indexInArray].mname + ' | ' + response['data'][indexInArray].bdate + ' | ' + response['data'][indexInArray].gender + '</option>'); 
+                });
+            }
+       });
 
-            
-        });
+       var newRowContent = $('.trclone');
+       var n = 1;
+
+       $('#add').click(function (e) { 
+            n++;
+            e.preventDefault();
+            var clone = $(newRowContent).clone();
+            $(clone).find('#specNo').attr('id','specNo'+n);
+            var id_num = 'specNo'+n;  
+            $('#specNo').val(n);
+            $(clone).insertBefore($('#tbl tbody'));
+       });
     </script>
-@endsection
+@endsection 
