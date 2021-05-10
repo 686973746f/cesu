@@ -21,6 +21,7 @@ class CreateLinelistMasterTable extends Migration
             $table->string('dru');
             $table->string('laSallePhysician')->nullable();
             $table->dateTime('laSalleDateAndTimeShipment')->nullable();
+            $table->string('email')->nullable();
             $table->string('contactPerson');
             $table->string('contactTelephone')->nullable();
             $table->string('contactMobile');

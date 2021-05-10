@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
     Route::post('/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');
 
+    Route::get('/linelist/lasalle/create', [LineListController::class, 'createlasalle'])->name('linelist.createlasalle');
+
     Route::get('/linelist/oni/print/{id}', [LineListController::class, 'printoni'])->name('linelist.oni.print');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index'); 

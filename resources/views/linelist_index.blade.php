@@ -10,11 +10,18 @@
                     Line List
                 </div>
                 <div>
+                    <a href="{{route('linelist.createlasalle')}}" class="btn btn-success">Create LaSalle</a>
                     <a href="{{route('linelist.createoni')}}" class="btn btn-success">Create ONI</a>
                 </div>
             </div>
         </div>
         <div class="card-body">
+            @if(session('status'))
+                <div class="alert alert-{{session('statustype')}}" role="alert">
+                    {{session('status')}}
+                </div>
+                <hr>
+            @endif
             <table class="table">
                 <thead>
                     <tr>

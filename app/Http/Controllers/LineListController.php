@@ -19,9 +19,11 @@ class LineListController extends Controller
 
     public function createoni() {
 
-        $list = Forms::find(1);
+        return view('linelist_createoni');
+    }
 
-        return view('linelist_createoni', ['list' => $list]);
+    public function createlasalle() {
+        return view('linelist_createlasalle');
     }
 
     public function printoni($id) {
@@ -30,7 +32,7 @@ class LineListController extends Controller
 
         
         $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
-        return $pdf->download('invoice.pdf');
+        return $pdf->download('ONI_LL.pdf');
         
 
         //return view('oni_pdf', ['details' => $details, 'list' => $list]);
@@ -58,7 +60,7 @@ class LineListController extends Controller
             ]);
         }
 
-        dd('done');
+        return redirect()->action([LineListController::class, 'index'])->with('status', 'Linelist has been created successfully.')->with('statustype', 'success');
     }
 
     public function ajaxGetLineList () {
