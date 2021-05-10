@@ -1,15 +1,18 @@
 @extends('layouts.app_pdf');
-
+<style>
+    @page { margin: 0px; }
+    body { margin: 0px; }
+</style>
 @section('content')
     <div class="container-fluid">
         <div class="text-center">
-            <img src="{{asset('assets/images/oni_head.png')}}" alt="">
+            <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: 50rem;" class="p-0 my-0">
             <p class="font-weight-bold">SAMPLE PICK-UP FORM</p>
             <span>Name of Institute/Facility: <u>{{$details->dru}}</u></span>
             <p>Name and Number of Contact Person: <u>{{$details->contactPerson." ".$details->contactMobile}}</u></p>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-sm">
                 <thead>
                     <tr class="text-center">
                         <th style="vertical-align: middle;">ZIPLOCK NUMBER</th>
