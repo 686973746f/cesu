@@ -25,15 +25,15 @@ class LineListController extends Controller
     }
 
     public function printoni($id) {
-        /*
-        $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list])->setPaper('a4', 'landscape');
-        return $pdf->download('invoice.pdf');
-        */
-
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
 
-        return view('oni_pdf', ['details' => $details, 'list' => $list]);
+        
+        $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
+        return $pdf->download('invoice.pdf');
+        
+
+        //return view('oni_pdf', ['details' => $details, 'list' => $list]);
     }
 
     public function oniStore(Request $request) {

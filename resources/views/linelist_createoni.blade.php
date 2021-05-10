@@ -142,10 +142,10 @@
             n++;
             e.preventDefault();
             var clone = $(newRowContent).clone();
-            $(clone).find('#specNo').attr('id','specNo'+n);
-            var id_num = 'specNo'+n;  
-            $('#specNo').val(n);
-            $(clone).insertBefore($('#tbl tbody'));
+            $(clone).find('#specNo').val(n);
+            //var id_num = 'specNo'+n;  
+            //$('#specNo'+n).val(n);
+            $(clone).appendTo($('#tbl tbody'));
        });
     </script>
 @endsection 
