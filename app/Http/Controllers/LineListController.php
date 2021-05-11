@@ -26,7 +26,11 @@ class LineListController extends Controller
     }
 
     public function createlasalle() {
-        return view('linelist_createlasalle');
+        $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('records_id')->toArray();
+
+        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+
+        return view('linelist_createlasalle', ['list' => $query]);
     }
 
     public function printoni($id) {
@@ -37,6 +41,15 @@ class LineListController extends Controller
 
         $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
         return $pdf->download('ONI_LL.pdf');
+    }
+
+    public function printlasalle($id) {
+        ini_set('max_execution_time', 180);
+
+        $details = LineListMasters::find($id);
+        $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
+
+        return view('lasalle_pdf', ['details' => $details, 'list' => $list]);
     }
 
     public function oniStore(Request $request) {
@@ -60,7 +73,7 @@ class LineListController extends Controller
                 'oniReferringHospital' => $request->oniReferringHospital[$i]
             ]);
         }
-        return redirect()->action([LineListController::class, 'index'])->with('status', 'Linelist has been created successfully.')->with('statustype', 'success');
+        return redirect()->action([LineListController::class, 'index'])->with('status', 'ONI Linelist has been created successfully.')->with('statustype', 'success');
     }
 
     public function lasalleStore(Request $request) {
@@ -68,11 +81,24 @@ class LineListController extends Controller
             'type' => 2, //ONI = 1, LaSalle = 2
             'dru' => $request->dru,
             'laSallePhysician' => $request->laSallePhysician,
+            'laSalleDateAndTimeShipment' => date('Y-m-d H:i:s', strtotime($request->shipmentDate." ".$request->shipmentTime)),
             'contactPerson' => $request->contactPerson,
             'email' => $request->email,
             'contactTelephone' => $request->contactTelephone,
             'contactMobile' => $request->contactMobile,
         ]);
+
+        for($i=0;$i<count($request->user);$i++) {
+            $query = LinelistSubs::create([
+                'linelist_master_id' => $master->id,
+                'specNo' => $i+1,
+                'records_id' => $request->user[$i],
+                'dateAndTimeCollected' => $request->dateCollected[$i]." ".$request->timeCollected[$i],
+                'remarks' => $request->remarks[$i],
+            ]);
+        }
+
+        return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
     }
 
     /*

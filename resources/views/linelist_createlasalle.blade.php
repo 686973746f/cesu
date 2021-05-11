@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <form action="" method="POST">
+    <div class="container-fluid">
+        <form action="{{route('linelist.lasalle.store')}}" method="POST">
             @csrf
             <div class="card">
                 <div class="card-header">Create LaSalle Linelist</div>
@@ -34,7 +34,7 @@
                                 <input type="email" name="email" id="email" class="form-control" value="cesu.gentrias@gmail.com" required>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -46,6 +46,20 @@
                             <div class="form-group">
                                 <label for="contactMobile">Mobile Number</label>
                                 <input type="text" name="contactMobile" id="contactMobile" class="form-control" value="0917 561 1254" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="shipmentDate">Date of Specimen Shipment</label>
+                                <input type="date" name="shipmentDate" id="shipmentDate" class="form-control" value="{{date('Y-m-d', strtotime('tomorrow'))}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="shipmentTime">Time of Specimen Shipment</label>
+                                <input type="time" name="shipmentTime" id="shipmentTime" class="form-control" value="10:00" required>
                             </div>
                         </div>
                     </div>
@@ -70,8 +84,11 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" name="user[]" id="user" required>
-                                                <option value="">Choose...</option>
+                                            <select name="user[]" class="patient" required>
+                                                <option value="" selected disabled>Choose...</option>
+                                                @foreach($list as $item)
+                                                  <option value="{{$item->id}}">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()}}/{{substr($item->gender, 0, 1)}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </td>
@@ -111,32 +128,20 @@
     </div>
 
     <script>
-        $.ajax({
-            type: "GET",
-            url: "/ajaxGetLineList/",
-            data: "data",
-            dataType: "json",
-            cache: false,
-            processData: false,
-            error: function(xhr, status, error) {
-                    var err = JSON.parse(xhr.responseText);
-                    alert(err.Message);
-            },
-            success: function (response) {
-                $.each(response['data'], function (indexInArray, valueOfElement) {
-                    $('#user').append('<option value="' + response['data'][indexInArray].id + '">'+response['data'][indexInArray].lname + ', ' + response['data'][indexInArray].fname + ' ' + response['data'][indexInArray].mname + ' | ' + response['data'][indexInArray].bdate + ' | ' + response['data'][indexInArray].gender + '</option>'); 
-                });
-            }
-       });
+        $(document).ready(function () {
+            $('.patient').selectize();
+        });
 
        var newRowContent = $('.trclone');
        var n = 1;
+       var tens = 1;
 
        $('#remove').prop('disabled', true);
 
        $('#remove').click(function (e) { 
            e.preventDefault();
            n--;
+           tens = n;
            $('#tbl tr:last').remove();
            
            if(n == 1) {
@@ -146,12 +151,25 @@
 
        $('#add').click(function (e) { 
             n++;
+            tens++;
             e.preventDefault();
+
+            $('.patient').each(function(){ // do this for every select with the 'combobox' class
+                if ($(this)[0].selectize) { // requires [0] to select the proper object
+                    var value = $(this).val(); // store the current value of the select/input
+                    $(this)[0].selectize.destroy(); // destroys selectize()
+                    $(this).val(value);  // set back the value of the select/input
+                }
+            });
+            
             var clone = $(newRowContent).clone();
-            $(clone).find('#specNo').val(n);
-            //var id_num = 'specNo'+n;  
-            //$('#specNo'+n).val(n);
+            $(clone).find('#specNo').val(tens);
             $(clone).appendTo($('#tbl tbody'));
+            $('.patient').selectize();
+            
+            if(tens == 10) {
+                tens = 0;
+            }
 
             if(n != 1) {
                 $('#remove').prop('disabled', false);
