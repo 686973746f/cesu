@@ -1242,7 +1242,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
-                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" value="{{old('testDateCollected1', date('Y-m-d'))}}" required>
+                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" value="{{old('testDateCollected1')}}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
