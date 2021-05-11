@@ -18,8 +18,11 @@ class LineListController extends Controller
     }
 
     public function createoni() {
+        $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('records_id')->toArray();
 
-        return view('linelist_createoni');
+        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+
+        return view('linelist_createoni', ['list' => $query]);
     }
 
     public function createlasalle() {
@@ -72,6 +75,10 @@ class LineListController extends Controller
         ]);
     }
 
+    /*
+    
+    //Unused Ajax Woring Fetching Script
+    
     public function ajaxGetLineList () {
         $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('records_id')->toArray();
 
@@ -81,4 +88,5 @@ class LineListController extends Controller
         echo json_encode($sdata);
         exit;
     }
+    */
 }

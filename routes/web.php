@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
 
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
-    Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
+    //Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
 });
 
 Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()
