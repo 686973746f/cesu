@@ -99,16 +99,14 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="8" class="text-right">
-                                        <button class="btn btn-primary" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
+                    <div class="text-right">
+                        <button class="btn btn-danger" id="remove"><i class="fas fa-minus-circle mr-2"></i>Remove</button>
+                        <button class="btn btn-primary" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
+                    </div>
                 </div>
+                
                 <div class="card-footer text-right">
                     <button class="btn btn-primary">Submit</button>
                 </div>
@@ -138,6 +136,18 @@
        var newRowContent = $('.trclone');
        var n = 1;
 
+       $('#remove').prop('disabled', true);
+
+       $('#remove').click(function (e) { 
+           e.preventDefault();
+           n--;
+           $('#tbl tr:last').remove();
+           
+           if(n == 1) {
+               $('#remove').prop('disabled', true);
+           }
+       });
+
        $('#add').click(function (e) { 
             n++;
             e.preventDefault();
@@ -146,6 +156,10 @@
             //var id_num = 'specNo'+n;  
             //$('#specNo'+n).val(n);
             $(clone).appendTo($('#tbl tbody'));
+
+            if(n != 1) {
+                $('#remove').prop('disabled', false);
+            }
        });
     </script>
 @endsection 
