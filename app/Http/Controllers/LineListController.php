@@ -57,7 +57,6 @@ class LineListController extends Controller
                 'oniReferringHospital' => $request->oniReferringHospital[$i]
             ]);
         }
-
         return redirect()->action([LineListController::class, 'index'])->with('status', 'Linelist has been created successfully.')->with('statustype', 'success');
     }
 
