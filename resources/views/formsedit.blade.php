@@ -58,7 +58,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
-                              <select class="form-control" name="interviewerName" id="interviewerName" required>
+                              <select name="interviewerName" id="interviewerName" required>
                                 <option value="" disabled {{(empty(old('interviewerName', $records->interviewerName))) ? 'selected' : ''}}>Choose...</option>
                                   @foreach($interviewers as $key => $interviewer)
                                   <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName', $records->interviewerName) == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname}}{{(!is_null($interviewer->brgy_id)) ? " (".$interviewer->brgy->brgyName.")" : ''}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
@@ -2062,16 +2062,7 @@
 
     <script>
         $(document).ready(function () {
-
-            $('#records_id').selectize();
-
-            $('#records_id').change(function (e) { 
-                e.preventDefault();
-                var uid = $('#records_id').val();
-                if ($('#records_id').val().length != 0) {
-                    fetchRecords(uid);
-                }
-            }).trigger('change');
+            $('#interviewerName').selectize();
 
             $('#informantName').keydown(function (e) { 
                 if($(this).val().length <= 0 || $(this).val() == "") {
