@@ -27,15 +27,13 @@ class LineListController extends Controller
     }
 
     public function printoni($id) {
+        ini_set('max_execution_time', 180);
+        
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
 
-        
         $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
         return $pdf->download('ONI_LL.pdf');
-        
-
-        //return view('oni_pdf', ['details' => $details, 'list' => $list]);
     }
 
     public function oniStore(Request $request) {
@@ -76,7 +74,7 @@ class LineListController extends Controller
     }
 
     public function ajaxGetLineList () {
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('id')->toArray();
+        $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('records_id')->toArray();
 
         $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
 

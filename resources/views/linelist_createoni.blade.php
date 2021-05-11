@@ -68,7 +68,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                          <select class="form-control" name="user[]" id="user" required>
+                                          <select name="user[]" id="user" required>
                                               <option value="">Choose...</option>
                                           </select>
                                         </div>
@@ -115,6 +115,11 @@
     </div>
     
     <script>
+
+        $(document).ready(function () {
+            $('#user').selectize();
+        });
+
        $.ajax({
             type: "GET",
             url: "/ajaxGetLineList/",
