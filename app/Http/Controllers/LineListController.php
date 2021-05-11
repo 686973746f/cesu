@@ -63,6 +63,18 @@ class LineListController extends Controller
         return redirect()->action([LineListController::class, 'index'])->with('status', 'Linelist has been created successfully.')->with('statustype', 'success');
     }
 
+    public function lasalleStore(Request $request) {
+        $master = $request->user()->linelistmaster()->create([
+            'type' => 2, //ONI = 1, LaSalle = 2
+            'dru' => $request->dru,
+            'laSallePhysician' => $request->laSallePhysician,
+            'contactPerson' => $request->contactPerson,
+            'email' => $request->email,
+            'contactTelephone' => $request->contactTelephone,
+            'contactMobile' => $request->contactMobile,
+        ]);
+    }
+
     public function ajaxGetLineList () {
         $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('id')->toArray();
 

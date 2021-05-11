@@ -34,14 +34,14 @@
                         <table class="table table-bordered" id="tbl">
                             <thead>
                                 <tr class="text-center">
-                                    <th>Ziplock No.</th>
-                                    <th>Date Collected</th>
-                                    <th>Time Collected</th>
-                                    <th>Accession No.</th>
-                                    <th>Patient</th>
-                                    <th>Referring Hospital</th>
-                                    <th>Type of Specimen</th>
-                                    <th>Remarks</th>
+                                    <th style="vertical-align: middle;">Ziplock No.</th>
+                                    <th style="vertical-align: middle;">Date Collected</th>
+                                    <th style="vertical-align: middle;">Time Collected</th>
+                                    <th style="vertical-align: middle;">Accession No.</th>
+                                    <th style="vertical-align: middle;">Patient</th>
+                                    <th style="vertical-align: middle;">Referring Hospital</th>
+                                    <th style="vertical-align: middle;">Type of Specimen</th>
+                                    <th style="vertical-align: middle;">Remarks</th>
                                 </tr>
                             </thead>
                             <tbody>
