@@ -63,7 +63,8 @@
                                 <th style="vertical-align: middle;">Street</th>
                                 <th style="vertical-align: middle;">Brgy</th>
                                 <th style="vertical-align: middle;">City</th>
-                                <th style="vertical-align: middle;">Case Classification</th>
+                                <th style="vertical-align: middle;">Type</th>
+                                <th style="vertical-align: middle;">Classification</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
@@ -116,6 +117,7 @@
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{$form->caseClassification}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testDateCollected1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testType1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testResult1}}</td>
