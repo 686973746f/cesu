@@ -9,7 +9,7 @@
     @endphp
     <div class="container-fluid">
         @while($n+1 <= $list->count())
-        <div>
+        <div style="font-family: Arial, Helvetica, sans-serif;">
             <div class="text-center">
                 <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: 50rem;" class="mt-3">
                 <h6 class="font-weight-bold">SAMPLE PICK-UP FORM</h6>
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered table-sm" style="font-size: 70%;">
+                <table class="table table-bordered table-sm" style="font-size: 80%;">
                     <thead>
                         <tr class="text-center">
                             <th style="vertical-align: middle;">ZIPLOCK NUMBER</th>
@@ -43,7 +43,7 @@
                         @for($i=0;$i<=9;$i++)
                             @if($n != $list->count())
                             <tr class="text-center">
-                                <td style="vertical-align: middle;">{{$list[$n]->specNo}}</td>
+                                <td style="vertical-align: middle;">{{($list[$n]->specNo <= 9) ? '0'.$list[$n]->specNo : $list[$n]->specNo}}</td>
                                 <td style="vertical-align: middle;">{{date('m/d/Y', strtotime($list[$n]->dateAndTimeCollected))}}</td>
                                 <td style="vertical-align: middle;">{{date('H:i', strtotime($list[$n]->dateAndTimeCollected))}}</td>
                                 <td style="vertical-align: middle;">{{$list[$n]->accessionNo}}</td>
@@ -86,7 +86,7 @@
             </div>
         </div>
         @if($n+1 < $list->count())
-        <div class="page-break mb-3"></div>
+        <div style="page-break-after: always;"></div>
         @endif
         @endwhile
     </div>

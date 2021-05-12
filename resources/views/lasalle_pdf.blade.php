@@ -4,14 +4,14 @@
     @php
     $n = 0;
     @endphp
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;">
         @while($n+1 <= $list->count())
         <div class="text-center">
             <h6 class="font-weight-bold">PROVINCE OF CAVITE</h6>
             <h6>Cavite De La Salle Medical Health Science Institute COVID19 Diagnostic Center</h6>
             <h6>Dasmariñas City, Cavite</h6>
         </div>
-        <table class="table table-bordered" style="font-family: Arial;">
+        <table class="table table-bordered">
             <thead>
                 <tr style="background-color: #ffc000;">
                     <th class="text-center" colspan="8">LINELIST OF SPECIMENS REFERRED FOR COVID-19 TESTING</th>
