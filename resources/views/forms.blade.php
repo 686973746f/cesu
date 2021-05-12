@@ -51,7 +51,7 @@
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>
                             <tr>
-                                <th colspan="18" class="text-right"><button type="submit" class="btn btn-primary my-2" id="submit">Export to Excel</button></th>
+                                <th colspan="19" class="text-right"><button type="submit" class="btn btn-primary my-2" id="submit">Export to Excel</button></th>
                             </tr>
                             <tr class="text-center">
                                 <th style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
