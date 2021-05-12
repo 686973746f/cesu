@@ -64,60 +64,79 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="tbl">
-                            <thead>
-                                <tr class="text-center">
-                                    <th style="vertical-align: middle;">No.</th>
-                                    <th style="vertical-align: middle;">Patient</th>
-                                    <th style="vertical-align: middle;">Date of Specimen Collection</th>
-                                    <th style="vertical-align: middle;">Time of Specimen Collection</th>
-                                    <th style="vertical-align: middle;">Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="trclone">
-                                    <td scope="row">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control text-center" name="specNo[]" id="specNo" value="1" readonly required>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <select name="user[]" class="patient" required>
-                                                <option value="" selected disabled>Choose...</option>
-                                                @foreach($list as $item)
-                                                  <option value="{{$item->id}}">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()}}/{{substr($item->gender, 0, 1)}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="date" class="form-control" name="dateCollected[]" id="" value="{{date('Y-m-d')}}" required>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="time" class="form-control" name="timeCollected[]" id="" value="14:00" required>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <select class="form-control" name="remarks[]" id="" required>
-                                              <option value="1ST">1ST</option>
-                                              <option value="2ND">2ND</option>
-                                              <option value="3RD">3RD</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-bordered" id="tbl">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="vertical-align: middle; width: 150px;">No.</th>
+                                <th style="vertical-align: middle; width: 800px;">Patient</th>
+                                <th style="vertical-align: middle;">Date of Specimen Collection</th>
+                                <th style="vertical-align: middle;">Time of Specimen Collection</th>
+                                <th style="vertical-align: middle; width: 200px;">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="trclone">
+                                <td scope="row">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control text-center" name="specNo[]" id="specNo" value="1" readonly required>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <select name="user[]" class="patient" required>
+                                            <option value="" selected disabled>Choose...</option>
+                                            @foreach($list as $item)
+                                              <option value="{{$item->id}}">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()}}/{{substr($item->gender, 0, 1)}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" name="dateCollected[]" id="" value="{{date('Y-m-d')}}" required>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="time" class="form-control" name="timeCollected[]" id="" value="14:00" required>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <select class="form-control" name="remarks[]" id="" required>
+                                          <option value="1ST">1ST</option>
+                                          <option value="2ND">2ND</option>
+                                          <option value="3RD">3RD</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="text-right">
                         <button class="btn btn-danger" id="remove"><i class="fas fa-minus-circle mr-2"></i>Remove</button>
                         <button class="btn btn-primary" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="laSallePreparedBy">Prepared by</label>
+                                <input type="text" class="form-control" name="laSallePreparedBy" id="laSallePreparedBy" value="DAISY A. ROJAS" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="laSallePreparedByDate">Date</label>
+                                <input type="date" class="form-control" name="laSallePreparedByDate" id="laSallePreparedByDate" value="{{date('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="laSallePreparedByTime">Time</label>
+                                <input type="time" class="form-control" name="laSallePreparedByTime" id="laSallePreparedByTime" value="14:00" required>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">

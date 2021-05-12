@@ -49,7 +49,10 @@ class LineListController extends Controller
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
 
-        return view('lasalle_pdf', ['details' => $details, 'list' => $list]);
+        $pdf = PDF::loadView('lasalle_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
+        return $pdf->download('LaSalle_LL.pdf');
+        
+        //return view('lasalle_pdf', ['details' => $details, 'list' => $list]);
     }
 
     public function oniStore(Request $request) {
@@ -86,6 +89,8 @@ class LineListController extends Controller
             'email' => $request->email,
             'contactTelephone' => $request->contactTelephone,
             'contactMobile' => $request->contactMobile,
+            'laSallePreparedBy' => $request->laSallePreparedBy,
+            'laSallePreparedByDate' => date('Y-m-d H:i:s', strtotime($request->laSallePreparedByDate." ".$request->laSallePreparedByTime))
         ]);
 
         for($i=0;$i<count($request->user);$i++) {

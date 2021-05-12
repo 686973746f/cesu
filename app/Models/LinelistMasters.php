@@ -19,7 +19,10 @@ class LinelistMasters extends Model
         'laSalleDateAndTimeShipment',
         'contactPerson',
         'contactTelephone',
-        'contactMobile'
+        'contactMobile',
+        'email',
+        'laSallePreparedBy',
+        'laSallePreparedByDate'
     ];
 
     public function user() {
