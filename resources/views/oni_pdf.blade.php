@@ -9,7 +9,7 @@
     @endphp
     <div class="container-fluid">
         @while($n+1 <= $list->count())
-        <div style="font-family: Arial;">
+        <div>
             <div class="text-center">
                 <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: 50rem;" class="mt-3">
                 <h6 class="font-weight-bold">SAMPLE PICK-UP FORM</h6>
