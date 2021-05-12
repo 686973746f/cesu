@@ -75,11 +75,13 @@ Route::group(['middleware' => ['auth','verified']], function() {
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
     //Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
+
+    Route::post('/export', [FormsController::class, 'export'])->name('forms.export'); //print to excel, for admin only (temporary)
 });
 
 Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()
 {
-    Route::post('/export', [FormsController::class, 'export'])->name('forms.export'); //print to excel, for admin only (temporary)
+    
 
     Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
     Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
