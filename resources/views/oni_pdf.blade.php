@@ -9,7 +9,7 @@
     @endphp
     <div class="container-fluid">
         @while($n+1 <= $list->count())
-        <div>
+        <div style="font-family: Arial;">
             <div class="text-center">
                 <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: 50rem;" class="mt-3">
                 <h6 class="font-weight-bold">SAMPLE PICK-UP FORM</h6>
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered table-sm" style="font-size: 70%">
+                <table class="table table-bordered table-sm" style="font-size: 70%;">
                     <thead>
                         <tr class="text-center">
                             <th style="vertical-align: middle;">ZIPLOCK NUMBER</th>
