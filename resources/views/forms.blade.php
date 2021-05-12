@@ -117,7 +117,7 @@
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->caseClassification}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testDateCollected1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testType1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->testResult1}}</td>
