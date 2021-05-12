@@ -49,7 +49,7 @@
                                 <td style="vertical-align: middle;">{{$list[$n]->accessionNo}}</td>
                                 <td style="vertical-align: middle;">{{$list[$n]->records->lname}}</td>
                                 <td style="vertical-align: middle;">{{$list[$n]->records->fname}}</td>
-                                <td style="vertical-align: middle;">{{substr($list[$n]->records->lname, 0,1)}}</td>
+                                <td style="vertical-align: middle;">{{(!is_null($list[$n]->records->mname)) ? substr($list[$n]->records->mname, 0,1) : 'N/A'}}</td>
                                 <td style="vertical-align: middle;">{{$list[$n]->oniReferringHospital}}</td>
                                 <td style="vertical-align: middle;">{{date('m/d/Y', strtotime($list[$n]->records->bdate))}}</td>
                                 <td style="vertical-align: middle;">{{$list[$n]->records->getAge()}}</td>

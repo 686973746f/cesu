@@ -33,11 +33,19 @@
                 </thead>
                 <tbody>
                     @foreach($list as $key => $item)
+                    @php
+                    if($item->type == 1) {
+                        $link = 'oni';
+                    }
+                    else {
+                        $link = 'lasalle';
+                    }
+                    @endphp
                     <tr>
                         <td scope="row">{{$key+1}}</td>
                         <td>{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
                         <td>{{$item->created_at}}</td>
-                        <td><a class="btn btn-primary" href="linelist/oni/print/{{$item->id}}">Print</a></td>
+                        <td><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}">Print</a></td>
                     </tr>
                     @endforeach
                 </tbody>
