@@ -12,7 +12,7 @@
     <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
         <div class="text-center">
             <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: 50rem;" class="{{($n+1 != 1) ? 'mt-3' : ''}} mb-1">
-            <h6 class="font-weight-bold my-1">SAMPLE PICK-UP FORM</h6>
+            <p class="font-weight-bold my-1">SAMPLE PICK-UP FORM</p>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-4">
