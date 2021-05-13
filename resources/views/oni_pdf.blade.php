@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered mb-2" style="font-size: 70%;">
+            <table class="table table-bordered mb-2" style="font-size: 65%;">
                 <thead>
                     <tr class="text-center">
                         <th style="vertical-align: middle;">ZIPLOCK NUMBER</th>
