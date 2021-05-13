@@ -78,7 +78,7 @@
                         <tbody>
                             @forelse ($forms as $form)
                                 @if($form->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
-                                    <?php
+                                    @php
             
                                         if($form->expoitem1 == 1) {
                                             $emsg = "YES";
@@ -103,7 +103,20 @@
                                         else {
                                             $textcolor = 'warning';
                                         }
-                                    ?>
+
+                                        if(!is_null($form->isPresentOnSwabDay)) {
+                                            if($form->isPresentOnSwabDay == 1) {
+                                            $attendedText = 'YES';
+                                            }
+                                            else if($form->isPresentOnSwabDay == 0) {
+                                                $attendedText = 'NO';
+                                                $textcolor = 'danger';
+                                            }
+                                        }
+                                        else {
+                                            $attendedText = '';
+                                        }
+                                    @endphp
                                     <tr class="bg-{{$textcolor}}">
                                         <th class="text-center" style="vertical-align: middle;">
                                             <input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}">
@@ -124,7 +137,7 @@
                                         <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
-                                        <td style="vertical-align: middle;" class="text-center"></td>
+                                        <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
                                         <td style="vertical-align: middle;" class="text-center">
                                             <a href="forms/{{$form->id}}/edit" class="btn btn-primary btn-sm">Edit</a>
                                         </td>

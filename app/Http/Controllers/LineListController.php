@@ -34,7 +34,7 @@ class LineListController extends Controller
     }
 
     public function printoni($id) {
-        ini_set('max_execution_time', 180);
+        ini_set('max_execution_time', 600);
         
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
@@ -44,7 +44,7 @@ class LineListController extends Controller
     }
 
     public function printlasalle($id) {
-        ini_set('max_execution_time', 180);
+        ini_set('max_execution_time', 600);
 
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
@@ -64,6 +64,9 @@ class LineListController extends Controller
             'contactMobile' => $request->contactMobile,
         ]);
 
+        $presentArray = array();
+        $dateArray = array();
+
         for($i=0;$i<count($request->user);$i++) {
             $query = LinelistSubs::create([
                 'linelist_master_id' => $master->id,
@@ -75,7 +78,19 @@ class LineListController extends Controller
                 'oniSpecType' => $request->oniSpecType[$i],
                 'oniReferringHospital' => $request->oniReferringHospital[$i]
             ]);
+
+            $update = Forms::where('records_id', $request->user[$i])
+            ->where('testDateCollected1', $request->dateCollected[$i])->first();
+            $update->update(['isPresentOnSwabDay' => 1]);
+
+            array_push($presentArray, $update->id);
+            array_push($dateArray, $update->testDateCollected1);
         }
+
+        $update1 = Forms::whereNotIn('id', $presentArray)
+        ->whereIn('testDateCollected1', array_unique($dateArray))
+        ->update(['isPresentOnSwabDay' => 0]);
+
         return redirect()->action([LineListController::class, 'index'])->with('status', 'ONI Linelist has been created successfully.')->with('statustype', 'success');
     }
 
@@ -93,6 +108,9 @@ class LineListController extends Controller
             'laSallePreparedByDate' => date('Y-m-d H:i:s', strtotime($request->laSallePreparedByDate." ".$request->laSallePreparedByTime))
         ]);
 
+        $presentArray = array();
+        $dateArray = array();
+
         for($i=0;$i<count($request->user);$i++) {
             $query = LinelistSubs::create([
                 'linelist_master_id' => $master->id,
@@ -101,7 +119,18 @@ class LineListController extends Controller
                 'dateAndTimeCollected' => $request->dateCollected[$i]." ".$request->timeCollected[$i],
                 'remarks' => $request->remarks[$i],
             ]);
+
+            $update = Forms::where('records_id', $request->user[$i])
+            ->where('testDateCollected1', $request->dateCollected[$i])->first();
+            $update->update(['isPresentOnSwabDay' => 1]);
+
+            array_push($presentArray, $update->id);
+            array_push($dateArray, $update->testDateCollected1);
         }
+        
+        $update1 = Forms::whereNotIn('id', $presentArray)
+        ->whereIn('testDateCollected1', array_unique($dateArray))
+        ->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
     }

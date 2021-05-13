@@ -7,8 +7,8 @@
     @php
     $n = 0;
     @endphp
-    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;font-size: 65%;">
-        @while($n+1 <= $list->count())
+    @while($n+1 <= $list->count())
+    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;font-size: 65%; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
         <div class="text-center {{($n+1 != 1) ? 'mt-3' : ''}}">
             <h6 class="font-weight-bold">PROVINCE OF CAVITE</h6>
             <h6>Cavite De La Salle Medical Health Science Institute COVID19 Diagnostic Center</h6>
@@ -86,9 +86,6 @@
             </tbody>
         </table>
         <p class="my-0">NAME AND SIGNATURE: <u>{{$details->laSallePreparedBy}}</u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATE: <u>{{date('m/d/Y', strtotime($details->laSallePreparedByDate))}}</u> TIME: <u>{{date('h:i', strtotime($details->laSallePreparedByDate))}}</u> ( {{(date('A', strtotime($details->laSallePreparedByDate)) == 'AM') ? 'X' : ''}} ) AM ( {{(date('A', strtotime($details->laSallePreparedByDate)) == 'PM') ? 'X' : ''}} ) PM</p>
-        @if($n+1 < $list->count())
-        <div style="page-break-after: always;"></div>
-        @endif
-        @endwhile
     </div>
+    @endwhile
 @endsection
