@@ -22,7 +22,7 @@
                 </div>
                 <hr>
             @endif
-            <table class="table">
+            <table class="table text-center">
                 <thead>
                     <tr>
                         <th>#</th>

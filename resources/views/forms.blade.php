@@ -71,7 +71,7 @@
                                 <th style="vertical-align: middle;">Encoded By</th>
                                 <th style="vertical-align: middle;">Encoded At</th>
                                 <th style="vertical-align: middle;">Printed?</th>
-                                <th style="vertical-align: middle;">Date Printed</th>
+                                <th style="vertical-align: middle;">Attended?</th>
                                 <th style="vertical-align: middle;"></th>
                             </tr>
                         </thead>
@@ -124,7 +124,7 @@
                                         <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->exportedDate)) ? date('m/d/Y h:i A', strtotime($form->exportedDate)) : ''}}</td>
+                                        <td style="vertical-align: middle;" class="text-center"></td>
                                         <td style="vertical-align: middle;" class="text-center">
                                             <a href="forms/{{$form->id}}/edit" class="btn btn-primary btn-sm">Edit</a>
                                         </td>

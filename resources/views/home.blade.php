@@ -17,7 +17,7 @@
 
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Information</a>
                     <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-file mr-2" aria-hidden="true"></i>View/Create CIF</a>
-                    <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block">Line List <i class="font-weight-bold text-warning">(Under development)</i></a>
+                    <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block">Line List</a>
                     <hr>
                     <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-chart-bar mr-2"></i>Reports <i class="font-weight-bold text-warning">(Under development)</i></a>
                     @if(auth()->user()->isAdmin == 1)
