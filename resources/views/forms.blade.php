@@ -106,7 +106,8 @@
 
                                         if(!is_null($form->isPresentOnSwabDay)) {
                                             if($form->isPresentOnSwabDay == 1) {
-                                            $attendedText = 'YES';
+                                                $attendedText = 'YES';
+                                                $textcolor = 'success';
                                             }
                                             else if($form->isPresentOnSwabDay == 0) {
                                                 $attendedText = 'NO';

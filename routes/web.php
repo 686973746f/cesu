@@ -81,8 +81,6 @@ Route::group(['middleware' => ['auth','verified']], function() {
 
 Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()
 {
-    
-
     Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
     Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
     Route::post('/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
@@ -92,6 +90,8 @@ Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdmin
     Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
 
     Route::resource('/interviewers', InterviewersController::class);
+
+    Route::post('/report', [ReportController::class, 'makeAllSuspected'])->name('report.makeAllSuspected');
 });
 
 
