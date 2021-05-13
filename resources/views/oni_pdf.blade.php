@@ -11,12 +11,12 @@
     <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
         <div class="text-center">
             <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: 50rem;" class="{{($n+1 != 1) ? 'mt-3' : ''}}">
-            <h6 class="font-weight-bold mt-1 mb-1">SAMPLE PICK-UP FORM</h6>
+            <h6 class="font-weight-bold mb-1">SAMPLE PICK-UP FORM</h6>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <span>Name of Institute/Facility: <u>{{$details->dru}}</u></span>
-                <p class="mb-1">Name and Number of Contact Person: <u>{{$details->contactPerson." ".$details->contactMobile}}</u></p>
+                <p>Name and Number of Contact Person: <u>{{$details->contactPerson." ".$details->contactMobile}}</u></p>
             </div>
         </div>
         <div class="table-responsive">
@@ -81,7 +81,7 @@
             </table>
         </div>
         <div class="text-center mb-0">
-            <img class="mt-0 mb-0 text-center" src="{{asset('assets/images/oni_foot.png')}}" alt="" style="width: 50rem;">
+            <img class="mt-2 mb-0 text-center" src="{{asset('assets/images/oni_foot.png')}}" alt="" style="width: 50rem;">
         </div>
     </div>
     @endwhile
