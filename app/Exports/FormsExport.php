@@ -338,6 +338,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->contact3No)) ? $form->contact3No : "N/A",
             (!is_null($form->contact4Name)) ? strtoupper($form->contact4Name) : "N/A",
             (!is_null($form->contact4No)) ? $form->contact4No : "N/A",
+
+            (!is_null($form->isPresentOnSwabDay) && $form->isPresentOnSwabDay == 1) ? 'YES' : 'NO',
         ];
     }
 
@@ -627,6 +629,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Contact Number 3',
             'Name 4',
             'Contact Number 4',
+
+            'Attended?',
         ];
     }
 }
