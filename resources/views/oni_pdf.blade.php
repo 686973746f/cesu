@@ -2,6 +2,7 @@
 <style>
     @page { margin: 0; }
     body { margin: 0; }
+    table { border-collapse: collapse; }
 </style>
 @section('content')
     @php
