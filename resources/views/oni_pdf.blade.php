@@ -1,5 +1,6 @@
 @extends('layouts.app_pdf')
 <style>
+    html { margin: 0px}
     @page { margin: 0; }
     body { margin: 0; }
     table { border-collapse: collapse; }
