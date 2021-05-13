@@ -81,7 +81,7 @@
             </table>
         </div>
         <div class="text-center mb-0">
-            <img class="mt-1 mb-0 text-center" src="{{asset('assets/images/oni_foot.png')}}" alt="" style="width: 50rem;">
+            <img class="mt-0 mb-0 text-center" src="{{asset('assets/images/oni_foot.png')}}" alt="" style="width: 50rem;">
         </div>
     </div>
     @endwhile
