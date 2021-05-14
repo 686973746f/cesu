@@ -148,6 +148,69 @@
             <div class="card-header">Report</div>
             <div class="card-body">
                 <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="font-weight-bold text-primary text-center">
+                                <th colspan="5">Barangay Breakdown of Reported Cases</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th>Barangay</th>
+                                <th>Probable</th>
+                                <th>Suspect</th>
+                                <th>Confirmed</th>
+                                <th>Non-COVID 19</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($brgy_list as $key => $item)
+                            <tr class="text-center">
+                                <td>{{$item->brgyName}}</td>
+                                <td>{{$list
+                                    ->where('records.address_brgy', $item->brgyName)
+                                    ->where('caseClassification', 'Probable')
+                                    ->count()}}
+                                </td>
+                                <td>{{$list
+                                    ->where('records.address_brgy', $item->brgyName)
+                                    ->where('caseClassification', 'Suspect')
+                                    ->count()}}
+                                </td>
+                                <td>{{$list
+                                    ->where('records.address_brgy', $item->brgyName)
+                                    ->where('caseClassification', 'Confirmed')
+                                    ->count()}}
+                                </td>
+                                <td>{{$list
+                                    ->where('records.address_brgy', $item->brgyName)
+                                    ->where('caseClassification', 'Non-COVID-19 Case')
+                                    ->count()}}
+                                </td>
+                            </tr>
+                            @endforeach
+                            <tr class="font-weight-bold text-center">
+                                <td>TOTAL</td>
+                                <td>{{$list
+                                    ->where('caseClassification', 'Probable')
+                                    ->count()}}
+                                </td>
+                                <td>{{$list
+                                    ->where('caseClassification', 'Suspect')
+                                    ->count()}}
+                                </td>
+                                <td>{{$list
+                                    ->where('caseClassification', 'Confirmed')
+                                    ->count()}}
+                                </td>
+                                <td>{{$list
+                                    ->where('caseClassification', 'Non-COVID-19 Case')
+                                    ->count()}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="table-responsive">
                     <table class="table" id="dt_table1">
                         <thead>
                             <tr>
@@ -172,40 +235,6 @@
                 </div>
                 <hr>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="font-weight-bold text-primary text-center">
-                                <th colspan="4">Barangay Breakdown of Recorded PROBABLE Cases</th>
-                            </tr>
-                            <tr class="text-center">
-                                <th>Barangay</th>
-                                <th>Number of Recorded PROBABLE Cases</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($brgy_list as $key => $item)
-                                @if($list->where('records.address_brgy', $item->brgyName)->where('caseClassification', 'Probable')->count())
-                                <tr class="text-center">
-                                    <td>{{$item->brgyName}}</td>
-                                    <td>{{$list
-                                        ->where('records.address_brgy', $item->brgyName)
-                                        ->where('caseClassification', 'Probable')
-                                        ->count()}}
-                                    </td>
-                                </tr>
-                                @endif
-                            @endforeach
-                            <tr class="font-weight-bold text-center">
-                                <td>TOTAL</td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Probable')
-                                    ->count()}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-responsive">
                     <table class="table" id="dt_table2">
                         <thead>
                             <tr>
@@ -225,41 +254,6 @@
                                 <td>{{$item->records->address_brgy}}</td>
                             </tr>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="font-weight-bold text-primary text-center">
-                                <th colspan="4">Barangay Breakdown of Recorded SUSPECTED Cases</th>
-                            </tr>
-                            <tr class="text-center">
-                                <th>Barangay</th>
-                                <th>Number of Recorded SUSPECTED Cases</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($brgy_list as $key => $item)
-                                @if($list->where('records.address_brgy', $item->brgyName)->where('caseClassification', 'Suspect')->count())
-                                <tr class="text-center">
-                                    <td>{{$item->brgyName}}</td>
-                                    <td>{{$list
-                                        ->where('records.address_brgy', $item->brgyName)
-                                        ->where('caseClassification', 'Suspect')
-                                        ->count()}}
-                                    </td>
-                                </tr>
-                                @endif
-                            @endforeach
-                            <tr class="font-weight-bold text-center">
-                                <td>TOTAL</td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Suspect')
-                                    ->count()}}
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -289,41 +283,6 @@
                 </div>
                 <hr>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="font-weight-bold text-primary text-center">
-                                <th colspan="4">Barangay Breakdown of Recorded CONFIRMED Cases</th>
-                            </tr>
-                            <tr class="text-center">
-                                <th>Barangay</th>
-                                <th>Number of Recorded CONFIRMED Cases</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($brgy_list as $key => $item)
-                                @if($list->where('records.address_brgy', $item->brgyName)->where('caseClassification', 'Confirmed')->count())
-                                <tr class="text-center">
-                                    <td>{{$item->brgyName}}</td>
-                                    <td>{{$list
-                                        ->where('records.address_brgy', $item->brgyName)
-                                        ->where('caseClassification', 'Confirmed')
-                                        ->count()}}
-                                    </td>
-                                </tr>
-                                @endif
-                            @endforeach
-                            <tr class="font-weight-bold text-center">
-                                <td>TOTAL</td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Confirmed')
-                                    ->count()}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-                <div class="table-responsive">
                     <table class="table" id="dt_table4">
                         <thead>
                             <tr>
@@ -343,41 +302,6 @@
                                 <td>{{$item->records->address_brgy}}</td>
                             </tr>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="font-weight-bold text-primary text-center">
-                                <th colspan="4">Barangay Breakdown of Recorded NEGATIVE Cases</th>
-                            </tr>
-                            <tr class="text-center">
-                                <th>Barangay</th>
-                                <th>Number of Recorded NEGATIVE Cases</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($brgy_list as $key => $item)
-                                @if($list->where('records.address_brgy', $item->brgyName)->where('caseClassification', 'Non-COVID-19 Case')->count())
-                                <tr class="text-center">
-                                    <td>{{$item->brgyName}}</td>
-                                    <td>{{$list
-                                        ->where('records.address_brgy', $item->brgyName)
-                                        ->where('caseClassification', 'Non-COVID-19 Case')
-                                        ->count()}}
-                                    </td>
-                                </tr>
-                                @endif
-                            @endforeach
-                            <tr class="font-weight-bold text-center">
-                                <td>TOTAL</td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Non-COVID-19 Case')
-                                    ->count()}}
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
