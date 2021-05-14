@@ -350,6 +350,21 @@ class FormsController extends Controller
             $hrp = $request->highRiskPregnancy;
         }
 
+        if($request->testResult1 == 'PENDING') {
+            $changeCC = $request->caseClassification;
+        }
+        else if($request->testResult1 == 'POSITIVE') {
+            $changeCC = 'Confirmed';
+        }
+        else if($request->testResult1 == 'NEGATIVE') {
+            if($request->pType == 'CLOSE CONTACT') {
+                $changeCC = 'Suspect';
+            }
+            else {
+                $changeCC = 'Non-COVID-19 Case';
+            }
+        }
+
         $request->validated();
 
         if($olddate == $request->testDateCollected1) {
@@ -391,7 +406,7 @@ class FormsController extends Controller
                 'dispoName' => $request->dispositionName,
                 'dispoDate' => $request->dispositionDate,
                 'healthStatus' => $request->healthStatus,
-                'caseClassification' => $request->caseClassification,
+                'caseClassification' => $changeCC,
                 'isHealthCareWorker' => $request->isHealthCareWorker,
                 'healthCareCompanyName' => $request->healthCareCompanyName,
                 'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
