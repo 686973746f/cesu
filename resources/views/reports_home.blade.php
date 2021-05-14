@@ -387,14 +387,27 @@
 
     <script>
         $(document).ready(function () {
-            $('#dt_table1').DataTable();
-            $('#dt_table2').DataTable();
-            $('#dt_table3').DataTable();
-            $('#dt_table4').DataTable();
-            $('#dt_table5').DataTable();
-            $('#dt_table6').DataTable();
+            $('#dt_table1').DataTable({
+                responsive: true,
+            });
+            $('#dt_table2').DataTable({
+                responsive: true,
+            });
+            $('#dt_table3').DataTable({
+                responsive: true,
+            });
+            $('#dt_table4').DataTable({
+                responsive: true,
+            });
+            $('#dt_table5').DataTable({
+                responsive: true,
+            });
+            $('#dt_table6').DataTable({
+                responsive: true,
+            });
             $('#dt_table7').DataTable({
                 "ordering": false,
+                responsive: true,
             });
         });
     </script>
