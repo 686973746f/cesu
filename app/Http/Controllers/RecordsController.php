@@ -97,47 +97,18 @@ class RecordsController extends Controller
 			$philhealth_organized = null;
 		}
 
-		if(Records::where('lname', strtoupper($request->lname))->exists()) {
+		if(Records::where('lname', strtoupper($request->lname))
+		->where('fname', strtoupper($request->fname))
+		->where('bdate', $request->bdate)
+		->where('gender', strtoupper($request->gender))
+		->exists()) {
 			$param1 = 1;
 		}
 		else {
 			$param1 = 0;
 		}
 
-		if(Records::where('fname', strtoupper($request->fname))->exists()) {
-			$param2 = 1;
-		}
-		else {
-			$param2 = 0;
-		}
-
-		if($request->filled('mname') && strtoupper($request->mname) != "N/A") {
-			if(Records::where('mname', strtoupper($request->mname))->exists()) {
-				$param3 = 1;
-			}
-			else {
-				$param3 = 0;
-			}
-		}
-		else {
-			$param3 = 1;
-		}
-
-		if(Records::where('gender', strtoupper($request->gender))->exists()) {
-			$param4 = 1;
-		}
-		else {
-			$param4 = 0;
-		}
-
-		if(Records::where('bdate', $request->bdate)->exists()) {
-			$param5 = 1;
-		}
-		else {
-			$param5 = 0;
-		}
-
-		if($param1 == 1 && $param2 == 1 && $param3 == 1 && $param4 == 1 && $param5 == 1) {
+		if($param1 == 1) {
 			return back()
 			->withInput()
 			->with('msg', 'Double Entry Error. Patient Record already exists.');
