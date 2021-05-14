@@ -14,22 +14,22 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="text-center">
-                            <tr>
+                            <tr class="bg-light">
                                 <th colspan="2">For {{date('M d, Y')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Number of Patients Swabbed</td>
-                                <td class="font-weight-bold">{{$list->where('testDateCollected1', date('Y-m-d'))->where('isPresentOnSwabDay', 1)->count()}}</td>
+                                <td class="font-weight-bold text-center">{{$list->where('testDateCollected1', date('Y-m-d'))->where('isPresentOnSwabDay', 1)->count()}}</td>
                             </tr>
                             <tr>
                                 <td>Number of Patients not Present</td>
-                                <td class="font-weight-bold">{{$list->where('testDateCollected1', date('Y-m-d'))->where('isPresentOnSwabDay', 0)->count()}}</td>
+                                <td class="font-weight-bold text-center">{{$list->where('testDateCollected1', date('Y-m-d'))->where('isPresentOnSwabDay', 0)->count()}}</td>
                             </tr>
-                            <tr class="font-weight-bold">
+                            <tr class="font-weight-bold bg-light">
                                 <td>TOTAL</td>
-                                <td>{{$list->where('testDateCollected1', date('Y-m-d'))->count()}}</td>
+                                <td class="text-center">{{$list->where('testDateCollected1', date('Y-m-d'))->count()}}</td>
                             </tr>
                         </tbody>
                     </table>

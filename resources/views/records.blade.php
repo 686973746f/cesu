@@ -23,7 +23,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="table_id">
                         <thead>
-                            <tr class="text-center">
+                            <tr class="text-center bg-light">
                                 <th>Name</th>
                                 <th>Birthdate</th>
                                 <th>Age/Gender</th>
