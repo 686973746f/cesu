@@ -89,8 +89,10 @@ class LineListController extends Controller
 
         $update1 = Forms::whereNotIn('id', $presentArray)
         ->whereIn('testDateCollected1', array_unique($dateArray))
-        ->where('isPresentOnSwabDay', '!=', 1)
-        ->update(['isPresentOnSwabDay' => 0]);
+        ->where(function ($query) {
+            $query->where('isPresentOnSwabDay', '!=', 1)
+            ->orWhereNull('isPresentOnSwabDay');
+        })->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'ONI Linelist has been created successfully.')->with('statustype', 'success');
     }
@@ -131,8 +133,10 @@ class LineListController extends Controller
         
         $update1 = Forms::whereNotIn('id', $presentArray)
         ->whereIn('testDateCollected1', array_unique($dateArray))
-        ->where('isPresentOnSwabDay', '!=', 1)
-        ->update(['isPresentOnSwabDay' => 0]);
+        ->where(function ($query) {
+            $query->where('isPresentOnSwabDay', '!=', 1)
+            ->orWhereNull('isPresentOnSwabDay');
+        })->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
     }
