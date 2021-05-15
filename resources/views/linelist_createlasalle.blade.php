@@ -98,7 +98,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="time" class="form-control" name="timeCollected[]" id="" value="14:00" required>
+                                        <input type="time" class="form-control" name="timeCollected[]" id="timeCollected" value="14:00" required>
                                     </div>
                                 </td>
                                 <td>
@@ -154,6 +154,9 @@
        var newRowContent = $('.trclone');
        var n = 1;
        var tens = 1;
+       var hour = 14; //starts at 2 PM
+       var min = 0;
+       var minstr = '';
 
        $('#remove').prop('disabled', true);
 
@@ -166,12 +169,28 @@
            if(n == 1) {
                $('#remove').prop('disabled', true);
            }
+
+           min = min - 2;
        });
 
        $('#add').click(function (e) { 
+            e.preventDefault();
             n++;
             tens++;
-            e.preventDefault();
+
+            min = min + 2;
+
+            if(min == 60) {
+                min = 0;
+                hour = hour + 1;
+            }
+
+            if(min <= 9) {
+                minstr = '0'+min;
+            }
+            else {
+                minstr = min;
+            }
 
             $('.patient').each(function(){ // do this for every select with the 'combobox' class
                 if ($(this)[0].selectize) { // requires [0] to select the proper object
@@ -183,6 +202,7 @@
             
             var clone = $(newRowContent).clone();
             $(clone).find('#specNo').val(tens);
+            $(clone).find('#timeCollected').val(hour+ ':' + minstr);
             $(clone).appendTo($('#tbl tbody'));
             $('.patient').selectize();
             

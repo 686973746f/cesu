@@ -1108,7 +1108,7 @@
                                                             <div id="divComOthersChecked">
                                                                 <div class="form-group mt-2">
                                                                   <label for="COMOOtherRemarks">Specify Findings</label>
-                                                                  <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks')}}">
+                                                                  <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks', $records->COMOOtherRemarks)}}">
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -35,7 +35,7 @@
                     <th colspan="2">Contact Person</th>
                     <th colspan="2" class="text-center font-weight-normal">{{$details->contactPerson}}</th>
                     <th colspan="2">Official E-mail Address</th>
-                    <th colspan="2" class="text-center font-weight-normal">{{$details->email}}</th>
+                    <th colspan="2" class="text-center font-weight-normal"><a href="#">{{$details->email}}</a></th>
                 </tr>
                 <tr>
                     <th colspan="2">Telephone Number</th>

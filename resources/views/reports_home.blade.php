@@ -73,7 +73,7 @@
                                 <th colspan="1">
                                     <form action="{{route('report.makeAllSuspected')}}" method="POST">
                                         @csrf
-                                        <button class="btn btn-danger" type="submit">Make All Suspected</button>
+                                        <button class="btn btn-danger" type="submit">Mark all absent as "Suspected"</button>
                                     </form>
                                 </th>
                             </tr>
