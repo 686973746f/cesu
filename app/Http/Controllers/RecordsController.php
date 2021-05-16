@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Requests\RecordValidationRequest;
 
 class RecordsController extends Controller
-{
+{ 
     /**
      * Display a listing of the resource.
      *
@@ -27,8 +27,16 @@ class RecordsController extends Controller
 		}
 		*/
 
-		$records = Records::all();
-		
+		if(request()->input('q')) {
+			$records = Records::where('lname', strtoupper(request()->input('q')))
+			->orWhere('fname', strtoupper(request()->input('q')))
+			->orWhere('mname', strtoupper(request()->input('q')))
+			->orderBy('lname', 'asc')->paginate(10);
+		}
+		else {
+			$records = Records::orderBy('lname', 'asc')->paginate(10);
+		}
+
         return view ('records', ['records' => $records]);
     }
 
