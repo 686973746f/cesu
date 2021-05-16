@@ -25,7 +25,7 @@
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="q" placeholder="Search">
+                                <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search">
                                 <div class="input-group-append">
                                   <button class="btn btn-success" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
@@ -73,7 +73,7 @@
                     </table>
                     
                     <div class="pagination justify-content-center mt-3">
-                        {{$records->links()}}
+                        {{$records->appends(request()->input())->links()}}
                     </div>
                 </div>
             </div>

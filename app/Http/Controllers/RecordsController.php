@@ -28,9 +28,9 @@ class RecordsController extends Controller
 		*/
 
 		if(request()->input('q')) {
-			$records = Records::where('lname', strtoupper(request()->input('q')))
-			->orWhere('fname', strtoupper(request()->input('q')))
-			->orWhere('mname', strtoupper(request()->input('q')))
+			$records = Records::where('lname', 'LIKE', strtoupper(request()->input('q'))."%")
+			->orWhere('fname', 'LIKE', strtoupper(request()->input('q'))."%")
+			->orWhere('mname', 'LIKE', strtoupper(request()->input('q'))."%")
 			->orderBy('lname', 'asc')->paginate(10);
 		}
 		else {
@@ -107,6 +107,10 @@ class RecordsController extends Controller
 
 		if(Records::where('lname', strtoupper($request->lname))
 		->where('fname', strtoupper($request->fname))
+		->where(function ($query) use ($request) {
+			$query->where('mname', strtoupper($request->mname))
+			->orWhereNull('mname');
+		})
 		->where('bdate', $request->bdate)
 		->where('gender', strtoupper($request->gender))
 		->exists()) {

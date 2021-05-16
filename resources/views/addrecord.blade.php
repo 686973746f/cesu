@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('records.store')}}" method="post" autocomplete="off">
+<form action="{{ route('records.store')}}" method="post">
 	<div class="container">
 		<div class="card">
 			<div class="card-header font-weight-bold text-info">Add New Record</div>
