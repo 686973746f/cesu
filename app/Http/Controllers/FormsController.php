@@ -54,7 +54,9 @@ class FormsController extends Controller
         $records = Records::all();
         $records = $records->count();
 
-        return view('forms', ['forms' => $forms, 'records' => $records]);
+        $formsctr = Forms::all();
+
+        return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
     }
 
     public function export(Request $request)

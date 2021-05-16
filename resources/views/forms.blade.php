@@ -41,7 +41,7 @@
 
             @if(request()->get('view') == null)
             <div class="alert alert-info" role="alert">
-                <span>Displaying CIF results that were only scheduled for swab collection today ({{date('m/d/Y')}}). Total count is: {{count($forms)}}</span>
+                <span>Displaying CIF results that were only scheduled for swab collection today ({{date('m/d/Y')}}). Total count is: {{count($forms)}} (With Philhealth: {{$formsctr->where('testDateCollected1', date('Y-m-d'))->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->where('testDateCollected1', date('Y-m-d'))->whereNull('records.philhealth')->count()}})</span>
             </div>
             @endif
 
