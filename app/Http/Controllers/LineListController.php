@@ -89,16 +89,13 @@ class LineListController extends Controller
             */
         }
 
-        $update = Forms::whereIn('id', $request->user)
+        $update = Forms::whereIn('records_id', $request->user)
         ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->update(['isPresentOnSwabDay' => 1]);
 
-        $update1 = Forms::whereNotIn('id', $request->user)
+        $update1 = Forms::whereNotIn('records_id', $request->user)
         ->whereIn('testDateCollected1', array_unique($request->dateCollected))
-        ->where(function ($query) {
-            $query->where('isPresentOnSwabDay', 0)
-            ->orWhereNull('isPresentOnSwabDay');
-        })->update(['isPresentOnSwabDay' => 0]);
+        ->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'ONI Linelist has been created successfully.')->with('statustype', 'success');
     }
@@ -139,16 +136,13 @@ class LineListController extends Controller
             */
         }
 
-        $update = Forms::whereIn('id', $request->user)
+        $update = Forms::whereIn('records_id', $request->user)
         ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->update(['isPresentOnSwabDay' => 1]);
         
-        $update1 = Forms::whereNotIn('id', $request->user)
+        $update1 = Forms::whereNotIn('records_id', $request->user)
         ->whereIn('testDateCollected1', array_unique($request->dateCollected))
-        ->where(function ($query) {
-            $query->where('isPresentOnSwabDay', '!=', 1)
-            ->orWhereNull('isPresentOnSwabDay');
-        })->update(['isPresentOnSwabDay' => 0]);
+        ->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
     }
