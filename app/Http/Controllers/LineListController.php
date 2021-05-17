@@ -64,8 +64,8 @@ class LineListController extends Controller
             'contactMobile' => $request->contactMobile,
         ]);
 
-        $presentArray = array();
-        $dateArray = array();
+        //$presentArray = array();
+        //$dateArray = array();
 
         for($i=0;$i<count($request->user);$i++) {
             $query = LinelistSubs::create([
@@ -79,18 +79,24 @@ class LineListController extends Controller
                 'oniReferringHospital' => $request->oniReferringHospital[$i]
             ]);
 
+            /*
             $update = Forms::where('records_id', $request->user[$i])
             ->where('testDateCollected1', $request->dateCollected[$i])->first();
             $update->update(['isPresentOnSwabDay' => 1]);
 
             array_push($presentArray, $update->id);
             array_push($dateArray, $update->testDateCollected1);
+            */
         }
 
-        $update1 = Forms::whereNotIn('id', $presentArray)
-        ->whereIn('testDateCollected1', array_unique($dateArray))
+        $update = Forms::whereIn('id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+        ->update(['isPresentOnSwabDay' => 1]);
+
+        $update1 = Forms::whereNotIn('id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->where(function ($query) {
-            $query->where('isPresentOnSwabDay', '!=', 1)
+            $query->where('isPresentOnSwabDay', 0)
             ->orWhereNull('isPresentOnSwabDay');
         })->update(['isPresentOnSwabDay' => 0]);
 
@@ -122,17 +128,23 @@ class LineListController extends Controller
                 'dateAndTimeCollected' => $request->dateCollected[$i]." ".$request->timeCollected[$i],
                 'remarks' => $request->remarks[$i],
             ]);
-
+            
+            /*
             $update = Forms::where('records_id', $request->user[$i])
             ->where('testDateCollected1', $request->dateCollected[$i])->first();
             $update->update(['isPresentOnSwabDay' => 1]);
 
             array_push($presentArray, $update->id);
             array_push($dateArray, $update->testDateCollected1);
+            */
         }
+
+        $update = Forms::whereIn('id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+        ->update(['isPresentOnSwabDay' => 1]);
         
-        $update1 = Forms::whereNotIn('id', $presentArray)
-        ->whereIn('testDateCollected1', array_unique($dateArray))
+        $update1 = Forms::whereNotIn('id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->where(function ($query) {
             $query->where('isPresentOnSwabDay', '!=', 1)
             ->orWhereNull('isPresentOnSwabDay');

@@ -102,14 +102,14 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="text-right">
-                        <button class="btn btn-danger" id="remove"><i class="fas fa-minus-circle mr-2"></i>Remove</button>
-                        <button class="btn btn-success" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
+                    <div class="form-inline" style="display: flex; justify-content: flex-end">
+                        <button class="btn btn-danger mx-2" id="remove"><i class="fas fa-minus-circle mr-2"></i>Remove</button>
+                        <input class="form-control mx-2" type="number" min="1" max="1000" name="rowsToAdd" id="rowsToAdd" value="1">
+                        <button class="btn btn-primary mx-2" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
                     </div>
                 </div>
-                
                 <div class="card-footer text-right">
-                    <button class="btn btn-primary">Submit</button>
+                    <button class="btn btn-primary" onclick="return confirm('This will now process the linelist. Click OK to proceed.')" type="submit">Submit</button>
                 </div>
             </div>
         </form>
@@ -135,21 +135,24 @@
            }
        });
 
-       $('#add').click(function (e) { 
-            n++;
+       $('#add').click(function (e) {
             e.preventDefault();
-            $('.patient').each(function(){ // do this for every select with the 'combobox' class
-                if ($(this)[0].selectize) { // requires [0] to select the proper object
-                    var value = $(this).val(); // store the current value of the select/input
-                    $(this)[0].selectize.destroy(); // destroys selectize()
-                    $(this).val(value);  // set back the value of the select/input
-                }
-            });
+            for(i=1; i <= $('#rowsToAdd').val(); i++) {
+                n++;
+            
+                $('.patient').each(function(){ // do this for every select with the 'combobox' class
+                    if ($(this)[0].selectize) { // requires [0] to select the proper object
+                        var value = $(this).val(); // store the current value of the select/input
+                        $(this)[0].selectize.destroy(); // destroys selectize()
+                        $(this).val(value);  // set back the value of the select/input
+                    }
+                });
 
-            var clone = $(newRowContent).clone();
-            $(clone).find('#specNo').val(n);
-            $(clone).appendTo($('#tbl tbody'));
-            $('.patient').selectize();
+                var clone = $(newRowContent).clone();
+                $(clone).find('#specNo').val(n);
+                $(clone).appendTo($('#tbl tbody'));
+                $('.patient').selectize();
+            }
 
             if(n != 1) {
                 $('#remove').prop('disabled', false);

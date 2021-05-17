@@ -113,9 +113,10 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="text-right">
-                        <button class="btn btn-danger" id="remove"><i class="fas fa-minus-circle mr-2"></i>Remove</button>
-                        <button class="btn btn-primary" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
+                    <div class="form-inline" style="display: flex; justify-content: flex-end">
+                        <button class="btn btn-danger mx-2" id="remove"><i class="fas fa-minus-circle mr-2"></i>Remove</button>
+                        <input class="form-control mx-2" type="number" min="1" max="1000" name="rowsToAdd" id="rowsToAdd" value="1">
+                        <button class="btn btn-primary mx-2" id="add"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add</button>
                     </div>
                     <hr>
                     <div class="row">
@@ -128,19 +129,19 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="laSallePreparedByDate">Date</label>
-                                <input type="date" class="form-control" name="laSallePreparedByDate" id="laSallePreparedByDate" value="{{date('Y-m-d')}}" required>
+                                <input type="date" class="form-control" name="laSallePreparedByDate" id="laSallePreparedByDate" value="{{date('Y-m-d', strtotime('tomorrow'))}}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="laSallePreparedByTime">Time</label>
-                                <input type="time" class="form-control" name="laSallePreparedByTime" id="laSallePreparedByTime" value="14:00" required>
+                                <input type="time" class="form-control" name="laSallePreparedByTime" id="laSallePreparedByTime" value="10:00" required>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button class="btn btn-primary">Submit</button>
+                    <button class="btn btn-primary" onclick="return confirm('This will now process the linelist. Click OK to proceed.')" type="submit">Submit</button>
                 </div>
             </div>
         </form>
@@ -175,41 +176,43 @@
 
        $('#add').click(function (e) { 
             e.preventDefault();
-            n++;
-            tens++;
+            for(i=1; i <= $('#rowsToAdd').val(); i++) {
+                n++;
+                tens++;
 
-            min = min + 2;
+                min = min + 2;
 
-            if(min == 60) {
-                min = 0;
-                hour = hour + 1;
-            }
-
-            if(min <= 9) {
-                minstr = '0'+min;
-            }
-            else {
-                minstr = min;
-            }
-
-            $('.patient').each(function(){ // do this for every select with the 'combobox' class
-                if ($(this)[0].selectize) { // requires [0] to select the proper object
-                    var value = $(this).val(); // store the current value of the select/input
-                    $(this)[0].selectize.destroy(); // destroys selectize()
-                    $(this).val(value);  // set back the value of the select/input
+                if(min == 60) {
+                    min = 0;
+                    hour = hour + 1;
                 }
-            });
-            
-            var clone = $(newRowContent).clone();
-            $(clone).find('#specNo').val(tens);
-            $(clone).find('#timeCollected').val(hour+ ':' + minstr);
-            $(clone).appendTo($('#tbl tbody'));
-            $('.patient').selectize();
-            
-            if(tens == 10) {
-                tens = 0;
-            }
 
+                if(min <= 9) {
+                    minstr = '0'+min;
+                }
+                else {
+                    minstr = min;
+                }
+
+                $('.patient').each(function(){ // do this for every select with the 'combobox' class
+                    if ($(this)[0].selectize) { // requires [0] to select the proper object
+                        var value = $(this).val(); // store the current value of the select/input
+                        $(this)[0].selectize.destroy(); // destroys selectize()
+                        $(this).val(value);  // set back the value of the select/input
+                    }
+                });
+                
+                var clone = $(newRowContent).clone();
+                $(clone).find('#specNo').val(tens);
+                $(clone).find('#timeCollected').val(hour+ ':' + minstr);
+                $(clone).appendTo($('#tbl tbody'));
+                $('.patient').selectize();
+                
+                if(tens == 10) {
+                    tens = 0;
+                }
+            }
+            
             if(n != 1) {
                 $('#remove').prop('disabled', false);
             }
