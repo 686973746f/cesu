@@ -93,7 +93,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
 							@error('bdate')
 								<small class="text-danger">{{$message}}</small>
 							@enderror

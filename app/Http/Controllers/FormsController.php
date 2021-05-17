@@ -388,7 +388,6 @@ class FormsController extends Controller
             $form = Forms::where('id', $id)->update([
                 'isExported' => '0',
                 'exportedDate' => null,
-                'isPresentOnSwabDay' => null,
                 'drunit' => $request->drunit,
                 'drregion' => $request->drregion,
                 'interviewerName' => $request->interviewerName,
