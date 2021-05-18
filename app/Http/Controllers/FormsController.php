@@ -47,7 +47,7 @@ class FormsController extends Controller
             }
         }
         else {
-            $forms = Forms::where('testDateCollected1', date('Y-m-d'))->orderBy('created_at', 'desc')->get();
+            $forms = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->orderBy('created_at', 'desc')->get();
         }
         
 

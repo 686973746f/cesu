@@ -132,9 +132,9 @@
                                         <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->testDateCollected1}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->testType1}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->testResult1}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
                                         <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
