@@ -21,23 +21,15 @@
                         <tbody>
                             <tr>
                                 <td>Number of Patients Swabbed</td>
-                                <td class="font-weight-bold text-center">{{$list->where(function ($query) {
-                                    $query->where('testDateCollected1', date('Y-m-d'))
-                                    ->orWhere('testDateCollected2', date('Y-m-d'));
-                                })
-                                ->where('isPresentOnSwabDay', 1)->count()}}</td>
+                                <td class="font-weight-bold text-center">{{$list->where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->where('isPresentOnSwabDay', 1)->count()}}</td>
                             </tr>
                             <tr>
                                 <td>Number of Patients not Present</td>
-                                <td class="font-weight-bold text-center">{{$list->where(function ($query) {
-                                    $query->where('testDateCollected1', date('Y-m-d'))
-                                    ->orWhere('testDateCollected2', date('Y-m-d'));
-                                })
-                                ->where('isPresentOnSwabDay', 0)->count()}}</td>
+                                <td class="font-weight-bold text-center">{{$list->where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->where('isPresentOnSwabDay', 0)->count()}}</td>
                             </tr>
                             <tr class="font-weight-bold bg-light">
                                 <td>TOTAL</td>
-                                <td class="text-center">{{$list->where('testDateCollected1', date('Y-m-d'))->count()}}</td>
+                                <td class="text-center">{{$list->where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->count()}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,7 +51,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($list->where('testDateCollected1', date('Y-m-d'))->where('isPresentOnSwabDay', 1) as $key => $item)
+                            @foreach($list->where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->where('isPresentOnSwabDay', 1) as $key => $item)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
@@ -95,7 +87,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($list->where('testDateCollected1', date('Y-m-d'))->where('isPresentOnSwabDay', 0) as $key => $item)
+                            @foreach($list->where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->where('isPresentOnSwabDay', 0) as $key => $item)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
