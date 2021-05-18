@@ -69,9 +69,9 @@
                                     <div class="form-group">
                                       <select name="user[]" class="patient" required>
                                           <option value="" selected disabled>Choose...</option>
-                                          @foreach($list as $item)
-                                            <option value="{{$item->id}}">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()}}/{{substr($item->gender, 0, 1)}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
-                                          @endforeach
+                                            @foreach($list as $item)
+                                                <option value="{{$item->id}}">{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}} | {{$item->records->getAge()}}/{{substr($item->records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($item->records->bdate))}}</option>
+                                            @endforeach
                                       </select>
                                     </div>
                                 </td>
@@ -157,6 +157,8 @@
             if(n != 1) {
                 $('#remove').prop('disabled', false);
             }
+            
+            $('#rowsToAdd').val(1);
        });
     </script>
 @endsection 
