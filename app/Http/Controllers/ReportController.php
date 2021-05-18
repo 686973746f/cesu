@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class ReportController extends Controller
 {
     public function index() {
-        $list = Forms::all();
-        $brgy = Brgy::all();
+        $list = Forms::query();
+        $brgy = Brgy::query();
 
         return view('reports_home', ['list' => $list, 'brgy_list' => $brgy]);
     }
