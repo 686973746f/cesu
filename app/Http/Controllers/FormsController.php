@@ -222,9 +222,9 @@ class FormsController extends Controller
                     'testDateCollected2' => $request->testDateCollected2,
                     'testDateReleased2' => $request->testDateReleased2,
                     'testLaboratory2' => $request->testLaboratory2,
-                    'testType2' => ($request->testType2 != "N/A") ? $request->testType2 : NULL,
+                    'testType2' => (!is_null($request->testType2)) ? $request->testType2 : NULL,
                     'testTypeOtherRemarks2' => $request->testTypeOtherRemarks2,
-                    'testResult2' => ($request->testType2 != "N/A") ? $request->testResult2 : NULL,
+                    'testResult2' => (!is_null($request->testType2)) ? $request->testResult2 : NULL,
                     'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
         
                     'outcomeCondition' => $request->outcomeCondition,

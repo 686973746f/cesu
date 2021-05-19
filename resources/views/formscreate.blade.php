@@ -110,7 +110,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="1" id="" name="existingCaseList[]" required {{(is_array(old('existingCaseList')) && in_array("1", old('existingCaseList'))) ? 'checked' : ''}}>
+                                        <input class="form-check-input" type="checkbox" value="1" id="" name="existingCaseList[]" required {{(is_array(old('existingCaseList')) && in_array("1", old('existingCaseList'))) ? 'checked' : 'checked'}}>
                                         <label class="form-check-label" for="">
                                             Not applicable (New case)
                                         </label>
@@ -1238,10 +1238,9 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="">Time Collected <small><i>(for ONI)</i></small></label>
+                                                <label for="">Time Collected <small><i>(for ONI, Leave Blank for Auto-fillup)</i></small></label>
                                                 <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control" value="{{old('oniTimeCollected1')}}">
-                                              </div>
-                                            
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -1257,7 +1256,6 @@
                                                 <label for="testLaboratory1">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
                                                 <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1')}}">
                                             </div>
-                                            
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -1277,7 +1275,6 @@
                                                     <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
                                                   </div>
                                               </div>
-                                            
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -1300,29 +1297,37 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testDateCollected2">2. Date Collected</label>
-                                              <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{date('Y-01-01')}}" value="{{old('testDateCollected2')}}">
+                                                <label for="testDateCollected2">2. Date Collected</label>
+                                                <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{date('Y-01-01')}}" value="{{old('testDateCollected2')}}">
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="oniTimeCollected2">Time Collected <small><i>(for ONI, Leave Blank for Auto-fillup)</i></small></label>
+                                                <input type="time" name="oniTimeCollected2" id="oniTimeCollected2" class="form-control" value="{{old('oniTimeCollected2')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testDateReleased2">Date released</label>
                                                 <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2')}}">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testLaboratory2">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
                                                 <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2')}}">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testType2">Type of test</label>
+                                              <label for="testType2"><span class="text-danger font-weight-bold">*</span>Type of test</label>
                                               <select class="form-control" name="testType2" id="testType2">
-                                                    <option value="N/A">N/A</option>
+                                                    <option value="">N/A</option>
                                                     <option value="OPS" {{(old('testType2') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
                                                     <option value="NPS" {{(old('testType2') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
                                                     <option value="OPS AND NPS" {{(old('testType2') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
@@ -1338,9 +1343,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testResult2">Results</label>
+                                              <label for="testResult2"><span class="text-danger font-weight-bold">*</span>Results</label>
                                               <select class="form-control" name="testResult2" id="testResult2">
                                                 <option value="PENDING" {{(old('testResult2') == 'PENDING') ? 'selected' : ''}}>Pending</option>
                                                 <option value="POSITIVE" {{(old('testResult2') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
@@ -2076,6 +2081,17 @@
                 }
             }).trigger('keydown');
 
+            $('#testDateCollected2').keydown(function (e) {
+                if(!Date.parse($(this).val())) {
+                    $('#testType2').prop('required', false);
+                    $('#testResult2').prop('required', false);
+                }
+                else {
+                    $('#testType2').prop('required', true);
+                    $('#testResult2').prop('required', true);
+                }
+            }).trigger('keydown');
+
             $('#ecothers').change(function (e) { 
                 e.preventDefault();
                 if($(this).prop('checked') == true) {
@@ -2582,6 +2598,17 @@
                     $('#divTypeOthers2').hide();
                     $('#testTypeOtherRemarks2').empty();
                     $('#testTypeOtherRemarks2').prop('required', false);
+
+                    if($(this).val() == "") {
+                        $('#testDateCollected2').prop('required', false);
+                        $('#testType2').prop('required', false);
+                        $('#testResult2').prop('required', false);
+                    }
+                    else {
+                        $('#testDateCollected2').prop('required', true);
+                        $('#testType2').prop('required', true);
+                        $('#testResult2').prop('required', true);
+                    }
                 }
             }).trigger('change');
 

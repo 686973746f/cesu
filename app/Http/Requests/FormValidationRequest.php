@@ -123,10 +123,10 @@ class FormValidationRequest extends FormRequest
             'testResult1' => 'required',
             'testResultOtherRemarks1' => ($this->testResult1 == "OTHERS") ? 'required' : 'nullable',
 
-            'testDateCollected2' => 'nullable|date',
+            'testDateCollected2' => 'nullable|date|after:testDateCollected1',
             'testDateReleased2' => 'nullable|date',
             'testLaboratory2' => 'nullable',
-            'testType2' => 'required',
+            'testType2' => (!is_null($this->testType2)) ? 'required' : 'nullable',
             'testTypeOtherRemarks2' => ($this->testType2 == "OTHERS") ? 'required' : 'nullable',
             'testResult2' => 'required',
             'testResultOtherRemarks2' => ($this->testResult2 == "OTHERS") ? 'required' : 'nullable',
