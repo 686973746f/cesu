@@ -34,7 +34,13 @@ class RecordsController extends Controller
 			->orderBy('lname', 'asc')->paginate(10);
 		}
 		else {
-			$records = Records::orderBy('lname', 'asc')->paginate(10);
+			if(is_null(auth()->user()->brgy_id)) {
+				$records = Records::orderBy('lname', 'asc')->paginate(10);
+			}
+			else {
+				$records = Records::orderBy('lname', 'asc')->paginate(10);
+			}
+			
 		}
 
         return view ('records', ['records' => $records]);
@@ -198,8 +204,12 @@ class RecordsController extends Controller
     public function edit($id)
     {
         $record = Records::findOrFail($id);
+		if($record->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id)) {
+			return view('recordsedit', ['record' => $record]);
+		}
+		else {
 
-		return view('recordsedit', ['record' => $record]);
+		}
     }
 
     /**

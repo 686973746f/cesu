@@ -89,6 +89,10 @@ class LineListController extends Controller
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })
         ->where('isPresentOnSwabDay', '!=', 1)
+        ->where(function ($query) {
+            $query->where('testType1', '!=', 'ANTIGEN')
+            ->orWhere('testType2', '!=', 'ANTIGEN');
+        })
         ->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'ONI Linelist has been created successfully.')->with('statustype', 'success');
@@ -130,6 +134,10 @@ class LineListController extends Controller
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })
         ->where('isPresentOnSwabDay', '!=', 1)
+        ->where(function ($query) {
+            $query->where('testType1', '!=', 'ANTIGEN')
+            ->orWhere('testType2', '!=', 'ANTIGEN');
+        })
         ->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');

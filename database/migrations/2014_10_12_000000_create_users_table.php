@@ -13,11 +13,13 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('enabled')->default(1);
             $table->tinyInteger('isAdmin')->default(0);
-            $table->integer('brgy_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('brgy_id')->nullable()->constrained('brgy')->onDelete('cascade');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -26,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        //Schema::enableForeignKeyConstraints();
     }
 
     /**

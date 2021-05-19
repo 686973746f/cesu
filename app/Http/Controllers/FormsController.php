@@ -88,18 +88,23 @@ class FormsController extends Controller
     public function new($id) {
         $check = Records::findOrFail($id);
 
-        if(Forms::where('records_id', $id)->exists()) {
-            //existing na
-            $ex_id = Forms::where('records_id', $id)->first();
-            return redirect()->back()->with('modalmsg', 'CIF Records already exists on '.$check->lname.", ".$check->fname." ".$check->mname)->with('exist_id', $ex_id->id);
+        if($check->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id)) {
+            if(Forms::where('records_id', $id)->exists()) {
+                //existing na
+                $ex_id = Forms::where('records_id', $id)->first();
+                return redirect()->back()->with('modalmsg', 'CIF Records already exists on '.$check->lname.", ".$check->fname." ".$check->mname)->with('exist_id', $ex_id->id);
+            }
+            else {
+                $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+                
+                $countries = new Countries();
+                $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
+                $all = $countries->all()->pluck('name.common')->toArray();
+                return view('formscreate', ['countries' => $all, 'records' => $check, 'interviewers' => $interviewers, 'id' => $id]);
+            }
         }
         else {
-            $interviewers = Interviewers::orderBy('lname', 'asc')->get();
-            
-            $countries = new Countries();
-            $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
-            $all = $countries->all()->pluck('name.common')->toArray();
-            return view('formscreate', ['countries' => $all, 'records' => $check, 'interviewers' => $interviewers, 'id' => $id]);
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
         }
     }
 
@@ -345,8 +350,13 @@ class FormsController extends Controller
         $countries = new Countries();
         $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
         $all = $countries->all()->pluck('name.common')->toArray();
-        
-        return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers]);
+
+        if($records->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id)) {
+            return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers]);
+        }
+        else {
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
+        }
     }
 
     /**
