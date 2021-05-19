@@ -10,7 +10,7 @@
                 </div>
                 <div>
                     @if($records->count() > 0)
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#selectPatient">New CIF</button>
+                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New CIF</button>
                     @else
                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Create patient record first to process CIF.">
                         <button class="btn btn-success" style="pointer-events: none;" type="button" disabled>New CIF</button>
