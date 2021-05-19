@@ -9,8 +9,8 @@
                 CIF List
                 </div>
                 <div>
-                    @if($records > 0)
-                        <a href="{{route('forms.create')}}" class="btn btn-success">New CIF</a>
+                    @if($records->count() > 0)
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#selectPatient">New CIF</button>
                     @else
                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Create patient record first to process CIF.">
                         <button class="btn btn-success" style="pointer-events: none;" type="button" disabled>New CIF</button>
@@ -25,7 +25,7 @@
                     {{session('status')}}
                 </div>
             @endif
-            
+   
             <form action="{{route('forms.index')}}" method="GET">
                 <div class="input-group mb-3">
                     <select class="form-control" name="view" id="">
@@ -155,23 +155,61 @@
     </div>
 </div>
 
+<div class="modal fade" id="selectPatient" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New CIF</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                @if(session('modalmsg'))
+                <div class="alert alert-danger" role="alert">
+                    {{session('modalmsg')}}
+                    <hr>
+                    To edit the existing CIF, click <a href="forms/{{session('exist_id')}}/edit">HERE</a>
+                </div>
+                <hr>
+                @endif
+                <div class="form-group">
+                  <label for="id">Select Patient to Create</label>
+                    <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" id="patient">
+                        <option value="" disabled selected>Choose...</option>
+                        @foreach ($records as $item)
+                            <option value="/forms/{{$item->id}}/new">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()."/".strtoupper(substr($item->gender, 0,1))}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
 
     $(document).ready(function () {
+        @if(session('modalmsg'))
+        $('#selectPatient').modal('show');
+        @endif
+
         $('#table_id').DataTable(
             {
         "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
         "order": [16, 'asc']
-    }
+            }
         );
 
         $('#select_all').change(function() {
         var checkboxes = $(this).closest('form').find(':checkbox');
         checkboxes.prop('checked', $(this).is(':checked'));
         });
+
+        $('#patient').selectize();
     });
 
     $('#submit').prop('disabled', true);

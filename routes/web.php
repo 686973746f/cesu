@@ -58,8 +58,17 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::resource('records', RecordsController::class);
-    Route::resource('/forms', FormsController::class);
 
+    Route::resource('/forms', FormsController::class);
+    Route::get('/forms/{id}/new', [FormsController::class, 'new']);
+    Route::post('/forms/{id}/create', [FormsController::class, 'store']);
+    /*
+    Route::get('/forms', [FormsController::class, 'index'])->name('forms.index');
+    Route::post('/forms/{id}/create', [FormsController::class, 'store'])->name('forms.store');
+    Route::get('/forms/{id}/edit', [FormsController::class, 'edit']);
+    Route::put('/forms/{id}', [FormsController::class, 'update']);
+    */
+    
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
     Route::post('/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');

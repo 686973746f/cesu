@@ -49,10 +49,8 @@ class FormsController extends Controller
         else {
             $forms = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->orderBy('created_at', 'desc')->get();
         }
-        
 
-        $records = Records::all();
-        $records = $records->count();
+        $records = Records::orderBy('lname', 'asc')->get();
 
         $formsctr = Forms::all();
 
@@ -86,6 +84,26 @@ class FormsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function new($id) {
+        $check = Records::findOrFail($id);
+
+        if(Forms::where('records_id', $id)->exists()) {
+            //existing na
+            $ex_id = Forms::where('records_id', $id)->first();
+            return redirect()->back()->with('modalmsg', 'CIF Records already exists on '.$check->lname.", ".$check->fname." ".$check->mname)->with('exist_id', $ex_id->id);
+        }
+        else {
+            $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+            
+            $countries = new Countries();
+            $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
+            $all = $countries->all()->pluck('name.common')->toArray();
+            return view('formscreate', ['countries' => $all, 'records' => $check, 'interviewers' => $interviewers, 'id' => $id]);
+        }
+    }
+
+    /*
     public function create()
     {
         $records = Records::all()->sortBy('lname', SORT_NATURAL);
@@ -105,6 +123,7 @@ class FormsController extends Controller
         echo json_encode($sdata);
         exit;
     }
+    */
 
     /**
      * Store a newly created resource in storage.
@@ -113,9 +132,9 @@ class FormsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(FormValidationRequest $request)
+    public function store(FormValidationRequest $request, $id)
     {
-        $rec = Records::findOrFail($request->records_id);
+        $rec = Records::findOrFail($id);
 
         if($rec->isPregnant == 0) {
             $hrp = 0;
@@ -127,14 +146,14 @@ class FormsController extends Controller
         $request->validated();
 
         if(Forms::where([
-            ['records_id', $request->records_id],
+            ['records_id', $id],
             ['testDateCollected1', $request->testDateCollected1]
             ])->exists()) {
                 return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y'))->with('statustype', 'danger');
             }
             else {
                 $request->user()->form()->create([
-                    'records_id' => $request->records_id,
+                    'records_id' => $id,
                     'drunit' => $request->drunit,
                     'drregion' => $request->drregion,
                     'interviewerName' => $request->interviewerName,

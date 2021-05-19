@@ -26,15 +26,11 @@ class FormValidationRequest extends FormRequest
     public function rules()
     {
         if($this->method() == "POST") {
-            $rec = Records::findOrFail($this->records_id);
-
-            $ridval = 'required';
+            $rec = Records::findOrFail($this->id);
         }
         else {
             $rec = Forms::findOrFail($this->route('form'));
             $rec = Records::findOrFail($rec->records->id);
-
-            $ridval = '';
         }
         
         if($this->dispositionType == 1 || $this->dispositionType == 2) {
@@ -55,7 +51,6 @@ class FormValidationRequest extends FormRequest
         }
         
         return [
-            'records_id' => $ridval,
             'drunit' => 'required',
             'drregion' => 'required',
             'interviewerName' => 'required',

@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('forms.store')}}" method="POST">
+        <form action="/forms/{{$id}}/create" method="POST">
+            @csrf
             <div class="card">
                 <div class="card-body">
-                    @csrf
                     <div class="alert alert-info" role="alert">
                         All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
                     </div>
@@ -22,17 +22,8 @@
                     @endif
     
                     <div class="form-group">
-                      <label for="records_id"><span class="text-danger font-weight-bold">*</span>Select Patient</label>
-                      <select name="records_id" id="records_id" required>
-                          <option value="" selected disabled>Choose...</option>
-                        @forelse($records as $record)
-                            @if($record->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
-                                <option value="{{$record->id}}" {{($record->id == old('records_id')) ? 'selected' : ""}}>{{$record->lname}}, {{$record->fname}} {{$record->mname}} | {{$record->gender}} | {{date("m/d/Y", strtotime($record->bdate))}}</option>
-                            @endif    
-                        @empty
-    
-                        @endforelse
-                      </select>
+                        <label for=""><span class="text-danger font-weight-bold">*</span>Create CIF for</label>
+                        <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->gender}} | {{date("m/d/Y", strtotime($records->bdate))}}" disabled>
                     </div>
                     
                     <div class="row">
@@ -57,7 +48,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for=""><span class="text-danger font-weight-bold">*</span>Philhealth No.</label>
-                                <input type="text" name="" id="rec_philhealth" class="form-control" disabled>
+                                <input type="text" name="" id="" class="form-control" value="{{(is_null($records->philhealth)) ? 'N/A' : $records->philhealth}}" disabled>
                             </div>
                         </div>
                     </div>
@@ -250,19 +241,19 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Last Name</label>
-                                                <input type="text" class="form-control" name="" id="rec_lname" disabled>
+                                                <input type="text" class="form-control" value="{{$records->lname}}" id="" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">First Name</label>
-                                                <input type="text" class="form-control" name="" id="rec_fname" disabled>
+                                                <input type="text" class="form-control" value="{{$records->fname}}" id="" disabled>
                                             </div>
                                         </div> 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Middle Name</label>
-                                                <input type="text" class="form-control" name="" id="rec_mname" disabled>
+                                                <input type="text" class="form-control" value="{{$records->mname}}" id="" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -270,19 +261,19 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Birthdate (MM/DD/YYYY)</label>
-                                                <input type="text" class="form-control" name="" id="rec_bdate" disabled>
+                                                <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($records->bdate))}}" id="" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Age</label>
-                                                <input type="text" class="form-control" name="" id="rec_age" disabled>
+                                                <input type="text" class="form-control" value="{{$records->getAge($records->bdate)}}" id="" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Gender</label>
-                                                <input type="text" class="form-control" name="" id="rec_gender" disabled>
+                                                <input type="text" class="form-control" value="{{$records->gender}}" id="" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -290,25 +281,25 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="">Civil Status</label>
-                                                <input type="text" class="form-control" name="" id="rec_cs" disabled>
+                                                <input type="text" class="form-control" value="{{$records->cs}}" id="" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="">Nationality</label>
-                                                <input type="text" class="form-control" name="" id="rec_nationality" disabled>
+                                                <input type="text" class="form-control" value="{{$records->nationality}}" id="" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Occupation</label>
-                                                <input type="text" class="form-control" name="" id="rec_occupation" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation)) ? 'N/A' : $records->occupation}}" id="" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Works in a Closed Setting</label>
-                                                <input type="text" class="form-control" name="" id="rec_wiacs" disabled>
+                                                <input type="text" class="form-control" value="{{$records->worksInClosedSetting}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -321,25 +312,25 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">House No./Lot/Bldg.</label>
-                                                <input type="text" class="form-control" name="" id="rec_lot" disabled>
+                                                <input type="text" class="form-control" value="{{$records->address_houseno}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Street/Purok/Sitio</label>
-                                                <input type="text" class="form-control" name="" id="rec_street" disabled>
+                                                <input type="text" class="form-control" value="{{$records->address_street}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Barangay</label>
-                                                <input type="text" class="form-control" name="" id="rec_brgy" disabled>
+                                                <input type="text" class="form-control" value="{{$records->address_brgy}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Municipality/City</label>
-                                                <input type="text" class="form-control" name="" id="rec_city" disabled>
+                                                <input type="text" class="form-control" value="{{$records->address_city}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -347,25 +338,25 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Province</label>
-                                                <input type="text" class="form-control" name="" id="rec_province" disabled>
+                                                <input type="text" class="form-control" value="{{$records->address_province}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Home Phone No. (& Area Code)</label>
-                                                <input type="text" class="form-control" name="" id="rec_phoneno" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->phoneno)) ? 'N/A' : $records->phoneno}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Cellphone No.</label>
-                                                <input type="text" class="form-control" name="" id="rec_mobile" disabled>
+                                                <input type="text" class="form-control" value="{{$records->mobile}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Email Address</label>
-                                                <input type="text" class="form-control" name="" id="rec_email" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->email)) ? 'N/A' : $records->email}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -378,25 +369,25 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">House No./Lot/Bldg.</label>
-                                                <input type="text" class="form-control" name="" id="rec_plot" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_houseno)) ? "N/A" : $records->permaaddress_houseno}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Street/Purok/Sitio</label>
-                                                <input type="text" class="form-control" name="" id="rec_pstreet" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_street)) ? "N/A" : $records->permaaddress_street}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Barangay</label>
-                                                <input type="text" class="form-control" name="" id="rec_pbrgy" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_brgy)) ? "N/A" : $records->permaaddress_brgy}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Municipality/City</label>
-                                                <input type="text" class="form-control" name="" id="rec_pcity" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_city)) ? "N/A" : $records->permaaddress_city}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -404,25 +395,25 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Province</label>
-                                                <input type="text" class="form-control" name="" id="rec_pprovince" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_province)) ? "N/A" : $records->permaaddress_province}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Home Phone No. (& Area Code)</label>
-                                                <input type="text" class="form-control" name="" id="rec_pphone" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permaphoneno)) ? "N/A" : $records->permaphoneno}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Cellphone No.</label>
-                                                <input type="text" class="form-control" name="" id="rec_pmobile" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permamobile)) ? "N/A" : $records->permamobile}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Email Address</label>
-                                                <input type="text" class="form-control" name="" id="rec_pemail" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->permaemail)) ? "N/A" : $records->permaemail}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -435,25 +426,25 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Lot/Bldg.</label>
-                                                <input type="text" class="form-control" name="" id="rec_olot" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_lotbldg)) ? 'N/A' : $records->occupation_lotbldg}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Street</label>
-                                                <input type="text" class="form-control" name="" id="rec_ostreet" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_street)) ? 'N/A' : $records->occupation_street}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Barangay</label>
-                                                <input type="text" class="form-control" name="" id="rec_obrgy" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_brgy)) ? 'N/A' : $records->occupation_brgy}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Municipality/City</label>
-                                                <input type="text" class="form-control" name="" id="rec_ocity" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_city)) ? 'N/A' : $records->occupation_city}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -461,25 +452,25 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Province</label>
-                                                <input type="text" class="form-control" name="" id="rec_oprovince" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_province)) ? 'N/A' : $records->occupation_province}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Name of Workplace</label>
-                                                <input type="text" class="form-control" name="" id="rec_oname" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_name)) ? 'N/A' : $records->occupation_name}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Phone No./Cellphone No.</label>
-                                                <input type="text" class="form-control" name="" id="rec_omobile" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_mobile)) ? 'N/A' : $records->occupation_mobile}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">Email Address</label>
-                                                <input type="text" class="form-control" name="" id="rec_oemail" disabled>
+                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_email)) ? 'N/A' : $records->occupation_email}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -1126,19 +1117,19 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for=""><span class="text-danger font-weight-bold">*</span>Pregnant?</label>
-                                                        <input type="text" class="form-control" name="" id="rec_ispregnant" disabled>
+                                                        <input type="text" class="form-control" value="{{($records->isPregnant == 1) ? "Yes" : "No"}}" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="PregnantLMP"><span class="text-danger font-weight-bold">*</span>LMP</label>
-                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{old('PregnantLMP')}}">
+                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{old('PregnantLMP')}}" {{($records->gender == "FEMALE" && $records->isPregnant == 1) ? '' : 'disabled'}}>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                               <label for="highRiskPregnancy"><span class="text-danger font-weight-bold">*</span>High Risk Pregnancy?</label>
-                                              <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy">
+                                              <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy" {{($records->gender == "FEMALE" && $records->isPregnant == 1) ? 'required' : 'disabled'}}>
                                                 <option value="0" {{(is_null(old('highRiskPregnancy')) || old('highRiskPregnancy') == 0) ? 'selected' : ''}}>No</option>
                                                 <option value="1" {{(old('highRiskPregnancy') == 1) ? 'selected' : ''}}>Yes</option>
                                               </select>
@@ -2070,16 +2061,8 @@
     <script>
         $(document).ready(function () {
 
-            $('#records_id').selectize();
+            //$('#records_id').selectize();
             $('#interviewerName').selectize();
-
-            $('#records_id').change(function (e) { 
-                e.preventDefault();
-                var uid = $('#records_id').val();
-                if ($('#records_id').val().length != 0) {
-                    fetchRecords(uid);
-                }
-            }).trigger('change');
 
             $('#informantName').keydown(function (e) { 
                 if($(this).val().length <= 0 || $(this).val() == "") {
@@ -2918,94 +2901,5 @@
                 }
             }).trigger('change');
         });
-
-        function fetchRecords(id) {
-                $.ajax({
-                    url: "/ajaxGetUserRecord/"+id,
-                    type: "get",
-                    dataType: "json",
-                    cache: false,
-                    processData: false,
-                    error: function(xhr, status, error) {
-                        var err = JSON.parse(xhr.responseText);
-                        alert(err.Message);
-                    },
-                    success: function (response) {
-                        if(response['data'][0].philhealth == null) {
-                            var recph = "N/A"
-                        }
-                        else {
-                            var recph = response['data'][0].philhealth;
-                        }
-
-                        $('#rec_philhealth').val(recph);
-                        $('#rec_lname').val(response['data'][0].lname);
-                        $('#rec_fname').val(response['data'][0].fname);
-                        $('#rec_mname').val(response['data'][0].mname);
-
-                        var formattedDate = new Date(response['data'][0].bdate);
-                        var d = formattedDate.getDate();
-                        var m =  formattedDate.getMonth();
-                        m += 1;  // JavaScript months are 0-11
-                        var y = formattedDate.getFullYear();
-
-                        if (d < 10) {
-                            d = "0" + d;
-                        }
-                        if (m < 10) {
-                            m = "0" + m;
-                        }
-
-                        $('#rec_bdate').val(m + "/" + d + "/" + y);
-                        
-                        dob = new Date(response['data'][0].bdate);
-                        var today = new Date();
-                        var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
-                        $('#rec_age').val(age);
-                        $('#rec_gender').val(response['data'][0].gender);
-                        $('#rec_cs').val(response['data'][0].cs);
-                        $('#rec_nationality').val(response['data'][0].nationality);
-                        $('#rec_occupation').val((response['data'][0].occupation == null) ? "N/A" : response['data'][0].occupation);
-                        $('#rec_wiacs').val(response['data'][0].worksInClosedSetting);
-                        $('#rec_lot').val(response['data'][0].address_houseno);
-                        $('#rec_street').val(response['data'][0].address_street);
-                        $('#rec_brgy').val(response['data'][0].address_brgy);
-                        $('#rec_city').val(response['data'][0].address_city);
-                        $('#rec_province').val(response['data'][0].address_province);
-                        $('#rec_phoneno').val((response['data'][0].phoneno == null) ? "N/A" : response['data'][0].phoneno);
-                        $('#rec_mobile').val(response['data'][0].mobile);
-                        $('#rec_email').val((response['data'][0].email == null) ? "N/A" : response['data'][0].email);
-
-                        $('#rec_olot').val((response['data'][0].occupation_lotbldg == null) ? "N/A" : response['data'][0].occupation_lotbldg);
-                        $('#rec_ostreet').val((response['data'][0].occupation_street == null) ? "N/A" : response['data'][0].occupation_street);
-                        $('#rec_obrgy').val((response['data'][0].occupation_brgy == null) ? "N/A" : response['data'][0].occupation_brgy);
-                        $('#rec_ocity').val((response['data'][0].occupation_city == null) ? "N/A" : response['data'][0].occupation_city);
-                        $('#rec_oprovince').val((response['data'][0].occupation_province == null) ? "N/A" : response['data'][0].occupation_province);
-                        $('#rec_oname').val((response['data'][0].occupation_name == null) ? "N/A" : response['data'][0].occupation_name);
-                        $('#rec_omobile').val((response['data'][0].occupation_mobile == null) ? "N/A" : response['data'][0].occupation_mobile);
-                        $('#rec_oemail').val((response['data'][0].occupation_email == null) ? "N/A" : response['data'][0].occupation_email);
-
-                        $('#rec_plot').val((response['data'][0].permaaddress_houseno == null) ? "N/A" : response['data'][0].permaaddress_houseno);
-                        $('#rec_pstreet').val((response['data'][0].permaaddress_street == null) ? "N/A" : response['data'][0].permaaddress_street);
-                        $('#rec_pbrgy').val((response['data'][0].permaaddress_brgy == null) ? "N/A" : response['data'][0].permaaddress_brgy);
-                        $('#rec_pcity').val((response['data'][0].permaaddress_city == null) ? "N/A" : response['data'][0].permaaddress_city);
-                        $('#rec_pprovince').val((response['data'][0].permaaddress_province == null) ? "N/A" : response['data'][0].permaaddress_province);
-                        $('#rec_pphone').val((response['data'][0].permaphoneno == null) ? "N/A" : response['data'][0].permaphoneno);
-                        $('#rec_pmobile').val((response['data'][0].permamobile == null) ? "N/A" : response['data'][0].permamobile);
-                        $('#rec_pemail').val((response['data'][0].permaemail == null) ? "N/A" : response['data'][0].permaemail);
-
-                        $('#rec_ispregnant').val((response['data'][0].isPregnant == 1) ? "Yes" : "No");
-
-                        if(response['data'][0].isPregnant == 1) {
-                            $('#PregnantLMP').prop({disabled: false, required: false});
-                            $('#highRiskPregnancy').prop({disabled: false, required: true});
-                        }
-                        else {
-                            $('#PregnantLMP').prop({disabled: true, required: false});
-                            $('#highRiskPregnancy').prop({disabled: true, required: false});
-                        }
-                    }
-                });
-            }
     </script>
 @endsection
