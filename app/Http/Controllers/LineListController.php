@@ -18,17 +18,17 @@ class LineListController extends Controller
     }
 
     public function createoni() {
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->get();
+        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
 
-        //$query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
 
         return view('linelist_createoni', ['list' => $query]);
     }
 
     public function createlasalle() { 
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->get();
+        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
 
-        //$query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
 
         return view('linelist_createlasalle', ['list' => $query]);
     }
@@ -77,15 +77,17 @@ class LineListController extends Controller
             ]);
         }
 
-        $update = Forms::whereIn('id', $request->user)
-        ->update(['isPresentOnSwabDay' => 1]);
+        $update = Forms::whereIn('records_id', $request->user)
+        ->where(function ($query) use ($request) {
+            $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+        })->update(['isPresentOnSwabDay' => 1]);
 
         $update1 = Forms::whereNotIn('id', $request->user)
         ->where(function ($query) use ($request) {
             $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
-        })
-        ->update(['isPresentOnSwabDay' => 0]);
+        })->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'ONI Linelist has been created successfully.')->with('statustype', 'success');
     }
@@ -114,15 +116,17 @@ class LineListController extends Controller
             ]);
         }
 
-        $update = Forms::whereIn('id', $request->user)
-        ->update(['isPresentOnSwabDay' => 1]);
+        $update = Forms::whereIn('records_id', $request->user)
+        ->where(function ($query) use ($request) {
+            $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+        })->update(['isPresentOnSwabDay' => 1]);
 
         $update1 = Forms::whereNotIn('id', $request->user)
         ->where(function ($query) use ($request) {
             $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
-        })
-        ->update(['isPresentOnSwabDay' => 0]);
+        })->update(['isPresentOnSwabDay' => 0]);
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
     }
