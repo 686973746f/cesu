@@ -178,7 +178,9 @@
                     <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" id="patient">
                         <option value="" disabled selected>Choose...</option>
                         @foreach ($records as $item)
+                            @if($item->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
                             <option value="/forms/{{$item->id}}/new">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()."/".strtoupper(substr($item->gender, 0,1))}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
