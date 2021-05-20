@@ -59,7 +59,12 @@ class Records extends Model
     ];
 
     public function getAge() {
-        return Carbon::parse($this->attributes['bdate'])->age;
+        if(Carbon::parse($this->attributes['bdate'])->age != 0) {
+            return Carbon::parse($this->attributes['bdate'])->age;
+        }
+        else {
+            return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS.');
+        }
     }
 
     public function form(){
