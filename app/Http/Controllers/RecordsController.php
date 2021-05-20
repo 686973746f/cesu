@@ -28,9 +28,9 @@ class RecordsController extends Controller
 		*/
 
 		if(request()->input('q')) {
-			$records = Records::where('lname', 'LIKE', strtoupper(request()->input('q'))."%")
-			->orWhere('fname', 'LIKE', strtoupper(request()->input('q'))."%")
-			->orWhere('mname', 'LIKE', strtoupper(request()->input('q'))."%")
+			$records = Records::where('lname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
+			->orWhere('fname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
+			->orWhere('mname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
 			->orderBy('lname', 'asc')->paginate(10);
 		}
 		else {
@@ -111,10 +111,10 @@ class RecordsController extends Controller
 			$philhealth_organized = null;
 		}
 
-		if(Records::where('lname', strtoupper($request->lname))
-		->where('fname', strtoupper($request->fname))
+		if(Records::where('lname', mb_strtoupper($request->lname))
+		->where('fname', mb_strtoupper($request->fname))
 		->where(function ($query) use ($request) {
-			$query->where('mname', strtoupper($request->mname))
+			$query->where('mname', mb_strtoupper($request->mname))
 			->orWhereNull('mname');
 		})
 		->where('bdate', $request->bdate)
@@ -133,9 +133,9 @@ class RecordsController extends Controller
 		}
 		else {
 			$request->user()->records()->create([
-				'lname' => strtoupper($request->lname),
-				'fname' => strtoupper($request->fname),
-				'mname' => ($request->filled('mname') && strtoupper($request->mname) != "N/A") ? strtoupper($request->mname) : null,
+				'lname' => mb_strtoupper($request->lname),
+				'fname' => mb_strtoupper($request->fname),
+				'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
 				'gender' => strtoupper($request->gender),
 				'isPregnant' => $isPregnant,
 				'cs' => strtoupper($request->cs),
@@ -269,9 +269,9 @@ class RecordsController extends Controller
 		}
 
         $record = Records::where('id', $id)->update([
-			'lname' => strtoupper($request->lname),
-			'fname' => strtoupper($request->fname),
-			'mname' => $request->filled('mname') ? strtoupper($request->mname) : NULL,
+			'lname' => mb_strtoupper($request->lname),
+			'fname' => mb_strtoupper($request->fname),
+			'mname' => $request->filled('mname') ? mb_strtoupper($request->mname) : NULL,
 			'gender' => strtoupper($request->gender),
 			'isPregnant' => $isPregnant,
 			'cs' => strtoupper($request->cs),
