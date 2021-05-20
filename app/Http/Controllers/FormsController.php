@@ -92,7 +92,12 @@ class FormsController extends Controller
             if(Forms::where('records_id', $id)->exists()) {
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->first();
-                return redirect()->back()->with('modalmsg', 'CIF Records already exists on '.$check->lname.", ".$check->fname." ".$check->mname)->with('exist_id', $ex_id->id);
+                return redirect()->back()
+                ->with('modalmsg', 'CIF Records already exists on '.$check->lname.", ".$check->fname." ".$check->mname)
+                ->with('exist_id', $ex_id->id)
+                ->with('attended', ($ex_id->isPresentOnSwabDay == 1) ? "YES" : "NO")
+                ->with('eType', (!is_null($ex_id->testType2)) ? $ex_id->testType2 : $ex_id->testType1)
+                ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y', strtotime($ex_id->testDateCollected2)) : date('m/d/Y', strtotime($ex_id->testDateCollected1)));
             }
             else {
                 $interviewers = Interviewers::orderBy('lname', 'asc')->get();

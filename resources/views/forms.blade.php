@@ -169,6 +169,9 @@
                 <div class="alert alert-danger" role="alert">
                     {{session('modalmsg')}}
                     <hr>
+                    <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
+                    <p class="text-info">Attended: <u>{{session('attended')}}</u></p>
+                    <hr>
                     To edit the existing CIF, click <a href="forms/{{session('exist_id')}}/edit">HERE</a>
                 </div>
                 <hr>
