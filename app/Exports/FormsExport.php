@@ -47,6 +47,42 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $ei2str = "UNKNOWN";
         }
 
+        if(is_null($form->testType2)) {
+            $displayFirstTestDateCollected = date('m/d/Y', strtotime($form->testDateCollected1));
+            $displayFirstTestDateRelease = (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A';
+            $displayFirstLaboratory = strtoupper($form->testLaboratory1);
+            $displayFirstTestType = $form->testType1;
+            $displayFirstTestTypeOtherRemarks = ($form->testType1 == "OTHERS" || $form->testType1 == "ANTIGEN") ? $form->testTypeOtherRemarks1 : "N/A";
+            $displayFirstTestResult = $form->testResult1;
+            $displayFirstTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
+
+            $displaySecondTestDateCollected = "N/A";
+            $displaySecondTestDateRelease = "N/A";
+            $displaySecondLaboratory = "N/A";
+            $displaySecondTestType = "N/A";
+            $displaySecondTestTypeOtherRemarks = "N/A";
+            $displaySecondTestResult = "N/A";
+            $displaySecondTestResultOtherRemarks = "N/A";
+        }
+        else {
+            //ilalagay sa unahan yung pangalawang swab dahil mas bago ito
+            $displayFirstTestDateCollected = date('m/d/Y', strtotime($form->testDateCollected2));
+            $displayFirstTestDateRelease = (!is_null($form->testDateReleased2)) ? date('m/d/Y', strtotime($form->testDateReleased2)) : 'N/A';
+            $displayFirstLaboratory = strtoupper($form->testLaboratory2);
+            $displayFirstTestType = $form->testType2;
+            $displayFirstTestTypeOtherRemarks = ($form->testType2 == "OTHERS" || $form->testType2 == "ANTIGEN") ? $form->testTypeOtherRemarks2 : "N/A";
+            $displayFirstTestResult = $form->testResult2;
+            $displayFirstTestResultOtherRemarks = ($form->testResult2 == "OTHERS") ? $form->testResultOtherRemarks2 : "N/A";
+
+            $displaySecondTestDateCollected = date('m/d/Y', strtotime($form->testDateCollected1));
+            $displaySecondTestDateRelease = (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A';
+            $displaySecondLaboratory = strtoupper($form->testLaboratory1);
+            $displaySecondTestType = $form->testType1;
+            $displaySecondTestTypeOtherRemarks = ($form->testType1 == "OTHERS" || $form->testType1 == "ANTIGEN") ? $form->testTypeOtherRemarks1 : "N/A";
+            $displaySecondTestResult = $form->testResult1;
+            $displaySecondTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
+        }
+
         return [
             $form->drunit,
             $form->drregion,
@@ -226,22 +262,22 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->testedPositiveUsingRTPCRBefore == 1) ? strtoupper($form->testedPositiveLab) : "N/A",
             strval($form->testedPositiveNumOfSwab),
 
-            date('m/d/Y', strtotime($form->testDateCollected1)),
+            $displayFirstTestDateCollected,
             '',
-            (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A',
-            strtoupper($form->testLaboratory1),
-            $form->testType1,
-            ($form->testType1 == "OTHERS" || $form->testType1 == "ANTIGEN") ? $form->testTypeOtherRemarks1 : "N/A",
-            $form->testResult1,
-            ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A",
+            $displayFirstTestDateRelease,
+            $displayFirstLaboratory,
+            $displayFirstTestType,
+            $displayFirstTestTypeOtherRemarks,
+            $displayFirstTestResult,
+            $displayFirstTestResultOtherRemarks,
 
-            (!is_null($form->testDateCollected2)) ? date('m/d/Y', strtotime($form->testDateCollected2)) : "N/A",
-            (!is_null($form->testDateReleased2)) ? date('m/d/Y', strtotime($form->testDateReleased2)) : "N/A",
-            (!is_null($form->testLaboratory2)) ? strtoupper($form->testLaboratory2) : "N/A",
-            $form->testType2,
-            ($form->testType2 == "OTHERS" || $form->testType2 == "ANTIGEN") ? $form->testTypeOtherRemarks2 : "N/A",
-            ($form->testType2 != "N/A") ? $form->testResult2 : "N/A",
-            ($form->testResult2 == "OTHERS") ? $form->testResultOtherRemarks2 : "N/A",
+            $displaySecondTestDateCollected,
+            $displaySecondTestDateRelease,
+            $displaySecondLaboratory,
+            $displaySecondTestType,
+            $displaySecondTestTypeOtherRemarks,
+            $displaySecondTestResult,
+            $displaySecondTestResultOtherRemarks,
 
             ($form->outcomeCondition == "Active") ? "YES" : "NO",
             ($form->outcomeCondition == "Recovered") ? "YES" : "NO",

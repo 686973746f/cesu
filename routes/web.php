@@ -79,7 +79,8 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::get('/linelist/oni/print/{id}', [LineListController::class, 'printoni'])->name('linelist.oni.print');
     Route::get('/linelist/lasalle/print/{id}', [LineListController::class, 'printlasalle'])->name('linelist.lasalle.print');
 
-    Route::get('/report', [ReportController::class, 'index'])->name('report.index'); 
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/report/doh', [ReportController::class, 'dohExport'])->name('dohExport');
 
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);

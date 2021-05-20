@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Brgy;
 use App\Models\Forms;
 use Illuminate\Http\Request;
+use App\Exports\DOHExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -23,5 +25,22 @@ class ReportController extends Controller
         ->update(['caseClassification' => 'Suspect']);
 
         return redirect()->action([ReportController::class, 'index'])->with('status', 'All patients who were absent for today were moved in SUSPECTED Case.')->with('statustype', 'success');
+    }
+
+    public function dohExport() {
+
+        Excel::create('Filename', function($excel) {
+
+            // Our first sheet
+            $excel->sheet('First sheet', function($sheet) {
+        
+            });
+        
+            // Our second sheet
+            $excel->sheet('Second sheet', function($sheet) {
+        
+            });
+        
+        })->export('xlsx');
     }
 }
