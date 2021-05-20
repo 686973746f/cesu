@@ -2511,10 +2511,6 @@
                 $('#comCheck1').prop('checked', true);
             @endif
 
-            $('#rec_ispregnant').val("N/A");
-            $('#PregnantLMP').prop({disabled: true, required: false});
-            $('#highRiskPregnancy').prop({disabled: true, required: false});
-
             $('#imagingDone').change(function (e) { 
                 e.preventDefault();
                 $('#divImagingOthers').hide();
