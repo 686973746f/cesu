@@ -18,17 +18,17 @@ class LineListController extends Controller
     }
 
     public function createoni() {
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
+        //$query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
 
-        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+        $query = Records::orderBy('lname', 'asc')->get();
 
         return view('linelist_createoni', ['list' => $query]);
     }
 
     public function createlasalle() { 
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
+        //$query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
 
-        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+        $query = Records::orderBy('lname', 'asc')->get();
 
         return view('linelist_createlasalle', ['list' => $query]);
     }
