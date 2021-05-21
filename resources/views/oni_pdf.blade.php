@@ -6,17 +6,27 @@
 @section('content')
     @php
     $n = 0;
+    if($size == 'legal') {
+        $fsize = '70%';
+        $picw = '50rem';
+        $tblmarginbottom = '1';
+    }
+    else {
+        $fsize = '70%';
+        $picw = '40rem';
+        $tblmarginbottom = '3';
+    }
     @endphp
     @while($n+1 <= $list->count())
     <div class="container-fluid my-0" style="font-family: Arial, Helvetica, sans-serif; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
         <div class="text-center">
-            <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: 50rem;" class="{{($n+1 != 1) ? 'mt-3' : 'mt-0'}} mb-0">
+            <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: {{$picw}};" class="{{($n+1 != 1) ? 'mt-3' : 'mt-0'}} mb-0">
             <h6 class="font-weight-bold my-0">SAMPLE PICK-UP FORM</h6>
         </div>
         <span>Name of Institute/Facility: <u>{{$details->dru}}</u></span>
         <p class="mb-1">Name and Number of Contact Person: <u>{{$details->contactPerson." ".$details->contactMobile}}</u></p>
         <div class="table-responsive">
-            <table class="table table-bordered mb-1" style="font-size: 70%;">
+            <table class="table table-bordered mb-{{$tblmarginbottom}}" style="font-size: {{$fsize}};">
                 <thead>
                     <tr class="text-center">
                         <th style="vertical-align: middle;">ZIPLOCK NUMBER</th>
@@ -77,7 +87,7 @@
             </table>
         </div>
         <div class="text-center mb-0">
-            <img class="mt-0 mb-0 text-center" src="{{asset('assets/images/oni_foot.png')}}" alt="" style="width: 50rem;">
+            <img class="mt-0 mb-0 text-center" src="{{asset('assets/images/oni_foot.png')}}" alt="" style="width: {{$picw}};">
         </div>
     </div>
     @endwhile

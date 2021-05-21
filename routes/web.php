@@ -52,9 +52,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::group(['middleware' => ['auth','verified']], function() {
     // your routes
-    //Route::get('/addrecord', [AddRecordsController::class, 'index'])->name('addrecord');
-    //Route::post('/addrecord', [AddRecordsController::class, 'store']);
-
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::resource('records', RecordsController::class);
@@ -62,18 +59,11 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/new', [FormsController::class, 'new']);
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
-    /*
-    Route::get('/forms', [FormsController::class, 'index'])->name('forms.index');
-    Route::post('/forms/{id}/create', [FormsController::class, 'store'])->name('forms.store');
-    Route::get('/forms/{id}/edit', [FormsController::class, 'edit']);
-    Route::put('/forms/{id}', [FormsController::class, 'update']);
-    */
     
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
-    Route::get('/linelist/oni/create', [LineListController::class, 'createoni'])->name('linelist.createoni');
+    Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');
     Route::post('/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');
 
-    Route::get('/linelist/lasalle/create', [LineListController::class, 'createlasalle'])->name('linelist.createlasalle');
     Route::post('/linelist/lasalle/create', [LineListController::class, 'lasalleStore'])->name('linelist.lasalle.store');
 
     Route::get('/linelist/oni/print/{id}', [LineListController::class, 'printoni'])->name('linelist.oni.print');

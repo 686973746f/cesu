@@ -17,39 +17,47 @@ class LineListController extends Controller
         return view('linelist_index', ['list' => $list]);
     }
 
-    public function createoni() {
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
+    public function createLineList(Request $request) {
+        if($request->isOverride == 1) {
+            $query = Records::orderBy('lname', 'asc')->get();
+        }
+        else {
+            $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
 
-        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+            $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+        }
 
-        return view('linelist_createoni', ['list' => $query]);
-    }
-
-    public function createlasalle() { 
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
-
-        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
-
-        return view('linelist_createlasalle', ['list' => $query]);
+        if($request->submit == 1) {
+            //LaSalle
+            return view('linelist_createlasalle', ['list' => $query]);
+        }
+        else {
+            //ONI
+            return view('linelist_createoni', ['list' => $query]);
+        }
     }
 
     public function printoni($id) {
         ini_set('max_execution_time', 600);
+
+        $setPaper = request()->input('s');
         
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
 
-        $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
+        $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper])->setPaper($setPaper, 'landscape');
         return $pdf->download('LINELIST_ONI_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
     }
 
     public function printlasalle($id) {
         ini_set('max_execution_time', 600);
 
+        $setPaper = request()->input('s');
+
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
 
-        $pdf = PDF::loadView('lasalle_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
+        $pdf = PDF::loadView('lasalle_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper])->setPaper($setPaper, 'landscape');
         return $pdf->download('LINELIST_LASALLE_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
         
         //return view('lasalle_pdf', ['details' => $details, 'list' => $list]);

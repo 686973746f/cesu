@@ -10,8 +10,17 @@
                     Line List
                 </div>
                 <div>
-                    <a href="{{route('linelist.createlasalle')}}" class="btn btn-success">Create LaSalle</a>
-                    <a href="{{route('linelist.createoni')}}" class="btn btn-success">Create ONI</a>
+                    <form action="{{route('linelist.create')}}" method="POST">
+                        @csrf
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="isOverride" id="isOverride" value="1">
+                            Override Mode
+                          </label>
+                        </div>
+                        <button class="btn btn-success" name="submit" value="1">Create LaSalle</button>
+                        <button class="btn btn-success" name="submit" value="2">Create ONI</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -29,6 +38,7 @@
                         <th>Type</th>
                         <th>Date Created</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +55,8 @@
                         <td scope="row">{{$key+1}}</td>
                         <td>{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
                         <td>{{$item->created_at}}</td>
-                        <td><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}">Print</a></td>
+                        <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=legal">Print (Legal)</a></td>
+                        <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4">Print (A4)</a></td>
                     </tr>
                     @endforeach
                 </tbody>

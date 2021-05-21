@@ -6,9 +6,15 @@
 @section('content')
     @php
     $n = 0;
+    if($size == 'legal') {
+        $fsize = '65%';
+    }
+    else {
+        $fsize = '55%';
+    }
     @endphp
     @while($n+1 <= $list->count())
-    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;font-size: 65%; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
+    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;font-size: {{$fsize}}; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
         <div class="text-center {{($n+1 != 1) ? 'mt-3' : ''}}">
             <h6 class="font-weight-bold">PROVINCE OF CAVITE</h6>
             <h6>Cavite De La Salle Medical Health Science Institute COVID19 Diagnostic Center</h6>
@@ -35,7 +41,7 @@
                     <th colspan="2">Contact Person</th>
                     <th colspan="2" class="text-center font-weight-normal">{{$details->contactPerson}}</th>
                     <th colspan="2">Official E-mail Address</th>
-                    <th colspan="2" class="text-center font-weight-normal"><a href="#">{{$details->email}}</a></th>
+                    <th colspan="2" class="text-center font-weight-bold"><a href="#">{{$details->email}}</a></th>
                 </tr>
                 <tr>
                     <th colspan="2">Telephone Number</th>
