@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Brgy;
 use App\Models\Forms;
-use Illuminate\Http\Request;
 use App\Exports\DOHExport;
+use App\Exports\FormsExport;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
@@ -28,19 +29,10 @@ class ReportController extends Controller
     }
 
     public function dohExport() {
+        return Excel::download(new DOHExport, 'DOH_Excel_'.date('m_d_Y').'.xlsx');
+    }
 
-        Excel::create('Filename', function($excel) {
-
-            // Our first sheet
-            $excel->sheet('First sheet', function($sheet) {
-        
-            });
-        
-            // Our second sheet
-            $excel->sheet('Second sheet', function($sheet) {
-        
-            });
-        
-        })->export('xlsx');
+    public function allcifExport() {
+        return Excel::download(new FormsExport([0]), 'CIF_ALL_'.date("m_d_Y").'.xlsx');
     }
 }

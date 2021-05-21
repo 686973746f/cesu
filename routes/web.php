@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/doh', [ReportController::class, 'dohExport'])->name('dohExport');
+    Route::get('/report/cif', [ReportController::class, 'allcifExport'])->name('cifExport');
 
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);

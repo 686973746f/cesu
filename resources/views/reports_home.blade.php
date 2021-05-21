@@ -9,6 +9,13 @@
             <hr>
         @endif
         <div class="card mb-3">
+            <div class="card-header">Export to Excel</div>
+            <div class="card-body">
+                <a href="{{route('dohExport')}}" class="btn btn-primary btn-block">DOH Excel</a>
+                <a href="{{route('cifExport')}}" class="btn btn-primary btn-block">CIF Excel</a>
+            </div>
+        </div>
+        <div class="card mb-3">
             <div class="card-header">Daily Report</div>
             <div class="card-body">
                 <div class="table-responsive">

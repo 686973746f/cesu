@@ -76,7 +76,7 @@ class FormsController extends Controller
         $models = Forms::whereIn('id', $list)
         ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
         
-        return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y_H_i_s").'.xlsx');
+        return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.xlsx');
     }
 
     /**

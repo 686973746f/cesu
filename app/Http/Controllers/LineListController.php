@@ -40,7 +40,7 @@ class LineListController extends Controller
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
 
         $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
-        return $pdf->download('ONI_LL.pdf');
+        return $pdf->download('LINELIST_ONI_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
     }
 
     public function printlasalle($id) {
@@ -50,7 +50,7 @@ class LineListController extends Controller
         $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
 
         $pdf = PDF::loadView('lasalle_pdf', ['details' => $details, 'list' => $list])->setPaper('legal', 'landscape');
-        return $pdf->download('LaSalle_LL.pdf');
+        return $pdf->download('LINELIST_LASALLE_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
         
         //return view('lasalle_pdf', ['details' => $details, 'list' => $list]);
     }

@@ -24,7 +24,12 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return Forms::findMany($this->id);
+        if(in_array(0, $this->id)) {
+            return Forms::all();
+        }
+        else {
+            return Forms::findMany($this->id);
+        }
     }
 
     public function map($form): array {
