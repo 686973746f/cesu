@@ -17,7 +17,9 @@ class CreateRecordsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
-            $table->tinyText('status');
+            $table->string('status');
+            $table->foreignId('status_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->string('status_remarks')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('lname');
             $table->string('fname');
