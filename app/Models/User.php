@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Records;
-use App\Models\CIFUploads;
+use App\Models\CifUploads;
 use App\Models\LinelistMaster;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
