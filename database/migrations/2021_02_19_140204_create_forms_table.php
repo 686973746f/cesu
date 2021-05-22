@@ -16,6 +16,8 @@ class CreateFormsTable extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->tinyText('status');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('records_id')->constrained()->onDelete('cascade');
             $table->enum('isExported',[0,1])->default(0);
@@ -190,6 +192,8 @@ class CreateFormsTable extends Migration
             $table->text('contact3No', 11)->nullable();
             $table->text('contact4Name')->nullable();
             $table->text('contact4No', 11)->nullable();
+
+            $table->string('remarks')->nullable();
         });
     }
 
