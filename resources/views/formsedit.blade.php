@@ -2102,7 +2102,7 @@
                                 <td>{{$doc->file_type}}</td>
                                 <td>{{date('m/d/Y h:i A', strtotime($doc->created_at))}}</td>
                                 <td>{{$doc->user->name}}</td>
-                                <td><a href="{{public_path('assets/cif_docs/'.$doc->filepath)}}" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i></a></td>
+                                <td><a href="/forms/download/{{$doc->id}}" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>

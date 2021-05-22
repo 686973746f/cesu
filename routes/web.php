@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::get('/forms/{id}/new', [FormsController::class, 'new']);
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
     Route::post('/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
+    Route::get('/forms/download/{id}', [FormsController::class, 'downloadDocs']);
     
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');

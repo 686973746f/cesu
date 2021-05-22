@@ -356,6 +356,12 @@ class FormsController extends Controller
         ->with('msgType', 'success');
     }
 
+    public function downloadDocs($id) {
+        $doc = CifUploads::find($id);
+
+        return response()->download(public_path('assets/cif_docs')."/".$doc->filepath);
+    }
+
     /**
      * Display the specified resource.
      *
