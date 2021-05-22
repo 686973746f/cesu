@@ -133,6 +133,7 @@ class RecordsController extends Controller
 		}
 		else {
 			$request->user()->records()->create([
+				'status' => 'approved',
 				'lname' => mb_strtoupper($request->lname),
 				'fname' => mb_strtoupper($request->fname),
 				'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,

@@ -163,6 +163,7 @@ class FormsController extends Controller
             }
             else {
                 $request->user()->form()->create([
+                    'status' => 'approved',
                     'records_id' => $id,
                     'drunit' => $request->drunit,
                     'drregion' => $request->drregion,

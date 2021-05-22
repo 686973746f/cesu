@@ -13,6 +13,7 @@ class Records extends Model
     use HasFactory;
 
     protected $fillable = [
+        'status',
         'lname',
         'fname',
         'mname',
