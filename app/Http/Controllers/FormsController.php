@@ -342,7 +342,7 @@ class FormsController extends Controller
 
         $newFileName = time() . ' - ' . $request->filepath->getClientOriginalName();
 
-        $upload = $request->filepath->move(public_path('assets\cif_docs'), $newFileName);
+        $upload = $request->filepath->move(public_path('assets/cif_docs'), $newFileName);
     
         $request->user()->cifupload()->create([
             'forms_id' => $id,
