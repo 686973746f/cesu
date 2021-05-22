@@ -348,7 +348,7 @@ class FormsController extends Controller
             'forms_id' => $id,
             'file_type' => $request->file_type,
             'filepath' => $newFileName,
-            'remarks' => $request->remarks,
+            'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
         ]);
 
         return redirect()->back()
