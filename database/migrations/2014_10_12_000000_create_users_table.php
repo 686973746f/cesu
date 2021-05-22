@@ -20,6 +20,9 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('enabled')->default(1);
             $table->tinyInteger('isAdmin')->default(0);
             $table->foreignId('brgy_id')->nullable()->constrained('brgy')->onDelete('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
+            $table->tinyInteger('canByPassValidation')->default(0);
+            $table->tinyInteger('isValidator')->default(0);
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

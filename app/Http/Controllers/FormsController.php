@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Forms;
 use App\Models\Records;
+use App\Models\CifUploads;
 use App\Exports\FormsExport;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
@@ -331,6 +332,30 @@ class FormsController extends Controller
             }
     }
 
+    public function upload(Request $request, $id) {
+
+        $request->validate([
+            'file_type' => 'required',
+            'filepath' => 'required|mimes:jpg,png,jpeg,pdf|max:5048',
+            'remarks' => 'nullable',
+        ]);
+
+        $newFileName = time() . ' - ' . $request->filepath->getClientOriginalName();
+
+        $upload = $request->filepath->move(public_path('assets\cif_docs'), $newFileName);
+    
+        $request->user()->cifupload()->create([
+            'forms_id' => $id,
+            'file_type' => $request->file_type,
+            'filepath' => $newFileName,
+            'remarks' => $request->remarks,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'Document has been uploaded successfully.')
+        ->with('msgType', 'success');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -339,7 +364,7 @@ class FormsController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -353,12 +378,14 @@ class FormsController extends Controller
         $records = Forms::findOrFail($id);
         $interviewers = Interviewers::orderBy('lname', 'asc')->get();
 
+        $docs = CifUploads::where('forms_id', $id)->get();
+
         $countries = new Countries();
         $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
         $all = $countries->all()->pluck('name.common')->toArray();
 
         if($records->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id)) {
-            return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers]);
+            return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers, 'docs' => $docs]);
         }
         else {
             return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');

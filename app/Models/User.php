@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Records;
+use App\Models\CIFUploads;
 use App\Models\LinelistMaster;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -68,5 +69,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function linelistmaster() {
         return $this->hasMany(LinelistMasters::class);
+    }
+
+    public function cifupload() {
+        return $this->hasMany(CifUploads::class);
     }
 }

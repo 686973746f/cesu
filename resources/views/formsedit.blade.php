@@ -5,7 +5,7 @@
         <form action="/forms/{{$records->id}}" method="POST">
             @csrf
             @method('PUT')
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-body">
                     @csrf
                     <div class="alert alert-info" role="alert">
@@ -21,6 +21,12 @@
                         @endforeach
                     </div>
                     <hr>
+                    @endif
+
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgType')}}" role="alert">
+                        {{session('msg')}}
+                    </div>
                     @endif
     
                     <div class="form-group">
@@ -2061,6 +2067,86 @@
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary" id="formsubmit">Submit</button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        Documents
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#uploadDoc"><i class="fa fa-upload mr-2" aria-hidden="true"></i>Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @if($docs->count())
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Type</th>
+                                <th>Date Uploaded</th>
+                                <th>By</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($docs as $doc)
+                            <tr>
+                                <td scope="row">{{$loop->iteration}}</td>
+                                <td>{{$doc->file_type}}</td>
+                                <td>{{date('m/d/Y h:i A', strtotime($doc->created_at))}}</td>
+                                <td>{{$doc->user->name}}</td>
+                                <td><a href="{{asset('assets/cif_docs/'.$doc->filepath)}}" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i></a></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @else
+                <p class="text-center">There are no documents uploaded for this record yet.</p>
+                @endif
+            </div>
+        </div>
+
+        <form action="/forms/{{$records->id}}/edit" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="modal fade" id="uploadDoc" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Upload Document</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                              <label for="file_type"><span class="text-danger font-weight-bold">*</span>Document Type</label>
+                              <select class="form-control" name="file_type" id="file_type" required>
+                                    <option value="" selected disabled>Choose...</option>
+                                    <option value="RESULT">Result</option>
+                                    <option value="REQUIREMENTS">Requirements</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="filepath"><span class="text-danger font-weight-bold">*</span>Select File</label>
+                                <input type="file" class="form-control-file" name="filepath" id="filepath" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="remarks">Remarks</label>
+                              <input type="text" class="form-control" name="remarks" id="remarks">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

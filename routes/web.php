@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/new', [FormsController::class, 'new']);
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
+    Route::post('/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
     
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');

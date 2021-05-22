@@ -9,7 +9,7 @@
                         List of Patients
                     </div>
                     <div>
-                        <a href="{{route('records.create')}}" class="btn btn-success">Add Patient</a>
+                        <a href="{{route('records.create')}}" class="btn btn-success"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Add Patient</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                                         <td style="vertical-align: middle" class="text-center">{{(!is_null($record->occupation)) ? $record->occupation : "N/A"}}</td>
                                         <td style="vertical-align: middle">{{$record->user->name}}</td>
                                         <td style="vertical-align: middle" class="text-center">{{date('m/d/Y h:i A', strtotime($record->created_at))}}</td>
-                                        <td style="vertical-align: middle" class="text-center"><a href="records/{{$record->id}}/edit" class="btn btn-primary">Edit</a></td>
+                                        <td style="vertical-align: middle" class="text-center"><a href="records/{{$record->id}}/edit" class="btn btn-primary"><i class="fas fa-edit"></i></a></td>
                                     </tr>
                                 @endif
                             @empty
