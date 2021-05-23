@@ -77,73 +77,70 @@
                         </thead>
                         <tbody>
                             @forelse ($forms as $form)
-                                @if($form->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
-                                    @php
-            
-                                        if($form->expoitem1 == 1) {
-                                            $emsg = "YES";
-                                        }
-                                        else if($form->expoitem1 == 2) {
-                                            $emsg = "NO";
-                                        }
-                                        else {
-                                            $emsg = "UNKNOWN";
-                                        }
-            
-                                        if(is_null($form->expoDateLastCont)) {
-                                            $edate = "N/A";
-                                        } 
-                                        else {
-                                            $edate = date('m/d/Y', strtotime($form->expoDateLastCont));
-                                        }
-            
-                                        if($form->isExported == 1) {
-                                            $textcolor = 'success';
-                                        }
-                                        else {
-                                            $textcolor = 'warning';
-                                        }
+                                @php
+                                if($form->expoitem1 == 1) {
+                                    $emsg = "YES";
+                                }
+                                else if($form->expoitem1 == 2) {
+                                    $emsg = "NO";
+                                }
+                                else {
+                                    $emsg = "UNKNOWN";
+                                }
 
-                                        if(!is_null($form->isPresentOnSwabDay)) {
-                                            if($form->isPresentOnSwabDay == 1) {
-                                                $attendedText = 'YES';
-                                                $textcolor = 'success';
-                                            }
-                                            else if($form->isPresentOnSwabDay == 0) {
-                                                $attendedText = 'NO';
-                                                $textcolor = 'danger';
-                                            }
-                                        }
-                                        else {
-                                            $attendedText = '';
-                                        }
-                                    @endphp
-                                    <tr class="bg-{{$textcolor}}">
-                                        <th class="text-center" style="vertical-align: middle;">
-                                            <input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}">
-                                        </th>
-                                        <td style="vertical-align: middle;">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->records->mobile}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{$form->records->gender}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->records->address_street}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">
-                                            <a href="forms/{{$form->id}}/edit" class="btn btn-primary btn-sm">Edit</a>
-                                        </td>
-                                    </tr>
-                                @endif
+                                if(is_null($form->expoDateLastCont)) {
+                                    $edate = "N/A";
+                                } 
+                                else {
+                                    $edate = date('m/d/Y', strtotime($form->expoDateLastCont));
+                                }
+
+                                if($form->isExported == 1) {
+                                    $textcolor = 'success';
+                                }
+                                else {
+                                    $textcolor = 'warning';
+                                }
+
+                                if(!is_null($form->isPresentOnSwabDay)) {
+                                    if($form->isPresentOnSwabDay == 1) {
+                                        $attendedText = 'YES';
+                                        $textcolor = 'success';
+                                    }
+                                    else if($form->isPresentOnSwabDay == 0) {
+                                        $attendedText = 'NO';
+                                        $textcolor = 'danger';
+                                    }
+                                }
+                                else {
+                                    $attendedText = '';
+                                }
+                            @endphp
+                            <tr class="bg-{{$textcolor}}">
+                                <th class="text-center" style="vertical-align: middle;">
+                                    <input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}">
+                                </th>
+                                <td style="vertical-align: middle;">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->records->mobile}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{$form->records->gender}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->records->address_street}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
+                                <td style="vertical-align: middle;" class="text-center">
+                                    <a href="forms/{{$form->id}}/edit" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                            </tr>
                             @empty
                             
                             @endforelse
@@ -181,9 +178,7 @@
                     <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" id="patient">
                         <option value="" disabled selected>Choose...</option>
                         @foreach ($records as $item)
-                            @if($item->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id))
-                            <option value="/forms/{{$item->id}}/new">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()."/".strtoupper(substr($item->gender, 0,1))}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
-                            @endif
+                        <option value="/forms/{{$item->id}}/new">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()."/".strtoupper(substr($item->gender, 0,1))}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
                         @endforeach
                     </select>
                 </div>

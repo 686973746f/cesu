@@ -221,6 +221,8 @@ class FormValidationRequest extends FormRequest
             'addContName.*' => 'nullable',
             'addContNo.*' => 'nullable|numeric|digits:11',
             'addContExpSet.*' => 'nullable',
+
+            'remarks' => 'nullable',
 		];
     }
 }

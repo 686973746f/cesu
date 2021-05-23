@@ -28,12 +28,22 @@
                         {{session('msg')}}
                     </div>
                     @endif
-    
-                    <div class="form-group">
-                        <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
-                        <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->gender}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
+                                <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->gender}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="remarks">Remarks</label>
+                                <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $records->remarks)}}">
+                            </div>
+                        </div>
                     </div>
-                    
+    
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

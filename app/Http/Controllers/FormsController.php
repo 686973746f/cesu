@@ -38,7 +38,25 @@ class FormsController extends Controller
 
         if(request()->input('view')) {
             if(request()->input('view') == 1) {
-                $forms = Forms::orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
+                if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+                    if(!is_null(auth()->user()->brgy_id)) {
+                        $forms = Forms::with('user')
+                        ->whereHas('user', function ($query) {
+                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        })
+                        ->orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
+                    }
+                    else {
+                        $forms = Forms::with('user')
+                        ->whereHas('user', function ($query) {
+                            $query->where('company_id', auth()->user()->company_id);
+                        })
+                        ->orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
+                    }
+                }
+                else {
+                    $forms = Forms::orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
+                }
             }
             else if(request()->input('view') == 2) {
                 $forms = Forms::whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))->orderBy('created_at', 'desc')->get();
@@ -48,10 +66,54 @@ class FormsController extends Controller
             }
         }
         else {
-            $forms = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->orderBy('created_at', 'desc')->get();
+            if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+                if(!is_null(auth()->user()->brgy_id)) {
+                    $forms = Forms::with('user')
+                    ->where(function ($query) {
+                        $query->where('testDateCollected1', date('Y-m-d'))
+                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    })
+                    ->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })
+                    ->orderBy('created_at', 'desc')->get();
+                }
+                else {
+                    $forms = Forms::with('user')
+                    ->where(function ($query) {
+                        $query->where('testDateCollected1', date('Y-m-d'))
+                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    })
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })
+                    ->orderBy('created_at', 'desc')->get();
+                }
+            }
+            else {
+                $forms = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->orderBy('created_at', 'desc')->get();
+            }
         }
 
-        $records = Records::orderBy('lname', 'asc')->get();
+        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+            if(!is_null(auth()->user()->brgy_id)) {
+                $records = Records::with('user')
+                ->whereHas('user', function($q) {
+                    $q->where('brgy_id', auth()->user()->brgy_id);
+                })
+                ->orderBy('lname', 'asc')->get();
+            }
+            else {
+                $records = Records::with('user')
+                ->whereHas('user', function($q) {
+                    $q->where('company_id', auth()->user()->company_id);
+                })
+                ->orderBy('lname', 'asc')->get();
+            }
+        }
+        else {
+            $records = Records::orderBy('lname', 'asc')->get();
+        }
 
         $formsctr = Forms::all();
 
@@ -87,9 +149,27 @@ class FormsController extends Controller
      */
 
     public function new($id) {
-        $check = Records::findOrFail($id);
+        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+            if(!is_null(auth()->user()->brgy_id)) {
+                $check = Records::with('user')
+                ->where('id', $id)
+                ->whereHas('user', function ($query) {
+                    $query->where('brgy_id', auth()->user()->brgy_id);
+                })->first();
+            }
+            else {
+                $check = Records::with('user')
+                ->where('id', $id)
+                ->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->brgy_id);
+                })->first();
+            }
+        }
+        else {
+            $check = Records::findOrFail($id);
+        }
 
-        if($check->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id)) {
+        if($check) {
             if(Forms::where('records_id', $id)->exists()) {
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->first();
@@ -326,6 +406,8 @@ class FormsController extends Controller
                     'contact3No' => $request->contact3No,
                     'contact4Name' => $request->contact4Name,
                     'contact4No' => $request->contact4No,
+
+                    'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
                 ]);
         
                 return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient was created successfully.')->with('statustype', 'success');
@@ -381,16 +463,35 @@ class FormsController extends Controller
      */
     public function edit($id)
     {
-        $records = Forms::findOrFail($id);
-        $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+            if(!is_null(auth()->user()->brgy_id)) {
+                $records = Forms::with('user')
+                ->where('id', $id)
+                ->whereHas('user', function ($query) {
+                    $query->where('brgy_id', auth()->user()->brgy_id);
+                })->first();
+            }
+            else {
+                $records = Forms::with('user')
+                ->where('id', $id)
+                ->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->company_id);
+                })->first();
+            }
+        }
+        else {
+            $records = Forms::findOrFail($id);
+        }
 
-        $docs = CifUploads::where('forms_id', $id)->get();
+        if($records) {
+            $interviewers = Interviewers::orderBy('lname', 'asc')->get();
 
-        $countries = new Countries();
-        $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
-        $all = $countries->all()->pluck('name.common')->toArray();
+            $docs = CifUploads::where('forms_id', $id)->get();
 
-        if($records->user->brgy_id == auth()->user()->brgy_id || is_null(auth()->user()->brgy_id)) {
+            $countries = new Countries();
+            $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
+            $all = $countries->all()->pluck('name.common')->toArray();
+
             return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers, 'docs' => $docs]);
         }
         else {
@@ -616,6 +717,8 @@ class FormsController extends Controller
                 'contact3No' => $request->contact3No,
                 'contact4Name' => $request->contact4Name,
                 'contact4No' => $request->contact4No,
+
+                'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
                 ]);
     
                 return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF for '.$rec->lname.", ".$rec->fname." ".$rec->mname." has been updated successfully.")->with('statustype', 'success');

@@ -23,9 +23,13 @@ class CreateCompaniesTable extends Migration
             $table->string('loc_lotbldg');
             $table->string('loc_street');
             $table->string('loc_brgy');
+            $table->string('loc_brgyjson')->nullable();
             $table->string('loc_city');
+            $table->string('loc_cityjson');
             $table->string('loc_province');
+            $table->string('loc_provincejson');
             $table->string('loc_region');
+            $table->string('loc_regionjson');
         });
     }
 

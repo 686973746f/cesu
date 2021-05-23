@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\BrgyCodes;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\BrgyCodes;
+use App\Models\ReferralCodes;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -66,25 +67,52 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
         $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])->first();
 
-        $brgy_id = $list->brgy_id;
-        $adminType = $list->adminType;
+        if($list) {
+            //ang ginawang account ay barangay/regular code
+            $brgy_id = $list->brgy_id;
+            $adminType = $list->adminType;
 
-        $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])
-        ->update([
-            'enabled' => 0,
-        ]);
+            $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])
+            ->update([
+                'enabled' => 0,
+            ]);
 
-        return User::create([
-            'brgy_id' => $brgy_id,
-            'enabled' => 1,
-            'isAdmin' => $adminType,
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-        
+            return User::create([
+                'brgy_id' => $brgy_id,
+                'enabled' => 1,
+                'isAdmin' => $adminType,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+        }
+        else {
+            //company
+
+            $list = ReferralCodes::where('refCode', $data['refCode'])
+            ->where('enabled', 1)
+            ->first();
+
+            $company_id = $list->company_id;
+            $adminType = 0;
+
+            $list = ReferralCodes::where('refCode', $data['refCode'])
+            ->where('enabled', 1)
+            ->update([
+                'enabled' => 0,
+            ]);
+
+            return User::create([
+                'brgy_id' => NULL,
+                'company_id' => $company_id,
+                'enabled' => 1,
+                'isAdmin' => $adminType,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+        }
     }
 }

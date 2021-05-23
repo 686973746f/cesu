@@ -21,11 +21,21 @@
                     <hr>
                     @endif
     
-                    <div class="form-group">
-                        <label for=""><span class="text-danger font-weight-bold">*</span>Create CIF for</label>
-                        <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->gender}} | {{date("m/d/Y", strtotime($records->bdate))}}" disabled>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for=""><span class="text-danger font-weight-bold">*</span>Create CIF for</label>
+                                <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->gender}} | {{date("m/d/Y", strtotime($records->bdate))}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="remarks">Remarks</label>
+                              <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks')}}">
+                            </div>
+                        </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

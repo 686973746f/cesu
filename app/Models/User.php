@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'isAdmin',
         'brgy_id',
+        'company_id',
         'name',
         'email',
         'password',
@@ -73,5 +74,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function cifupload() {
         return $this->hasMany(CifUploads::class);
+    }
+
+    public function company() {
+        return $this->hasMany(Companies::class);
+    }
+
+    public function referralCode() {
+        return $this->hasMany(ReferralCodes::class);
     }
 }

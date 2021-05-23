@@ -13,6 +13,7 @@ use App\Http\Controllers\FormsController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\RegisterCodeController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\InterviewersController;
@@ -95,6 +96,9 @@ Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdmin
     Route::resource('/interviewers', InterviewersController::class);
 
     Route::post('/report', [ReportController::class, 'makeAllSuspected'])->name('report.makeAllSuspected');
+
+    Route::resource('/companies', CompaniesController::class);
+    Route::post('/companies/code/create', [CompaniesController::class, 'makeCode'])->name('companies.makecode');
 });
 
 
