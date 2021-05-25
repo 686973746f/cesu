@@ -152,8 +152,24 @@ class FormsController extends Controller
             $records = Records::orderBy('lname', 'asc')->get();
         }
 
-        $formsctr = Forms::all();
-
+        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+            if(!is_null(auth()->user()->brgy_id)) {
+                $formsctr = Forms::with('user')
+                ->whereHas('user', function ($query) {
+                    $query->where('brgy_id', auth()->user()->brgy_id);
+                })->get();
+            }
+            else {
+                $formsctr = Forms::with('user')
+                ->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->company_id);
+                })->get();
+            }
+        }
+        else {
+            Forms::all();
+        }
+        
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
     }
 
