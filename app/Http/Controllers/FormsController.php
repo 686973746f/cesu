@@ -255,16 +255,16 @@ class FormsController extends Controller
                             $oniStartTime = date('H:i', strtotime('14:00 + '. $addMinutes .' minutes'));
 
                             while (!$uniqueTimeDetected) {
-                                $query = Forms::with('user')
+                                $query = Forms::with('records')
                                 ->where('testDateCollected1', $request->testDateCollected1)
                                 ->whereIn('testType1', ['OPS', 'NPS'])
-                                ->whereHas('user', function ($q) {
+                                ->whereHas('records', function ($q) {
                                     $q->whereNotNull('philhealth');
                                 })
                                 ->where('oniTimeCollected1', $oniStartTime);
-
-                                if($query) {
-                                    if($query->count() != 5) {
+                                
+                                if($query->count()) {
+                                    if($query->count() <= 5) {
                                         $oniTimeFinal = $oniStartTime;
                                         $uniqueTimeDetected = true;
                                     }

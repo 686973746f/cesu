@@ -268,7 +268,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             strval($form->testedPositiveNumOfSwab),
 
             $displayFirstTestDateCollected,
-            '',
+            (!is_null($form->oniTimeCollected1)) ? date('h:i A', strtotime($form->oniTimeCollected1)) : '',
             $displayFirstTestDateRelease,
             $displayFirstLaboratory,
             $displayFirstTestType,
