@@ -243,6 +243,50 @@ class FormsController extends Controller
                 return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y'))->with('statustype', 'danger');
             }
             else {
+
+                if(!is_null($rec->philhealth)) {
+                    if($request->testType1 == "OPS" || $request->testType1 == "NPS") {
+                        if($request->filled('oniTimeCollected1')) {
+                            $oniTimeFinal = $request->oniTimeCollected1;
+                        }
+                        else {
+                            $uniqueTimeDetected = false;
+                            $addMinutes = 0;
+                            $oniStartTime = date('H:i', strtotime('14:00 + '. $addMinutes .' minutes'));
+
+                            while (!$uniqueTimeDetected) {
+                                $query = Forms::with('user')
+                                ->where('testDateCollected1', $request->testDateCollected1)
+                                ->whereIn('testType1', ['OPS', 'NPS'])
+                                ->whereHas('user', function ($q) {
+                                    $q->whereNotNull('philhealth');
+                                })
+                                ->where('oniTimeCollected1', $oniStartTime);
+
+                                if($query) {
+                                    if($query->count() != 5) {
+                                        $oniTimeFinal = $oniStartTime;
+                                        $uniqueTimeDetected = true;
+                                    }
+                                    else {
+                                        $addMinutes = $addMinutes + 5;
+                                    }
+                                }
+                                else {
+                                    $oniTimeFinal = $oniStartTime;
+                                    $uniqueTimeDetected = true;
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        $oniTimeFinal = ($request->filled('oniTimeCollected1')) ? $request->oniTimeCollected1 : NULL;
+                    }
+                }
+                else {
+                    $oniTimeFinal = ($request->filled('oniTimeCollected1')) ? $request->oniTimeCollected1 : NULL;
+                }
+
                 $request->user()->form()->create([
                     'status' => 'approved',
                     'records_id' => $id,
@@ -303,7 +347,7 @@ class FormsController extends Controller
                     'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
         
                     'testDateCollected1' => $request->testDateCollected1,
-                    'oniTimeCollected1' => $request->oniTimeCollected1,
+                    'oniTimeCollected1' => $oniTimeFinal,
                     'testDateReleased1' => $request->testDateReleased1,
                     'testLaboratory1' => $request->testLaboratory1,
                     'testType1' => $request->testType1,
