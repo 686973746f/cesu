@@ -167,9 +167,9 @@ class FormsController extends Controller
             }
         }
         else {
-            Forms::all();
+            $formsctr = Forms::all();
         }
-        
+
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
     }
 
