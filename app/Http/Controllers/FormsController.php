@@ -250,23 +250,24 @@ class FormsController extends Controller
                             $oniTimeFinal = $request->oniTimeCollected1;
                         }
                         else {
-                            $uniqueTimeDetected = false;
+                            $trigger = 0;
                             $addMinutes = 0;
-                            $oniStartTime = date('H:i', strtotime('14:00 + '. $addMinutes .' minutes'));
 
-                            while (!$uniqueTimeDetected) {
+                            while ($trigger != 1) {
+                                $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
                                 $query = Forms::with('records')
                                 ->where('testDateCollected1', $request->testDateCollected1)
                                 ->whereIn('testType1', ['OPS', 'NPS'])
                                 ->whereHas('records', function ($q) {
                                     $q->whereNotNull('philhealth');
                                 })
-                                ->where('oniTimeCollected1', $oniStartTime);
-                                
+                                ->where('oniTimeCollected1', $oniStartTime)->get();
+
                                 if($query->count()) {
-                                    if($query->count() <= 5) {
+                                    if($query->count() < 5) {
                                         $oniTimeFinal = $oniStartTime;
-                                        $uniqueTimeDetected = true;
+                                        $trigger = 1;
                                     }
                                     else {
                                         $addMinutes = $addMinutes + 5;
@@ -274,7 +275,7 @@ class FormsController extends Controller
                                 }
                                 else {
                                     $oniTimeFinal = $oniStartTime;
-                                    $uniqueTimeDetected = true;
+                                    $trigger = 1;
                                 }
                             }
                         }
