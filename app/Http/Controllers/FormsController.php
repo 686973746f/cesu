@@ -59,10 +59,47 @@ class FormsController extends Controller
                 }
             }
             else if(request()->input('view') == 2) {
-                $forms = Forms::whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))->orderBy('created_at', 'desc')->get();
+                if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+                    if(!is_null(auth()->user()->brgy_id)) {
+                        $forms = Forms::with('user')
+                        ->whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))
+                        ->whereHas('user', function ($query) {
+                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        })->orderBy('created_at', 'desc')->get();
+                    }
+                    else {
+                        $forms = Forms::with('user')
+                        ->whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))
+                        ->whereHas('user', function ($query) {
+                            $query->where('company_id', auth()->user()->company_id);
+                        })->orderBy('created_at', 'desc')->get();
+                    }
+                }
+                else {
+                    $forms = Forms::whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))->orderBy('created_at', 'desc')->get();
+                }
+                
             }
             else if(request()->input('view') == 3) {
-                $forms = Forms::where('isExported', '0')->orderBy('created_at', 'desc')->get();
+                if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+                    if(!is_null(auth()->user()->brgy_id)) {
+                        $forms = Forms::with('user')
+                        ->where('isExported', '0')
+                        ->whereHas('user', function ($query) {
+                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        })->orderBy('created_at', 'desc')->get();
+                    }
+                    else {
+                        $forms = Forms::with('user')
+                        ->where('isExported', '0')
+                        ->whereHas('user', function ($query) {
+                            $query->where('company_id', auth()->user()->company_id);
+                        })->orderBy('created_at', 'desc')->get();
+                    }
+                }
+                else {
+                    $forms = Forms::where('isExported', '0')->orderBy('created_at', 'desc')->get();
+                }
             }
         }
         else {
