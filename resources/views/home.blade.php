@@ -20,8 +20,10 @@
                     @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
                     <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block">Line List</a>
                     @endif
+                    @if(auth()->user()->isAdmin == 1)
                     <hr>
                     <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-chart-bar mr-2"></i>Reports</a>
+                    @endif
                     @if(auth()->user()->isAdmin == 1)
                         <hr>
                         <a href="{{route('adminpanel.index')}}" class="btn btn-primary btn-lg btn-block">Admin Panel</a>
