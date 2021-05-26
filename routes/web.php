@@ -80,7 +80,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
     //Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
 
-    Route::post('/export', [FormsController::class, 'export'])->name('forms.export'); //print to excel, for admin only (temporary)
+    Route::post('/forms', [FormsController::class, 'options'])->name('forms.options'); //print to excel, for admin only (temporary)
 });
 
 Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()

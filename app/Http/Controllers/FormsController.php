@@ -173,26 +173,56 @@ class FormsController extends Controller
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
     }
 
-    public function export(Request $request)
+    public function options(Request $request)
     {
-        //Forms::whereIn('id',[implode(",", $request->listToPrint)])->update(['isExported'=>1]);
-
-        /*
-        $models = Forms::findMany([implode(",", $request->listToPrint)]);
-        $models->each(function ($item){
-            $item->update(['isExported'=>'1']);
-            $item->update(['exportedDate'=>NOW()]);
-        });
-        */
-        
         $list = $request->listToPrint;
 
         asort($list);
-
-        $models = Forms::whereIn('id', $list)
-        ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
         
-        return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.xlsx');
+        if($request->submit == 'export') {
+            $models = Forms::whereIn('id', $list)
+            ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
+            
+            return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.xlsx');
+        }
+        else if($request->submit == 'resched') {
+            $models = Forms::whereIn('id', $list)->get();
+            foreach($models as $item) {
+                if(!is_null($item->testDateCollected2)) {
+                    $query = Forms::where('id', $item->id)->update([
+                        'testDateCollected2' => $request->reschedDate,
+                        'isExported' => '0'
+                    ]);
+                }
+                else {
+                    $query = Forms::where('id', $item->id)->update([
+                        'testDateCollected1' => $request->reschedDate,
+                        'isExported' => '0'
+                    ]);
+                }
+            }
+
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'Re-sched successful.')->with('statustype', 'success');
+        }
+        else if($request->submit == 'changetype') {
+            $models = Forms::whereIn('id', $list)->get();
+            foreach($models as $item) {
+                if(!is_null($item->testDateCollected2)) {
+                    $query = Forms::where('id', $item->id)->update([
+                        'testType2' => $request->changeType,
+                        'isExported' => '0'
+                    ]);
+                }
+                else {
+                    $query = Forms::where('id', $item->id)->update([
+                        'testType1' => $request->changeType,
+                        'isExported' => '0'
+                    ]);
+                }
+            }
+
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'Change Test Type was successful.')->with('statustype', 'success');
+        }
     }
 
     /**

@@ -45,13 +45,17 @@
             </div>
             @endif
 
-            <form action="{{route('forms.export')}}" method="POST">
+            <form action="{{route('forms.options')}}" method="POST">
                 @csrf
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>
                             <tr>
-                                <th colspan="19" class="text-right"><button type="submit" class="btn btn-primary my-2" id="submit">Export to Excel</button></th>
+                                <th colspan="19" class="text-right">
+                                    <button type="button" class="btn btn-primary" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal">Change Test Type</button>
+                                    <button type="button" class="btn btn-primary" id="reschedBtn" data-toggle="modal" data-target="#reschedModal">Re-schedule</button>
+                                    <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fa fa-file-excel mr-2" aria-hidden="true"></i>Export to Excel</button>
+                                </th>
                             </tr>
                             <tr class="text-center bg-light">
                                 <th style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
@@ -147,6 +151,59 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="modal fade" id="reschedModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Bulk Re-scheduling</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                  <label for="reschedDate">Specify date where CIF will be re-scheduled</label>
+                                  <input type="date" class="form-control" name="reschedDate" id="reschedDate" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="submit" name="submit" value="resched">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="changeTypeModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Bulk Change Test Type</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                  <label for="changeType">Specify Type of Test where the selected CIF test type will be changed</label>
+                                  <select class="form-control" name="changeType" id="changeType" required>
+                                    <option value="" selected disabled>Choose...</option>
+                                    <option value="OPS" selected>RT-PCR (OPS)</option>
+                                    <option value="NPS" >RT-PCR (NPS)</option>
+                                    <option value="OPS AND NPS" >RT-PCR (OPS and NPS)</option>
+                                    <option value="ANTIGEN" >Antigen Test</option>
+                                    <option value="ANTIBODY" >Antibody Test</option>
+                                    <option value="OTHERS" >Others</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="submit" name="submit" value="changetype">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>
@@ -175,7 +232,7 @@
                 <hr>
                 @endif
                 <div class="form-group">
-                  <label for="id">Select Patient to Create</label>
+                  <label for="id">Select Patient to Create or Search (If existing)</label>
                     <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" id="patient">
                         <option value="" disabled selected>Choose...</option>
                         @foreach ($records as $item)
@@ -213,14 +270,20 @@
         $('#patient').selectize();
     });
 
-    $('#submit').prop('disabled', true);
+    $('#changeTypeBtn').prop('disabled', true);
+    $('#reschedBtn').prop('disabled', true);
+    $('#exportBtn').prop('disabled', true);
 
     $('input:checkbox').click(function() {
         if ($(this).is(':checked')) {
-            $('#submit').prop("disabled", false);
+            $('#changeTypeBtn').prop('disabled', false);
+            $('#reschedBtn').prop('disabled', false);
+            $('#exportBtn').prop("disabled", false);
         } else {
         if ($('.checks').filter(':checked').length < 1){
-            $('#submit').attr('disabled',true);}
+            $('#changeTypeBtn').prop('disabled', true);
+            $('#reschedBtn').prop('disabled', true);
+            $('#exportBtn').attr('disabled',true);}
         }
     });
 </script>
