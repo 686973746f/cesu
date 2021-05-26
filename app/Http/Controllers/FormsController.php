@@ -228,6 +228,7 @@ class FormsController extends Controller
                 $ex_id = Forms::where('records_id', $id)->first();
                 return redirect()->back()
                 ->with('modalmsg', 'CIF Records already exists on '.$check->lname.", ".$check->fname." ".$check->mname)
+                ->with('philhealth', (!is_null($check->philhealth)) ? $check->philhealth : 'N/A')
                 ->with('exist_id', $ex_id->id)
                 ->with('attended', ($ex_id->isPresentOnSwabDay == 1) ? "YES" : "NO")
                 ->with('eType', (!is_null($ex_id->testType2)) ? $ex_id->testType2 : $ex_id->testType1)

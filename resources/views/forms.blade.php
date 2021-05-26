@@ -10,10 +10,10 @@
                 </div>
                 <div>
                     @if($records->count() > 0)
-                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New CIF</button>
+                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
                     @else
                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Create patient record first to process CIF.">
-                        <button class="btn btn-success" style="pointer-events: none;" type="button" disabled>New CIF</button>
+                        <button class="btn btn-success" style="pointer-events: none;" type="button" disabled>New/Search CIF</button>
                     </span>
                     @endif
                 </div>
@@ -167,6 +167,7 @@
                     {{session('modalmsg')}}
                     <hr>
                     <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
+                    <p class="text-info">Philhealth: <u>{{session('philhealth')}}</u></p>
                     <p class="text-info">Attended: <u>{{session('attended')}}</u></p>
                     <hr>
                     To edit the existing CIF, click <a href="forms/{{session('exist_id')}}/edit">HERE</a>
