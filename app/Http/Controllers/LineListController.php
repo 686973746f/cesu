@@ -86,17 +86,22 @@ class LineListController extends Controller
         }
 
         $update = Forms::whereIn('records_id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->where(function ($query) use ($request) {
-            $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            $query->whereNull('testDateCollected2')
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })->update(['isPresentOnSwabDay' => 1]);
 
         $update1 = Forms::whereNotIn('records_id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->where(function ($query) use ($request) {
-            $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            $query->whereNull('testDateCollected2')
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })
-        ->where('isPresentOnSwabDay', '!=', 1)
+        ->where(function ($query) {
+            $query->where('isPresentOnSwabDay', '!=', 1)
+            ->orWhereNull('isPresentOnSwabDay');
+        })
         ->where(function ($query) {
             $query->where('testType1', '!=', 'ANTIGEN')
             ->orWhere('testType2', '!=', 'ANTIGEN');
@@ -131,17 +136,29 @@ class LineListController extends Controller
         }
 
         $update = Forms::whereIn('records_id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->where(function ($query) use ($request) {
-            $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            $query->whereNull('testDateCollected2')
+            ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+        })->update(['isPresentOnSwabDay' => 1]);
+
+        $update = Forms::whereIn('records_id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+        ->where(function ($query) use ($request) {
+            $query->whereNull('testDateCollected2')
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })->update(['isPresentOnSwabDay' => 1]);
 
         $update1 = Forms::whereNotIn('records_id', $request->user)
+        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
         ->where(function ($query) use ($request) {
-            $query->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            $query->whereNull('testDateCollected2')
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })
-        ->where('isPresentOnSwabDay', '!=', 1)
+        ->where(function ($query) {
+            $query->where('isPresentOnSwabDay', '!=', 1)
+            ->orWhereNull('isPresentOnSwabDay');
+        })
         ->where(function ($query) {
             $query->where('testType1', '!=', 'ANTIGEN')
             ->orWhere('testType2', '!=', 'ANTIGEN');
