@@ -502,7 +502,7 @@ class FormsController extends Controller
                     'contact2No' => $request->contact2No,
                     'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
                     'contact3No' => $request->contact3No,
-                    'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,,
+                    'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
                     'contact4No' => $request->contact4No,
 
                     'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
@@ -814,7 +814,7 @@ class FormsController extends Controller
                 'contact2No' => $request->contact2No,
                 'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
                 'contact3No' => $request->contact3No,
-                'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,,
+                'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
                 'contact4No' => $request->contact4No,
 
                 'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
