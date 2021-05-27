@@ -164,7 +164,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                   <label for="reschedDate">Specify date where CIF will be re-scheduled</label>
-                                  <input type="date" class="form-control" name="reschedDate" id="reschedDate" required>
+                                  <input type="date" class="form-control" name="reschedDate" id="reschedDate">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -186,7 +186,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                   <label for="changeType">Specify Type of Test where the selected CIF test type will be changed</label>
-                                  <select class="form-control" name="changeType" id="changeType" required>
+                                  <select class="form-control" name="changeType" id="changeType">
                                     <option value="" selected disabled>Choose...</option>
                                     <option value="OPS" selected>RT-PCR (OPS)</option>
                                     <option value="NPS" >RT-PCR (NPS)</option>
