@@ -267,7 +267,7 @@
         $('#table_id').DataTable(
             {
         "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
-        "order": [16, 'asc']
+        "order": [17, 'asc']
             }
         );
 
