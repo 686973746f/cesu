@@ -68,13 +68,13 @@
                                 <th style="vertical-align: middle;">Brgy</th>
                                 <th style="vertical-align: middle;">City</th>
                                 <th style="vertical-align: middle;">Type</th>
+                                <th style="vertical-align: middle;">Status</th>
                                 <th style="vertical-align: middle;">Classification</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
                                 <th style="vertical-align: middle;">Encoded By</th>
                                 <th style="vertical-align: middle;">Encoded At</th>
-                                <th style="vertical-align: middle;">Printed?</th>
                                 <th style="vertical-align: middle;">Attended?</th>
                                 <th style="vertical-align: middle;"></th>
                             </tr>
@@ -82,6 +82,13 @@
                         <tbody>
                             @forelse ($forms as $form)
                                 @php
+                                if($form->pType == "PROBABLE") {
+                                    $pTypeStr = "COVID-19 CASE (".strtoupper($form->caseClassification).")";
+                                }
+                                else {
+                                    $pTypeStr = $form->pType;
+                                }
+
                                 if($form->expoitem1 == 1) {
                                     $emsg = "YES";
                                 }
@@ -132,17 +139,17 @@
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->address_street}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->pType}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$pTypeStr}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->healthStatus)}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
                                 <td style="vertical-align: middle;" class="text-center">
-                                    <a href="forms/{{$form->id}}/edit" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="forms/{{$form->id}}/edit" class="btn btn-primary btn-sm">Edit</a> 
                                 </td>
                             </tr>
                             @empty
