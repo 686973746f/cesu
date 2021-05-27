@@ -51,7 +51,7 @@
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>
                             <tr>
-                                <th colspan="19" class="text-right">
+                                <th colspan="20" class="text-right">
                                     <button type="button" class="btn btn-primary" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal">Change Test Type</button>
                                     <button type="button" class="btn btn-primary" id="reschedBtn" data-toggle="modal" data-target="#reschedModal">Re-schedule</button>
                                     <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fa fa-file-excel mr-2" aria-hidden="true"></i>Export to Excel</button>
