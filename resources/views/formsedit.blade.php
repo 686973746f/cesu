@@ -72,6 +72,12 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
+                            @if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id))
+                            <div class="form-group">
+                                <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
+                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{old('interviewerName', $records->interviewerName)}}" readonly required>
+                            </div>
+                            @else
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
                               <select name="interviewerName" id="interviewerName" required>
@@ -81,6 +87,7 @@
                                   @endforeach
                               </select>
                             </div>
+                            @endif
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -2166,7 +2173,9 @@
 
     <script>
         $(document).ready(function () {
+            @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
+            @endif
 
             $('#informantName').keydown(function (e) { 
                 if($(this).val().length <= 0 || $(this).val() == "") {

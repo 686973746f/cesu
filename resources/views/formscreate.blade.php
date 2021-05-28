@@ -82,25 +82,18 @@
                             @endif
                         </div>
                         <div class="col-md-4">
-                            @if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id))
                             @php
-                                if(!is_null(auth()->user()->brgy_id)) {
-                                    $accMobile = '09190664324';
+                                if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+                                    $intMobile = '09';
                                 }
                                 else {
-                                    $accMobile = auth()->user()->company()->contactNumber;
+                                    $intMobile = '09190664324';
                                 }
                             @endphp
                             <div class="form-group">
                                 <label for="interviewerMobile"><span class="text-danger font-weight-bold">*</span>Contact Number of Interviewer</label>
-                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{$accMobile}}" readonly required>
+                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{old('interviewerMobile', $intMobile)}}" required>
                             </div>
-                            @else
-                            <div class="form-group">
-                                <label for="interviewerMobile"><span class="text-danger font-weight-bold">*</span>Contact Number of Interviewer</label>
-                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{old('interviewerMobile', '09190664324')}}" required>
-                            </div>
-                            @endif
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -2099,7 +2092,9 @@
         $(document).ready(function () {
 
             //$('#records_id').selectize();
+            @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
+            @endif
 
             $('#informantName').keydown(function (e) { 
                 if($(this).val().length <= 0 || $(this).val() == "") {
