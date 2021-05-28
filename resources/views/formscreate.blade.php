@@ -64,21 +64,43 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
+                            @if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id))
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
-                              <select name="interviewerName" id="interviewerName" required>
-                                  <option value="" disabled {{(empty(old('interviewerName'))) ? 'selected' : ''}}>Choose...</option>
-                                  @foreach($interviewers as $key => $interviewer)
-                                    <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName') == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname}}{{(!is_null($interviewer->brgy_id)) ? " (".$interviewer->brgy->brgyName.")" : ''}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
-                                  @endforeach
-                              </select>
+                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{auth()->user()->name}}" readonly required>
                             </div>
+                            @else
+                            <div class="form-group">
+                                <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
+                                <select name="interviewerName" id="interviewerName" required>
+                                    <option value="" disabled {{(empty(old('interviewerName'))) ? 'selected' : ''}}>Choose...</option>
+                                    @foreach($interviewers as $key => $interviewer)
+                                        <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName') == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname}}{{(!is_null($interviewer->brgy_id)) ? " (".$interviewer->brgy->brgyName.")" : ''}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
                         </div>
                         <div class="col-md-4">
+                            @if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id))
+                            @php
+                                if(!is_null(auth()->user()->brgy_id)) {
+                                    $accMobile = '09190664324';
+                                }
+                                else {
+                                    $accMobile = auth()->user()->company()->contactNumber;
+                                }
+                            @endphp
+                            <div class="form-group">
+                                <label for="interviewerMobile"><span class="text-danger font-weight-bold">*</span>Contact Number of Interviewer</label>
+                                <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{$accMobile}}" readonly required>
+                            </div>
+                            @else
                             <div class="form-group">
                                 <label for="interviewerMobile"><span class="text-danger font-weight-bold">*</span>Contact Number of Interviewer</label>
                                 <input type="number" name="interviewerMobile" id="interviewerMobile" class="form-control" value="{{old('interviewerMobile', '09190664324')}}" required>
                             </div>
+                            @endif
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">

@@ -244,7 +244,7 @@ class FormsController extends Controller
                 $check = Records::with('user')
                 ->where('id', $id)
                 ->whereHas('user', function ($query) {
-                    $query->where('company_id', auth()->user()->brgy_id);
+                    $query->where('company_id', auth()->user()->company_id);
                 })->first();
             }
         }
