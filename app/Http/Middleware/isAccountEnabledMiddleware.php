@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-class SuperAdminMiddleware
+class isAccountEnabledMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,10 @@ class SuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user() && $request->user()->isAdmin != 1)
-        {
+        if($request->user()->enabled != 1) {
             return abort(401);
         }
-        
+
         return $next($request);
     }
 }

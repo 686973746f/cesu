@@ -51,7 +51,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::group(['middleware' => ['auth','verified']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
     // your routes
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
     Route::post('/forms', [FormsController::class, 'options'])->name('forms.options'); //print to excel, for admin only (temporary)
 });
 
-Route::group(['middleware' => ['auth','verified','App\Http\Middleware\SuperAdminMiddleware']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()
 {
     Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
     Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
