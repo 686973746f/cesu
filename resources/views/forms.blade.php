@@ -222,7 +222,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New CIF</h5>
+                <h5 class="modal-title">New/Search CIF</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -232,9 +232,10 @@
                 <div class="alert alert-danger" role="alert">
                     {{session('modalmsg')}}
                     <hr>
-                    <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
                     <p class="text-info">Philhealth: <u>{{session('philhealth')}}</u></p>
+                    <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
                     <p class="text-info">Attended: <u>{{session('attended')}}</u></p>
+                    <p class="text-info">Encoded by: <u>{{session('encodedBy')}}</u></p>
                     <hr>
                     To edit the existing CIF, click <a href="forms/{{session('exist_id')}}/edit">HERE</a>
                 </div>

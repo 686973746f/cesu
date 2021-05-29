@@ -262,6 +262,7 @@ class FormsController extends Controller
                 ->with('exist_id', $ex_id->id)
                 ->with('attended', ($ex_id->isPresentOnSwabDay == 1) ? "YES" : "NO")
                 ->with('eType', (!is_null($ex_id->testType2)) ? $ex_id->testType2 : $ex_id->testType1)
+                ->with('encodedBy', $ex_id->user->name)
                 ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y', strtotime($ex_id->testDateCollected2)) : date('m/d/Y', strtotime($ex_id->testDateCollected1)));
             }
             else {
