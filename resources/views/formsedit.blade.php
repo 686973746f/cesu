@@ -2439,7 +2439,7 @@
                                             </div>
                                         </div>
                                         <div class="card">
-                                            <div class="card-header font-weight-bold">SEVERE</div>
+                                            <div class="card-header font-weight-bold">CRITICAL</div>
                                             <div class="card-body">
                                                 <ul class="list-unstyled">
                                                     <li>Patients manifesting with acute respiratory distress syndrome, sepsis and/or septic shock:</li>
