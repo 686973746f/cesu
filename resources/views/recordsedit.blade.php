@@ -57,6 +57,19 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="" disabled selected>Choose</option>
+                                    <option value="MALE" {{(old('gender', $record->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
+                                    <option value="FEMALE" {{(old('gender', $record->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                </select>
+                                @error('gender')
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
                                 <select class="form-control" id="cs" name="cs" required>
                                     <option value="" disabled selected>Choose</option>
@@ -83,23 +96,10 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
-                                <select class="form-control" id="gender" name="gender" required>
-                                    <option value="" disabled selected>Choose</option>
-                                    <option value="MALE" {{(old('gender', $record->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
-                                    <option value="FEMALE" {{(old('gender', $record->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
-                                </select>
-                                @error('gender')
-                                    <small class="text-danger">{{$message}}</small>
-                                @enderror
-                            </div>
-                        </div>
                     </div>
                     <div id="pdiv" class="mb-3">
                         <div class="row">
-                            <div class="col-md-9"></div>
+                            <div class="col-md-3"></div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
@@ -109,6 +109,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6"></div>
                         </div>
                     </div>
                     <div class="row">
