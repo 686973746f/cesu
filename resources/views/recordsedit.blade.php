@@ -48,13 +48,9 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
-                                <select class="form-control" id="gender" name="gender" required>
-                                    <option value="" disabled selected>Choose</option>
-                                    <option value="MALE" {{(old('gender', $record->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
-                                    <option value="FEMALE" {{(old('gender', $record->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
-                                </select>
-                                @error('gender')
+                                <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                                <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $record->bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                                @error('bdate')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
@@ -89,9 +85,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-                                <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $record->bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
-                                @error('bdate')
+                                <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="" disabled selected>Choose</option>
+                                    <option value="MALE" {{(old('gender', $record->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
+                                    <option value="FEMALE" {{(old('gender', $record->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                </select>
+                                @error('gender')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
