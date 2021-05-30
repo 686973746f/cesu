@@ -102,6 +102,7 @@
 				</div>
 				<div id="pdiv" class="mb-3">
 					<div class="row">
+						<div class="col-md-9"></div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
