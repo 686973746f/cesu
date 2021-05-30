@@ -73,8 +73,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/linelist/lasalle/print/{id}', [LineListController::class, 'printlasalle'])->name('linelist.lasalle.print');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-    Route::get('/report/doh', [ReportController::class, 'dohExport'])->name('dohExport');
-    Route::get('/report/cif', [ReportController::class, 'allcifExport'])->name('cifExport');
+    Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
 
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);

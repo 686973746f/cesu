@@ -17,6 +17,11 @@ class DOHExport implements WithMultipleSheets
 {
     use Exportable;
 
+    public function __construct(array $id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * @return array
      */
@@ -24,9 +29,9 @@ class DOHExport implements WithMultipleSheets
     {
         $sheets = [];
 
-        $sheets[] = new SuspectedCaseSheet();
-        $sheets[] = new ProbableCaseSheet();
-        $sheets[] = new ConfirmedCaseSheet();
+        $sheets[] = new SuspectedCaseSheet($this->id);
+        $sheets[] = new ProbableCaseSheet($this->id);
+        $sheets[] = new ConfirmedCaseSheet($this->id);
 
 
         return $sheets;
@@ -34,14 +39,23 @@ class DOHExport implements WithMultipleSheets
 }
 
 class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles {
-    public function styles(Worksheet $sheet)
+    public function __construct(array $id)
     {
-        $sheet->getStyle(1)->getFont()->setBold(true);
+        $this->id = $id;
     }
 
     public function collection()
     {
-        return Forms::where('caseClassification', 'Suspect')->get();
+        return Forms::whereIn('id', $this->id)
+        ->where('caseClassification', 'Suspect')
+        ->orderby('testDateCollected1', 'asc')
+        ->orderby('testDateCollected2', 'asc')
+        ->get();
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->getStyle(1)->getFont()->setBold(true);
     }
 
     public function title(): string
@@ -237,14 +251,23 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
 }
 
 class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles {
-    public function styles(Worksheet $sheet)
+    public function __construct(array $id)
     {
-        $sheet->getStyle(1)->getFont()->setBold(true);
+        $this->id = $id;
     }
 
     public function collection()
     {
-        return Forms::where('caseClassification', 'Probable')->get();
+        return Forms::whereIn('id', $this->id)
+        ->where('caseClassification', 'Probable')
+        ->orderby('testDateCollected1', 'asc')
+        ->orderby('testDateCollected2', 'asc')
+        ->get();
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->getStyle(1)->getFont()->setBold(true);
     }
 
     public function title(): string
@@ -440,14 +463,23 @@ class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, Wi
 }
 
 class ConfirmedCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles {
+    public function __construct(array $id)
+    {
+        $this->id = $id;
+    }
+
+    public function collection()
+    {
+        return Forms::whereIn('id', $this->id)
+        ->where('caseClassification', 'Confirmed')
+        ->orderby('testDateCollected1', 'asc')
+        ->orderby('testDateCollected2', 'asc')
+        ->get();
+    }
+    
     public function styles(Worksheet $sheet)
     {
         $sheet->getStyle(1)->getFont()->setBold(true);
-    }
-    
-    public function collection()
-    {
-        return Forms::where('caseClassification', 'Confirmed')->get();
     }
 
     public function title(): string
