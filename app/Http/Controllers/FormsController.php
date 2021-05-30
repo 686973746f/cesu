@@ -180,12 +180,21 @@ class FormsController extends Controller
         asort($list);
         
         if($request->submit == 'export') {
+            $request->validate([
+                'listToPrint' => 'required',
+            ]);
+
             $models = Forms::whereIn('id', $list)
             ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
             
             return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.xlsx');
         }
         else if($request->submit == 'resched') {
+            $request->validate([
+                'listToPrint' => 'required',
+                'reschedDate' => 'required|date',
+            ]);
+
             $models = Forms::whereIn('id', $list)->get();
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
@@ -205,6 +214,11 @@ class FormsController extends Controller
             return redirect()->action([FormsController::class, 'index'])->with('status', 'Re-sched successful.')->with('statustype', 'success');
         }
         else if($request->submit == 'changetype') {
+            $request->validate([
+                'listToPrint' => 'required',
+                'changeType' => 'required',
+            ]);
+
             $models = Forms::whereIn('id', $list)->get();
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {

@@ -197,7 +197,7 @@
                                   <label for="changeType">Specify Type of Test where the selected CIF test type will be changed</label>
                                   <select class="form-control" name="changeType" id="changeType">
                                     <option value="" selected disabled>Choose...</option>
-                                    <option value="OPS" selected>RT-PCR (OPS)</option>
+                                    <option value="OPS">RT-PCR (OPS)</option>
                                     <option value="NPS" >RT-PCR (NPS)</option>
                                     <option value="OPS AND NPS" >RT-PCR (OPS and NPS)</option>
                                     <option value="ANTIGEN" >Antigen Test</option>
@@ -205,6 +205,9 @@
                                     <option value="OTHERS" >Others</option>
                                   </select>
                                 </div>
+                                @error('changeType')
+									<small class="text-danger">{{$message}}</small>
+								@enderror
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="submit" name="submit" value="changetype">Submit</button>

@@ -6,10 +6,19 @@
             @csrf
             @method('PUT')
             <div class="card mb-3">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div>eCIF (version 8) - Edit</div>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#appendix"><i class="fa fa-file mr-2" aria-hidden="true"></i>Appendix</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    @csrf
                     <div class="alert alert-info" role="alert">
-                        All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
+                        <p>1.) The Case Investigation Form (CIF) is meant to be administered as an interview by a health care worker or any personnel of the DRU. <b>This is not a self-administered questionnaire.</b></p>
+                        <p>2.) Please be advised that DRUs are only allowed to obtain <b>1 copy of accomplished CIF</b> from a patient.</p>
+                        <p>3.) Please fill out all blanks and put a check mark on the appropriate box. <b>Items with asterisk mark <span class="text-danger">(*)</span> are required fields.</b></p>
                     </div>
                     <hr>
 
@@ -2169,6 +2178,311 @@
                 </div>
             </div>
         </form>
+        
+        <div class="modal fade bd-example-modal-lg" id="appendix" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Appendix</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="accordianId" role="tablist" aria-multiselectable="true">
+                            <div class="card">
+                                <div class="card-header" role="tab" id="section1HeaderId">
+                                    <h6 class="mb-0">
+                                        <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+                                            Appendix 1. COVID-19 Case Definitions
+                                        </a>
+                                    </h6>
+                                </div>
+                                <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                                    <div class="card-body">
+                                        <div class="card mb-3">
+                                            <div class="card-header font-weight-bold">SUSPECT</div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled">
+                                                    <li>A.) A person who meets the <b>clinical AND epidemiological criteria</b></li>
+                                                    <li><b>- Clinical criteria:</b></li>
+                                                    <ul>
+                                                        <li>1.) Acute onset of fever AND cough <b>OR</b></li>
+                                                        <li>2.) Acute onset of <b>ANY THREE OR MORE</b> of the following signs of symptoms; fever, cough, general weakness/fatigue, headache, myalgia, sore throat, coryza, dyspnea, anorexia / nausea / vomiting, diarrhea, altered mental status. <b>AND</b></li>
+                                                    </ul>
+                                                    <li><b>- Epidemiological criteria</b></li>
+                                                    <ul>
+                                                        <li>1.) Residing/working in an area with high risk of transmission of the virus
+                                                            (e.g closed residential settings and humanitarian settings, such as
+                                                            camp and camp-like setting for displaced persons), any time w/in the
+                                                            14 days prior to symptoms onset <b>OR</b></li>
+                                                        <li>Residing in or travel to an area with community transmission anytime
+                                                            w/in the 14 days prior to symptoms onset; <b>OR</b></li>
+                                                        <li>Working in health setting, including w/in the health facilities and w/in
+                                                            households, anytime w/in the 14 days prior to symptom onset; OR</li>
+                                                    </ul>
+                                                    <li>B.) A patient with <b>severe acute respiratory illness</b> (SARI: acute respiratory
+                                                        infection with history of fever or measured fever of ≥ 38°C; cough with
+                                                        onset w/in the last 10 days; and who requires hospitalization)</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-header font-weight-bold">PROBABLE</div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled">
+                                                    <li>A.) A <b>patient</b> who meets the <b>clinical criteria</b> (on the top) <b>AND is contact of a probable or
+                                                        confirmed case</b>, or <b>epidemiologically linked to a cluster of cases</b> which had had at least one
+                                                        confirmed identified within that cluster</li>
+                                                    <li>B.) A <b>suspect case</b> (on the top) with <b>chest imaging showing findings suggestive of COVID-19
+                                                        disease.</b> Typical chest imaging findings include (Manna, 2020):</li>
+                                                    <ul>
+                                                        <li>Chest radiography: hazy opacities, often rounded in morphology, with peripheral and lower
+                                                            lung distribution</li>
+                                                        <li>Chest CT: multiple bilateral ground glass opacities, often rounded in morphology, with
+                                                            peripheral and lower lung distribution</li>
+                                                        <li>Lung ultrasound: thickened pleural lines, B lines (multifocal, discrete, or confluent),
+                                                            consolidative patterns with or without air bronchograms</li>
+                                                    </ul>
+                                                    <li>C.) A person with <b>recent onset of anosmia (loss of smell), ageusia (loss of taste) in the absence of any other identified cause</b></li>
+                                                    <li>D.) Death, not otherwise explained, in an <b>adult with respiratory distress preceding death AND
+                                                        who was a contact of a probable or confirmed case or epidemiologically linked to a cluster</b>
+                                                        which has had at least one confirmed case identified with that cluster</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header font-weight-bold">CONFIRMED</div>
+                                            <div class="card-body">
+                                                <p>A person with <b>laboratory confirmation of COVID-19 infection</b>, irrespective of clinical signs and symptoms.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="section2HeaderId">
+                                    <h6 class="mb-0">
+                                        <a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
+                                            Appendix 2. Testing Category / Subgroup
+                                        </a>
+                                    </h6>
+                                </div>
+                                <div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            <li><b>A.</b> Individuals with severe/critical symptoms and relevant history of travel/contact</li>
+                                            <li><b>B.</b> Individuals with <b>mild</b> symptoms, <b>relevant history</b> of travel/contact, and considered
+                                                <b>vulnerable</b>; vulnerable populations include those elderly and with preexisting
+                                                medical conditions that predispose them to severe presentation and complications
+                                                of COVID-19
+                                            </li>
+                                            <li><b>C.</b> Individuals with <b>mild</b> symptoms, and <b>relevant history</b> of travel and/or contact</li>
+                                            <li><b>D.</b> Individuals with <b>no symptoms</b> but with <b>relevant history</b> of travel and/or contact or
+                                                high risk of exposure. These include:</li>
+                                            <ul>
+                                                <li>D1 - <b>Contact-traced individuals</b></li>
+                                                <li>D2 - <b>Healthcare workers</b>, who shall be prioritized for regular testing in order to ensure
+                                                    the stability of our healthcare system</li>
+                                                <li>D3 - <b>Returning Overseas Filipino</b> (ROF) workers, who shall immediately be tested at
+                                                    port of entry</li>
+                                                <li>D4 - Filipino citizens in a specific locality within the Philippines who have expressed
+                                                    intention to return to their place of residence/home origin (<b>Locally Stranded
+                                                        Individuals</b>) may be tested subject to the existing protocols of the IATF
+                                                    </li>
+                                            </ul>
+                                            <li><b>E.</b> <b>Frontliners indirectly involved in health care provision</b> in the response against
+                                                COVID-19 may be tested as follows:</li>
+                                            <ul>
+                                                <li>E1 - Those with <b>high or direct exposure to COVID-19 regardless of location</b> may be
+                                                    tested up to once a week. These include: <b>(1)</b> Personnel manning the Temporary
+                                                    Treatment and Quarantine Facilities (LGU and Nationally-managed); <b>(2)</b> Personnel
+                                                    serving at the COVID-19 swabbing center; <b>(3)</b> Contact tracing personnel; and <b>(4)</b>
+                                                    Any personnel conducting swabbing for COVID-19 testing.</li>
+                                                <li>E2 - Those who <b>do not have high or direct exposure to COVID-19</b> but who <b>live or work
+                                                    in Special Concern Areas</b> may be tested up to every two to four weeks. These
+                                                    include the following: <b>(1)</b> Personnel manning Quarantine Control Points, including
+                                                    those from Armed Forces of the Philippines, Bureau of Fire Protection; <b>(2)</b> National
+                                                    / Regional / Local Risk Reduction and Management Teams; <b>(3)</b> Officials from any
+                                                    local government / city / municipality health office (CEDSU, CESU, etc.); <b>(4)</b>
+                                                    Barangay Health Emergency Response Teams and barangay officials providing
+                                                    barangay border control and performing COVID-19-related tasks; <b>(5)</b> Personnel of
+                                                    Bureau of Corrections and Bureau of Jail Penology & Management; <b>(6)</b> Personnel
+                                                    manning the One-Stop-Shop in the Management of ROFs; <b>(7)</b> Border control or
+                                                    patrol officers, such as immigration officers and the Philippine Coast Guard; and <b>(8)</b>
+                                                    Social workers providing amelioration and relief assistance to communities and
+                                                    performing COVID-19-related tasks.</li>
+                                            </ul>
+                                            <li><b>F.</b> Other <b>vulnerable patients</b> and those <b>living in confined spaces</b>. These include but
+                                                are not limited to: <b>(1)</b> Pregnant patients who shall be tested during the peripartum
+                                                period; <b>(2)</b> Dialysis patients; <b>(3)</b> Patients who are immunocompromised, such as
+                                                those who have HIV/AIDS, inherited diseases that affect the immune system; <b>(4)</b>
+                                                Patients undergoing chemotherapy or radiotherapy; <b>(5)</b> Patients who will undergo
+                                                elective surgical procedures with high risk for transmission; <b>(6)</b> Any person who
+                                                have had organ transplants, or have had bone marrow or stem cell transplant in
+                                                the past 6 months; <b>(7)</b> Any person who is about to be admitted in enclosed
+                                                institutions such as jails, penitentiaries, and mental institutions.</li>
+                                            <li><b>G.</b> Residents, occupants or workers in a <b>localized area with an active COVID-19
+                                                cluster</b>, as identified and declared by the local chief executive in accordance with
+                                                existing DOH Guidelines and consistent with the National Task Force Memorandum
+                                                Circular No. 02 s.2020 or the Operational Guidelines on the Application of the
+                                                Zoning Containment Strategy in the Localization of the National Action Plan Against
+                                                COVID-19 Response. The local chief executive shall conduct the necessary testing in
+                                                order to protect the broader community and critical economic activities and to
+                                                avoid a declaration of a wider community quarantine.</li>
+                                            <li><b>H.</b> Frontliners in <b>Tourist Zones</b>: </li>
+                                            <ul>
+                                                <li>H1 - All workers and employees in the <b>hospitality and tourism sectors</b> in El Nido,
+                                                    Boracay, Coron, Panglao, Siargao and other tourist zones, as identified and declared
+                                                    by the Department of Tourism. These workers and employees may be tested once
+                                                    every four (4) weeks.</li>
+                                                <li>H2 - All <b>travelers</b>, whether of domestic or foreign origin, may be tested at least once, at
+                                                    their own expense, prior to entry into any designated tourist zone, as identified and
+                                                    declared by the Department of Tourism.</li>
+                                            </ul>
+                                            <li><b>I.</b> All workers and employees of <b>manufacturing companies and public service
+                                                providers registered in economic zones</b> located in Special Concern Areas may be
+                                                tested regularly.</li>
+                                            <li><b>J. Economy Workers</b></li>
+                                            <ul>
+                                                <li>J1 - <b>Frontline and Economic Priority Workers</b>, defined as those 1) who work in high
+                                                    priority sectors, both public and private, 2) have high interaction with and exposure
+                                                    to the public, and 3) who live or work in Special Concerns Areas, may be tested
+                                                    every three (3) months. These include but not limited to:</li>
+                                                <ul>
+                                                    <li><b>Transport and Logistics</b>: drivers of taxis, ride hailing services, buses, public
+                                                        transport vehicle, conductors, pilots, flight attendants, flight engineers, rail
+                                                        operators, mechanics, servicemen, delivery staff, water transport workers (ferries,
+                                                        inter-island shipping, ports)</li>
+                                                    <li><b>Food Retails</b>: waiters, waitress, bar attendants, baristas, chefs, cooks, restaurant
+                                                        managers, supervisors</li>
+                                                    <li><b>Education</b>: teachers at all levels of education and other school frontliners such as
+                                                        guidance counselors, librarians, cashiers</li>
+                                                    <li><b>Financial Services</b>: bank tellers</li>
+                                                    <li><b>Non-Food Retails</b>: cashiers, stock clerks, retail salespersons</li>
+                                                    <li><b>Services</b>: hairdressers, barbers, manicurists, pedicurists, massage therapists,
+                                                        embalmers, morticians, undertakers, funeral directors, parking lot attendants,
+                                                        security guards, messengers</li>
+                                                    <li><b>Construction</b>: construction workers including carpenters, stonemasons,
+                                                        electricians, painters, foremen, supervisors, civil engineers, structural engineers,
+                                                        construction managers, crane/tower operators, elevator installers, repairmen</li>
+                                                    <li><b>Water Supply, Sewerage, Waster Management</b>: plumbers, recycling/ reclamation
+                                                        workers, garbage collectors, water/wastewater engineers, janitors, cleaners</li>
+                                                    <li><b>Public Sector</b>: judges, courtroom clerks, staff and security, all national and local
+                                                        government employees rendering frontline services in special concern areas</li>
+                                                    <li><b>Mass Media</b>: field reporters, photographers, cameramen</li>
+                                                </ul>
+                                                <li>J2 - All employees <b>not covered above are not required to undergo testing but are
+                                                    encouraged to be tested every quarter.</b> Private sector employers are highly
+                                                    encouraged to send their employees for regular testing at the employers’ expense
+                                                    in order to avoid lockdowns that may do more damage to their companies.</li>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="section3HeaderId">
+                                    <h6 class="mb-0">
+                                        <a data-toggle="collapse" data-parent="#accordianId" href="#section3ContentId" aria-expanded="true" aria-controls="section3ContentId">
+                                            Appendix 3. Severity of the Disease
+                                        </a>
+                                    </h6>
+                                </div>
+                                <div id="section3ContentId" class="collapse in" role="tabpanel" aria-labelledby="section3HeaderId">
+                                    <div class="card-body">
+                                        <div class="card mb-3">
+                                            <div class="card-header font-weight-bold">MILD</div>
+                                            <div class="card-body">
+                                                <p>Symptomatic patients presenting with fever, cough, fatigue, anorexia,
+                                                    myalgias; other non-specific symptoms such as sore throat, nasal
+                                                    congestion, headache, diarrhea, nausea and vomiting; loss of smell
+                                                    (anosmia) or loss of taste (ageusia) preceding the onset of respiratory
+                                                    symptoms with <b>NO signs of pneumonia or hypoxia</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-header font-weight-bold">MODERATE</div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        Adolescent or adult with <b>clinical signs of non-severe pneumonia</b> (e.g.
+                                                        fever, cough, dyspnea, respiratory rate <b>(RR) = 21-30 breaths/minute</b>,
+                                                        peripheral capillary oxygen saturation (SpO2) >92% on room air).
+                                                    </li>
+                                                    <li>
+                                                        Child with clinical signs of non-severe pneumonia (cough or difficulty of
+                                                        breathing and fast breathing [ < 2 months: > 60; 2-11 months: > 50; 1-5
+                                                        years: > 40] and/or chest indrawing)
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-header font-weight-bold">SEVERE</div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled">
+                                                    <li>Adolescent or adult with <b>clinical signs of severe pneumonia or severe
+                                                        acute respiratory infection</b> as follows: fever, cough, dyspnea, <b>RR>30
+                                                        breaths/minute</b>, severe respiratory distress or SpO2 < 92% on room air</li>
+                                                    <li>Child with clinical signs of pneumonia (cough or difficulty in breathing)
+                                                        plus at least one of the following:</li>
+                                                    <ul>
+                                                        <li>a. Central cyanosis or SpO2 < 90%; severe <b>respiratory distress</b> (e.g. fast
+                                                            breathing, grunting, very severe chest indrawing); general danger sign:
+                                                            <b>inability to breastfeed or drink, lethargy or unconsciousness</b>, or
+                                                            convulsions.</li>
+                                                        <li><b>Fast breathing (in breaths/min): < 2 months: > 60; 2-11 months: > 50;
+                                                            1-5 years: > 40.</b></li>
+                                                    </ul>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header font-weight-bold">SEVERE</div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled">
+                                                    <li>Patients manifesting with acute respiratory distress syndrome, sepsis and/or septic shock:</li>
+                                                    <li>1. <b>Acute Respiratory Distress Syndrome (ARDS)</b></li>
+                                                    <ul>
+                                                        <li>a. Patients with onset within 1 week of known clinical insult (pneumonia) or new or worsening
+                                                            respiratory symptoms, progressing infiltrates on chest X-ray or chest CT scan, with respiratory
+                                                            failure not fully explained by cardiac failure or fluid overload.</li>
+                                                    </ul>
+                                                    <li>2. <b>Sepsis</b></li>
+                                                    <ul>
+                                                        <li>a. Adults with life-threatening organ dysfunction caused by a dysregulated host response to
+                                                            suspected or proven infection. Signs of organ dysfunction include altered mental status, difficult
+                                                            or fast breathing, low oxygen saturation, reduced urine output, fast heart rate, weak pulse, cold
+                                                            extremities or low blood pressure, skin mottling, or laboratory evidence of coagulopathy,
+                                                            thrombocytopenia, acidosis, high lactate or hyperbilirubinemia.</li>
+                                                        <li>b. Children with suspected or proven infection and > 2 age-based systemic inflammatory response
+                                                            syndrome criteria (abnormal temperature [> 38.5 °C or < 36 °C); tachycardia for age or
+                                                            bradycardia for age if < 1year; tachypnea for age or need for mechanical ventilation; abnormal
+                                                            white blood cell count for age or > 10% bands), of which one must be abnormal temperature or
+                                                            white blood cell count.</li>
+                                                    </ul>
+                                                    <li>3. <b>Septic Shock</b></li>
+                                                    <ul>
+                                                        <li>a. Adults with persistent hypotension despite volume resuscitation, requiring vasopressors to
+                                                            maintain MAP > 65 mmHg and serum lactate level >2mmol/L</li>
+                                                        <li>b. Children with any hypotension (SBP < Sth centile or > 2 SD below normal for age) or two or three
+                                                            of the following: altered mental status; bradycardia or tachycardia (HR < 90 bpm or > 160 bpm in
+                                                            infants and heart rate < 70 bpm or > 150 bpm in children); prolonged capillary refill (> 2 sec) or
+                                                            weak pulse; fast breathing; mottled or cool skin or petechial or purpuric rash; high lactate;
+                                                            reduced urine output; hyperthermia or hypothermia.</li>
+                                                    </ul>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
