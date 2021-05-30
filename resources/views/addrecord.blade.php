@@ -52,13 +52,9 @@
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
-							<select class="form-control" id="gender" name="gender" required>
-								<option value="" disabled selected>Choose</option>
-								<option value="MALE" @if(old('gender') == 'MALE') {{'selected'}} @endif>Male</option>
-								<option value="FEMALE" @if(old('gender') == 'FEMALE') {{'selected'}} @endif>Female</option>
-							</select>
-							@error('gender')
+							<label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+							@error('bdate')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
 						</div>
@@ -92,9 +88,13 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
-							@error('bdate')
+							<label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
+							<select class="form-control" id="gender" name="gender" required>
+								<option value="" disabled selected>Choose</option>
+								<option value="MALE" @if(old('gender') == 'MALE') {{'selected'}} @endif>Male</option>
+								<option value="FEMALE" @if(old('gender') == 'FEMALE') {{'selected'}} @endif>Female</option>
+							</select>
+							@error('gender')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
 						</div>
@@ -102,6 +102,7 @@
 				</div>
 				<div id="pdiv" class="mb-3">
 					<div class="row">
+						<div class="col-md-9"></div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
