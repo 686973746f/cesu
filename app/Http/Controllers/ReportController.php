@@ -15,7 +15,25 @@ class ReportController extends Controller
         $list = Forms::all();
         $brgy = Brgy::all();
 
-        return view('reports_home', ['list' => $list, 'brgy_list' => $brgy]);
+        $listToday = Forms::where(function ($query) {
+            $query->where('testDateCollected1', date('Y-m-d'))
+            ->orWhere('testDateCollected2', date('Y-m-d'));
+        })->get();
+
+        $notPresent = Forms::where(function ($query) {
+            $query->where('testDateCollected1', date('Y-m-d'))
+            ->orWhere('testDateCollected2', date('Y-m-d'));
+        })->where(function ($query) {
+            $query->where('isPresentOnSwabDay', 0)
+            ->orWhereNull('isPresentOnSwabDay');
+        })->get();
+
+        return view('reports_home', [
+            'listToday' => $listToday,
+            'notPresent' => $notPresent,
+            'list' => $list,
+            'brgy_list' => $brgy
+        ]);
     }
 
     public function makeAllSuspected() {
@@ -28,11 +46,34 @@ class ReportController extends Controller
         return redirect()->action([ReportController::class, 'index'])->with('status', 'All patients who were absent for today were moved in SUSPECTED Case.')->with('statustype', 'success');
     }
 
-    public function dohExport() {
-        return Excel::download(new DOHExport, 'DOH_Excel_'.date('m_d_Y').'.xlsx');
-    }
+    public function reportExport(Request $request) {
+        $request->validate([
+            'eStartDate' => 'required|date|before:tomorrow',
+            'eEndDate' => 'required|date|before:tomorrow',
+            'rType' => 'required',
+        ]);
 
-    public function allcifExport() {
-        return Excel::download(new FormsExport([0]), 'CIF_ALL_'.date("m_d_Y").'.xlsx');
+        if($request->rType == "DOH") {
+            $query = Forms::where(function ($q) use ($request) {
+                $q->whereBetween('testDateCollected1', [$request->eStartDate, $request->eEndDate])
+                ->orWhereBetween('testDateCollected2', [$request->eStartDate, $request->eEndDate]);
+            })
+            ->orderBy('testDateCollected1', 'ASC')
+            ->orderBy('testDateCollected2', 'ASC')
+            ->pluck('id')->toArray();
+
+            return Excel::download(new DOHExport($query), 'DOH_Excel_'.date('m_d_Y').'.xlsx');
+        }
+        else {
+            $query = Forms::where(function ($q) use ($request) {
+                $q->whereBetween('testDateCollected1', [$request->eStartDate, $request->eEndDate])
+                ->orWhereBetween('testDateCollected2', [$request->eStartDate, $request->eEndDate]);
+            })
+            ->orderBy('testDateCollected1', 'ASC')
+            ->orderBy('testDateCollected2', 'ASC')
+            ->pluck('id')->toArray();
+
+            return Excel::download(new FormsExport($query), 'CIF_ALL_'.date("m_d_Y").'.xlsx');
+        }
     }
 }

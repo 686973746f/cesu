@@ -180,12 +180,21 @@ class FormsController extends Controller
         asort($list);
         
         if($request->submit == 'export') {
+            $request->validate([
+                'listToPrint' => 'required',
+            ]);
+
             $models = Forms::whereIn('id', $list)
             ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
             
             return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.xlsx');
         }
         else if($request->submit == 'resched') {
+            $request->validate([
+                'listToPrint' => 'required',
+                'reschedDate' => 'required|date',
+            ]);
+
             $models = Forms::whereIn('id', $list)->get();
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
@@ -205,6 +214,11 @@ class FormsController extends Controller
             return redirect()->action([FormsController::class, 'index'])->with('status', 'Re-sched successful.')->with('statustype', 'success');
         }
         else if($request->submit == 'changetype') {
+            $request->validate([
+                'listToPrint' => 'required',
+                'changeType' => 'required',
+            ]);
+
             $models = Forms::whereIn('id', $list)->get();
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
@@ -262,6 +276,7 @@ class FormsController extends Controller
                 ->with('exist_id', $ex_id->id)
                 ->with('attended', ($ex_id->isPresentOnSwabDay == 1) ? "YES" : "NO")
                 ->with('eType', (!is_null($ex_id->testType2)) ? $ex_id->testType2 : $ex_id->testType1)
+                ->with('encodedBy', $ex_id->user->name)
                 ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y', strtotime($ex_id->testDateCollected2)) : date('m/d/Y', strtotime($ex_id->testDateCollected1)));
             }
             else {

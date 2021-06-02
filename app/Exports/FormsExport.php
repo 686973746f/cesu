@@ -371,13 +371,13 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDest2)) ? strtoupper($form->localDest2) : "N/A",
             ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateArrive2)) ? date('m/d/Y', strtotime($form->localDateArrive2)) : "N/A",
 
-            (!is_null($form->contact1Name)) ? strtoupper($form->contact1Name) : "N/A",
+            (!is_null($form->contact1Name)) ? mb_strtoupper($form->contact1Name) : "N/A",
             (!is_null($form->contact1No)) ? $form->contact1No : "N/A",
-            (!is_null($form->contact2Name)) ? strtoupper($form->contact2Name) : "N/A",
+            (!is_null($form->contact2Name)) ? mb_strtoupper($form->contact2Name) : "N/A",
             (!is_null($form->contact2No)) ? $form->contact2No : "N/A",
-            (!is_null($form->contact3Name)) ? strtoupper($form->contact3Name) : "N/A",
+            (!is_null($form->contact3Name)) ? mb_strtoupper($form->contact3Name) : "N/A",
             (!is_null($form->contact3No)) ? $form->contact3No : "N/A",
-            (!is_null($form->contact4Name)) ? strtoupper($form->contact4Name) : "N/A",
+            (!is_null($form->contact4Name)) ? mb_strtoupper($form->contact4Name) : "N/A",
             (!is_null($form->contact4No)) ? $form->contact4No : "N/A",
 
             (!is_null($form->isPresentOnSwabDay) && $form->isPresentOnSwabDay == 1) ? 'YES' : 'NO',

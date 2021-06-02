@@ -22,7 +22,7 @@ class CreateFormsTable extends Migration
             $table->string('status_remarks')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('records_id')->constrained()->onDelete('cascade');
-            $table->enum('isExported',[0,1])->default(0);
+            $table->tinyInteger('isExported')->default(0);
             $table->datetime('exportedDate')->nullable();
             $table->tinyInteger('isPresentOnSwabDay')->nullable();
             
@@ -100,6 +100,7 @@ class CreateFormsTable extends Migration
             $table->string('testResultOtherRemarks1')->nullable();
 
             $table->date('testDateCollected2')->nullable();
+            $table->time('oniTimeCollected2')->nullable();
             $table->date('testDateReleased2')->nullable();
             $table->string('testLaboratory2')->nullable();
             $table->string('testType2')->nullable();

@@ -197,7 +197,7 @@
                                   <label for="changeType">Specify Type of Test where the selected CIF test type will be changed</label>
                                   <select class="form-control" name="changeType" id="changeType">
                                     <option value="" selected disabled>Choose...</option>
-                                    <option value="OPS" selected>RT-PCR (OPS)</option>
+                                    <option value="OPS">RT-PCR (OPS)</option>
                                     <option value="NPS" >RT-PCR (NPS)</option>
                                     <option value="OPS AND NPS" >RT-PCR (OPS and NPS)</option>
                                     <option value="ANTIGEN" >Antigen Test</option>
@@ -205,6 +205,9 @@
                                     <option value="OTHERS" >Others</option>
                                   </select>
                                 </div>
+                                @error('changeType')
+									<small class="text-danger">{{$message}}</small>
+								@enderror
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="submit" name="submit" value="changetype">Submit</button>
@@ -222,7 +225,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New CIF</h5>
+                <h5 class="modal-title">New/Search CIF</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -232,9 +235,10 @@
                 <div class="alert alert-danger" role="alert">
                     {{session('modalmsg')}}
                     <hr>
-                    <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
                     <p class="text-info">Philhealth: <u>{{session('philhealth')}}</u></p>
+                    <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
                     <p class="text-info">Attended: <u>{{session('attended')}}</u></p>
+                    <p class="text-info">Encoded by: <u>{{session('encodedBy')}}</u></p>
                     <hr>
                     To edit the existing CIF, click <a href="forms/{{session('exist_id')}}/edit">HERE</a>
                 </div>

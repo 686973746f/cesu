@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('content') 
     <div class="container" style="font-family: Arial, Helvetica, sans-serif;">
         @if(session('status'))
             <div class="alert alert-{{session('statustype')}}" role="alert">
@@ -8,13 +8,39 @@
             </div>
             <hr>
         @endif
-        <div class="card mb-3">
-            <div class="card-header">Export to Excel</div>
-            <div class="card-body">
-                <a href="{{route('dohExport')}}" class="btn btn-primary btn-block">DOH Excel</a>
-                <a href="{{route('cifExport')}}" class="btn btn-primary btn-block">CIF Excel</a>
+        <form action="{{route('report.export')}}" method="POST">
+            @csrf
+            <div class="card mb-3">
+                <div class="card-header">Export to Excel</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="eStartDate">From</label>
+                              <input type="date" class="form-control" name="eStartDate" id="eStartDate" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="eEndDate">To</label>
+                                <input type="date" class="form-control" name="eEndDate" id="eEndDate" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" required>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="rType">Report Type</label>
+                      <select class="form-control" name="rType" id="rType" required>
+                        <option value="" selected disabled>Choose...</option>
+                        <option value="DOH">DOH Report Format</option>
+                        <option value="CIF">CIF Report Format</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
             </div>
-        </div>
+        </form>
         <div class="card mb-3">
             <div class="card-header">Daily Report</div>
             <div class="card-body">
@@ -28,24 +54,17 @@
                         <tbody>
                             <tr>
                                 <td>Number of Patients Swabbed</td>
-                                <td class="font-weight-bold text-center">{{\App\Models\Forms::where(function($query) {
-                                    $query->where('testDateCollected1', date('Y-m-d'))
-                                    ->orWhere('testDateCollected2', date('Y-m-d'));
-                                })->where('isPresentOnSwabDay', 1)->count()}}</td>
+                                <td class="font-weight-bold text-center">{{$listToday
+                                ->where('isPresentOnSwabDay', 1)
+                                ->count()}}</td>
                             </tr>
                             <tr>
                                 <td>Number of Patients not Present</td>
-                                <td class="font-weight-bold text-center">{{\App\Models\Forms::where(function($query) {
-                                    $query->where('testDateCollected1', date('Y-m-d'))
-                                    ->orWhere('testDateCollected2', date('Y-m-d'));
-                                })->where('isPresentOnSwabDay', 0)->count()}}</td>
+                                <td class="font-weight-bold text-center">{{$notPresent->count()}}</td>
                             </tr>
                             <tr class="font-weight-bold bg-light">
                                 <td>TOTAL</td>
-                                <td class="font-weight-bold text-center">{{\App\Models\Forms::where(function($query) {
-                                    $query->where('testDateCollected1', date('Y-m-d'))
-                                    ->orWhere('testDateCollected2', date('Y-m-d'));
-                                })->count()}}</td>
+                                <td class="font-weight-bold text-center">{{$listToday->count()}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -54,10 +73,10 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dt_table5">
                         <thead>
-                            <tr class="font-weight-bold text-primary">
+                            <tr class="font-weight-bold text-primary bg-light">
                                 <th colspan="6">List of Patients Swabbed Today</th>
                             </tr>
-                            <tr>
+                            <tr class="text-center ">
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Type</th>
@@ -67,17 +86,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(\App\Models\Forms::where(function($query) {
-                                $query->where('testDateCollected1', date('Y-m-d'))
-                                ->orWhere('testDateCollected2', date('Y-m-d'));
-                            })->where('isPresentOnSwabDay', 1)->get() as $key => $item)
+                            @foreach($listToday->where('isPresentOnSwabDay', 1) as $key => $item)
                             <tr>
-                                <td>{{$loop->iteration}}</td>
+                                <td class="text-center">{{$loop->iteration}}</td>
                                 <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                                <td>{{$item->pType}}</td>
-                                <td>{{strtoupper($item->caseClassification)}}</td>
-                                <td>{{$item->records->address_street}}</td>
-                                <td>{{$item->records->address_brgy}}</td>
+                                <td class="text-center">{{$item->pType}}</td>
+                                <td class="text-center">{{strtoupper($item->caseClassification)}}</td>
+                                <td class="text-center">{{$item->records->address_street}}</td>
+                                <td class="text-center">{{$item->records->address_brgy}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -87,7 +103,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dt_table6">
                         <thead>
-                            <tr class="font-weight-bold text-primary">
+                            <tr class="font-weight-bold text-primary bg-light">
                                 <th colspan="5" style="vertical-align: middle;">List of Patients not Present</th>
                                 <th colspan="1">
                                     <form action="{{route('report.makeAllSuspected')}}" method="POST">
@@ -96,7 +112,7 @@
                                     </form>
                                 </th>
                             </tr>
-                            <tr>
+                            <tr class="text-center">
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Type</th>
@@ -106,17 +122,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(\App\Models\Forms::where(function($query) {
-                                $query->where('testDateCollected1', date('Y-m-d'))
-                                ->orWhere('testDateCollected2', date('Y-m-d'));
-                            })->where('isPresentOnSwabDay', 0)->get() as $key => $item)
+                            @foreach($notPresent as $key => $item)
                             <tr>
-                                <td>{{$loop->iteration}}</td>
+                                <td class="text-center">{{$loop->iteration}}</td>
                                 <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                                <td>{{$item->pType}}</td>
-                                <td>{{strtoupper($item->caseClassification)}}</td>
-                                <td>{{$item->records->address_street}}</td>
-                                <td>{{$item->records->address_brgy}}</td>
+                                <td class="text-center">{{$item->pType}}</td>
+                                <td class="text-center">{{strtoupper($item->caseClassification)}}</td>
+                                <td class="text-center">{{$item->records->address_street}}</td>
+                                <td class="text-center">{{$item->records->address_brgy}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -126,7 +139,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
-                            <tr class="font-weight-bold text-primary text-center">
+                            <tr class="font-weight-bold text-primary text-center bg-light">
                                 <th colspan="4">Number of Patients per Barangay for {{date('M d, Y')}}</th>
                             </tr>
                             <tr class="text-center">
@@ -138,24 +151,20 @@
                         </thead>
                         <tbody>
                             @foreach($brgy_list as $key => $item)
-                                @if($list->where('records.address_brgy', $item->brgyName)->where('testDateCollected1', date('Y-m-d'))->count())
+                                @if($listToday->where('records.address_brgy', $item->brgyName)->count())
                                 <tr class="text-center">
                                     <td>{{$item->brgyName}}</td>
-                                    <td>{{$list
+                                    <td>{{$listToday
                                         ->where('records.address_brgy', $item->brgyName)
                                         ->where('isPresentOnSwabDay', 1)
-                                        ->where('testDateCollected1', date('Y-m-d'))
                                         ->count()}}
                                     </td>
-                                    <td>{{$list
+                                    <td>{{$notPresent
                                         ->where('records.address_brgy', $item->brgyName)
-                                        ->where('isPresentOnSwabDay', 0)
-                                        ->where('testDateCollected1', date('Y-m-d'))
                                         ->count()}}
                                     </td>
-                                    <td>{{$list
+                                    <td>{{$listToday
                                         ->where('records.address_brgy', $item->brgyName)
-                                        ->where('testDateCollected1', date('Y-m-d'))
                                         ->count()}}
                                     </td>
                                 </tr>
@@ -185,29 +194,31 @@
                         </thead>
                         <tbody>
                             @foreach($brgy_list as $key => $item)
-                            <tr class="text-center">
-                                <td>{{$item->brgyName}}</td>
-                                <td>{{$list
-                                    ->where('records.address_brgy', $item->brgyName)
-                                    ->where('caseClassification', 'Probable')
-                                    ->count()}}
-                                </td>
-                                <td>{{$list
-                                    ->where('records.address_brgy', $item->brgyName)
-                                    ->where('caseClassification', 'Suspect')
-                                    ->count()}}
-                                </td>
-                                <td>{{$list
-                                    ->where('records.address_brgy', $item->brgyName)
-                                    ->where('caseClassification', 'Confirmed')
-                                    ->count()}}
-                                </td>
-                                <td>{{$list
-                                    ->where('records.address_brgy', $item->brgyName)
-                                    ->where('caseClassification', 'Non-COVID-19 Case')
-                                    ->count()}}
-                                </td>
-                            </tr>
+                                @if($item->brgyName != "MEDICARE")
+                                <tr class="text-center">
+                                    <td>{{$item->brgyName}}</td>
+                                    <td>{{$list
+                                        ->where('records.address_brgy', $item->brgyName)
+                                        ->where('caseClassification', 'Probable')
+                                        ->count()}}
+                                    </td>
+                                    <td>{{$list
+                                        ->where('records.address_brgy', $item->brgyName)
+                                        ->where('caseClassification', 'Suspect')
+                                        ->count()}}
+                                    </td>
+                                    <td>{{$list
+                                        ->where('records.address_brgy', $item->brgyName)
+                                        ->where('caseClassification', 'Confirmed')
+                                        ->count()}}
+                                    </td>
+                                    <td>{{$list
+                                        ->where('records.address_brgy', $item->brgyName)
+                                        ->where('caseClassification', 'Non-COVID-19 Case')
+                                        ->count()}}
+                                    </td>
+                                </tr>
+                                @endif
                             @endforeach
                             <tr class="font-weight-bold text-center">
                                 <td>TOTAL</td>

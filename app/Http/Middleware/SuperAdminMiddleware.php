@@ -19,7 +19,7 @@ class SuperAdminMiddleware
     {
         if ($request->user() && $request->user()->isAdmin != 1)
         {
-        return new Response(view('unauthorized')->with('role', 'ADMIN'));
+            return abort(401);
         }
         
         return $next($request);
