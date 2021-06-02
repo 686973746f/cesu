@@ -462,6 +462,7 @@ class FormsController extends Controller
                     'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
         
                     'testDateCollected2' => $request->testDateCollected2,
+                    'oniTimeCollected2' => $request->oniTimeCollected2,
                     'testDateReleased2' => $request->testDateReleased2,
                     'testLaboratory2' => $request->testLaboratory2,
                     'testType2' => (!is_null($request->testType2)) ? $request->testType2 : NULL,
@@ -774,6 +775,7 @@ class FormsController extends Controller
                 'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
     
                 'testDateCollected2' => $request->testDateCollected2,
+                'oniTimeCollected2' => $request->oniTimeCollected2,
                 'testDateReleased2' => $request->testDateReleased2,
                 'testLaboratory2' => $request->testLaboratory2,
                 'testType2' => ($request->testType2 != "N/A") ? $request->testType2 : NULL,
