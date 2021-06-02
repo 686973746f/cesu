@@ -224,14 +224,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="pType"><span class="text-danger font-weight-bold">*</span>Type of Client</label>
-                        <select class="form-control" name="pType" id="pType" required>
-                        <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
-                        <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
-                        <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pType"><span class="text-danger font-weight-bold">*</span>Type of Client</label>
+                                <select class="form-control" name="pType" id="pType" required>
+                                <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
+                                <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
+                                <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>For Hospitalization</label>
+                              <select class="form-control" name="isForHospitalization" id="isForHospitalization" required>
+                                <option value="1" {{(old('isForHospitalization') == 1) ? 'selected' : ''}}>Yes</option>
+                                <option value="0" {{(old('isForHospitalization') == 0) ? 'selected' : 'selected'}}>No</option>
+                              </select>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div><label for=""><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup <i>(Check all that apply)</i></label></div>
                     <div class="form-check form-check-inline testingCatOptions">
                         <label class="form-check-label">

@@ -25,6 +25,7 @@ class CreateFormsTable extends Migration
             $table->tinyInteger('isExported')->default(0);
             $table->datetime('exportedDate')->nullable();
             $table->tinyInteger('isPresentOnSwabDay')->nullable();
+            $table->tinyInteger('isForHospitalization');
             
             $table->string('drunit');
             $table->string('drregion');

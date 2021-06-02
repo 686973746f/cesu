@@ -62,6 +62,7 @@ class FormValidationRequest extends FormRequest
             'existingCaseList' => 'required',
             'ecOthersRemarks' => (!is_null($this->existingCaseList) && in_array('11', $this->existingCaseList)) ? 'required' : 'nullable',
             'pType' => 'required',
+            'isForHospitalization' => 'required|numeric',
             'testingCat' => 'required',
             
             //1.5 Special Population
