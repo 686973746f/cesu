@@ -12,7 +12,7 @@ use App\Models\LinelistMasters;
 class LineListController extends Controller
 {
     public function index() {
-        $list = LinelistMasters::all();
+        $list = LinelistMasters::orderby('created_at', 'desc')->paginate(10);
 
         return view('linelist_index', ['list' => $list]);
     }
