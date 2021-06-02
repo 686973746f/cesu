@@ -43,7 +43,7 @@
             <div class="alert alert-info" role="alert">
                 <span>Swab List for Today ({{date('m/d/Y')}}). Total count = <b>{{count($forms)}}</b> (With Philhealth: {{$formsctr->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->whereNull('records.philhealth')->count()}})</span>
                 <hr>
-                <span>For Hospitalization: {{$formsctr->where('isForHospitalization', 1)->count()}} | Pregnant: {{$formsctr->where('records.isPregnant', 1)->count()}}</span>
+                <span>For Hospitalization: {{$formsctr->where('isForHospitalization', 1)->count()}} | Pregnant: {{$formsctr->where('records.isPregnant', 1)->count()}} | Printed: {{$formsctr->where('isExported', 1)->count()}} | Not Printed: {{$formsctr->where('isExported', 0)->count()}}</span>
                 <hr>
                 <span>OPS: {{$formsctr->where('testType1','OPS')->merge($formsctr->where('testType2', 'OPS'))->count()}} | NPS: {{$formsctr->where('testType1','NPS')->merge($formsctr->where('testType2', 'NPS'))->count()}} | OPS & NPS: {{$formsctr->where('testType1','OPS AND NPS')->merge($formsctr->where('testType2', 'OPS AND NPS'))->count()}} | Antigen: {{$formsctr->where('testType1','ANTIGEN')->merge($formsctr->where('testType2', 'ANTIGEN'))->count()}} | Antibody: {{$formsctr->where('testType1','ANTIBODY')->merge($formsctr->where('testType2', 'ANTIBODY'))->count()}} | Others: {{$formsctr->where('testType1','OTHERS')->merge($formsctr->where('testType2', 'OTHERS'))->count()}}</span>
             </div>
