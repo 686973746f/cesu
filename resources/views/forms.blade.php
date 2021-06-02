@@ -55,7 +55,7 @@
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>
                             <tr>
-                                <th colspan="20" class="text-right">
+                                <th colspan="21" class="text-right">
                                     <button type="button" class="btn btn-primary" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal">Change Test Type</button>
                                     <button type="button" class="btn btn-primary" id="reschedBtn" data-toggle="modal" data-target="#reschedModal">Re-schedule</button>
                                     <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fa fa-file-excel mr-2" aria-hidden="true"></i>Export to Excel</button>
@@ -74,6 +74,7 @@
                                 <th style="vertical-align: middle;">Type of Client</th>
                                 <th style="vertical-align: middle;">Health Status</th>
                                 <th style="vertical-align: middle;">Case Classification</th>
+                                <th style="vertical-align: middle;">Hospitalization</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
@@ -147,11 +148,13 @@
                                 <td style="vertical-align: middle;" class="text-center">{{$pTypeStr}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->healthStatus)}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{($form->isForHospitalization == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
+                                
                                 <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
                                 <td style="vertical-align: middle;" class="text-center">
