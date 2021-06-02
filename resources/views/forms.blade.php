@@ -233,10 +233,15 @@
             <div class="modal-body">
                 @if(session('modalmsg'))
                 <div class="alert alert-danger" role="alert">
-                    {{session('modalmsg')}}
+                    <form action="forms/singleExport/{{session('exist_id')}}" method="POST">
+                    @csrf
+                    {{session('modalmsg')}}<b>{{session('eName')}}</b>
+                    <button type="submit" class="btn btn-link p-0"><i class="fas fa-file-excel mr-2"></i>Export to Excel</button>
+                    </form>
                     <hr>
                     <p class="text-info">Philhealth: <u>{{session('philhealth')}}</u></p>
                     <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
+                    <p class="text-info">Result: <u>{{session('eResult')}}</u></p>
                     <p class="text-info">Attended: <u>{{session('attended')}}</u></p>
                     <p class="text-info">Encoded by: <u>{{session('encodedBy')}}</u></p>
                     <hr>

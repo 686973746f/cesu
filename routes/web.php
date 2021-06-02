@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
     Route::post('/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
     Route::get('/forms/download/{id}', [FormsController::class, 'downloadDocs']);
+    Route::post('/forms/singleExport/{id}', [FormsController::class, 'soloExport']);
     
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');

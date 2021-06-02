@@ -173,6 +173,10 @@ class FormsController extends Controller
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
     }
 
+    public function soloExport($id) {
+        return Excel::download(new FormsExport([$id]), 'CIF_'.date("m_d_Y").'.xlsx');
+    }
+
     public function options(Request $request)
     {
         $list = $request->listToPrint;
@@ -271,11 +275,13 @@ class FormsController extends Controller
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->first();
                 return redirect()->back()
-                ->with('modalmsg', 'CIF Records already exists on '.$check->lname.", ".$check->fname." ".$check->mname)
+                ->with('modalmsg', 'CIF Record already exists for ')
+                ->with('eName', $check->lname.", ".$check->fname." ".$check->mname)
                 ->with('philhealth', (!is_null($check->philhealth)) ? $check->philhealth : 'N/A')
                 ->with('exist_id', $ex_id->id)
                 ->with('attended', ($ex_id->isPresentOnSwabDay == 1) ? "YES" : "NO")
                 ->with('eType', (!is_null($ex_id->testType2)) ? $ex_id->testType2 : $ex_id->testType1)
+                ->with('eResult', (!is_null($ex_id->testType2)) ? $ex_id->testResult2 : $ex_id->testResult1)
                 ->with('encodedBy', $ex_id->user->name)
                 ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y', strtotime($ex_id->testDateCollected2)) : date('m/d/Y', strtotime($ex_id->testDateCollected1)));
             }
