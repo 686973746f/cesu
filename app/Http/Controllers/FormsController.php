@@ -21,21 +21,6 @@ class FormsController extends Controller
      */
     public function index()
     {
-        /*
-        if(request()->input('q')) {
-            $forms = Forms::whereHas('records', function ($query) {
-                $query->where('lname', 'LIKE', '%'.request()->input('q').'%')
-                ->orWhere('fname', 'LIKE', '%'.request()->input('q').'%')
-                ->orWhere('mname', 'LIKE', '%'.request()->input('q').'%');
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-        }
-        else {
-            $forms = Forms::orderBy('created_at', 'desc')->paginate(10);
-        }
-        */
-
         if(request()->input('view')) {
             if(request()->input('view') == 1) {
                 if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
@@ -157,17 +142,24 @@ class FormsController extends Controller
                 $formsctr = Forms::with('user')
                 ->whereHas('user', function ($query) {
                     $query->where('brgy_id', auth()->user()->brgy_id);
+                })->where(function ($query) {
+                    $query->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'));
                 })->get();
             }
             else {
                 $formsctr = Forms::with('user')
                 ->whereHas('user', function ($query) {
                     $query->where('company_id', auth()->user()->company_id);
+                })->where(function ($query) {
+                    $query->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'));
                 })->get();
             }
         }
         else {
-            $formsctr = Forms::all();
+            $formsctr = Forms::where('testDateCollected1', date('Y-m-d'))
+            ->orWhere('testDateCollected2', date('Y-m-d'))->get();
         }
 
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
