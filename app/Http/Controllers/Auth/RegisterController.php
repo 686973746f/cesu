@@ -71,7 +71,13 @@ class RegisterController extends Controller
 
         if($list) {
             //ang ginawang account ay barangay/regular code
-            $brgy_id = $list->brgy_id;
+            if(!is_null($list->brgy_id)) {
+                $brgy_id = $list->brgy_id;
+            }
+            else {
+                $brgy_id = NULL;
+            }
+            
             $adminType = $list->adminType;
 
             $list = BrgyCodes::where(['bCode' => $data['refCode']],['enabled' => 1])

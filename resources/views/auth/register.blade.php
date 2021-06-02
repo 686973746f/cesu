@@ -17,7 +17,7 @@
                             <label for="refCode" class="col-md-4 col-form-label text-md-right">{{ __('Referral Code') }}</label>
 
                             <div class="col-md-6">
-                                <input id="refCode" type="text" class="form-control @error('refCode') is-invalid @enderror" name="refCode" value="{{($aType == 'brgy') ? $item->bCode : $item->refCode}}" required readonly>
+                                <input id="refCode" type="text" class="form-control @error('refCode') is-invalid @enderror" name="refCode" value="{{($aType == 'brgy' || $aType == 'enco') ? $item->bCode : $item->refCode}}" required readonly>
 
                                 @error('refCode')
                                     <span class="invalid-feedback" role="alert">
@@ -28,7 +28,7 @@
                         </div>
 
 
-                        @if($aType == 'brgy' && $item->brgy_id != 0)
+                        @if($aType == 'brgy')
                         <div class="form-group row">
                             <label for="brgy" class="col-md-4 col-form-label text-md-right">{{ __('Barangay') }}</label>
 
@@ -42,7 +42,9 @@
                                 @enderror
                             </div>
                         </div>
-                        @else
+                        @endif
+
+                        @if($aType == 'company')
                         <div class="form-group row">
                             <label for="brgy" class="col-md-4 col-form-label text-md-right">{{ __('Company') }}</label>
 
