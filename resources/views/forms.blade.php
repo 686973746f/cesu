@@ -247,7 +247,7 @@
                     <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
                     <p class="text-info">Result: <u>{{session('eResult')}}</u></p>
                     <p class="text-info">Attended: <u>{{session('attended')}}</u></p>
-                    <p class="text-info">Encoded by: <u>{{session('encodedBy')}}</u></p>
+                    <p class="text-info">Encoded by / at: <u>{{session('encodedBy')}} / {{session('encodedDate')}}</u></p>
                     <hr>
                     To edit the existing CIF, click <a href="forms/{{session('exist_id')}}/edit">HERE</a>
                 </div>
