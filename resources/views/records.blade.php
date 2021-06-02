@@ -47,13 +47,14 @@
                                 <th>Occupation</th>
                                 <th>Created By</th>
                                 <th>Created At</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($records as $record)
                                 <tr>
-                                    <td style="vertical-align: middle">{{$record->lname.", ".$record->fname." ".$record->mname}}</td>
+                                    <td style="vertical-align: middle">
+                                        <a href="records/{{$record->id}}/edit" class="btn btn-link">{{$record->lname.", ".$record->fname." ".$record->mname}}</a>
+                                    </td>
                                     <td style="vertical-align: middle" class="text-center">{{date("m/d/Y", strtotime($record->bdate))}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$record->getAge()}} / {{$record->gender}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$record->cs}}</td>
@@ -62,7 +63,6 @@
                                     <td style="vertical-align: middle" class="text-center">{{(!is_null($record->occupation)) ? $record->occupation : "N/A"}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$record->user->name}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{date('m/d/Y h:i A', strtotime($record->created_at))}}</td>
-                                    <td style="vertical-align: middle" class="text-center"><a href="records/{{$record->id}}/edit" class="btn btn-primary"><i class="fas fa-edit"></i></a></td>
                                 </tr>
                             @empty
                                 
