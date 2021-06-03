@@ -53,7 +53,7 @@
                             @forelse ($records as $record)
                                 <tr>
                                     <td style="vertical-align: middle">
-                                        <a href="records/{{$record->id}}/edit" class="btn btn-link">{{$record->lname.", ".$record->fname." ".$record->mname}}</a>
+                                        <a href="records/{{$record->id}}/edit" class="btn btn-link text-left">{{$record->lname.", ".$record->fname." ".$record->mname}}</a>
                                     </td>
                                     <td style="vertical-align: middle" class="text-center">{{date("m/d/Y", strtotime($record->bdate))}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$record->getAge()}} / {{$record->gender}}</td>
