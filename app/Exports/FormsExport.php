@@ -28,7 +28,23 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             return Forms::all();
         }
         else {
-            return Forms::findMany($this->id);
+            $list_lasalle = Forms::with('records')
+            ->whereIn('id', $this->id)
+            ->whereHas('records', function ($query) {
+                $query->whereNull('philhealth');
+            })->get();
+
+            $list_lasalle = $list_lasalle->sortBy('records.lname');
+
+            $list_oni = Forms::with('records')
+            ->whereIn('id', $this->id)
+            ->whereHas('records', function ($query) {
+                $query->whereNotNull('philhealth');
+            })->get();
+
+            $list_oni = $list_oni->sortBy('records.lname');
+
+            return $list_lasalle->merge($list_oni);
         }
     }
 
