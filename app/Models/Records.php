@@ -60,7 +60,7 @@ class Records extends Model
     ];
 
     public function getAge() {
-        if(Carbon::parse($this->attributes['bdate'])->age <= 0) {
+        if(Carbon::parse($this->attributes['bdate'])->age != 0) {
             return Carbon::parse($this->attributes['bdate'])->age;
         }
         else {
