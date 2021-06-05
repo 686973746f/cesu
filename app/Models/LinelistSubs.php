@@ -12,7 +12,7 @@ class LinelistSubs extends Model
     use HasFactory;
 
     protected $fillable = [
-        'linelist_master_id',
+        'linelist_masters_id',
         'specNo',
         'dateAndTimeCollected',
         'accessionNo',
