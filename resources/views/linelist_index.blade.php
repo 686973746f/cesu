@@ -36,6 +36,7 @@
                     <tr>
                         <th>#</th>
                         <th>Type</th>
+                        <th>Number of Patients</th>
                         <th>Date Created</th>
                         <th></th>
                         <th></th>
@@ -54,6 +55,7 @@
                     <tr>
                         <td scope="row">{{$item->id}}</td>
                         <td>{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
+                        <td>{{$item->linelistsub->where('linelist_masters_id', $item->id)->count()}}</td>
                         <td>{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
                         <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=legal">Print (Legal)</a></td>
                         <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4">Print (A4)</a></td>

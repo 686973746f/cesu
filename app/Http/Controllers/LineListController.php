@@ -43,7 +43,7 @@ class LineListController extends Controller
         $setPaper = request()->input('s');
         
         $details = LineListMasters::find($id);
-        $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
+        $list = LineListSubs::where('linelist_masters_id', $id)->orderBy('specNo', 'asc')->get();
 
         $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper])->setPaper($setPaper, 'landscape');
         return $pdf->download('LINELIST_ONI_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
@@ -55,7 +55,7 @@ class LineListController extends Controller
         $setPaper = request()->input('s');
 
         $details = LineListMasters::find($id);
-        $list = LineListSubs::where('linelist_master_id', $id)->orderBy('specNo', 'asc')->get();
+        $list = LineListSubs::where('linelist_masters_id', $id)->orderBy('specNo', 'asc')->get();
 
         $pdf = PDF::loadView('lasalle_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper])->setPaper($setPaper, 'landscape');
         return $pdf->download('LINELIST_LASALLE_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
@@ -74,7 +74,7 @@ class LineListController extends Controller
 
         for($i=0;$i<count($request->user);$i++) {
             $query = LinelistSubs::create([
-                'linelist_master_id' => $master->id,
+                'linelist_masters_id' => $master->id,
                 'specNo' => $i+1,
                 'dateAndTimeCollected' => $request->dateCollected[$i]." ".$request->timeCollected[$i],
                 'accessionNo' => $request->accessionNo[$i],
@@ -127,7 +127,7 @@ class LineListController extends Controller
 
         for($i=0;$i<count($request->user);$i++) {
             $query = LinelistSubs::create([
-                'linelist_master_id' => $master->id,
+                'linelist_masters_id' => $master->id,
                 'specNo' => $i+1,
                 'records_id' => $request->user[$i],
                 'dateAndTimeCollected' => $request->dateCollected[$i]." ".$request->timeCollected[$i],

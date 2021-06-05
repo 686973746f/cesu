@@ -47,6 +47,33 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function isCesuAccount() {
+        if($this->isAdmin == 1 || $this->isAdmin == 2) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isBrgyAccount() {
+        if(!is_null($this->brgy_id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isCompanyAccount() {
+        if(!is_null($this->company_id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     public function records() {
         return $this->hasMany(Records::class);

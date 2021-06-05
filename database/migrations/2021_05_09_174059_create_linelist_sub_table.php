@@ -16,7 +16,7 @@ class CreateLinelistSubTable extends Migration
         Schema::create('linelist_subs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('linelist_master_id')->constrained('linelist_masters')->onDelete('cascade');
+            $table->foreignId('linelist_masters_id')->constrained('linelist_masters')->onDelete('cascade');
             $table->integer('specNo');
             $table->dateTime('dateAndTimeCollected');
             $table->string('accessionNo')->nullable();

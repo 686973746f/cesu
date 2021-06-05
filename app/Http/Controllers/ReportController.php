@@ -12,6 +12,19 @@ use Maatwebsite\Excel\Facades\Excel;
 class ReportController extends Controller
 {
     public function index() {
+        if(auth()->user()->isCesuAccount()) {
+            return view('report_select');
+        }
+        else {
+            if(auth()->user()->isBrgyAccount()) {
+
+            }
+            else if(auth()->user()->isCompanyAccount()) {
+                
+            }
+        }
+
+        /*
         $list = Forms::all();
         $brgy = Brgy::all();
 
@@ -34,6 +47,7 @@ class ReportController extends Controller
             'list' => $list,
             'brgy_list' => $brgy
         ]);
+        */
     }
 
     public function makeAllSuspected() {
