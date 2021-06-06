@@ -68,6 +68,10 @@ class Records extends Model
         }
     }
 
+    public function getName() {
+        return $this->lname.", ".$this->fname." ".$this->mname;
+    }
+
     public function form(){
         return $this->hasMany(Forms::class);
     }

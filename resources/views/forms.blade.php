@@ -242,6 +242,10 @@
                     @csrf
                     {{session('modalmsg')}}<b>{{session('eName')}}</b>
                     <button type="submit" class="btn btn-link p-0"><i class="fas fa-file-excel mr-2"></i>Export to Excel</button>
+                    @if(session('eType') == "ANTIGEN")
+                    or
+                    <a href="/forms/printAntigen/{{session('exist_id')}}/{{session('recordno')}}">Print Antigen Result</a>
+                    @endif
                     </form>
                     <hr>
                     <p class="text-info">Philhealth: <u>{{session('philhealth')}}</u></p>

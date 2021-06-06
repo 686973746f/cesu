@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Forms;
 use App\Models\Records;
+use PDF;
 use App\Models\CifUploads;
 use App\Exports\FormsExport;
 use App\Models\Interviewers;
@@ -169,6 +170,20 @@ class FormsController extends Controller
         return Excel::download(new FormsExport([$id]), 'CIF_'.date("m_d_Y").'.xlsx');
     }
 
+    public function printAntigen($id, $testType) {
+        ini_set('max_execution_time', 600);
+
+        $details = Forms::find($id);
+
+        if($details->testType1 == "ANTIGEN" || $details->testType2 == "ANTIGEN") {
+            $pdf = PDF::loadView('pdf_antigen', ['details' => $details, 'testType' => $testType])->setPaper('a4', 'portrait');
+            return $pdf->download('ANTIGEN_RESULT_'.$details->records->lname.'.pdf');
+        }
+        else {
+            dd('not allowed');
+        }
+    }
+
     public function options(Request $request)
     {
         $list = $request->listToPrint;
@@ -272,6 +287,7 @@ class FormsController extends Controller
                 ->with('philhealth', (!is_null($check->philhealth)) ? $check->philhealth : 'N/A')
                 ->with('exist_id', $ex_id->id)
                 ->with('attended', ($ex_id->isPresentOnSwabDay == 1) ? "YES" : "NO")
+                ->with('recordno', (!is_null($ex_id->testType2)) ? 2 : 1)
                 ->with('eType', (!is_null($ex_id->testType2)) ? $ex_id->testType2 : $ex_id->testType1)
                 ->with('eResult', (!is_null($ex_id->testType2)) ? $ex_id->testResult2 : $ex_id->testResult1)
                 ->with('encodedBy', $ex_id->user->name)
@@ -291,28 +307,6 @@ class FormsController extends Controller
             return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
         }
     }
-
-    /*
-    public function create()
-    {
-        $records = Records::all()->sortBy('lname', SORT_NATURAL);
-        $interviewers = Interviewers::orderBy('lname', 'asc')->get();
-
-        $countries = new Countries();
-        $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
-        $all = $countries->all()->pluck('name.common')->toArray();
-
-        return view('formscreate', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers]);
-    }
-
-    public function ajaxGetUserRecord ($id) {
-        $srec = Records::where('id',$id)->get();
-
-        $sdata['data'] = $srec;
-        echo json_encode($sdata);
-        exit;
-    }
-    */
 
     /**
      * Store a newly created resource in storage.
@@ -341,13 +335,12 @@ class FormsController extends Controller
                 return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y'))->with('statustype', 'danger');
             }
             else {
-
                 if(!is_null($rec->philhealth)) {
-                    if($request->testType1 == "OPS" || $request->testType1 == "NPS") {
-                        if($request->filled('oniTimeCollected1')) {
-                            $oniTimeFinal = $request->oniTimeCollected1;
-                        }
-                        else {
+                    if($request->filled('oniTimeCollected1')) {
+                        $oniTimeFinal = $request->oniTimeCollected1;
+                    }
+                    else {
+                        if($request->testType1 == "OPS" || $request->testType1 == "NPS") {
                             $trigger = 0;
                             $addMinutes = 0;
 
@@ -377,13 +370,58 @@ class FormsController extends Controller
                                 }
                             }
                         }
+                        else {
+                            $oniTimeFinal = $request->oniTimeCollected1;
+                        }
+                    }
+
+                    if($request->filled('testType2')) {
+                        if($request->filled('oniTimeCollected2')) {
+                            $oniTimeFinal2 = $request->oniTimeCollected2;
+                        }
+                        else {
+                            if($request->testType2 == "OPS" || $request->testType2 == "NPS") {
+                                $trigger = 0;
+                                $addMinutes = 0;
+
+                                while ($trigger != 1) {
+                                    $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
+                                    $query = Forms::with('records')
+                                    ->where('testDateCollected2', $request->testDateCollected2)
+                                    ->whereIn('testType2', ['OPS', 'NPS'])
+                                    ->whereHas('records', function ($q) {
+                                        $q->whereNotNull('philhealth');
+                                    })
+                                    ->where('oniTimeCollected2', $oniStartTime)->get();
+
+                                    if($query->count()) {
+                                        if($query->count() < 5) {
+                                            $oniTimeFinal2 = $oniStartTime;
+                                            $trigger = 1;
+                                        }
+                                        else {
+                                            $addMinutes = $addMinutes + 5;
+                                        }
+                                    }
+                                    else {
+                                        $oniTimeFinal2 = $oniStartTime;
+                                        $trigger = 1;
+                                    }
+                                }
+                            }
+                            else {
+                                $oniTimeFinal2 = $request->oniTimeCollected2;
+                            }
+                        }
                     }
                     else {
-                        $oniTimeFinal = ($request->filled('oniTimeCollected1')) ? $request->oniTimeCollected1 : NULL;
+                        $oniTimeFinal2 = $request->oniTimeCollected2;
                     }
                 }
                 else {
                     $oniTimeFinal = ($request->filled('oniTimeCollected1')) ? $request->oniTimeCollected1 : NULL;
+                    $oniTimeFinal2 = ($request->filled('oniTimeCollected2')) ? $request->oniTimeCollected2 : NULL;
                 }
 
                 $request->user()->form()->create([
@@ -451,16 +489,16 @@ class FormsController extends Controller
                     'testDateReleased1' => $request->testDateReleased1,
                     'testLaboratory1' => $request->testLaboratory1,
                     'testType1' => $request->testType1,
-                    'testTypeOtherRemarks1' => $request->testTypeOtherRemarks1,
+                    'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? $request->testTypeOtherRemarks1 : NULL,
                     'testResult1' => $request->testResult1,
                     'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
         
                     'testDateCollected2' => $request->testDateCollected2,
-                    'oniTimeCollected2' => $request->oniTimeCollected2,
+                    'oniTimeCollected2' => $oniTimeFinal2,
                     'testDateReleased2' => $request->testDateReleased2,
                     'testLaboratory2' => $request->testLaboratory2,
                     'testType2' => (!is_null($request->testType2)) ? $request->testType2 : NULL,
-                    'testTypeOtherRemarks2' => $request->testTypeOtherRemarks2,
+                    'testTypeOtherRemarks2' => ($request->testType2 == "ANTIGEN" || $request->testType2 == "OTHERS") ? $request->testTypeOtherRemarks2 : NULL,
                     'testResult2' => (!is_null($request->testType2)) ? $request->testResult2 : NULL,
                     'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
         
@@ -656,6 +694,9 @@ class FormsController extends Controller
         $rec = Forms::findOrFail($id);
         
         $olddate = $rec->testDateCollected1;
+        $oldTestType1 = $rec->testType1;
+        $oldTestType2 = $rec->testType2;
+        $currentPhilhealth = $rec->records->philhealth;
 
         $rec = Records::findOrFail($rec->records->id);
 
@@ -696,6 +737,94 @@ class FormsController extends Controller
             else {
                 $proceed = 1;
             }
+        }
+
+        if($request->testType1 == "OPS" || $request->testType1 == "NPS") {
+            if(!is_null($currentPhilhealth)) {
+                if($request->filled('oniTimeCollected1')) {
+                    $oniTimeFinal = $request->oniTimeCollected1;
+                }
+                else {
+                    $trigger = 0;
+                    $addMinutes = 0;
+
+                    while ($trigger != 1) {
+                        $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
+                        $query = Forms::with('records')
+                        ->where('testDateCollected1', $request->testDateCollected1)
+                        ->whereIn('testType1', ['OPS', 'NPS'])
+                        ->whereHas('records', function ($q) {
+                            $q->whereNotNull('philhealth');
+                        })
+                        ->where('oniTimeCollected1', $oniStartTime)->get();
+
+                        if($query->count()) {
+                            if($query->count() < 5) {
+                                $oniTimeFinal = $oniStartTime;
+                                $trigger = 1;
+                            }
+                            else {
+                                $addMinutes = $addMinutes + 5;
+                            }
+                        }
+                        else {
+                            $oniTimeFinal = $oniStartTime;
+                            $trigger = 1;
+                        }
+                    }
+                }
+            }
+            else {
+                $oniTimeFinal = $request->oniTimeCollected1;
+            }
+        }
+        else {
+            $oniTimeFinal = $request->oniTimeCollected1;
+        }
+        
+        if($request->testType2 == "OPS" || $request->testType2 == "NPS") {
+            if(!is_null($currentPhilhealth)) {
+                if($request->filled('oniTimeCollected2')) {
+                    $oniTimeFinal2 = $request->oniTimeCollected2;
+                }
+                else {
+                    $trigger = 0;
+                    $addMinutes = 0;
+
+                    while ($trigger != 1) {
+                        $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
+                        $query = Forms::with('records')
+                        ->where('testDateCollected2', $request->testDateCollected2)
+                        ->whereIn('testType2', ['OPS', 'NPS'])
+                        ->whereHas('records', function ($q) {
+                            $q->whereNotNull('philhealth');
+                        })
+                        ->where('oniTimeCollected2', $oniStartTime)->get();
+
+                        if($query->count()) {
+                            if($query->count() < 5) {
+                                $oniTimeFinal2 = $oniStartTime;
+                                $trigger = 1;
+                            }
+                            else {
+                                $addMinutes = $addMinutes + 5;
+                            }
+                        }
+                        else {
+                            $oniTimeFinal2 = $oniStartTime;
+                            $trigger = 1;
+                        }
+                    }
+                }
+            }
+            else {
+                $oniTimeFinal2 = $request->oniTimeCollected2;
+            }
+        }
+        else {
+            $oniTimeFinal2 = $request->oniTimeCollected2;
         }
 
         if($proceed == 1) {
@@ -761,20 +890,20 @@ class FormsController extends Controller
                 'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
     
                 'testDateCollected1' => $request->testDateCollected1,
-                'oniTimeCollected1' => $request->oniTimeCollected1,
+                'oniTimeCollected1' => $oniTimeFinal,
                 'testDateReleased1' => $request->testDateReleased1,
                 'testLaboratory1' => $request->testLaboratory1,
                 'testType1' => $request->testType1,
-                'testTypeOtherRemarks1' => $request->testTypeOtherRemarks1,
+                'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? $request->testTypeOtherRemarks1 : NULL,
                 'testResult1' => $request->testResult1,
                 'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
     
                 'testDateCollected2' => $request->testDateCollected2,
-                'oniTimeCollected2' => $request->oniTimeCollected2,
+                'oniTimeCollected2' => $oniTimeFinal2,
                 'testDateReleased2' => $request->testDateReleased2,
                 'testLaboratory2' => $request->testLaboratory2,
                 'testType2' => ($request->testType2 != "N/A") ? $request->testType2 : NULL,
-                'testTypeOtherRemarks2' => $request->testTypeOtherRemarks2,
+                'testTypeOtherRemarks2' => ($request->testType2 == "ANTIGEN" || $request->testType2 == "OTHERS") ? $request->testTypeOtherRemarks2 : NULL,
                 'testResult2' => ($request->testType2 != "N/A") ? $request->testResult2 : NULL,
                 'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
     

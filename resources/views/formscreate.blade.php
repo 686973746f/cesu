@@ -1320,7 +1320,7 @@
                                               </div>
                                               <div id="divTypeOthers1">
                                                   <div class="form-group">
-                                                    <label for="testTypeOtherRemarks1">Specify</label>
+                                                    <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
                                                     <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
                                                   </div>
                                               </div>
@@ -1338,7 +1338,7 @@
                                               </div>
                                               <div id="divResultOthers1">
                                                   <div class="form-group">
-                                                      <label for="testResultOtherRemarks1">Specify</label>
+                                                      <label for="testResultOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify</label>
                                                       <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1')}}">
                                                   </div>
                                               </div>
@@ -1387,7 +1387,7 @@
                                             </div>
                                             <div id="divTypeOthers2">
                                                 <div class="form-group">
-                                                  <label for="testTypeOtherRemarks2">Specify</label>
+                                                  <label for="testTypeOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
                                                   <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2')}}">
                                                 </div>
                                             </div>
@@ -1405,7 +1405,7 @@
                                             </div>
                                             <div id="divResultOthers2">
                                                 <div class="form-group">
-                                                    <label for="testResultOtherRemarks2">Specify</label>
+                                                    <label for="testResultOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify</label>
                                                     <input type="text" class="form-control" name="testResultOtherRemarks2" id="testResultOtherRemarks2" value="{{old('testResultOtherRemarks2')}}">
                                                 </div>
                                             </div>
@@ -2915,7 +2915,7 @@
 
             $('#testType1').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == 'Others') {
+                if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
                     $('#divTypeOthers1').show();
                     $('#testTypeOtherRemarks1').prop('required', true);
                 }
@@ -2941,9 +2941,10 @@
 
             $('#testType2').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == 'Others') {
+                if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
                     $('#divTypeOthers2').show();
                     $('#testTypeOtherRemarks2').prop('required', true);
+                    $('#testDateCollected2').prop('required', true);
                 }
                 else {
                     $('#divTypeOthers2').hide();

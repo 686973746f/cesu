@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forms;
 use App\Models\Records;
 use App\Models\Companies;
 use Illuminate\Http\Request;
@@ -378,6 +379,7 @@ class RecordsController extends Controller
 			$isPregnant = $request->pregnant;
 		}
 
+		//auto dashes in philhealth
 		if($request->filled('philhealth')) {
 			if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
 				$philhealth_organized = $request->philhealth;
@@ -389,6 +391,91 @@ class RecordsController extends Controller
 		}
 		else {
 			$philhealth_organized = null;
+		}
+
+		$old_philhealth = Records::where('id', $id)->pluck('philhealth')->first();
+		
+		//para sa auto time kapag late nang nilagyan ng philhealth ang pasyente
+		if(is_null($old_philhealth) && $request->filled('philhealth')) {
+			$form = Forms::where('records_id', $id)->first();
+
+			if($form) {
+				if(!is_null($form->testType2)) {
+					if($form->testType2 == "OPS" || $form->testType2 == "NPS") {
+						if(is_null($form->oniTimeCollected2)) {
+							$trigger = 0;
+							$addMinutes = 0;
+
+							while ($trigger != 1) {
+								$oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
+								$query = Forms::with('records')
+								->where('testDateCollected2', $form->testDateCollected2)
+								->whereIn('testType2', ['OPS', 'NPS'])
+								->whereHas('records', function ($q) {
+									$q->whereNotNull('philhealth');
+								})
+								->where('oniTimeCollected2', $oniStartTime)->get();
+
+								if($query->count()) {
+									if($query->count() < 5) {
+										$oniTimeFinal = $oniStartTime;
+										$trigger = 1;
+									}
+									else {
+										$addMinutes = $addMinutes + 5;
+									}
+								}
+								else {
+									$oniTimeFinal = $oniStartTime;
+									$trigger = 1;
+								}
+							}
+
+							$update = Forms::where('id', $form->id)->update([
+								'oniTimeCollected2' => $oniTimeFinal,
+							]);
+						}
+					}
+				}
+
+				if($form->testType1 == "OPS" || $form->testType2 == "NPS") {
+					if(is_null($form->oniTimeCollected1)) {
+						$trigger = 0;
+						$addMinutes = 0;
+
+						while ($trigger != 1) {
+							$oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
+							$query = Forms::with('records')
+							->where('testDateCollected1', $form->testDateCollected1)
+							->whereIn('testType1', ['OPS', 'NPS'])
+							->whereHas('records', function ($q) {
+								$q->whereNotNull('philhealth');
+							})
+							->where('oniTimeCollected1', $oniStartTime)->get();
+
+							if($query->count()) {
+								if($query->count() < 5) {
+									$oniTimeFinal = $oniStartTime;
+									$trigger = 1;
+								}
+								else {
+									$addMinutes = $addMinutes + 5;
+								}
+							}
+							else {
+								$oniTimeFinal = $oniStartTime;
+								$trigger = 1;
+							}
+						}
+
+						$update = Forms::where('id', $form->id)->update([
+							'oniTimeCollected1' => $oniTimeFinal,
+						]);
+					}	
+				}
+			}
 		}
 
         $record = Records::where('id', $id)->update([
@@ -439,7 +526,9 @@ class RecordsController extends Controller
 			'occupation_email' => ($request->hasoccupation == 1) ? $request->occupation_email : NULL,
 			]);
 
-			return redirect()->action([RecordsController::class, 'index'])->with('status', 'User information has been updated successfully.')->with('statustype', 'success');
+			$record = Records::find($id);
+
+			return redirect()->action([RecordsController::class, 'index'])->with('status', 'Patient details of '.$record->getName().' has been updated successfully.')->with('statustype', 'success');
     }
 
     /**

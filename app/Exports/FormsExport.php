@@ -70,6 +70,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
 
         if(is_null($form->testType2)) {
             $displayFirstTestDateCollected = date('m/d/Y', strtotime($form->testDateCollected1));
+            $displayFirstTimeCollected = (!is_null($form->oniTimeCollected1)) ? date('g:i A', strtotime($form->oniTimeCollected1)) : '';
             $displayFirstTestDateRelease = (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A';
             $displayFirstLaboratory = strtoupper($form->testLaboratory1);
             $displayFirstTestType = $form->testType1;
@@ -78,6 +79,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
 
             $displaySecondTestDateCollected = "N/A";
+            $displaySecondTimeCollected = '';
             $displaySecondTestDateRelease = "N/A";
             $displaySecondLaboratory = "N/A";
             $displaySecondTestType = "N/A";
@@ -88,6 +90,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         else {
             //ilalagay sa unahan yung pangalawang swab dahil mas bago ito
             $displayFirstTestDateCollected = date('m/d/Y', strtotime($form->testDateCollected2));
+            $displayFirstTimeCollected = (!is_null($form->oniTimeCollected2)) ? date('g:i A', strtotime($form->oniTimeCollected2)) : '';
             $displayFirstTestDateRelease = (!is_null($form->testDateReleased2)) ? date('m/d/Y', strtotime($form->testDateReleased2)) : 'N/A';
             $displayFirstLaboratory = strtoupper($form->testLaboratory2);
             $displayFirstTestType = $form->testType2;
@@ -96,6 +99,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstTestResultOtherRemarks = ($form->testResult2 == "OTHERS") ? $form->testResultOtherRemarks2 : "N/A";
 
             $displaySecondTestDateCollected = date('m/d/Y', strtotime($form->testDateCollected1));
+            $displaySecondTimeCollected = (!is_null($form->oniTimeCollected1)) ? date('g:i A', strtotime($form->oniTimeCollected1)) : '';
             $displaySecondTestDateRelease = (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A';
             $displaySecondLaboratory = strtoupper($form->testLaboratory1);
             $displaySecondTestType = $form->testType1;
@@ -284,7 +288,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             strval($form->testedPositiveNumOfSwab),
 
             $displayFirstTestDateCollected,
-            (!is_null($form->oniTimeCollected1)) ? date('g:i A', strtotime($form->oniTimeCollected1)) : '',
+            $displayFirstTimeCollected,
             $displayFirstTestDateRelease,
             $displayFirstLaboratory,
             $displayFirstTestType,
@@ -293,6 +297,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstTestResultOtherRemarks,
 
             $displaySecondTestDateCollected,
+            $displaySecondTimeCollected,
             $displaySecondTestDateRelease,
             $displaySecondLaboratory,
             $displaySecondTestType,
@@ -586,6 +591,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Results Others Specify 1',
 
             'Date Collected 2 [MM/DD/YYYY]',
+            'Time Collected 2 (ONI)',
             'Date Released 2 [MM/DD/YYYY]',
             'Laboratory 2',
             'Type of Test 2',
