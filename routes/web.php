@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/linelist/lasalle/print/{id}', [LineListController::class, 'printlasalle'])->name('linelist.lasalle.print');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/report/daily', [ReportController::class, 'viewDaily'])->name('report.daily');
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
 
     //ajax

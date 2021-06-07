@@ -23,8 +23,9 @@ class ReportController extends Controller
                 
             }
         }
+    }
 
-        /*
+    public function viewDaily() {
         $list = Forms::all();
         $brgy = Brgy::all();
 
@@ -41,13 +42,12 @@ class ReportController extends Controller
             ->orWhereNull('isPresentOnSwabDay');
         })->get();
 
-        return view('reports_home', [
+        return view('report_daily', [
             'listToday' => $listToday,
             'notPresent' => $notPresent,
             'list' => $list,
             'brgy_list' => $brgy
         ]);
-        */
     }
 
     public function makeAllSuspected() {

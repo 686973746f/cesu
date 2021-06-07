@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header">Reports</div>
         <div class="card-body">
-            <a href="" class="btn btn-primary btn-block">Daily Report</a>
+            <a href="{{route('report.daily')}}" class="btn btn-primary btn-block">Daily Report</a>
             <a href="" class="btn btn-primary btn-block">Barangay Report</a>
             <a href="" class="btn btn-primary btn-block">Company Report</a>
         </div>
