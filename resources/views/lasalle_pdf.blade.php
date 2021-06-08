@@ -14,7 +14,7 @@
     }
     @endphp
     @while($n+1 <= $list->count())
-    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;font-size: {{$fsize}}; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
+    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;font-size: {{$fsize}}; page-break-after: {{($n+11 <= $list->count()) ? 'always' : 'avoid'}};">
         <div class="text-center {{($n+1 != 1) ? 'mt-3' : ''}}">
             <h6 class="font-weight-bold">PROVINCE OF CAVITE</h6>
             <h6>Cavite De La Salle Medical Health Science Institute COVID19 Diagnostic Center</h6>

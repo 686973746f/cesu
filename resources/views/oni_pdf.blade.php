@@ -18,7 +18,7 @@
     }
     @endphp
     @while($n+1 <= $list->count())
-    <div class="container-fluid my-0" style="font-family: Arial, Helvetica, sans-serif; page-break-after: {{($n+11 < $list->count()) ? 'always;' : 'avoid'}};">
+    <div class="container-fluid my-0" style="font-family: Arial, Helvetica, sans-serif; page-break-after: {{($n+11 <= $list->count()) ? 'always' : 'avoid'}};">
         <div class="text-center">
             <img src="{{asset('assets/images/oni_head.png')}}" alt="" style="width: {{$picw}};" class="{{($n+1 != 1) ? 'mt-3' : 'mt-0'}} mb-0">
             <h6 class="font-weight-bold my-0">SAMPLE PICK-UP FORM</h6>
