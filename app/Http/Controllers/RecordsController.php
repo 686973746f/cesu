@@ -182,7 +182,7 @@ class RecordsController extends Controller
 		}
 		else {
 			if(is_null(auth()->user()->company_id)) {
-				$request->user()->records()->create([
+				$data = $request->user()->records()->create([
 					'status' => 'approved',
 					'lname' => mb_strtoupper($request->lname),
 					'fname' => mb_strtoupper($request->fname),
@@ -234,7 +234,7 @@ class RecordsController extends Controller
 			else {
 				$list = Companies::find(auth()->user()->company_id);
 
-				$request->user()->records()->create([
+				$data = $request->user()->records()->create([
 					'status' => 'approved',
 					'lname' => mb_strtoupper($request->lname),
 					'fname' => mb_strtoupper($request->fname),
@@ -283,9 +283,11 @@ class RecordsController extends Controller
 					'occupation_email' => $list->email,
 				]);
 			}
-			
-	
-			return redirect()->action([RecordsController::class, 'index'])->with('status', 'User information has been added successfully.')->with('statustype', 'success');
+
+			return redirect('/forms/'.$data->id.'/new')
+			->with('msg', 'Patient details has been saved. You may now proceed creating CIF for the patient.')
+			->with('type', 'success');
+			//return redirect()->action([RecordsController::class, 'index'])->with('status', 'User information has been added successfully.')->with('statustype', 'success');
 		}
     }
 
