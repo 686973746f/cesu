@@ -1315,7 +1315,7 @@
                                                   <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
                                                   <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                                   <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                  <option value="OTHERS" {{(old('testType1') == 'Others') ? 'selected' : ''}}>Others</option>
+                                                  <option value="OTHERS" {{(old('testType1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                                 </select>
                                               </div>
                                               <div id="divTypeOthers1">
@@ -1382,7 +1382,7 @@
                                                     <option value="OPS AND NPS" {{(old('testType2') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
                                                     <option value="ANTIGEN" {{(old('testType2') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                                     <option value="ANTIBODY" {{(old('testType2') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                    <option value="OTHERS" {{(old('testType2') == 'Others') ? 'selected' : ''}}>Others</option>
+                                                    <option value="OTHERS" {{(old('testType2') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
                                             <div id="divTypeOthers2">
