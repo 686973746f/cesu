@@ -17,6 +17,10 @@
                 @if(session('status'))
                     <div class="alert alert-{{session('statustype')}}" role="alert">
                         {{session('status')}}
+                        @if(session('type') == 'createRecord')
+                        <hr>
+                        Click <a href="/forms/{{session('newid')}}/new">HERE</a> to proceed on creating CIF for the newly added patient.
+                        @endif
                     </div>
                     <hr>
                 @endif

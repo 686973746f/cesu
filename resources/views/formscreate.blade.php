@@ -3,14 +3,7 @@
 @section('content')
     <div class="container">
         <form action="/forms/{{$id}}/create" method="POST">
-            @csrf
-
-            @if(session('msg'))
-            <div class="alert alert-{{session('type')}}" role="alert">
-                {{session('msg')}}
-            </div>
-            @endif
-            
+            @csrf       
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">

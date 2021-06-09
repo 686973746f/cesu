@@ -287,7 +287,11 @@ class RecordsController extends Controller
 			//return redirect('/forms/'.$data->id.'/new')
 			//->with('msg', 'Patient details has been saved. You may now proceed creating CIF for the patient.')
 			//->with('type', 'success');
-			return redirect()->action([RecordsController::class, 'index'])->with('status', 'User information has been added successfully.')->with('statustype', 'success');
+			return redirect()->action([RecordsController::class, 'index'])
+			->with('status', 'User information has been added successfully.')
+			->with('type', 'createRecord')
+			->with('newid', $data->id)
+			->with('statustype', 'success');
 		}
     }
 
