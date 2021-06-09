@@ -1343,7 +1343,7 @@
                                               </div>
                                               @if($records->testType1 == "ANTIGEN")
                                                 <div id="antigenExport1">
-                                                    <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/1">Print Antigen Result</a>
+                                                    <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/1"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                                 </div>
                                               @endif
                                         </div>
@@ -1415,7 +1415,7 @@
                                             </div>
                                             @if($records->testType2 == "ANTIGEN")
                                                 <div id="antigenExport2">
-                                                    <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/2">Print Antigen Result</a>
+                                                    <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/2"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                                 </div>
                                             @endif
                                         </div>
@@ -2115,7 +2115,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary" id="formsubmit">Submit</button>
+                    <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
                 </div>
             </div>
         </form>

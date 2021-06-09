@@ -17,18 +17,6 @@ class RecordsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-		/*
-		if(request()->input('q')) {
-			$records = Records::where('lname', 'LIKE', '%'.request()->input('q').'%')
-			->orWhere('fname', 'LIKE', '%'.request()->input('q').'%')
-			->orWhere('mname', 'LIKE', '%'.request()->input('q').'%')
-			->paginate(10);
-		}
-		else {
-			$records = Records::orderBy('lname','asc')->get();
-		}
-		*/
-
 		if(request()->input('q')) {
 			if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
 				if(!is_null(auth()->user()->brgy_id)) {

@@ -64,7 +64,7 @@ class Records extends Model
             return Carbon::parse($this->attributes['bdate'])->age;
         }
         else {
-            return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS.');
+            return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
         }
     }
 

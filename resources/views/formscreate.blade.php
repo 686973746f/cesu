@@ -34,8 +34,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for=""><span class="text-danger font-weight-bold">*</span>Create CIF for</label>
-                                <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->gender}} | {{date("m/d/Y", strtotime($records->bdate))}}" disabled>
+                                <label for=""><span class="text-danger font-weight-bold">*</span>Currently Creating CIF record for</label>
+                                <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -2106,7 +2106,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary" id="formsubmit">Submit</button>
+                    <button type="submit" class="btn btn-primary" id="formsubmit"><i class="far fa-save mr-2"></i>Save</button>
                 </div>
             </div>
         </form>
@@ -2931,11 +2931,19 @@
                 if($(this).val() == "OTHERS") {
                     $('#divResultOthers1').show();
                     $('#testResultOtherRemarks1').prop('required', true);
+                    $('#testDateReleased1').prop('required', true);
                 }
                 else {
                     $('#divResultOthers1').hide();
                     $('#testResultOtherRemarks1').empty();
                     $('#testResultOtherRemarks1').prop('required', false);
+
+                    if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
+                        $('#testDateReleased1').prop('required', true);
+                    }
+                    else {
+                        $('#testDateReleased1').prop('required', false);
+                    }
                 }
             }).trigger('change');
 
@@ -2969,11 +2977,19 @@
                 if($(this).val() == "OTHERS") {
                     $('#divResultOthers2').show();
                     $('#testResultOtherRemarks2').prop('required', true);
+                    $('#testDateReleased2').prop('required', true);
                 }
                 else {
                     $('#divResultOthers2').hide();
                     $('#testResultOtherRemarks2').empty();
                     $('#testResultOtherRemarks2').prop('required', false);
+
+                    if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
+                        $('#testDateReleased2').prop('required', true);
+                    }
+                    else {
+                        $('#testDateReleased2').prop('required', false);
+                    }
                 }
             }).trigger('change');
 

@@ -175,12 +175,21 @@ class FormsController extends Controller
 
         $details = Forms::find($id);
 
-        if($details->testType1 == "ANTIGEN" || $details->testType2 == "ANTIGEN") {
-            $pdf = PDF::loadView('pdf_antigen', ['details' => $details, 'testType' => $testType])->setPaper('a4', 'portrait');
-            return $pdf->download('ANTIGEN_RESULT_'.$details->records->lname.'.pdf');
+        if(auth()->user()->isCesuAccount()) {
+            if($details->testType1 == "ANTIGEN" || $details->testType2 == "ANTIGEN") {
+                $pdf = PDF::loadView('pdf_antigen', ['details' => $details, 'testType' => $testType])->setPaper('a4', 'portrait');
+                return $pdf->download('ANTIGEN_RESULT_'.$details->records->lname.'.pdf');
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'You are not allowed to do that.')
+                ->with('msgType', 'warning');
+            }
         }
         else {
-            dd('not allowed');
+            return redirect()->back()
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgType', 'warning');
         }
     }
 

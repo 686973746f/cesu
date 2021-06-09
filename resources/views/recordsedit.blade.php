@@ -515,7 +515,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Update</button>
                 </div>
             </div>
         </form>
