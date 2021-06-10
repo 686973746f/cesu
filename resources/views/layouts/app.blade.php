@@ -30,7 +30,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @if(auth()->check())
+                        <li class="nav-item">
+                            <a class="nav-link {{Request::is('records*') ? 'active' : ''}}" href="{{route('records.index')}}">Patients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{Request::is('forms*') ? 'active' : ''}}" href="{{route('forms.index')}}">CIFs</a>
+                        </li>
+                        @if(auth()->user()->isCesuAccount())
+                        <li class="nav-item">
+                            <a class="nav-link {{Request::is('linelist*') ? 'active' : ''}}" href="{{route('linelist.index')}}">Line Lists</a>
+                        </li>
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link {{Request::is('report*') ? 'active' : ''}}" href="{{route('report.index')}}">Reports</a>
+                        </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
