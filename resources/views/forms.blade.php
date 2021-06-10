@@ -25,29 +25,65 @@
                     {{session('status')}}
                 </div>
             @endif
-   
+
             <form action="{{route('forms.index')}}" method="GET">
-                <div class="input-group mb-3">
-                    <select class="form-control" name="view" id="">
-                        <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
-                        <option value="2" {{(request()->get('view') == '2') ? 'selected' : ''}}>Show All Except Records that has less than 5 Days Exposure History from this day</option>
-                        <option value="3" {{(request()->get('view') == '3') ? 'selected' : ''}}>Show All Except Records that has not been exported to Excel yet</option>
-                    </select>
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-info" type="submit"><i class="fas fa-filter mr-2"></i>Filter</button>
+                <div id="accordianId" role="tablist" aria-multiselectable="true">
+                    <div class="card mb-3">
+                        <div class="card-header" role="tab" id="section1HeaderId">
+                            <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+                                Filter
+                            </a>
+                        </div>
+                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="view">Filter Type</label>
+                                    <select class="form-control" name="view" id="view">
+                                      <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
+                                      <option value="2" {{(request()->get('view') == '2') ? 'selected' : ''}}>Show All Except Records that has less than 5 Days Exposure History from this day</option>
+                                      <option value="3" {{(request()->get('view') == '3') ? 'selected' : ''}}>Show All Except Records that has not been exported to Excel yet</option>
+                                      </select>
+                                </div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            <label for="sdate">Starting Date</label>
+                                            <input type="date" class="form-control" name="sdate" id="sdate" value="{{date('Y-m-d')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="edate">Ending Date</label>
+                                                <input type="date" class="form-control" name="edate" id="edate" value="{{date('Y-m-d')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-filter mr-2"></i>Filter</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
 
-            @if(request()->get('view') == null)
             <div class="alert alert-info" role="alert">
+                @if(request()->input('view') != null)
+                    @if(request()->input('sdate') != request()->input('edate'))
+                        <span>Swab List from {{date('m/d/Y', strtotime(request()->input('sdate')))}} to {{date('m/d/Y', strtotime(request()->input('edate')))}}. Total count = <b>{{count($forms)}}</b> (With Philhealth: {{$formsctr->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->whereNull('records.philhealth')->count()}})</span>
+                    @else
+                    <span>Swab List for {{date('m/d/Y', strtotime(request()->input('sdate')))}}. Total count = <b>{{count($forms)}}</b> (With Philhealth: {{$formsctr->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->whereNull('records.philhealth')->count()}})</span>
+                    @endif
+                @else
                 <span>Swab List for Today ({{date('m/d/Y')}}). Total count = <b>{{count($forms)}}</b> (With Philhealth: {{$formsctr->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->whereNull('records.philhealth')->count()}})</span>
+                @endif
                 <hr>
                 <span>For Hospitalization: {{$formsctr->where('isForHospitalization', 1)->count()}} | Pregnant: {{$formsctr->where('records.isPregnant', 1)->count()}} | Printed: {{$formsctr->where('isExported', 1)->count()}} | Not Printed: {{$formsctr->where('isExported', 0)->count()}}</span>
                 <hr>
                 <span>OPS: {{$formsctr->where('testType1','OPS')->merge($formsctr->where('testType2', 'OPS'))->count()}} | NPS: {{$formsctr->where('testType1','NPS')->merge($formsctr->where('testType2', 'NPS'))->count()}} | OPS & NPS: {{$formsctr->where('testType1','OPS AND NPS')->merge($formsctr->where('testType2', 'OPS AND NPS'))->count()}} | Antigen: {{$formsctr->where('testType1','ANTIGEN')->merge($formsctr->where('testType2', 'ANTIGEN'))->count()}} | Antibody: {{$formsctr->where('testType1','ANTIBODY')->merge($formsctr->where('testType2', 'ANTIBODY'))->count()}} | Others: {{$formsctr->where('testType1','OTHERS')->merge($formsctr->where('testType2', 'OTHERS'))->count()}}</span>
             </div>
-            @endif
 
             <form action="{{route('forms.options')}}" method="POST">
                 @csrf

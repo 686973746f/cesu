@@ -22,9 +22,9 @@ class RecordsController extends Controller
 				if(!is_null(auth()->user()->brgy_id)) {
 					$records = Records::with('user')
 					->where(function ($query) {
-						$query->where('lname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
-						->orWhere('fname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
-						->orWhere('mname', 'LIKE', mb_strtoupper(request()->input('q'))."%");
+						$query->where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+						->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+						->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
 					})
 					->whereHas('user', function ($query) {
 						$query->where('brgy_id', auth()->user()->brgy_id);
@@ -34,9 +34,9 @@ class RecordsController extends Controller
 				else {
 					$records = Records::with('user')
 					->where(function ($query) {
-						$query->where('lname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
-						->orWhere('fname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
-						->orWhere('mname', 'LIKE', mb_strtoupper(request()->input('q'))."%");
+						$query->where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+						->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+						->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
 					})
 					->whereHas('user', function ($query) {
 						$query->where('company_id', auth()->user()->company_id);
@@ -45,9 +45,9 @@ class RecordsController extends Controller
 				}
 			}
 			else {
-				$records = Records::where('lname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
-				->orWhere('fname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
-				->orWhere('mname', 'LIKE', mb_strtoupper(request()->input('q'))."%")
+				$records = Records::where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+				->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+				->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
 				->orderBy('lname', 'asc')->paginate(10);
 			}
 		}

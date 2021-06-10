@@ -30,6 +30,10 @@ class FormsController extends Controller
                         ->whereHas('user', function ($query) {
                             $query->where('brgy_id', auth()->user()->brgy_id);
                         })
+                        ->where(function ($query) {
+                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                        })
                         ->orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
                     }
                     else {
@@ -37,11 +41,18 @@ class FormsController extends Controller
                         ->whereHas('user', function ($query) {
                             $query->where('company_id', auth()->user()->company_id);
                         })
+                        ->where(function ($query) {
+                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                        })
                         ->orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
                     }
                 }
                 else {
-                    $forms = Forms::orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
+                    $forms = Forms::where(function ($query) {
+                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                    })->orderBy('created_at', 'desc')->get();
                 }
             }
             else if(request()->input('view') == 2) {
@@ -140,27 +151,57 @@ class FormsController extends Controller
 
         if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
             if(!is_null(auth()->user()->brgy_id)) {
-                $formsctr = Forms::with('user')
-                ->whereHas('user', function ($query) {
-                    $query->where('brgy_id', auth()->user()->brgy_id);
-                })->where(function ($query) {
-                    $query->where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'));
-                })->get();
+                if(request()->input('view') != null) {
+                    $formsctr = Forms::with('user')
+                    ->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })->where(function ($query) {
+                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                    })->get();
+                }
+                else {
+                    $formsctr = Forms::with('user')
+                    ->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })->where(function ($query) {
+                        $query->where('testDateCollected1', date('Y-m-d'))
+                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    })->get();
+                }
             }
             else {
-                $formsctr = Forms::with('user')
-                ->whereHas('user', function ($query) {
-                    $query->where('company_id', auth()->user()->company_id);
-                })->where(function ($query) {
-                    $query->where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'));
-                })->get();
+                if(request()->input('view') != null) {
+                    $formsctr = Forms::with('user')
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })->where(function ($query) {
+                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                    })->get();
+                }
+                else {
+                    $formsctr = Forms::with('user')
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })->where(function ($query) {
+                        $query->where('testDateCollected1', date('Y-m-d'))
+                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    })->get();
+                }   
             }
         }
         else {
-            $formsctr = Forms::where('testDateCollected1', date('Y-m-d'))
-            ->orWhere('testDateCollected2', date('Y-m-d'))->get();
+            if(request()->input('view') != null) {
+                $formsctr = Forms::where(function ($query) {
+                    $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                    ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                })->get();
+            }
+            else {
+                $formsctr = Forms::where('testDateCollected1', date('Y-m-d'))
+                ->orWhere('testDateCollected2', date('Y-m-d'))->get();
+            }
         }
 
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
