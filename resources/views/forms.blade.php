@@ -38,7 +38,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="view">Filter Type</label>
-                                    <select class="form-control" name="view" id="view">
+                                    <select class="form-control" name="view" id="view" required>
                                       <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
                                       <option value="2" {{(request()->get('view') == '2') ? 'selected' : ''}}>Show All Except Records that has less than 5 Days Exposure History from this day</option>
                                       <option value="3" {{(request()->get('view') == '3') ? 'selected' : ''}}>Show All Except Records that has not been exported to Excel yet</option>
@@ -49,13 +49,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             <label for="sdate">Starting Date</label>
-                                            <input type="date" class="form-control" name="sdate" id="sdate" value="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="sdate" id="sdate" value="{{date('Y-m-d')}}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="edate">Ending Date</label>
-                                                <input type="date" class="form-control" name="edate" id="edate" value="{{date('Y-m-d')}}">
+                                                <input type="date" class="form-control" name="edate" id="edate" value="{{date('Y-m-d')}}" required>
                                             </div>
                                         </div>
                                     </div>
