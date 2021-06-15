@@ -44,31 +44,17 @@
         <div class="card mb-3">
             <div class="card-header">Daily Report</div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead class="text-center">
-                            <tr class="bg-light">
-                                <th colspan="2">For {{date('M d, Y')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Number of Patients Swabbed</td>
-                                <td class="font-weight-bold text-center">{{$listToday
-                                ->where('isPresentOnSwabDay', 1)
-                                ->count()}}</td>
-                            </tr>
-                            <tr>
-                                <td>Number of Patients not Present</td>
-                                <td class="font-weight-bold text-center">{{$notPresent->count()}}</td>
-                            </tr>
-                            <tr class="font-weight-bold bg-light">
-                                <td>TOTAL</td>
-                                <td class="font-weight-bold text-center">{{$listToday->count()}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div id="chart" style="height: 300px;"></div>
+                <script>
+                    const chart = new Chartisan({
+                      el: '#chart',
+                      url: "@chart('daily_swab_chart')",
+                      hooks: new ChartisanHooks()
+                      .title('Number of Swabbed patients for {{date("M d, Y")}}')
+                      .pieColors(['green', 'red'])
+                      .datasets('pie')
+                    })
+                </script>
                 <hr>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dt_table5">
