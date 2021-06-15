@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>
+                <div class="font-weight-bold">
                     Line List
                 </div>
                 <div>

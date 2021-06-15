@@ -5,7 +5,7 @@
         <form action="{{route('linelist.lasalle.store')}}" method="POST">
             @csrf
             <div class="card">
-                <div class="card-header">Create LaSalle Linelist</div>
+                <div class="card-header font-weight-bold">Create LaSalle Linelist</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button class="btn btn-primary" onclick="return confirm('This will now process the linelist. Click OK to proceed.')" type="submit">Submit</button>
+                    <button class="btn btn-success" onclick="return confirm('This will now process the linelist. Click OK to proceed.')" type="submit"><i class="fas fa-save mr-2"></i>Save</button>
                 </div>
             </div>
         </form>
