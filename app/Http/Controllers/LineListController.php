@@ -20,7 +20,7 @@ class LineListController extends Controller
     public function createLineList(Request $request) {
         if($request->isOverride == 1) {
             //$query = Records::orderBy('lname', 'asc')->get();
-            $query = Forms::where('testDateCollected1', date('2021-06-14'))->orWhere('testDateCollected2', date('2021-06-14'))->pluck('records_id')->toArray();
+            $query = Forms::whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])->pluck('records_id')->toArray();
 
             $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
         }

@@ -15,11 +15,31 @@
                         <div class="form-check">
                           <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" name="isOverride" id="isOverride" value="1">
-                            Override Mode
+                            Override Mode <i>(Please check if for processing late/reject records)</i>
                           </label>
                         </div>
-                        <button class="btn btn-success" name="submit" value="1">Create LaSalle</button>
-                        <button class="btn btn-success" name="submit" value="2">Create ONI</button>
+                        <div id="showOverride">
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="sFrom">From</label>
+                                      <input type="date" class="form-control" name="sFrom" id="sFrom" min="{{date('Y-m-d', strtotime("-3 Months"))}}" value="{{date('Y-m-d', strtotime("yesterday"))}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sTo">To</label>
+                                        <input type="date" class="form-control" name="sTo" id="sTo" min="{{date('Y-m-d', strtotime("-3 Months"))}}" value="{{date('Y-m-d')}}" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="text-right">
+                            <button class="btn btn-success" name="submit" value="1">Create LaSalle</button>
+                            <button class="btn btn-success" name="submit" value="2">Create ONI</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -69,4 +89,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#isOverride').change(function (e) { 
+        e.preventDefault();
+        if($(this).prop('checked') == true) {
+            $('#showOverride').show();
+        }
+        else {
+            $('#showOverride').hide();
+        }
+    }).trigger('change');
+</script>
 @endsection
