@@ -5,8 +5,8 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>
-                CIF List
+                <div class="font-weight-bold">
+                Case Investigation Form List
                 </div>
                 <div>
                     @if($records->count() > 0)

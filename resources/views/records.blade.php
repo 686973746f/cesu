@@ -5,8 +5,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div>
-                        List of Patients
+                    <div class="font-weight-bold">
+                        Patient List
                     </div>
                     <div>
                         <a href="{{route('records.create')}}" class="btn btn-success"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Add Patient</a>

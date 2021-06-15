@@ -81,21 +81,31 @@ class FormsController extends Controller
                 if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                     if(!is_null(auth()->user()->brgy_id)) {
                         $forms = Forms::with('user')
-                        ->where('isExported', '0')
-                        ->whereHas('user', function ($query) {
+                        ->where(function ($query) {
+                            $query->where('isExported', 0)
+                            ->orWhereNull('isExported');
+                        })->whereHas('user', function ($query) {
                             $query->where('brgy_id', auth()->user()->brgy_id);
                         })->orderBy('created_at', 'desc')->get();
                     }
                     else {
                         $forms = Forms::with('user')
-                        ->where('isExported', '0')
-                        ->whereHas('user', function ($query) {
+                        ->where(function ($query) {
+                            $query->where('isExported', 0)
+                            ->orWhereNull('isExported');
+                        })->whereHas('user', function ($query) {
                             $query->where('company_id', auth()->user()->company_id);
                         })->orderBy('created_at', 'desc')->get();
                     }
                 }
                 else {
-                    $forms = Forms::where('isExported', '0')->orderBy('created_at', 'desc')->get();
+                    $forms = Forms::where(function ($query) {
+                        $query->where('isExported', 0)
+                        ->orWhereNull('isExported');
+                    })->where(function ($query) {
+                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                    })->orderBy('created_at', 'desc')->get();
                 }
             }
         }

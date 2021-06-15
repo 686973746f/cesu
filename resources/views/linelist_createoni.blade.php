@@ -5,7 +5,7 @@
         <form action="{{route('linelist.oni.store')}}" method="POST">
             @csrf
             <div class="card">
-                <div class="card-header">
+                <div class="card-header font-weight-bold">
                     Create ONI Line List
                 </div>
                 <div class="card-body">
@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button class="btn btn-primary" onclick="return confirm('This will now process the linelist. Click OK to proceed.')" type="submit">Submit</button>
+                    <button class="btn btn-success" onclick="return confirm('This will now process the linelist. Click OK to proceed.')" type="submit"><i class="fas fa-save mr-2"></i>Save</button>
                 </div>
             </div>
         </form>
