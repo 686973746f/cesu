@@ -50,6 +50,10 @@ class ReportController extends Controller
         ]);
     }
 
+    public function viewSituational() {
+        return view('report_situational');
+    }
+
     public function makeAllSuspected() {
         $query = Forms::where(function($query) {
             $query->where('testDateCollected1', date('Y-m-d'))

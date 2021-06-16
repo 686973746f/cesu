@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $charts->register([
             \App\Charts\SampleChart::class,
             \App\Charts\DailySwabChart::class,
+            \App\Charts\SituationalDailyConfirmedActiveChart::class,
         ]);
     }
 }

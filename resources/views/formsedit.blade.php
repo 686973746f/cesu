@@ -2791,26 +2791,6 @@
                 if($(this).val() == '0') {
                     $('#divisOFW').hide();
                     $('#OFWCountyOfOrigin').prop('required', false);
-
-                    /*
-                    $('#oaddresslotbldg').prop({'required': false, 'disabled': true});
-                    $('#oaddressstreet').prop({'required': false, 'disabled': true});
-                    $('#oaddressscity').prop({'required': false, 'disabled': true});
-                    $('#oaddresssprovince').prop({'required': false, 'disabled': true});
-                    $('#oaddressscountry').prop({'required': false, 'disabled': true});
-                    $('#placeofwork').prop({'required': false, 'disabled': true});
-                    $('#employername').prop({'required': false, 'disabled': true});
-                    $('#employercontactnumber').prop({'required': false, 'disabled': true});
-
-                    $('#oaddresslotbldg').val('N/A');
-                    $('#oaddressstreet').val('N/A');
-                    $('#oaddressscity').val('N/A');
-                    $('#oaddresssprovince').val('N/A');
-                    $('#oaddressscountry').val('N/A');
-                    $('#placeofwork').val('N/A');
-                    $('#employername').val('N/A');
-                    $('#employercontactnumber').val('N/A');
-                    */
                 }
                 else {
                     $('#divisOFW').show();
@@ -2818,25 +2798,6 @@
                     control.clear();
                     $('#oaddressscountry').val('N/A');
                     $('#OFWCountyOfOrigin').prop('required', true);
-
-                    /*
-                    $('#oaddresslotbldg').prop({required: true, disabled: false});
-                    $('#oaddressstreet').prop({required: true, disabled: false});
-                    $('#oaddressscity').prop({required: true, disabled: false});
-                    $('#oaddresssprovince').prop({required: true, disabled: false});
-                    $('#oaddressscountry').prop({required: true, disabled: false});
-                    $('#placeofwork').prop({required: true, disabled: false});
-                    $('#employername').prop({required: true, disabled: false});
-                    $('#employercontactnumber').prop({required: true, disabled: false});
-
-                    $('#oaddresslotbldg').val('');
-                    $('#oaddressstreet').val('');
-                    $('#oaddressscity').val('');
-                    $('#oaddresssprovince').val('');
-                    $('#placeofwork').val('');
-                    $('#employername').val('');
-                    $('#employercontactnumber').val('');
-                    */
                 }
             }).trigger('change');
 
@@ -3030,6 +2991,13 @@
                     $('#divResultOthers1').hide();
                     $('#testResultOtherRemarks1').empty();
                     $('#testResultOtherRemarks1').prop('required', false);
+
+                    if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
+                        $('#testDateReleased1').prop('required', true);
+                    }
+                    else {
+                        $('#testDateReleased1').prop('required', false);
+                    }
                 }
             }).trigger('change');
 
@@ -3068,6 +3036,13 @@
                     $('#divResultOthers2').hide();
                     $('#testResultOtherRemarks2').empty();
                     $('#testResultOtherRemarks2').prop('required', false);
+
+                    if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
+                        $('#testDateReleased2').prop('required', true);
+                    }
+                    else {
+                        $('#testDateReleased2').prop('required', false);
+                    }
                 }
             }).trigger('change');
 

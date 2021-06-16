@@ -400,7 +400,7 @@ class FormsController extends Controller
                         $oniTimeFinal = $request->oniTimeCollected1;
                     }
                     else {
-                        if($request->testType1 == "OPS" || $request->testType1 == "NPS") {
+                        if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
                             $trigger = 0;
                             $addMinutes = 0;
 
@@ -440,7 +440,7 @@ class FormsController extends Controller
                             $oniTimeFinal2 = $request->oniTimeCollected2;
                         }
                         else {
-                            if($request->testType2 == "OPS" || $request->testType2 == "NPS") {
+                            if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
                                 $trigger = 0;
                                 $addMinutes = 0;
 
@@ -484,8 +484,48 @@ class FormsController extends Controller
                     $oniTimeFinal2 = ($request->filled('oniTimeCollected2')) ? $request->oniTimeCollected2 : NULL;
                 }
 
+                //For late encoding ng CIF, automatic ilalagay sa tamang Case Classification base sa Resulta ng Test Type
+                if($request->testResult1 != "PENDING") {
+                    if($request->testResult1 == "POSITIVE") {
+                        $caseClassi = 'Confirmed';
+                    }
+                    else if($request->testResult1 == "NEGATIVE") {
+                        $caseClassi = 'Non-COVID-19 Case';
+                    }
+                    else {
+                        //Equivocal and others will be placed here
+                        $caseClassi = $request->caseClassification;
+                    }
+                    $attended = 1;
+                }
+                else {
+                    $caseClassi = $request->caseClassification;
+                    $attended = null;
+                }
+
+                if($request->filled('testType2')) {
+                    if($request->testResult2 != "PENDING") {
+                        if($request->testResult2 == "POSITIVE") {
+                            $caseClassi = 'Confirmed';
+                        }
+                        else if($request->testResult2 == "NEGATIVE") {
+                            $caseClassi = 'Non-COVID-19 Case';
+                        }
+                        else {
+                            //Equivocal and others will be placed here
+                            $caseClassi = $request->caseClassification;
+                        }
+                        $attended = 1;
+                    }
+                    else {
+                        $caseClassi = $request->caseClassification;
+                        $attended = null;
+                    }
+                }
+
                 $request->user()->form()->create([
                     'status' => 'approved',
+                    'isPresentOnSwabDay' => $attended,
                     'records_id' => $id,
                     'drunit' => $request->drunit,
                     'drregion' => $request->drregion,
@@ -508,7 +548,7 @@ class FormsController extends Controller
                     'dispoName' => $request->dispositionName,
                     'dispoDate' => $request->dispositionDate,
                     'healthStatus' => $request->healthStatus,
-                    'caseClassification' => $request->caseClassification,
+                    'caseClassification' => $caseClassi,
                     'isHealthCareWorker' => $request->isHealthCareWorker,
                     'healthCareCompanyName' => $request->healthCareCompanyName,
                     'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
@@ -753,6 +793,7 @@ class FormsController extends Controller
     {
         $rec = Forms::findOrFail($id);
         
+        $oldAttendance = $rec->isPresentOnSwabDay;
         $olddate = $rec->testDateCollected1;
         $oldTestType1 = $rec->testType1;
         $oldTestType2 = $rec->testType2;
@@ -767,18 +808,73 @@ class FormsController extends Controller
             $hrp = $request->highRiskPregnancy;
         }
 
-        if($request->testResult1 == 'PENDING') {
-            $changeCC = $request->caseClassification;
-        }
-        else if($request->testResult1 == 'POSITIVE') {
-            $changeCC = 'Confirmed';
-        }
-        else if($request->testResult1 == 'NEGATIVE') {
-            if($request->pType == 'CLOSE CONTACT') {
-                $changeCC = 'Suspect';
+        if($request->testResult1 != "PENDING") {
+            if($request->testResult1 == "POSITIVE") {
+                $caseClassi = 'Confirmed';
+            }
+            else if($request->testResult1 == "NEGATIVE") {
+                if($request->pType == 'CLOSE CONTACT') {
+                    $caseClassi = 'Suspect';
+                }
+                else {
+                    $caseClassi = 'Non-COVID-19 Case';
+                }
             }
             else {
-                $changeCC = 'Non-COVID-19 Case';
+                $caseClassi = $request->caseClassification;
+            }
+
+            $attended = 1;
+        }
+        else {
+            $caseClassi = $request->caseClassification;
+
+            if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
+                if(!is_null($oldAttendance)) {
+                    $attended = $oldAttendance;
+                }
+                else {
+                    $attended = null;
+                }
+            }
+            else {
+                $attended = null;
+            }
+        }
+
+        if($request->filled('testType2')) {
+            if($request->testResult2 != "PENDING") {
+                if($request->testResult2 == "POSITIVE") {
+                    $caseClassi = 'Confirmed';
+                }
+                else if($request->testResult2 == "NEGATIVE") {
+                    if($request->pType == 'CLOSE CONTACT') {
+                        $caseClassi = 'Suspect';
+                    }
+                    else {
+                        $caseClassi = 'Non-COVID-19 Case';
+                    }
+                }
+                else {
+                    //Equivocal and others will be placed here
+                    $caseClassi = $request->caseClassification;
+                }
+                $attended = 1;
+            }
+            else {
+                $caseClassi = $request->caseClassification;
+
+                if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
+                    if(!is_null($oldAttendance)) {
+                        $attended = $oldAttendance;
+                    }
+                    else {
+                        $attended = null;
+                    }
+                }
+                else {
+                    $attended = null;
+                }
             }
         }
 
@@ -799,7 +895,7 @@ class FormsController extends Controller
             }
         }
 
-        if($request->testType1 == "OPS" || $request->testType1 == "NPS") {
+        if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
             if(!is_null($currentPhilhealth)) {
                 if($request->filled('oniTimeCollected1')) {
                     $oniTimeFinal = $request->oniTimeCollected1;
@@ -843,7 +939,7 @@ class FormsController extends Controller
             $oniTimeFinal = $request->oniTimeCollected1;
         }
         
-        if($request->testType2 == "OPS" || $request->testType2 == "NPS") {
+        if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
             if(!is_null($currentPhilhealth)) {
                 if($request->filled('oniTimeCollected2')) {
                     $oniTimeFinal2 = $request->oniTimeCollected2;
@@ -891,7 +987,7 @@ class FormsController extends Controller
             $form = Forms::where('id', $id)->update([
                 'isExported' => '0',
                 'exportedDate' => null,
-                'isPresentOnSwabDay' => null,
+                'isPresentOnSwabDay' => $attended,
                 'drunit' => $request->drunit,
                 'drregion' => $request->drregion,
                 'interviewerName' => $request->interviewerName,
@@ -913,7 +1009,7 @@ class FormsController extends Controller
                 'dispoName' => $request->dispositionName,
                 'dispoDate' => $request->dispositionDate,
                 'healthStatus' => $request->healthStatus,
-                'caseClassification' => $changeCC,
+                'caseClassification' => $caseClassi,
                 'isHealthCareWorker' => $request->isHealthCareWorker,
                 'healthCareCompanyName' => $request->healthCareCompanyName,
                 'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
