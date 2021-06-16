@@ -74,7 +74,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstTestDateRelease = (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A';
             $displayFirstLaboratory = strtoupper($form->testLaboratory1);
             $displayFirstTestType = $form->testType1;
-            $displayFirstTestTypeOtherRemarks = ($form->testType1 == "OTHERS" || $form->testType1 == "ANTIGEN") ? $form->testTypeOtherRemarks1 : "N/A";
+            $displayFirstAntigenRemarks = ($form->testType1 == "ANTIGEN") ? $form->testTypeAntigenRemarks1 : "N/A";
+            $displayFirstTestTypeOtherRemarks = ($form->testType1 == "OTHERS") ? $form->testTypeOtherRemarks1 : "N/A";
             $displayFirstTestResult = $form->testResult1;
             $displayFirstTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
 
@@ -83,6 +84,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displaySecondTestDateRelease = "N/A";
             $displaySecondLaboratory = "N/A";
             $displaySecondTestType = "N/A";
+            $displaySecondAntigenRemarks = "N/A";
             $displaySecondTestTypeOtherRemarks = "N/A";
             $displaySecondTestResult = "N/A";
             $displaySecondTestResultOtherRemarks = "N/A";
@@ -94,7 +96,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstTestDateRelease = (!is_null($form->testDateReleased2)) ? date('m/d/Y', strtotime($form->testDateReleased2)) : 'N/A';
             $displayFirstLaboratory = strtoupper($form->testLaboratory2);
             $displayFirstTestType = $form->testType2;
-            $displayFirstTestTypeOtherRemarks = ($form->testType2 == "OTHERS" || $form->testType2 == "ANTIGEN") ? $form->testTypeOtherRemarks2 : "N/A";
+            $displayFirstAntigenRemarks = ($form->testType2 == "ANTIGEN") ? $form->testTypeAntigenRemarks2 : "N/A";
+            $displayFirstTestTypeOtherRemarks = ($form->testType2 == "OTHERS") ? $form->testTypeOtherRemarks2 : "N/A";
             $displayFirstTestResult = $form->testResult2;
             $displayFirstTestResultOtherRemarks = ($form->testResult2 == "OTHERS") ? $form->testResultOtherRemarks2 : "N/A";
 
@@ -103,7 +106,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displaySecondTestDateRelease = (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A';
             $displaySecondLaboratory = strtoupper($form->testLaboratory1);
             $displaySecondTestType = $form->testType1;
-            $displaySecondTestTypeOtherRemarks = ($form->testType1 == "OTHERS" || $form->testType1 == "ANTIGEN") ? $form->testTypeOtherRemarks1 : "N/A";
+            $displaySecondAntigenRemarks = ($form->testType1 == "ANTIGEN") ? $form->testTypeAntigenRemarks1 : "N/A";
+            $displaySecondTestTypeOtherRemarks = ($form->testType1 == "OTHERS") ? $form->testTypeOtherRemarks1 : "N/A";
             $displaySecondTestResult = $form->testResult1;
             $displaySecondTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
         }
@@ -586,6 +590,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Date Released 1 [MM/DD/YYYY]',
             'Laboratory 1',
             'Type of Test 1',
+            'Type of Test Antigen Reason 1',
             'Type of Test Reason 1',
             'Results 1',
             'Results Others Specify 1',
@@ -595,6 +600,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Date Released 2 [MM/DD/YYYY]',
             'Laboratory 2',
             'Type of Test 2',
+            'Type of Test Antigen Reason 2',
             'Type of Test Reason 2',
             'Results 2',
             'Results Others Specify 2',
