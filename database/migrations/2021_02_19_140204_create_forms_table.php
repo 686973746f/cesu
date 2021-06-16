@@ -96,6 +96,7 @@ class CreateFormsTable extends Migration
             $table->time('oniTimeCollected1')->nullable();
             $table->string('testLaboratory1')->nullable();
             $table->string('testType1');
+            $table->string('testTypeAntigenRemarks1')->nullable();
             $table->string('testTypeOtherRemarks1')->nullable();
             $table->string('testResult1');
             $table->string('testResultOtherRemarks1')->nullable();
@@ -105,6 +106,7 @@ class CreateFormsTable extends Migration
             $table->date('testDateReleased2')->nullable();
             $table->string('testLaboratory2')->nullable();
             $table->string('testType2')->nullable();
+            $table->string('testTypeAntigenRemarks2')->nullable();
             $table->string('testTypeOtherRemarks2')->nullable();
             $table->string('testResult2')->nullable();
             $table->string('testResultOtherRemarks2')->nullable();

@@ -1320,7 +1320,7 @@
                                               <div id="divTypeOthers1">
                                                   <div class="form-group">
                                                     <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason:</label>
-                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', $records->testTypeOtherRemarks1)}}">
+                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}">
                                                   </div>
                                               </div>
                                         </div>
@@ -1338,7 +1338,7 @@
                                               <div id="divResultOthers1">
                                                   <div class="form-group">
                                                       <label for="testResultOtherRemarks1">Specify</label>
-                                                      <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', $records->testResultOtherRemarks1)}}">
+                                                      <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}">
                                                   </div>
                                               </div>
                                               @if($records->testType1 == "ANTIGEN")
@@ -1392,7 +1392,7 @@
                                             <div id="divTypeOthers2">
                                                 <div class="form-group">
                                                   <label for="testTypeOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
-                                                  <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2', $records->testTypeOtherRemarks2)}}">
+                                                  <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2', ($records->testType2 == "ANTIGEN") ? $records->testTypeAntigenRemarks2 : $records->testResultOtherRemarks2)}}">
                                                 </div>
                                             </div>
                                         </div>

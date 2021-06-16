@@ -595,7 +595,8 @@ class FormsController extends Controller
                     'testDateReleased1' => $request->testDateReleased1,
                     'testLaboratory1' => $request->testLaboratory1,
                     'testType1' => $request->testType1,
-                    'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? $request->testTypeOtherRemarks1 : NULL,
+                    'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                    'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
                     'testResult1' => $request->testResult1,
                     'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
         
@@ -604,7 +605,8 @@ class FormsController extends Controller
                     'testDateReleased2' => $request->testDateReleased2,
                     'testLaboratory2' => $request->testLaboratory2,
                     'testType2' => (!is_null($request->testType2)) ? $request->testType2 : NULL,
-                    'testTypeOtherRemarks2' => ($request->testType2 == "ANTIGEN" || $request->testType2 == "OTHERS") ? $request->testTypeOtherRemarks2 : NULL,
+                    'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
+                    'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
                     'testResult2' => (!is_null($request->testType2)) ? $request->testResult2 : NULL,
                     'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
         
@@ -1056,7 +1058,8 @@ class FormsController extends Controller
                 'testDateReleased1' => $request->testDateReleased1,
                 'testLaboratory1' => $request->testLaboratory1,
                 'testType1' => $request->testType1,
-                'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? $request->testTypeOtherRemarks1 : NULL,
+                'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
                 'testResult1' => $request->testResult1,
                 'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
     
@@ -1065,7 +1068,8 @@ class FormsController extends Controller
                 'testDateReleased2' => $request->testDateReleased2,
                 'testLaboratory2' => $request->testLaboratory2,
                 'testType2' => ($request->testType2 != "N/A") ? $request->testType2 : NULL,
-                'testTypeOtherRemarks2' => ($request->testType2 == "ANTIGEN" || $request->testType2 == "OTHERS") ? $request->testTypeOtherRemarks2 : NULL,
+                'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
+                'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
                 'testResult2' => ($request->testType2 != "N/A") ? $request->testResult2 : NULL,
                 'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
     
