@@ -34,7 +34,7 @@
                                 Filter
                             </a>
                         </div>
-                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                        <div id="section1ContentId" class="collapse in {{(request()->get('view')) ? 'show' : ''}}" role="tabpanel" aria-labelledby="section1HeaderId">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="view">Filter Type</label>
@@ -49,13 +49,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             <label for="sdate">Starting Date</label>
-                                            <input type="date" class="form-control" name="sdate" id="sdate" value="{{date('Y-m-d')}}" required>
+                                            <input type="date" class="form-control" name="sdate" id="sdate" value="{{(request()->get('view')) ? request()->get('sdate') : date('Y-m-d')}}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="edate">Ending Date</label>
-                                                <input type="date" class="form-control" name="edate" id="edate" value="{{date('Y-m-d')}}" required>
+                                                <input type="date" class="form-control" name="edate" id="edate" value="{{(request()->get('view')) ? request()->get('edate') : date('Y-m-d')}}" required>
                                             </div>
                                         </div>
                                     </div>

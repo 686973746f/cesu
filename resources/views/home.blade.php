@@ -25,7 +25,7 @@
                     <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block">Line List</a>
                     @endif
                     <hr>
-                    <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-chart-bar mr-2"></i>Reports</a>
+                    <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-chart-bar mr-2"></i>Reports <i class="text-warning font-weight-bold">[Under Development]</i></a>
                     @if(auth()->user()->isAdmin == 1)
                         <hr>
                         <a href="{{route('adminpanel.index')}}" class="btn btn-primary btn-lg btn-block">Admin Panel</a>

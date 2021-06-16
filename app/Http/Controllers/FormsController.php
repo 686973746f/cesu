@@ -84,6 +84,9 @@ class FormsController extends Controller
                         ->where(function ($query) {
                             $query->where('isExported', 0)
                             ->orWhereNull('isExported');
+                        })->where(function ($query) {
+                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
                         })->whereHas('user', function ($query) {
                             $query->where('brgy_id', auth()->user()->brgy_id);
                         })->orderBy('created_at', 'desc')->get();
@@ -93,6 +96,9 @@ class FormsController extends Controller
                         ->where(function ($query) {
                             $query->where('isExported', 0)
                             ->orWhereNull('isExported');
+                        })->where(function ($query) {
+                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
+                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
                         })->whereHas('user', function ($query) {
                             $query->where('company_id', auth()->user()->company_id);
                         })->orderBy('created_at', 'desc')->get();
