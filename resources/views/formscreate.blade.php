@@ -94,7 +94,7 @@
                         <div class="col-md-4">
                             @php
                                 if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
-                                    $intMobile = '09';
+                                    $intMobile = '09190664324';
                                 }
                                 else {
                                     $intMobile = '09190664324';

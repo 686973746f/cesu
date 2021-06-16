@@ -2686,9 +2686,6 @@
                     });
 			    });
             });
-
-            //$('#OFWCountyOfOrigin').selectize();
-            //$('#FNTCountryOfOrigin').selectize();
         
             $('#divYes1').hide();
             $('#divYes5').hide();
