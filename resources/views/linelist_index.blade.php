@@ -110,14 +110,26 @@
                             <th class="text-center">Name</th>
                             <th class="text-center">Specimen Location</th>
                             <th class="text-center">Specimen Date Collected</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list as $key => $item)
+                        @php
+                        if(!is_null($item->oniSpecType)) {
+                            $link = 'oni';
+                        }
+                        else {
+                            $link = 'lasalle';
+                        }
+                        @endphp
                         <tr>
                             <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
                             <td class="text-center">{{(!is_null($item->oniSpecType)) ? 'ONI' : 'LASALLE'}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($item->dateAndTimeCollected))}}</td>
+                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=legal">Print (Legal)</a></td>
+                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=a4">Print (A4)</a></td>
                         </tr>
                         @endforeach
                     </tbody>
