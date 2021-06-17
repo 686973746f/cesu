@@ -1179,8 +1179,8 @@
                                             <div class="form-group">
                                               <label for="highRiskPregnancy"><span class="text-danger font-weight-bold">*</span>High Risk Pregnancy?</label>
                                               <select class="form-control" name="highRiskPregnancy" id="highRiskPregnancy" {{($records->gender == "FEMALE" && $records->isPregnant == 1) ? 'required' : 'disabled'}}>
-                                                <option value="0" {{(is_null(old('highRiskPregnancy')) || old('highRiskPregnancy') == 0) ? 'selected' : ''}}>No</option>
-                                                <option value="1" {{(old('highRiskPregnancy') == 1) ? 'selected' : ''}}>Yes</option>
+                                                <option value="0" {{(old('highRiskPregnancy') == 0) ? 'selected' : ''}}>No</option>
+                                                <option value="1" {{(is_null(old('highRiskPregnancy')) || old('highRiskPregnancy') == 1) ? 'selected' : ''}}>Yes</option>
                                               </select>
                                             </div>
                                         </div>

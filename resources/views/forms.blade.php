@@ -31,7 +31,7 @@
                     <div class="card mb-3">
                         <div class="card-header" role="tab" id="section1HeaderId">
                             <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
-                                Filter
+                                Filter Data
                             </a>
                         </div>
                         <div id="section1ContentId" class="collapse in {{(request()->get('view')) ? 'show' : ''}}" role="tabpanel" aria-labelledby="section1HeaderId">
@@ -249,6 +249,12 @@
                                 @error('changeType')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
+                                <div id="ifAntigenOrOthers">
+                                    <div class="form-group">
+                                      <label for="reasonRemarks">Specify Type/Reason</label>
+                                      <input type="text" class="form-control" name="reasonRemarks" id="reasonRemarks">
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="submit" name="submit" value="changetype">Submit</button>
@@ -349,5 +355,17 @@
             $('#exportBtn').attr('disabled',true);}
         }
     });
+
+    $('#changeType').change(function (e) { 
+        e.preventDefault();
+          if($(this).val() == 'ANTIGEN' || $(this).val() == 'OTHERS') {
+            $('#ifAntigenOrOthers').show();
+            $('#reasonRemarks').prop('required', true);
+          }
+          else {
+            $('#ifAntigenOrOthers').hide();
+            $('#reasonRemarks').prop('required', false);
+          }
+    }).trigger('change');
 </script>
 @endsection

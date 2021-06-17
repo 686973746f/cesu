@@ -294,20 +294,40 @@ class FormsController extends Controller
             $request->validate([
                 'listToPrint' => 'required',
                 'changeType' => 'required',
+                'reasonRemarks' => ($request->changeType == "ANTIGEN" || $request->changeType == "OTHERS") ? 'required' : 'nullable',
             ]);
+
+            if ($request->changeType == "ANTIGEN" || $request->changeType == "OTHERS") {
+                if($request->changeType == "ANTIGEN") {
+                    $antigenReason = mb_strtoupper($request->reasonRemarks);
+                    $otherReason = null;
+                }
+                else {
+                    $antigenReason = null;
+                    $otherReason = mb_strtoupper($request->reasonRemarks);
+                }
+            }
+            else {
+                $antigenReason = null;
+                $otherReason = null;
+            }
 
             $models = Forms::whereIn('id', $list)->get();
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
                     $query = Forms::where('id', $item->id)->update([
                         'testType2' => $request->changeType,
-                        'isExported' => '0'
+                        'isExported' => '0',
+                        'testTypeAntigenRemarks2' => $antigenReason,
+                        'testTypeOtherRemarks2' => $otherReason
                     ]);
                 }
                 else {
                     $query = Forms::where('id', $item->id)->update([
                         'testType1' => $request->changeType,
-                        'isExported' => '0'
+                        'isExported' => '0',
+                        'testTypeAntigenRemarks1' => $antigenReason,
+                        'testTypeOtherRemarks1' => $otherReason
                     ]);
                 }
             }
