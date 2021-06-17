@@ -74,10 +74,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            @if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id))
+                            @if(!auth()->user()->isCesuAccount())
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
-                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{auth()->user()->name}}" readonly required>
+                                <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{(!is_null(auth()->user()->defaultInterviewer())) ? auth()->user()->defaultInterviewer() : auth()->user()->name}}" readonly required>
                             </div>
                             @else
                             <div class="form-group">
