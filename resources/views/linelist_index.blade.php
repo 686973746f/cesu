@@ -51,38 +51,79 @@
                 </div>
                 <hr>
             @endif
-            <table class="table table-bordered text-center">
-                <thead class="bg-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Type</th>
-                        <th>Number of Patients</th>
-                        <th>Date Created</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list as $key => $item)
-                    @php
-                    if($item->type == 1) {
-                        $link = 'oni';
-                    }
-                    else {
-                        $link = 'lasalle';
-                    }
-                    @endphp
-                    <tr>
-                        <td scope="row">{{$item->id}}</td>
-                        <td>{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
-                        <td>{{$item->linelistsub->where('linelist_masters_id', $item->id)->count()}}</td>
-                        <td>{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
-                        <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=legal">Print (Legal)</a></td>
-                        <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4">Print (A4)</a></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+
+            <form action="{{route('linelist.index')}}" method="GET">
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search Name of Patient if Inside Linelists">
+                            <div class="input-group-append">
+                              <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                @if(!request()->input('q'))
+                <table class="table table-bordered text-center">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Number of Patients</th>
+                            <th>Date Created</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $key => $item)
+                        @php
+                        if($item->type == 1) {
+                            $link = 'oni';
+                        }
+                        else {
+                            $link = 'lasalle';
+                        }
+                        @endphp
+                        <tr>
+                            <td scope="row">{{$item->id}}</td>
+                            <td>{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
+                            <td>{{$item->linelistsub->where('linelist_masters_id', $item->id)->count()}}</td>
+                            <td>{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
+                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=legal">Print (Legal)</a></td>
+                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4">Print (A4)</a></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @else
+                <div class="alert alert-info" role="alert">
+                    <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>The search returned {{$list->count()}} {{Str::plural('result', $list->count())}}. <a href="{{route('linelist.index')}}">GO BACK</a>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Specimen Location</th>
+                            <th class="text-center">Specimen Date Collected</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $key => $item)
+                        <tr>
+                            <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
+                            <td class="text-center">{{(!is_null($item->oniSpecType)) ? 'ONI' : 'LASALLE'}}</td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($item->dateAndTimeCollected))}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
+            </div>
             <div class="pagination justify-content-center mt-3">
                 {{$list->appends(request()->input())->links()}}
             </div>

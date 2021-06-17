@@ -12,7 +12,17 @@ use App\Models\LinelistMasters;
 class LineListController extends Controller
 {
     public function index() {
-        $list = LinelistMasters::orderby('created_at', 'desc')->paginate(10);
+        if(request()->input('q')) {
+            $list = LinelistSubs::with('records')
+            ->whereHas('records', function ($query) {
+                $query->where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+                ->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
+                ->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
+            })->orderby('created_at', 'desc')->paginate(10);
+        }
+        else {
+            $list = LinelistMasters::orderby('created_at', 'desc')->paginate(10);
+        }
 
         return view('linelist_index', ['list' => $list]);
     }

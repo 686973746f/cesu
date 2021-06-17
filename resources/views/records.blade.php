@@ -31,7 +31,7 @@
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search">
                                 <div class="input-group-append">
-                                  <button class="btn btn-success" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                  <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
