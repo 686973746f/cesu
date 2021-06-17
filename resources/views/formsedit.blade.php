@@ -81,7 +81,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            @if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id))
+                            @if(!$records->user->isCesuAccount() && !auth()->user()->isCesuAccount())
                             <div class="form-group">
                                 <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
                                 <input type="text" name="interviewerName" id="interviewerName" class="form-control" value="{{old('interviewerName', $records->interviewerName)}}" readonly required>
@@ -92,7 +92,7 @@
                               <select name="interviewerName" id="interviewerName" required>
                                 <option value="" disabled {{(empty(old('interviewerName', $records->interviewerName))) ? 'selected' : ''}}>Choose...</option>
                                   @foreach($interviewers as $key => $interviewer)
-                                  <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName', $records->interviewerName) == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname}}{{(!is_null($interviewer->brgy_id)) ? " (".$interviewer->brgy->brgyName.")" : ''}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
+                                  <option value="{{$interviewer->lname.", ".$interviewer->fname}}" {{(old('interviewerName', $records->interviewerName) == $interviewer->lname.", ".$interviewer->fname || $records->user->defaultInterviewer() == $interviewer->lname.", ".$interviewer->fname) ? 'selected' : ''}}>{{$interviewer->lname.", ".$interviewer->fname." ".$interviewer->mname}}{{(!is_null($interviewer->brgy_id)) ? " (".$interviewer->brgy->brgyName.")" : ''}}{{(!is_null($interviewer->desc)) ? " - ".$interviewer->desc : ""}}</option>
                                   @endforeach
                               </select>
                             </div>

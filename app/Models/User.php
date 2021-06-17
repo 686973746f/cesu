@@ -95,6 +95,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Interviewers::class);
     }
 
+    public function defaultInterviewer() {
+        if(!is_null($this->interviewer_id)) {
+            $i = Interviewers::find($this->interviewer_id);
+            
+            return $i->lname.", ".$i->fname;
+        }
+        else {
+            return null;
+        }
+    }
+
     public function linelistmaster() {
         return $this->hasMany(LinelistMasters::class);
     }

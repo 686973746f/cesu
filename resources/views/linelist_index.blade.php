@@ -104,6 +104,7 @@
                 <div class="alert alert-info" role="alert">
                     <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>The search returned {{$list->count()}} {{Str::plural('result', $list->count())}}. <a href="{{route('linelist.index')}}">GO BACK</a>
                 </div>
+                @if($list->count())
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -134,6 +135,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                @endif
                 @endif
             </div>
             <div class="pagination justify-content-center mt-3">
