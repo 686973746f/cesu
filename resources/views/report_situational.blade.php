@@ -10,11 +10,11 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         const chart = new Chartisan({
             el: '#chart',
-            url: "@chart('situational_daily_confirmed_active_chart')",
+            url: "{{route('charts.situational_daily_confirmed_active_chart')}}",
             error: {
                 color: '#ff00ff',
                 size: [30, 30],
