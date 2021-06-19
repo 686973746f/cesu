@@ -45,6 +45,11 @@
                         <li class="nav-item">
                             <a class="nav-link {{Request::is('report*') ? 'active' : ''}}" href="{{route('report.index')}}">Reports</a>
                         </li>
+                        @if(auth()->user()->isAdmin == 1)
+                        <li class="nav-item">
+                            <a class="nav-link {{Request::is('admin*') ? 'active' : ''}}" href="{{route('adminpanel.index')}}">Admin Panel</a>
+                        </li>
+                        @endif
                         @endif
                     </ul>
 

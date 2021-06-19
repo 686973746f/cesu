@@ -7,11 +7,11 @@
                 {{session('status')}}
             </div>
             <hr>
-        @endif
+        @endif 
         <form action="{{route('report.export')}}" method="POST">
             @csrf
             <div class="card mb-3">
-                <div class="card-header">Export to Excel</div>
+                <div class="card-header font-weight-bold">Export to Excel</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label for="eEndDate">To</label>
                                 <input type="date" class="form-control" name="eEndDate" id="eEndDate" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" required>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -42,8 +42,9 @@
             </div>
         </form>
         <div class="card mb-3">
-            <div class="card-header">Daily Report</div>
+            <div class="card-header font-weight-bold">Daily Report</div>
             <div class="card-body">
+                @if($listToday->count())
                 <div id="chart" style="height: 300px;"></div>
                 <script>
                     const chart = new Chartisan({
@@ -159,23 +160,26 @@
                         </tbody>
                     </table>
                 </div>
+                @else
+                <p class="text-center">There are no records scheduled for swab today.</p>
+                @endif
             </div>
         </div>
         <div class="card">
-            <div class="card-header">Report</div>
+            <div class="card-header font-weight-bold">Report</div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="brgy_breakdown">
                         <thead>
-                            <tr class="font-weight-bold text-primary text-center">
+                            <tr class="font-weight-bold text-primary bg-light text-center">
                                 <th colspan="5">Barangay Breakdown of Reported Cases</th>
                             </tr>
-                            <tr class="text-center">
+                            <tr class="text-center bg-light">
                                 <th>Barangay</th>
                                 <th>Probable</th>
                                 <th>Suspect</th>
-                                <th>Confirmed</th>
-                                <th>Non-COVID 19</th>
+                                <th>Confirmed / Positive</th>
+                                <th>Non-COVID 19 / Negative</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -206,121 +210,27 @@
                                 </tr>
                                 @endif
                             @endforeach
-                            <tr class="font-weight-bold text-center">
-                                <td>TOTAL</td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Probable')
-                                    ->count()}}
-                                </td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Suspect')
-                                    ->count()}}
-                                </td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Confirmed')
-                                    ->count()}}
-                                </td>
-                                <td>{{$list
-                                    ->where('caseClassification', 'Non-COVID-19 Case')
-                                    ->count()}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-                <div class="table-responsive">
-                    <table class="table" id="dt_table1">
-                        <thead>
-                            <tr>
-                                <th colspan="3" class="font-weight-bold text-primary">Total Number of Recorded PROBABLE Cases: {{$list->where('caseClassification', 'Probable')->count()}}</th>
-                            </tr>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Brgy</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($list->where('caseClassification', 'Probable') as $key => $item)
-                            <tr>
-                                <td scope="row">{{$loop->iteration}}</td>
-                                <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                                <td>{{$item->records->address_brgy}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-                <div class="table-responsive">
-                    <table class="table" id="dt_table2">
-                        <thead>
-                            <tr>
-                                <th colspan="3" class="font-weight-bold text-primary">Total Number of Recorded SUSPECTED Cases: {{$list->where('caseClassification', 'Suspect')->count()}}</th>
-                            </tr>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Brgy</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($list->where('caseClassification', 'Suspect') as $key => $item)
-                            <tr>
-                                <td scope="row">{{$loop->iteration}}</td>
-                                <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                                <td>{{$item->records->address_brgy}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-                <div class="table-responsive">
-                    <table class="table" id="dt_table3">
-                        <thead>
-                            <tr>
-                                <th colspan="3" class="font-weight-bold text-primary">Total Number of Recorded CONFIRMED Cases: {{$list->where('caseClassification', 'Confirmed')->count()}}</th>
-                            </tr>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Brgy</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($list->where('caseClassification', 'Confirmed') as $key => $item)
-                            <tr>
-                                <td scope="row">{{$loop->iteration}}</td>
-                                <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                                <td>{{$item->records->address_brgy}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-                <div class="table-responsive">
-                    <table class="table" id="dt_table4">
-                        <thead>
-                            <tr>
-                                <th colspan="3" class="font-weight-bold text-primary">Total Number of Recorded NEGATIVE Cases: {{$list->where('caseClassification', 'Non-COVID-19 Case')->count()}}</th>
-                            </tr>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Brgy</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($list->where('caseClassification', 'Non-COVID-19 Case') as $key => $item)
-                            <tr>
-                                <td scope="row">{{$loop->iteration}}</td>
-                                <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                                <td>{{$item->records->address_brgy}}</td>
-                            </tr>
-                            @endforeach
+                            <tfoot>
+                                <tr class="font-weight-bold text-center bg-light">
+                                    <td>TOTAL</td>
+                                    <td>{{$list
+                                        ->where('caseClassification', 'Probable')
+                                        ->count()}}
+                                    </td>
+                                    <td>{{$list
+                                        ->where('caseClassification', 'Suspect')
+                                        ->count()}}
+                                    </td>
+                                    <td>{{$list
+                                        ->where('caseClassification', 'Confirmed')
+                                        ->count()}}
+                                    </td>
+                                    <td>{{$list
+                                        ->where('caseClassification', 'Non-COVID-19 Case')
+                                        ->count()}}
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </tbody>
                     </table>
                 </div>
@@ -330,26 +240,15 @@
 
     <script>
         $(document).ready(function () {
-            $('#dt_table1').DataTable({
-                responsive: true,
-            });
-            $('#dt_table2').DataTable({
-                responsive: true,
-            });
-            $('#dt_table3').DataTable({
-                responsive: true,
-            });
-            $('#dt_table4').DataTable({
-                responsive: true,
-            });
             $('#dt_table5').DataTable({
                 responsive: true,
             });
-            $('#dt_table6').DataTable({
+            $('#brgy_breakdown').DataTable({
                 responsive: true,
+                dom: 'tr',
+                paging: false,
             });
-            $('#dt_table7').DataTable({
-                "ordering": false,
+            $('#dt_table6').DataTable({
                 responsive: true,
             });
         });
