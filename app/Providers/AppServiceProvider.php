@@ -31,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
             \App\Charts\SampleChart::class,
             \App\Charts\DailySwabChart::class,
             \App\Charts\SituationalDailyConfirmedActiveChart::class,
+            \App\Charts\SituationalGenderDistributionChart::class,
+            \App\Charts\SituationalAgeDistributionChart::class,
+            \App\Charts\SituationalActiveCasesBreakdownChart::class,
         ]);
     }
 }

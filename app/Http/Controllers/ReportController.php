@@ -51,7 +51,10 @@ class ReportController extends Controller
     }
 
     public function viewSituational() {
-        return view('report_situational');
+        $forms = Forms::all();
+        $brgy = Brgy::all();
+
+        return view('report_situational', ['list' => $forms, 'brgy_list' => $brgy]);
     }
 
     public function makeAllSuspected() {

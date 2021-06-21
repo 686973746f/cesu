@@ -23,7 +23,9 @@
     "dependencies": {
         "@chartisan/chartjs": "^2.1.0",
         "@fortawesome/fontawesome-free": "^5.15.2",
+        "@types/chart.js": "^2.9.32",
         "chart.js": "^2.9.4",
+        "chartjs-plugin-datalabels": "^1.0.0",
         "datatables.net": "^1.10.24",
         "datatables.net-bs4": "^1.10.24",
         "jquery": "^3.5.1",

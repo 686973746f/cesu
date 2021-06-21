@@ -22,8 +22,9 @@ class SituationalDailyConfirmedActiveChart extends BaseChart
         $arrayDate = array();
         $dateCounter = array();
 
-        $lastdayinMonth = Carbon::parse('2021-06')->daysInMonth;
-
+        //$lastdayinMonth = Carbon::parse(date('Y-m', strtotime($request->eDate)))->daysInMonth;
+        $lastdayinMonth = date('d');
+        
         for($i=1;$i<=$lastdayinMonth;$i++) {
             if($i < 10) {
                 $i_display = '0'.$i;
@@ -32,10 +33,10 @@ class SituationalDailyConfirmedActiveChart extends BaseChart
                 $i_display = $i;
             }
 
-            array_push($arrayDate, date('m/d/Y', strtotime('2021-06-'.$i_display)));
+            array_push($arrayDate, date('m/d/Y', strtotime(date('Y-m-', strtotime($request->sDate)).$i_display)));
 
-            $count = Forms::where('testDateCollected1', '2021-06-'.$i_display)
-            ->orWhere('testDateCollected2', '2021-06-'.$i_display)
+            $count = Forms::where('testDateCollected1', date('Y-m-', strtotime($request->sDate)).$i_display)
+            ->orWhere('testDateCollected2', date('Y-m-', strtotime($request->sDate)).$i_display)
             ->count();
 
             array_push($dateCounter, $count);
