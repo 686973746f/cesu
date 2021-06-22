@@ -124,7 +124,7 @@ class FormValidationRequest extends FormRequest
             'testResult1' => 'required',
             'testResultOtherRemarks1' => ($this->testResult1 == "OTHERS") ? 'required' : 'nullable',
 
-            'testDateCollected2' => 'nullable|date|after:testDateCollected1',
+            'testDateCollected2' => 'nullable|date|after_or_equal:testDateCollected1',
             'oniTimeCollected2' => 'nullable',
             'testDateReleased2' => 'nullable|date',
             'testLaboratory2' => 'nullable',
