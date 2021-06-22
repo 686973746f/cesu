@@ -49,7 +49,7 @@
                 <script>
                     const chart = new Chartisan({
                       el: '#chart',
-                      url: "@chart('daily_swab_chart')",
+                      url: "{{route('charts.daily_swab_chart')}}",
                       hooks: new ChartisanHooks()
                       .title('Number of Swabbed patients for {{date("M d, Y")}}')
                       .pieColors(['green', 'red'])
