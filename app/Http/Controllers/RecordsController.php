@@ -375,7 +375,7 @@ class RecordsController extends Controller
 
 		//auto dashes in philhealth
 		if($request->filled('philhealth')) {
-			if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
+			if(strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
 				$philhealth_organized = $request->philhealth;
 			}
 			else {
@@ -395,7 +395,7 @@ class RecordsController extends Controller
 
 			if($form) {
 				if(!is_null($form->testType2)) {
-					if($form->testType2 == "OPS" || $form->testType2 == "NPS") {
+					if($form->testType2 == "OPS" || $form->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
 						if(is_null($form->oniTimeCollected2)) {
 							$trigger = 0;
 							$addMinutes = 0;
@@ -405,7 +405,7 @@ class RecordsController extends Controller
 
 								$query = Forms::with('records')
 								->where('testDateCollected2', $form->testDateCollected2)
-								->whereIn('testType2', ['OPS', 'NPS'])
+								->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
 								->whereHas('records', function ($q) {
 									$q->whereNotNull('philhealth');
 								})
@@ -433,7 +433,7 @@ class RecordsController extends Controller
 					}
 				}
 
-				if($form->testType1 == "OPS" || $form->testType2 == "NPS") {
+				if($form->testType1 == "OPS" || $form->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
 					if(is_null($form->oniTimeCollected1)) {
 						$trigger = 0;
 						$addMinutes = 0;
@@ -443,7 +443,7 @@ class RecordsController extends Controller
 
 							$query = Forms::with('records')
 							->where('testDateCollected1', $form->testDateCollected1)
-							->whereIn('testType1', ['OPS', 'NPS'])
+							->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
 							->whereHas('records', function ($q) {
 								$q->whereNotNull('philhealth');
 							})

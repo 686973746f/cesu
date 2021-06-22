@@ -435,7 +435,7 @@ class FormsController extends Controller
 
                                 $query = Forms::with('records')
                                 ->where('testDateCollected1', $request->testDateCollected1)
-                                ->whereIn('testType1', ['OPS', 'NPS'])
+                                ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
                                 ->whereHas('records', function ($q) {
                                     $q->whereNotNull('philhealth');
                                 })
@@ -475,7 +475,7 @@ class FormsController extends Controller
 
                                     $query = Forms::with('records')
                                     ->where('testDateCollected2', $request->testDateCollected2)
-                                    ->whereIn('testType2', ['OPS', 'NPS'])
+                                    ->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
                                     ->whereHas('records', function ($q) {
                                         $q->whereNotNull('philhealth');
                                     })
@@ -937,7 +937,7 @@ class FormsController extends Controller
 
                         $query = Forms::with('records')
                         ->where('testDateCollected1', $request->testDateCollected1)
-                        ->whereIn('testType1', ['OPS', 'NPS'])
+                        ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
                         ->whereHas('records', function ($q) {
                             $q->whereNotNull('philhealth');
                         })
@@ -981,7 +981,7 @@ class FormsController extends Controller
 
                         $query = Forms::with('records')
                         ->where('testDateCollected2', $request->testDateCollected2)
-                        ->whereIn('testType2', ['OPS', 'NPS'])
+                        ->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
                         ->whereHas('records', function ($q) {
                             $q->whereNotNull('philhealth');
                         })
