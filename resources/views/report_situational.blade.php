@@ -61,12 +61,12 @@ else {
                                     ->where('outcomeCondition', 'Active')
                                     ->count()}}
                                 </td>
-                                <td>{{$list
+                                <td class="text-danger">{{$list
                                     ->where('records.address_brgy', $item->brgyName)
                                     ->where('outcomeCondition', 'Died')
                                     ->count()}}
                                 </td>
-                                <td>{{$list
+                                <td class="text-success">{{$list
                                     ->where('records.address_brgy', $item->brgyName)
                                     ->where('outcomeCondition', 'Recovered')
                                     ->count()}}
@@ -85,11 +85,11 @@ else {
                                     ->where('outcomeCondition', 'Active')
                                     ->count()}}
                                 </td>
-                                <td>{{$list
+                                <td class="text-danger">{{$list
                                     ->where('outcomeCondition', 'Died')
                                     ->count()}}
                                 </td>
-                                <td>{{$list
+                                <td class="text-success">{{$list
                                     ->where('outcomeCondition', 'Recovered')
                                     ->count()}}
                                 </td>
