@@ -1426,9 +1426,8 @@
                                 <div class="card-header">2.7 Outcome/Condition at Time of Report</div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                      <label for="outcomeCondition"><span class="text-danger font-weight-bold">*</span>Select Condition</label>
+                                      <label for="outcomeCondition"><span class="text-danger font-weight-bold">*</span>Select Outcome/Condition</label>
                                       <select class="form-control" name="outcomeCondition" id="outcomeCondition">
-                                        <option value="" {{(is_null(old('outcomeCondition', $records->outcomeCondition))) ? 'selected' : ''}}>N/A</option>
                                         <option value="Active" {{(old('outcomeCondition', $records->outcomeCondition) == 'Active') ? 'selected' : ''}}>Active (Currently admitted or in isolation/quarantine)</option>
                                         <option value="Recovered" {{(old('outcomeCondition', $records->outcomeCondition) == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition', $records->outcomeCondition) == 'Died') ? 'selected' : ''}}>Died</option>
