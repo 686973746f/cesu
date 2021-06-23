@@ -133,7 +133,7 @@ class FormValidationRequest extends FormRequest
             'testResult2' => 'required',
             'testResultOtherRemarks2' => ($this->testResult2 == "OTHERS") ? 'required' : 'nullable',
 
-            'outcomeCondition' => 'nullable',
+            'outcomeCondition' => 'required',
             'outcomeRecovDate' => ($this->outcomeCondition == "Recovered") ? 'required|date' : 'nullable|date',
             'outcomeDeathDate' => ($this->outcomeCondition == "Died") ? 'required|date' : 'nullable|date',
             'deathImmeCause' => ($this->outcomeCondition == "Died") ? 'required' : 'nullable',

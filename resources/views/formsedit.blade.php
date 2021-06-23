@@ -1427,7 +1427,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                       <label for="outcomeCondition"><span class="text-danger font-weight-bold">*</span>Select Outcome/Condition</label>
-                                      <select class="form-control" name="outcomeCondition" id="outcomeCondition">
+                                      <select class="form-control" name="outcomeCondition" id="outcomeCondition" required>
                                         <option value="Active" {{(old('outcomeCondition', $records->outcomeCondition) == 'Active') ? 'selected' : ''}}>Active (Currently admitted or in isolation/quarantine)</option>
                                         <option value="Recovered" {{(old('outcomeCondition', $records->outcomeCondition) == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition', $records->outcomeCondition) == 'Died') ? 'selected' : ''}}>Died</option>
