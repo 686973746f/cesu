@@ -243,11 +243,13 @@
             $('#dt_table5').DataTable({
                 responsive: true,
             });
+
             $('#brgy_breakdown').DataTable({
                 responsive: true,
                 dom: 'tr',
                 paging: false,
             });
+            
             $('#dt_table6').DataTable({
                 responsive: true,
             });

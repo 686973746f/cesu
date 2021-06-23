@@ -151,6 +151,12 @@ else {
                         .title('Sex Distribution of Active Cases')
                         .responsive()
                     });
+
+                    $('#brgy_breakdown').DataTable({
+                        responsive: true,
+                        dom: 'tr',
+                        paging: false,
+                    });
                 </script>
             </div>
         </div>
