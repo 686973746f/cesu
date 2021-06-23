@@ -24,9 +24,9 @@ class RecordValidationRequest extends FormRequest
     public function rules()
     {
         return [
-			'lname' => 'required|string|max:50',
-    		'fname' => 'required|string|max:50',
-    		'mname' => 'nullable|string|max:50',
+			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
 			'gender' => 'required',
 			'cs' => 'required',
 			'nationality' => 'required',
