@@ -2969,11 +2969,20 @@
                 if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
                     $('#divTypeOthers1').show();
                     $('#testTypeOtherRemarks1').prop('required', true);
+                    
+                    if($(this).val() == 'ANTIGEN') {
+                        $('#antigenExport1').show();
+                    }
+                    else {
+                        $('#antigenExport1').hide();
+                    }
                 }
                 else {
                     $('#divTypeOthers1').hide();
                     $('#testTypeOtherRemarks1').empty();
                     $('#testTypeOtherRemarks1').prop('required', false);
+
+                    $('#antigenExport1').hide();
                 }
             }).trigger('change');
 
@@ -3003,6 +3012,13 @@
                     $('#divTypeOthers2').show();
                     $('#testTypeOtherRemarks2').prop('required', true);
                     $('#testDateCollected2').prop('required', true);
+
+                    if($(this).val() == 'ANTIGEN') {
+                        $('#antigenExport2').show();
+                    }
+                    else {
+                        $('#antigenExport2').hide();
+                    }
                 }
                 else {
                     $('#divTypeOthers2').hide();
@@ -3019,6 +3035,8 @@
                         $('#testType2').prop('required', true);
                         $('#testResult2').prop('required', true);
                     }
+
+                    $('#antigenExport2').hide();
                 }
             }).trigger('change');
 

@@ -54,7 +54,31 @@ class ReportController extends Controller
         $forms = Forms::all();
         $brgy = Brgy::all();
 
-        return view('report_situational', ['list' => $forms, 'brgy_list' => $brgy]);
+        $formstotal = $forms->count();
+        $formsActiveTotal = $forms->where('outcomeCondition', 'Active')->count();
+        $formsConfirmedTotal = $forms->where('caseClassification', 'Confirmed')->count();
+        $formsActiveConfirmedTotal = Forms::where('outcomeCondition', 'Active')->where('caseClassification', 'Confirmed')->count();
+        $recoveryCount = $forms->where('outcomeCondition', 'Recovered')->count();
+        $fatalityCount = $forms->where('outcomeCondition', 'Died')->count();
+        $positiveCount = $forms->where('caseClassification', 'Confirmed')->count();
+        $hqCount = $forms->where('dispositionType', 3)->where('outcomeCondition', 'Active')->where('caseClassification', 'Confirmed')->count();
+
+        return view('report_situational', [
+            'list' => $forms,
+            'brgy_list' => $brgy,
+            'formstotal' => $formstotal,
+            'formsActiveTotal' => $formsActiveTotal,
+            'formsConfirmedTotal' => $formsConfirmedTotal,
+            'formsActiveConfirmedTotal' => $formsActiveConfirmedTotal,
+            'recoveryCount' => $recoveryCount,
+            'fatalityCount' => $fatalityCount,
+            'positiveCount' => $positiveCount,
+            'hqCount' => $hqCount,
+            'recRate' => round(($recoveryCount / $formsActiveTotal) * 100, 2),
+            'fatRate' => round(($fatalityCount / $formsActiveTotal) * 100, 2),
+            'posRate' => round(($positiveCount / $formstotal) * 100, 2),
+            'hqRate' => round(($hqCount / $formsActiveConfirmedTotal) * 100, 2),
+        ]);
     }
 
     public function makeAllSuspected() {

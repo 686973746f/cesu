@@ -98,6 +98,33 @@ else {
                     </tbody>
                 </table>
                 <hr>
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Infection Rate</th>
+                            <th>Recovery Rate</th>
+                            <th>Case Fatality Rate</th>
+                            <th>Positivity Rate</th>
+                            <th>Home Quarantine</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr>
+                            <td rowspan="2" style="vertical-align: middle;">1 per 1,000 pop</td>
+                            <td>{{$recoveryCount}} / {{$formsConfirmedTotal}}</td>
+                            <td>{{$fatalityCount}} / {{$formsConfirmedTotal}}</td>
+                            <td>{{$positiveCount}} / {{$formstotal}}</td>
+                            <td>{{$hqCount}} / {{$formsActiveConfirmedTotal}}</td>
+                        </tr>
+                        <tr class="font-weight-bold">
+                            <td>{{$recRate}}%</td>
+                            <td>{{$fatRate}}%</td>
+                            <td>{{$posRate}}%</td>
+                            <td>{{$hqRate}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
                 <div id="activeCasesBreakdownChart" style="height: 500px;"></div>
                 <hr>
                 <div id="ageChart" style="height: 500px;"></div>
