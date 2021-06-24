@@ -124,12 +124,12 @@
                 </div>
                 <hr>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="dailyBrgy">
                         <thead>
                             <tr class="font-weight-bold text-primary text-center bg-light">
-                                <th colspan="4">Number of Patients per Barangay for {{date('M d, Y')}}</th>
+                                <th colspan="4">Number of Patients per Barangay Scheduled for Swab Today ({{date('M d, Y')}})</th>
                             </tr>
-                            <tr class="text-center">
+                            <tr class="text-center bg-light">
                                 <th>Barangay</th>
                                 <th>Present</th>
                                 <th>Absent / Pending</th>
@@ -150,13 +150,21 @@
                                         ->where('records.address_brgy', $item->brgyName)
                                         ->count()}}
                                     </td>
-                                    <td>{{$listToday
+                                    <td class="font-weight-bold">{{$listToday
                                         ->where('records.address_brgy', $item->brgyName)
                                         ->count()}}
                                     </td>
                                 </tr>
                                 @endif
                             @endforeach
+                            <tfoot class="text-center font-weight-bold bg-light">
+                                <tr>
+                                    <td>TOTAL</td>
+                                    <td>{{$listToday->where('isPresentOnSwabDay', 1)->count()}}</td>
+                                    <td>{{$notPresent->count()}}</td>
+                                    <td>{{$listToday->count()}}</td>
+                                </tr>
+                            </tfoot>
                         </tbody>
                     </table>
                 </div>
@@ -249,7 +257,13 @@
                 dom: 'tr',
                 paging: false,
             });
-            
+
+            $('#dailyBrgy').DataTable({
+                responsive: true,
+                dom: 'tr',
+                paging: false,
+            });
+
             $('#dt_table6').DataTable({
                 responsive: true,
             });

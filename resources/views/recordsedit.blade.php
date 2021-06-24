@@ -384,7 +384,7 @@
                         <h5 class="font-weight-bold">Current Workplace Information and Address</h5>
                         <hr>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
                                     <input type="text" class="form-control" name="occupation" id="occupation" value="{{(old('hasoccupation', $record->hasOccupation) == 1) ? old('occupation', $record->occupation) : ""}}">
@@ -393,7 +393,49 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
+                                    <select class="form-control" name="natureOfWork" id="natureOfWork">
+                                      <option value="" selected disabled>Choose...</option>
+                                      <option value="Agriculture">Agriculture</option>
+                                      <option value="BPO">BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
+                                      <option value="Communications">Communications (E.G. PLDT)</option>
+                                      <option value="Construction">Construction (E.G. Makati Dev Corp)</option>
+                                      <option value="Education">Education (E.G. DLSU)</option>
+                                      <option value="Electricity">Electricity</option>
+                                      <option value="Financial">Financial (E.G. Banks)</option>
+                                      <option value="Government Units/Organizations">Government Units/Organizations (E.G. GSIS)</option>
+                                      <option value="Hotel and Restaurant">Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
+                                      <option value="Manning/Shipping Agency">Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
+                                      <option value="Manufacturing">Manufacturing (E.G. Nestle Phils Inc)</option>
+                                      <option value="Medical and Health Services">Medical and Health Services</option>
+                                      <option value="Microfinance">Microfinance (E.G. Ahon sa Hirap Inc)</option>
+                                      <option value="Mining and Quarrying">Mining and Quarrying (E.G. Philex Mining Corp)</option>
+                                      <option value="Non Profit Organizations">Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
+                                      <option value="Real Estate">Real Estate (E.G. Megaworld Corp)</option>
+                                      <option value="Storage">Storage (Include Freight Forwarding E.G. Dhl)</option>
+                                      <option value="Transportation">Transportation (E.G. Philippine Airlines)</option>
+                                      <option value="Wholesale and Retail Trade">Wholesale and Retail Trade (E.G. Mercury Drug)</option>
+                                      <option value="Others">Others (Specify)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="specifyWorkNatureDiv">
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="workNatureSpecify"><span class="text-danger font-weight-bold">*</span>Specify</label>
+                                      <input type="text" class="form-control" name="workNatureSpecify" id="workNatureSpecify">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="occupation_name">Name of Workplace <small>(Optional)</small></label>
                                     <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{($record->hasOccupation == 1) ? $record->occupation_name : ""}}">
@@ -402,7 +444,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
                                     <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
@@ -850,13 +892,43 @@
             $('input[type=radio][name=hasoccupation]').change(function() {
                 if(this.value == "0") {
                     $('#occupation_div').hide();
-                    $('occupation').prop('required', false);
+
+                    $('#occupation_name').prop('required', false);
+                    $('#occupation').prop('required', false);
+                    $('#soccupation_province').prop('required', false);
+                    $('#soccupation_city').prop('required', false);
+                    $('#occupation_brgy').prop('required', false);
+                    $('#occupation_lotbldg').prop('required', false);
+                    $('#occupation_street').prop('required', false);
+                    $('#worksInClosedSetting').prop('required', false);
+                    $('#natureOfWork').prop('required', false);
                 }
                 else {
                     $('#occupation_div').show();
-                    $('occupation').prop('required', true);
+
+                    $('#occupation_name').prop('required', false);
+                    $('#occupation').prop('required', true);
+                    $('#soccupation_province').prop('required', false);
+                    $('#soccupation_city').prop('required', false);
+                    $('#occupation_brgy').prop('required', false);
+                    $('#occupation_lotbldg').prop('required', false);
+                    $('#occupation_street').prop('required', false);
+                    $('#worksInClosedSetting').prop('required', true);
+                    $('#natureOfWork').prop('required', true);
                 }
-            });
+		    });
+
+            $('#natureOfWork').change(function (e) { 
+                e.preventDefault();
+                if($(this).val() == 'Others') {
+                    $('#specifyWorkNatureDiv').show();
+                    $('#workNatureSpecify').prop('required', true);
+                }
+                else {
+                    $('#specifyWorkNatureDiv').hide();
+                    $('#workNatureSpecify').prop('required', false);
+                }
+		    }).trigger('change');
         });
     </script>
 @endsection

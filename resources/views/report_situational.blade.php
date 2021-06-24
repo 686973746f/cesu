@@ -131,6 +131,28 @@ else {
                 <hr>
                 <div id="genderChart" style="height: 500px;"></div>
                 <hr>
+                <table class="table table-bordered text-center">
+                    <thead class="bg-light">
+                        <tr>
+                            <th colspan="2" class="font-weight-bold text-info">CITY OF GENERAL TRIAS LIGTAS COVID-19 FACILITY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-weight-bold">ADMITTED IN THE ISOLATION FACILITY LIGTAS COVID GENTRI (OVAL)</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">ON STRICT HOME QUARANTINE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">ADMITTED IN THE HOSPITAL / OTHER ISOLATION FACILITY</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
                 <h1 class="text-center my-5">Stay Safe & Healthy!</h1>
                 <script>
                     Chart.helpers.merge((Chart.defaults.global.plugins.datalabels), {
