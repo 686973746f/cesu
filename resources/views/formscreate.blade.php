@@ -3048,6 +3048,7 @@
                 }
                 else {
                     $('#divExpoitem1').hide();
+                    $('#expoDateLastCont').val(null);
                     $('#expoDateLastCont').prop('required', false);
                 }
             }).trigger('change');
