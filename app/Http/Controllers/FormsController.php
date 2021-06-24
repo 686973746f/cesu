@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Forms;
 use App\Models\Records;
-use PDF;
+use App\Imports\CifImport;
 use App\Models\CifUploads;
 use App\Exports\FormsExport;
 use App\Models\Interviewers;
@@ -221,6 +222,14 @@ class FormsController extends Controller
         }
 
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
+    }
+
+    public function importIndex() {
+        return view('forms_import');
+    }
+
+    public function importInit(Request $request) {
+        Excel::import(new CifImport, request()->file('thefile'));
     }
 
     public function soloExport($id) {

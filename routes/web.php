@@ -57,6 +57,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
 
     Route::resource('records', RecordsController::class);
 
+    Route::get('/forms/import/', [FormsController::class, 'importIndex'])->name('forms.import.index');
+    Route::post('/forms/import/', [FormsController::class, 'importInit'])->name('forms.import.init');
+
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/new', [FormsController::class, 'new']);
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
@@ -64,7 +67,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/forms/download/{id}', [FormsController::class, 'downloadDocs']);
     Route::post('/forms/singleExport/{id}', [FormsController::class, 'soloExport']);
     Route::get('/forms/printAntigen/{id}/{testType}', [FormsController::class, 'printAntigen']);
-    
+
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');
     Route::post('/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');

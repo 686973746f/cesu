@@ -400,8 +400,8 @@
 							<div class="form-group">
 							  <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
 							  <select class="form-control" name="natureOfWork" id="natureOfWork">
-								<option value="" disabled {{}}>Choose...</option>
-								<option value="Agriculture" {{}}>Agriculture</option>
+								<option value="" disabled>Choose...</option>
+								<option value="Agriculture">Agriculture</option>
 								<option value="BPO">BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
 								<option value="Communications">Communications (E.G. PLDT)</option>
 								<option value="Construction">Construction (E.G. Makati Dev Corp)</option>
