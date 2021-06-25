@@ -39,7 +39,7 @@ class CifImport implements ToCollection, WithStartRow
                 'isPregnant' => $isPregnant,
                 'cs' => strtoupper($row[12]),
                 'bdate' => Carbon::parse($row[8])->format('Y-m-d'),
-            ]);
+            ]); 
         }
     }
 
