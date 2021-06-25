@@ -10,6 +10,11 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 
 class CifImport implements ToCollection, WithStartRow
 {
+    public function __construct(array $request)
+    {
+        $this->request = $request;
+    }
+
     /**
     * @param Collection $collection
     */
@@ -38,7 +43,13 @@ class CifImport implements ToCollection, WithStartRow
                 'gender' => strtoupper($row[9]),
                 'isPregnant' => $isPregnant,
                 'cs' => strtoupper($row[12]),
+                'nationality' => strtoupper($row[13]),
                 'bdate' => Carbon::parse($row[8])->format('Y-m-d'),
+                'mobile' => $row[21],
+                'phoneno' => null,
+                'email' => $row[22],
+
+
             ]); 
         }
     }

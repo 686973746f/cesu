@@ -6,7 +6,7 @@
             @csrf
             @method('PUT')
             <div class="card">
-                <div class="card-header">
+                <div class="card-header font-weight-bold text-info">
                     Edit Patient Information
                 </div>
                 <div class="card-body">
