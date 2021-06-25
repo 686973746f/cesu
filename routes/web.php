@@ -6,19 +6,20 @@ Include mga bagong controller dito
 
 */
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FormsController;
+use App\Http\Controllers\PaSwabController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
-use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\CompaniesController;
-use App\Http\Controllers\RegisterCodeController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\InterviewersController;
+use App\Http\Controllers\RegisterCodeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,10 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/paswab', [PaSwabController::class, 'index'])->name('paswab.index');
+});
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
     // your routes
