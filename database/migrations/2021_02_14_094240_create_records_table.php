@@ -40,8 +40,6 @@ class CreateRecordsTable extends Migration
             $table->string('address_cityjson');
             $table->string('address_province');
             $table->string('address_provincejson');
-            $table->string('address_region');
-            $table->string('address_regionjson');
 
             $table->tinyInteger('permaaddressDifferent');
             $table->string('permaaddress_houseno');
@@ -51,8 +49,6 @@ class CreateRecordsTable extends Migration
             $table->string('permaaddress_cityjson');
             $table->string('permaaddress_province');
             $table->string('permaaddress_provincejson');
-            $table->string('permaaddress_region');
-            $table->string('permaaddress_regionjson');
             $table->string('permamobile')->nullable();
             $table->string('permaphoneno')->nullable();
             $table->string('permaemail')->nullable();
@@ -69,8 +65,6 @@ class CreateRecordsTable extends Migration
             $table->string('occupation_cityjson')->nullable();
             $table->string('occupation_province')->nullable();
             $table->string('occupation_provincejson')->nullable();
-            $table->string('occupation_region')->nullable();
-            $table->string('occupation_regionjson')->nullable();
             $table->string('occupation_name')->nullable();
             $table->string('occupation_mobile')->nullable();
             $table->string('occupation_email')->nullable();

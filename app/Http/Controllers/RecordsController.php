@@ -531,8 +531,18 @@ class RecordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Records $record)
     {
-        //
+		if(auth()->user()->isAdmin == 1) {
+			$record->delete();
+
+			return redirect()->action([RecordsController::class, 'index'])->with('status', 'Patient details of '.$record->getName().' has been deleted successfully.')->with('statustype', 'success');
+		}
+		else {
+			return back()
+			->withInput()
+			->with('msg', 'You are not allowed to do that.');
+		}
+        
     }
 }

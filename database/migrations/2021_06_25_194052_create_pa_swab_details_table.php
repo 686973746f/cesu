@@ -45,8 +45,6 @@ class CreatePaSwabDetailsTable extends Migration
             $table->string('address_cityjson');
             $table->string('address_province');
             $table->string('address_provincejson');
-            $table->string('address_region');
-            $table->string('address_regionjson');
             
             $table->text('symptoms')->nullable();
             $table->date('dateOnsetOfIllness')->nullable();

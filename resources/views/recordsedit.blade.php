@@ -2,6 +2,16 @@
 
 @section('content')
     <div class="container">
+        @if(auth()->user()->isAdmin == 1)
+        <form action="/records/{{$record->id}}" method="POST">
+            @csrf
+            @method('delete')
+            <div class="text-right mb-3">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('This will also delete the CIF associated with this record. You cannot undo once the process is done. Are you sure you want to DELETE? Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
+            </div>
+        </form>
+        @endif
+
         <form action="/records/{{$record->id}}" method="POST">
             @csrf
             @method('PUT')
@@ -13,6 +23,13 @@
                     <div class="alert alert-info" role="alert">
                         All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
                     </div>
+                    
+                    @if(session('msg'))
+					<div class="alert alert-danger" role="alert">
+						{{session('msg')}}
+					</div>
+				    @endif
+
                     <hr>
                     <h5 class="font-weight-bold">Patient Information</h5>
                     <hr>
