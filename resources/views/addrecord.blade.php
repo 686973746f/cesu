@@ -596,7 +596,11 @@
 			});
 
 			$.each(sorted, function(key, val) {
-				$("#saddress_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
+				$('#saddress_province').append($('<option>', {
+					value: val.provCode,
+					text: val.provDesc,
+					selected: (val.provCode == '0421') ? true : false, //default for Cavite
+				}));
 				$("#spermaaddress_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
 				$("#soccupation_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
 			});
@@ -625,11 +629,15 @@
 				});
 				$.each(sorted, function(key, val) {
 					if($('#saddress_province').val() == val.provCode) {
-						$("#saddress_city").append('<option value="'+val.citymunCode+'">'+val.citymunDesc+'</option>');
+						$('#saddress_city').append($('<option>', {
+							value: val.citymunCode,
+							text: val.citymunDesc,
+							selected: (val.citymunCode == '042108') ? true : false, //default for General Trias
+						})); 
 					}
 				});
 			});
-		});
+		}).trigger('change');
 
 		$('#spermaaddress_province').change(function (e) {
 			e.preventDefault();
@@ -715,7 +723,13 @@
 					}
 				});
 			});
-		});
+		}).trigger('change');
+
+		//for Setting Default values on hidden address/json for Cavite - General Trias
+		$("#address_province").val('CAVITE');
+		$("#address_provincejson").val('0421');
+		$("#address_city").val('GENERAL TRIAS');
+		$('#address_cityjson').val('042108');
 
 		$('#spermaaddress_city').change(function (e) { 
 			e.preventDefault();
