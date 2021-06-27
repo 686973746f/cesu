@@ -121,8 +121,8 @@
                                 <div class="form-group">
                                     <label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
                                     <select class="form-control" name="pregnant" id="pregnant" required>
-                                      <option value="0" {{(old('pregnant', $record->isPregnant) == 0) ? 'selected' : ''}}>NO</option>
-                                      <option value="1" {{(old('pregnant', $record->isPregnant) == 1) ? 'selected' : ''}}>YES</option>
+                                      <option value="0" {{(old('pregnant', $record->isPregnant) == 0) ? 'selected' : ''}}>No</option>
+                                      <option value="1" {{(old('pregnant', $record->isPregnant) == 1) ? 'selected' : ''}}>Yes</option>
                                     </select>
                                 </div>
                             </div>
@@ -942,11 +942,11 @@
                 e.preventDefault();
                 if($(this).val() == 'OTHERS') {
                     $('#specifyWorkNatureDiv').show();
-                    $('#workNatureSpecify').prop('required', true);
+                    $('#natureOfWorkIfOthers').prop('required', true);
                 }
                 else {
                     $('#specifyWorkNatureDiv').hide();
-                    $('#workNatureSpecify').prop('required', false);
+                    $('#natureOfWorkIfOthers').prop('required', false);
                 }
 		    }).trigger('change');
         });

@@ -54,6 +54,8 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::group(['middleware' => ['guest']], function () {
     Route::get('/paswab', [PaSwabController::class, 'index'])->name('paswab.index');
+    Route::post('/paswab', [PaSwabController::class, 'store'])->name('paswab.store');
+    Route::get('/paswab/completed', [PaSwabController::class, 'complete'])->name('paswab.complete');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
