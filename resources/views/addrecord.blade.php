@@ -401,26 +401,26 @@
 							  <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
 							  <select class="form-control" name="natureOfWork" id="natureOfWork">
 								<option value="" disabled {{(is_null(old('natureOfWork'))) ? 'selected' : ''}}>Choose...</option>
-								<option value="Agriculture" {{(old('natureOfWork') == 'Agriculture') ? 'selected' : ''}}>Agriculture</option>
+								<option value="AGRICULTURE" {{(old('natureOfWork') == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
 								<option value="BPO" {{(old('natureOfWork') == 'BPO') ? 'selected' : ''}}>BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
-								<option value="Communications" {{(old('natureOfWork') == 'Communications') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
-								<option value="Construction" {{(old('natureOfWork') == 'Construction') ? 'selected' : ''}}>Construction (E.G. Makati Dev Corp)</option>
-								<option value="Education" {{(old('natureOfWork') == 'Education') ? 'selected' : ''}}>Education (E.G. DLSU)</option>
-								<option value="Electricity" {{(old('natureOfWork') == 'Electricity') ? 'selected' : ''}}>Electricity</option>
-								<option value="Financial" {{(old('natureOfWork') == 'Financial') ? 'selected' : ''}}>Financial (E.G. Banks)</option>
-								<option value="Government Units/Organizations" {{(old('natureOfWork') == 'Government Units/Organizations') ? 'selected' : ''}}>Government Units/Organizations (E.G. GSIS)</option>
-								<option value="Hotel and Restaurant" {{(old('natureOfWork') == 'Hotel and Restaurant') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
-								<option value="Manning/Shipping Agency" {{(old('natureOfWork') == 'Manning/Shipping Agency') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
-								<option value="Manufacturing" {{(old('natureOfWork') == 'Manufacturing') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
-								<option value="Medical and Health Services" {{(old('natureOfWork') == 'Medical and Health Services') ? 'selected' : ''}}>Medical and Health Services</option>
-								<option value="Microfinance" {{(old('natureOfWork') == 'Microfinance') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
-								<option value="Mining and Quarrying" {{(old('natureOfWork') == 'Mining and Quarrying') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
-								<option value="Non Profit Organizations" {{(old('natureOfWork') == 'Non Profit Organizations') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
-								<option value="Real Estate" {{(old('natureOfWork') == 'Real Estate') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
-								<option value="Storage" {{(old('natureOfWork') == 'Storage') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
-								<option value="Transportation" {{(old('natureOfWork') == 'Transportation') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
-								<option value="Wholesale and Retail Trade" {{(old('natureOfWork') == 'Wholesale and Retail Trade') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
-								<option value="Others" {{(old('natureOfWork') == 'Others') ? 'selected' : ''}}>Others (Specify)</option>
+								<option value="COMMUNICATIONS" {{(old('natureOfWork') == 'COMMUNICATIONS') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
+								<option value="CONSTRUCTION" {{(old('natureOfWork') == 'CONSTRUCTION') ? 'selected' : ''}}>Construction (E.G. Makati Dev Corp)</option>
+								<option value="EDUCATION" {{(old('natureOfWork') == 'EDUCATION') ? 'selected' : ''}}>Education (E.G. DLSU)</option>
+								<option value="ELECTRICITY" {{(old('natureOfWork') == 'ELECTRICITY') ? 'selected' : ''}}>Electricity</option>
+								<option value="FINANCIAL" {{(old('natureOfWork') == 'FINANCIAL') ? 'selected' : ''}}>Financial (E.G. Banks)</option>
+								<option value="GOVERNMENT UNITS/ORGANIZATIONS" {{(old('natureOfWork') == 'GOVERNMENT UNITS/ORGANIZATIONS') ? 'selected' : ''}}>Government Units/Organizations (E.G. GSIS)</option>
+								<option value="HOTEL AND RESTAURANT" {{(old('natureOfWork') == 'HOTEL AND RESTAURANT') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
+								<option value="MANNING/SHIPPING AGENCY" {{(old('natureOfWork') == 'MANNING/SHIPPING AGENCY') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
+								<option value="MANUFACTURING" {{(old('natureOfWork') == 'MANUFACTURING') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
+								<option value="MEDICAL AND HEALTH SERVICES" {{(old('natureOfWork') == 'MEDICAL AND HEALTH SERVICES') ? 'selected' : ''}}>Medical and Health Services</option>
+								<option value="MICROFINANCE" {{(old('natureOfWork') == 'MICROFINANCE') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
+								<option value="MINING AND QUARRYING" {{(old('natureOfWork') == 'MINING AND QUARRYING') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
+								<option value="NON PROFIT ORGANIZATIONS" {{(old('natureOfWork') == 'NON PROFIT ORGANIZATIONS') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
+								<option value="REAL ESTATE" {{(old('natureOfWork') == 'REAL ESTATE') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
+								<option value="STORAGE" {{(old('natureOfWork') == 'STORAGE') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
+								<option value="TRANSPORTATION" {{(old('natureOfWork') == 'TRANSPORTATION') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
+								<option value="WHOLESALE AND RETAIL TRADE" {{(old('natureOfWork') == 'WHOLESALE AND RETAIL TRADE') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
+								<option value="OTHERS" {{(old('natureOfWork') == 'OTHERS') ? 'selected' : ''}}>Others (Specify)</option>
 							  </select>
 								@error('natureOfWork')
                                 <small class="text-danger">{{$message}}</small>
@@ -858,7 +858,7 @@
 
 		$('#natureOfWork').change(function (e) { 
 			e.preventDefault();
-			if($(this).val() == 'Others') {
+			if($(this).val() == 'OTHERS') {
 				$('#specifyWorkNatureDiv').show();
 				$('#workNatureSpecify').prop('required', true);
 			}

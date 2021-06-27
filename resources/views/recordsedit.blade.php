@@ -415,26 +415,26 @@
                                     <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
                                     <select class="form-control" name="natureOfWork" id="natureOfWork">
                                         <option value="" disabled {{(is_null(old('natureOfWork', $record->natureOfWork))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Agriculture" {{(old('natureOfWork', $record->natureOfWork) == 'Agriculture') ? 'selected' : ''}}>Agriculture</option>
+                                        <option value="AGRICULTURE" {{(old('natureOfWork', $record->natureOfWork) == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
                                         <option value="BPO" {{(old('natureOfWork', $record->natureOfWork) == 'BPO') ? 'selected' : ''}}>BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
-                                        <option value="Communications" {{(old('natureOfWork', $record->natureOfWork) == 'Communications') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
-                                        <option value="Construction" {{(old('natureOfWork', $record->natureOfWork) == 'Construction') ? 'selected' : ''}}>Construction (E.G. Makati Dev Corp)</option>
-                                        <option value="Education" {{(old('natureOfWork', $record->natureOfWork) == 'Education') ? 'selected' : ''}}>Education (E.G. DLSU)</option>
-                                        <option value="Electricity" {{(old('natureOfWork', $record->natureOfWork) == 'Electricity') ? 'selected' : ''}}>Electricity</option>
-                                        <option value="Financial" {{(old('natureOfWork', $record->natureOfWork) == 'Financial') ? 'selected' : ''}}>Financial (E.G. Banks)</option>
-                                        <option value="Government Units/Organizations" {{(old('natureOfWork', $record->natureOfWork) == 'Government Units/Organizations') ? 'selected' : ''}}>Government Units/Organizations (E.G. GSIS)</option>
-                                        <option value="Hotel and Restaurant" {{(old('natureOfWork', $record->natureOfWork) == 'Hotel and Restaurant') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
-                                        <option value="Manning/Shipping Agency" {{(old('natureOfWork', $record->natureOfWork) == 'Manning/Shipping Agency') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
-                                        <option value="Manufacturing" {{(old('natureOfWork', $record->natureOfWork) == 'Manufacturing') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
-                                        <option value="Medical and Health Services" {{(old('natureOfWork', $record->natureOfWork) == 'Medical and Health Services') ? 'selected' : ''}}>Medical and Health Services</option>
-                                        <option value="Microfinance" {{(old('natureOfWork', $record->natureOfWork) == 'Microfinance') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
-                                        <option value="Mining and Quarrying" {{(old('natureOfWork', $record->natureOfWork) == 'Mining and Quarrying') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
-                                        <option value="Non Profit Organizations" {{(old('natureOfWork', $record->natureOfWork) == 'Non Profit Organizations') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
-                                        <option value="Real Estate" {{(old('natureOfWork', $record->natureOfWork) == 'Real Estate') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
-                                        <option value="Storage" {{(old('natureOfWork', $record->natureOfWork) == 'Storage') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
-                                        <option value="Transportation" {{(old('natureOfWork', $record->natureOfWork) == 'Transportation') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
-                                        <option value="Wholesale and Retail Trade" {{(old('natureOfWork', $record->natureOfWork) == 'Wholesale and Retail Trade') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
-                                        <option value="Others" {{(old('natureOfWork', $record->natureOfWork) == 'Others') ? 'selected' : ''}}>Others (Specify)</option>
+                                        <option value="COMMUNICATIONS" {{(old('natureOfWork', $record->natureOfWork) == 'COMMUNICATIONS') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
+                                        <option value="CONSTRUCTION" {{(old('natureOfWork', $record->natureOfWork) == 'CONSTRUCTION') ? 'selected' : ''}}>Construction (E.G. Makati Dev Corp)</option>
+                                        <option value="EDUCATION" {{(old('natureOfWork', $record->natureOfWork) == 'EDUCATION') ? 'selected' : ''}}>Education (E.G. DLSU)</option>
+                                        <option value="ELECTRICITY" {{(old('natureOfWork', $record->natureOfWork) == 'ELECTRICITY') ? 'selected' : ''}}>Electricity</option>
+                                        <option value="FINANCIAL" {{(old('natureOfWork', $record->natureOfWork) == 'FINANCIAL') ? 'selected' : ''}}>Financial (E.G. Banks)</option>
+                                        <option value="GOVERNMENT UNITS/ORGANIZATIONS" {{(old('natureOfWork', $record->natureOfWork) == 'GOVERNMENT UNITS/ORGANIZATIONS') ? 'selected' : ''}}>Government Units/Organizations (E.G. GSIS)</option>
+                                        <option value="HOTEL AND RESTAURANT" {{(old('natureOfWork', $record->natureOfWork) == 'HOTEL AND RESTAURANT') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
+                                        <option value="MANNING/SHIPPING AGENCY" {{(old('natureOfWork', $record->natureOfWork) == 'MANNING/SHIPPING AGENCY') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
+                                        <option value="MANUFACTURING" {{(old('natureOfWork', $record->natureOfWork) == 'MANUFACTURING') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
+                                        <option value="MEDICAL AND HEALTH SERVICES" {{(old('natureOfWork', $record->natureOfWork) == 'MEDICAL AND HEALTH SERVICES') ? 'selected' : ''}}>Medical and Health Services</option>
+                                        <option value="MICROFINANCE" {{(old('natureOfWork', $record->natureOfWork) == 'MICROFINANCE') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
+                                        <option value="MINING AND QUARRYING" {{(old('natureOfWork', $record->natureOfWork) == 'MINING AND QUARRYING') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
+                                        <option value="NON PROFIT ORGANIZATIONS" {{(old('natureOfWork', $record->natureOfWork) == 'NON PROFIT ORGANIZATIONS') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
+                                        <option value="REAL ESTATE" {{(old('natureOfWork', $record->natureOfWork) == 'REAL ESTATE') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
+                                        <option value="STORAGE" {{(old('natureOfWork', $record->natureOfWork) == 'STORAGE') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
+                                        <option value="TRANSPORTATION" {{(old('natureOfWork', $record->natureOfWork) == 'TRANSPORTATION') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
+                                        <option value="WHOLESALE AND RETAIL TRADE" {{(old('natureOfWork', $record->natureOfWork) == 'WHOLESALE AND RETAIL TRADE') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
+                                        <option value="OTHERS" {{(old('natureOfWork', $record->natureOfWork) == 'OTHERS') ? 'selected' : ''}}>Others (Specify)</option>
                                     </select>
                                 </div>
                             </div>
@@ -940,7 +940,7 @@
 
             $('#natureOfWork').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == 'Others') {
+                if($(this).val() == 'OTHERS') {
                     $('#specifyWorkNatureDiv').show();
                     $('#workNatureSpecify').prop('required', true);
                 }
