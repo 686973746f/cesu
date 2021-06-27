@@ -65,4 +65,8 @@ class PaSwabDetails extends Model
         'contact4Name',
         'contact4No',
     ];
+
+    public function getName() {
+        return $this->lname.", ".$this->fname." ".$this->mname;
+    }
 }

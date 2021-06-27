@@ -65,9 +65,11 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
 
     Route::resource('records', RecordsController::class);
 
-    Route::get('/forms/import/', [FormsController::class, 'importIndex'])->name('forms.import.index');
-    Route::post('/forms/import/', [FormsController::class, 'importInit'])->name('forms.import.init');
+    //Route::get('/forms/import/', [FormsController::class, 'importIndex'])->name('forms.import.index');
+    //Route::post('/forms/import/', [FormsController::class, 'importInit'])->name('forms.import.init');
 
+    Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
+    
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/new', [FormsController::class, 'new']);
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);

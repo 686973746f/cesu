@@ -17,7 +17,7 @@ class CreatePaSwabDetailsTable extends Migration
         Schema::create('pa_swab_details', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->tinyInteger('status')->default(0);
+            $table->string('status')->default('pending');
             $table->string('majikCode');
             $table->string('pType');
             $table->tinyInteger('isForHospitalization');

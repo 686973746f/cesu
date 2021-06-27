@@ -12,6 +12,15 @@
                         <strong>{{session('msg')}}</strong>
                     </div>
                     @endif
+                    @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        @foreach ($errors->all() as $error)
+                            <p>{{$error}}</p>
+                            <hr>
+                        @endforeach
+                    </div>
+                    <hr>
+                    @endif
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">1. Consultation Details</div>
                         <div class="card-body">
@@ -40,7 +49,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Date of Interview</label>
-                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" required>
+                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="{{old('interviewDate')}}" required>
                                     </div>
                                 </div>
                             </div>
@@ -102,11 +111,11 @@
                                     </div>
                                     <div id="ifGenderFemale">
                                         <div class="form-group">
-                                            <label for="pregnant"><span class="text-danger font-weight-bold">*</span>Are you Pregnant?</label>
-                                            <select class="form-control" name="pregnant" id="pregnant">
-                                                <option value="" disabled {{(is_null(old('pregnant'))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="0" {{(old('pregnant') == '0') ? 'selected' : ''}}>No</option>
-                                                <option value="1" {{(old('pregnant') == '1') ? 'selected' : ''}}>Yes</option>
+                                            <label for="isPregnant"><span class="text-danger font-weight-bold">*</span>Are you Pregnant?</label>
+                                            <select class="form-control" name="isPregnant" id="isPregnant">
+                                                <option value="" disabled {{(is_null(old('isPregnant'))) ? 'selected' : ''}}>Choose...</option>
+                                                <option value="0" {{(old('isPregnant') == '0') ? 'selected' : ''}}>No</option>
+                                                <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>Yes</option>
                                             </select>
                                         </div>
                                         <div id="ifPregnant">
@@ -995,15 +1004,15 @@
             e.preventDefault();
             if($(this).val() == "MALE" || $(this).val() == null) {
                 $('#ifGenderFemale').hide();
-                $('#pregnant').prop('required', false);
+                $('#isPregnant').prop('required', false);
             }
             else {
                 $('#ifGenderFemale').show();
-                $('#pregnant').prop('required', true);
+                $('#isPregnant').prop('required', true);
             }
         }).trigger('change');
 
-        $('#pregnant').change(function (e) { 
+        $('#isPregnant').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '0' || $(this).val() == null) {
                 $('#ifPregnant').hide();

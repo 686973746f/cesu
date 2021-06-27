@@ -9,7 +9,7 @@
                 <p>Your request will be processed by CESU CHO General Trias in 1-3 Days.</p>
                 <hr>
                 <p>Your Schedule Code is:</p>
-                <strong class="my-3"><h3>AI7X92</h3></strong>
+                <strong class="my-3"><h3>{{session('majik')}}</h3></strong>
                 <p>Please save the code as you can use it to check when is the schedule of your swab.</p>
                 <p>You will be also informed in Barangay regarding your schedule.</p>
                 <hr>

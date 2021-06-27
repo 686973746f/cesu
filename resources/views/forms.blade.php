@@ -9,7 +9,7 @@
                 Case Investigation Form List
                 </div>
                 <div>
-                    <a href="{{route('forms.import.index')}}" class="btn btn-primary"><i class="fas fa-file-upload mr-2"></i>Import CIF</a>
+                    <a href="{{route('paswab.view')}}" class="btn btn-primary">View Pa-Swab List</a>
                     @if($records->count() > 0)
                         <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
                     @else

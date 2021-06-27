@@ -149,10 +149,12 @@ class PaSwabController extends Controller
             'scode' => 'required',
         ]);
 
-        $check = PaSwabDetails::where('majikCode', strtoupper($request->scode));
+        $check = PaSwabDetails::where('majikCode', strtoupper($request->scode))->first();
 
         if($check->count()) {
-            
+            return view('paswab_check', [
+                'data' => $check
+            ]);
         }
         else {
             return back()
@@ -161,5 +163,11 @@ class PaSwabController extends Controller
 			->with('msg', 'Schedule Code does not exist. Please try again.')
             ->with('msgtype', 'danger');
         }
+    }
+
+    public function view() {
+        $list = PaSwabDetails::where('status', 'pending')->paginate(10);
+
+        return view('paswab_view', ['list' => $list]);
     }
 }
