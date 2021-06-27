@@ -7,6 +7,11 @@
             <div class="card">
                 <div class="card-header font-weight-bold text-primary">Schedule for Swab Form</div>
                 <div class="card-body">
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}}" role="alert">
+                        <strong>{{session('msg')}}</strong>
+                    </div>
+                    @endif
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">1. Consultation Details</div>
                         <div class="card-body">
@@ -107,7 +112,7 @@
                                         <div id="ifPregnant">
                                             <div class="form-group">
                                               <label for="lmp"><span class="text-danger font-weight-bold">*</span>Last Menstrual Period (LMP)</label>
-                                              <input type="date" class="form-control" name="lmp" id="lmp">
+                                              <input type="date" class="form-control" name="lmp" id="lmp" value="{{old('lmp')}}">
                                             </div>
                                         </div>
                                     </div>
@@ -188,12 +193,12 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                          <input type="text" class="form-control" name="address_province" id="address_province">
+                                          <input type="text" class="form-control" name="address_province" id="address_province" value="{{old('address_province')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="address_city" id="address_city">
+                                            <input type="text" class="form-control" name="address_city" id="address_city" value="{{old('address_city')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -202,12 +207,12 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                          <input type="text" class="form-control" name="address_provincejson" id="address_provincejson">
+                                          <input type="text" class="form-control" name="address_provincejson" id="address_provincejson" value="{{old('address_provincejson')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="address_cityjson" id="address_cityjson">
+                                            <input type="text" class="form-control" name="address_cityjson" id="address_cityjson" value="{{old('address_cityjson')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -288,13 +293,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                           <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
-                                          <input type="text" class="form-control" name="occupation" id="occupation">
+                                          <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="occupation">Name of Workplace</label>
-                                            <input type="text" class="form-control" name="occupation" id="occupation">
+                                            <label for="occupation_name">Name of Workplace</label>
+                                            <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -345,7 +350,7 @@
                         <div class="card-header font-weight-bold">4. Clinical Information</div>
                         <div class="card-body">
                             <div class="form-group">
-                              <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Are you currently experience any COVID-19 signs or symptoms?</label>
+                              <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Are you currently experiencing any COVID-19 signs or symptoms?</label>
                               <select class="form-control" name="haveSymptoms" id="haveSymptoms">
                                 <option value="" disabled {{is_null(old('haveSymptoms')) ? 'selected' : ''}}>Choose...</option>
                                 <option value="1" {{(old('haveSymptoms') == '1') ? 'selected' : ''}}>Yes</option>
@@ -580,20 +585,186 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="form-group">
-                                <label for="haveComo"><span class="text-danger font-weight-bold">*</span>Do you have Comorbidities? (e.g. Hypertension, Diabetes, Cancer, etc.)</label>
-                                <select class="form-control" name="haveComo" id="haveComo">
-                                  <option value="" disabled {{is_null(old('haveComo')) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="1" {{(old('haveComo') == '1') ? 'selected' : ''}}>Yes</option>
-                                  <option value="0" {{(old('haveComo') == '0') ? 'selected' : ''}}>No</option>
-                                </select>
-                              </div>
+                            <div class="card mb-3">
+                                <div class="card-header">Comorbidities (Check all that apply if present)</div>
+                                <div class="card-body">
+                                    <div class="row comoOpt">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="None"
+                                                  name="comCheck[]"
+                                                  id="comCheck1"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("None", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck1">None</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Hypertension"
+                                                  name="comCheck[]"
+                                                  id="comCheck2"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Hypertension", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck2">Hypertension</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Diabetes"
+                                                  name="comCheck[]"
+                                                  id="comCheck3"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Diabetes", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck3">Diabetes</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Heart Disease"
+                                                  name="comCheck[]"
+                                                  id="comCheck4"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Heart Disease", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck4">Heart Disease</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Lung Disease"
+                                                  name="comCheck[]"
+                                                  id="comCheck5"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Lung Disease", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck5">Lung Disease</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Gastrointestinal"
+                                                  name="comCheck[]"
+                                                  id="comCheck6"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Gastrointestinal", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck6">Gastrointestinal</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Genito-urinary"
+                                                  name="comCheck[]"
+                                                  id="comCheck7"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Genito-urinary", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck7">Genito-urinary</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Neurological Disease"
+                                                  name="comCheck[]"
+                                                  id="comCheck8"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Neurological Disease", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck8">Neurological Disease</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Cancer"
+                                                  name="comCheck[]"
+                                                  id="comCheck9"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Cancer", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck9">Cancer</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Others"
+                                                  name="comCheck[]"
+                                                  id="comCheck10"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Others", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck10">Others</label>
+                                            </div>
+                                            <div id="divComOthersChecked">
+                                                <div class="form-group mt-2">
+                                                  <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
+                                                  <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks')}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">5. Chest X-ray Details</div>
                         <div class="card-body">
-                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                      <label for=""><span class="text-danger font-weight-bold">*</span>Date done</label>
+                                      <input type="date" class="form-control" name="imagingDoneDate" id="imagingDoneDate" value="{{old('imagingDoneDate')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                      <label for="imagingDone"><span class="text-danger font-weight-bold">*</span>Chest X-Ray Type</label>
+                                      <select class="form-control" name="imagingDone" id="imagingDone" required>
+                                        <option value="None" {{(old('imagingDone') == "None") ? 'selected' : ''}}>None</option>
+                                        <option value="Chest Radiography" {{(old('imagingDone') == "Chest Radiography") ? 'selected' : ''}}>Chest Radiography</option>
+                                        <option value="Chest CT" {{(old('imagingDone') == "Chest CT") ? 'selected' : ''}}>Chest CT</option>
+                                        <option value="Lung Ultrasound" {{(old('imagingDone') == "Lung Ultrasound") ? 'selected' : ''}}>Lung Ultrasound</option>
+                                      </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                      <label for="imagingResult"><span class="text-danger font-weight-bold">*</span>Results</label>
+                                      <select class="form-control" name="imagingResult" id="imagingResult">
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                </div>
+                                <div class="col-md-4">
+                                    <div id="divImagingOthers">
+                                        <div class="form-group">
+                                          <label for="imagingOtherFindings"><span class="text-danger font-weight-bold">*</span>Specify findings</label>
+                                          <input type="text" class="form-control" name="imagingOtherFindings" id="imagingOtherFindings" value="{{old('imagingOtherFindings')}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card">
@@ -620,60 +791,59 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                  <label for="namecc1">Name of Close Contact #1</label>
-                                                  <input type="text" class="form-control" name="namecc1" id="namecc1">
+                                                  <label for="contact1Name">Name of Close Contact #1</label>
+                                                  <input type="text" class="form-control" name="contact1Name" id="contact1Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="mobilecc1">Mobile Number of Close Contact #1</label>
-                                                    <input type="text" class="form-control" name="mobilecc1" id="mobilecc1">
+                                                    <label for="contact1No">Mobile Number of Close Contact #1</label>
+                                                    <input type="text" class="form-control" name="contact1No" id="contact1No">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                  <label for="namecc2">Name of Close Contact #2</label>
-                                                  <input type="text" class="form-control" name="namecc2" id="namecc2">
+                                                  <label for="contact2Name">Name of Close Contact #2</label>
+                                                  <input type="text" class="form-control" name="contact2Name" id="contact2Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="mobilecc2">Mobile Number of Close Contact #2</label>
-                                                    <input type="text" class="form-control" name="mobilecc2" id="mobilecc2">
+                                                    <label for="contact2No">Mobile Number of Close Contact #2</label>
+                                                    <input type="text" class="form-control" name="contact2No" id="contact2No">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                  <label for="namecc3">Name of Close Contact #3</label>
-                                                  <input type="text" class="form-control" name="namecc3" id="namecc3">
+                                                  <label for="contact3Name">Name of Close Contact #3</label>
+                                                  <input type="text" class="form-control" name="contact3Name" id="contact3Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="mobilecc3">Mobile Number of Close Contact #3</label>
-                                                    <input type="text" class="form-control" name="mobilecc3" id="mobilecc3">
+                                                    <label for="contact3No">Mobile Number of Close Contact #3</label>
+                                                    <input type="text" class="form-control" name="contact3No" id="contact3No">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                  <label for="namecc4">Name of Close Contact #4</label>
-                                                  <input type="text" class="form-control" name="namecc4" id="namecc4">
+                                                  <label for="contact4Name">Name of Close Contact #4</label>
+                                                  <input type="text" class="form-control" name="contact4Name" id="contact4Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="mobilecc4">Mobile Number of Close Contact #4</label>
-                                                    <input type="text" class="form-control" name="mobilecc4" id="mobilecc4">
+                                                    <label for="contact4No">Mobile Number of Close Contact #4</label>
+                                                    <input type="text" class="form-control" name="contact4No" id="contact4No">
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -681,7 +851,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-primary btn-block">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
                 </div>
             </div>
         </div>
@@ -706,6 +876,17 @@
     <script>
         //$('#announcement').modal({backdrop: 'static', keyboard: false});
         //$('#announcement').modal('show');
+
+        $(function(){
+            var requiredCheckboxes = $('.comoOpt :checkbox[required]');
+            requiredCheckboxes.change(function(){
+                if(requiredCheckboxes.is(':checked')) {
+                    requiredCheckboxes.removeAttr('required');
+                } else {
+                    requiredCheckboxes.attr('required', 'required');
+                }
+            }).trigger('change');;
+        });
         
         $('#addresstext').hide();
         $('#saddress_city').prop('disabled', true);
@@ -879,6 +1060,107 @@
             else {
                 $('#divSASOtherChecked').hide();
                 $('#SASOtherRemarks').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#haveSymptoms').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == '0' || $(this).val() == null) {
+                $('#ifHaveSymptoms').hide();
+                $('#dateOnsetOfIllness').prop('required', false);
+            }
+            else {
+                $('#ifHaveSymptoms').show();
+                $('#dateOnsetOfIllness').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#comCheck10').change(function (e) { 
+            e.preventDefault();
+            if($(this).prop('checked') == true) {
+                $('#divComOthersChecked').show();
+                $('#COMOOtherRemarks').prop('required', true);
+            }
+            else {
+                $('#divComOthersChecked').hide();
+                $('#COMOOtherRemarks').prop('required', false);
+            }
+        }).trigger('change');
+            
+        $('#comCheck1').change(function (e) { 
+            e.preventDefault();
+            if($(this).prop('checked') == true) {
+                $('#comCheck2').prop({'disabled': true, 'checked': false});
+                $('#comCheck3').prop({'disabled': true, 'checked': false});
+                $('#comCheck4').prop({'disabled': true, 'checked': false});
+                $('#comCheck5').prop({'disabled': true, 'checked': false});
+                $('#comCheck6').prop({'disabled': true, 'checked': false});
+                $('#comCheck7').prop({'disabled': true, 'checked': false});
+                $('#comCheck8').prop({'disabled': true, 'checked': false});
+                $('#comCheck9').prop({'disabled': true, 'checked': false});
+                $('#comCheck10').prop({'disabled': true, 'checked': false});
+            }
+            else {
+                $('#comCheck2').prop({'disabled': false, 'checked': false});
+                $('#comCheck3').prop({'disabled': false, 'checked': false});
+                $('#comCheck4').prop({'disabled': false, 'checked': false});
+                $('#comCheck5').prop({'disabled': false, 'checked': false});
+                $('#comCheck6').prop({'disabled': false, 'checked': false});
+                $('#comCheck7').prop({'disabled': false, 'checked': false});
+                $('#comCheck8').prop({'disabled': false, 'checked': false});
+                $('#comCheck9').prop({'disabled': false, 'checked': false});
+                $('#comCheck10').prop({'disabled': false, 'checked': false});
+            }
+        });
+
+        @if(is_null(old('comCheck')))
+            $('#comCheck1').prop('checked', true);
+        @endif
+
+        $('#imagingDone').change(function (e) { 
+            e.preventDefault();
+            $('#divImagingOthers').hide();
+            $('#imagingOtherFindings').val("");
+            if($(this).val() == "None") {
+                $('#imagingDoneDate').prop({disabled: true, required: false});
+                $('#imagingResult').prop({disabled: true, required: false});
+                $("#imagingResult").empty();
+            }
+            else {
+                $('#imagingDoneDate').prop({disabled: false, required: true});
+                $('#imagingResult').prop({disabled: false, required: true});
+                $("#imagingResult").empty();
+                $("#imagingResult").append(new Option("Normal", "NORMAL"));
+                $("#imagingResult").append(new Option("Pending", "PENDING"));
+
+                $('#divImagingOthers').hide();
+
+                if($(this).val() == "Chest Radiography") {
+                    $("#imagingResult").append(new Option("Hazy opacities, often rounded in morphology, with peripheral and lower lung dist.", "HAZY"));
+                }
+                else if($(this).val() == "Chest CT") {
+                    $("#imagingResult").append(new Option("Multiple bilateral ground glass opacities, often rounded in morphology, w/ peripheral and lower lung dist.", "MULTIPLE"));
+                }
+                else if($(this).val() == "Lung Ultrasound") {
+                    $("#imagingResult").append(new Option("Thickened pleural lines, B lines, consolidative patterns with or without air bronchograms.", "THICKENED"));
+                }
+                
+                if($(this).val() != "OTHERS") {
+                    $("#imagingResult").append(new Option("Other findings", "OTHERS"));
+                }
+            }
+        }).trigger('change');
+
+        $('#imagingResult').change(function (e) { 
+            e.preventDefault();
+            $('#imagingOtherFindings').val("");
+            if($(this).val() == "OTHERS") {
+                $('#divImagingOthers').show();
+                $('imagingOtherFindings').prop({disabled: false, required: true});
+            }
+            else {
+                $('#divImagingOthers').hide();
+                $('imagingOtherFindings').prop({disabled: true, required: false});
             }
         }).trigger('change');
     </script>

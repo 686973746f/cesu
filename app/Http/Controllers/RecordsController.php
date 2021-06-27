@@ -218,8 +218,8 @@ class RecordsController extends Controller
 					'occupation_mobile' => ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL,
 					'occupation_email' => ($request->hasoccupation == 1) ? $request->occupation_email : NULL,
 
-					'natureOfWork' => ($request->hasoccupation == 1) ? strtoupper($request->natureOfWork) : NULL,
-					'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'Others') ? strtoupper($request->natureOfWorkIfOthers) : NULL,
+					'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
+					'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
 				]);
 			}
 			else {
@@ -522,8 +522,8 @@ class RecordsController extends Controller
 			'occupation_mobile' => ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL,
 			'occupation_email' => ($request->hasoccupation == 1) ? $request->occupation_email : NULL,
 
-			'natureOfWork' => ($request->hasoccupation == 1) ? strtoupper($request->natureOfWork) : NULL,
-			'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'Others') ? strtoupper($request->natureOfWorkIfOthers) : NULL,
+			'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
+			'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
 			]);
 
 			$record = Records::find($id);

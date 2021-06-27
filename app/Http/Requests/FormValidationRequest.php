@@ -105,7 +105,7 @@ class FormValidationRequest extends FormRequest
             'PregnantLMP' => ($rec->gender == "FEMALE" && $rec->isPregnant == 1) ? 'required|date' : 'nullable|date',
             'highRiskPregnancy' => ($rec->gender == "FEMALE" && $rec->isPregnant == 1) ? 'required' : 'nullable',
             'diagWithSARI' => 'required',
-            'imagingDoneDate' => ($this->imagingDone != "None") ? 'required|date' : 'nullable',
+            'imagingDoneDate' => ($this->imagingDone != "None") ? 'required|date' : 'nullable|date',
             'imagingDone' => 'required',
             'imagingResult' => ($this->imagingDone != "None") ? 'required' : 'nullable',
             'imagingOtherFindings' => ($this->imagingDone != "None" && $this->imagingResult == "OTHERS") ? 'required' : 'nullable',
@@ -141,7 +141,7 @@ class FormValidationRequest extends FormRequest
             'deathUndeCause' => 'nullable',
             'contriCondi' => 'nullable',
 
-            'expoitem1' => 'required',
+            'expoitem1' => 'required|numeric',
             'expoDateLastCont' => ($this->expoitem1 == "1") ? 'required|date' : 'nullable|date',
 
             'expoitem2' => 'required',
@@ -212,17 +212,14 @@ class FormValidationRequest extends FormRequest
             'localDest2' => 'nullable',
             'localDateArrive2' => 'nullable|date',
 
-            'contact1Name' => 'nullable',
+            'contact1Name' => 'nullable|string',
             'contact1No' => 'nullable|numeric|digits:11',
-            'contact2Name' => 'nullable',
+            'contact2Name' => 'nullable|string',
             'contact2No' => 'nullable|numeric|digits:11',
-            'contact3Name' => 'nullable',
+            'contact3Name' => 'nullable|string',
             'contact3No' => 'nullable|numeric|digits:11',
-            'contact4Name' => 'nullable',
+            'contact4Name' => 'nullable|string',
             'contact4No' => 'nullable|numeric|digits:11',
-            'addContName.*' => 'nullable',
-            'addContNo.*' => 'nullable|numeric|digits:11',
-            'addContExpSet.*' => 'nullable',
 
             'remarks' => 'nullable',
 		];

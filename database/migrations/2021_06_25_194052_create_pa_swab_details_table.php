@@ -11,6 +11,7 @@ class CreatePaSwabDetailsTable extends Migration
      *
      * @return void
      */
+    
     public function up()
     {
         Schema::create('pa_swab_details', function (Blueprint $table) {
@@ -28,16 +29,13 @@ class CreatePaSwabDetailsTable extends Migration
             $table->date('bdate');
             $table->string('gender');
             $table->smallInteger('isPregnant');
-            $table->date('ifPregnantLMP');
+            $table->date('ifPregnantLMP')->nullable();
             $table->string('cs');
             $table->string('nationality');
-            $table->string('mobile');
+            $table->string('mobile'); 
+            $table->string('phoneno')->nullable();
             $table->string('email')->nullable();
-
-            $table->string('occupation')->nullable();
-            $table->string('occupation_name')->nullable();
-            $table->string('natureOfWork');
-            $table->string('natureOfWorkIfOthers');
+            $table->string('philhealth')->nullable();
             $table->string('address_houseno');
             $table->string('address_street');
             $table->string('address_brgy');
@@ -45,14 +43,26 @@ class CreatePaSwabDetailsTable extends Migration
             $table->string('address_cityjson');
             $table->string('address_province');
             $table->string('address_provincejson');
-            
-            $table->text('symptoms')->nullable();
+
+            $table->string('occupation')->nullable();
+            $table->string('occupation_name')->nullable();
+            $table->string('natureOfWork')->nullable();
+            $table->string('natureOfWorkIfOthers')->nullable();
+              
             $table->date('dateOnsetOfIllness')->nullable();
+            $table->text('SAS')->nullable();
+            $table->mediumInteger('SASFeverDeg')->nullable();
+            $table->text('SASOtherRemarks')->nullable();
 
             $table->text('COMO');
-            $table->string('xrayResult')->nullable();
-            $table->date('xrayDate')->nullable();
+            $table->text('COMOOtherRemarks')->nullable();
 
+            $table->date('imagingDoneDate')->nullable();
+            $table->string('imagingDone');
+            $table->string('imagingResult')->nullable();
+            $table->string('imagingOtherFindings')->nullable();
+
+            $table->enum('expoitem1', [1,2,3]);
             $table->date('expoDateLastCont')->nullable();
 
             $table->text('contact1Name')->nullable();
