@@ -143,4 +143,23 @@ class PaSwabController extends Controller
     public function complete() {
         return view('paswab_complete');
     }
+
+    public function check(Request $request) {
+        $request->validate([
+            'scode' => 'required',
+        ]);
+
+        $check = PaSwabDetails::where('majikCode', strtoupper($request->scode));
+
+        if($check->count()) {
+            
+        }
+        else {
+            return back()
+			->withInput()
+            ->with('openform', 'patient')
+			->with('msg', 'Schedule Code does not exist. Please try again.')
+            ->with('msgtype', 'danger');
+        }
+    }
 }

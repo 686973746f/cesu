@@ -874,8 +874,8 @@
     </div>
 
     <script>
-        //$('#announcement').modal({backdrop: 'static', keyboard: false});
-        //$('#announcement').modal('show');
+        $('#announcement').modal({backdrop: 'static', keyboard: false});
+        $('#announcement').modal('show');
 
         $(function(){
             var requiredCheckboxes = $('.comoOpt :checkbox[required]');
