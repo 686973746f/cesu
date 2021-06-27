@@ -596,12 +596,7 @@
 			});
 
 			$.each(sorted, function(key, val) {
-				$('#saddress_province').append($('<option>', {
-					value: val.provCode,
-					text: val.provDesc,
-					selected: (val.provCode == '0421') ? true : false,
-				}));
-
+				$("#saddress_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
 				$("#spermaaddress_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
 				$("#soccupation_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
 			});
@@ -630,15 +625,11 @@
 				});
 				$.each(sorted, function(key, val) {
 					if($('#saddress_province').val() == val.provCode) {
-						$('#saddress_city').append($('<option>', {
-							value: val.citymunCode,
-							text: val.citymunDesc,
-							selected: (val.citymunCode == '042108') ? true : false,
-						})); 
+						$("#saddress_city").append('<option value="'+val.citymunCode+'">'+val.citymunDesc+'</option>');
 					}
 				});
 			});
-		}).trigger('change');
+		});
 
 		$('#spermaaddress_province').change(function (e) {
 			e.preventDefault();
@@ -724,7 +715,7 @@
 					}
 				});
 			});
-		}).trigger('change');
+		});
 
 		$('#spermaaddress_city').change(function (e) { 
 			e.preventDefault();
