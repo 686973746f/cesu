@@ -831,7 +831,7 @@
                                                             </div>
                                                             <div id="divFeverChecked">
                                                                 <div class="form-group mt-2">
-                                                                  <label for="SASFeverDeg">Degrees (in Celcius)</label>
+                                                                  <label for="SASFeverDeg"><span class="text-danger font-weight-bold">*</span>Degrees (in Celcius)</label>
                                                                   <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" value="{{old('SASFeverDeg')}}">
                                                                 </div>
                                                             </div>
@@ -1015,7 +1015,7 @@
                                                             </div>
                                                             <div id="divSASOtherChecked">
                                                                 <div class="form-group mt-2">
-                                                                  <label for="SASOtherRemarks">Specify Findings</label>
+                                                                  <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
                                                                   <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks')}}">
                                                                 </div>
                                                             </div>
@@ -1154,7 +1154,7 @@
                                                             </div>
                                                             <div id="divComOthersChecked">
                                                                 <div class="form-group mt-2">
-                                                                  <label for="COMOOtherRemarks">Specify Findings</label>
+                                                                  <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
                                                                   <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks')}}">
                                                                 </div>
                                                             </div>

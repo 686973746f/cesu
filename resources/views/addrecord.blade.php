@@ -137,7 +137,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="email">Email Address</label>
-							<input type="email" class="form-control" name="email" id="email">
+							<input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
 							@error('email')
 								  <small class="text-danger">{{$message}}</small>
 							@enderror
@@ -556,7 +556,7 @@
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="occupation_email">Email <small>(Optional)</small></label>
-								<input type="email" class="form-control" name="occupation_email" id="occupation_email">
+								<input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{old('occupation_email')}}">
 								@error('occupation_email')
 									  <small class="text-danger">{{$message}}</small>
 								@enderror
