@@ -58,6 +58,9 @@ class Records extends Model
         'occupation_name',
         'occupation_mobile',
         'occupation_email',
+        
+        'natureOfWork',
+        'natureOfWorkIfOthers',
     ];
 
     public function getAge() {

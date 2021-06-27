@@ -59,6 +59,9 @@ class RecordValidationRequest extends FormRequest
 			'occupation_name' => 'nullable',
 			'occupation_mobile' => 'nullable|numeric|digits:11',
 			'occupation_email' => 'nullable|email',
+
+			'natureOfWork' => ($this->hasoccupation == 1) ? 'required' : 'nullable',
+			'natureOfWorkIfOthers' => ($this->hasoccupation == 1 && $this->natureOfWork == 'Others') ? 'required' : 'nullable',
         ];
     }
 }

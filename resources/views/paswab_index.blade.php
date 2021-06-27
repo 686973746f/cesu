@@ -135,7 +135,14 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            
+                            <div class="form-group">
+                              <label for="">Nature of Work</label>
+                              <select class="form-control" name="" id="">
+                                <option></option>
+                                <option></option>
+                                <option></option>
+                              </select>
+                            </div>
                         </div>
                     </div>
                 </div>

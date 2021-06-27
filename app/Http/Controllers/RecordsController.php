@@ -85,7 +85,7 @@ class RecordsController extends Controller
     {
 		if(!is_null(auth()->user()->company_id)) {
 			$list = Companies::find(auth()->user()->company_id);
-			
+
 			return view ('addrecord_company', ['list' => $list]);
 		}
 		else {
@@ -217,6 +217,9 @@ class RecordsController extends Controller
 					'occupation_name' => ($request->filled('occupation_name') && $request->hasoccupation == 1) ? strtoupper($request->occupation_name) : NULL,
 					'occupation_mobile' => ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL,
 					'occupation_email' => ($request->hasoccupation == 1) ? $request->occupation_email : NULL,
+
+					'natureOfWork' => ($request->hasoccupation == 1) ? strtoupper($request->natureOfWork) : NULL,
+					'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'Others') ? strtoupper($request->natureOfWorkIfOthers) : NULL,
 				]);
 			}
 			else {
@@ -518,6 +521,9 @@ class RecordsController extends Controller
 			'occupation_name' => ($request->filled('occupation_name') && $request->hasoccupation == 1) ? strtoupper($request->occupation_name) : NULL,
 			'occupation_mobile' => ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL,
 			'occupation_email' => ($request->hasoccupation == 1) ? $request->occupation_email : NULL,
+
+			'natureOfWork' => ($request->hasoccupation == 1) ? strtoupper($request->natureOfWork) : NULL,
+			'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'Others') ? strtoupper($request->natureOfWorkIfOthers) : NULL,
 			]);
 
 			$record = Records::find($id);
