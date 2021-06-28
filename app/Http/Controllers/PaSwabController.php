@@ -133,6 +133,8 @@ class PaSwabController extends Controller
                 'contact3No' => $request->contact3No,
                 'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
                 'contact4No' => $request->contact4No,
+
+                'senderIP' => request()->ip(),
             ]);
 
             return redirect()->action([PaSwabController::class, 'complete'])->with('majik', $majik)->with('statustype', 'success');
@@ -171,6 +173,6 @@ class PaSwabController extends Controller
     }
 
     public function approve($id) {
-        
+
     }
 }

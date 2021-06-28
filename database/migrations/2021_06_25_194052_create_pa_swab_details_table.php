@@ -18,6 +18,8 @@ class CreatePaSwabDetailsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('status')->default('pending');
+            $table->string('remarks')->nullable();
+            $table->date('processedAt')->nullable();
             $table->string('majikCode');
             $table->string('pType');
             $table->tinyInteger('isForHospitalization');
@@ -73,6 +75,8 @@ class CreatePaSwabDetailsTable extends Migration
             $table->text('contact3No', 11)->nullable();
             $table->text('contact4Name')->nullable();
             $table->text('contact4No', 11)->nullable();
+
+            $table->ipAddress('senderIP');
         });
     }
 

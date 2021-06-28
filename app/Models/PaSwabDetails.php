@@ -64,6 +64,8 @@ class PaSwabDetails extends Model
         'contact3No',
         'contact4Name',
         'contact4No',
+
+        'senderIP',
     ];
 
     public function getName() {
