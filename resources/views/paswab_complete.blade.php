@@ -10,11 +10,13 @@
                 <hr>
                 <p>Your Schedule Code is:</p>
                 <strong class="my-3"><h3>{{session('majik')}}</h3></strong>
-                <p>Please save the code as you can use it to check when is the schedule of your swab.</p>
+                <p>Please save the code as you can use it to check when is the schedule of your swab on <a href="{{route('main')}}">cesugentri.com</a>.</p>
                 <p>You will be also informed in Barangay regarding your schedule.</p>
                 <hr>
                 <p>If you have any concerns, you may contact us at:</p>
-                <p>09361234567</p>
+                <p>+639190664324</p>
+                <p>+639190664325</p>
+                <p>+639190664327</p>
                 <p>cesu.gentrias@gmail.com</p>
                 <hr>
                 <p>Thank you. Keep Safe.</p>
