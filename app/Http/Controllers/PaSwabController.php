@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Records;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
-use App\Http\Controllers\PaSwabController;
 use App\Http\Requests\PaSwabValidationRequest;
 use IlluminateAgnostic\Collection\Support\Str;
 
@@ -169,5 +168,9 @@ class PaSwabController extends Controller
         $list = PaSwabDetails::where('status', 'pending')->paginate(10);
 
         return view('paswab_view', ['list' => $list]);
+    }
+
+    public function approve($id) {
+        
     }
 }
