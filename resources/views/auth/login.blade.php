@@ -10,12 +10,12 @@
                   <div class="card-header" id="headingOne">
                     <h2 class="mb-0">
                       <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        I am a CESU Staff
+                        I am a CESU Staff/Encoder/Company Encoder/Barangay Staff
                       </button>
                     </h2>
                   </div>
               
-                  <div id="collapseOne" class="collapse {{(session('openform') == 'patient') ? '' : 'selected'}}" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div id="collapseOne" class="collapse {{(session('openform') == 'patient') ? '' : 'show'}}" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
