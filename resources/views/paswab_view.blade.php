@@ -11,15 +11,17 @@
                             <th>Date Submitted</th>
                             <th>Name</th>
                             <th>Client Type</th>
+                            <th>Address</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($list as $item)
                             <tr>
-                                <td>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</td>
+                                <td class="text-center">{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</td>
                                 <td>{{$item->getName()}}</td>
-                                <td></td>
+                                <td class="text-center">{{$item->pType}}</td>
+                                <td><small>{{$item->getAddress()}}</small></td>
                             </tr>
                         @empty
                             empty

@@ -32,6 +32,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <p class="font-weight-bold">Office Hours: 08:00 AM - 05:00 PM</p>
                 <p>Thank you. Keep Safe.</p>                
             </div>
             <div class="card-footer text-center">

@@ -69,4 +69,8 @@ class PaSwabDetails extends Model
     public function getName() {
         return $this->lname.", ".$this->fname." ".$this->mname;
     }
+
+    public function getAddress() {
+        return $this->address_street.", BRGY. ".$this->address_brgy.", ".$this->address_city.", ".$this->address_province;
+    }
 }
