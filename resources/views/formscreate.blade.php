@@ -1296,7 +1296,6 @@
                                                 <label for="testDateReleased1">Date released</label>
                                                 <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" min="{{date('Y-01-01')}}" value="{{old('testDateReleased1')}}">
                                             </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1317,13 +1316,13 @@
                                                   <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
                                                   <option value="OTHERS" {{(old('testType1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                                 </select>
-                                              </div>
-                                              <div id="divTypeOthers1">
+                                            </div>
+                                            <div id="divTypeOthers1">
                                                   <div class="form-group">
                                                     <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
                                                     <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
                                                   </div>
-                                              </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -2696,26 +2695,6 @@
                 if($(this).val() == '0') {
                     $('#divisOFW').hide();
                     $('#OFWCountyOfOrigin').prop('required', false);
-
-                    /*
-                    $('#oaddresslotbldg').prop({'required': false, 'disabled': true});
-                    $('#oaddressstreet').prop({'required': false, 'disabled': true});
-                    $('#oaddressscity').prop({'required': false, 'disabled': true});
-                    $('#oaddresssprovince').prop({'required': false, 'disabled': true});
-                    $('#oaddressscountry').prop({'required': false, 'disabled': true});
-                    $('#placeofwork').prop({'required': false, 'disabled': true});
-                    $('#employername').prop({'required': false, 'disabled': true});
-                    $('#employercontactnumber').prop({'required': false, 'disabled': true});
-
-                    $('#oaddresslotbldg').val('N/A');
-                    $('#oaddressstreet').val('N/A');
-                    $('#oaddressscity').val('N/A');
-                    $('#oaddresssprovince').val('N/A');
-                    $('#oaddressscountry').val('N/A');
-                    $('#placeofwork').val('N/A');
-                    $('#employername').val('N/A');
-                    $('#employercontactnumber').val('N/A');
-                    */
                 }
                 else {
                     $('#divisOFW').show();
@@ -2723,25 +2702,6 @@
                     control.clear();
                     $('#oaddressscountry').val('N/A');
                     $('#OFWCountyOfOrigin').prop('required', true);
-
-                    /*
-                    $('#oaddresslotbldg').prop({required: true, disabled: false});
-                    $('#oaddressstreet').prop({required: true, disabled: false});
-                    $('#oaddressscity').prop({required: true, disabled: false});
-                    $('#oaddresssprovince').prop({required: true, disabled: false});
-                    $('#oaddressscountry').prop({required: true, disabled: false});
-                    $('#placeofwork').prop({required: true, disabled: false});
-                    $('#employername').prop({required: true, disabled: false});
-                    $('#employercontactnumber').prop({required: true, disabled: false});
-
-                    $('#oaddresslotbldg').val('');
-                    $('#oaddressstreet').val('');
-                    $('#oaddressscity').val('');
-                    $('#oaddresssprovince').val('');
-                    $('#placeofwork').val('');
-                    $('#employername').val('');
-                    $('#employercontactnumber').val('');
-                    */
                 }
             }).trigger('change');
 

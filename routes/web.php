@@ -59,16 +59,18 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/paswab/check', [PaSwabController::class, 'check'])->name('paswab.check');
 });
 
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
+    Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
+    Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific']);
+    Route::post('/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);
+    Route::post('/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
+});
+
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
     // your routes
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::resource('records', RecordsController::class);
-
-    //Route::get('/forms/import/', [FormsController::class, 'importIndex'])->name('forms.import.index');
-    //Route::post('/forms/import/', [FormsController::class, 'importInit'])->name('forms.import.init');
-
-    Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
     
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/new', [FormsController::class, 'new']);

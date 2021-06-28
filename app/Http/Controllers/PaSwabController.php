@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Records;
+use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 use App\Http\Requests\PaSwabValidationRequest;
@@ -172,7 +173,80 @@ class PaSwabController extends Controller
         return view('paswab_view', ['list' => $list]);
     }
 
-    public function approve($id) {
+    public function viewspecific($id) {
+        $data = PaSwabDetails::findOrFail($id);
+
+        $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+
+        return view('paswab_view_specific', ['data' => $data, 'interviewers' => $interviewers]);
+    }
+
+    public function approve($id, Request $request) {
+        $data = PaSwabDetails::findOrFail($id);
+
+        $request->validate([
+            'interviewerName' => 'required',
+            'testDateCollected1' => 'required|date',
+            'testType1' => 'required',
+            'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? 'required' : 'nullable',
+        ]);
+
+        //create record data first
+
+        $rec = $request->user()->records()->create([
+            'status' => 'approved',
+            'lname' => mb_strtoupper($data->lname),
+            'fname' => mb_strtoupper($data->fname),
+            'mname' => (!is_null($data->mname)) ? mb_strtoupper($data->mname) : null,
+            'gender' => strtoupper($data->gender),
+            'isPregnant' => $data->isPregnant,
+            'cs' => strtoupper($data->cs),
+            'nationality' => strtoupper($data->nationality),
+            'bdate' => $data->bdate,
+            'mobile' => $data->mobile,
+            'phoneno' => (!is_null($data->phoneno)) ? $data->phoneno : NULL,
+            'email' => $data->email,
+            'philhealth' => $data->philhealth,
+            'address_houseno' => strtoupper($data->address_houseno),
+            'address_street' => strtoupper($data->address_street),
+            'address_brgy' => strtoupper($data->address_brgy),
+            'address_city' => strtoupper($data->address_city),
+            'address_cityjson' => $data->address_cityjson,
+            'address_province' => strtoupper($data->address_province),
+            'address_provincejson' => $data->address_provincejson,
+
+            'permaaddressDifferent' => 0,
+            'permaaddress_houseno' => strtoupper($data->address_houseno),
+            'permaaddress_street' => strtoupper($data->address_street),
+            'permaaddress_brgy' => strtoupper($data->address_brgy),
+            'permaaddress_city' => strtoupper($data->address_city),
+            'permaaddress_cityjson' => $data->address_cityjson,
+            'permaaddress_province' => strtoupper($data->address_province),
+            'permaaddress_provincejson' => $data->address_provincejson,
+            'permamobile' => $data->mobile,
+            'permaphoneno' => (!is_null($data->phoneno)) ? $data->phoneno : NULL,
+            'permaemail' => $data->email,
+
+            'hasOccupation' => (!is_null($data->occupation)) ? 1 : 0,
+            'occupation' => $data->occupation,
+            'worksInClosedSetting' => 'NO',
+            'occupation_lotbldg' => NULL,
+            'occupation_street' => NULL,
+            'occupation_brgy' => NULL,
+            'occupation_city' => NULL,
+            'occupation_cityjson' => NULL,
+            'occupation_province' => NULL,
+            'occupation_provincejson' => NULL,
+            'occupation_name' => NULL,
+            'occupation_mobile' => NULL,
+            'occupation_email' => NULL,
+
+            'natureOfWork' => ($data->hasoccupation == 1) ? mb_strtoupper($data->natureOfWork) : NULL,
+            'natureOfWorkIfOthers' => ($requedatast->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+        ]);
+    }
+
+    public function reject($id, Request $request) {
 
     }
 }
