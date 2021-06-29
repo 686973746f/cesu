@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -74,5 +75,14 @@ class PaSwabDetails extends Model
 
     public function getAddress() {
         return $this->address_street.", BRGY. ".$this->address_brgy.", ".$this->address_city.", ".$this->address_province;
+    }
+
+    public function getAge() {
+        if(Carbon::parse($this->attributes['bdate'])->age > 0) {
+            return Carbon::parse($this->attributes['bdate'])->age;
+        }
+        else {
+            return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
+        }
     }
 }

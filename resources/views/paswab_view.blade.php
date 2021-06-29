@@ -10,28 +10,40 @@
                     {{session('msg')}}
                 </div>
                 @endif
-                <table class="table table-bordered">
-                    <thead class="text-center">
-                        <tr>
-                            <th>Date Submitted</th>
-                            <th>Name</th>
-                            <th>Client Type</th>
-                            <th>Address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($list as $item)
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="text-center">
                             <tr>
-                                <td class="text-center">{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</td>
-                                <td><a href="/forms/paswab/view/{{$item->id}}">{{$item->getName()}}</a></td>
-                                <td class="text-center">{{$item->pType}}</td>
-                                <td><small>{{$item->getAddress()}}</small></td>
+                                <th>Date Submitted</th>
+                                <th>Name</th>
+                                <th>Philhealth</th>
+                                <th>Birthdate</th>
+                                <th>Age / Gender</th>
+                                <th>Client Type</th>
+                                <th>Date Interviewed</th>
+                                <th>Address</th>
+                                <th>Mobile</th>
                             </tr>
-                        @empty
-                            empty
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse ($list as $item)
+                                <tr>
+                                    <td class="text-center">{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</td>
+                                    <td><a href="/forms/paswab/view/{{$item->id}}">{{$item->getName()}}</a></td>
+                                    <td class="text-center">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
+                                    <td class="text-center">{{date('m/d/Y', strtotime($item->bdate))}}</td>
+                                    <td class="text-center">{{$item->getAge()." / ".$item->gender}}</td>
+                                    <td class="text-center">{{$item->pType}}</td>
+                                    <td class="text-center">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
+                                    <td><small>{{$item->getAddress()}}</small></td>
+                                    <td class="text-center">{{$item->mobile}}</td>
+                                </tr>
+                            @empty
+                                empty
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="pagination justify-content-center mt-3">
                     {{$list->appends(request()->input())->links()}}
