@@ -286,6 +286,7 @@ class PaSwabController extends Controller
         }
 
         $request->user()->form()->create([
+            'majikCode' => $data->majikCode,
             'status' => 'approved',
             'isPresentOnSwabDay' => NULL,
             'records_id' => $rec->id,
