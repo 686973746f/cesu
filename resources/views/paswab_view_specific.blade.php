@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <div class="card">
+            <div class="card-header">View Pa-swab Record</div>
             <div class="card-body">
 
             </div>
@@ -19,7 +20,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Accept</h5>
+                        <h5 class="modal-title">Accept Request</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -57,7 +58,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
                     </div>
                 </div>
             </div>
@@ -70,16 +71,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Reject</h5>
+                        <h5 class="modal-title">Reject Request</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                     </div>
                     <div class="modal-body">
-                        Body
+                        <div class="form-group">
+                          <label for="reason"><span class="text-danger font-weight-bold">*</span>Specify Reason for Rejection</label>
+                          <input type="text" class="form-control" name="reason" id="reason" required>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i>Reject Record</button>
                     </div>
                 </div>
             </div>

@@ -20,9 +20,11 @@
                                 <th>Birthdate</th>
                                 <th>Age / Gender</th>
                                 <th>Client Type</th>
+                                <th>Last Exposure Date</th>
                                 <th>Date Interviewed</th>
                                 <th>Address</th>
                                 <th>Mobile</th>
+                                <th>IP Address</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,9 +36,11 @@
                                     <td class="text-center">{{date('m/d/Y', strtotime($item->bdate))}}</td>
                                     <td class="text-center">{{$item->getAge()." / ".$item->gender}}</td>
                                     <td class="text-center">{{$item->pType}}</td>
+                                    <td class="text-center">{{(!is_null($item->expoDateLastCont)) ? date('m/d/Y', strtotime($item->expoDateLastCont)) : 'N/A'}}</td>
                                     <td class="text-center">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
                                     <td><small>{{$item->getAddress()}}</small></td>
                                     <td class="text-center">{{$item->mobile}}</td>
+                                    <td class="text-center">{{$item->senderIP}}</td>
                                 </tr>
                             @empty
                                 empty

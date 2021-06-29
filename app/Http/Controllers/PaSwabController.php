@@ -467,6 +467,8 @@ class PaSwabController extends Controller
     }
 
     public function reject($id, Request $request) {
-
+        $request->validate([
+            'reason' => 'required',
+        ]);
     }
 }
