@@ -156,9 +156,19 @@ class PaSwabController extends Controller
         $check = PaSwabDetails::where('majikCode', strtoupper($request->scode))->first();
 
         if($check->count()) {
-            return view('paswab_check', [
-                'data' => $check
-            ]);
+            if($check->status == 'approved') {
+                $form = Forms::where('majikCode', $check->majikCode)->first();
+
+                return view('paswab_check', [
+                    'data' => $check,
+                    'form' => $form,
+                ]);
+            }
+            else {
+                return view('paswab_check', [
+                    'data' => $check
+                ]);
+            }
         }
         else {
             return back()
@@ -467,8 +477,27 @@ class PaSwabController extends Controller
     }
 
     public function reject($id, Request $request) {
+        $data = PaSwabDetails::findOrFail($id);
+
         $request->validate([
             'reason' => 'required',
         ]);
+
+        if($data->status == 'pending') {
+            $upd = PaSwabDetails::where('id', $id)->update([
+                'status' => 'rejected',
+                'remarks' => $request->reason,
+                'processedAt' => date('Y-m-d'),
+            ]);
+
+            return redirect()->action([PaSwabController::class, 'view'])
+            ->with('msg', 'Swab Schedule for '.$data->getName()." has been rejected successfully.")
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->action([PaSwabController::class, 'view'])
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
     }
 }
