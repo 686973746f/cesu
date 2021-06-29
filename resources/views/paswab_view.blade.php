@@ -33,7 +33,7 @@
                                     <td class="text-center">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
                                     <td class="text-center">{{date('m/d/Y', strtotime($item->bdate))}}</td>
                                     <td class="text-center">{{$item->getAge()." / ".$item->gender}}</td>
-                                    <td class="text-center">{{$item->pType}} <small>{{($item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y', strtotime($item->expoDateLastCont)).")" : ''}}</small></td>
+                                    <td class="text-center">{{$item->pType}} <small>{{(!is_null($item->pType) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y', strtotime($item->expoDateLastCont)).")" : ''}}</small></td>
                                     <td class="text-center">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
                                     <td><small>{{$item->getAddress()}}</small></td>
                                     <td class="text-center">{{$item->mobile}}</td>
