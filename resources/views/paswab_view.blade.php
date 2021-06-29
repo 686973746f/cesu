@@ -5,6 +5,11 @@
         <div class="card">
             <div class="card-header">Pa-Swab List</div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <table class="table table-bordered">
                     <thead class="text-center">
                         <tr>

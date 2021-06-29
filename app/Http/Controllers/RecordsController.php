@@ -273,6 +273,10 @@ class RecordsController extends Controller
 					'occupation_mobile' => $list->contactNumber,
 					'occupation_email' => $list->email,
 				]);
+
+				$forms = Forms::create([
+					''
+				]);
 			}
 
 			//return redirect('/forms/'.$data->id.'/new')
