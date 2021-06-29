@@ -6,6 +6,7 @@ use App\Models\Forms;
 use App\Models\Records;
 use App\Models\Companies;
 use Illuminate\Http\Request;
+use App\Models\PaSwabDetails;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\RecordValidationRequest;
 
@@ -163,7 +164,23 @@ class RecordsController extends Controller
 			$param1 = 0;
 		}
 
-		if($param1 == 1) {
+		if(PaSwabDetails::where('lname', mb_strtoupper($request->lname))
+		->where('fname', mb_strtoupper($request->fname))
+		->where(function ($query) use ($request) {
+			$query->where('mname', mb_strtoupper($request->mname))
+			->orWhereNull('mname');
+		})
+		->where('bdate', $request->bdate)
+		->where('gender', strtoupper($request->gender))
+		->whereIn('status', ['approved', 'pending'])
+		->exists()) {
+			$param2 = 1;
+		}
+		else {
+			$param2 = 0;
+		}
+
+		if($param1 == 1 || $param2 == 1) {
 			return back()
 			->withInput()
 			->with('msg', 'Double Entry Error. Patient Record already exists.');

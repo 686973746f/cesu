@@ -42,14 +42,15 @@ class PaSwabController extends Controller
 		})
 		->where('bdate', $request->bdate)
 		->where('gender', strtoupper($request->gender))
+        ->whereIn('status', ['approved', 'pending'])
 		->exists()) {
-			$param1 = 1;
+			$param2 = 1;
 		}
 		else {
-			$param1 = 0;
+			$param2 = 0;
 		}
 
-        if($param1 == 1) {
+        if($param1 == 1 || $param2 == 1) {
             return back()
 			->withInput()
 			->with('msg', 'Double entry error.')
