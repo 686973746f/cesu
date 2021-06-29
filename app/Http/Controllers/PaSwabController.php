@@ -53,8 +53,9 @@ class PaSwabController extends Controller
         if($param1 == 1 || $param2 == 1) {
             return back()
 			->withInput()
-			->with('msg', 'Double entry error.')
-            ->with('msgtype', 'danger');
+			->with('msg', 'Error: Your record already exists in our server. For more details, you may contact your respective Barangay Office or City Health Office of General Trias, Cavite.')
+            ->with('msgtype', 'danger')
+            ->with('skipmodal', true);
         }
         else {
             $foundunique = false;
@@ -153,9 +154,9 @@ class PaSwabController extends Controller
             'scode' => 'required',
         ]);
 
-        $check = PaSwabDetails::where('majikCode', strtoupper($request->scode))->first();
-
-        if($check->count()) {
+        if(PaSwabDetails::where('majikCode', strtoupper($request->scode))->exists()) {
+            $check = PaSwabDetails::where('majikCode', strtoupper($request->scode))->first();
+            
             if($check->status == 'approved') {
                 $form = Forms::where('majikCode', $check->majikCode)->first();
 

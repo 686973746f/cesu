@@ -9,7 +9,7 @@
                 <div class="card-body">
                     @if(session('msg'))
                     <div class="alert alert-{{session('msgtype')}}" role="alert">
-                        <strong>{{session('msg')}}</strong>
+                        {{session('msg')}}
                     </div>
                     @endif
                     @if($errors->any())
@@ -21,6 +21,9 @@
                     </div>
                     <hr>
                     @endif
+                    <div class="alert alert-info" role="alert">
+                        All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
+                    </div>
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">1. Consultation Details</div>
                         <div class="card-body">
@@ -49,7 +52,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Date of Interview</label>
-                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" value="{{old('interviewDate')}}" required>
+                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-14 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate')}}" required>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +172,7 @@
                                     <div class="form-group">
                                         <label for="philhealth">Philhealth Number <small><i>(Leave blank if N/A)</i></small></label>
                                         <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
-                                        <small class="form-text text-muted">Note: If your input has no dashes, the system will automatically do that for you.</small>
+                                        <small class="form-text text-muted">Note: Avoid hassle in your swab schedule by providing your Philhealth Number <i>(There are NO HIDDEN CHARGES applied into your Philhealth Account)</i></small>
                                         @error('philhealth')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -368,7 +371,7 @@
                             </div>
                             <div id="ifHaveSymptoms">
                                 <div class="form-group">
-                                    <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>Date of Onset of Illness</label>
+                                    <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>Date of Onset of Illness (Kailan Nagsimula ang Sintomas)</label>
                                     <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="card">
@@ -860,17 +863,17 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Please double check your details before proceeding. If checking is done, click OK to proceed.')">Submit</button>
                 </div>
             </div>
         </div>
     </form>
-
+    
     <div class="modal fade" id="announcement" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Announcement</h5>
+                    <h5 class="modal-title">Notice</h5>
                 </div>
                 <div class="modal-body text-center">
                     Test
@@ -883,8 +886,10 @@
     </div>
 
     <script>
+        @if(session('skipmodal') == false)
         $('#announcement').modal({backdrop: 'static', keyboard: false});
         $('#announcement').modal('show');
+        @endif
 
         $(function(){
             var requiredCheckboxes = $('.comoOpt :checkbox[required]');

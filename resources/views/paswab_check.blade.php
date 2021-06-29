@@ -15,7 +15,7 @@
                             <td style="color: orange;"><strong>PENDING</strong></td>
                         </tr>
                         <tr>
-                            <td>Date Submitted</td>
+                            <td>Your Date of Submission</td>
                             <td>{{date('m/d/Y h:i A', strtotime($data->created_at))}}</td>
                         </tr>
                     </tbody>
@@ -33,7 +33,11 @@
                     <tbody>
                         <tr>
                             <td>Status</td>
-                            <td class="text-danger"><strong>REJECTED</strong></td>
+                            <td><strong class="text-danger">REJECTED</strong> @ {{date('m/d/Y h:i A', strtotime($data->updated_at))}}</td>
+                        </tr>
+                        <tr>
+                            <td>Reason for Rejection from Staff</td>
+                            <td>{{$data->remarks}}</td>
                         </tr>
                         <tr>
                             <td>Date Submitted</td>
@@ -41,6 +45,14 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="card">
+                    <div class="card-header"><i class="fa fa-question-circle mr-2" aria-hidden="true"></i>What does it mean?</div>
+                    <div class="card-body">
+                        <p>Your request for swab has been <strong class="text-danger">rejected</strong> by CESU Staffs/Encoders. The reason for rejection is stated above.</p>
+                        <p>You could try submitting again, together with correction following the message stated in the reason for rejection.</p>
+                    </div>
+                </div>
                 @else
                 <table class="table table-bordered">
                     <tbody>
@@ -49,7 +61,7 @@
                             <td><strong class="text-success">APPROVED</strong> @ {{date('m/d/Y h:i A', strtotime($data->updated_at))}}</td>
                         </tr>
                         <tr>
-                            <td>Date Submitted</td>
+                            <td>Your Date of Submission</td>
                             <td>{{date('m/d/Y h:i A', strtotime($data->created_at))}}</td>
                         </tr>
                         <tr class="font-weight-bold">
@@ -67,7 +79,8 @@
                     <div class="card-body">
                         <p>Your swab schedule is now <strong class="text-success">approved</strong> by CESU Staff/Encoders.</p>
                         <p>You have been scheduled at <strong>{{date('m/d/Y (l)', strtotime($form->testDateCollected1))}}.</strong> Please be on time at COVID-19 Testing Center on General Trias Oval for the collection of your swab.</p>
-                        <p>Please be present as <strong class="text-danger">re-scheduling of swab collection is strictly prohibited.</strong> Please be guided accordingly.</p>
+                        <p>Please be present as <strong class="text-danger">re-scheduling of swab collection is strictly prohibited.</strong> No Face Mask and Face Shield, No Swab.</p>
+                        <p>Please be guided accordingly.</p>
                     </div>
                 </div>
                 @endif

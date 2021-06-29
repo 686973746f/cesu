@@ -12,9 +12,10 @@
                 @endif
                 <div class="table-responsive">
                     <table class="table table-bordered">
-                        <thead class="text-center">
+                        <thead class="text-center bg-light">
                             <tr>
                                 <th>Date Submitted</th>
+                                <th>Code</th>
                                 <th>Name</th>
                                 <th>Philhealth</th>
                                 <th>Birthdate</th>
@@ -28,7 +29,8 @@
                         <tbody>
                             @forelse ($list as $item)
                                 <tr>
-                                    <td class="text-center">{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</td>
+                                    <td class="text-center"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
+                                    <td class="text-center">{{$item->majikCode}}</td>
                                     <td><a href="/forms/paswab/view/{{$item->id}}">{{$item->getName()}}</a></td>
                                     <td class="text-center">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
                                     <td class="text-center">{{date('m/d/Y', strtotime($item->bdate))}}</td>

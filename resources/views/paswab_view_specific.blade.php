@@ -51,10 +51,10 @@
                             </select>
                         </div>
                         <div id="divTypeOthers1">
-                              <div class="form-group">
+                            <div class="form-group">
                                 <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
                                 <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
-                              </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
