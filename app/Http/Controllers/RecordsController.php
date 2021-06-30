@@ -159,6 +159,7 @@ class RecordsController extends Controller
 		->where('gender', strtoupper($request->gender))
 		->exists()) {
 			$param1 = 1;
+			$where = '(In our Records Page)';
 		}
 		else {
 			$param1 = 0;
@@ -175,6 +176,7 @@ class RecordsController extends Controller
 		->whereIn('status', ['approved', 'pending'])
 		->exists()) {
 			$param2 = 1;
+			$where = '(Currently Recorded in Pa-Swab Page)';
 		}
 		else {
 			$param2 = 0;
@@ -183,7 +185,8 @@ class RecordsController extends Controller
 		if($param1 == 1 || $param2 == 1) {
 			return back()
 			->withInput()
-			->with('msg', 'Double Entry Error. Patient Record already exists.');
+			->with('msg', 'Double Entry Error. Patient Record already exists. ')
+			->with('where', $where);
 		}
 		else {
 			if(is_null(auth()->user()->company_id)) {

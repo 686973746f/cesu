@@ -12,7 +12,7 @@
 
 				@if(session('msg'))
 					<div class="alert alert-danger" role="alert">
-						{{session('msg')}}
+						{{session('msg')}} {{session('where')}}
 					</div>
 				@endif
 
