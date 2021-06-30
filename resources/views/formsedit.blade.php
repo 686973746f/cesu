@@ -18,7 +18,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div>eCIF (version 8) - Edit</div>
+                        <div>eCIF (version 9) - Edit</div>
                         <div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#appendix"><i class="fa fa-file mr-2" aria-hidden="true"></i>Appendix</button>
                         </div>
@@ -583,6 +583,10 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label for="OFWPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
+                                                    <input type="text" class="form-control" name="OFWPassportNo" id="OFWPassportNo" value="{{old('OFWPassportNo', $records->OFWPassportNo)}}">
+                                                </div>
+                                                <div class="form-group">
                                                   <label for="ofwType"><span class="text-danger font-weight-bold">*</span>OFW?</label>
                                                   <select class="form-control" name="ofwType" id="ofwType">
                                                     <option value="1" {{(old('ofwType', $records->ofwType) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -613,6 +617,10 @@
                                                             @endif
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="FNTPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
+                                                    <input type="text" class="form-control" name="FNTPassportNo" id="FNTPassportNo" value="{{old('FNTPassportNo', $records->FNTPassportNo)}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -802,13 +810,111 @@
                                 </div>
                             </div>
                             <div class="card mb-3">
-                                <div class="card-header">2.5 Clinical Information</div>
+                                <div class="card-header">2.5 Vaccination Information</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="vaccinationDate1">1.) Date of Vaccination</label>
+                                              <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1', $records->vaccinationDate1)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="vaccinationName1">Name of Vaccine</label>
+                                                <input type="text" class="form-control" name="vaccinationName1" id="vaccinationName1" value="{{old('vaccinationName1', $records->vaccinationName1)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="vaccinationNoOfDose1">Dose Number</label>
+                                              <select class="form-control" name="vaccinationNoOfDose1" id="vaccinationNoOfDose1">
+                                                <option value="" disabled {{(is_null(old('vaccinationNoOfDose1', $records->vaccinationNoOfDose1))) ? 'selected' : ''}}>Choose...</option>
+                                                <option value="1" {{(old('vaccinationNoOfDose1', $records->vaccinationNoOfDose1) == '1') ? 'selected' : ''}}>1st</option>
+                                                <option value="2" {{(old('vaccinationNoOfDose1', $records->vaccinationNoOfDose1) == '2') ? 'selected' : ''}}>2nd</option>
+                                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="vaccinationFacility1">Vaccination Center/Facility</label>
+                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $records->vaccinationFacility1)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="vaccinationRegion1">Region of Health Facility</label>
+                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $records->vaccinationRegion1)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="haveAdverseEvents1">Adverse Event/s</label>
+                                                <select class="form-control" name="haveAdverseEvents1" id="haveAdverseEvents1">
+                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents1', $records->haveAdverseEvents1))) ? 'selected' : ''}}>Choose...</option>
+                                                  <option value="1" {{(old('haveAdverseEvents1', $records->haveAdverseEvents1) == '1') ? 'selected' : ''}}>Yes</option>
+                                                  <option value="0" {{(old('haveAdverseEvents1', $records->haveAdverseEvents1) == '0') ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="vaccinationDate2">2.) Date of Vaccination</label>
+                                              <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2', $records->vaccinationDate2)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="vaccinationName2">Name of Vaccine</label>
+                                                <input type="text" class="form-control" name="vaccinationName2" id="vaccinationName2" value="{{old('vaccinationName2', $records->vaccinationName2)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="vaccinationNoOfDose2">Dose Number</label>
+                                              <select class="form-control" name="vaccinationNoOfDose2" id="vaccinationNoOfDose2">
+                                                <option value="" disabled {{(is_null(old('vaccinationNoOfDose2', $records->vaccinationNoOfDose2))) ? 'selected' : ''}}>Choose...</option>
+                                                <option value="1" {{(old('vaccinationNoOfDose2', $records->vaccinationNoOfDose2) == '1') ? 'selected' : ''}}>1st</option>
+                                                <option value="2" {{(old('vaccinationNoOfDose2', $records->vaccinationNoOfDose2) == '2') ? 'selected' : ''}}>2nd</option>
+                                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="vaccinationFacility2">Vaccination Center/Facility</label>
+                                                <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $records->vaccinationFacility2)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="vaccinationRegion2">Region of Health Facility</label>
+                                                <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $records->vaccinationRegion2)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="haveAdverseEvents2">Adverse Event/s</label>
+                                                <select class="form-control" name="haveAdverseEvents2" id="haveAdverseEvents2">
+                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents2', $records->haveAdverseEvents2))) ? 'selected' : ''}}>Choose...</option>
+                                                  <option value="1" {{(old('haveAdverseEvents2', $records->haveAdverseEvents2) == '1') ? 'selected' : ''}}>Yes</option>
+                                                  <option value="0" {{(old('haveAdverseEvents2', $records->haveAdverseEvents2) == '0') ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3">
+                                <div class="card-header">2.6 Clinical Information</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                               <label for="dateOnsetOfIllness">Date of Onset of Illness</label>
-                                              <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{old('dateOnsetOfIllness', $records->dateOnsetOfIllness)}}">
+                                              <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{date('Y-m-d')}}" value="{{old('dateOnsetOfIllness', $records->dateOnsetOfIllness)}}">
                                             </div>
                                             <div class="card">
                                                 <div class="card-header">Signs and Symptoms (Check all that apply)</div>
@@ -1250,7 +1356,7 @@
                                 </div>
                             </div>
                             <div class="card mb-3">
-                                <div class="card-header">2.6 Laboratory Information</div>
+                                <div class="card-header">2.7 Laboratory Information</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -1333,6 +1439,12 @@
                                                     <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}">
                                                   </div>
                                               </div>
+                                              <div id="ifAntigen1">
+                                                <div class="form-group">
+                                                    <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                                    <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1', $records->antigenKit1)}}">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -1405,6 +1517,12 @@
                                                   <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2', ($records->testType2 == "ANTIGEN") ? $records->testTypeAntigenRemarks2 : $records->testResultOtherRemarks2)}}">
                                                 </div>
                                             </div>
+                                            <div id="ifAntigen2">
+                                                <div class="form-group">
+                                                    <label for="antigenKit2"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                                    <input type="text" class="form-control" name="antigenKit2" id="antigenKit2" value="{{old('antigenKit2', $records->antigenKit2)}}">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -1433,7 +1551,7 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-header">2.7 Outcome/Condition at Time of Report</div>
+                                <div class="card-header">2.8 Outcome/Condition at Time of Report</div>
                                 <div class="card-body">
                                     <div class="form-group">
                                       <label for="outcomeCondition"><span class="text-danger font-weight-bold">*</span>Select Outcome/Condition</label>
@@ -2545,6 +2663,44 @@
                     $('#testResult2').prop('required', true);
                 }
             }).trigger('keydown');
+
+            $('#vaccinationDate1').keydown(function (e) { 
+                if(!Date.parse($(this).val())) {
+                    $('#vaccinationDate1').prop('required', false);
+                    $('#vaccinationName1').prop({disabled: true, required: false});
+                    $('#vaccinationNoOfDose1').prop({disabled: true, required: false});
+                    $('#vaccinationFacility1').prop({disabled: true, required: false});
+                    $('#vaccinationRegion1').prop({disabled: true, required: false});
+                    $('#haveAdverseEvents1').prop({disabled: true, required: false});
+                }
+                else {
+                    $('#vaccinationDate1').prop('required', true);
+                    $('#vaccinationName1').prop({disabled: false, required: true});
+                    $('#vaccinationNoOfDose1').prop({disabled: false, required: true});
+                    $('#vaccinationFacility1').prop({disabled: false, required: false});
+                    $('#vaccinationRegion1').prop({disabled: false, required: false});
+                    $('#haveAdverseEvents1').prop({disabled: false, required: true});
+                }
+            }).trigger('keydown');
+
+            $('#vaccinationDate2').keydown(function (e) { 
+                if(!Date.parse($(this).val())) {
+                    $('#vaccinationDate2').prop('required', false);
+                    $('#vaccinationName2').prop({disabled: true, required: false});
+                    $('#vaccinationNoOfDose2').prop({disabled: true, required: false});
+                    $('#vaccinationFacility2').prop({disabled: true, required: false});
+                    $('#vaccinationRegion2').prop({disabled: true, required: false});
+                    $('#haveAdverseEvents2').prop({disabled: true, required: false});
+                }
+                else {
+                    $('#vaccinationDate2').prop('required', true);
+                    $('#vaccinationName2').prop({disabled: false, required: true});
+                    $('#vaccinationNoOfDose2').prop({disabled: false, required: true});
+                    $('#vaccinationFacility2').prop({disabled: false, required: false});
+                    $('#vaccinationRegion2').prop({disabled: false, required: false});
+                    $('#haveAdverseEvents2').prop({disabled: false, required: true});
+                }
+            }).trigger('keydown');
             
             @if(!is_null($records->informantRelationship))
                 $('#informantRelationship').val("{{$records->informantRelationship}}");
@@ -2797,13 +2953,14 @@
                 if($(this).val() == '0') {
                     $('#divisOFW').hide();
                     $('#OFWCountyOfOrigin').prop('required', false);
+                    $('#OFWPassportNo').prop('required', false);
                 }
                 else {
                     $('#divisOFW').show();
-                    var control = $('#OFWCountyOfOrigin')[0].selectize;
-                    control.clear();
+                    $('#OFWPassportNo').prop('required', true);
                     $('#oaddressscountry').val('N/A');
                     $('#OFWCountyOfOrigin').prop('required', true);
+                    
                 }
             }).trigger('change');
 
@@ -2816,10 +2973,12 @@
                 if($(this).val() == '0') {
                     $('#divisFNT').hide();
                     $('#FNTCountryOfOrigin').prop('required', false);
+                    $('#FNTPassportNo').prop('required', false);
                 }
                 else {
                     $('#divisFNT').show();
                     $('#FNTCountryOfOrigin').prop('required', true);
+                    $('#FNTPassportNo').prop('required', true);
                 }
             }).trigger('change');
 
@@ -2982,9 +3141,13 @@
                     
                     if($(this).val() == 'ANTIGEN') {
                         $('#antigenExport1').show();
+                        $('#ifAntigen1').show();
+                        $('#antigenKit1').prop('required', true);
                     }
                     else {
                         $('#antigenExport1').hide();
+                        $('#ifAntigen1').hide();
+                        $('#antigenKit1').prop('required', false);
                     }
                 }
                 else {
@@ -2993,6 +3156,8 @@
                     $('#testTypeOtherRemarks1').prop('required', false);
 
                     $('#antigenExport1').hide();
+                    $('#ifAntigen1').hide();
+                    $('#antigenKit1').prop('required', false);
                 }
             }).trigger('change');
 
@@ -3025,9 +3190,13 @@
 
                     if($(this).val() == 'ANTIGEN') {
                         $('#antigenExport2').show();
+                        $('#ifAntigen2').show();
+                        $('#antigenKit2').prop('required', true);
                     }
                     else {
                         $('#antigenExport2').hide();
+                        $('#ifAntigen2').hide();
+                        $('#antigenKit2').prop('required', false);
                     }
                 }
                 else {
@@ -3047,6 +3216,8 @@
                     }
 
                     $('#antigenExport2').hide();
+                    $('#ifAntigen2').hide();
+                    $('#antigenKit2').prop('required', false);
                 }
             }).trigger('change');
 

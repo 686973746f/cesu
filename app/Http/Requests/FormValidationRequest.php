@@ -55,7 +55,7 @@ class FormValidationRequest extends FormRequest
             'drregion' => 'required',
             'interviewerName' => 'required',
             'interviewerMobile' => 'required|numeric|digits:11',
-            'interviewDate' => 'required|date',
+            'interviewDate' => 'required|date|before_or_equal:today',
             'informantName' => 'nullable',
             'informantRelationship' => 'nullable',
             'informantMobile' => 'nullable|numeric|digits:11',
@@ -71,9 +71,11 @@ class FormValidationRequest extends FormRequest
             'healthCareCompanyLocation' => ($this->isHealthCareWorker == "1") ? 'required' : 'nullable',
             'isOFW' => 'required',
             'OFWCountyOfOrigin' => ($this->isOFW == "1") ? 'required' : 'nullable',
+            'OFWPassportNo' => ($this->isOFW == "1") ? 'required' : 'nullable',
             'ofwType' => ($this->isOFW == "1") ? 'required' : 'nullable',
             'isFNT' => 'required',
             'FNTCountryOfOrigin' => ($this->isFNT == "1") ? 'required' : 'nullable',
+            'FNTPassportNo' => ($this->isFNT == "1") ? 'required' : 'nullable',
             'isLSI' => 'required',
             'LSIProvince' => ($this->isLSI == "1") ? 'required' : 'nullable',
             'LSICity' => ($this->isLSI == "1") ? 'required' : 'nullable',
@@ -95,8 +97,22 @@ class FormValidationRequest extends FormRequest
             'healthStatus' => 'required',
             //2.4 Case Classification
             'caseClassification' => 'required',
-            //2.5 Clinical Information
-            'dateOnsetOfIllness' => 'nullable|date',
+            //2.5 Vaccination
+            'vaccinationDate1' => (!is_null($this->vaccinationDate1)) ? 'required|date' : 'nullable|date',
+            'vaccinationName1' => (!is_null($this->vaccinationDate1)) ? 'required|string' : 'nullable|string',
+            'vaccinationNoOfDose1' => (!is_null($this->vaccinationDate1)) ? 'required|numeric' : 'nullable|numeric',
+            'vaccinationFacility1' => 'nullable|string',
+            'vaccinationRegion1' => 'nullable|string',
+            'haveAdverseEvents1' => (!is_null($this->vaccinationDate1)) ? 'required|numeric' : 'nullable|numeric',
+
+            'vaccinationDate2' => (!is_null($this->vaccinationDate2)) ? 'required|date' : 'nullable|date',
+            'vaccinationName2' => (!is_null($this->vaccinationDate2)) ? 'required|string' : 'nullable|string',
+            'vaccinationNoOfDose2' => (!is_null($this->vaccinationDate2)) ? 'required|numeric' : 'nullable|numeric',
+            'vaccinationFacility2' => 'nullable|string',
+            'vaccinationRegion2' => 'nullable|string',
+            'haveAdverseEvents2' => (!is_null($this->vaccinationDate2)) ? 'required|numeric' : 'nullable|numeric',
+            //2.6 Clinical Information
+            'dateOnsetOfIllness' => 'nullable|date|before_or_equal:today',
             'sasCheck' => 'nullable',
             'SASFeverDeg' => (!is_null($this->sasCheck) && in_array('Fever', $this->sasCheck)) ? 'required|numeric' : 'nullable',
             'SASOtherRemarks' => (!is_null($this->sasCheck) && in_array('Others', $this->sasCheck)) ? 'required' : 'nullable',
@@ -121,6 +137,7 @@ class FormValidationRequest extends FormRequest
             'testLaboratory1' => 'nullable',
             'testType1' => 'required',
             'testTypeOtherRemarks1' => ($this->testType1 == "OTHERS") ? 'required' : 'nullable',
+            'antigenKit1' => ($this->testType1 == "ANTIGEN") ? 'required' : 'nullable',
             'testResult1' => 'required',
             'testResultOtherRemarks1' => ($this->testResult1 == "OTHERS") ? 'required' : 'nullable',
 
@@ -130,6 +147,7 @@ class FormValidationRequest extends FormRequest
             'testLaboratory2' => 'nullable',
             'testType2' => (!is_null($this->testType2)) ? 'required' : 'nullable',
             'testTypeOtherRemarks2' => ($this->testType2 == "OTHERS") ? 'required' : 'nullable',
+            'antigenKit2' => ($this->testType2 == "ANTIGEN") ? 'required' : 'nullable',
             'testResult2' => 'required',
             'testResultOtherRemarks2' => ($this->testResult2 == "OTHERS") ? 'required' : 'nullable',
 
@@ -142,7 +160,7 @@ class FormValidationRequest extends FormRequest
             'contriCondi' => 'nullable',
 
             'expoitem1' => 'required|numeric',
-            'expoDateLastCont' => ($this->expoitem1 == "1") ? 'required|date' : 'nullable|date',
+            'expoDateLastCont' => ($this->expoitem1 == "1") ? 'required|date|before_or_equal:today' : 'nullable|date|before_or_equal:today',
 
             'expoitem2' => 'required',
             'intCountry' => ($this->expoitem2 == "2") ? 'required' : 'nullable',
