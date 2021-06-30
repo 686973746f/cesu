@@ -52,14 +52,30 @@ class CreateFormsTable extends Migration
             $table->string('healthStatus');
             $table->string('caseClassification');
 
+            $table->date('vaccinationDate1')->nullable();
+            $table->string('vaccinationName1')->nullable();
+            $table->tinyInteger('vaccinationNoOfDose1')->nullable();
+            $table->string('vaccinationFacility1')->nullable();
+            $table->string('vaccinationRegion1')->nullable();
+		    $table->tinyInteger('haveAdverseEvents1')->nullable();
+
+            $table->date('vaccinationDate2')->nullable();
+            $table->string('vaccinationName2')->nullable();
+            $table->tinyInteger('vaccinationNoOfDose2')->nullable();
+            $table->string('vaccinationFacility2')->nullable();
+            $table->string('vaccinationRegion2')->nullable();
+            $table->tinyInteger('haveAdverseEvents2')->nullable();
+
             $table->enum('isHealthCareWorker', [0,1]);
             $table->string('healthCareCompanyName')->nullable();
             $table->string('healthCareCompanyLocation')->nullable();
             $table->enum('isOFW', [0,1]);
             $table->string('OFWCountyOfOrigin')->nullable();
+            $table->string('OFWPassportNo')->nullable();
             $table->enum('ofwType', [1,2])->nullable(); //new
             $table->enum('isFNT', [0,1]);
             $table->string('FNTCountryOfOrigin')->nullable();
+            $table->string('FNTPassportNo')->nullable();
             $table->enum('isLSI', [0,1])->nullable();
             $table->string('LSICity')->nullable();
             $table->string('LSICityjson')->nullable();
@@ -98,6 +114,7 @@ class CreateFormsTable extends Migration
             $table->string('testLaboratory1')->nullable();
             $table->string('testType1');
             $table->string('testTypeAntigenRemarks1')->nullable();
+            $table->string('antigenKit1')->nullable();
             $table->string('testTypeOtherRemarks1')->nullable();
             $table->string('testResult1');
             $table->string('testResultOtherRemarks1')->nullable();
@@ -108,6 +125,7 @@ class CreateFormsTable extends Migration
             $table->string('testLaboratory2')->nullable();
             $table->string('testType2')->nullable();
             $table->string('testTypeAntigenRemarks2')->nullable();
+            $table->string('antigenKit2')->nullable();
             $table->string('testTypeOtherRemarks2')->nullable();
             $table->string('testResult2')->nullable();
             $table->string('testResultOtherRemarks2')->nullable();
@@ -201,6 +219,30 @@ class CreateFormsTable extends Migration
             $table->text('contact4No', 11)->nullable();
 
             $table->string('remarks')->nullable();
+
+            /*
+            version 9 tables 06/30/2021
+
+            $table->string('OFWPassportNo')->nullable();
+            $table->string('FNTPassportNo')->nullable();
+
+            $table->string('antigenKit1')->nullable();
+            $table->string('antigenKit2')->nullable();
+
+            $table->date('vaccinationDate1')->nullable();
+            $table->string('vaccinationName1')->nullable();
+            $table->tinyInteger('vaccinationNoOfDose1')->nullable();
+            $table->string('vaccinationFacility1')->nullable();
+            $table->string('vaccinationRegion1')->nullable();
+            $table->tinyInteger('haveAdverseEvents1')->nullable();
+
+            $table->date('vaccinationDate2')->nullable();
+            $table->string('vaccinationName2')->nullable();
+            $table->tinyInteger('vaccinationNoOfDose2')->nullable();
+            $table->string('vaccinationFacility2')->nullable();
+            $table->string('vaccinationRegion2')->nullable();
+            $table->tinyInteger('haveAdverseEvents2')->nullable();
+            */
         });
     }
 
