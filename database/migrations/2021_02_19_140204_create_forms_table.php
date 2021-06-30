@@ -219,30 +219,6 @@ class CreateFormsTable extends Migration
             $table->text('contact4No', 11)->nullable();
 
             $table->string('remarks')->nullable();
-
-            /*
-            version 9 tables 06/30/2021
-
-            $table->string('OFWPassportNo')->nullable();
-            $table->string('FNTPassportNo')->nullable();
-
-            $table->string('antigenKit1')->nullable();
-            $table->string('antigenKit2')->nullable();
-
-            $table->date('vaccinationDate1')->nullable();
-            $table->string('vaccinationName1')->nullable();
-            $table->tinyInteger('vaccinationNoOfDose1')->nullable();
-            $table->string('vaccinationFacility1')->nullable();
-            $table->string('vaccinationRegion1')->nullable();
-            $table->tinyInteger('haveAdverseEvents1')->nullable();
-
-            $table->date('vaccinationDate2')->nullable();
-            $table->string('vaccinationName2')->nullable();
-            $table->tinyInteger('vaccinationNoOfDose2')->nullable();
-            $table->string('vaccinationFacility2')->nullable();
-            $table->string('vaccinationRegion2')->nullable();
-            $table->tinyInteger('haveAdverseEvents2')->nullable();
-            */
         });
     }
 
