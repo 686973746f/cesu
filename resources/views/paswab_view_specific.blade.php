@@ -735,9 +735,21 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="">Name of Patient</label>
+                            <input type="text" class="form-control" readonly value="{{$data->getName()}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Type of Client</label>
+                            <input type="text" class="form-control" readonly value="{{$data->pType}}">
+                        </div>
+                        <div class="form-group">
                           <label for="">Current Barangay of Patient</label>
                           <input type="text" class="form-control" readonly value="BRGY. {{$data->address_brgy}}">
                         </div>
+                        <div class="form-group">
+                            <label for="">Date of Last Exposure</label>
+                            <input type="date" class="form-control" readonly value="{{$data->expoDateLastCont}}">
+                          </div>
                         <div class="form-group">
                             <label for="interviewerName">Name of Interviewer</label>
                             <select name="interviewerName" id="interviewerName" required>
