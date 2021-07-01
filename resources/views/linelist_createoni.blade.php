@@ -57,7 +57,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="time" class="form-control" name="timeCollected[]" id="" value="14:00" required>
+                                        <input type="time" class="form-control" name="timeCollected[]" id="" value="">
                                     </div>
                                 </td>
                                 <td>

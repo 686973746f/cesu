@@ -86,10 +86,24 @@ class LineListController extends Controller
         ]);
 
         for($i=0;$i<count($request->user);$i++) {
+            if(!is_null($request->timeCollected[$i])) {
+                $oniTime = $request->timeCollected[$i];
+            }
+            else {
+                $search = Forms::where('records_id', $request->user[$i])->first();
+
+                if(!is_null($search->testDateCollected2)) {
+                    $oniTime = $search->oniTimeCollected2;
+                }
+                else {
+                    $oniTime = $search->oniTimeCollected1;
+                }
+            }
+
             $query = LinelistSubs::create([
                 'linelist_masters_id' => $master->id,
                 'specNo' => $i+1,
-                'dateAndTimeCollected' => $request->dateCollected[$i]." ".$request->timeCollected[$i],
+                'dateAndTimeCollected' => $request->dateCollected[$i]." ".$oniTime,
                 'accessionNo' => $request->accessionNo[$i],
                 'records_id' => $request->user[$i],
                 'remarks' => $request->remarks[$i],
