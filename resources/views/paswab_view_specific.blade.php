@@ -735,6 +735,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
+                          <label for="">Current Barangay of Patient</label>
+                          <input type="text" class="form-control" readonly value="BRGY. {{$data->address_brgy}}">
+                        </div>
+                        <div class="form-group">
                             <label for="interviewerName">Name of Interviewer</label>
                             <select name="interviewerName" id="interviewerName" required>
                                 <option value="" disabled {{(empty(old('interviewerName'))) ? 'selected' : ''}}>Choose...</option>
