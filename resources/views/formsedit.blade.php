@@ -49,13 +49,17 @@
                     @endif
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
-                                <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->gender}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
+                        <div class="col-md-8">
+                            <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
+                            <div class="input-group mb-3">
+                                
+                                <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
+                                <div class="input-group-append">
+                                  <button class="btn btn-outline-primary" id="quickreclink" type="button" data-target="/records/{{$records->records_id}}/edit";>Edit Record</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="remarks">Remarks</label>
                                 <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $records->remarks)}}">
@@ -2637,6 +2641,13 @@
 
     <script>
         $(document).ready(function () {
+
+            $('#quickreclink').click(function (e) { 
+                e.preventDefault();
+                var url = $(this).data('target');
+                location.replace(url);
+            });
+
             @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
             @endif
