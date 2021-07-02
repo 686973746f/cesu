@@ -8,6 +8,7 @@ use App\Models\Companies;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\RecordValidationRequest;
 
 class RecordsController extends Controller
@@ -22,34 +23,25 @@ class RecordsController extends Controller
 			if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
 				if(!is_null(auth()->user()->brgy_id)) {
 					$records = Records::with('user')
-					->where(function ($query) {
-						$query->where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-						->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-						->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
-					})
+					->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
 					->whereHas('user', function ($query) {
 						$query->where('brgy_id', auth()->user()->brgy_id);
 					})
-					->orderBy('lname', 'asc')->paginate(10);
+					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 				else {
 					$records = Records::with('user')
-					->where(function ($query) {
-						$query->where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-						->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-						->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
-					})
+					->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
 					->whereHas('user', function ($query) {
 						$query->where('company_id', auth()->user()->company_id);
 					})
-					->orderBy('lname', 'asc')->paginate(10);
+					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 			}
 			else {
-				$records = Records::where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-				->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-				->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-				->orderBy('lname', 'asc')->paginate(10);
+				$records = Records::where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+				->orderByRaw('lname ASC, fname ASC, mname ASC')
+				->paginate(10);
 			}
 		}
 		else {
@@ -59,18 +51,18 @@ class RecordsController extends Controller
 					->whereHas('user', function($q) {
 						$q->where('brgy_id', auth()->user()->brgy_id);
 					})
-					->orderBy('lname', 'asc')->paginate(10);
+					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 				else {
 					$records = Records::with('user')
 					->whereHas('user', function($q) {
 						$q->where('company_id', auth()->user()->company_id);
 					})
-					->orderBy('lname', 'asc')->paginate(10);
+					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 			}
 			else {
-				$records = Records::orderBy('lname', 'asc')->paginate(10);
+				$records = Records::orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 			}	
 		}
 

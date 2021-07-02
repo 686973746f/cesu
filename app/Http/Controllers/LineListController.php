@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Forms;
 use App\Models\Records;
-use PDF;
 use App\Models\LinelistSubs;
 use Illuminate\Http\Request;
 use App\Models\LinelistMasters;
+use Illuminate\Support\Facades\DB;
 
 class LineListController extends Controller
 {
@@ -15,9 +16,7 @@ class LineListController extends Controller
         if(request()->input('q')) {
             $list = LinelistSubs::with('records')
             ->whereHas('records', function ($query) {
-                $query->where('lname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-                ->orWhere('fname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
-                ->orWhere('mname', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
+                $query->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
             })->orderby('created_at', 'desc')->paginate(10);
         }
         else {
