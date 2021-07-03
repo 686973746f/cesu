@@ -12,7 +12,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>Barangay Accounts</div>
+                <div class="font-weight-bold">Barangay Accounts</div>
                 <div>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBrgyModal">Add Barangay</button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Add User</button>
@@ -20,20 +20,26 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table">
-                <thead>
+            <table class="table table-bordered">
+                <thead class="text-center bg-light">
                     <tr>
                         <th>Barangay</th>
                         <th>Number of Users</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($lists as $list)
                     <tr>
-                        <td scope="row">{{$list->brgyName}}</td>
-                        <td>{{$users->where('brgy_id', $list->id)->count()}}</td>
-                        <td></td>
+                        <td scope="row" style="vertical-align: middle;">{{$list->brgyName}}</td>
+                        <td class="text-center" style="vertical-align: middle;">{{$users->where('brgy_id', $list->id)->count()}}</td>
+                        <td class="text-center">
+                            @if($users->where('brgy_id', $list->id)->count())
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_{{$list->id}}"><i class="fa fa-eye mr-2" aria-hidden="true"></i>View</button>
+                            @else
+                            <button type="button" class="btn btn-primary" disabled><i class="fa fa-eye mr-2" aria-hidden="true"></i>View</button>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -41,6 +47,47 @@
         </div>
     </div>
 </div>
+
+@foreach($lists as $list)
+    @if($users->where('brgy_id', $list->id)->count())
+    <div class="modal fade" id="modal_{{$list->id}}" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Existing Users in {{$list->brgyName}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead class="bg-light">
+                            <tr class="text-center">
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($users->where('brgy_id', $list->id) as $item)
+                            <tr>
+                                <td scope="row" style="vertical-align: middle;">{{$item->name}}</td>
+                                <td style="vertical-align: middle;">{{$item->email}}</td>
+                                <td style="vertical-align: middle;" class="{{($item->enabled == 1) ? 'text-success' : 'text-danger'}} text-center font-weight-bold">{{($item->enabled == 1) ? 'Enabled': 'Disabled'}}</td>
+                                <td style="vertical-align: middle;" class="text-center">
+                                    <button type="button" class="btn btn-primary">Disable</button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+@endforeach
 
 <form action="{{route('adminpanel.brgy.store')}}" method="POST" autocomplete="off">
     @csrf

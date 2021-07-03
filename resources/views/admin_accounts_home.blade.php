@@ -5,29 +5,39 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div>Admin Accounts</div>
+                    <div class="font-weight-bold">Admin Accounts</div>
                     <div>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createadmin">Add Admin Account</button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="text-center bg-light">
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Type</th>
                             <th>Status</th>
-                            <th></th>
+                            <th>Validator</th>
+                            <th>Bypass Validation</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($lists as $list)
                             <tr>
-                                <td scope="row">{{$list->name}}</td>
-                                <td>{{$list->email}}</td>
-                                <td></td>
-                                <td></td>
+                                <td scope="row" style="vertical-align: middle;">{{$list->name}}</td>
+                                <td style="vertical-align: middle;">{{$list->email}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{($list->isAdmin == 1) ? 'Admin' : 'Encoder'}}</td>
+                                <td class="text-center {{($list->enabled == 1) ? 'text-success' : 'text-danger'}} font-weight-bold" style="vertical-align: middle;">{{($list->enabled == 1) ? 'Enabled': 'Disabled'}}</td>
+                                <td style="vertical-align: middle;" class="text-center {{($list->isValidator == 1) ? 'text-success' : 'text-danger'}}">{{($list->isValidator == 1) ? 'YES' : 'NO'}}</td>
+                                <td style="vertical-align: middle;" class="text-center {{($list->canByPassValidation == 1) ? 'text-success' : 'text-danger'}}">{{($list->canByPassValidation == 1) ? 'YES' : 'NO'}}</td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-primary btn-block">Disable</button>
+                                    <button type="button" class="btn btn-primary btn-block">Make Validator</button>
+                                    <button type="button" class="btn btn-primary btn-block">Bypass Validation</button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

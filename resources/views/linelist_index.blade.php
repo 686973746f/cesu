@@ -15,7 +15,7 @@
                         <div class="form-check">
                           <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" name="isOverride" id="isOverride" value="1">
-                            Override Mode <i>(Please check if for processing late/reject records)</i>
+                            Override Mode <i>(Only check IF for processing late/reject records)</i>
                           </label>
                         </div>
                         <div id="showOverride">
@@ -23,13 +23,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                      <label for="sFrom">From</label>
+                                      <label for="sFrom">Get Records Starting From</label>
                                       <input type="date" class="form-control" name="sFrom" id="sFrom" min="{{date('Y-m-d', strtotime("-3 Months"))}}" value="{{date('Y-m-d', strtotime("yesterday"))}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="sTo">To</label>
+                                        <label for="sTo">And Ending To</label>
                                         <input type="date" class="form-control" name="sTo" id="sTo" min="{{date('Y-m-d', strtotime("-3 Months"))}}" value="{{date('Y-m-d')}}" required>
                                     </div>
                                 </div>

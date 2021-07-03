@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div>Interviewers</div>
+                    <div class="font-weight-bold">Interviewers</div>
                     <div>
                         <a href="{{route('interviewers.create')}}" class="btn btn-primary">Add</a>
                     </div>
@@ -17,9 +17,9 @@
                         {{session('status')}}
                     </div>
                 @endif
-                <table class="table">
-                    <thead>
-                        <tr class="text-center">
+                <table class="table table-bordered">
+                    <thead class="text-center bg-light">
+                        <tr>
                             <th>#</th>
                             <th>Name</th>
                             <th>Barangay</th>
@@ -32,9 +32,9 @@
                         <tr>
                             <td style="vertical-align: middle;" class="text-center" scope="row">{{$key+1}}</td>
                             <td style="vertical-align: middle;">{{$item->lname.", ".$item->fname." ".$item->mname}}</td>
-                            <td style="vertical-align: middle;">{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
-                            <td style="vertical-align: middle;">{{$item->desc}}</td>
-                            <td style="vertical-align: middle;" class="text-center"><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
+                            <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{$item->desc}}</td>
+                            <td class="text-center" style="vertical-align: middle;"><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
                         </tr>
                         @endforeach
                     </tbody>

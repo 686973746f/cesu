@@ -22,7 +22,7 @@ class AdminPanelController extends Controller
 
     public function accountIndex() {
 
-        $lists = User::where('isAdmin', 1)->get();
+        $lists = User::whereIn('isAdmin', [1,2])->orderBy('isAdmin', 'asc')->get();
 
         return view('admin_accounts_home', ['lists' => $lists]);
     }
