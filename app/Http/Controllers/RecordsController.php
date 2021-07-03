@@ -151,7 +151,7 @@ class RecordsController extends Controller
 		->where('gender', strtoupper($request->gender))
 		->exists()) {
 			$param1 = 1;
-			$where = '(In our Records Page)';
+			$where = '(Existing in the Records Page)';
 		}
 		else {
 			$param1 = 0;
@@ -168,7 +168,7 @@ class RecordsController extends Controller
 		->whereIn('status', ['approved', 'pending'])
 		->exists()) {
 			$param2 = 1;
-			$where = '(Currently Recorded in Pa-Swab Page)';
+			$where = '(Existing in Pa-Swab Page, waiting for Approval)';
 		}
 		else {
 			$param2 = 0;

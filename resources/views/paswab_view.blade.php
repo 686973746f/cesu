@@ -47,16 +47,16 @@
                         <tbody>
                             @foreach ($list as $item)
                                 <tr>
-                                    <td class="text-center"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
-                                    <td class="text-center">{{$item->majikCode}}</td>
-                                    <td><a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">{{$item->getName()}}</a></td>
-                                    <td class="text-center">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
-                                    <td class="text-center">{{date('m/d/Y', strtotime($item->bdate))}}</td>
-                                    <td class="text-center">{{$item->getAge()." / ".$item->gender}}</td>
-                                    <td class="text-center">{{$item->pType}} <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y', strtotime($item->expoDateLastCont)).")" : ''}}</small></td>
-                                    <td class="text-center">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
-                                    <td><small>{{$item->getAddress()}}</small></td>
-                                    <td class="text-center">{{$item->mobile}}</td>
+                                    <td class="text-center" style="vertical-align: middle;"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$item->majikCode}}</td>
+                                    <td style="vertical-align: middle;"><a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">{{$item->getName()}}</a></td>
+                                    <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->bdate))}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$item->getAge()." / ".$item->gender}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$item->pType}} <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y', strtotime($item->expoDateLastCont)).")" : ''}}</small></td>
+                                    <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
+                                    <td style="vertical-align: middle;"><small>{{$item->getAddress()}}</small></td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$item->mobile}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
