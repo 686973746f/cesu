@@ -52,7 +52,6 @@
                         <div class="col-md-8">
                             <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
                             <div class="input-group mb-3">
-                                
                                 <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
                                 <div class="input-group-append">
                                   <button class="btn btn-outline-primary" id="quickreclink" type="button" data-target="/records/{{$records->records_id}}/edit";>Edit Record</button>
