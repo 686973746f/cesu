@@ -161,7 +161,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number</label>
+                                        <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number <small>(Use the format: 09*********)</small></label>
                                         <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx" required>
                                         @error('mobile')
                                             <small class="text-danger">{{$message}}</small>
