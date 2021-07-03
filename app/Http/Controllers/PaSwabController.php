@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forms;
 use App\Models\Records;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
-use App\Models\Forms;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PaSwabValidationRequest;
 use IlluminateAgnostic\Collection\Support\Str;
 
@@ -181,8 +182,14 @@ class PaSwabController extends Controller
     }
 
     public function view() {
-        $list = PaSwabDetails::where('status', 'pending')->paginate(10);
-
+        if(request()->input('q')) {
+            $list = PaSwabDetails::where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+            ->paginate(10);
+		}
+        else {
+            $list = PaSwabDetails::where('status', 'pending')->paginate(10);
+        }
+        
         return view('paswab_view', ['list' => $list]);
     }
 
