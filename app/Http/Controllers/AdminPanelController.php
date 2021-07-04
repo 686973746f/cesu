@@ -51,6 +51,79 @@ class AdminPanelController extends Controller
         }
     }
 
+    public function accountOptions($id, Request $request) {
+        $user = User::findOrFail($id);
+        
+        if(auth()->user()->isAdmin == 1) {
+            if($request->submit == 'accountInit') {
+                if($user->isAdmin != 1) {
+                    if($user->enabled == 1) {
+                        $update = User::where('id', $id)
+                        ->update([
+                            'enabled' => 0,
+                        ]);
+                    }
+                    else {
+                        $update = User::where('id', $id)
+                        ->update([
+                            'enabled' => 1,
+                        ]);
+                    }
+
+                    return redirect()->action([AdminPanelController::class, 'accountIndex'])
+                    ->with('msg', 'Account status of '.$user->name.' ('.$user->email.') has been updated successfully.')
+                    ->with('msgtype', 'success');
+                }
+                else {
+                    return redirect()->action([AdminPanelController::class, 'accountIndex'])
+                    ->with('msg', 'You are not allowed to do that.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else if($request->submit == 'validatorInit') {
+                if($user->isValidator == 1) {
+                    $update = User::where('id', $id)
+                    ->update([
+                        'isValidator' => 0,
+                    ]);
+                }
+                else {
+                    $update = User::where('id', $id)
+                    ->update([
+                        'isValidator' => 1,
+                    ]);
+                }
+                
+                return redirect()->action([AdminPanelController::class, 'accountIndex'])
+                ->with('msg', 'Validation Privilege of '.$user->name.' ('.$user->email.') has been updated successfully.')
+                ->with('msgtype', 'success');
+            }
+            else if($request->submit == 'bypassValidationInit') {
+                if($user->canByPassValidation == 1) {
+                    $update = User::where('id', $id)
+                    ->update([
+                        'canByPassValidation' => 0,
+                    ]);
+                }
+                else {
+                    $update = User::where('id', $id)
+                    ->update([
+                        'canByPassValidation' => 1,
+                    ]);
+                }
+
+                return redirect()->action([AdminPanelController::class, 'accountIndex'])
+                ->with('msg', 'Bypass Validation Privilege of '.$user->name.' ('.$user->email.') has been updated successfully.')
+                ->with('msgtype', 'success');
+            }
+        }
+        else {
+            return redirect()->action([AdminPanelController::class, 'accountIndex'])
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
+    }
+
     public function brgyStore(Request $request) {
 
         $request->validate([

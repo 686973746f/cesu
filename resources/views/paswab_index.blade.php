@@ -22,15 +22,24 @@
                     <hr>
                     @endif
                     <div class="alert alert-info" role="alert">
-                        All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
+                        <h4 class="alert-heading">Please read carefully:</h4>
+                        <hr>
+                        All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required. If the field is not required, you may leave it blank if N/A.
                     </div>
+
+                    <div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">Pakibasang maigi:</h4>
+                        <hr>
+                        Lahat ng detalye na may markang asterisk (<span class="text-danger font-weight-bold">*</span>) ay kailangang sagutan. Kung hindi kailangang sagutan ang walang asterisk, maaaring iwanan lang na blanko kung N/A.
+                    </div>
+
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">1. Consultation Details</div>
+                        <div class="card-header font-weight-bold">1. Detalye sa Konsultasyon / Consultation Details</div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="pType"><span class="text-danger font-weight-bold">*</span>Type of Client</label>
+                                        <label for="pType"><span class="text-danger font-weight-bold">*</span>Uri ng Kliyente / Type of Client</label>
                                         <select class="form-control" name="pType" id="pType" required>
                                             <option value="" disabled selected>Choose...</option>
                                             <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
@@ -41,7 +50,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>For Hospitalization</label>
+                                      <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>Gagamitin para sa Hospitalisasyon / For Hospitalization</label>
                                       <select class="form-control" name="isForHospitalization" id="isForHospitalization" required>
                                           <option value="" disabled {{is_null(old('isForHospitalization')) ? 'selected' : ''}}>Choose...</option>
                                             <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>Yes</option>
@@ -51,7 +60,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Date of Interview</label>
+                                        <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Kailan na-interview sa Barangay / Date Interviewed in Barangay</label>
                                         <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-14 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate')}}" required>
                                     </div>
                                 </div>
@@ -59,12 +68,12 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">2. Personal Information</div>
+                        <div class="card-header font-weight-bold">2. Personal na Impormasyon / Personal Information</div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
+                                        <label for="lname"><span class="text-danger font-weight-bold">*</span>Apelyido / Last Name</label>
                                         <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" required>
                                         @error('lname')
                                             <small class="text-danger">{{$message}}</small>
@@ -73,7 +82,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
+                                        <label for="fname"><span class="text-danger font-weight-bold">*</span>Unang Pangalan / First Name (and Suffix)</label>
                                         <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" required>
                                         @error('fname')
                                             <small class="text-danger">{{$message}}</small>
@@ -82,7 +91,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
+                                        <label for="mname">Gitnang Pangalan / Middle Name <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
                                         <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50">
                                         @error('mname')
                                             <small class="text-danger">{{$message}}</small>
@@ -93,7 +102,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                                        <label for="bdate"><span class="text-danger font-weight-bold">*</span>Araw ng kapanganakan / Birthdate</label>
                                         <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                                         @error('bdate')
                                             <small class="text-danger">{{$message}}</small>
@@ -102,11 +111,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
+                                        <label for="gender"><span class="text-danger font-weight-bold">*</span>Kasarian / Gender</label>
                                         <select class="form-control" id="gender" name="gender" required>
-                                            <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose</option>
-                                            <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
-                                            <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                            <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Pumili / Choose</option>
+                                            <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Lalaki / Male</option>
+                                            <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Babae / Female</option>
                                         </select>
                                         @error('gender')
                                             <small class="text-danger">{{$message}}</small>
@@ -114,16 +123,16 @@
                                     </div>
                                     <div id="ifGenderFemale">
                                         <div class="form-group">
-                                            <label for="isPregnant"><span class="text-danger font-weight-bold">*</span>Are you Pregnant?</label>
+                                            <label for="isPregnant"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay Buntis? / Are you Pregnant?</label>
                                             <select class="form-control" name="isPregnant" id="isPregnant">
                                                 <option value="" disabled {{(is_null(old('isPregnant'))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="0" {{(old('isPregnant') == '0') ? 'selected' : ''}}>No</option>
-                                                <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>Yes</option>
+                                                <option value="0" {{(old('isPregnant') == '0') ? 'selected' : ''}}>Hindi / No</option>
+                                                <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>Oo / Yes</option>
                                             </select>
                                         </div>
                                         <div id="ifPregnant">
                                             <div class="form-group">
-                                              <label for="lmp"><span class="text-danger font-weight-bold">*</span>Last Menstrual Period (LMP)</label>
+                                              <label for="lmp"><span class="text-danger font-weight-bold">*</span>Kailan ang huling araw ng regla / Last Menstrual Period (LMP)</label>
                                               <input type="date" class="form-control" name="lmp" id="lmp" value="{{old('lmp')}}">
                                             </div>
                                         </div>
@@ -131,12 +140,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
+                                        <label for="cs"><span class="text-danger font-weight-bold">*</span>Katayuan ng Sibil / Civil Status</label>
                                         <select class="form-control" id="cs" name="cs" required>
-                                            <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Choose</option>
-                                            <option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>Single</option>
-                                            <option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>Married</option>
-                                            <option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>Widowed</option>
+                                            <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Pumili / Choose</option>
+                                            <option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>Walang Asawa / Single</option>
+                                            <option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>Kasal / Married</option>
+                                            <option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>Balo / Widowed</option>
                                             <option value="N/A" @if(old('cs') == 'N/A') {{'selected'}} @endif>N/A</option>
                                         </select>
                                         @error('cs')
@@ -146,7 +155,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="nationality"><span class="text-danger font-weight-bold">*</span>Nationality</label>
+                                        <label for="nationality"><span class="text-danger font-weight-bold">*</span>Nasyonalidad / Nationality</label>
                                         <select class="form-control" id="nationality" name="nationality" required>
                                             <option value="Filipino" @if(old('nationality') == 'Filipino' || empty(old('nationality'))) {{'selected'}} @endif>Filipino</option>
                                             <option value="Foreign" @if(old('nationality') == 'Foreign') {{'selected'}} @endif>Foreign</option>
@@ -161,7 +170,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number <small>(Use the format: 09*********)</small></label>
+                                        <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number <small>(Format: 09*********)</small></label>
                                         <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx" required>
                                         @error('mobile')
                                             <small class="text-danger">{{$message}}</small>
@@ -170,8 +179,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="philhealth">Philhealth Number <small><i>(Leave blank if N/A)</i></small></label>
+                                        <label for="philhealth">Philhealth Number <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
                                         <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
+                                        <small class="form-text text-muted">Tandaan: Iwasan ang maraming abala sa iyong schedule ng swab sa pagbigay ng iyong Philhealth Number <i>(WALANG NAKATAGONG BAYAD ang sisingilin sa iyo gamit ng iyong Philhealth Account)</i></small>
+                                        <hr>
                                         <small class="form-text text-muted">Note: Avoid hassle in your swab schedule by providing your Philhealth Number <i>(There are NO HIDDEN CHARGES applied into your Philhealth Account)</i></small>
                                         @error('philhealth')
                                             <small class="text-danger">{{$message}}</small>
@@ -182,7 +193,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phoneno">Telephone Number (& Area Code)</label>
+                                        <label for="phoneno">Telephone Number (& Area Code) <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
                                         <input type="text" class="form-control" id="phoneno" name="phoneno" value="{{old('phoneno')}}">
                                         @error('phoneno')
                                             <small class="text-danger">{{$message}}</small>
@@ -191,7 +202,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">Email Address</label>
+                                        <label for="email">Email Address <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
                                         <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
                                         @error('email')
                                               <small class="text-danger">{{$message}}</small>
@@ -234,7 +245,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>Province</label>
+                                        <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>Probinsya / Province</label>
                                         <select class="form-control" name="saddress_province" id="saddress_province" required>
                                           <option value="" selected disabled>Choose...</option>
                                         </select>
@@ -245,7 +256,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>City</label>
+                                      <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>Siyudad o Munisipalidad / City or Municipality</label>
                                       <select class="form-control" name="saddress_city" id="saddress_city" required>
                                         <option value="" selected disabled>Choose...</option>
                                       </select>
@@ -289,33 +300,33 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">3. Occupation Details</div>
+                        <div class="card-header font-weight-bold">3. Detalye sa Trabaho / Occupation Details</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>Are you currently employed?</label>
+                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>Kasalukuyan ka bang may trabaho? / Are you currently employed?</label>
                                 <select class="form-control" name="haveOccupation" id="haveOccupation" required>
-                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>Yes</option>
-                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>No</option>
+                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>Pumili / Choose...</option>
+                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>Meron / Yes</option>
+                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>Wala / No</option>
                                 </select>
                             </div>
                             <div id="occupationRow">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                          <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
+                                          <label for="occupation"><span class="text-danger font-weight-bold">*</span>Trabaho / Occupation</label>
                                           <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="occupation_name">Name of Workplace</label>
+                                            <label for="occupation_name">Saan nagt-trabaho / Name of Workplace</label>
                                             <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
+                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Uri ng Trabaho / Nature of Work</label>
                                             <select class="form-control" name="natureOfWork" id="natureOfWork">
                                               <option value="" disabled {{(is_null(old('natureOfWork'))) ? 'selected' : ''}}>Choose...</option>
                                               <option value="AGRICULTURE" {{(old('natureOfWork') == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
@@ -345,7 +356,7 @@
                                         </div>
                                         <div id="specifyWorkNatureDiv">
                                             <div class="form-group">
-                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Please specify</label>
+                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Tukuyin / Please specify</label>
                                                 <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}">
                                                 @error('natureOfWorkIfOthers')
                                                 <small class="text-danger">{{$message}}</small>
@@ -361,7 +372,7 @@
                         <div class="card-header font-weight-bold">4. Clinical Information</div>
                         <div class="card-body">
                             <div class="form-group">
-                              <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Are you currently experiencing any COVID-19 signs or symptoms?</label>
+                              <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Kasalukuyan ka bang nakakaranas ng senyales o sintomas ng COVID-19? / Are you currently experiencing any COVID-19 signs or symptoms?</label>
                               <select class="form-control" name="haveSymptoms" id="haveSymptoms">
                                 <option value="" disabled {{is_null(old('haveSymptoms')) ? 'selected' : ''}}>Choose...</option>
                                 <option value="1" {{(old('haveSymptoms') == '1') ? 'selected' : ''}}>Yes</option>
@@ -370,11 +381,11 @@
                             </div>
                             <div id="ifHaveSymptoms">
                                 <div class="form-group">
-                                    <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>Date of Onset of Illness (Kailan Nagsimula ang Sintomas)</label>
+                                    <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>Kailan nagsimula ang Sintomas / Date of Onset of Illness</label>
                                     <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">Signs and Symptoms (Check all that apply)</div>
+                                    <div class="card-header">Senyales at Sintomas (Lagyan ng Check ang mayroon) / Signs and Symptoms (Check all that apply)</div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -398,7 +409,7 @@
                                                       id="signsCheck2"
                                                       {{(is_array(old('sasCheck')) && in_array("Fever", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck2">Fever</label>
+                                                    <label class="form-check-label" for="signsCheck2">Lagnat / Fever</label>
                                                 </div>
                                                 <div id="divFeverChecked">
                                                     <div class="form-group mt-2">
@@ -415,7 +426,7 @@
                                                       id="signsCheck3"
                                                       {{(is_array(old('sasCheck')) && in_array("Cough", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck3">Cough</label>
+                                                    <label class="form-check-label" for="signsCheck3">Ubo / Cough</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -426,7 +437,7 @@
                                                       id="signsCheck4"
                                                       {{(is_array(old('sasCheck')) && in_array("General Weakness", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck4">General Weakness</label>
+                                                    <label class="form-check-label" for="signsCheck4">Panghihina / General Weakness</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -437,7 +448,7 @@
                                                       id="signsCheck5"
                                                       {{(is_array(old('sasCheck')) && in_array("Fatigue", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck5">Fatigue</label>
+                                                    <label class="form-check-label" for="signsCheck5">Pagkapagod / Fatigue</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -448,7 +459,7 @@
                                                       id="signsCheck6"
                                                       {{(is_array(old('sasCheck')) && in_array("Headache", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck6">Headache</label>
+                                                    <label class="form-check-label" for="signsCheck6">Sakit ng Ulo / Headache</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -470,7 +481,7 @@
                                                       id="signsCheck8"
                                                       {{(is_array(old('sasCheck')) && in_array("Sore throat", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck8">Sore Throat</label>
+                                                    <label class="form-check-label" for="signsCheck8">Sakit ng Lalamunan / Sore Throat</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -516,7 +527,7 @@
                                                       id="signsCheck12"
                                                       {{(is_array(old('sasCheck')) && in_array("Nausea", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck12">Nausea</label>
+                                                    <label class="form-check-label" for="signsCheck12">Pagduduwal / Nausea</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -527,7 +538,7 @@
                                                       id="signsCheck13"
                                                       {{(is_array(old('sasCheck')) && in_array("Vomiting", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck13">Vomiting</label>
+                                                    <label class="form-check-label" for="signsCheck13">Nagsusuka / Vomiting</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -538,7 +549,7 @@
                                                       id="signsCheck14"
                                                       {{(is_array(old('sasCheck')) && in_array("Diarrhea", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck14">Diarrhea</label>
+                                                    <label class="form-check-label" for="signsCheck14">Pagdudumi / Diarrhea</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -549,7 +560,7 @@
                                                       id="signsCheck15"
                                                       {{(is_array(old('sasCheck')) && in_array("Altered Mental Status", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck15">Altered Mental Status</label>
+                                                    <label class="form-check-label" for="signsCheck15">Nabago ang Katayuan sa Kaisipan / Altered Mental Status</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -560,7 +571,7 @@
                                                       id="signsCheck16"
                                                       {{(is_array(old('sasCheck')) && in_array("Anosmia (Loss of Smell)", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck16">Anosmia <small>(loss of smell, w/o any identified cause)</small></label>
+                                                    <label class="form-check-label" for="signsCheck16">Kawalan ng Pang-Amoy / Anosmia <small>(loss of smell, w/o any identified cause)</small></label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -571,7 +582,7 @@
                                                       id="signsCheck17"
                                                       {{(is_array(old('sasCheck')) && in_array("Ageusia (Loss of Taste)", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck17">Ageusia <small>(loss of taste, w/o any identified cause)</small></label>
+                                                    <label class="form-check-label" for="signsCheck17">Kawalan ng Panglasa / Ageusia <small>(loss of taste, w/o any identified cause)</small></label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -582,11 +593,11 @@
                                                       id="signsCheck18"
                                                       {{(is_array(old('sasCheck')) && in_array("Others", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck18">Others</label>
+                                                    <label class="form-check-label" for="signsCheck18">Iba pa / Others</label>
                                                 </div>
                                                 <div id="divSASOtherChecked">
                                                     <div class="form-group mt-2">
-                                                      <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
+                                                      <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Tukuyin / Specify Findings</label>
                                                       <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks')}}">
                                                     </div>
                                                 </div>
@@ -611,7 +622,7 @@
                                                   required
                                                   {{(is_array(old('comCheck')) && in_array("None", old('comCheck'))) ? 'checked' : ''}}
                                                 />
-                                                <label class="form-check-label" for="comCheck1">None</label>
+                                                <label class="form-check-label" for="comCheck1">Wala / None</label>
                                             </div>
                                             <div class="form-check">
                                                 <input
@@ -623,7 +634,7 @@
                                                   required
                                                   {{(is_array(old('comCheck')) && in_array("Hypertension", old('comCheck'))) ? 'checked' : ''}}
                                                 />
-                                                <label class="form-check-label" for="comCheck2">Hypertension</label>
+                                                <label class="form-check-label" for="comCheck2">Alta-presyon / Hypertension</label>
                                             </div>
                                             <div class="form-check">
                                                 <input
@@ -647,7 +658,7 @@
                                                   required
                                                   {{(is_array(old('comCheck')) && in_array("Heart Disease", old('comCheck'))) ? 'checked' : ''}}
                                                 />
-                                                <label class="form-check-label" for="comCheck4">Heart Disease</label>
+                                                <label class="form-check-label" for="comCheck4">Sakit sa Puso / Heart Disease</label>
                                             </div>
                                             <div class="form-check">
                                                 <input
@@ -659,7 +670,7 @@
                                                   required
                                                   {{(is_array(old('comCheck')) && in_array("Lung Disease", old('comCheck'))) ? 'checked' : ''}}
                                                 />
-                                                <label class="form-check-label" for="comCheck5">Lung Disease</label>
+                                                <label class="form-check-label" for="comCheck5">Sakit sa Baga / Lung Disease</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -721,11 +732,11 @@
                                                   required
                                                   {{(is_array(old('comCheck')) && in_array("Others", old('comCheck'))) ? 'checked' : ''}}
                                                 />
-                                                <label class="form-check-label" for="comCheck10">Others</label>
+                                                <label class="form-check-label" for="comCheck10">Iba pa / Others</label>
                                             </div>
                                             <div id="divComOthersChecked">
                                                 <div class="form-group mt-2">
-                                                  <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
+                                                  <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Tukuyin / Specify Findings</label>
                                                   <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks')}}">
                                                 </div>
                                             </div>
@@ -741,13 +752,13 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                      <label for=""><span class="text-danger font-weight-bold">*</span>Date done</label>
+                                      <label for=""><span class="text-danger font-weight-bold">*</span>Kailan natapos / Date done</label>
                                       <input type="date" class="form-control" name="imagingDoneDate" id="imagingDoneDate" value="{{old('imagingDoneDate')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                      <label for="imagingDone"><span class="text-danger font-weight-bold">*</span>Chest X-Ray Type</label>
+                                      <label for="imagingDone"><span class="text-danger font-weight-bold">*</span>Uri ng Chest X-Ray / Chest X-Ray Type</label>
                                       <select class="form-control" name="imagingDone" id="imagingDone" required>
                                         <option value="None" {{(old('imagingDone') == "None") ? 'selected' : ''}}>None</option>
                                         <option value="Chest Radiography" {{(old('imagingDone') == "Chest Radiography") ? 'selected' : ''}}>Chest Radiography</option>
@@ -758,7 +769,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <label for="imagingResult"><span class="text-danger font-weight-bold">*</span>Results</label>
+                                      <label for="imagingResult"><span class="text-danger font-weight-bold">*</span>Resulta / Results</label>
                                       <select class="form-control" name="imagingResult" id="imagingResult">
                                       </select>
                                     </div>
@@ -770,7 +781,7 @@
                                 <div class="col-md-4">
                                     <div id="divImagingOthers">
                                         <div class="form-group">
-                                          <label for="imagingOtherFindings"><span class="text-danger font-weight-bold">*</span>Specify findings</label>
+                                          <label for="imagingOtherFindings"><span class="text-danger font-weight-bold">*</span>Tukuyin / Specify findings</label>
                                           <input type="text" class="form-control" name="imagingOtherFindings" id="imagingOtherFindings" value="{{old('imagingOtherFindings')}}">
                                         </div>
                                     </div>
@@ -782,21 +793,21 @@
                         <div class="card-header font-weight-bold">6. Exposure History</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
+                                <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
                                 <select class="form-control" name="expoitem1" id="expoitem1" required>
-                                    <option value="" disabled {{is_null(old('expoitem1')) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="1" {{(old('expoitem1') == '1') ? 'selected' : ''}}>Yes</option>
-                                    <option value="2" {{(old('expoitem1') == '2') ? 'selected' : ''}}>No</option>
-                                    <option value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Unknown</option>
+                                    <option value="" disabled {{is_null(old('expoitem1')) ? 'selected' : ''}}>Pumili / Choose...</option>
+                                    <option value="1" {{(old('expoitem1') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                    <option value="2" {{(old('expoitem1') == '2') ? 'selected' : ''}}>Hindi / No</option>
+                                    <option value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Hindi sigurado / Unknown</option>
                                 </select>
                             </div>
                             <div id="divExpoitem1">
                                 <div class="form-group">
-                                    <label for=""><span class="text-danger font-weight-bold">*</span>Date of Exposure</label>
+                                    <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose / Date of Exposure</label>
                                     <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">List the Names of your Close Contact</div>
+                                    <div class="card-header">Isulat ang mga pangalan ng iyong mga nakasama / List the Names of your Close Contact</div>
                                     <div class="card-body">
 
                                         <div class="row">
@@ -863,18 +874,20 @@
                     <div class="card">
                         <div class="card-header font-weight-bold">Data Privacy Statement of General Trias</div>
                         <div class="card-body text-center">
+                            <p>Sa pamamagitan ng pagpili ng "Sumasang-ayon ako" at pag-click sa pindutang "Isumite" sa ibaba, kinikilala ko at napatunayan na maingat kong binasa at naintindihan ang Mga Tuntunin at Kundisyon ng Patakaran sa Data Privacy/Polisiya ng Pamahalaan ng Lunsod ng General Trias. Sa pamamagitan ng pagbibigay ng personal na impormasyon sa Pamahalaang Lungsod ng General Trias, kinukumpirma ko na ang data ay totoo at tama. Naiintindihan ko na ang Pamahalaang Lungsod ng General Trias ay may karapatang baguhin ang anumang desisyon na ginawa batay sa impormasyong ibinigay ko kung ang impormasyon ay mapatunayan na hindi totoo o hindi tama. Sumasang-ayon din ako na ang anumang isyu na maaaring lumabas na may kaugnayan sa pagproseso ng aking personal na impormasyon ay maaayos sa Pamahalaang Panlungsod ng General Trias bago gamitin ang naaangkop na arbitrasyon o paglilitis sa korte sa loob ng hurisdiksyon ng Pilipinas. Sa wakas, nagbibigay ako ng aking kusang-loob na pahintulot at permiso sa Pamahalaang Lungsod ng General Trias at ang mga kinatawan na pinahintulutan na ligal na maproseso ang aking data / impormasyon.</p>
+                            <hr>
                             <p>By choosing "I Agree" and clicking the "Submit" button below, I hereby acknowledge and certify that I have carefully read and understood the Terms and Conditions of the Data Privacy Policy/Notice of the City Government of General Trias. By providing personal information to City Government of General Trias, I am confirming that the data is true and correct. I understand that City Government of General Trias reserves the right to revise any decision made on the basis of the information I provided should the information be found to be untrue or incorrect. I likewise agree that any issue that may arise in connection with the processing of my personal information will be settled amicably with City Government of General Trias before resorting to appropriate arbitration or court proceedings within the Philippine jurisdiction. Finally, I am providing my voluntary consent and authorization to City Government of General Trias and its authorized representatives to lawfully process my data/information.</p>
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="dpsagree" id="dpsagree" required>
-                                I Agree
+                                Sumasang-ayon ako / I Agree
                               </label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Please double check your details before proceeding. If checking is done, click OK to proceed.')">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Please double check your details before proceeding. If checking is done, click OK to proceed.')">Isumite / Submit</button>
                 </div>
             </div>
         </div>

@@ -12,6 +12,11 @@
                 </div>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <table class="table table-bordered">
                     <thead class="text-center bg-light">
                         <tr>
@@ -34,9 +39,24 @@
                                 <td style="vertical-align: middle;" class="text-center {{($list->isValidator == 1) ? 'text-success' : 'text-danger'}}">{{($list->isValidator == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center {{($list->canByPassValidation == 1) ? 'text-success' : 'text-danger'}}">{{($list->canByPassValidation == 1) ? 'YES' : 'NO'}}</td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-primary btn-block">Disable</button>
-                                    <button type="button" class="btn btn-primary btn-block">Make Validator</button>
-                                    <button type="button" class="btn btn-primary btn-block">Bypass Validation</button>
+                                    <form action="/admin/accounts/{{$list->id}}/options" method="POST">
+                                        @csrf
+                                        @if($list->enabled == 1)
+                                            <button type="submit" name="submit" value="accountInit" class="btn btn-warning btn-block" {{($list->isAdmin == 1) ? 'disabled' : ''}}>Disable Account</button>
+                                        @else
+                                            <button type="submit" name="submit" value="accountInit" class="btn btn-success btn-block" {{($list->isAdmin == 1) ? 'disabled' : ''}}>Enable Account</button>
+                                        @endif
+                                        @if($list->isValidator == 1)
+                                            <button type="submit" name="submit" value="validatorInit" class="btn btn-warning btn-block">Revoke Validator</button>
+                                        @else
+                                            <button type="submit" name="submit" value="validatorInit" class="btn btn-success btn-block">Make Validator</button>
+                                        @endif
+                                        @if($list->canByPassValidation == 1)
+                                            <button type="submit" name="submit" value="bypassValidationInit" class="btn btn-warning btn-block">Disable Bypass Validation</button>
+                                        @else
+                                            <button type="submit" name="submit" value="bypassValidationInit" class="btn btn-success btn-block">Enable Bypass Validation</button>
+                                        @endif
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

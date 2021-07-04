@@ -111,6 +111,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
     Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
 
+    Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('adminpanel.account.options');
+
     Route::resource('/interviewers', InterviewersController::class);
 
     Route::post('/report', [ReportController::class, 'makeAllSuspected'])->name('report.makeAllSuspected');
