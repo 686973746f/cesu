@@ -19,30 +19,41 @@
                 @endif
 
                 @if($data->count())
-                <table class="table">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="bg-light text-center">
                         <tr>
                             <th>#</th>
                             <th>Code</th>
                             <th>Status</th>
                             <th>URL</th>
+                            <th>Date Created</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($data as $item)
                         <tr>
-                            <td scope="row">{{$item->id}}</td>
-                            <td>{{$item->code}}</td>
-                            <td>{{($item->active == 1) ? 'Enabled' : 'Disabled'}}</td>
-                            <td><a href="https://paswab.cesugentri.com/?rlink={{$item->code}}">https://paswab.cesugentri.com/?rlink={{$item->code}}</a></td>
-                            <td>
-                                <button type="button" class="btn btn-primary">Disable</button>
+                            <td style="vertical-align: middle;" scope="row" class="text-center">{{$item->id}}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{$item->code}}</td>
+                            <td style="vertical-align: middle;" class="text-center font-weight-bold text-{{($item->active == 1) ? 'success' : 'danger'}}">{{($item->active == 1) ? 'Enabled' : 'Disabled'}}</td>
+                            <td style="vertical-align: middle;" class="text-center"><a href="https://paswab.cesugentri.com/?rlink={{$item->code}}">https://paswab.cesugentri.com/?rlink={{$item->code}}</a></td>
+                            <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
+                            <td style="vertical-align: middle;" class="text-center">
+                                <form action="/admin/paswablinks/{{$item->id}}/options" method="POST">
+                                    @csrf
+                                    @if($item->active == 1)
+                                    <button type="submit" name="submit" value="activeInit" class="btn btn-warning">Disable</button>
+                                    @else
+                                    <button type="submit" name="submit" value="activeInit" class="btn btn-success">Enable</button>
+                                    @endif
+                                </form>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                <p class="text-center">No data available in table.</p>
                 @endif
             </div>
         </div>

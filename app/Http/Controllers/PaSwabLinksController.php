@@ -36,7 +36,24 @@ class PaSwabLinksController extends Controller
         }
     }
 
-    public function linkInit($id) {
+    public function linkInit($id, Request $request) {
+        $item = PaSwabLinks::findOrFail($id);
 
+        if($request->submit == 'activeInit') {
+            if($item->active == 1) {
+                $update = PaSwabLinks::where('id', $id)->update([
+                    'active' => 0,
+                ]);
+            }
+            else {
+                $update = PaSwabLinks::where('id', $id)->update([
+                    'active' => 1,
+                ]);
+            }
+
+            return redirect()->action([PaSwabLinksController::class, 'index'])
+            ->with('msg', 'Pa-Swab Link Code status has been updated successfully.')
+            ->with('msgtype', 'success');
+        }
     }
 }

@@ -88,7 +88,9 @@ class PaSwabController extends Controller
                 $finalproceed = 1;
             }
             else {
-                $check = PaSwabLinks::where('code', mb_strtoupper($request->linkcode))->first();
+                $check = PaSwabLinks::where('code', mb_strtoupper($request->linkcode))
+                ->where('active', 1)
+                ->first();
 
                 if($check) {
                     $finalproceed = 1;
@@ -164,7 +166,7 @@ class PaSwabController extends Controller
             else {
                 return back()
                 ->withInput()
-                ->with('msg', 'Error: Pa-swab Referal Link Code is invalid. Please use right Pa-Swab URL then try again.')
+                ->with('msg', 'Error: Pa-swab Referal Link Code is invalid or currently disabled. Please use right Pa-Swab URL then try again.')
                 ->with('msgtype', 'danger')
                 ->with('skipmodal', true);
             }
