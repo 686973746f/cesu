@@ -17,6 +17,7 @@ use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -119,6 +120,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 
     Route::resource('/companies', CompaniesController::class);
     Route::post('/companies/code/create', [CompaniesController::class, 'makeCode'])->name('companies.makecode');
+
+    Route::get('/admin/paswablinks', [PaSwabLinksController::class, 'index'])->name('paswablinks.index');
+    Route::post('/admin/paswablinks', [PaSwabLinksController::class, 'store'])->name('paswablinks.store');
 });
 
 

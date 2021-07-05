@@ -14,7 +14,8 @@ class CreateSiteSettingsTable extends Migration
     public function up()
     {
         Schema::create('site_settings', function (Blueprint $table) {
-            $table->tinyInteger('paSwabAvailable');
+            $table->tinyInteger('paSwabAvailable')->default(1);
+            $table->string('paSwabRemarks')->nullable();
             $table->time('oniStartTime')->default('14:00');
         });
     }

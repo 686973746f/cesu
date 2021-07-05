@@ -33,7 +33,8 @@
                         <thead class="text-center bg-light">
                             <tr>
                                 <th>Date Submitted</th>
-                                <th>Code</th>
+                                <th>Referral Code</th>
+                                <th>Schedule Code</th>
                                 <th>Name</th>
                                 <th>Philhealth</th>
                                 <th>Birthdate</th>
@@ -48,6 +49,7 @@
                             @foreach ($list as $item)
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle;"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
+                                    <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->linkCode)) ? $item->linkCode : 'N/A'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->majikCode}}</td>
                                     <td style="vertical-align: middle;"><a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">{{$item->getName()}}</a></td>
                                     <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
