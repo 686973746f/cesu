@@ -35,7 +35,7 @@
 
                     <div class="form-group d-none">
                       <label for="linkcode">Link Code</label>
-                      <input type="text" class="form-control" name="linkcode" id="linkcode" value="{{old('linkcode', request()->input('rlink'))}}">
+                      <input type="text" class="form-control" name="linkcode" id="linkcode" value="{{old('linkcode', request()->input('rlink'))}}" readonly>
                     </div>
 
                     <div class="card mb-3">
@@ -58,8 +58,8 @@
                                       <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>Gagamitin para sa Hospitalisasyon / For Hospitalization</label>
                                       <select class="form-control" name="isForHospitalization" id="isForHospitalization" required>
                                           <option value="" disabled {{is_null(old('isForHospitalization')) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>Yes</option>
-                                            <option value="0" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>No</option>
+                                            <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                            <option value="0" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>Hindi / No</option>
                                       </select>
                                     </div>
                                 </div>
@@ -380,8 +380,8 @@
                               <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Kasalukuyan ka bang nakakaranas ng senyales o sintomas ng COVID-19? / Are you currently experiencing any COVID-19 signs or symptoms?</label>
                               <select class="form-control" name="haveSymptoms" id="haveSymptoms">
                                 <option value="" disabled {{is_null(old('haveSymptoms')) ? 'selected' : ''}}>Choose...</option>
-                                <option value="1" {{(old('haveSymptoms') == '1') ? 'selected' : ''}}>Yes</option>
-                                <option value="0" {{(old('haveSymptoms') == '0') ? 'selected' : ''}}>No</option>
+                                <option value="1" {{(old('haveSymptoms') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                <option value="0" {{(old('haveSymptoms') == '0') ? 'selected' : ''}}>Hindi / No</option>
                               </select>
                             </div>
                             <div id="ifHaveSymptoms">
