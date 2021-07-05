@@ -25,6 +25,7 @@
                             <th>#</th>
                             <th>Code</th>
                             <th>Status</th>
+                            <th>URL</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -34,6 +35,7 @@
                             <td scope="row">{{$item->id}}</td>
                             <td>{{$item->code}}</td>
                             <td>{{($item->active == 1) ? 'Enabled' : 'Disabled'}}</td>
+                            <td><a href="https://paswab.cesugentri.com/?rlink={{$item->code}}">https://paswab.cesugentri.com/?rlink={{$item->code}}</a></td>
                             <td>
                                 <button type="button" class="btn btn-primary">Disable</button>
                             </td>
