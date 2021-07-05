@@ -2,21 +2,21 @@
 
 @section('content')
 <form action="{{ route('records.store')}}" method="post">
+	@csrf
 	<div class="container">
 		<div class="card">
 			<div class="card-header font-weight-bold text-info">Add New Record</div>
 			<div class="card-body">
-				<div class="alert alert-info" role="alert">
-					All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
-				</div>
-
 				@if(session('msg'))
 					<div class="alert alert-danger" role="alert">
 						{{session('msg')}} {{session('where')}}
 					</div>
 				@endif
 
-				@csrf
+				<div class="alert alert-info" role="alert">
+					All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
+				</div>
+				
 				<hr>
 				<h5 class="font-weight-bold">Patient Information</h5>
 				<hr>

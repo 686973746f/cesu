@@ -141,7 +141,7 @@ class RecordsController extends Controller
 			$philhealth_organized = null;
 		}
 
-		if(Records::where('lname', mb_strtoupper($request->lname))
+		$check1 = Records::where('lname', mb_strtoupper($request->lname))
 		->where('fname', mb_strtoupper($request->fname))
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
@@ -149,7 +149,9 @@ class RecordsController extends Controller
 		})
 		->where('bdate', $request->bdate)
 		->where('gender', strtoupper($request->gender))
-		->exists()) {
+		->first();
+
+		if($check1) {
 			$param1 = 1;
 			$where = '(Existing in the Records Page)';
 		}
@@ -175,9 +177,16 @@ class RecordsController extends Controller
 		}
 
 		if($param1 == 1 || $param2 == 1) {
+			if($param1 == 1 && $check1->user->isCesuAccount() == true && auth()->user()->isCesuAccount() == false) {
+				$msg = 'Double Entry Error. Patient Record already exists and it was already created by CESU Staff/Encoders; hence you cannot see the record on your list.';
+			}
+			else {
+				$msg = 'Double Entry Error. Patient Record already exists.';
+			}
+
 			return back()
 			->withInput()
-			->with('msg', 'Double Entry Error. Patient Record already exists. ')
+			->with('msg', $msg)
 			->with('where', $where);
 		}
 		else {
