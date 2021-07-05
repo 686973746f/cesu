@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Forms;
 use App\Models\Records;
+use App\Models\PaSwabLinks;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
@@ -83,66 +84,90 @@ class PaSwabController extends Controller
                 $philhealth_organized = null;
             }
 
-            $data = PaSwabDetails::create([
-                'majikCode' => $majik,
-                'pType' => $request->pType,
-                'isForHospitalization' => $request->isForHospitalization,
-                'interviewDate' => $request->interviewDate,
-                'lname' => mb_strtoupper($request->lname),
-                'fname' => mb_strtoupper($request->fname),
-                'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
-                'bdate' => $request->bdate,
-                'gender' => strtoupper($request->gender),
-                'isPregnant' => ($request->gender == 'FEMALE') ? $request->isPregnant : 0,
-                'ifPregnantLMP' => ($request->gender == 'FEMALE' && $request->isPregnant == 1) ? $request->lmp : NULL,
-                'cs' => strtoupper($request->cs),
-                'nationality' => strtoupper($request->nationality),
-                'mobile' => $request->mobile,
-				'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
-                'email' => $request->email,
-                'philhealth' => $philhealth_organized,
-                'address_houseno' => strtoupper($request->address_houseno),
-                'address_street' => strtoupper($request->address_street),
-                'address_brgy' => strtoupper($request->address_brgy),
-                'address_city' => strtoupper($request->address_city),
-                'address_cityjson' => $request->saddress_city,
-                'address_province' => strtoupper($request->address_province),
-                'address_provincejson' => $request->saddress_province,
+            if(is_null($request->linkcode)) {
+                $finalproceed = 1;
+            }
+            else {
+                $check = PaSwabLinks::where('code', mb_strtoupper($request->linkcode))->first();
 
-                'occupation' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation) : NULL,
-                'occupation_name' => ($request->filled('occupation_name')) ? mb_strtoupper($request->occupation_name) : NULL,
-                'natureOfWork' => ($request->haveOccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
-                'natureOfWorkIfOthers' => ($request->haveOccupation == 1 && $request->natureOfWork == "OTHERS") ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                if($check) {
+                    $finalproceed = 1;
+                }
+                else {
+                    $finalproceed = 0;
+                }
+            }
 
-                'dateOnsetOfIllness' => ($request->haveSymptoms == 1) ? $request->dateOnsetOfIllness : NULL,
-                'SAS' => ($request->haveSymptoms == 1 && !is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
-                'SASFeverDeg' => ($request->haveSymptoms == 1) ? $request->SASFeverDeg : NULL,
-                'SASOtherRemarks' => $request->SASOtherRemarks,
-
-                'COMO' => implode(",", $request->comCheck),
-                'COMOOtherRemarks' => $request->COMOOtherRemarks,
-
-                'imagingDoneDate' => $request->imagingDoneDate,
-                'imagingDone' => $request->imagingDone,
-                'imagingResult' => $request->imagingResult,
-                'imagingOtherFindings' => $request->imagingOtherFindings,
-
-                'expoitem1' => $request->expoitem1,
-                'expoDateLastCont' => $request->expoDateLastCont,
-
-                'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
-                'contact1No' => $request->contact1No,
-                'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
-                'contact2No' => $request->contact2No,
-                'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
-                'contact3No' => $request->contact3No,
-                'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
-                'contact4No' => $request->contact4No,
-
-                'senderIP' => request()->ip(),
-            ]);
-
-            return redirect()->action([PaSwabController::class, 'complete'])->with('majik', $majik)->with('statustype', 'success');
+            if($finalproceed == 1) {
+                $data = PaSwabDetails::create([
+                    'majikCode' => $majik,
+                    'pType' => $request->pType,
+                    'linkCode' => $request->linkcode,
+                    'isForHospitalization' => $request->isForHospitalization,
+                    'interviewDate' => $request->interviewDate,
+                    'lname' => mb_strtoupper($request->lname),
+                    'fname' => mb_strtoupper($request->fname),
+                    'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
+                    'bdate' => $request->bdate,
+                    'gender' => strtoupper($request->gender),
+                    'isPregnant' => ($request->gender == 'FEMALE') ? $request->isPregnant : 0,
+                    'ifPregnantLMP' => ($request->gender == 'FEMALE' && $request->isPregnant == 1) ? $request->lmp : NULL,
+                    'cs' => strtoupper($request->cs),
+                    'nationality' => strtoupper($request->nationality),
+                    'mobile' => $request->mobile,
+                    'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
+                    'email' => $request->email,
+                    'philhealth' => $philhealth_organized,
+                    'address_houseno' => strtoupper($request->address_houseno),
+                    'address_street' => strtoupper($request->address_street),
+                    'address_brgy' => strtoupper($request->address_brgy),
+                    'address_city' => strtoupper($request->address_city),
+                    'address_cityjson' => $request->saddress_city,
+                    'address_province' => strtoupper($request->address_province),
+                    'address_provincejson' => $request->saddress_province,
+    
+                    'occupation' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation) : NULL,
+                    'occupation_name' => ($request->filled('occupation_name')) ? mb_strtoupper($request->occupation_name) : NULL,
+                    'natureOfWork' => ($request->haveOccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
+                    'natureOfWorkIfOthers' => ($request->haveOccupation == 1 && $request->natureOfWork == "OTHERS") ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+    
+                    'dateOnsetOfIllness' => ($request->haveSymptoms == 1) ? $request->dateOnsetOfIllness : NULL,
+                    'SAS' => ($request->haveSymptoms == 1 && !is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
+                    'SASFeverDeg' => ($request->haveSymptoms == 1) ? $request->SASFeverDeg : NULL,
+                    'SASOtherRemarks' => $request->SASOtherRemarks,
+    
+                    'COMO' => implode(",", $request->comCheck),
+                    'COMOOtherRemarks' => $request->COMOOtherRemarks,
+    
+                    'imagingDoneDate' => $request->imagingDoneDate,
+                    'imagingDone' => $request->imagingDone,
+                    'imagingResult' => $request->imagingResult,
+                    'imagingOtherFindings' => $request->imagingOtherFindings,
+    
+                    'expoitem1' => $request->expoitem1,
+                    'expoDateLastCont' => $request->expoDateLastCont,
+    
+                    'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
+                    'contact1No' => $request->contact1No,
+                    'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
+                    'contact2No' => $request->contact2No,
+                    'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
+                    'contact3No' => $request->contact3No,
+                    'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
+                    'contact4No' => $request->contact4No,
+    
+                    'senderIP' => request()->ip(),
+                ]);
+    
+                return redirect()->action([PaSwabController::class, 'complete'])->with('majik', $majik)->with('statustype', 'success');
+            }
+            else {
+                return back()
+                ->withInput()
+                ->with('msg', 'Error: Pa-swab Referal Link Code is invalid. Please use right Pa-Swab URL then try again.')
+                ->with('msgtype', 'danger')
+                ->with('skipmodal', true);
+            }
         }
     }
 

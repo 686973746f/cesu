@@ -11,6 +11,7 @@ class PaSwabDetails extends Model
     use HasFactory;
 
     protected $fillable = [
+        'linkCode',
         'majikCode',
         'pType',
         'isForHospitalization',
