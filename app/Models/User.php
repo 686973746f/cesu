@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Records;
 use App\Models\CifUploads;
+use App\Models\PaSwabLinks;
 use App\Models\LinelistMaster;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -120,5 +121,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function referralCode() {
         return $this->hasMany(ReferralCodes::class);
+    }
+
+    public function paSwabLink() {
+        return $this->hasMany(PaSwabLinks::class);
     }
 }

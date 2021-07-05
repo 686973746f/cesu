@@ -20,6 +20,7 @@ class CreatePaSwabDetailsTable extends Migration
             $table->string('status')->default('pending');
             $table->string('remarks')->nullable();
             $table->date('processedAt')->nullable();
+            $table->string('linkCode')->nullable();
             $table->string('majikCode');
             $table->string('pType');
             $table->tinyInteger('isForHospitalization');
