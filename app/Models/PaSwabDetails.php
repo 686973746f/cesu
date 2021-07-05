@@ -86,4 +86,8 @@ class PaSwabDetails extends Model
             return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
         }
     }
+
+    public function toDateTimeString() {
+        return Carbon::createFromTimeStamp(strtotime($this->expoDateLastCont))->diffForHumans();
+    }
 }

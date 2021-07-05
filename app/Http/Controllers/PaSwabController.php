@@ -236,6 +236,7 @@ class PaSwabController extends Controller
             'testDateCollected1' => 'required|date',
             'testType1' => 'required',
             'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? 'required' : 'nullable',
+            'antigenKit1' => ($request->testType1 == "ANTIGEN") ? 'required' : 'nullable',
         ]);
 
         if($data->status == 'pending') {
@@ -398,6 +399,7 @@ class PaSwabController extends Controller
                 'testLaboratory1' => NULL,
                 'testType1' => $request->testType1,
                 'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
                 'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
                 'testResult1' => 'PENDING',
                 'testResultOtherRemarks1' => NULL,
@@ -408,6 +410,7 @@ class PaSwabController extends Controller
                 'testLaboratory2' => NULL,
                 'testType2' => NULL,
                 'testTypeAntigenRemarks2' => NULL,
+                'antigenKit2' => NULL,
                 'testTypeOtherRemarks2' => NULL,
                 'testResult2' => NULL,
                 'testResultOtherRemarks2' => NULL,

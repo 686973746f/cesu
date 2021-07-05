@@ -748,10 +748,11 @@
                         </div>
                         <div class="form-group">
                             <label for="">Date of Last Exposure</label>
-                            <input type="date" class="form-control" readonly value="{{$data->expoDateLastCont}}">
-                          </div>
+                            <input type="text" class="form-control" readonly value="{{(!is_null($data->expoDateLastCont)) ? date('m/d/Y', strtotime($data->expoDateLastCont)).' - '.$data->toDateTimeString() : 'N/A'}}">
+                        </div>
+                        <hr>
                         <div class="form-group">
-                            <label for="interviewerName">Name of Interviewer</label>
+                            <label for="interviewerName"><span class="text-danger font-weight-bold">*</span>Name of Interviewer</label>
                             <select name="interviewerName" id="interviewerName" required>
                                 <option value="" disabled {{(empty(old('interviewerName'))) ? 'selected' : ''}}>Choose...</option>
                                 @foreach($interviewers as $key => $interviewer)
@@ -760,11 +761,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="testDateCollected1">Date of Swab Collection</label>
+                            <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date of Swab Collection</label>
                             <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" value="{{old('testDateCollected1')}}" required>
                         </div>
                         <div class="form-group">
-                            <label for="testType1">Type of Test</label>
+                            <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of Test</label>
                             <select class="form-control" name="testType1" id="testType1" required>
                               <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
                               <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
@@ -776,8 +777,14 @@
                         </div>
                         <div id="divTypeOthers1">
                             <div class="form-group">
-                                <label for="testTypeOtherRemarks1">Specify Type/Reason</label>
+                                <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
                                 <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
+                            </div>
+                            <div id="ifAntigen1">
+                                <div class="form-group">
+                                    <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                    <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1')}}">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -822,11 +829,22 @@
             if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
                 $('#divTypeOthers1').show();
                 $('#testTypeOtherRemarks1').prop('required', true);
+                if($(this).val() == 'ANTIGEN') {
+                    $('#ifAntigen1').show();
+                    $('#antigenKit1').prop('required', true);
+                }
+                else {
+                    $('#ifAntigen1').hide();
+                    $('#antigenKit1').prop('required', false);
+                }
             }
             else {
                 $('#divTypeOthers1').hide();
                 $('#testTypeOtherRemarks1').empty();
                 $('#testTypeOtherRemarks1').prop('required', false);
+
+                $('#ifAntigen1').hide();
+                $('#antigenKit1').prop('required', false);
             }
         }).trigger('change');
     </script>
