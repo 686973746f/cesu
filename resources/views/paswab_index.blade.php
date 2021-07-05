@@ -33,7 +33,7 @@
                         Lahat ng detalye na may markang asterisk (<span class="text-danger font-weight-bold">*</span>) ay kailangang sagutan. Kung hindi kailangang sagutan ang walang asterisk, maaaring iwanan lang na blanko kung N/A.
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group d-none">
                       <label for="linkcode">Link Code</label>
                       <input type="text" class="form-control" name="linkcode" id="linkcode" value="{{old('linkcode', request()->input('rlink'))}}">
                     </div>
