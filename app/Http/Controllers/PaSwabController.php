@@ -211,6 +211,7 @@ class PaSwabController extends Controller
     public function view() {
         if(request()->input('q')) {
             $list = PaSwabDetails::where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+            ->where('status', 'pending')
             ->paginate(10);
 		}
         else {
