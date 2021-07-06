@@ -501,7 +501,7 @@ class RecordsController extends Controller
 
 		$newmname = (!is_null($request->mname)) ? mb_strtoupper($request->mname) : NULL;
 
-		if($current->lname == mb_strtoupper($request->lname) && $current->fname == mb_strtoupper($request->lname) && $current->mname == $newmname && $current->bdate == $request->bdate && $current->gender) {
+		if($current->lname == mb_strtoupper($request->lname) && $current->fname == mb_strtoupper($request->lname) && $current->mname == $newmname && $current->bdate == $request->bdate && $current->gender == strtoupper($request->gender)) {
 			$param1 = 0;
 			$param2 = 0;
 		}
