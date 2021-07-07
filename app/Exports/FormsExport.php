@@ -62,7 +62,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $ei2str = "YES, LOCAL";
         }
         else if ($form->expoitem2 == 2) {
-            $ei2str = "YES, LOCAL";
+            $ei2str = "YES, INTERNATIONAL";
         }
         else if ($form->expoitem2 == 3) {
             $ei2str = "UNKNOWN";
@@ -75,6 +75,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstLaboratory = strtoupper($form->testLaboratory1);
             $displayFirstTestType = $form->testType1;
             $displayFirstAntigenRemarks = ($form->testType1 == "ANTIGEN") ? $form->testTypeAntigenRemarks1 : "N/A";
+            $displayFirstAntigenKit = ($form->testType1 == "ANTIGEN") ? mb_strtoupper($form->antigenKit1) : "N/A";
             $displayFirstTestTypeOtherRemarks = ($form->testType1 == "OTHERS") ? $form->testTypeOtherRemarks1 : "N/A";
             $displayFirstTestResult = $form->testResult1;
             $displayFirstTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
@@ -85,6 +86,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displaySecondLaboratory = "N/A";
             $displaySecondTestType = "N/A";
             $displaySecondAntigenRemarks = "N/A";
+            $displaySecondAntigenKit = "N/A";
             $displaySecondTestTypeOtherRemarks = "N/A";
             $displaySecondTestResult = "N/A";
             $displaySecondTestResultOtherRemarks = "N/A";
@@ -97,6 +99,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstLaboratory = strtoupper($form->testLaboratory2);
             $displayFirstTestType = $form->testType2;
             $displayFirstAntigenRemarks = ($form->testType2 == "ANTIGEN") ? $form->testTypeAntigenRemarks2 : "N/A";
+            $displayFirstAntigenKit = ($form->testType2 == "ANTIGEN") ? mb_strtoupper($form->antigenKit2) : "N/A";
             $displayFirstTestTypeOtherRemarks = ($form->testType2 == "OTHERS") ? $form->testTypeOtherRemarks2 : "N/A";
             $displayFirstTestResult = $form->testResult2;
             $displayFirstTestResultOtherRemarks = ($form->testResult2 == "OTHERS") ? $form->testResultOtherRemarks2 : "N/A";
@@ -107,6 +110,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displaySecondLaboratory = strtoupper($form->testLaboratory1);
             $displaySecondTestType = $form->testType1;
             $displaySecondAntigenRemarks = ($form->testType1 == "ANTIGEN") ? $form->testTypeAntigenRemarks1 : "N/A";
+            $displaySecondAntigenKit = ($form->testType1 == "ANTIGEN") ? mb_strtoupper($form->antigenKit1) : "N/A";
             $displaySecondTestTypeOtherRemarks = ($form->testType1 == "OTHERS") ? $form->testTypeOtherRemarks1 : "N/A";
             $displaySecondTestResult = $form->testResult1;
             $displaySecondTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
@@ -134,7 +138,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("9", $arr_existingCase)) ? "YES" : "NO",
             (in_array("10", $arr_existingCase)) ? "YES" : "NO",
             (in_array("11", $arr_existingCase)) ? "YES" : "NO",
-            (in_array("11", $arr_existingCase)) ? $form->ecOthersRemarks : "N/A",
+            (in_array("11", $arr_existingCase)) ? mb_strtoupper($form->ecOthersRemarks) : "N/A",
             
             $form->pType,
             (in_array("A", $arr_testingcat)) ? "YES" : "NO",
@@ -189,15 +193,18 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->records->occupation_email)) ? $form->records->occupation_email : 'N/A',
 
             ($form->isHealthCareWorker == 1) ? 'YES' : 'NO',
-            ($form->isHealthCareWorker == 1) ? strtoupper($form->healthCareCompanyName)." - ".strtoupper($form->healthCareCompanyLocation) : 'N/A',
+            ($form->isHealthCareWorker == 1) ? mb_strtoupper($form->healthCareCompanyName) : 'N/A',
+            ($form->isHealthCareWorker == 1) ? mb_strtoupper($form->healthCareCompanyLocation) : 'N/A',
             
             ($form->isOFW == 1) ? 'YES' : 'NO',
-            ($form->isOFW == 1) ? strtoupper($form->OFWCountyOfOrigin) : 'N/A',
+            ($form->isOFW == 1) ? mb_strtoupper($form->OFWCountyOfOrigin) : 'N/A',
+            ($form->isOFW == 1) ? $form->OFWPassportNo : 'N/A',
             ($form->isOFW == 1 && $form->ofwType == 1) ? "YES" : "NO",
             ($form->isOFW == 1 && $form->ofwType == 2) ? "YES" : "NO",
 
             ($form->isFNT == 1) ? 'YES' : 'NO',
-            ($form->isFNT == 1) ? strtoupper($form->FNTCountryOfOrigin) : 'N/A',
+            ($form->isFNT == 1) ? mb_strtoupper($form->FNTCountryOfOrigin) : 'N/A',
+            ($form->isFNT == 1) ? $form->FNTPassportNo : 'N/A',
 
             ($form->isLSI == 1) ? 'YES' : 'NO',
             ($form->isLSI == 1) ? strtoupper($form->LSICity).", ".strtoupper($form->LSIProvince) : 'N/A',
@@ -206,10 +213,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
 
             ($form->isLivesOnClosedSettings == 1) ? 'YES' : 'NO',
             ($form->isLivesOnClosedSettings == 1) ? strtoupper($form->institutionType) : 'N/A',
-            ($form->isLivesOnClosedSettings == 1) ? strtoupper($form->institutionName) : 'N/A',
-
-            ($form->isIndg == 1) ? "YES" : "NO",
-            ($form->isIndg == 1) ? strtoupper($form->indgSpecify) : "N/A",
+            ($form->isLivesOnClosedSettings == 1) ? mb_strtoupper($form->institutionName) : 'N/A',
 
             ($form->havePreviousCovidConsultation == 1) ? 'YES' : 'NO',
             (!is_null($form->dateOfFirstConsult)) ? date("m/d/Y", strtotime($form->dateOfFirstConsult)) : 'N/A',
@@ -242,6 +246,20 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->caseClassification == "Probable") ? 'YES' : 'NO',
             ($form->caseClassification == "Confirmed") ? 'YES' : 'NO',
             ($form->caseClassification == "Non-COVID-19 Case") ? 'YES' : 'NO',
+
+            (!is_null($form->vaccinationDate1)) ? date('m/d/Y', strtotime($form->vaccinationDate1)) : 'N/A',
+            (!is_null($form->vaccinationDate1)) ? mb_strtoupper($form->vaccinationName1) : 'N/A',
+            (!is_null($form->vaccinationDate1)) ? mb_strtoupper($form->vaccinationNoOfDose1) : 'N/A',
+            (!is_null($form->vaccinationDate1)) ? mb_strtoupper($form->vaccinationFacility1) : 'N/A',
+            (!is_null($form->vaccinationDate1)) ? mb_strtoupper($form->vaccinationRegion1) : 'N/A',
+            (!is_null($form->vaccinationDate1) && $form->haveAdverseEvents1 == 1) ? 'YES' : 'NO',
+
+            (!is_null($form->vaccinationDate2)) ? date('m/d/Y', strtotime($form->vaccinationDate2)) : 'N/A',
+            (!is_null($form->vaccinationDate2)) ? mb_strtoupper($form->vaccinationName2) : 'N/A',
+            (!is_null($form->vaccinationDate2)) ? mb_strtoupper($form->vaccinationNoOfDose2) : 'N/A',
+            (!is_null($form->vaccinationDate2)) ? mb_strtoupper($form->vaccinationFacility2) : 'N/A',
+            (!is_null($form->vaccinationDate2)) ? mb_strtoupper($form->vaccinationRegion2) : 'N/A',
+            (!is_null($form->vaccinationDate2) && $form->haveAdverseEvents2 == 1) ? 'YES' : 'NO',
 
             (!is_null($form->dateOnsetOfIllness)) ? date("m/d/Y", strtotime($form->dateOnsetOfIllness)) : 'N/A',
             (in_array("Asymptomatic", $arr_sas)) ? "YES" : "NO",
@@ -297,6 +315,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displayFirstLaboratory,
             $displayFirstTestType,
             $displayFirstAntigenRemarks,
+            $displayFirstAntigenKit,
             $displayFirstTestTypeOtherRemarks,
             $displayFirstTestResult,
             $displayFirstTestResultOtherRemarks,
@@ -307,6 +326,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displaySecondLaboratory,
             $displaySecondTestType,
             $displaySecondAntigenRemarks,
+            $displaySecondAntigenKit,
             $displaySecondTestTypeOtherRemarks,
             $displaySecondTestResult,
             $displaySecondTestResultOtherRemarks,
@@ -427,9 +447,9 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Not Applicable (New case) [YES/NO]',
             'Not applicable (Unknown) [YES/NO]',
             'Update symptoms [YES/NO]',
-            'Update health status [YES/NO]',
-            'Update outcome [YES/NO]',
+            'Update health status / outcome [YES/NO]',
             'Update case classification [YES/NO]',
+            'Update vaccination [YES/NO]',
             'Update lab result [YES/NO]',
             'Update chest imaging findings [YES/NO]',
             'Update disposition [YES/NO]',
@@ -486,27 +506,27 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Email adress',
 
             'Health Care Worker [YES/NO]',
-            'Name and location of health facility',
+            'Name of health facility',
+            'Location of health facility',
 
             'Returning overseas Filipino [YES/NO]',
             'Country of Origin',
+            'Passport Number',
             'OFW [YES/NO]',
             'Non-OFW [YES/NO]',
 
             'Foreign National Traveler [YES/NO]',
             'Country of origin',
+            'Passport Number',
 
             'Locally stranded individual / APOR / Traveler [YES/NO]',
-            'City / Municipality & Province of Origin',
+            'City, Municipality & Province of Origin',
             'Locally Stranded individual [YES/NO]',
             'Authorized Person Outside Residence / Local Traveler [YES/NO]',
 
             'Lives in Closed settings [YES/NO]',
             'Specify Type of institution (e.g. prisons, residential facilities, retirement communities, care homes, camps',
             'Specify Name of institution',
-
-            'Indigenous Person [YES/NO]',
-            'Specify group',
             
             'Have previous COVID-19 related consultation? [YES/NO]',
             'Date of first consult (MM/DD/YYYY)',
@@ -539,6 +559,20 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Confirmed [YES/NO]',
             'Non-Covid-19 Case [YES/NO]',
 
+            'Date of vaccination 1',
+            'Name of Vaccine 1',
+            'Dose number 1',
+            'Vaccination center/facility 1',
+            'Region of health facility 1',
+            'Adverse event/s? [YES/NO] 1',
+
+            'Date of vaccination 2',
+            'Name of Vaccine 2',
+            'Dose number 2',
+            'Vaccination center/facility 2',
+            'Region of health facility 2',
+            'Adverse event/s? [YES/NO] 2',
+
             'Date of Onset of Illness (mm/dd/yyyy)',
             'Asymptomatic [YES/NO]',
             'Fever [YES/NO]',
@@ -556,8 +590,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Vomiting [YES/NO]',
             'Diarrhea [YES/NO]',
             'Altered Mental Status [YES/NO]',
-            'Anosmia (loss of smell) [YES/NO]',
-            'Ageusia (loss of taste) [YES/NO]',
+            'Anosmia (loss of smell, w/o any identified cause) [YES/NO]',
+            'Ageusia (loss of taste, w/o any identified cause) [YES/NO]',
             'Others [YES/NO]',
             'Others: Specify',
 
@@ -593,6 +627,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Laboratory 1',
             'Type of Test 1',
             'Type of Test Antigen Reason 1',
+            'Antigen Kit 1',
             'Type of Test Reason 1',
             'Results 1',
             'Results Others Specify 1',
@@ -603,6 +638,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Laboratory 2',
             'Type of Test 2',
             'Type of Test Antigen Reason 2',
+            'Antigen Kit 2',
             'Type of Test Reason 2',
             'Results 2',
             'Results Others Specify 2',

@@ -273,7 +273,7 @@ class FormsController extends Controller
             $models = Forms::whereIn('id', $list)
             ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
             
-            return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.xlsx');
+            return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.csv');
         }
         else if($request->submit == 'resched') {
             $request->validate([

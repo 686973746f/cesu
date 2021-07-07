@@ -165,7 +165,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="4" id="" name="existingCaseList[]" required {{(is_array(old('existingCaseList')) && in_array("4", old('existingCaseList'))) ? 'checked' : ''}}>
                                         <label class="form-check-label" for="">
-                                            Update health status
+                                            Update health status / outcome
                                         </label>
                                     </div>
                                 </div>
@@ -173,13 +173,13 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="5" id="" name="existingCaseList[]" required {{(is_array(old('existingCaseList')) && in_array("5", old('existingCaseList'))) ? 'checked' : ''}}>
                                         <label class="form-check-label" for="">
-                                            Update outcome
+                                            Update case classification
                                         </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="6" id="" name="existingCaseList[]" required {{(is_array(old('existingCaseList')) && in_array("6", old('existingCaseList'))) ? 'checked' : ''}}>
                                         <label class="form-check-label" for="">
-                                            Update case classification
+                                            Update vaccination
                                         </label>
                                     </div>
                                     <div class="form-check">
@@ -1612,7 +1612,7 @@
                                         <select class="form-control" name="expoitem2" id="expoitem2" required>
                                           <option value="0" {{(old('expoitem2') == 2) ? 'selected' : ''}}>No</option>
                                           <option value="1" {{(old('expoitem2') == 1) ? 'selected' : ''}}>Yes, Local</option>
-                                          <option value="2" {{(old('expoitem2') == 1) ? 'selected' : ''}}>Yes, International</option>
+                                          <option value="2" {{(old('expoitem2') == 2) ? 'selected' : ''}}>Yes, International</option>
                                           <option value="3" {{(old('expoitem2') == 3) ? 'selected' : ''}}>Unknown exposure</option>
                                         </select>
                                     </div>
@@ -2902,18 +2902,6 @@
                     $('#divisLivesOnClosedSettings').show();
                     $('#institutionType').prop('required', true);
                     $('#institutionName').prop('required', true);
-                }
-            }).trigger('change');
-
-            $('#isIndg').change(function (e) {
-                e.preventDefault();
-                if($(this).val() == '0') {
-                    $('#divIsIndg').hide();
-                    $('#indgSpecify').prop('required', false);
-                }
-                else {
-                    $('#divIsIndg').show();
-                    $('#indgSpecify').prop('required', true);
                 }
             }).trigger('change');
 

@@ -177,7 +177,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="4" id="" name="existingCaseList[]" required {{(in_array("4", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
                                         <label class="form-check-label" for="">
-                                            Update health status
+                                            Update health status / outcome
                                         </label>
                                     </div>
                                 </div>
@@ -185,13 +185,13 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="5" id="" name="existingCaseList[]" required {{(in_array("5", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
                                         <label class="form-check-label" for="">
-                                            Update outcome
+                                            Update case classification
                                         </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="6" id="" name="existingCaseList[]" required {{(in_array("6", old('existingCaseList', explode(",", $records->existingCaseList)))) ? 'checked' : ''}}>
                                         <label class="form-check-label" for="">
-                                            Update case classification
+                                            Update vaccination
                                         </label>
                                     </div>
                                     <div class="form-check">
@@ -601,7 +601,7 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="isFNT"><span class="text-danger font-weight-bold">*</span>Foreign National Traveler</label>
                                                 <select class="form-control" name="isFNT" id="isFNT" required>
@@ -627,7 +627,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="isLSI"><span class="text-danger font-weight-bold">*</span>Locally Stranded Individual/APOR/Traveler</label>
                                                 <select class="form-control" name="isLSI" id="isLSI" required>
@@ -663,9 +663,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>        
-                                    <hr>
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
@@ -689,21 +686,6 @@
                                                             <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{old('institutionName', $records->institutionName)}}">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                              <label for="isIndg"><span class="text-danger font-weight-bold">*</span>Indigenous Person</label>
-                                              <select class="form-control" name="isIndg" id="isIndg" required>
-                                                <option value="1" {{(old('isIndg', $records->isIndg) == 1) ? 'selected' : ''}}>Yes</option>
-                                                <option value="0" {{(old('isIndg', $records->isIndg) == 0 || is_null(old('isIndg', $records->isIndg))) ? 'selected' : ''}}>No</option>
-                                              </select>
-                                            </div>
-                                            <div id="divIsIndg">
-                                                <div class="form-group">
-                                                  <label for="indgSpecify"><span class="text-danger font-weight-bold">*</span>Specify Group</label>
-                                                  <input type="text" class="form-control" name="indgSpecify" id="indgSpecify" value="{{old('indgSpecify', $records->indgSpecify)}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -3015,18 +2997,6 @@
                     $('#divisLivesOnClosedSettings').show();
                     $('#institutionType').prop('required', true);
                     $('#institutionName').prop('required', true);
-                }
-            }).trigger('change');
-
-            $('#isIndg').change(function (e) {
-                e.preventDefault();
-                if($(this).val() == '0') {
-                    $('#divIsIndg').hide();
-                    $('#indgSpecify').prop('required', false);
-                }
-                else {
-                    $('#divIsIndg').show();
-                    $('#indgSpecify').prop('required', true);
                 }
             }).trigger('change');
 
