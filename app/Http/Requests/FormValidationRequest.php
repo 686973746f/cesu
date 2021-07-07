@@ -83,8 +83,6 @@ class FormValidationRequest extends FormRequest
             'isLivesOnClosedSettings' => 'required',
             'institutionType' => ($this->isLivesOnClosedSettings == "1") ? 'required' : 'nullable',
             'institutionName' => ($this->isLivesOnClosedSettings == "1") ? 'required' : 'nullable',
-            'isIndg' => 'required',
-            'indgSpecify' => ($this->isIndg == "1") ? 'required' : 'nullable',
             //2.1 Consultation Information
             'havePreviousCovidConsultation' => 'required',
             'dateOfFirstConsult' => ($this->havePreviousCovidConsultation == "1") ? 'required|date' : 'nullable|date',
