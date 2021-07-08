@@ -226,6 +226,12 @@
                                   <label for="reschedDate">Specify date where CIF will be re-scheduled</label>
                                   <input type="date" class="form-control" name="reschedDate" id="reschedDate">
                                 </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="changeToMorning" id="changeToMorning" value="1">
+                                    Change Time of Collection to Morning <small>(for ONI w/ Philhealth)</small>
+                                  </label>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="submit" name="submit" value="resched">Submit</button>

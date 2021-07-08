@@ -297,6 +297,85 @@ class FormsController extends Controller
                 }
             }
 
+            if($request->changeToMorning) {
+                foreach($models as $item) {
+                    if(!is_null($item->records->philhealth)) {
+                        if(!is_null($item->testDateCollected2)) {
+                            if($item->testType2 == "OPS" || $item->testType2 == "NPS" || $item->testType2 == "OPS AND NPS") {
+                                $trigger = 0;
+                                $addMinutes = 0;
+
+                                while ($trigger != 1) {
+                                    $oniStartTime = date('H:i:s', strtotime('09:30:00 + '. $addMinutes .' minutes'));
+
+                                    $query = Forms::with('records')
+                                    ->where('testDateCollected2', $item->testDateCollected2)
+                                    ->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
+                                    ->whereHas('records', function ($q) {
+                                        $q->whereNotNull('philhealth');
+                                    })
+                                    ->where('oniTimeCollected2', $oniStartTime)->get();
+
+                                    if($query->count()) {
+                                        if($query->count() < 5) {
+                                            $oniTimeFinal2 = $oniStartTime;
+                                            $trigger = 1;
+                                        }
+                                        else {
+                                            $addMinutes = $addMinutes + 5;
+                                        }
+                                    }
+                                    else {
+                                        $oniTimeFinal2 = $oniStartTime;
+                                        $trigger = 1;
+                                    }
+                                }
+                            }
+
+                            $updateTime = Forms::where('id', $item->id)->update([
+                                'oniTimeCollected2' => $oniTimeFinal2,
+                            ]);
+                        }
+                        else {
+                            if($item->testType1 == "OPS" || $item->testType1 == "NPS" || $item->testType1 == "OPS AND NPS") {
+                                $trigger = 0;
+                                $addMinutes = 0;
+        
+                                while ($trigger != 1) {
+                                    $oniStartTime = date('H:i:s', strtotime('09:30:00 + '. $addMinutes .' minutes'));
+        
+                                    $query = Forms::with('records')
+                                    ->where('testDateCollected1', $item->testDateCollected1)
+                                    ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                                    ->whereHas('records', function ($q) {
+                                        $q->whereNotNull('philhealth');
+                                    })
+                                    ->where('oniTimeCollected1', $oniStartTime)->get();
+        
+                                    if($query->count()) {
+                                        if($query->count() < 5) {
+                                            $oniTimeFinal = $oniStartTime;
+                                            $trigger = 1;
+                                        }
+                                        else {
+                                            $addMinutes = $addMinutes + 5;
+                                        }
+                                    }
+                                    else {
+                                        $oniTimeFinal = $oniStartTime;
+                                        $trigger = 1;
+                                    }
+                                }
+    
+                                $updateTime = Forms::where('id', $item->id)->update([
+                                    'oniTimeCollected1' => $oniTimeFinal,
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+
             return redirect()->action([FormsController::class, 'index'])->with('status', 'Re-sched successful.')->with('statustype', 'success');
         }
         else if($request->submit == 'changetype') {
