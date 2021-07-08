@@ -502,19 +502,58 @@ class FormsController extends Controller
 
         $request->validated();
 
-        if(Forms::where([
-            ['records_id', $id],
-            ['testDateCollected1', $request->testDateCollected1]
-            ])->exists()) {
-                return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y'))->with('statustype', 'danger');
-            }
-            else {
-                if(!is_null($rec->philhealth)) {
-                    if($request->filled('oniTimeCollected1')) {
-                        $oniTimeFinal = $request->oniTimeCollected1;
+        if(Forms::where('records_id', $rec->id)->exists()) {
+            return redirect()->action([FormsController::class, 'index'])
+            ->with('status', 'Double Entry Detected! Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y'))
+            ->with('statustype', 'danger');
+        }
+        else {
+            if(!is_null($rec->philhealth)) {
+                if($request->filled('oniTimeCollected1')) {
+                    $oniTimeFinal = $request->oniTimeCollected1;
+                }
+                else {
+                    if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
+                        $trigger = 0;
+                        $addMinutes = 0;
+
+                        while ($trigger != 1) {
+                            $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
+                            $query = Forms::with('records')
+                            ->where('testDateCollected1', $request->testDateCollected1)
+                            ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                            ->whereHas('records', function ($q) {
+                                $q->whereNotNull('philhealth');
+                            })
+                            ->where('oniTimeCollected1', $oniStartTime)->get();
+
+                            if($query->count()) {
+                                if($query->count() < 5) {
+                                    $oniTimeFinal = $oniStartTime;
+                                    $trigger = 1;
+                                }
+                                else {
+                                    $addMinutes = $addMinutes + 5;
+                                }
+                            }
+                            else {
+                                $oniTimeFinal = $oniStartTime;
+                                $trigger = 1;
+                            }
+                        }
                     }
                     else {
-                        if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
+                        $oniTimeFinal = $request->oniTimeCollected1;
+                    }
+                }
+
+                if($request->filled('testType2')) {
+                    if($request->filled('oniTimeCollected2')) {
+                        $oniTimeFinal2 = $request->oniTimeCollected2;
+                    }
+                    else {
+                        if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
                             $trigger = 0;
                             $addMinutes = 0;
 
@@ -522,16 +561,16 @@ class FormsController extends Controller
                                 $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
 
                                 $query = Forms::with('records')
-                                ->where('testDateCollected1', $request->testDateCollected1)
-                                ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                                ->where('testDateCollected2', $request->testDateCollected2)
+                                ->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
                                 ->whereHas('records', function ($q) {
                                     $q->whereNotNull('philhealth');
                                 })
-                                ->where('oniTimeCollected1', $oniStartTime)->get();
+                                ->where('oniTimeCollected2', $oniStartTime)->get();
 
                                 if($query->count()) {
                                     if($query->count() < 5) {
-                                        $oniTimeFinal = $oniStartTime;
+                                        $oniTimeFinal2 = $oniStartTime;
                                         $trigger = 1;
                                     }
                                     else {
@@ -539,71 +578,50 @@ class FormsController extends Controller
                                     }
                                 }
                                 else {
-                                    $oniTimeFinal = $oniStartTime;
+                                    $oniTimeFinal2 = $oniStartTime;
                                     $trigger = 1;
                                 }
                             }
                         }
                         else {
-                            $oniTimeFinal = $request->oniTimeCollected1;
-                        }
-                    }
-
-                    if($request->filled('testType2')) {
-                        if($request->filled('oniTimeCollected2')) {
                             $oniTimeFinal2 = $request->oniTimeCollected2;
                         }
-                        else {
-                            if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
-                                $trigger = 0;
-                                $addMinutes = 0;
-
-                                while ($trigger != 1) {
-                                    $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
-
-                                    $query = Forms::with('records')
-                                    ->where('testDateCollected2', $request->testDateCollected2)
-                                    ->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
-                                    ->whereHas('records', function ($q) {
-                                        $q->whereNotNull('philhealth');
-                                    })
-                                    ->where('oniTimeCollected2', $oniStartTime)->get();
-
-                                    if($query->count()) {
-                                        if($query->count() < 5) {
-                                            $oniTimeFinal2 = $oniStartTime;
-                                            $trigger = 1;
-                                        }
-                                        else {
-                                            $addMinutes = $addMinutes + 5;
-                                        }
-                                    }
-                                    else {
-                                        $oniTimeFinal2 = $oniStartTime;
-                                        $trigger = 1;
-                                    }
-                                }
-                            }
-                            else {
-                                $oniTimeFinal2 = $request->oniTimeCollected2;
-                            }
-                        }
-                    }
-                    else {
-                        $oniTimeFinal2 = $request->oniTimeCollected2;
                     }
                 }
                 else {
-                    $oniTimeFinal = ($request->filled('oniTimeCollected1')) ? $request->oniTimeCollected1 : NULL;
-                    $oniTimeFinal2 = ($request->filled('oniTimeCollected2')) ? $request->oniTimeCollected2 : NULL;
+                    $oniTimeFinal2 = $request->oniTimeCollected2;
                 }
+            }
+            else {
+                $oniTimeFinal = ($request->filled('oniTimeCollected1')) ? $request->oniTimeCollected1 : NULL;
+                $oniTimeFinal2 = ($request->filled('oniTimeCollected2')) ? $request->oniTimeCollected2 : NULL;
+            }
 
-                //For late encoding ng CIF, automatic ilalagay sa tamang Case Classification base sa Resulta ng Test Type
-                if($request->testResult1 != "PENDING") {
-                    if($request->testResult1 == "POSITIVE") {
+            //For late encoding ng CIF, automatic ilalagay sa tamang Case Classification base sa Resulta ng Test Type
+            if($request->testResult1 != "PENDING") {
+                if($request->testResult1 == "POSITIVE") {
+                    $caseClassi = 'Confirmed';
+                }
+                else if($request->testResult1 == "NEGATIVE") {
+                    $caseClassi = 'Non-COVID-19 Case';
+                }
+                else {
+                    //Equivocal and others will be placed here
+                    $caseClassi = $request->caseClassification;
+                }
+                $attended = 1;
+            }
+            else {
+                $caseClassi = $request->caseClassification;
+                $attended = null;
+            }
+
+            if($request->filled('testType2')) {
+                if($request->testResult2 != "PENDING") {
+                    if($request->testResult2 == "POSITIVE") {
                         $caseClassi = 'Confirmed';
                     }
-                    else if($request->testResult1 == "NEGATIVE") {
+                    else if($request->testResult2 == "NEGATIVE") {
                         $caseClassi = 'Non-COVID-19 Case';
                     }
                     else {
@@ -616,222 +634,202 @@ class FormsController extends Controller
                     $caseClassi = $request->caseClassification;
                     $attended = null;
                 }
-
-                if($request->filled('testType2')) {
-                    if($request->testResult2 != "PENDING") {
-                        if($request->testResult2 == "POSITIVE") {
-                            $caseClassi = 'Confirmed';
-                        }
-                        else if($request->testResult2 == "NEGATIVE") {
-                            $caseClassi = 'Non-COVID-19 Case';
-                        }
-                        else {
-                            //Equivocal and others will be placed here
-                            $caseClassi = $request->caseClassification;
-                        }
-                        $attended = 1;
-                    }
-                    else {
-                        $caseClassi = $request->caseClassification;
-                        $attended = null;
-                    }
-                }
-
-                $request->user()->form()->create([
-                    'status' => 'approved',
-                    'isPresentOnSwabDay' => $attended,
-                    'records_id' => $id,
-                    'drunit' => $request->drunit,
-                    'drregion' => $request->drregion,
-                    'interviewerName' => $request->interviewerName,
-                    'interviewerMobile' => $request->interviewerMobile,
-                    'interviewDate' => $request->interviewDate,
-                    'informantName' => $request->informantName,
-                    'informantRelationship' => $request->informantRelationship,
-                    'informantMobile' => $request->informantMobile,
-                    'existingCaseList' => implode(",", $request->existingCaseList),
-                    'ecOthersRemarks' => $request->ecOthersRemarks,
-                    'pType' => $request->pType,
-                    'isForHospitalization' => $request->isForHospitalization,
-                    'testingCat' => implode(",",$request->testingCat),
-                    'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
-                    'dateOfFirstConsult' => $request->dateOfFirstConsult,
-                    'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
-
-                    'vaccinationDate1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationDate1 : NULL,
-                    'vaccinationName1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationName1) : NULL,
-                    'vaccinationNoOfDose1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationNoOfDose1 : NULL,
-                    'vaccinationFacility1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
-                    'vaccinationRegion1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
-                    'haveAdverseEvents1' => (!is_null($request->vaccinationDate1)) ? $request->haveAdverseEvents1 : NULL,
-
-                    'vaccinationDate2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationDate2 : NULL,
-                    'vaccinationName2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationName2) : NULL,
-                    'vaccinationNoOfDose2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationNoOfDose2 : NULL,
-                    'vaccinationFacility2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
-                    'vaccinationRegion2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
-                    'haveAdverseEvents2' => (!is_null($request->vaccinationDate2)) ? $request->haveAdverseEvents2 : NULL,
-                    
-                    'dispoType' => $request->dispositionType,
-                    'dispoName' => $request->dispositionName,
-                    'dispoDate' => $request->dispositionDate,
-                    'healthStatus' => $request->healthStatus,
-                    'caseClassification' => $caseClassi,
-                    'isHealthCareWorker' => $request->isHealthCareWorker,
-                    'healthCareCompanyName' => $request->healthCareCompanyName,
-                    'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
-                    'isOFW' => $request->isOFW,
-                    'OFWCountyOfOrigin' => ($request->isOFW == 1) ? $request->OFWCountyOfOrigin : NULL,
-                    'OFWPassportNo' => ($request->isOFW == 1) ? $request->OFWPassportNo : NULL,
-                    'ofwType' => ($request->isOFW == 1) ? $request->ofwType : NULL,
-                    'isFNT' => $request->isFNT,
-                    'FNTCountryOfOrigin' => ($request->isFNT == 1) ? $request->FNTCountryOfOrigin : NULL,
-                    'FNTPassportNo' => ($request->isFNT == 1) ? $request->FNTPassportNo : NULL,
-                    'lsiType' => $request->lsiType,
-                    'isLSI' => $request->isLSI,
-                    'LSICity' => $request->LSICity,
-                    'LSIProvince' => $request->LSIProvince,
-                    'isLivesOnClosedSettings' => $request->isLivesOnClosedSettings,
-                    'institutionType' => $request->institutionType,
-                    'institutionName' => $request->institutionName,
-                    'dateOnsetOfIllness' => $request->dateOnsetOfIllness,
-                    'SAS' => (!is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
-                    'SASFeverDeg' => $request->SASFeverDeg,
-                    'SASOtherRemarks' => $request->SASOtherRemarks,
-                    'COMO' => implode(",", $request->comCheck),
-                    'COMOOtherRemarks' => $request->COMOOtherRemarks,
-                    'PregnantLMP' => $request->PregnantLMP,
-                    'PregnantHighRisk' => $hrp,
-                    'diagWithSARI' => $request->diagWithSARI,
-                    'imagingDoneDate' => $request->imagingDoneDate,
-                    'imagingDone' => $request->imagingDone,
-                    'imagingResult' => $request->imagingResult,
-                    'imagingOtherFindings' => $request->imagingOtherFindings,
-        
-                    'testedPositiveUsingRTPCRBefore' => $request->testedPositiveUsingRTPCRBefore,
-                    'testedPositiveNumOfSwab' => $request->testedPositiveNumOfSwab,
-                    'testedPositiveLab' => $request->testedPositiveLab,
-                    'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
-        
-                    'testDateCollected1' => $request->testDateCollected1,
-                    'oniTimeCollected1' => $oniTimeFinal,
-                    'testDateReleased1' => $request->testDateReleased1,
-                    'testLaboratory1' => $request->testLaboratory1,
-                    'testType1' => $request->testType1,
-                    'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                    'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
-                    'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                    'testResult1' => $request->testResult1,
-                    'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
-        
-                    'testDateCollected2' => $request->testDateCollected2,
-                    'oniTimeCollected2' => $oniTimeFinal2,
-                    'testDateReleased2' => $request->testDateReleased2,
-                    'testLaboratory2' => $request->testLaboratory2,
-                    'testType2' => (!is_null($request->testType2)) ? $request->testType2 : NULL,
-                    'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
-                    'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
-                    'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
-                    'testResult2' => (!is_null($request->testType2)) ? $request->testResult2 : NULL,
-                    'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
-        
-                    'outcomeCondition' => $request->outcomeCondition,
-                    'outcomeRecovDate' => $request->outcomeRecovDate,
-                    'outcomeDeathDate' => $request->outcomeDeathDate,
-                    'deathImmeCause' => $request->deathImmeCause,
-                    'deathAnteCause' => $request->deathAnteCause,
-                    'deathUndeCause' => $request->deathUndeCause,
-                    'contriCondi' => $request->contriCondi,
-        
-                    'expoitem1' => $request->expoitem1,
-                    'expoDateLastCont' => $request->expoDateLastCont,
-        
-                    'expoitem2' => $request->expoitem2,
-                    'intCountry' => $request->intCountry,
-                    'intDateFrom' => $request->intDateFrom,
-                    'intDateTo' => $request->intDateTo,
-                    'intWithOngoingCovid' => ($request->expoitem2 == 2) ? $request->intWithOngoingCovid : 'N/A',
-                    'intVessel' => $request->intVessel,
-                    'intVesselNo' => $request->intVesselNo,
-                    'intDateDepart' => $request->intDateDepart,
-                    'intDateArrive' => $request->intDateArrive,
-        
-                    'placevisited' => (!is_null($request->placevisited)) ? implode(",", $request->placevisited) : NULL,
-        
-                    'locName1' => $request->locName1,
-                    'locAddress1' => $request->locAddress1,
-                    'locDateFrom1' => $request->locDateFrom1,
-                    'locDateTo1' => $request->locDateTo1,
-                    'locWithOngoingCovid1' => (!is_null($request->placevisited) && in_array('Health Facility', $request->placevisited)) ? $request->locWithOngoingCovid1 : 'N/A', 
-        
-                    'locName2' => $request->locName2,
-                    'locAddress2' => $request->locAddress2,
-                    'locDateFrom2' => $request->locDateFrom2,
-                    'locDateTo2' => $request->locDateTo2,
-                    'locWithOngoingCovid2' => (!is_null($request->placevisited) && in_array('Closed Settings', $request->placevisited)) ? $request->locWithOngoingCovid2 : 'N/A',
-                    
-                    'locName3' => $request->locName3,
-                    'locAddress3' => $request->locAddress3,
-                    'locDateFrom3' => $request->locDateFrom3,
-                    'locDateTo3' => $request->locDateTo3,
-                    'locWithOngoingCovid3' => (!is_null($request->placevisited) && in_array('School', $request->placevisited)) ? $request->locWithOngoingCovid3 : 'N/A',
-                    
-                    'locName4' => $request->locName4,
-                    'locAddress4' => $request->locAddress4,
-                    'locDateFrom4' => $request->locDateFrom4,
-                    'locDateTo4' => $request->locDateTo4,
-                    'locWithOngoingCovid4' => (!is_null($request->placevisited) && in_array('Workplace', $request->placevisited)) ? $request->locWithOngoingCovid4 : 'N/A',
-        
-                    'locName5' => $request->locName5,
-                    'locAddress5' => $request->locAddress5,
-                    'locDateFrom5' => $request->locDateFrom5,
-                    'locDateTo5' => $request->locDateTo5,
-                    'locWithOngoingCovid5' => (!is_null($request->placevisited) && in_array('Market', $request->placevisited)) ? $request->locWithOngoingCovid5 : 'N/A',
-        
-                    'locName6' => $request->locName6,
-                    'locAddress6' => $request->locAddress6,
-                    'locDateFrom6' => $request->locDateFrom6,
-                    'locDateTo6' => $request->locDateTo6,
-                    'locWithOngoingCovid6' => (!is_null($request->placevisited) && in_array('Social Gathering', $request->placevisited)) ? $request->locWithOngoingCovid6 : 'N/A',
-        
-                    'locName7' => $request->locName7,
-                    'locAddress7' => $request->locAddress7,
-                    'locDateFrom7' => $request->locDateFrom7,
-                    'locDateTo7' => $request->locDateTo7,
-                    'locWithOngoingCovid7' => (!is_null($request->placevisited) && in_array('Others', $request->placevisited)) ? $request->locWithOngoingCovid7 : 'N/A',
-        
-                    'localVessel1' => $request->localVessel1,
-                    'localVesselNo1' => $request->localVesselNo1,
-                    'localOrigin1' => $request->localOrigin1,
-                    'localDateDepart1' => $request->localDateDepart1,
-                    'localDest1' => $request->localDest1,
-                    'localDateArrive1' => $request->localDateArrive1,
-        
-                    'localVessel2' => $request->localVessel2,
-                    'localVesselNo2' => $request->localVesselNo2,
-                    'localOrigin2' => $request->localOrigin2,
-                    'localDateDepart2' => $request->localDateDepart2,
-                    'localDest2' => $request->localDest2,
-                    'localDateArrive2' => $request->localDateArrive2,
-        
-                    'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
-                    'contact1No' => $request->contact1No,
-                    'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
-                    'contact2No' => $request->contact2No,
-                    'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
-                    'contact3No' => $request->contact3No,
-                    'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
-                    'contact4No' => $request->contact4No,
-
-                    'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
-                ]);
-        
-                return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient was created successfully.')->with('statustype', 'success');
             }
+
+            $request->user()->form()->create([
+                'status' => 'approved',
+                'isPresentOnSwabDay' => $attended,
+                'records_id' => $id,
+                'drunit' => $request->drunit,
+                'drregion' => $request->drregion,
+                'interviewerName' => $request->interviewerName,
+                'interviewerMobile' => $request->interviewerMobile,
+                'interviewDate' => $request->interviewDate,
+                'informantName' => $request->informantName,
+                'informantRelationship' => $request->informantRelationship,
+                'informantMobile' => $request->informantMobile,
+                'existingCaseList' => implode(",", $request->existingCaseList),
+                'ecOthersRemarks' => $request->ecOthersRemarks,
+                'pType' => $request->pType,
+                'isForHospitalization' => $request->isForHospitalization,
+                'testingCat' => implode(",",$request->testingCat),
+                'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
+                'dateOfFirstConsult' => $request->dateOfFirstConsult,
+                'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
+
+                'vaccinationDate1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationDate1 : NULL,
+                'vaccinationName1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationName1) : NULL,
+                'vaccinationNoOfDose1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationNoOfDose1 : NULL,
+                'vaccinationFacility1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+                'vaccinationRegion1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
+                'haveAdverseEvents1' => (!is_null($request->vaccinationDate1)) ? $request->haveAdverseEvents1 : NULL,
+
+                'vaccinationDate2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationDate2 : NULL,
+                'vaccinationName2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationName2) : NULL,
+                'vaccinationNoOfDose2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationNoOfDose2 : NULL,
+                'vaccinationFacility2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+                'vaccinationRegion2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
+                'haveAdverseEvents2' => (!is_null($request->vaccinationDate2)) ? $request->haveAdverseEvents2 : NULL,
+                
+                'dispoType' => $request->dispositionType,
+                'dispoName' => $request->dispositionName,
+                'dispoDate' => $request->dispositionDate,
+                'healthStatus' => $request->healthStatus,
+                'caseClassification' => $caseClassi,
+                'isHealthCareWorker' => $request->isHealthCareWorker,
+                'healthCareCompanyName' => $request->healthCareCompanyName,
+                'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
+                'isOFW' => $request->isOFW,
+                'OFWCountyOfOrigin' => ($request->isOFW == 1) ? $request->OFWCountyOfOrigin : NULL,
+                'OFWPassportNo' => ($request->isOFW == 1) ? $request->OFWPassportNo : NULL,
+                'ofwType' => ($request->isOFW == 1) ? $request->ofwType : NULL,
+                'isFNT' => $request->isFNT,
+                'FNTCountryOfOrigin' => ($request->isFNT == 1) ? $request->FNTCountryOfOrigin : NULL,
+                'FNTPassportNo' => ($request->isFNT == 1) ? $request->FNTPassportNo : NULL,
+                'lsiType' => $request->lsiType,
+                'isLSI' => $request->isLSI,
+                'LSICity' => $request->LSICity,
+                'LSIProvince' => $request->LSIProvince,
+                'isLivesOnClosedSettings' => $request->isLivesOnClosedSettings,
+                'institutionType' => $request->institutionType,
+                'institutionName' => $request->institutionName,
+                'dateOnsetOfIllness' => $request->dateOnsetOfIllness,
+                'SAS' => (!is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
+                'SASFeverDeg' => $request->SASFeverDeg,
+                'SASOtherRemarks' => $request->SASOtherRemarks,
+                'COMO' => implode(",", $request->comCheck),
+                'COMOOtherRemarks' => $request->COMOOtherRemarks,
+                'PregnantLMP' => $request->PregnantLMP,
+                'PregnantHighRisk' => $hrp,
+                'diagWithSARI' => $request->diagWithSARI,
+                'imagingDoneDate' => $request->imagingDoneDate,
+                'imagingDone' => $request->imagingDone,
+                'imagingResult' => $request->imagingResult,
+                'imagingOtherFindings' => $request->imagingOtherFindings,
+    
+                'testedPositiveUsingRTPCRBefore' => $request->testedPositiveUsingRTPCRBefore,
+                'testedPositiveNumOfSwab' => $request->testedPositiveNumOfSwab,
+                'testedPositiveLab' => $request->testedPositiveLab,
+                'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
+    
+                'testDateCollected1' => $request->testDateCollected1,
+                'oniTimeCollected1' => $oniTimeFinal,
+                'testDateReleased1' => $request->testDateReleased1,
+                'testLaboratory1' => $request->testLaboratory1,
+                'testType1' => $request->testType1,
+                'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'testResult1' => $request->testResult1,
+                'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
+    
+                'testDateCollected2' => $request->testDateCollected2,
+                'oniTimeCollected2' => $oniTimeFinal2,
+                'testDateReleased2' => $request->testDateReleased2,
+                'testLaboratory2' => $request->testLaboratory2,
+                'testType2' => (!is_null($request->testType2)) ? $request->testType2 : NULL,
+                'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
+                'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
+                'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
+                'testResult2' => (!is_null($request->testType2)) ? $request->testResult2 : NULL,
+                'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
+    
+                'outcomeCondition' => $request->outcomeCondition,
+                'outcomeRecovDate' => $request->outcomeRecovDate,
+                'outcomeDeathDate' => $request->outcomeDeathDate,
+                'deathImmeCause' => $request->deathImmeCause,
+                'deathAnteCause' => $request->deathAnteCause,
+                'deathUndeCause' => $request->deathUndeCause,
+                'contriCondi' => $request->contriCondi,
+    
+                'expoitem1' => $request->expoitem1,
+                'expoDateLastCont' => $request->expoDateLastCont,
+    
+                'expoitem2' => $request->expoitem2,
+                'intCountry' => $request->intCountry,
+                'intDateFrom' => $request->intDateFrom,
+                'intDateTo' => $request->intDateTo,
+                'intWithOngoingCovid' => ($request->expoitem2 == 2) ? $request->intWithOngoingCovid : 'N/A',
+                'intVessel' => $request->intVessel,
+                'intVesselNo' => $request->intVesselNo,
+                'intDateDepart' => $request->intDateDepart,
+                'intDateArrive' => $request->intDateArrive,
+    
+                'placevisited' => (!is_null($request->placevisited)) ? implode(",", $request->placevisited) : NULL,
+    
+                'locName1' => $request->locName1,
+                'locAddress1' => $request->locAddress1,
+                'locDateFrom1' => $request->locDateFrom1,
+                'locDateTo1' => $request->locDateTo1,
+                'locWithOngoingCovid1' => (!is_null($request->placevisited) && in_array('Health Facility', $request->placevisited)) ? $request->locWithOngoingCovid1 : 'N/A', 
+    
+                'locName2' => $request->locName2,
+                'locAddress2' => $request->locAddress2,
+                'locDateFrom2' => $request->locDateFrom2,
+                'locDateTo2' => $request->locDateTo2,
+                'locWithOngoingCovid2' => (!is_null($request->placevisited) && in_array('Closed Settings', $request->placevisited)) ? $request->locWithOngoingCovid2 : 'N/A',
+                
+                'locName3' => $request->locName3,
+                'locAddress3' => $request->locAddress3,
+                'locDateFrom3' => $request->locDateFrom3,
+                'locDateTo3' => $request->locDateTo3,
+                'locWithOngoingCovid3' => (!is_null($request->placevisited) && in_array('School', $request->placevisited)) ? $request->locWithOngoingCovid3 : 'N/A',
+                
+                'locName4' => $request->locName4,
+                'locAddress4' => $request->locAddress4,
+                'locDateFrom4' => $request->locDateFrom4,
+                'locDateTo4' => $request->locDateTo4,
+                'locWithOngoingCovid4' => (!is_null($request->placevisited) && in_array('Workplace', $request->placevisited)) ? $request->locWithOngoingCovid4 : 'N/A',
+    
+                'locName5' => $request->locName5,
+                'locAddress5' => $request->locAddress5,
+                'locDateFrom5' => $request->locDateFrom5,
+                'locDateTo5' => $request->locDateTo5,
+                'locWithOngoingCovid5' => (!is_null($request->placevisited) && in_array('Market', $request->placevisited)) ? $request->locWithOngoingCovid5 : 'N/A',
+    
+                'locName6' => $request->locName6,
+                'locAddress6' => $request->locAddress6,
+                'locDateFrom6' => $request->locDateFrom6,
+                'locDateTo6' => $request->locDateTo6,
+                'locWithOngoingCovid6' => (!is_null($request->placevisited) && in_array('Social Gathering', $request->placevisited)) ? $request->locWithOngoingCovid6 : 'N/A',
+    
+                'locName7' => $request->locName7,
+                'locAddress7' => $request->locAddress7,
+                'locDateFrom7' => $request->locDateFrom7,
+                'locDateTo7' => $request->locDateTo7,
+                'locWithOngoingCovid7' => (!is_null($request->placevisited) && in_array('Others', $request->placevisited)) ? $request->locWithOngoingCovid7 : 'N/A',
+    
+                'localVessel1' => $request->localVessel1,
+                'localVesselNo1' => $request->localVesselNo1,
+                'localOrigin1' => $request->localOrigin1,
+                'localDateDepart1' => $request->localDateDepart1,
+                'localDest1' => $request->localDest1,
+                'localDateArrive1' => $request->localDateArrive1,
+    
+                'localVessel2' => $request->localVessel2,
+                'localVesselNo2' => $request->localVesselNo2,
+                'localOrigin2' => $request->localOrigin2,
+                'localDateDepart2' => $request->localDateDepart2,
+                'localDest2' => $request->localDest2,
+                'localDateArrive2' => $request->localDateArrive2,
+    
+                'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
+                'contact1No' => $request->contact1No,
+                'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
+                'contact2No' => $request->contact2No,
+                'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
+                'contact3No' => $request->contact3No,
+                'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
+                'contact4No' => $request->contact4No,
+
+                'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
+            ]);
+            
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient was created successfully.')->with('statustype', 'success');
+        }
     }
 
     public function upload(Request $request, $id) {
-
         $request->validate([
             'file_type' => 'required',
             'filepath' => 'required|mimes:jpg,png,jpeg,pdf|max:5048',
