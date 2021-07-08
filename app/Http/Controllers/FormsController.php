@@ -285,14 +285,12 @@ class FormsController extends Controller
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
                     $query = Forms::where('id', $item->id)->update([
-                        'testDateCollected2' => $request->reschedDate,
-                        'isExported' => '0'
+                        'testDateCollected2' => $request->reschedDate
                     ]);
                 }
                 else {
                     $query = Forms::where('id', $item->id)->update([
-                        'testDateCollected1' => $request->reschedDate,
-                        'isExported' => '0'
+                        'testDateCollected1' => $request->reschedDate
                     ]);
                 }
             }
