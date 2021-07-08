@@ -590,7 +590,7 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="isFNT"><span class="text-danger font-weight-bold">*</span>Foreign National Traveler</label>
                                                 <select class="form-control" name="isFNT" id="isFNT" required>
@@ -616,7 +616,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="isLSI"><span class="text-danger font-weight-bold">*</span>Locally Stranded Individual/APOR/Traveler</label>
                                                 <select class="form-control" name="isLSI" id="isLSI" required>
@@ -652,10 +652,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>        
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
                                                 <select class="form-control" name="isLivesOnClosedSettings" id="isLivesOnClosedSettings" required>
@@ -678,21 +675,6 @@
                                                             <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{old('institutionName')}}">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                              <label for="isIndg"><span class="text-danger font-weight-bold">*</span>Indigenous Person</label>
-                                              <select class="form-control" name="isIndg" id="isIndg" required>
-                                                <option value="1" {{(old('isIndg') == 1) ? 'selected' : ''}}>Yes</option>
-                                                <option value="0" {{(old('isIndg') == 0 || is_null(old('isIndg'))) ? 'selected' : ''}}>No</option>
-                                              </select>
-                                            </div>
-                                            <div id="divIsIndg">
-                                                <div class="form-group">
-                                                  <label for="indgSpecify"><span class="text-danger font-weight-bold">*</span>Specify Group</label>
-                                                  <input type="text" class="form-control" name="indgSpecify" id="indgSpecify" value="{{old('indgSpecify')}}">
                                                 </div>
                                             </div>
                                         </div>
