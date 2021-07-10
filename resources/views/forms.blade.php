@@ -229,7 +229,7 @@
                                 <div class="form-check">
                                   <label class="form-check-label">
                                     <input type="checkbox" class="form-check-input" name="changeToMorning" id="changeToMorning" value="1">
-                                    Change Time of Collection to Morning <small>(for ONI w/ Philhealth)</small>
+                                    Change Time of Collection to Morning <small>(for ONI, will start at 9:30 AM)</small>
                                   </label>
                                 </div>
                             </div>
@@ -251,7 +251,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                  <label for="changeType">Specify Type of Test where the selected CIF test type will be changed</label>
+                                  <label for="changeType"><span class="text-danger font-weight-bold">*</span>Specify Type of Test where the selected CIF test type will be changed</label>
                                   <select class="form-control" name="changeType" id="changeType">
                                     <option value="" selected disabled>Choose...</option>
                                     <option value="OPS">RT-PCR (OPS)</option>
@@ -267,8 +267,14 @@
 								@enderror
                                 <div id="ifAntigenOrOthers">
                                     <div class="form-group">
-                                      <label for="reasonRemarks">Specify Type/Reason</label>
+                                      <label for="reasonRemarks"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
                                       <input type="text" class="form-control" name="reasonRemarks" id="reasonRemarks">
+                                    </div>
+                                    <div id="ifAntigen">
+                                        <div class="form-group">
+                                            <label for="antigenKit"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                            <input type="text" class="form-control" name="antigenKit" id="antigenKit">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -377,10 +383,22 @@
           if($(this).val() == 'ANTIGEN' || $(this).val() == 'OTHERS') {
             $('#ifAntigenOrOthers').show();
             $('#reasonRemarks').prop('required', true);
+
+            if($(this).val() == 'ANTIGEN') {
+                $('#ifAntigen').show();
+                $('#antigenKit').prop('required', true);
+            }
+            else {
+                $('#ifAntigen').hide();
+                $('#antigenKit').prop('required', false);
+            }
           }
           else {
             $('#ifAntigenOrOthers').hide();
             $('#reasonRemarks').prop('required', false);
+
+            $('#ifAntigen').hide();
+            $('#antigenKit').prop('required', false);
           }
     }).trigger('change');
 </script>

@@ -248,12 +248,20 @@ class PaSwabController extends Controller
     public function approve($id, Request $request) {
         $data = PaSwabDetails::findOrFail($id);
 
+        //Test Type final validator forAntigen
+        if($data->forAntigen == 1) {
+            $ttype = 'ANTIGEN';
+        }
+        else {
+            $ttype = $request->testType1;
+        }
+
         $request->validate([
             'interviewerName' => 'required',
             'testDateCollected1' => 'required|date',
-            'testType1' => 'required',
-            'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? 'required' : 'nullable',
-            'antigenKit1' => ($request->testType1 == "ANTIGEN") ? 'required' : 'nullable',
+            'testType1' => 'required|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
+            'testTypeOtherRemarks1' => ($ttype == "ANTIGEN" || $ttype == "OTHERS") ? 'required' : 'nullable',
+            'antigenKit1' => ($ttype == "ANTIGEN") ? 'required' : 'nullable',
         ]);
 
         if($data->status == 'pending') {
@@ -311,7 +319,7 @@ class PaSwabController extends Controller
             ]);
 
             if(!is_null($rec->philhealth)) {
-                if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
+                if($ttype == "OPS" || $ttype == "NPS" || $ttype == "OPS AND NPS") {
                     $trigger = 0;
                     $addMinutes = 0;
 
@@ -414,10 +422,10 @@ class PaSwabController extends Controller
                 'oniTimeCollected1' => $oniTimeFinal,
                 'testDateReleased1' => NULL,
                 'testLaboratory1' => NULL,
-                'testType1' => $request->testType1,
-                'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
-                'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'testType1' => $ttype,
+                'testTypeAntigenRemarks1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'antigenKit1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                'testTypeOtherRemarks1' => ($ttype == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
                 'testResult1' => 'PENDING',
                 'testResultOtherRemarks1' => NULL,
 

@@ -9,28 +9,39 @@
                     <div class="card-header font-weight-bold">1. Consultation Details</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="">Type of Client</label>
                                   <input type="text" class="form-control" value="{{$data->pType}}" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="">For Hospitalization</label>
-                                    <input type="text" class="form-control" value="{{($data->isForHospitalization == 1) ? 'YES' : 'NO'}}" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
+                            
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="interviewDate">Date of Interview</label>
                                     <input type="date" class="form-control" value="{{$data->interviewDate}}" readonly>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">For Hospitalization</label>
+                                    <input type="text" class="form-control" value="{{($data->isForHospitalization == 1) ? 'YES' : 'NO'}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">For Antigen</label>
+                                    <input type="text" class="form-control" value="{{($data->forAntigen == 1) ? 'YES' : 'NO'}}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Personal Message to CESU Staff/Encoders (Optional)</label>
+                            <textarea class="form-control" name="" id="" rows="3" readonly>{{!is_null($data->patientmsg) ? $data->patientmsg : 'N/A'}}</textarea>
+                        </div>
+                    </div>   
                 </div>
                 <div class="card mb-3">
                     <div class="card-header font-weight-bold">2. Personal Information</div>
@@ -39,19 +50,19 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="lname">Last Name</label>
-                                    <input type="text" class="form-control" value="{{$data->lname}}" readonly>
+                                    <input type="text" class="form-control font-weight-bold text-primary" value="{{$data->lname}}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="fname">First Name (and Suffix)</label>
-                                    <input type="text" class="form-control" value="{{$data->fname}}" readonly>
+                                    <input type="text" class="form-control font-weight-bold text-primary" value="{{$data->fname}}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
-                                    <input type="text" class="form-control" value="{{$data->mname}}" readonly>
+                                    <input type="text" class="form-control font-weight-bold text-primary" value="{{$data->mname}}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -736,7 +747,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="">Name of Patient</label>
-                            <input type="text" class="form-control" readonly value="{{$data->getName()}}">
+                            <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{$data->getName()}}">
                         </div>
                         <div class="form-group">
                             <label for="">Type of Client</label>
@@ -764,10 +775,11 @@
                             <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date of Swab Collection</label>
                             <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" value="{{old('testDateCollected1')}}" required>
                         </div>
+                        @if($data->forAntigen != 1)
                         <div class="form-group">
                             <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of Test</label>
                             <select class="form-control" name="testType1" id="testType1" required>
-                                <option value="">Choose...</option>
+                                <option value="" disabled {{(is_null(old('testType1'))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
                                 <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
                                 <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
@@ -788,6 +800,22 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="form-group">
+                          <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of Test</label>
+                          <input type="text" class="form-control" name="testType1" id="testType1" value="ANTIGEN" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
+                            <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
+                        </div>
+                        <div id="ifAntigen1">
+                            <div class="form-group">
+                                <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1')}}">
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
@@ -825,6 +853,7 @@
     <script>
         $('#interviewerName').selectize();
 
+        @if($data->forAntigen != 1)
         $('#testType1').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
@@ -848,5 +877,6 @@
                 $('#antigenKit1').prop('required', false);
             }
         }).trigger('change');
+        @endif
     </script>
 @endsection

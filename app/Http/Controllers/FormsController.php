@@ -381,17 +381,20 @@ class FormsController extends Controller
         else if($request->submit == 'changetype') {
             $request->validate([
                 'listToPrint' => 'required',
-                'changeType' => 'required',
+                'changeType' => 'required|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
                 'reasonRemarks' => ($request->changeType == "ANTIGEN" || $request->changeType == "OTHERS") ? 'required' : 'nullable',
+                'antigenKit' => ($request->changeType == "ANTIGEN") ? 'required' : 'nullable',
             ]);
 
             if ($request->changeType == "ANTIGEN" || $request->changeType == "OTHERS") {
                 if($request->changeType == "ANTIGEN") {
                     $antigenReason = mb_strtoupper($request->reasonRemarks);
+                    $antigenKit = mb_strtoupper($request->antigenKit);
                     $otherReason = null;
                 }
                 else {
                     $antigenReason = null;
+                    $antigenKit = null;
                     $otherReason = mb_strtoupper($request->reasonRemarks);
                 }
             }
@@ -407,6 +410,7 @@ class FormsController extends Controller
                         'testType2' => $request->changeType,
                         'isExported' => '0',
                         'testTypeAntigenRemarks2' => $antigenReason,
+                        'antigenKit2' => $antigenKit,
                         'testTypeOtherRemarks2' => $otherReason
                     ]);
                 }
@@ -415,6 +419,7 @@ class FormsController extends Controller
                         'testType1' => $request->changeType,
                         'isExported' => '0',
                         'testTypeAntigenRemarks1' => $antigenReason,
+                        'antigenKit1' => $antigenKit,
                         'testTypeOtherRemarks1' => $otherReason
                     ]);
                 }
