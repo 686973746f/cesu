@@ -103,7 +103,8 @@ class PaSwabController extends Controller
                 $finalproceed = 1;
             }
             else {
-                $check = PaSwabLinks::where('code', mb_strtoupper($request->linkcode))
+                $check = PaSwabLinks::where('code', mb_strtoupper(request()->input('rlink')))
+                ->where('secondary_code', mb_strtoupper(request()->input('s')))
                 ->where('active', 1)
                 ->first();
 
