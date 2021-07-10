@@ -15,8 +15,9 @@ use IlluminateAgnostic\Collection\Support\Str;
 class PaSwabController extends Controller
 {
     public function index() {
-        if(request()->input('rlink')) {
+        if(request()->input('rlink') && request()->input('s')) {
             $checkcode = PaSwabLinks::where('code', mb_strtoupper(request()->input('rlink')))
+            ->where('secondary_code', mb_strtoupper(request()->input('s')))
             ->where('active', 1)
             ->first();
 

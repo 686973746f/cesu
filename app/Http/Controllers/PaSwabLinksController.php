@@ -23,6 +23,7 @@ class PaSwabLinksController extends Controller
         if(!$check) {
             $request->user()->paSwabLink()->create([
                 'code' => mb_strtoupper($request->code),
+                'secondary_code' => mb_strtoupper(Str::random(6)),
             ]);
 
             return redirect()->action([PaSwabLinksController::class, 'index'])
