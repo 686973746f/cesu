@@ -229,7 +229,9 @@ class PaSwabController extends Controller
             ->paginate(10);
 		}
         else {
-            $list = PaSwabDetails::where('status', 'pending')->paginate(10);
+            $list = PaSwabDetails::where('status', 'pending')
+            ->orderBy('created_at', 'asc')
+            ->paginate(10);
         }
         
         return view('paswab_view', ['list' => $list]);
