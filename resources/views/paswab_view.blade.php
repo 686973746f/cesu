@@ -75,7 +75,7 @@
     <script>
         $('#paswabtbl').dataTable({
             dom: 'tr',
-            "order": [0, 'asc']
+            "ordering": false,
         });
     </script>
 @endsection
