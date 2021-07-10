@@ -70,7 +70,7 @@ class PaSwabController extends Controller
         if($param1 == 1 || $param2 == 1) {
             return back()
 			->withInput()
-			->with('msg', 'Error: Your record already exists in our server. For more details, you may contact your respective Barangay Office or City Health Office of General Trias, Cavite.')
+			->with('msg', 'Error: Your record already exists in our server (It could be you scheduled for swab before). For more details, you may contact your respective Barangay Office or City Health Office of General Trias, Cavite.')
             ->with('msgtype', 'danger')
             ->with('skipmodal', true);
         }
@@ -99,21 +99,16 @@ class PaSwabController extends Controller
                 $philhealth_organized = null;
             }
 
-            if(is_null($request->linkcode)) {
+            $check = PaSwabLinks::where('code', mb_strtoupper($request->linkcode))
+            ->where('secondary_code', mb_strtoupper($request->linkcode2nd))
+            ->where('active', 1)
+            ->first();
+
+            if($check) {
                 $finalproceed = 1;
             }
             else {
-                $check = PaSwabLinks::where('code', mb_strtoupper($request->linkcode))
-                ->where('secondary_code', mb_strtoupper($request->linkcode2nd))
-                ->where('active', 1)
-                ->first();
-
-                if($check) {
-                    $finalproceed = 1;
-                }
-                else {
-                    $finalproceed = 0;
-                }
+                $finalproceed = 0;
             }
 
             if($finalproceed == 1) {

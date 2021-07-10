@@ -36,12 +36,12 @@
 
                     <div class="form-group d-none">
                       <label for="linkcode">Link Code</label>
-                      <input type="text" class="form-control" name="linkcode" id="linkcode" value="{{old('linkcode', request()->input('rlink'))}}" readonly>
+                      <input type="text" class="form-control" name="linkcode" id="linkcode" value="{{old('linkcode', request()->input('rlink'))}}" required readonly>
                     </div>
 
                     <div class="form-group d-none">
                         <label for="linkcode2nd">Link Code</label>
-                        <input type="text" class="form-control" name="linkcode2nd" id="linkcode2nd" value="{{old('linkcode', request()->input('s'))}}" readonly>
+                        <input type="text" class="form-control" name="linkcode2nd" id="linkcode2nd" value="{{old('linkcode2nd', request()->input('s'))}}" required readonly>
                       </div>
 
                     <div class="card mb-3">
