@@ -15,7 +15,21 @@ use IlluminateAgnostic\Collection\Support\Str;
 class PaSwabController extends Controller
 {
     public function index() {
-        return view('paswab_index');
+        if(request()->input('rlink')) {
+            $checkcode = PaSwabLinks::where('code', mb_strtoupper(request()->input('rlink')))
+            ->where('active', 1)
+            ->first();
+
+            if($checkcode) {
+                return view('paswab_index', ['proceed' => 1]);
+            }
+            else {
+                return view('paswab_index', ['proceed' => 0]);
+            }
+        }
+        else {
+            return view('paswab_index', ['proceed' => 0]);
+        }
     }
 
     public function store(PaSwabValidationRequest $request) {

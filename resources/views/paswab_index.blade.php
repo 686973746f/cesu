@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @if($proceed == 1)
     <form action="{{route('paswab.store')}}" method="POST">
         @csrf
         <div class="container">
@@ -1207,4 +1208,17 @@
             }
         }).trigger('change');
     </script>
+    @else
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Notice</div>
+            <div class="card-body text-center">
+                <p>As of July 10, 2021, <span class="text-primary">paswab.cesugentri.com</span> will require a valid Referral Code before proceeding into registration.</p>
+                <p>
+                    This is to prevent unauthorized and unmonitored patients from barangay to register. This will also provide information on where the patients information is coming from.
+                </p>
+            </div>
+        </div>
+    </div>
+    @endif
 @endsection
