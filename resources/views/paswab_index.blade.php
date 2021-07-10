@@ -39,6 +39,11 @@
                       <input type="text" class="form-control" name="linkcode" id="linkcode" value="{{old('linkcode', request()->input('rlink'))}}" readonly>
                     </div>
 
+                    <div class="form-group d-none">
+                        <label for="linkcode2nd">Link Code</label>
+                        <input type="text" class="form-control" name="linkcode2nd" id="linkcode2nd" value="{{old('linkcode', request()->input('s'))}}" readonly>
+                      </div>
+
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">1. Detalye sa Konsultasyon / Consultation Details</div>
                         <div class="card-body">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PaSwabLinks;
 use Illuminate\Http\Request;
+use IlluminateAgnostic\Collection\Support\Str;
 
 class PaSwabLinksController extends Controller
 {

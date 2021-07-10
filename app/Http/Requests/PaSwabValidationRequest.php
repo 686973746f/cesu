@@ -24,7 +24,8 @@ class PaSwabValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            'linkCode' => 'nullable|string',
+            'linkcode' => 'required|string',
+            'linkcode2nd' => 'required|string',
             'pType' => 'required',
             'isForHospitalization' => 'required|numeric',
             'interviewDate' => 'required|date|before_or_equal:today',
