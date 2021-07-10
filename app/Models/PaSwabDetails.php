@@ -16,6 +16,8 @@ class PaSwabDetails extends Model
         'pType',
         'isForHospitalization',
         'interviewDate',
+        'forAntigen',
+
         'lname',
         'fname',
         'mname',
@@ -66,6 +68,8 @@ class PaSwabDetails extends Model
         'contact3No',
         'contact4Name',
         'contact4No',
+
+        'patientmsg',
 
         'senderIP',
     ];

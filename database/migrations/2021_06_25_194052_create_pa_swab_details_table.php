@@ -25,6 +25,7 @@ class CreatePaSwabDetailsTable extends Migration
             $table->string('pType');
             $table->tinyInteger('isForHospitalization');
             $table->date('interviewDate');
+            $table->tinyInteger('forAntigen');
 
             $table->string('lname');
             $table->string('fname');
@@ -76,6 +77,8 @@ class CreatePaSwabDetailsTable extends Migration
             $table->text('contact3No', 11)->nullable();
             $table->text('contact4Name')->nullable();
             $table->text('contact4No', 11)->nullable();
+
+            $table->string('patientmsg')->nullable();
 
             $table->ipAddress('senderIP');
         });

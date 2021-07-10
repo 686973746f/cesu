@@ -123,6 +123,7 @@ class PaSwabController extends Controller
                     'linkCode' => $request->linkcode,
                     'isForHospitalization' => $request->isForHospitalization,
                     'interviewDate' => $request->interviewDate,
+                    'forAntigen' => $request->forAntigen,
                     'lname' => mb_strtoupper($request->lname),
                     'fname' => mb_strtoupper($request->fname),
                     'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
@@ -173,6 +174,8 @@ class PaSwabController extends Controller
                     'contact3No' => $request->contact3No,
                     'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
                     'contact4No' => $request->contact4No,
+
+                    'patientmsg' => $request->patientmsg,
     
                     'senderIP' => request()->ip(),
                 ]);

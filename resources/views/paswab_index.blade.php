@@ -48,7 +48,7 @@
                         <div class="card-header font-weight-bold">1. Detalye sa Konsultasyon / Consultation Details</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="pType"><span class="text-danger font-weight-bold">*</span>Uri ng Kliyente / Type of Client</label>
                                         <select class="form-control" name="pType" id="pType" required>
@@ -59,22 +59,38 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                      <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>Gagamitin para sa Hospitalisasyon / For Hospitalization</label>
-                                      <select class="form-control" name="isForHospitalization" id="isForHospitalization" required>
-                                          <option value="" disabled {{is_null(old('isForHospitalization')) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>Oo / Yes</option>
-                                            <option value="0" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>Hindi / No</option>
-                                      </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Kailan na-interview sa Barangay / Date Interviewed in Barangay</label>
                                         <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-14 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate')}}" required>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>Gagamitin para sa Hospitalisasyon / For Hospitalization</label>
+                                        <select class="form-control" name="isForHospitalization" id="isForHospitalization" required>
+                                            <option value="" disabled {{is_null(old('isForHospitalization')) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                            <option value="0" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>Hindi / No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="forAntigen"><span class="text-danger font-weight-bold">*</span>For Antigen</label>
+                                        <select class="form-control" name="forAntigen" id="forAntigen" required>
+                                            <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>Hindi / No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="patientmsg">Personal Message to CESU Staff/Encoders (Optional)</label>
+                              <textarea class="form-control" name="patientmsg" id="patientmsg" rows="3">{{old('patientmsg')}}</textarea>
                             </div>
                         </div>
                     </div>

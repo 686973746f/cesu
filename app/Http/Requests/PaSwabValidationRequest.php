@@ -29,6 +29,7 @@ class PaSwabValidationRequest extends FormRequest
             'pType' => 'required',
             'isForHospitalization' => 'required|numeric',
             'interviewDate' => 'required|date|before_or_equal:today',
+            'forAntigen' => 'required|numeric',
             'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
@@ -81,6 +82,8 @@ class PaSwabValidationRequest extends FormRequest
             'contact3No' => 'nullable|numeric|digits:11',
             'contact4Name' => 'nullable|string',
             'contact4No' => 'nullable|numeric|digits:11',
+
+            'patientmsg' => 'nullable|string',
         ];
     }
 }
