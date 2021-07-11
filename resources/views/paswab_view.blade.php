@@ -40,6 +40,7 @@
                                 <th>Birthdate</th>
                                 <th>Age / Gender</th>
                                 <th>Client Type</th>
+                                <th>Have Symptoms</th>
                                 <th>Date Interviewed</th>
                                 <th>Address</th>
                                 <th>Mobile</th>
@@ -56,6 +57,7 @@
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->bdate))}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->getAge()." / ".$item->gender}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->pType}} <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y', strtotime($item->expoDateLastCont)).")" : ''}}</small></td>
+                                    <td class="text-center {{!is_null($item->SAS) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{!is_null($item->SAS) ? 'YES' : 'NONE'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
                                     <td style="vertical-align: middle;"><small>{{$item->getAddress()}}</small></td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->mobile}}</td>
