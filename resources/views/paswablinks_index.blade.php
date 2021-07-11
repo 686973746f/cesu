@@ -36,7 +36,7 @@
                             <td style="vertical-align: middle;" scope="row" class="text-center">{{$item->id}}</td>
                             <td style="vertical-align: middle;" class="text-center">{{$item->code}}</td>
                             <td style="vertical-align: middle;" class="text-center font-weight-bold text-{{($item->active == 1) ? 'success' : 'danger'}}">{{($item->active == 1) ? 'Enabled' : 'Disabled'}}</td>
-                            <td style="vertical-align: middle;" class="text-center"><a href="https://paswab.cesugentri.com/?rlink={{$item->code}}&s={{$item->secondary_code}}">https://paswab.cesugentri.com/?rlink={{$item->code}}&s={{$item->secondary_code}}</a></td>
+                            <td style="vertical-align: middle;" class="text-center"><small><a href="https://paswab.cesugentri.com/?rlink={{$item->code}}&s={{$item->secondary_code}}">https://paswab.cesugentri.com/?rlink={{$item->code}}&s={{$item->secondary_code}}</a></small></td>
                             <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
                             <td style="vertical-align: middle;" class="text-center">
                                 <form action="/admin/paswablinks/{{$item->id}}/options" method="POST">
@@ -52,6 +52,11 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                <div class="pagination justify-content-center mt-3">
+                    {{$data->appends(request()->input())->links()}}
+                </div>
+
                 @else
                 <p class="text-center">No data available in table.</p>
                 @endif
