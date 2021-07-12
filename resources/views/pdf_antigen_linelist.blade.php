@@ -4,6 +4,9 @@
 <table class="table table-bordered" style="font-family: Arial, Helvetica, sans-serif;font-size: 80%">
     <thead class="text-center">
         <tr>
+            <th colspan="8">Antigen Linelist for {{date('F d, Y')}}</th>
+        </tr>
+        <tr>
             <th>No.</th>
             <th>Name</th>
             <th>Age / Sex</th>

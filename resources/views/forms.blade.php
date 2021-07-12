@@ -9,7 +9,9 @@
                 Case Investigation Form List
                 </div>
                 <div>
+                    @if(auth()->user()->isCesuAccount())
                     <a href="{{route('forms.antigenlinelist.print')}}" class="btn btn-primary">Print Antigen Linelist</a>
+                    @endif
                     @if(auth()->user()->isCesuAccount())
                     <a href="{{route('paswab.view')}}" class="btn btn-primary">View Pa-Swab List</a>
                     @endif

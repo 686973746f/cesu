@@ -247,7 +247,7 @@ class FormsController extends Controller
         })->orderBy('records.lname', 'ASC')->get();
 
         $pdf = PDF::loadView('pdf_antigen_linelist',['data' => $data])->setPaper('a4', 'landscape');
-        return $pdf->download('antigen.pdf');
+        return $pdf->download('Antigen_Linelist_'.date('m_d_Y').'.pdf');
     }
 
     public function printAntigen($id, $testType) {
