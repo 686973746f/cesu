@@ -750,8 +750,12 @@
                             <input type="text" class="form-control" readonly value="{{(!is_null($data->linkCode)) ? $data->linkCode : 'N/A'}}">
                         </div>
                         <div class="form-group">
-                            <label for="">Name of Patient</label>
-                            <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{$data->getName()}}">
+                            <label for="">Name of Patient / Age / Gender</label>
+                            <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{$data->getName()}} / {{$data->getAge()}} / {{substr($data->gender,0,1)}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Pregnant / LMP</label>
+                            <input type="text" class="form-control" readonly value="{{($data->isPregnant == 1) ? 'YES / '.date('m/d/Y', strtotime($data->ifPregnantLMP)) : 'NO'}}">
                         </div>
                         <div class="form-group">
                             <label for="">Type of Client</label>
