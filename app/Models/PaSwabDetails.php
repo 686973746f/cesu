@@ -11,6 +11,8 @@ class PaSwabDetails extends Model
     use HasFactory;
 
     protected $fillable = [
+        'isNewRecord',
+        'records_id',
         'linkCode',
         'majikCode',
         'pType',

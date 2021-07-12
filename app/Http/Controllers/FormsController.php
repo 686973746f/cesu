@@ -10,6 +10,7 @@ use App\Models\CifUploads;
 use App\Exports\FormsExport;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
+use App\Models\PaSwabDetails;
 use Maatwebsite\Excel\Facades\Excel;
 use PragmaRX\Countries\Package\Countries;
 use App\Http\Requests\FormValidationRequest;
@@ -221,7 +222,9 @@ class FormsController extends Controller
             }
         }
 
-        return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr]);
+        $paswabctr = PaSwabDetails::where('status', 'pending')->count();
+
+        return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr, 'paswabctr' => $paswabctr]);
     }
 
     public function importIndex() {

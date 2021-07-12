@@ -18,6 +18,8 @@ class CreatePaSwabDetailsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('status')->default('pending');
+            $table->tinyInteger('isNewRecord')->default(1);
+            $table->foreignId('records_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('remarks')->nullable();
             $table->date('processedAt')->nullable();
             $table->string('linkCode')->nullable();
