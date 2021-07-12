@@ -746,6 +746,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="">Referral Code</label>
+                            <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{(!is_null($item->linkCode)) ? $item->linkCode : 'N/A'}}">
+                        </div>
+                        <div class="form-group">
                             <label for="">Name of Patient</label>
                             <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{$data->getName()}}">
                         </div>
@@ -754,8 +758,8 @@
                             <input type="text" class="form-control" readonly value="{{$data->pType}}">
                         </div>
                         <div class="form-group">
-                          <label for="">Current Barangay of Patient</label>
-                          <input type="text" class="form-control" readonly value="BRGY. {{$data->address_brgy}}">
+                          <label for="">Patient Address</label>
+                          <input type="text" class="form-control" readonly value="{{$data->address_street}}, BRGY. {{$data->address_brgy}}, {{$data->address_city}}, {{$data->address_province}}">
                         </div>
                         <div class="form-group">
                             <label for="">Date of Last Exposure</label>
