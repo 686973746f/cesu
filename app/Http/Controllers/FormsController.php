@@ -236,6 +236,20 @@ class FormsController extends Controller
         return Excel::download(new FormsExport([$id]), 'CIF_'.date("m_d_Y").'.xlsx');
     }
 
+    public function printAntigenLinelist() {
+        $data = Forms::join('records', 'records_id', '=', 'records.id')
+        ->where(function ($query) {
+            $query->where('testDateCollected1', date('Y-m-d'))
+            ->orWhere('testDateCollected2', date('Y-m-d'));
+        })->where(function ($query) {
+            $query->where('testType1', 'ANTIGEN')
+            ->orWhere('testType2', 'ANTIGEN');
+        })->orderBy('records.lname', 'ASC')->get();
+
+        $pdf = PDF::loadView('pdf_antigen_linelist',['data' => $data])->setPaper('a4', 'landscape');
+        return $pdf->download('antigen.pdf');
+    }
+
     public function printAntigen($id, $testType) {
         ini_set('max_execution_time', 600);
 
