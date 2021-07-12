@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
+                                    <label for="mname">Middle Name</label>
                                     <input type="text" class="form-control font-weight-bold text-primary" value="{{$data->mname}}" readonly>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="philhealth">Philhealth Number <small><i>(Leave blank if N/A)</i></small></label>
+                                    <label for="philhealth">Philhealth Number</label>
                                     <input type="text" class="form-control" value="{{!is_null($data->philhealth) ? $data->philhealth : 'N/A'}}" readonly>
                                 </div>
                             </div>
@@ -648,13 +648,13 @@
                             <div class="card-header font-weight-bold">6. Exposure History</div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="expoitem1">Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
+                                    <label for="expoitem1">History of exposure to known probable and/or confirmed COVID-19 case 14 days before the onset of signs and symptoms?  OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
                                     <input type="text" class="form-control" value="{{($data->expoitem1 == '1') ? 'Yes' : 'No'}}" readonly>
                                 </div>
                                 @if($data->expoitem1 == '1')
                                 <div id="divExpoitem1">
                                     <div class="form-group">
-                                        <label for="">Date of Exposure</label>
+                                        <label for="">Date of Last Contact</label>
                                         <input type="date" class="form-control" value="{{$data->expoDateLastCont}}" readonly>
                                     </div>
                                     <div class="card">
