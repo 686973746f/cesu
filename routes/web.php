@@ -72,6 +72,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::resource('records', RecordsController::class);
+
+    Route::get('/forms/printAntigenLinelist/', [FormsController::class, 'printAntigenLinelist'])->name('forms.antigenlinelist.print');
     
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/new', [FormsController::class, 'new']);
