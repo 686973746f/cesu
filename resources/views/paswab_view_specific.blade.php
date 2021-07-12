@@ -747,7 +747,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="">Referral Code</label>
-                            <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{(!is_null($data->linkCode)) ? $data->linkCode : 'N/A'}}">
+                            <input type="text" class="form-control" readonly value="{{(!is_null($data->linkCode)) ? $data->linkCode : 'N/A'}}">
                         </div>
                         <div class="form-group">
                             <label for="">Name of Patient</label>
