@@ -418,6 +418,7 @@ class FormsController extends Controller
             else {
                 $antigenReason = null;
                 $otherReason = null;
+                $antigenKit = null;
             }
 
             $models = Forms::whereIn('id', $list)->get();
