@@ -653,6 +653,8 @@ class PaSwabController extends Controller
                     $asd = Forms::where('id', $fcheck->id)->update([
                         'majikCode' => $data->majikCode,
                         'status' => 'approved',
+                        'isExported' => 0,
+                        'exportedDate' => NULL,
                         'isPresentOnSwabDay' => NULL,
                         //'records_id' => $rec->id,
                         'drunit' => 'CHO GENERAL TRIAS',
