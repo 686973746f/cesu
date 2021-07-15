@@ -829,7 +829,7 @@ class PaSwabController extends Controller
                         'majikCode' => $data->majikCode,
                         'status' => 'approved',
                         'isPresentOnSwabDay' => NULL,
-                        'records_id' => $rec->id,
+                        'records_id' => $data->records_id,
                         'drunit' => 'CHO GENERAL TRIAS',
                         'drregion' => '4A CAVITE',
                         'interviewerName' => $request->interviewerName,
