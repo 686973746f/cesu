@@ -197,7 +197,11 @@ class PaSwabController extends Controller
                         'senderIP' => request()->ip(),
                     ]);
         
-                    return redirect()->action([PaSwabController::class, 'complete'])->with('majik', $majik)->with('statustype', 'success');
+                    return redirect()->action([PaSwabController::class, 'complete'])
+                    ->with('majik', $majik)
+                    ->with('statustype', 'success')
+                    ->with('fcode', mb_strtoupper($request->linkcode))
+                    ->with('scode', mb_strtoupper($request->linkcode2nd));
                 }
                 else {
                     return back()

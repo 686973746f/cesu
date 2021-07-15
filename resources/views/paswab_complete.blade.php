@@ -36,6 +36,8 @@
                 <p>Thank you. Keep Safe.</p>                
             </div>
             <div class="card-footer text-center">
+                <a href="{{route('paswab.index')}}?rlink={{session('fcode')}}&s={{session('scode')}}" class="btn btn-link">Submit another Request</a>
+                <hr>
                 <a href="{{route('main')}}" class="btn btn-link">Back to Home</a>
             </div>
         </div>
