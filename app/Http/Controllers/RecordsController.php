@@ -159,7 +159,7 @@ class RecordsController extends Controller
 			$param1 = 0;
 		}
 
-		if(PaSwabDetails::where('lname', mb_strtoupper($request->lname))
+		$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
 		->where('fname', mb_strtoupper($request->fname))
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
@@ -167,8 +167,10 @@ class RecordsController extends Controller
 		})
 		->where('bdate', $request->bdate)
 		->where('gender', strtoupper($request->gender))
-		->whereIn('status', ['approved', 'pending'])
-		->exists()) {
+		->where('status', 'pending')
+		->first();
+
+		if($check2) {
 			$param2 = 1;
 			$where = '(Existing in Pa-Swab Page, waiting for Approval)';
 		}
