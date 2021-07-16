@@ -167,7 +167,7 @@ class RecordsController extends Controller
 		})
 		->where('bdate', $request->bdate)
 		->where('gender', strtoupper($request->gender))
-		->whereIn('status', ['approved', 'pending'])
+		->where('status', 'pending')
 		->exists()) {
 			$param2 = 1;
 			$where = '(Existing in Pa-Swab Page, waiting for Approval)';
