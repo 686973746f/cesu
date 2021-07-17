@@ -54,6 +54,20 @@ class CreatePaSwabDetailsTable extends Migration
             $table->string('occupation_name')->nullable();
             $table->string('natureOfWork')->nullable();
             $table->string('natureOfWorkIfOthers')->nullable();
+
+            $table->date('vaccinationDate1')->nullable();
+            $table->string('vaccinationName1')->nullable();
+            $table->tinyInteger('vaccinationNoOfDose1')->nullable();
+            $table->string('vaccinationFacility1')->nullable();
+            $table->string('vaccinationRegion1')->nullable();
+		    $table->tinyInteger('haveAdverseEvents1')->nullable();
+
+            $table->date('vaccinationDate2')->nullable();
+            $table->string('vaccinationName2')->nullable();
+            $table->tinyInteger('vaccinationNoOfDose2')->nullable();
+            $table->string('vaccinationFacility2')->nullable();
+            $table->string('vaccinationRegion2')->nullable();
+            $table->tinyInteger('haveAdverseEvents2')->nullable();
               
             $table->date('dateOnsetOfIllness')->nullable();
             $table->text('SAS')->nullable();

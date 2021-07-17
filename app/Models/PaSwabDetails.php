@@ -84,6 +84,18 @@ class PaSwabDetails extends Model
         return $this->address_street.", BRGY. ".$this->address_brgy.", ".$this->address_city.", ".$this->address_province;
     }
 
+    public function getPatientType() {
+        if($this->pType == 'PROBABLE') {
+            return 'SUSPECTED';
+        }
+        else if($this->pType == 'CLOSE CONTACT') {
+            return 'CLOSE CONTACT';
+        }
+        else if($this->pType == 'TESTING') {
+            return 'NOT A CASE OF COVID';
+        }
+    }
+
     public function getAge() {
         if(Carbon::parse($this->attributes['bdate'])->age > 0) {
             return Carbon::parse($this->attributes['bdate'])->age;

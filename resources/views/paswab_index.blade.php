@@ -2,7 +2,7 @@
 
 @section('content')
     @if($proceed == 1)
-    <form action="{{route('paswab.store')}}" method="POST">
+    <form action="{{route('paswab.store')}}" method="POST" id="myForm">
         @csrf
         <div class="container">
             <div class="card">
@@ -53,9 +53,9 @@
                                         <label for="pType"><span class="text-danger font-weight-bold">*</span>Uri ng Kliyente / Type of Client</label>
                                         <select class="form-control" name="pType" id="pType" required>
                                             <option value="" disabled selected>Choose...</option>
-                                            <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>COVID-19 Case (Suspect, Probable, or Confirmed)</option>
+                                            <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>Suspected</option>
                                             <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
-                                            <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
+                                            <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>Not A Case of COVID</option>
                                         </select>
                                     </div>
                                 </div>
@@ -817,7 +817,7 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">6. Exposure History</div>
+                        <div class="card-header font-weight-bold">6. Exposure History (for Close Contact)</div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
@@ -1228,6 +1228,31 @@
                 $('imagingOtherFindings').prop({disabled: true, required: false});
             }
         }).trigger('change');
+
+        $('#pType').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == "CLOSE CONTACT") {
+                $('#expoitem1').val("1");
+                $('#expoitem1').trigger('change');
+                $('#expoitem1').prop('disabled', true);
+            }
+            else {
+                $('#expoitem1').val("");
+                $('#expoitem1').trigger('change');
+                $('#expoitem1').prop('disabled', false);
+            }
+        });
+
+        $('#forAntigen').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == "1") {
+                alert('You chose "Antigen" as the Type of Test for your COVID-19 Testing. Kindly take note that this is different from RT-PCR Test. To proceed in Antigen Testing, click OK to proceed. But if you want to undergo RT-PCR Testing, change this option to [NO].');
+            }
+        });
+
+        $('#myForm').on('submit', function() {
+            $('#expoitem1').prop('disabled', false);
+        });
     </script>
     @else
     <div class="container">

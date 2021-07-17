@@ -12,7 +12,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="">Type of Client</label>
-                                  <input type="text" class="form-control" value="{{$data->pType}}" readonly>
+                                  <input type="text" class="form-control" value="{{$data->getPatientType()}}" readonly>
                                 </div>
                             </div>
                             
