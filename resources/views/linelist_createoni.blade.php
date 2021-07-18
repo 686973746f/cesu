@@ -84,7 +84,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="oniSpecType[]" id="" required>
+                                        <select class="form-control" name="oniSpecType[]" id="oniSpecType" required>
                                           <option value="OPS">OPS</option>
                                           <option value="NPS">NPS</option>
                                         </select>
@@ -150,6 +150,7 @@
 
                 var clone = $(newRowContent).clone();
                 $(clone).find('#specNo').val(n);
+                $(clone).find('#oniSpecType').val($('#oniSpecType').val());
                 $(clone).appendTo($('#tbl tbody'));
                 $('.patient').selectize();
             }

@@ -19,4 +19,19 @@ class Forms extends Model
     public function records() {
         return $this->belongsTo(Records::class);
     }
+
+    public function getReferralCode() {
+        if(!is_null($this->majikCode)) {
+            $check = PaSwabDetails::where('majikCode', $this->majikCode)->first();
+            if($check) {
+                return $check->linkCode;
+            }
+            else {
+                return 'N/A';
+            }
+        }
+        else {
+            return 'N/A';
+        }
+    }
 }

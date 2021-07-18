@@ -124,6 +124,7 @@
                                 <th style="vertical-align: middle;">Health Status</th>
                                 <th style="vertical-align: middle;">Case Classification</th>
                                 <th style="vertical-align: middle;">Hospitalization</th>
+                                <th style="vertical-align: middle;">Referral Code</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
@@ -139,18 +140,11 @@
                                 if($form->pType == "PROBABLE") {
                                     $pTypeStr = "COVID-19 CASE (".strtoupper($form->caseClassification).")";
                                 }
-                                else {
-                                    $pTypeStr = $form->pType;
-                                }
-
-                                if($form->expoitem1 == 1) {
-                                    $emsg = "YES";
-                                }
-                                else if($form->expoitem1 == 2) {
-                                    $emsg = "NO";
+                                else if($form->pType == 'CLOSE CONTACT') {
+                                    $pTypeStr = "CLOSE CONTACT";
                                 }
                                 else {
-                                    $emsg = "UNKNOWN";
+                                    $pTypeStr = "NOT A CASE OF COVID";
                                 }
 
                                 if(is_null($form->expoDateLastCont)) {
@@ -199,6 +193,7 @@
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->healthStatus)}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{($form->isForHospitalization == 1) ? 'YES' : 'NO'}}</td>
+                                <td style="vertical-align: middle;" class="text-center"><small>{{$form->getReferralCode()}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
