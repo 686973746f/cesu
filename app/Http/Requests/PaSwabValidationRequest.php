@@ -57,6 +57,18 @@ class PaSwabValidationRequest extends FormRequest
             'natureOfWork' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
             'natureOfWorkIfOthers' => ($this->haveOccupation == 1 && $this->natureOfWork == 'OTHERS') ? 'required' : 'nullable',
 
+            'vaccineq1' => 'required|numeric',
+            'howManyDose' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
+            'nameOfVaccine' => ($this->vaccineq1 == 1) ? 'required' : 'nullable',
+            'vaccinationDate1' => ($this->vaccineq1 == 1) ? 'required|date' : 'nullable|date',
+            'vaccinationFacility1' => 'nullable',
+            'vaccinationRegion1' => 'nullable',
+            'haveAdverseEvents1' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
+            'vaccinationDate2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|date' : 'nullable|date',
+            'vaccinationFacility2' => 'nullable',
+            'vaccinationRegion2' => 'nullable',
+            'haveAdverseEvents2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|numeric' : 'nullable',
+
             'haveSymptoms' => 'required|numeric',
             'dateOnsetOfIllness' => ($this->haveSymptoms == 1) ? 'required|date' : 'nullable|date',
             'sasCheck' => 'nullable',

@@ -396,6 +396,108 @@
                         </div>
                     </div>
                     <div class="card mb-3">
+                        <div class="card-header font-weight-bold">4. COVID-19 Vaccination Information</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                              <label for="vaccineq1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay bakunado na kontra COVID-19? / Are you currently vaccinated againts COVID-19?</label>
+                              <select class="form-control" name="vaccineq1" id="vaccineq1">
+                                <option value="" disabled {{is_null(old('vaccineq1')) ? 'selected' : ''}}>Choose...</option>
+                                <option value="1" {{(old('vaccineq1') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                <option value="0" {{(old('vaccineq1') == '0') ? 'selected' : ''}}>Hindi / No</option>
+                              </select>
+                            </div>
+                            <div id="ifVaccinated">
+                                <div class="form-group">
+                                  <label for="howManyDose"><span class="text-danger font-weight-bold">*</span>Ilang Dose na ang nakumpleto? / How many Dose have you completed?</label>
+                                  <select class="form-control" name="howManyDose" id="howManyDose">
+                                    <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose</option>
+                                    <option value="2" {{(old('howManyDose') == '2') ? 'selected' : ''}}>2nd Dose</option>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <label for="nameOfVaccine"><span class="text-danger font-weight-bold">*</span>Pangalan ng Bakuna / Name of Vaccine</label>
+                                  <select class="form-control" name="nameOfVaccine" id="nameOfVaccine">
+                                    <option value="" disabled {{is_null(old('nameOfVaccine')) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="ASTRAZENECA" {{(old('nameOfVaccine') == 'ASTRAZENECA') ? 'selected' : ''}}>Astrazeneca</option>
+                                    <option value="JOHNSON & JOHNSON'S" {{(old('nameOfVaccine') == "JOHNSON & JOHNSON'S") ? 'selected' : ''}}>Johnson & Johnson's</option>
+                                    <option value="MODERNA" {{(old('nameOfVaccine') == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+                                    <option value="PFIZER" {{(old('nameOfVaccine') == 'PFIZER') ? 'selected' : ''}}>Pfizer</option>
+                                    <option value="SINOFARM" {{(old('nameOfVaccine') == 'SINOFARM') ? 'selected' : ''}}>Sinofarm</option>
+                                    <option value="SINOVAC" {{(old('nameOfVaccine') == 'SINOVAC') ? 'selected' : ''}}>Sinovac</option>
+                                    <option value="SPUTNIK V" {{(old('nameOfVaccine') == 'SPUTNIK V') ? 'selected' : ''}}>Sputnik V</option>
+                                  </select>
+                                </div>
+                                <div id="VaccineDose1">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="vaccinationDate1"><span class="text-danger font-weight-bold">*</span>1.) First (1st) Dose - Date of Vaccination</label>
+                                                <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
+                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
+                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="haveAdverseEvents1"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
+                                                <select class="form-control" name="haveAdverseEvents1" id="haveAdverseEvents1">
+                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents1'))) ? 'selected' : ''}}>Choose...</option>
+                                                  <option value="1" {{(old('haveAdverseEvents1') == '1') ? 'selected' : ''}}>Yes</option>
+                                                  <option value="0" {{(old('haveAdverseEvents1') == '0') ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div id="VaccineDose2">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label for="vaccinationDate2"><span class="text-danger font-weight-bold">*</span>2.) Second (2nd) Dose - Date of Vaccination</label>
+                                                  <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
+                                                    <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
+                                                    <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="haveAdverseEvents2"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
+                                                    <select class="form-control" name="haveAdverseEvents2" id="haveAdverseEvents2">
+                                                      <option value="" disabled {{(is_null(old('haveAdverseEvents2'))) ? 'selected' : ''}}>Choose...</option>
+                                                      <option value="1" {{(old('haveAdverseEvents2') == '1') ? 'selected' : ''}}>Yes</option>
+                                                      <option value="0" {{(old('haveAdverseEvents2') == '0') ? 'selected' : ''}}>No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
                         <div class="card-header font-weight-bold">4. Clinical Information</div>
                         <div class="card-body">
                             <div class="form-group">
@@ -1249,6 +1351,45 @@
                 alert('You chose "Antigen" as the Type of Test for your COVID-19 Testing. Kindly take note that this is different from RT-PCR Test. To proceed in Antigen Testing, click OK to proceed. But if you want to undergo RT-PCR Testing, change this option to [NO].');
             }
         });
+        
+        $('#vaccineq1').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == '1') {
+                $('#ifVaccinated').show();
+                $('#howManyDose').prop('required', true);
+                $('#nameOfVaccine').prop('required', true);
+            }
+            else {
+                $('#ifVaccinated').hide();
+                $('#howManyDose').prop('required', false);
+                $('#nameOfVaccine').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#howManyDose').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == '1') {
+                $('#VaccineDose1').show();
+                $('#vaccinationDate1').prop('required', true);
+                $('#haveAdverseEvents1').prop('required', true);
+            }
+            else if($(this).val() == '2') {
+                $('#VaccineDose1').show();
+                $('#VaccineDose2').show();
+                $('#vaccinationDate1').prop('required', true);
+                $('#haveAdverseEvents1').prop('required', true);
+                $('#vaccinationDate2').prop('required', true);
+                $('#haveAdverseEvents2').prop('required', true);
+            }
+            else {
+                $('#VaccineDose1').hide();
+                $('#VaccineDose2').hide();
+                $('#vaccinationDate1').prop('required', false);
+                $('#haveAdverseEvents1').prop('required', false);
+                $('#vaccinationDate2').prop('required', false);
+                $('#haveAdverseEvents2').prop('required', false);
+            }
+        }).trigger('change');
 
         $('#myForm').on('submit', function() {
             $('#expoitem1').prop('disabled', false);

@@ -46,6 +46,20 @@ class PaSwabDetails extends Model
         'natureOfWork',
         'natureOfWorkIfOthers',
 
+        'vaccinationDate1',
+        'vaccinationName1',
+        'vaccinationNoOfDose1',
+        'vaccinationFacility1',
+        'vaccinationRegion1',
+        'haveAdverseEvents1',
+
+        'vaccinationDate2',
+        'vaccinationName2',
+        'vaccinationNoOfDose2',
+        'vaccinationFacility2',
+        'vaccinationRegion2',
+        'haveAdverseEvents2',
+
         'dateOnsetOfIllness',
         'SAS',
         'SASFeverDeg',
