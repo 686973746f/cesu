@@ -116,15 +116,13 @@
                                 <th style="vertical-align: middle;">Philhealth</th>
                                 <th style="vertical-align: middle;">Mobile</th>
                                 <th style="vertical-align: middle;">Birthdate</th>
-                                <th style="vertical-align: middle;">Age/Gender</th>
+                                <th style="vertical-align: middle;">Age/Sex</th>
                                 <th style="vertical-align: middle;">Street</th>
                                 <th style="vertical-align: middle;">Brgy</th>
-                                <th style="vertical-align: middle;">City</th>
+                                <th style="vertical-align: middle;">City/Province</th>
                                 <th style="vertical-align: middle;">Type of Client</th>
                                 <th style="vertical-align: middle;">Health Status</th>
-                                <th style="vertical-align: middle;">Case Classification</th>
-                                <th style="vertical-align: middle;">Hospitalization</th>
-                                <th style="vertical-align: middle;">Referral Code</th>
+                                <th style="vertical-align: middle;">Ref. Code</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
@@ -138,13 +136,13 @@
                             @forelse ($forms as $form)
                                 @php
                                 if($form->pType == "PROBABLE") {
-                                    $pTypeStr = "COVID-19 CASE (".strtoupper($form->caseClassification).")";
+                                    $pTypeStr = "SUSPECTED";
                                 }
                                 else if($form->pType == 'CLOSE CONTACT') {
                                     $pTypeStr = "CLOSE CONTACT";
                                 }
                                 else {
-                                    $pTypeStr = "NOT A CASE OF COVID";
+                                    $pTypeStr = "NON-COVID CASE";
                                 }
 
                                 if(is_null($form->expoDateLastCont)) {
@@ -176,30 +174,23 @@
                                 }
                             @endphp
                             <tr class="bg-{{$textcolor}}">
-                                <th class="text-center" style="vertical-align: middle;">
-                                    <input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}">
-                                </th>
-                                <td style="vertical-align: middle;">
-                                    <a href="forms/{{$form->id}}/edit" class="text-dark">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</a> 
-                                </td>
+                                <th class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}"></th>
+                                <td style="vertical-align: middle;"><a href="forms/{{$form->id}}/edit" class="text-dark font-weight-bold">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</a></td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->mobile}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{$form->records->gender}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{substr($form->records->gender,0,1)}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->address_street}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->records->address_brgy}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->records->address_city}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->address_brgy}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->address_city}}, {{$form->records->address_province}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$pTypeStr}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->healthStatus)}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->caseClassification)}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{($form->isForHospitalization == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->getReferralCode()}}</small></td>
-                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
-                                
                                 <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
                             </tr>
@@ -347,7 +338,7 @@
         $('#table_id').DataTable(
             {
         "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
-        "order": [18, 'asc']
+        "order": [17, 'asc']
             }
         );
 
