@@ -1018,7 +1018,6 @@
                 </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary btn-block" id="verifyButton" data-toggle="modal" data-target="#verifyDetails">Isumite / Submit</button>
-                    <!--<button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Please double check your details before proceeding. If checking is done, click OK to proceed.')">Isumite / Submit</button>-->
                 </div>
             </div>
         </div>
@@ -1411,11 +1410,34 @@
         $('#pType').change(function (e) { 
             e.preventDefault();
             if($(this).val() == "CLOSE CONTACT") {
-                $('#expoitem1').val("1");
-                $('#expoitem1').trigger('change');
+                $('#expoitem1').empty();
+                $('#expoitem1').append($('<option>', {
+					value: '1',
+					text: 'Oo / Yes',
+					selected: true,
+				}));
+                $('#expoitem1').trigger('change');    
             }
             else {
-                $('#expoitem1').val("");
+                $('#expoitem1').empty();
+                $('#expoitem1').append($('<option>', {
+					value: "",
+					text: 'Pumili... / Choose...',
+					selected: true,
+                    disabled: true,
+				}));
+                $('#expoitem1').append($('<option>', {
+					value: '1',
+					text: 'Oo / Yes',
+				}));
+                $('#expoitem1').append($('<option>', {
+					value: '2',
+					text: 'Hindi / No',
+				}));
+                $('#expoitem1').append($('<option>', {
+					value: '3',
+					text: 'Hindi sigurado / Unknown',
+				}));
                 $('#expoitem1').trigger('change');
             }
         });
