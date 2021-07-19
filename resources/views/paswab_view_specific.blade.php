@@ -781,7 +781,7 @@
                         </div>
                         <div class="form-group">
                             <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date of Swab Collection</label>
-                            <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" value="{{old('testDateCollected1')}}" required>
+                            <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}" required>
                         </div>
                         @if($data->forAntigen != 1)
                         <div class="form-group">
