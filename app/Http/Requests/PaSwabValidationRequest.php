@@ -39,7 +39,7 @@ class PaSwabValidationRequest extends FormRequest
             'lmp' => ($this->isPregnant == 1) ? 'required|date|before_or_equal:today' : 'nullable',
             'cs' => 'required',
             'nationality' => 'required',
-            'mobile' => 'required|numeric|digits:11',
+            'mobile' => 'required|numeric|digits:11|starts_with:09',
             'philhealth' => 'nullable|regex:/^([0-9-]+)$/',
             'phoneno' => 'nullable|numeric',
             'email' => 'nullable|email',
@@ -84,16 +84,16 @@ class PaSwabValidationRequest extends FormRequest
             'imagingOtherFindings' => ($this->imagingDone != "None" && $this->imagingResult == "OTHERS") ? 'required' : 'nullable',
 
             'expoitem1' => 'required|numeric',
-            'expoDateLastCont' => ($this->expoitem1 == "1") ? 'required|date' : 'nullable|date',
+            'expoDateLastCont' => ($this->expoitem1 == "1") ? 'required|date|before_or_equal:today' : 'nullable|date|before_or_equal:today',
 
             'contact1Name' => 'nullable|string',
-            'contact1No' => 'nullable|numeric|digits:11',
+            'contact1No' => 'nullable|numeric|digits:11|starts_with:09',
             'contact2Name' => 'nullable|string',
-            'contact2No' => 'nullable|numeric|digits:11',
+            'contact2No' => 'nullable|numeric|digits:11|starts_with:09',
             'contact3Name' => 'nullable|string',
-            'contact3No' => 'nullable|numeric|digits:11',
+            'contact3No' => 'nullable|numeric|digits:11|starts_with:09',
             'contact4Name' => 'nullable|string',
-            'contact4No' => 'nullable|numeric|digits:11',
+            'contact4No' => 'nullable|numeric|digits:11|starts_with:09',
 
             'patientmsg' => 'nullable|string',
         ];

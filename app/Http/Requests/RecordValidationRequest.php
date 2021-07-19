@@ -31,7 +31,7 @@ class RecordValidationRequest extends FormRequest
 			'cs' => 'required',
 			'nationality' => 'required',
 			'bdate' => "required|date|before:tomorrow",
-			'mobile' => 'required|numeric|digits:11',
+			'mobile' => 'required|numeric|digits:11|starts_with:09',
 			'phoneno' => 'nullable|numeric',
 			'email' => 'nullable|email',
 			'philhealth' => 'nullable|regex:/^([0-9-]+)$/',
@@ -45,7 +45,7 @@ class RecordValidationRequest extends FormRequest
 			'permaaddress_brgy' => ($this->paddressdifferent == 1) ? 'required' : 'nullable',
 			'permaaddress_city' => ($this->paddressdifferent == 1) ? 'required' : 'nullable',
 			'permaaddress_province' => ($this->paddressdifferent == 1) ? 'required' : 'nullable',
-			'permamobile' => ($this->paddressdifferent == 1) ? 'required|numeric|digits:11' : 'nullable|numeric|digits:11',
+			'permamobile' => ($this->paddressdifferent == 1) ? 'required|numeric|digits:11|starts_with:09' : 'nullable|numeric|digits:11|starts_with:09',
 			'permaphoneno' => 'nullable|present|numeric',
 			'permaemail' => 'nullable|present|email',
 
@@ -57,7 +57,7 @@ class RecordValidationRequest extends FormRequest
 			'occupation_city' => 'nullable',
 			'occupation_province' => 'nullable',
 			'occupation_name' => 'nullable',
-			'occupation_mobile' => 'nullable|numeric|digits:11',
+			'occupation_mobile' => 'nullable|numeric|digits:11|starts_with:09',
 			'occupation_email' => 'nullable|email',
 
 			'natureOfWork' => ($this->hasoccupation == 1) ? 'required' : 'nullable',

@@ -2,7 +2,7 @@
 
 @section('content')
     @if($proceed == 1)
-    <form action="{{route('paswab.store')}}" method="POST" id="myForm">
+    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm">
         @csrf
         <div class="container">
             <div class="card">
@@ -1016,23 +1016,62 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Please double check your details before proceeding. If checking is done, click OK to proceed.')">Isumite / Submit</button>
+                    <button type="button" class="btn btn-primary btn-block" id="verifyButton" data-toggle="modal" data-target="#verifyDetails">Isumite / Submit</button>
+                    <!--<button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Please double check your details before proceeding. If checking is done, click OK to proceed.')">Isumite / Submit</button>-->
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="verifyDetails" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" style="font-family: Arial, Helvetica, sans-serif">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h5 class="modal-title">Confirm Details</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center font-weight-bold text-danger">PLEASE DOUBLE CHECK YOUR DETAILS CAREFULLY BEFORE PROCEEDING. KINDLY CHECK IF THERE ARE TYPOGRAPHICAL ERRORS OR INCORRECT SPELLING IN YOUR NAME.</p>
+                        <hr>
+                        <p>Last Name: <span id="vlname"></span></p>
+                        <p>First Name: <span id="vfname"></span></p>
+                        <p>Middle Name: <span id="vmname"></span></p>
+                        <p>Birthdate: <span id="vbdate"></span></p>
+                        <p>Gender: <span id="vgender"></span></p>
+                        <p>Civil Status: <span id="vcs"></span></p>
+                        <p>Mobile Number: <span id="vmobile"></span></p>
+                        <p>Philhealth Number: <span id="vphilhealth"></span></p>
+                        <hr>
+                        <p>House No./Lot/Bldg: <span id="vaddress_houseno"></span></p>
+                        <p>Street/Purok/Sitio: <span id="vaddress_street"></span></p>
+                        <p>Barangay: <span id="vaddress_brgy"></span></p>
+                        <p>City/Municipality: <span id="vaddress_city"></span></p>
+                        <p>Province: <span id="vaddress_province"></span></p>
+                        <hr>
+                        <p class="text-center font-weight-bold">If you would like to change some details, press <span class="text-secondary">[Go Back]</span>. If all details stated are correct upon checking, then press <span class="text-success">[Proceed]</span> to finish the registration.</p>
+                        <p class="text-center font-weight-bold text-danger">NOTE: YOU CANNOT EDIT YOUR OWN DETAILS ONCE IT IS SUBMITTED.</p>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Go Back</button>
+                        <button type="submit" id="submitbtn" class="btn btn-success">Proceed</button>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
     
-    <div class="modal fade" id="announcement" tabindex="-1" role="dialog">
+    <div class="modal fade" id="announcement" tabindex="-1" role="dialog" style="font-family: Arial, Helvetica, sans-serif">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Notice</h5>
                 </div>
                 <div class="modal-body text-center">
-                    Test
+                    <p class="font-weight-bold text-danger">PARA SA MGA NAKAPAG-REHISTRO NA, PAKIBASA PO</p>
+                    <p>Upang makita ang status at kung kailan ka naka-schedule na is-swab, bumisita lamang sa <a href="{{route('main')}}">cesugentri.com</a> at dumako sa [I am a Patient] Section at gamitin ang "Schedule Code" na ibinigay sa iyo ng system.</p>
+                    <p>Ikaw rin ay makakatanggap ng tawag o text mula sa iyong Barangay na kinabibilangan sa <strong>mismong araw ding iyon</strong> kung kailan ka naka-schedule na is-swab.</p>
+                    <p>Maraming Salamat po!</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">I Understand, Proceed</button>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -1043,6 +1082,35 @@
         $('#announcement').modal({backdrop: 'static', keyboard: false});
         $('#announcement').modal('show');
         @endif
+
+        $('#verifyButton').prop('disabled', true);
+        
+        $('#dpsagree').change(function (e) { 
+            e.preventDefault();
+            var myforms = document.forms["wholeForm"];   
+            if (myforms.checkValidity()) {
+                $('#verifyButton').prop('disabled', false);
+            }
+            else {
+                $('#verifyButton').prop('disabled', true);
+            }
+        });
+
+        $('#verifyButton').click(function (e) { 
+            e.preventDefault();
+            $('#vlname').text($('#lname').val().toUpperCase());
+            $('#vfname').text($('#fname').val().toUpperCase());
+            $('#vmname').text($('#mname').val().toUpperCase());
+            $('#vbdate').text($('#bdate').val());
+            $('#vgender').text($('#gender').val());
+            $('#vcs').text($('#cs').val());
+            $('#vmobile').text($('#mobile').val());
+            $('#vaddress_province').text($('#address_province').val());
+            $('#vaddress_city').text($('#address_city').val());
+            $('#vaddress_brgy').text($('#address_brgy').val());
+            $('#vaddress_houseno').text($('#address_houseno').val().toUpperCase());
+            $('#vaddress_street').text($('#address_street').val().toUpperCase());
+        });
 
         $(function(){
             var requiredCheckboxes = $('.comoOpt :checkbox[required]');

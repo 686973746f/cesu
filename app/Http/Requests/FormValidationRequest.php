@@ -54,7 +54,7 @@ class FormValidationRequest extends FormRequest
             'drunit' => 'required',
             'drregion' => 'required',
             'interviewerName' => 'required',
-            'interviewerMobile' => 'required|numeric|digits:11',
+            'interviewerMobile' => 'required|numeric|digits:11|starts_with:09',
             'interviewDate' => 'required|date|before_or_equal:today',
             'informantName' => 'nullable',
             'informantRelationship' => 'nullable',
@@ -229,13 +229,13 @@ class FormValidationRequest extends FormRequest
             'localDateArrive2' => 'nullable|date',
 
             'contact1Name' => 'nullable|string',
-            'contact1No' => 'nullable|numeric|digits:11',
+            'contact1No' => 'nullable|numeric|digits:11|starts_with:09',
             'contact2Name' => 'nullable|string',
-            'contact2No' => 'nullable|numeric|digits:11',
+            'contact2No' => 'nullable|numeric|digits:11|starts_with:09',
             'contact3Name' => 'nullable|string',
-            'contact3No' => 'nullable|numeric|digits:11',
+            'contact3No' => 'nullable|numeric|digits:11|starts_with:09',
             'contact4Name' => 'nullable|string',
-            'contact4No' => 'nullable|numeric|digits:11',
+            'contact4No' => 'nullable|numeric|digits:11|starts_with:09',
 
             'remarks' => 'nullable',
 		];
