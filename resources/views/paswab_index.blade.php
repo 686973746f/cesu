@@ -498,7 +498,7 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">4. Clinical Information</div>
+                        <div class="card-header font-weight-bold">5. Clinical Information</div>
                         <div class="card-body">
                             <div class="form-group">
                               <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Kasalukuyan ka bang nakakaranas ng senyales o sintomas ng COVID-19? / Are you currently experiencing any COVID-19 signs or symptoms?</label>
@@ -876,7 +876,7 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">5. Chest X-ray Details</div>
+                        <div class="card-header font-weight-bold">6. Chest X-ray Details</div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
@@ -919,7 +919,7 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">6. Exposure History (for Close Contact)</div>
+                        <div class="card-header font-weight-bold">7. Exposure History</div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
@@ -1370,8 +1370,11 @@
             e.preventDefault();
             if($(this).val() == '1') {
                 $('#VaccineDose1').show();
+                $('#VaccineDose2').hide();
                 $('#vaccinationDate1').prop('required', true);
                 $('#haveAdverseEvents1').prop('required', true);
+                $('#vaccinationDate2').prop('required', false);
+                $('#haveAdverseEvents2').prop('required', false);
             }
             else if($(this).val() == '2') {
                 $('#VaccineDose1').show();
