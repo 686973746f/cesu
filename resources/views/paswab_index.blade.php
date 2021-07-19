@@ -2,7 +2,7 @@
 
 @section('content')
     @if($proceed == 1)
-    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm">
+    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm" autocomplete="off">
         @csrf
         <div class="container">
             <div class="card">
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                              <label for="patientmsg">Personal Message to CESU Staff/Encoders (Optional)</label>
+                              <label for="patientmsg">Personal Message to CESU Staff/Encoders <small>(Optional)</small></label>
                               <textarea class="form-control" name="patientmsg" id="patientmsg" rows="3">{{old('patientmsg')}}</textarea>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="lname"><span class="text-danger font-weight-bold">*</span>Apelyido / Last Name</label>
-                                        <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" required>
+                                        <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" required>
                                         @error('lname')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -110,7 +110,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="fname"><span class="text-danger font-weight-bold">*</span>Unang Pangalan / First Name (and Suffix)</label>
-                                        <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" required>
+                                        <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" style="text-transform: uppercase;" required>
                                         @error('fname')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -119,7 +119,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="mname">Gitnang Pangalan / Middle Name <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
-                                        <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50">
+                                        <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" style="text-transform: uppercase;" max="50">
                                         @error('mname')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -308,7 +308,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                        <input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno')}}" required>
+                                        <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" required>
                                         @error('address_houseno')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -316,8 +316,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
-                                        <input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street')}}" required>
+                                        <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio/Subdivision</label>
+                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" required>
+                                        <small class="text-muted">Kung N/A, lagyan ng pinakamalapit na establisyemento kung saan ka nakatira (e.g Near Brgy. Hall, Near Alfamart, Near Tulay, Near Ilog, etc.)</small>
                                         @error('address_street')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -1096,6 +1097,14 @@
             }
         });
 
+        $('#address_houseno').keyup(function(){
+            this.value = this.value.toUpperCase();
+        });
+
+        $('#address_street').keyup(function(){
+            this.value = this.value.toUpperCase();
+        });
+
         $('#verifyButton').click(function (e) { 
             e.preventDefault();
             $('#vlname').text($('#lname').val().toUpperCase());
@@ -1404,12 +1413,10 @@
             if($(this).val() == "CLOSE CONTACT") {
                 $('#expoitem1').val("1");
                 $('#expoitem1').trigger('change');
-                $('#expoitem1').prop('disabled', true);
             }
             else {
                 $('#expoitem1').val("");
                 $('#expoitem1').trigger('change');
-                $('#expoitem1').prop('disabled', false);
             }
         });
 

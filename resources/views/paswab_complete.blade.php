@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card border-success">
             <div class="card-header font-weight-bold text-info">Completing the Registration</div>
             <div class="card-body text-center">
@@ -11,20 +11,20 @@
                 <hr>
                 <p>Your Schedule Code is:</p>
                 <strong class="my-3"><h3>{{session('majik')}}</h3></strong>
-                <p><strong class="text-danger">PLEASE SAVE AND DO NOT FORGET YOUR SCHEDULE CODE.</strong> You can use it to directly check the status of your swab schedule in <a href="{{route('main')}}">cesugentri.com</a>.</p>
+                <p><strong class="text-danger">PLEASE SAVE AND DO NOT FORGET YOUR SCHEDULE CODE.</strong> You can use it to directly check the status of your swab schedule in <a href="{{route('main')}}">cesugentri.com</a> then go to [I am a Patient] Section.</p>
                 <hr>
                 <p>If you have any concerns, you may contact us at:</p>
                 <table class="table text-center table-bordered">
                     <tbody>
                         <tr>
                             <td scope="row" rowspan="3" style="vertical-align: middle;">Mobile Numbers</td>
-                            <td>+639190664324</td>
+                            <td>+63919 066 4324</td>
                         </tr>
                         <tr>
-                            <td>+639190664325</td>
+                            <td>+63919 066 4325</td>
                         </tr>
                         <tr>
-                            <td>+639190664327</td>
+                            <td>+63919 066 4327</td>
                         </tr>
                         <tr>
                             <td scope="row">Email Address</td>

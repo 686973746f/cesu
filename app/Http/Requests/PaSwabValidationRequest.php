@@ -48,8 +48,8 @@ class PaSwabValidationRequest extends FormRequest
             'address_city' => 'required',
             'saddress_city' => 'required',
             'address_brgy' => 'required',
-            'address_street' => 'required',
-            'address_houseno' => 'required',
+            'address_street' => 'required|not_in:n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE',
+            'address_houseno' => 'required|not_in:n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE',
             
             'haveOccupation' => 'required|numeric',
             'occupation' => ($this->haveOccupation == 1) ? 'required' : 'nullable', 

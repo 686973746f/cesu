@@ -24,7 +24,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-							<input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" autofocus required>
+							<input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" autofocus required>
 							@error('lname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -33,7 +33,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
-							<input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" required>
+							<input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" style="text-transform: uppercase;" required>
 							@error('fname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -42,7 +42,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
-							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50">
+							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" style="text-transform: uppercase;" max="50">
 							@error('mname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -226,7 +226,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-							<input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno')}}" required>
+							<input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" required>
 							@error('address_houseno')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -235,7 +235,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
-							<input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street')}}" required>
+							<input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" required>
 							@error('address_street')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -326,7 +326,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="permaaddress_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-								<input type="text" class="form-control" id="permaaddress_houseno" name="permaaddress_houseno" value="{{old('permaaddress_houseno')}}">
+								<input type="text" class="form-control" id="permaaddress_houseno" name="permaaddress_houseno" value="{{old('permaaddress_houseno')}}" style="text-transform: uppercase;">
 								@error('permaaddress_houseno')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
@@ -335,7 +335,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="permaaddress_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
-								<input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{old('permaaddress_street')}}">
+								<input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{old('permaaddress_street')}}" style="text-transform: uppercase;">
 								@error('permaaddress_street')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
