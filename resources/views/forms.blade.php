@@ -107,7 +107,7 @@
                                 <th colspan="21" class="text-left">
                                     <button type="button" class="btn btn-primary" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
                                     <button type="button" class="btn btn-primary" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
-                                    <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-download mr-2"></i>Export to Excel</button>
+                                    <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
                                 </th>
                             </tr>
                             <tr class="text-center bg-light">

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header">Pa-Swab List</div>
+            <div class="card-header font-weight-bold">Pa-Swab List</div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
