@@ -16,6 +16,7 @@ class CreateFormsTable extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->string('majikCode')->nullable();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status');

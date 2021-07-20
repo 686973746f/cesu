@@ -5,12 +5,16 @@ namespace App\Models;
 //use App\Models\Records;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Forms extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public $guarded = [];
+
+    protected $dates = ['deleted_at'];
 
     public function user() {
         return $this->belongsTo(User::class);

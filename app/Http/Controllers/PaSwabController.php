@@ -132,90 +132,110 @@ class PaSwabController extends Controller
                     ->where('gender', strtoupper($request->gender))
                     ->first();
 
-                    $data = PaSwabDetails::create([
-                        'isNewRecord' => ($checku) ? 0 : 1,
-                        'records_id' => ($checku) ? $checku->id : NULL,
-                        'majikCode' => $majik,
-                        'pType' => $request->pType,
-                        'linkCode' => $request->linkcode,
-                        'isForHospitalization' => $request->isForHospitalization,
-                        'interviewDate' => $request->interviewDate,
-                        'forAntigen' => $request->forAntigen,
-                        'lname' => mb_strtoupper($request->lname),
-                        'fname' => mb_strtoupper($request->fname),
-                        'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
-                        'bdate' => $request->bdate,
-                        'gender' => strtoupper($request->gender),
-                        'isPregnant' => ($request->gender == 'FEMALE') ? $request->isPregnant : 0,
-                        'ifPregnantLMP' => ($request->gender == 'FEMALE' && $request->isPregnant == 1) ? $request->lmp : NULL,
-                        'cs' => strtoupper($request->cs),
-                        'nationality' => strtoupper($request->nationality),
-                        'mobile' => $request->mobile,
-                        'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
-                        'email' => $request->email,
-                        'philhealth' => $philhealth_organized,
-                        'address_houseno' => strtoupper($request->address_houseno),
-                        'address_street' => strtoupper($request->address_street),
-                        'address_brgy' => strtoupper($request->address_brgy),
-                        'address_city' => strtoupper($request->address_city),
-                        'address_cityjson' => $request->saddress_city,
-                        'address_province' => strtoupper($request->address_province),
-                        'address_provincejson' => $request->saddress_province,
+                    if($checku) {
+                        $ifScheduledToday = Forms::where('records_id', $checku->id)
+                        ->where(function ($query) {
+                            $query->where('testDateCollected1', date('Y-m-d'))
+                            ->orWhere('testDateCollected2', date('Y-m-d'));
+                        })->first();
+                    }
+                    else {
+                        $ifScheduledToday = false;
+                    }
 
-                        'vaccinationDate1' => ($request->vaccineq1 == 1) ? $request->vaccinationDate1 : NULL,
-                        'vaccinationName1'=> ($request->vaccineq1 == 1) ? $request->nameOfVaccine : NULL,
-                        'vaccinationNoOfDose1'=> ($request->vaccineq1 == 1) ? 1 : NULL,
-                        'vaccinationFacility1'=> ($request->vaccineq1 == 1) ? $request->vaccinationFacility1 : NULL,
-                        'vaccinationRegion1'=> ($request->vaccineq1 == 1) ? $request->vaccinationRegion1 : NULL,
-                        'haveAdverseEvents1'=> ($request->vaccineq1 == 1) ? $request->haveAdverseEvents1 : NULL,
-
-                        'vaccinationDate2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationDate2 : NULL,
-                        'vaccinationName2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->nameOfVaccine : NULL,
-                        'vaccinationNoOfDose2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? 2 : NULL,
-                        'vaccinationFacility2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationFacility2 : NULL,
-                        'vaccinationRegion2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationRegion2 : NULL,
-                        'haveAdverseEvents2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->haveAdverseEvents2 : NULL,
-        
-                        'occupation' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation) : NULL,
-                        'occupation_name' => ($request->filled('occupation_name')) ? mb_strtoupper($request->occupation_name) : NULL,
-                        'natureOfWork' => ($request->haveOccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
-                        'natureOfWorkIfOthers' => ($request->haveOccupation == 1 && $request->natureOfWork == "OTHERS") ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
-        
-                        'dateOnsetOfIllness' => ($request->haveSymptoms == 1) ? $request->dateOnsetOfIllness : NULL,
-                        'SAS' => ($request->haveSymptoms == 1 && !is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
-                        'SASFeverDeg' => ($request->haveSymptoms == 1) ? $request->SASFeverDeg : NULL,
-                        'SASOtherRemarks' => $request->SASOtherRemarks,
-        
-                        'COMO' => implode(",", $request->comCheck),
-                        'COMOOtherRemarks' => $request->COMOOtherRemarks,
-        
-                        'imagingDoneDate' => $request->imagingDoneDate,
-                        'imagingDone' => $request->imagingDone,
-                        'imagingResult' => $request->imagingResult,
-                        'imagingOtherFindings' => $request->imagingOtherFindings,
-        
-                        'expoitem1' => $request->expoitem1,
-                        'expoDateLastCont' => $request->expoDateLastCont,
-        
-                        'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
-                        'contact1No' => $request->contact1No,
-                        'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
-                        'contact2No' => $request->contact2No,
-                        'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
-                        'contact3No' => $request->contact3No,
-                        'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
-                        'contact4No' => $request->contact4No,
+                    if($ifScheduledToday) {
+                        return back()
+                        ->withInput()
+                        ->with('msg', 'Error: You are not allowed to submit another pa-swab request because you are currently scheduled for swab today. Please see and use your Schedule Code for more details.')
+                        ->with('msgtype', 'danger')
+                        ->with('skipmodal', true);
+                    }
+                    else {
+                        $data = PaSwabDetails::create([
+                            'isNewRecord' => ($checku) ? 0 : 1,
+                            'records_id' => ($checku) ? $checku->id : NULL,
+                            'majikCode' => $majik,
+                            'pType' => $request->pType,
+                            'linkCode' => $request->linkcode,
+                            'isForHospitalization' => $request->isForHospitalization,
+                            'interviewDate' => $request->interviewDate,
+                            'forAntigen' => $request->forAntigen,
+                            'lname' => mb_strtoupper($request->lname),
+                            'fname' => mb_strtoupper($request->fname),
+                            'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
+                            'bdate' => $request->bdate,
+                            'gender' => strtoupper($request->gender),
+                            'isPregnant' => ($request->gender == 'FEMALE') ? $request->isPregnant : 0,
+                            'ifPregnantLMP' => ($request->gender == 'FEMALE' && $request->isPregnant == 1) ? $request->lmp : NULL,
+                            'cs' => strtoupper($request->cs),
+                            'nationality' => strtoupper($request->nationality),
+                            'mobile' => $request->mobile,
+                            'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
+                            'email' => $request->email,
+                            'philhealth' => $philhealth_organized,
+                            'address_houseno' => strtoupper($request->address_houseno),
+                            'address_street' => strtoupper($request->address_street),
+                            'address_brgy' => strtoupper($request->address_brgy),
+                            'address_city' => strtoupper($request->address_city),
+                            'address_cityjson' => $request->saddress_city,
+                            'address_province' => strtoupper($request->address_province),
+                            'address_provincejson' => $request->saddress_province,
     
-                        'patientmsg' => $request->patientmsg,
+                            'vaccinationDate1' => ($request->vaccineq1 == 1) ? $request->vaccinationDate1 : NULL,
+                            'vaccinationName1'=> ($request->vaccineq1 == 1) ? $request->nameOfVaccine : NULL,
+                            'vaccinationNoOfDose1'=> ($request->vaccineq1 == 1) ? 1 : NULL,
+                            'vaccinationFacility1'=> ($request->vaccineq1 == 1) ? $request->vaccinationFacility1 : NULL,
+                            'vaccinationRegion1'=> ($request->vaccineq1 == 1) ? $request->vaccinationRegion1 : NULL,
+                            'haveAdverseEvents1'=> ($request->vaccineq1 == 1) ? $request->haveAdverseEvents1 : NULL,
+    
+                            'vaccinationDate2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationDate2 : NULL,
+                            'vaccinationName2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->nameOfVaccine : NULL,
+                            'vaccinationNoOfDose2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? 2 : NULL,
+                            'vaccinationFacility2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationFacility2 : NULL,
+                            'vaccinationRegion2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationRegion2 : NULL,
+                            'haveAdverseEvents2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->haveAdverseEvents2 : NULL,
+            
+                            'occupation' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation) : NULL,
+                            'occupation_name' => ($request->filled('occupation_name')) ? mb_strtoupper($request->occupation_name) : NULL,
+                            'natureOfWork' => ($request->haveOccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
+                            'natureOfWorkIfOthers' => ($request->haveOccupation == 1 && $request->natureOfWork == "OTHERS") ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+            
+                            'dateOnsetOfIllness' => ($request->haveSymptoms == 1) ? $request->dateOnsetOfIllness : NULL,
+                            'SAS' => ($request->haveSymptoms == 1 && !is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
+                            'SASFeverDeg' => ($request->haveSymptoms == 1) ? $request->SASFeverDeg : NULL,
+                            'SASOtherRemarks' => $request->SASOtherRemarks,
+            
+                            'COMO' => implode(",", $request->comCheck),
+                            'COMOOtherRemarks' => $request->COMOOtherRemarks,
+            
+                            'imagingDoneDate' => $request->imagingDoneDate,
+                            'imagingDone' => $request->imagingDone,
+                            'imagingResult' => $request->imagingResult,
+                            'imagingOtherFindings' => $request->imagingOtherFindings,
+            
+                            'expoitem1' => $request->expoitem1,
+                            'expoDateLastCont' => $request->expoDateLastCont,
+            
+                            'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
+                            'contact1No' => $request->contact1No,
+                            'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
+                            'contact2No' => $request->contact2No,
+                            'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
+                            'contact3No' => $request->contact3No,
+                            'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
+                            'contact4No' => $request->contact4No,
         
-                        'senderIP' => request()->ip(),
-                    ]);
-        
-                    return redirect()->action([PaSwabController::class, 'complete'])
-                    ->with('majik', $majik)
-                    ->with('statustype', 'success')
-                    ->with('fcode', mb_strtoupper($request->linkcode))
-                    ->with('scode', mb_strtoupper($request->linkcode2nd));
+                            'patientmsg' => $request->patientmsg,
+            
+                            'senderIP' => request()->ip(),
+                        ]);
+            
+                        return redirect()->action([PaSwabController::class, 'complete'])
+                        ->with('majik', $majik)
+                        ->with('statustype', 'success')
+                        ->with('fcode', mb_strtoupper($request->linkcode))
+                        ->with('scode', mb_strtoupper($request->linkcode2nd));
+                    }
                 }
                 else {
                     return back()
@@ -359,245 +379,15 @@ class PaSwabController extends Controller
                     'natureOfWork' => ($data->hasoccupation == 1) ? mb_strtoupper($data->natureOfWork) : NULL,
                     'natureOfWorkIfOthers' => ($data->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
                 ]);
-    
-                if(!is_null($rec->philhealth)) {
-                    if($ttype == "OPS" || $ttype == "NPS" || $ttype == "OPS AND NPS") {
-                        $trigger = 0;
-                        $addMinutes = 0;
-    
-                        while ($trigger != 1) {
-                            $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
-    
-                            $query = Forms::with('records')
-                            ->where('testDateCollected1', $request->testDateCollected1)
-                            ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
-                            ->whereHas('records', function ($q) {
-                                $q->whereNotNull('philhealth');
-                            })
-                            ->where('oniTimeCollected1', $oniStartTime)->get();
-    
-                            if($query->count()) {
-                                if($query->count() < 5) {
-                                    $oniTimeFinal = $oniStartTime;
-                                    $trigger = 1;
-                                }
-                                else {
-                                    $addMinutes = $addMinutes + 5;
-                                }
-                            }
-                            else {
-                                $oniTimeFinal = $oniStartTime;
-                                $trigger = 1;
-                            }
-                        }
-                    }
-                    else {
-                        $oniTimeFinal = NULL;
-                    }
-                }
-                else {
-                    $oniTimeFinal = NULL;
-                }
-    
-                $request->user()->form()->create([
-                    'majikCode' => $data->majikCode,
-                    'status' => 'approved',
-                    'isPresentOnSwabDay' => NULL,
-                    'records_id' => $rec->id,
-                    'drunit' => 'CHO GENERAL TRIAS',
-                    'drregion' => '4A CAVITE',
-                    'interviewerName' => $request->interviewerName,
-                    'interviewerMobile' => '09190664324',
-                    'interviewDate' => $data->interviewDate,
-                    'informantName' => NULL,
-                    'informantRelationship' => NULL,
-                    'informantMobile' => NULL,
-                    'existingCaseList' => '1',
-                    'ecOthersRemarks' => NULL,
-                    'pType' => $data->pType,
-                    'isForHospitalization' => $data->isForHospitalization,
-                    'testingCat' => 'C',
-                    'havePreviousCovidConsultation' => '0',
-                    'dateOfFirstConsult' => NULL,
-                    'facilityNameOfFirstConsult' => NULL,
-
-                    'vaccinationDate1' => $data->vaccinationDate1,
-                    'vaccinationName1' => $data->vaccinationName1,
-                    'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
-                    'vaccinationFacility1' => $data->vaccinationFacility1,
-                    'vaccinationRegion1' => $data->vaccinationRegion1,
-                    'haveAdverseEvents1' => $data->haveAdverseEvents1,
-
-                    'vaccinationDate2' => $data->vaccinationDate2,
-                    'vaccinationName2' => $data->vaccinationName2,
-                    'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
-                    'vaccinationFacility2' => $data->vaccinationFacility2,
-                    'vaccinationRegion2' => $data->vaccinationRegion2,
-                    'haveAdverseEvents2' => $data->haveAdverseEvents2,
-    
-                    'dispoType' => NULL,
-                    'dispoName' => NULL,
-                    'dispoDate' => NULL,
-                    'healthStatus' => 'Asymptomatic',
-                    'caseClassification' => 'Suspect',
-                    'healthCareCompanyName' => NULL,
-                    'healthCareCompanyLocation' => NULL,
-                    'isOFW' => '0',
-                    'OFWCountyOfOrigin' => NULL,
-                    'ofwType' => NULL,
-                    'isFNT' => '0',
-                    'lsiType' => NULL,
-                    'FNTCountryOfOrigin' => NULL,
-                    'isLSI' => '0',
-                    'LSICity' => NULL,
-                    'LSIProvince' => NULL,
-                    'isLivesOnClosedSettings' => '0',
-                    'institutionType' => NULL,
-                    'institutionName' => NULL,
-                    'indgSpecify' => NULL,
-                    'dateOnsetOfIllness' => $data->dateOnsetOfIllness,
-                    'SAS' => $data->SAS,
-                    'SASFeverDeg' => $data->SASFeverDeg,
-                    'SASOtherRemarks' => $data->SASOtherRemarks,
-                    'COMO' => $data->COMO,
-                    'COMOOtherRemarks' => $data->COMOOtherRemarks,
-                    'PregnantLMP' => $data->PregnantLMP,
-                    'PregnantHighRisk' => ($data->isPregnant == 1) ? '1' : '0',
-                    'diagWithSARI' => '0',
-                    'imagingDoneDate' => NULL,
-                    'imagingDone' => 'None',
-                    'imagingResult' => NULL,
-                    'imagingOtherFindings' => NULL,
-    
-                    'testedPositiveUsingRTPCRBefore' => '0',
-                    'testedPositiveNumOfSwab' => '0',
-                    'testedPositiveLab' => NULL,
-                    'testedPositiveSpecCollectedDate' => NULL,
-    
-                    'testDateCollected1' => $request->testDateCollected1,
-                    'oniTimeCollected1' => $oniTimeFinal,
-                    'testDateReleased1' => NULL,
-                    'testLaboratory1' => NULL,
-                    'testType1' => $ttype,
-                    'testTypeAntigenRemarks1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                    'antigenKit1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
-                    'testTypeOtherRemarks1' => ($ttype == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                    'testResult1' => 'PENDING',
-                    'testResultOtherRemarks1' => NULL,
-    
-                    'testDateCollected2' => NULL,
-                    'oniTimeCollected2' => NULL,
-                    'testDateReleased2' => NULL,
-                    'testLaboratory2' => NULL,
-                    'testType2' => NULL,
-                    'testTypeAntigenRemarks2' => NULL,
-                    'antigenKit2' => NULL,
-                    'testTypeOtherRemarks2' => NULL,
-                    'testResult2' => NULL,
-                    'testResultOtherRemarks2' => NULL,
-    
-                    'outcomeCondition' => 'Active',
-                    'outcomeRecovDate' => NULL,
-                    'outcomeDeathDate' => NULL,
-                    'deathImmeCause' => NULL,
-                    'deathAnteCause' => NULL,
-                    'deathUndeCause' => NULL,
-                    'contriCondi' => NULL,
-    
-                    'expoitem1' => $data->expoitem1,
-                    'expoDateLastCont' => $data->expoDateLastCont,
-    
-                    'expoitem2' => '0',
-                    'intCountry' => NULL,
-                    'intDateFrom' => NULL,
-                    'intDateTo' => NULL,
-                    'intWithOngoingCovid' => 'N/A',
-                    'intVessel' => NULL,
-                    'intVesselNo' => NULL,
-                    'intDateDepart' => NULL,
-                    'intDateArrive' => NULL,
-    
-                    'placevisited' => NULL,
-    
-                    'locName1' => NULL,
-                    'locAddress1' => NULL,
-                    'locDateFrom1' => NULL,
-                    'locDateTo1' => NULL,
-                    'locWithOngoingCovid1' => 'N/A',
-    
-                    'locName2' => NULL,
-                    'locAddress2' => NULL,
-                    'locDateFrom2' => NULL,
-                    'locDateTo2' => NULL,
-                    'locWithOngoingCovid2' => 'N/A',
-                    
-                    'locName3' => NULL,
-                    'locAddress3' => NULL,
-                    'locDateFrom3' => NULL,
-                    'locDateTo3' => NULL,
-                    'locWithOngoingCovid3' => 'N/A',
-                    
-                    'locName4' => NULL,
-                    'locAddress4' => NULL,
-                    'locDateFrom4' => NULL,
-                    'locDateTo4' => NULL,
-                    'locWithOngoingCovid4' => 'N/A',
-    
-                    'locName5' => NULL,
-                    'locAddress5' => NULL,
-                    'locDateFrom5' => NULL,
-                    'locDateTo5' => NULL,
-                    'locWithOngoingCovid5' => 'N/A',
-    
-                    'locName6' => NULL,
-                    'locAddress6' => NULL,
-                    'locDateFrom6' => NULL,
-                    'locDateTo6' => NULL,
-                    'locWithOngoingCovid6' => 'N/A',
-    
-                    'locName7' => NULL,
-                    'locAddress7' => NULL,
-                    'locDateFrom7' => NULL,
-                    'locDateTo7' => NULL,
-                    'locWithOngoingCovid7' => 'N/A',
-    
-                    'localVessel1' => NULL,
-                    'localVesselNo1' => NULL,
-                    'localOrigin1' => NULL,
-                    'localDateDepart1' => NULL,
-                    'localDest1' => NULL,
-                    'localDateArrive1' => NULL,
-    
-                    'localVessel2' => NULL,
-                    'localVesselNo2' => NULL,
-                    'localOrigin2' => NULL,
-                    'localDateDepart2' => NULL,
-                    'localDest2' => NULL,
-                    'localDateArrive2' => NULL,
-    
-                    'contact1Name' => $data->contact1Name,
-                    'contact1No' => $data->contact1No,
-                    'contact2Name' => $data->contact2Name,
-                    'contact2No' => $data->contact2No,
-                    'contact3Name' => $data->contact3Name,
-                    'contact3No' => $data->contact3No,
-                    'contact4Name' => $data->contact4Name,
-                    'contact4No' => $data->contact4No,
-    
-                    'remarks' => NULL,
-                ]);
             }
             else {
-                $rec = Records::where('id', $data->records_id)->update([
+                $rec = Records::where('id', $data->records_id)->first();
+
+                $rec->update([
                     'status' => 'approved',
-                    //'lname' => mb_strtoupper($data->lname),
-                    //'fname' => mb_strtoupper($data->fname),
-                    //'mname' => (!is_null($data->mname)) ? mb_strtoupper($data->mname) : null,
-                    //'gender' => strtoupper($data->gender),
                     'isPregnant' => $data->isPregnant,
                     'cs' => strtoupper($data->cs),
                     'nationality' => strtoupper($data->nationality),
-                    //'bdate' => $data->bdate,
                     'mobile' => $data->mobile,
                     'phoneno' => (!is_null($data->phoneno)) ? $data->phoneno : NULL,
                     'email' => $data->email,
@@ -636,432 +426,239 @@ class PaSwabController extends Controller
                     'occupation_mobile' => NULL,
                     'occupation_email' => NULL,
     
-                    'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                    'natureOfWork' => ($data->hasoccupation == 1) ? mb_strtoupper($data->natureOfWork) : NULL,
+                    'natureOfWorkIfOthers' => ($data->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
                 ]);
 
-                if(!is_null($data->philhealth)) {
-                    if($ttype == "OPS" || $ttype == "NPS" || $ttype == "OPS AND NPS") {
-                        $trigger = 0;
-                        $addMinutes = 0;
-    
-                        while ($trigger != 1) {
-                            $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
-    
-                            $query = Forms::with('records')
-                            ->where('testDateCollected1', $request->testDateCollected1)
-                            ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
-                            ->whereHas('records', function ($q) {
-                                $q->whereNotNull('philhealth');
-                            })
-                            ->where('oniTimeCollected1', $oniStartTime)->get();
-    
-                            if($query->count()) {
-                                if($query->count() < 5) {
-                                    $oniTimeFinal = $oniStartTime;
-                                    $trigger = 1;
-                                }
-                                else {
-                                    $addMinutes = $addMinutes + 5;
-                                }
-                            }
-                            else {
+                $fcheck = Forms::where('records_id', $data->records_id)->delete();
+            }
+
+            if(!is_null($rec->philhealth)) {
+                if($ttype == "OPS" || $ttype == "NPS" || $ttype == "OPS AND NPS") {
+                    $trigger = 0;
+                    $addMinutes = 0;
+
+                    while ($trigger != 1) {
+                        $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+
+                        $query = Forms::with('records')
+                        ->where('testDateCollected1', $request->testDateCollected1)
+                        ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                        ->whereHas('records', function ($q) {
+                            $q->whereNotNull('philhealth');
+                        })
+                        ->where('oniTimeCollected1', $oniStartTime)->get();
+
+                        if($query->count()) {
+                            if($query->count() < 5) {
                                 $oniTimeFinal = $oniStartTime;
                                 $trigger = 1;
                             }
+                            else {
+                                $addMinutes = $addMinutes + 5;
+                            }
                         }
-                    }
-                    else {
-                        $oniTimeFinal = NULL;
+                        else {
+                            $oniTimeFinal = $oniStartTime;
+                            $trigger = 1;
+                        }
                     }
                 }
                 else {
                     $oniTimeFinal = NULL;
                 }
-
-                $fcheck = Forms::where('records_id', $data->records_id)->first();
-
-                if($fcheck) {
-                    $asd = Forms::where('id', $fcheck->id)->update([
-                        'majikCode' => $data->majikCode,
-                        'status' => 'approved',
-                        'isExported' => 0,
-                        'exportedDate' => NULL,
-                        'isPresentOnSwabDay' => NULL,
-                        //'records_id' => $rec->id,
-                        'drunit' => 'CHO GENERAL TRIAS',
-                        'drregion' => '4A CAVITE',
-                        'interviewerName' => $request->interviewerName,
-                        'interviewerMobile' => '09190664324',
-                        'interviewDate' => $data->interviewDate,
-                        'informantName' => NULL,
-                        'informantRelationship' => NULL,
-                        'informantMobile' => NULL,
-                        'existingCaseList' => '1',
-                        'ecOthersRemarks' => NULL,
-                        'pType' => $data->pType,
-                        'isForHospitalization' => $data->isForHospitalization,
-                        'testingCat' => 'C',
-                        'havePreviousCovidConsultation' => '0',
-                        'dateOfFirstConsult' => NULL,
-                        'facilityNameOfFirstConsult' => NULL,
-
-                        'vaccinationDate1' => $data->vaccinationDate1,
-                        'vaccinationName1' => $data->vaccinationName1,
-                        'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
-                        'vaccinationFacility1' => $data->vaccinationFacility1,
-                        'vaccinationRegion1' => $data->vaccinationRegion1,
-                        'haveAdverseEvents1' => $data->haveAdverseEvents1,
-
-                        'vaccinationDate2' => $data->vaccinationDate2,
-                        'vaccinationName2' => $data->vaccinationName2,
-                        'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
-                        'vaccinationFacility2' => $data->vaccinationFacility2,
-                        'vaccinationRegion2' => $data->vaccinationRegion2,
-                        'haveAdverseEvents2' => $data->haveAdverseEvents2,
-        
-                        'dispoType' => NULL,
-                        'dispoName' => NULL,
-                        'dispoDate' => NULL,
-                        'healthStatus' => 'Asymptomatic',
-                        'caseClassification' => 'Suspect',
-                        'healthCareCompanyName' => NULL,
-                        'healthCareCompanyLocation' => NULL,
-                        'isOFW' => '0',
-                        'OFWCountyOfOrigin' => NULL,
-                        'ofwType' => NULL,
-                        'isFNT' => '0',
-                        'lsiType' => NULL,
-                        'FNTCountryOfOrigin' => NULL,
-                        'isLSI' => '0',
-                        'LSICity' => NULL,
-                        'LSIProvince' => NULL,
-                        'isLivesOnClosedSettings' => '0',
-                        'institutionType' => NULL,
-                        'institutionName' => NULL,
-                        'indgSpecify' => NULL,
-                        'dateOnsetOfIllness' => $data->dateOnsetOfIllness,
-                        'SAS' => $data->SAS,
-                        'SASFeverDeg' => $data->SASFeverDeg,
-                        'SASOtherRemarks' => $data->SASOtherRemarks,
-                        'COMO' => $data->COMO,
-                        'COMOOtherRemarks' => $data->COMOOtherRemarks,
-                        'PregnantLMP' => $data->PregnantLMP,
-                        'PregnantHighRisk' => ($data->isPregnant == 1) ? '1' : '0',
-                        'diagWithSARI' => '0',
-                        'imagingDoneDate' => NULL,
-                        'imagingDone' => 'None',
-                        'imagingResult' => NULL,
-                        'imagingOtherFindings' => NULL,
-        
-                        'testedPositiveUsingRTPCRBefore' => '0',
-                        'testedPositiveNumOfSwab' => '0',
-                        'testedPositiveLab' => NULL,
-                        'testedPositiveSpecCollectedDate' => NULL,
-        
-                        'testDateCollected1' => $request->testDateCollected1,
-                        'oniTimeCollected1' => $oniTimeFinal,
-                        'testDateReleased1' => NULL,
-                        'testLaboratory1' => NULL,
-                        'testType1' => $ttype,
-                        'testTypeAntigenRemarks1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                        'antigenKit1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
-                        'testTypeOtherRemarks1' => ($ttype == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                        'testResult1' => 'PENDING',
-                        'testResultOtherRemarks1' => NULL,
-        
-                        'testDateCollected2' => NULL,
-                        'oniTimeCollected2' => NULL,
-                        'testDateReleased2' => NULL,
-                        'testLaboratory2' => NULL,
-                        'testType2' => NULL,
-                        'testTypeAntigenRemarks2' => NULL,
-                        'antigenKit2' => NULL,
-                        'testTypeOtherRemarks2' => NULL,
-                        'testResult2' => NULL,
-                        'testResultOtherRemarks2' => NULL,
-        
-                        'outcomeCondition' => 'Active',
-                        'outcomeRecovDate' => NULL,
-                        'outcomeDeathDate' => NULL,
-                        'deathImmeCause' => NULL,
-                        'deathAnteCause' => NULL,
-                        'deathUndeCause' => NULL,
-                        'contriCondi' => NULL,
-        
-                        'expoitem1' => $data->expoitem1,
-                        'expoDateLastCont' => $data->expoDateLastCont,
-        
-                        'expoitem2' => '0',
-                        'intCountry' => NULL,
-                        'intDateFrom' => NULL,
-                        'intDateTo' => NULL,
-                        'intWithOngoingCovid' => 'N/A',
-                        'intVessel' => NULL,
-                        'intVesselNo' => NULL,
-                        'intDateDepart' => NULL,
-                        'intDateArrive' => NULL,
-        
-                        'placevisited' => NULL,
-        
-                        'locName1' => NULL,
-                        'locAddress1' => NULL,
-                        'locDateFrom1' => NULL,
-                        'locDateTo1' => NULL,
-                        'locWithOngoingCovid1' => 'N/A',
-        
-                        'locName2' => NULL,
-                        'locAddress2' => NULL,
-                        'locDateFrom2' => NULL,
-                        'locDateTo2' => NULL,
-                        'locWithOngoingCovid2' => 'N/A',
-                        
-                        'locName3' => NULL,
-                        'locAddress3' => NULL,
-                        'locDateFrom3' => NULL,
-                        'locDateTo3' => NULL,
-                        'locWithOngoingCovid3' => 'N/A',
-                        
-                        'locName4' => NULL,
-                        'locAddress4' => NULL,
-                        'locDateFrom4' => NULL,
-                        'locDateTo4' => NULL,
-                        'locWithOngoingCovid4' => 'N/A',
-        
-                        'locName5' => NULL,
-                        'locAddress5' => NULL,
-                        'locDateFrom5' => NULL,
-                        'locDateTo5' => NULL,
-                        'locWithOngoingCovid5' => 'N/A',
-        
-                        'locName6' => NULL,
-                        'locAddress6' => NULL,
-                        'locDateFrom6' => NULL,
-                        'locDateTo6' => NULL,
-                        'locWithOngoingCovid6' => 'N/A',
-        
-                        'locName7' => NULL,
-                        'locAddress7' => NULL,
-                        'locDateFrom7' => NULL,
-                        'locDateTo7' => NULL,
-                        'locWithOngoingCovid7' => 'N/A',
-        
-                        'localVessel1' => NULL,
-                        'localVesselNo1' => NULL,
-                        'localOrigin1' => NULL,
-                        'localDateDepart1' => NULL,
-                        'localDest1' => NULL,
-                        'localDateArrive1' => NULL,
-        
-                        'localVessel2' => NULL,
-                        'localVesselNo2' => NULL,
-                        'localOrigin2' => NULL,
-                        'localDateDepart2' => NULL,
-                        'localDest2' => NULL,
-                        'localDateArrive2' => NULL,
-        
-                        'contact1Name' => $data->contact1Name,
-                        'contact1No' => $data->contact1No,
-                        'contact2Name' => $data->contact2Name,
-                        'contact2No' => $data->contact2No,
-                        'contact3Name' => $data->contact3Name,
-                        'contact3No' => $data->contact3No,
-                        'contact4Name' => $data->contact4Name,
-                        'contact4No' => $data->contact4No,
-        
-                        'remarks' => NULL,
-                    ]);
-                }
-                else {
-                    $request->user()->form()->create([
-                        'majikCode' => $data->majikCode,
-                        'status' => 'approved',
-                        'isPresentOnSwabDay' => NULL,
-                        'records_id' => $data->records_id,
-                        'drunit' => 'CHO GENERAL TRIAS',
-                        'drregion' => '4A CAVITE',
-                        'interviewerName' => $request->interviewerName,
-                        'interviewerMobile' => '09190664324',
-                        'interviewDate' => $data->interviewDate,
-                        'informantName' => NULL,
-                        'informantRelationship' => NULL,
-                        'informantMobile' => NULL,
-                        'existingCaseList' => '1',
-                        'ecOthersRemarks' => NULL,
-                        'pType' => $data->pType,
-                        'isForHospitalization' => $data->isForHospitalization,
-                        'testingCat' => 'C',
-                        'havePreviousCovidConsultation' => '0',
-                        'dateOfFirstConsult' => NULL,
-                        'facilityNameOfFirstConsult' => NULL,
-
-                        'vaccinationDate1' => $data->vaccinationDate1,
-                        'vaccinationName1' => $data->vaccinationName1,
-                        'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
-                        'vaccinationFacility1' => $data->vaccinationFacility1,
-                        'vaccinationRegion1' => $data->vaccinationRegion1,
-                        'haveAdverseEvents1' => $data->haveAdverseEvents1,
-
-                        'vaccinationDate2' => $data->vaccinationDate2,
-                        'vaccinationName2' => $data->vaccinationName2,
-                        'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
-                        'vaccinationFacility2' => $data->vaccinationFacility2,
-                        'vaccinationRegion2' => $data->vaccinationRegion2,
-                        'haveAdverseEvents2' => $data->haveAdverseEvents2,
-        
-                        'dispoType' => NULL,
-                        'dispoName' => NULL,
-                        'dispoDate' => NULL,
-                        'healthStatus' => 'Asymptomatic',
-                        'caseClassification' => 'Suspect',
-                        'healthCareCompanyName' => NULL,
-                        'healthCareCompanyLocation' => NULL,
-                        'isOFW' => '0',
-                        'OFWCountyOfOrigin' => NULL,
-                        'ofwType' => NULL,
-                        'isFNT' => '0',
-                        'lsiType' => NULL,
-                        'FNTCountryOfOrigin' => NULL,
-                        'isLSI' => '0',
-                        'LSICity' => NULL,
-                        'LSIProvince' => NULL,
-                        'isLivesOnClosedSettings' => '0',
-                        'institutionType' => NULL,
-                        'institutionName' => NULL,
-                        'indgSpecify' => NULL,
-                        'dateOnsetOfIllness' => $data->dateOnsetOfIllness,
-                        'SAS' => $data->SAS,
-                        'SASFeverDeg' => $data->SASFeverDeg,
-                        'SASOtherRemarks' => $data->SASOtherRemarks,
-                        'COMO' => $data->COMO,
-                        'COMOOtherRemarks' => $data->COMOOtherRemarks,
-                        'PregnantLMP' => $data->PregnantLMP,
-                        'PregnantHighRisk' => ($data->isPregnant == 1) ? '1' : '0',
-                        'diagWithSARI' => '0',
-                        'imagingDoneDate' => NULL,
-                        'imagingDone' => 'None',
-                        'imagingResult' => NULL,
-                        'imagingOtherFindings' => NULL,
-        
-                        'testedPositiveUsingRTPCRBefore' => '0',
-                        'testedPositiveNumOfSwab' => '0',
-                        'testedPositiveLab' => NULL,
-                        'testedPositiveSpecCollectedDate' => NULL,
-        
-                        'testDateCollected1' => $request->testDateCollected1,
-                        'oniTimeCollected1' => $oniTimeFinal,
-                        'testDateReleased1' => NULL,
-                        'testLaboratory1' => NULL,
-                        'testType1' => $ttype,
-                        'testTypeAntigenRemarks1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                        'antigenKit1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
-                        'testTypeOtherRemarks1' => ($ttype == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                        'testResult1' => 'PENDING',
-                        'testResultOtherRemarks1' => NULL,
-        
-                        'testDateCollected2' => NULL,
-                        'oniTimeCollected2' => NULL,
-                        'testDateReleased2' => NULL,
-                        'testLaboratory2' => NULL,
-                        'testType2' => NULL,
-                        'testTypeAntigenRemarks2' => NULL,
-                        'antigenKit2' => NULL,
-                        'testTypeOtherRemarks2' => NULL,
-                        'testResult2' => NULL,
-                        'testResultOtherRemarks2' => NULL,
-        
-                        'outcomeCondition' => 'Active',
-                        'outcomeRecovDate' => NULL,
-                        'outcomeDeathDate' => NULL,
-                        'deathImmeCause' => NULL,
-                        'deathAnteCause' => NULL,
-                        'deathUndeCause' => NULL,
-                        'contriCondi' => NULL,
-        
-                        'expoitem1' => $data->expoitem1,
-                        'expoDateLastCont' => $data->expoDateLastCont,
-        
-                        'expoitem2' => '0',
-                        'intCountry' => NULL,
-                        'intDateFrom' => NULL,
-                        'intDateTo' => NULL,
-                        'intWithOngoingCovid' => 'N/A',
-                        'intVessel' => NULL,
-                        'intVesselNo' => NULL,
-                        'intDateDepart' => NULL,
-                        'intDateArrive' => NULL,
-        
-                        'placevisited' => NULL,
-        
-                        'locName1' => NULL,
-                        'locAddress1' => NULL,
-                        'locDateFrom1' => NULL,
-                        'locDateTo1' => NULL,
-                        'locWithOngoingCovid1' => 'N/A',
-        
-                        'locName2' => NULL,
-                        'locAddress2' => NULL,
-                        'locDateFrom2' => NULL,
-                        'locDateTo2' => NULL,
-                        'locWithOngoingCovid2' => 'N/A',
-                        
-                        'locName3' => NULL,
-                        'locAddress3' => NULL,
-                        'locDateFrom3' => NULL,
-                        'locDateTo3' => NULL,
-                        'locWithOngoingCovid3' => 'N/A',
-                        
-                        'locName4' => NULL,
-                        'locAddress4' => NULL,
-                        'locDateFrom4' => NULL,
-                        'locDateTo4' => NULL,
-                        'locWithOngoingCovid4' => 'N/A',
-        
-                        'locName5' => NULL,
-                        'locAddress5' => NULL,
-                        'locDateFrom5' => NULL,
-                        'locDateTo5' => NULL,
-                        'locWithOngoingCovid5' => 'N/A',
-        
-                        'locName6' => NULL,
-                        'locAddress6' => NULL,
-                        'locDateFrom6' => NULL,
-                        'locDateTo6' => NULL,
-                        'locWithOngoingCovid6' => 'N/A',
-        
-                        'locName7' => NULL,
-                        'locAddress7' => NULL,
-                        'locDateFrom7' => NULL,
-                        'locDateTo7' => NULL,
-                        'locWithOngoingCovid7' => 'N/A',
-        
-                        'localVessel1' => NULL,
-                        'localVesselNo1' => NULL,
-                        'localOrigin1' => NULL,
-                        'localDateDepart1' => NULL,
-                        'localDest1' => NULL,
-                        'localDateArrive1' => NULL,
-        
-                        'localVessel2' => NULL,
-                        'localVesselNo2' => NULL,
-                        'localOrigin2' => NULL,
-                        'localDateDepart2' => NULL,
-                        'localDest2' => NULL,
-                        'localDateArrive2' => NULL,
-        
-                        'contact1Name' => $data->contact1Name,
-                        'contact1No' => $data->contact1No,
-                        'contact2Name' => $data->contact2Name,
-                        'contact2No' => $data->contact2No,
-                        'contact3Name' => $data->contact3Name,
-                        'contact3No' => $data->contact3No,
-                        'contact4Name' => $data->contact4Name,
-                        'contact4No' => $data->contact4No,
-        
-                        'remarks' => NULL,
-                    ]);
-                }
             }
+            else {
+                $oniTimeFinal = NULL;
+            }
+
+            $request->user()->form()->create([
+                'majikCode' => $data->majikCode,
+                'status' => 'approved',
+                'isPresentOnSwabDay' => NULL,
+                'records_id' => $rec->id,
+                'drunit' => 'CHO GENERAL TRIAS',
+                'drregion' => '4A CAVITE',
+                'interviewerName' => $request->interviewerName,
+                'interviewerMobile' => '09190664324',
+                'interviewDate' => $data->interviewDate,
+                'informantName' => NULL,
+                'informantRelationship' => NULL,
+                'informantMobile' => NULL,
+                'existingCaseList' => '1',
+                'ecOthersRemarks' => NULL,
+                'pType' => $data->pType,
+                'isForHospitalization' => $data->isForHospitalization,
+                'testingCat' => 'C',
+                'havePreviousCovidConsultation' => '0',
+                'dateOfFirstConsult' => NULL,
+                'facilityNameOfFirstConsult' => NULL,
+
+                'vaccinationDate1' => $data->vaccinationDate1,
+                'vaccinationName1' => $data->vaccinationName1,
+                'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                'vaccinationFacility1' => $data->vaccinationFacility1,
+                'vaccinationRegion1' => $data->vaccinationRegion1,
+                'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                'vaccinationDate2' => $data->vaccinationDate2,
+                'vaccinationName2' => $data->vaccinationName2,
+                'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                'vaccinationFacility2' => $data->vaccinationFacility2,
+                'vaccinationRegion2' => $data->vaccinationRegion2,
+                'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                'dispoType' => NULL,
+                'dispoName' => NULL,
+                'dispoDate' => NULL,
+                'healthStatus' => 'Asymptomatic',
+                'caseClassification' => 'Suspect',
+                'healthCareCompanyName' => NULL,
+                'healthCareCompanyLocation' => NULL,
+                'isOFW' => '0',
+                'OFWCountyOfOrigin' => NULL,
+                'ofwType' => NULL,
+                'isFNT' => '0',
+                'lsiType' => NULL,
+                'FNTCountryOfOrigin' => NULL,
+                'isLSI' => '0',
+                'LSICity' => NULL,
+                'LSIProvince' => NULL,
+                'isLivesOnClosedSettings' => '0',
+                'institutionType' => NULL,
+                'institutionName' => NULL,
+                'indgSpecify' => NULL,
+                'dateOnsetOfIllness' => $data->dateOnsetOfIllness,
+                'SAS' => $data->SAS,
+                'SASFeverDeg' => $data->SASFeverDeg,
+                'SASOtherRemarks' => $data->SASOtherRemarks,
+                'COMO' => $data->COMO,
+                'COMOOtherRemarks' => $data->COMOOtherRemarks,
+                'PregnantLMP' => $data->PregnantLMP,
+                'PregnantHighRisk' => ($data->isPregnant == 1) ? '1' : '0',
+                'diagWithSARI' => '0',
+                'imagingDoneDate' => $data->imagingDoneDate,
+                'imagingDone' => $data->imagingDone,
+                'imagingResult' => $data->imagingResult,
+                'imagingOtherFindings' => $data->imagingOtherFindings,
+
+                'testedPositiveUsingRTPCRBefore' => '0',
+                'testedPositiveNumOfSwab' => '0',
+                'testedPositiveLab' => NULL,
+                'testedPositiveSpecCollectedDate' => NULL,
+
+                'testDateCollected1' => $request->testDateCollected1,
+                'oniTimeCollected1' => $oniTimeFinal,
+                'testDateReleased1' => NULL,
+                'testLaboratory1' => NULL,
+                'testType1' => $ttype,
+                'testTypeAntigenRemarks1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'antigenKit1' => ($ttype == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                'testTypeOtherRemarks1' => ($ttype == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                'testResult1' => 'PENDING',
+                'testResultOtherRemarks1' => NULL,
+
+                'testDateCollected2' => NULL,
+                'oniTimeCollected2' => NULL,
+                'testDateReleased2' => NULL,
+                'testLaboratory2' => NULL,
+                'testType2' => NULL,
+                'testTypeAntigenRemarks2' => NULL,
+                'antigenKit2' => NULL,
+                'testTypeOtherRemarks2' => NULL,
+                'testResult2' => NULL,
+                'testResultOtherRemarks2' => NULL,
+
+                'outcomeCondition' => 'Active',
+                'outcomeRecovDate' => NULL,
+                'outcomeDeathDate' => NULL,
+                'deathImmeCause' => NULL,
+                'deathAnteCause' => NULL,
+                'deathUndeCause' => NULL,
+                'contriCondi' => NULL,
+
+                'expoitem1' => $data->expoitem1,
+                'expoDateLastCont' => $data->expoDateLastCont,
+
+                'expoitem2' => '0',
+                'intCountry' => NULL,
+                'intDateFrom' => NULL,
+                'intDateTo' => NULL,
+                'intWithOngoingCovid' => 'N/A',
+                'intVessel' => NULL,
+                'intVesselNo' => NULL,
+                'intDateDepart' => NULL,
+                'intDateArrive' => NULL,
+
+                'placevisited' => NULL,
+
+                'locName1' => NULL,
+                'locAddress1' => NULL,
+                'locDateFrom1' => NULL,
+                'locDateTo1' => NULL,
+                'locWithOngoingCovid1' => 'N/A',
+
+                'locName2' => NULL,
+                'locAddress2' => NULL,
+                'locDateFrom2' => NULL,
+                'locDateTo2' => NULL,
+                'locWithOngoingCovid2' => 'N/A',
+                
+                'locName3' => NULL,
+                'locAddress3' => NULL,
+                'locDateFrom3' => NULL,
+                'locDateTo3' => NULL,
+                'locWithOngoingCovid3' => 'N/A',
+                
+                'locName4' => NULL,
+                'locAddress4' => NULL,
+                'locDateFrom4' => NULL,
+                'locDateTo4' => NULL,
+                'locWithOngoingCovid4' => 'N/A',
+
+                'locName5' => NULL,
+                'locAddress5' => NULL,
+                'locDateFrom5' => NULL,
+                'locDateTo5' => NULL,
+                'locWithOngoingCovid5' => 'N/A',
+
+                'locName6' => NULL,
+                'locAddress6' => NULL,
+                'locDateFrom6' => NULL,
+                'locDateTo6' => NULL,
+                'locWithOngoingCovid6' => 'N/A',
+
+                'locName7' => NULL,
+                'locAddress7' => NULL,
+                'locDateFrom7' => NULL,
+                'locDateTo7' => NULL,
+                'locWithOngoingCovid7' => 'N/A',
+
+                'localVessel1' => NULL,
+                'localVesselNo1' => NULL,
+                'localOrigin1' => NULL,
+                'localDateDepart1' => NULL,
+                'localDest1' => NULL,
+                'localDateArrive1' => NULL,
+
+                'localVessel2' => NULL,
+                'localVesselNo2' => NULL,
+                'localOrigin2' => NULL,
+                'localDateDepart2' => NULL,
+                'localDest2' => NULL,
+                'localDateArrive2' => NULL,
+
+                'contact1Name' => $data->contact1Name,
+                'contact1No' => $data->contact1No,
+                'contact2Name' => $data->contact2Name,
+                'contact2No' => $data->contact2No,
+                'contact3Name' => $data->contact3Name,
+                'contact3No' => $data->contact3No,
+                'contact4Name' => $data->contact4Name,
+                'contact4No' => $data->contact4No,
+
+                'remarks' => NULL,
+            ]);
 
             $upd = PaSwabDetails::where('id', $id)->update([
                 'status' => 'approved'
