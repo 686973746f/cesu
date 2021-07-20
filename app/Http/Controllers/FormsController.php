@@ -929,7 +929,9 @@ class FormsController extends Controller
             $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
             $all = $countries->all()->pluck('name.common')->toArray();
 
-            return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers, 'docs' => $docs]);
+            $oldRecords = Forms::where('records_id', $records->records_id)->onlyTrashed()->get();
+
+            return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers, 'docs' => $docs, 'oldRecords' => $oldRecords]);
         }
         else {
             return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
