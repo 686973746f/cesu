@@ -2,7 +2,7 @@
 
 @section('content')
     @if($proceed == 1)
-    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm" autocomplete="off">
+    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm">
         @csrf
         <div class="container">
             <div class="card">
