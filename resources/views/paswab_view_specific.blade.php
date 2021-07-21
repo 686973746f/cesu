@@ -759,7 +759,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Type of Client</label>
-                            <input type="text" class="form-control" readonly value="{{$data->pType}}">
+                            <input type="text" class="form-control" readonly value="{{$data->getPatientType()}}">
                         </div>
                         <div class="form-group">
                           <label for="">Patient Address</label>
