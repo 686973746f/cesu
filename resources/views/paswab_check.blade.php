@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card border-info">
             <div class="card-header font-weight-bold text-info">Check Schedule Details</div>
             <div class="card-body text-center">
@@ -33,7 +33,7 @@
                     <tbody>
                         <tr>
                             <td>Status</td>
-                            <td><strong class="text-danger">REJECTED</strong> @ {{date('m/d/Y h:i A', strtotime($data->updated_at))}}</td>
+                            <td><strong class="text-danger">REJECTED</strong></td>
                         </tr>
                         <tr>
                             <td>Reason for Rejection from Staff</td>
@@ -54,11 +54,19 @@
                     </div>
                 </div>
                 @else
+                @if($form->isPresentOnSwabDay == 0 && $form->testDateCollected1 <= date('Y-m-d'))
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-center text-white font-weight-bold">You did not attended on your Swab Collection Schedule on {{date('F d, Y (l)', strtotime($form->testDateCollected1))}}</div>
+                    <div class="card-body text-center">
+                        <p>You can report to your respective Barangay (BRGY. {{$data->address_brgy}}) about what happened and for possibilities of re-scheduling.</p>
+                    </div>
+                </div>
+                @else
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
                             <td>Status</td>
-                            <td><strong class="text-success">APPROVED</strong> @ {{date('m/d/Y h:i A', strtotime($data->updated_at))}}</td>
+                            <td><strong class="text-success">APPROVED</strong></td>
                         </tr>
                         <tr>
                             <td>Your Date of Submission</td>
@@ -78,11 +86,12 @@
                     <div class="card-header"><i class="fa fa-question-circle mr-2" aria-hidden="true"></i>What does it mean?</div>
                     <div class="card-body">
                         <p>Your swab schedule is now <strong class="text-success">approved</strong> by CESU Staff/Encoders.</p>
-                        <p>You have been scheduled at <strong>{{date('m/d/Y (l)', strtotime($form->testDateCollected1))}}.</strong> Please be on time at COVID-19 Testing Center on General Trias Oval for the collection of your swab.</p>
+                        <p>You have been scheduled at <strong>{{date('m/d/Y (l)', strtotime($form->testDateCollected1))}}.</strong> Please be on time at COVID-19 Testing Center on General Trias Oval, Brgy. Santiago for the collection of your swab.</p>
                         <p>Please be present as <strong class="text-danger">re-scheduling of swab collection is strictly prohibited.</strong> No Face Mask and Face Shield, No Swab.</p>
                         <p>Please be guided accordingly.</p>
                     </div>
                 </div>
+                @endif
                 @endif
                 <hr>
                 <p>If you have any concerns, you may contact us at:</p>
@@ -90,13 +99,13 @@
                     <tbody>
                         <tr>
                             <td scope="row" rowspan="3" style="vertical-align: middle;">Mobile Numbers</td>
-                            <td>+639190664324</td>
+                            <td>+63919 066 4324</td>
                         </tr>
                         <tr>
-                            <td>+639190664325</td>
+                            <td>+63919 066 4325</td>
                         </tr>
                         <tr>
-                            <td>+639190664327</td>
+                            <td>+63919 066 4327</td>
                         </tr>
                         <tr>
                             <td scope="row">Email Address</td>

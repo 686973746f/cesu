@@ -379,8 +379,8 @@ class PaSwabController extends Controller
                     'occupation_mobile' => NULL,
                     'occupation_email' => NULL,
     
-                    'natureOfWork' => ($data->hasoccupation == 1) ? mb_strtoupper($data->natureOfWork) : NULL,
-                    'natureOfWorkIfOthers' => ($data->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                    'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
+                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
                 ]);
             }
             else {
@@ -429,8 +429,8 @@ class PaSwabController extends Controller
                     'occupation_mobile' => NULL,
                     'occupation_email' => NULL,
     
-                    'natureOfWork' => ($data->hasoccupation == 1) ? mb_strtoupper($data->natureOfWork) : NULL,
-                    'natureOfWorkIfOthers' => ($data->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                    'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
+                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
                 ]);
 
                 $fcheck = Forms::where('records_id', $data->records_id)->delete();
@@ -537,7 +537,7 @@ class PaSwabController extends Controller
                 'SASOtherRemarks' => $data->SASOtherRemarks,
                 'COMO' => $data->COMO,
                 'COMOOtherRemarks' => $data->COMOOtherRemarks,
-                'PregnantLMP' => $data->PregnantLMP,
+                'PregnantLMP' => $data->ifPregnantLMP,
                 'PregnantHighRisk' => ($data->isPregnant == 1) ? '1' : '0',
                 'diagWithSARI' => '0',
                 'imagingDoneDate' => $data->imagingDoneDate,
