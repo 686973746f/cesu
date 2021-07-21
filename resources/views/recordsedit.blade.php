@@ -12,7 +12,7 @@
         </form>
         @endif
 
-        <form action="/records/{{$record->id}}" method="POST">
+        <form action="/records/{{$record->id}}{{(request()->input('fromFormsPage') == 'true') ? '?fromFormsPage=true' : ''}}" method="POST">
             @csrf
             @method('PUT')
             <div class="card">

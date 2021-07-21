@@ -54,7 +54,7 @@
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
                                 <div class="input-group-append">
-                                  <button class="btn btn-outline-primary" id="quickreclink" type="button" data-target="/records/{{$records->records_id}}/edit";>Edit Record</button>
+                                  <a class="btn btn-outline-primary" id="quickreclink" href="/records/{{$records->records_id}}/edit?fromFormsPage=true">Edit Record</a>
                                 </div>
                             </div>
                         </div>
@@ -663,7 +663,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
                                                 <select class="form-control" name="isLivesOnClosedSettings" id="isLivesOnClosedSettings" required>
@@ -822,13 +822,13 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="vaccinationFacility1">Vaccination Center/Facility</label>
+                                                <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
                                                 <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $records->vaccinationFacility1)}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="vaccinationRegion1">Region of Health Facility</label>
+                                                <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
                                                 <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $records->vaccinationRegion1)}}">
                                             </div>
                                         </div>
@@ -869,13 +869,13 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="vaccinationFacility2">Vaccination Center/Facility</label>
+                                                <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
                                                 <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $records->vaccinationFacility2)}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="vaccinationRegion2">Region of Health Facility</label>
+                                                <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
                                                 <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $records->vaccinationRegion2)}}">
                                             </div>
                                         </div>
@@ -2622,13 +2622,6 @@
 
     <script>
         $(document).ready(function () {
-
-            $('#quickreclink').click(function (e) { 
-                e.preventDefault();
-                var url = $(this).data('target');
-                location.replace(url);
-            });
-
             @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
             @endif

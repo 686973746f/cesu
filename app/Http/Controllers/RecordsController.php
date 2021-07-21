@@ -366,6 +366,8 @@ class RecordsController extends Controller
     public function update(RecordValidationRequest $request, $id)
     {
 
+		
+
 		$current = Records::findOrFail($id);
 
 		$request->validated();
@@ -611,7 +613,17 @@ class RecordsController extends Controller
 
 			$record = Records::findOrFail($id);
 
-			return redirect()->action([RecordsController::class, 'index'])->with('status', 'Patient details of '.$record->getName().' has been updated successfully.')->with('statustype', 'success');
+			if(request()->input('fromFormsPage') == 'true') {
+				$update = Forms::where('records_id', $record->id)->update([
+					'isExported' => 0,
+					'exportedDate' => NULL,
+				]);
+
+				return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF for '.$record->getName()." has been updated successfully.")->with('statustype', 'success');
+			}
+			else {
+				return redirect()->action([RecordsController::class, 'index'])->with('status', 'Patient details of '.$record->getName().' has been updated successfully.')->with('statustype', 'success');
+			}
 		}
     }
 

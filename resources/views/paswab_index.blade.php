@@ -82,8 +82,8 @@
                                         <label for="forAntigen"><span class="text-danger font-weight-bold">*</span>For Antigen</label>
                                         <select class="form-control" name="forAntigen" id="forAntigen" required>
                                             <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>Oo / Yes</option>
                                             <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>Hindi / No</option>
+                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>Oo / Yes</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1031,6 +1031,10 @@
                     <div class="modal-body">
                         <p class="text-center font-weight-bold text-danger">PLEASE DOUBLE CHECK YOUR DETAILS CAREFULLY BEFORE PROCEEDING. KINDLY CHECK IF THERE ARE TYPOGRAPHICAL ERRORS OR INCORRECT SPELLING IN YOUR NAME.</p>
                         <hr>
+                        <p>Client Type: <span id="vpType"></span></p>
+                        <p>For Hospitalization: <span id="visForHospitalization"></span></p>
+                        <p>For Antigen: <span id="vforAntigen"></span></p>
+                        <hr>
                         <p>Last Name: <span id="vlname"></span></p>
                         <p>First Name: <span id="vfname"></span></p>
                         <p>Middle Name: <span id="vmname"></span></p>
@@ -1083,19 +1087,6 @@
         $('#announcement').modal('show');
         @endif
 
-        $('#verifyButton').prop('disabled', true);
-        
-        $('#dpsagree').change(function (e) { 
-            e.preventDefault();
-            var myforms = document.forms["wholeForm"];   
-            if (myforms.checkValidity()) {
-                $('#verifyButton').prop('disabled', false);
-            }
-            else {
-                $('#verifyButton').prop('disabled', true);
-            }
-        });
-
         $('#address_houseno').keyup(function(){
             this.value = this.value.toUpperCase();
         });
@@ -1106,6 +1097,27 @@
 
         $('#verifyButton').click(function (e) { 
             e.preventDefault();
+            if($('#pType').val() == 'TESTING') {
+                $('#vpType').text('NOT A CASE OF COVID');
+            }
+            else if($('#pType').val() == 'CLOSE CONTACT') {
+                $('#vpType').text('CLOSE CONTACT');
+            }
+            else if($('#pType').val() == 'PROBABLE') {
+                $('#vpType').text('SUSPECTED');
+            }
+            if($('#isForHospitalization').val() == 1) {
+                $('#visForHospitalization').text('YES');
+            }
+            else {
+                $('#visForHospitalization').text('NO');
+            }
+            if($('#forAntigen').val() == 1) {
+                $('#vforAntigen').text('YES');
+            }
+            else {
+                $('#vforAntigen').text('NO');
+            }
             $('#vlname').text($('#lname').val().toUpperCase());
             $('#vfname').text($('#fname').val().toUpperCase());
             $('#vmname').text($('#mname').val().toUpperCase());
