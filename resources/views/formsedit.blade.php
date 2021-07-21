@@ -12,7 +12,7 @@
         </form>
         @endif
 
-        <form action="/forms/{{$records->id}}" method="POST">
+        <form action="/forms/{{$records->id}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
             @csrf
             @method('PUT')
             <div class="card mb-3">

@@ -175,7 +175,7 @@
                             @endphp
                             <tr class="bg-{{$textcolor}}">
                                 <th class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}"></th>
-                                <td style="vertical-align: middle;"><a href="forms/{{$form->id}}/edit" class="text-dark font-weight-bold">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</a></td>
+                                <td style="vertical-align: middle;"><a href="forms/{{$form->id}}/edit{{(request()->get('view') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('view')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" class="text-dark font-weight-bold">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</a></td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->mobile}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
