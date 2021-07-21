@@ -1055,7 +1055,8 @@
                     </div>
                     <div class="modal-footer bg-light">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Go Back</button>
-                        <button type="submit" id="submitbtn" class="btn btn-success">Proceed</button>
+                        <button type="button" id="proceedbtn" class="btn btn-success">Proceed</button>
+                        <button type="submit" id="submitbtn" class="btn btn-success d-none">Submit</button>
                     </div>
                 </div>
             </div>
@@ -1086,6 +1087,13 @@
         $('#announcement').modal({backdrop: 'static', keyboard: false});
         $('#announcement').modal('show');
         @endif
+
+        $('#proceedbtn').click(function (e) { 
+            $('#verifyDetails').modal('hide');
+            setTimeout(function(){
+                $('#submitbtn').trigger('click');
+            }, 500);
+        });
 
         $('#address_houseno').keyup(function(){
             this.value = this.value.toUpperCase();
