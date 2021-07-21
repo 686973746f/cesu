@@ -236,7 +236,7 @@ class FormsController extends Controller
     }
 
     public function soloExport($id) {
-        return Excel::download(new FormsExport([$id]), 'CIF_'.date("m_d_Y").'.xlsx');
+        return Excel::download(new FormsExport([$id]), 'CIF_'.date("m_d_Y").'.csv');
     }
 
     public function printAntigenLinelist() {

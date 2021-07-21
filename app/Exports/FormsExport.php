@@ -151,7 +151,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("H", $arr_testingcat)) ? "YES" : "NO",
             (in_array("I", $arr_testingcat)) ? "YES" : "NO",
             (in_array("J", $arr_testingcat)) ? "YES" : "NO",
-
+            $form->testingCat,
+            
             $form->records->lname,
             $form->records->fname,
             $form->records->mname,
@@ -468,6 +469,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Testing Category / Subgroup H',
             'Testing Category / Subgroup I',
             'Testing Category / Subgroup J',
+            'Complete Testing Cat.',
             'Last Name',
             'First Name (and Suffix)',
             'Middle Name',
