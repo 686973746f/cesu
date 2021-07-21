@@ -23,24 +23,28 @@ class RecordsController extends Controller
 			if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
 				if(!is_null(auth()->user()->brgy_id)) {
 					$records = Records::with('user')
-					->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-					->whereHas('user', function ($query) {
+					->where(function ($query) {
+						$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                		->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
+					})->whereHas('user', function ($query) {
 						$query->where('brgy_id', auth()->user()->brgy_id);
-					})
-					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
+					})->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 				else {
 					$records = Records::with('user')
-					->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-					->whereHas('user', function ($query) {
+					->where(function ($query) {
+						$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                		->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
+					})->whereHas('user', function ($query) {
 						$query->where('company_id', auth()->user()->company_id);
-					})
-					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
+					})->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 			}
 			else {
-				$records = Records::where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-				->orderByRaw('lname ASC, fname ASC, mname ASC')
+				$records = Records::where(function ($query) {
+					$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                	->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
+				})->orderByRaw('lname ASC, fname ASC, mname ASC')
 				->paginate(10);
 			}
 		}

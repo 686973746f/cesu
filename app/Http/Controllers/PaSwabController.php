@@ -135,8 +135,8 @@ class PaSwabController extends Controller
                     if($checku) {
                         $ifScheduledToday = Forms::where('records_id', $checku->id)
                         ->where(function ($query) {
-                            $query->where('testDateCollected1', date('Y-m-d'))
-                            ->orWhere('testDateCollected2', date('Y-m-d'));
+                            $query->whereDate('testDateCollected1', '>=', date('Y-m-d'))
+                            ->orWhere('testDateCollected2', '>=', date('Y-m-d'));
                         })->first();
                     }
                     else {
@@ -146,7 +146,7 @@ class PaSwabController extends Controller
                     if($ifScheduledToday) {
                         return back()
                         ->withInput()
-                        ->with('msg', 'Error: You are not allowed to submit another pa-swab request because you are currently scheduled for swab today. Please see and use your Schedule Code for more details.')
+                        ->with('msg', 'Error: You are not allowed to submit another pa-swab request because you currently have an Approved Schedule. Please see and use your Schedule Code for more details.')
                         ->with('msgtype', 'danger')
                         ->with('skipmodal', true);
                     }
@@ -285,8 +285,11 @@ class PaSwabController extends Controller
 
     public function view() {
         if(request()->input('q')) {
-            $list = PaSwabDetails::where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-            ->where('status', 'pending')
+            $list = PaSwabDetails::where(function ($query) {
+                $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                ->orWhere('linkCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
+            })->where('status', 'pending')
             ->paginate(10);
 		}
         else {

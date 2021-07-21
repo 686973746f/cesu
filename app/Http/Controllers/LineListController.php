@@ -16,7 +16,8 @@ class LineListController extends Controller
         if(request()->input('q')) {
             $list = LinelistSubs::with('records')
             ->whereHas('records', function ($query) {
-                $query->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
+                $query->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
             })->orderby('created_at', 'desc')->paginate(10);
         }
         else {
