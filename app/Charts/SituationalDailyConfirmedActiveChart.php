@@ -61,15 +61,6 @@ class SituationalDailyConfirmedActiveChart extends BaseChart
             array_push($dateCounter, ($count - $negativeCount));
         }
 
-        /*
-        $forms = Forms::where(function ($query) {
-            $query->whereBetween('testDateCollected1', ['2021-06-01', '2021-06-15'])
-            ->orWhereBetween('testDateCollected1', ['2021-06-01', '2021-06-15']);
-        })->orderBy('testDateCollected1', 'asc');
-
-        $datelist = $forms->pluck('testDateCollected1');
-        */
-
         return Chartisan::build()
             ->labels($arrayDate)
             ->dataset('Sample', $dateCounter);

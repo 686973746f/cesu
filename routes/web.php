@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/daily', [ReportController::class, 'viewDaily'])->name('report.daily');
     Route::get('/report/situational', [ReportController::class, 'viewSituational'])->name('report.situational.index');
+    Route::get('/report/situationalv2', [ReportController::class, 'viewSituationalv2'])->name('report.situationalv2.index');
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
 
     //ajax

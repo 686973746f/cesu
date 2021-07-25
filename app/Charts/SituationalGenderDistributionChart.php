@@ -19,11 +19,15 @@ class SituationalGenderDistributionChart extends BaseChart
     public function handler(Request $request): Chartisan
     {
         $male = Forms::with('records')
+        ->where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')
         ->whereHas('records', function($query) {
             $query->where('gender', 'MALE');
         })->count();
 
         $female = Forms::with('records')
+        ->where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')
         ->whereHas('records', function($query) {
             $query->where('gender', 'FEMALE');
         })->count();
