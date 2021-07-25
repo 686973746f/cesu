@@ -18,7 +18,8 @@ class SituationalAgeDistributionChart extends BaseChart
      */
     public function handler(Request $request): Chartisan
     {
-        $db = Forms::all();
+        $db = Forms::where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')->get();
 
         $age1 = 0;
         $age2 = 0;
@@ -29,7 +30,7 @@ class SituationalAgeDistributionChart extends BaseChart
 
 
         foreach($db as $it) {
-            if($it->records->getAge() < 17) {
+            if($it->records->getAge() <= 17) {
                 $age1++;
             }
             else if($it->records->getAge() >= 18 && ($it->records->getAge() <= 25)) {

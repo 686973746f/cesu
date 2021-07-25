@@ -24,6 +24,15 @@ class SituationalDailyConfirmedActiveChart extends BaseChart
 
         //$lastdayinMonth = Carbon::parse(date('Y-m', strtotime($request->eDate)))->daysInMonth;
         $lastdayinMonth = date('d');
+
+        $count = 0;
+
+        $count += Forms::where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')
+        ->where(function ($query) {
+            $query->where('testDateCollected1', '<=', date('Y-m-31', strtotime("-1 month")))
+            ->orWhere('testDateCollected2', '<=', date('Y-m-31', strtotime("-1 month")));
+        })->count();
         
         for($i=1;$i<=$lastdayinMonth;$i++) {
             if($i < 10) {
@@ -35,11 +44,21 @@ class SituationalDailyConfirmedActiveChart extends BaseChart
 
             array_push($arrayDate, date('m/d/Y', strtotime(date('Y-m-', strtotime($request->sDate)).$i_display)));
 
-            $count = Forms::where('testDateCollected1', date('Y-m-', strtotime($request->sDate)).$i_display)
-            ->orWhere('testDateCollected2', date('Y-m-', strtotime($request->sDate)).$i_display)
-            ->count();
+            $count += Forms::where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->where(function ($query) use ($request, $i_display) {
+                $query->where('testDateCollected1', date('Y-m-', strtotime($request->sDate)).$i_display)
+                ->orWhere('testDateCollected2', date('Y-m-', strtotime($request->sDate)).$i_display);
+            })->count();
+            
+            $negativeCount = Forms::whereIn('outcomeCondition', ['Active','Recovered'])
+            ->where('caseClassification', 'Non-COVID-19 Case')
+            ->where(function ($query) use ($request, $i_display) {
+                $query->where('testDateCollected1', date('Y-m-', strtotime($request->sDate)).$i_display)
+                ->orWhere('testDateCollected2', date('Y-m-', strtotime($request->sDate)).$i_display);
+            })->count();
 
-            array_push($dateCounter, $count);
+            array_push($dateCounter, ($count - $negativeCount));
         }
 
         /*

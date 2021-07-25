@@ -1133,6 +1133,7 @@
             $('#vgender').text($('#gender').val());
             $('#vcs').text($('#cs').val());
             $('#vmobile').text($('#mobile').val());
+            $('#vphilhealth').text($('#philhealth').val());
             $('#vaddress_province').text($('#address_province').val());
             $('#vaddress_city').text($('#address_city').val());
             $('#vaddress_brgy').text($('#address_brgy').val());
