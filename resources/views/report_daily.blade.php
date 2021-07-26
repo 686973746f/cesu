@@ -205,10 +205,12 @@
                                         ->where('caseClassification', 'Suspect')
                                         ->count()}}
                                     </td>
-                                    <td>{{$list
+                                    <td>
+                                        <a href="/report/clustering/{{$item->city_id}}/{{$item->id}}">
+                                        {{$list
                                         ->where('records.address_brgy', $item->brgyName)
                                         ->where('caseClassification', 'Confirmed')
-                                        ->count()}}
+                                        ->count()}}</a>
                                     </td>
                                     <td>{{$list
                                         ->where('records.address_brgy', $item->brgyName)

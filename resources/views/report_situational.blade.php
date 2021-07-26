@@ -51,10 +51,13 @@ else {
                             @if($item->brgyName != "MEDICARE")
                             <tr class="text-center">
                                 <td>{{$item->brgyName}}</td>
-                                <td>{{$list
+                                <td>
+                                    <a href="/report/clustering/{{$item->city_id}}/{{$item->id}}">
+                                    {{$list
                                     ->where('records.address_brgy', $item->brgyName)
                                     ->where('caseClassification', 'Confirmed')
                                     ->count()}}
+                                    </a>
                                 </td>
                                 <td>{{$list
                                     ->where('records.address_brgy', $item->brgyName)

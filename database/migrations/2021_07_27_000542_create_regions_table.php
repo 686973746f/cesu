@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrgy extends Migration
+class CreateRegionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateBrgy extends Migration
      */
     public function up()
     {
-        Schema::create('brgy', function (Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('city_id')->constrained('city')->onDelete('cascade');
-            $table->string('brgyName');
-            $table->tinyInteger('displayInList')->default(1);
+            $table->string('regionName');
         });
     }
 
@@ -30,6 +28,6 @@ class CreateBrgy extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brgy');
+        Schema::dropIfExists('regions');
     }
 }

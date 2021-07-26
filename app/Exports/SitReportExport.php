@@ -59,9 +59,12 @@ class SexDistributionSheet implements FromArray, WithMapping, WithHeadings, With
     }
 
     public function headings(): array {
+        $formsctr = Forms::where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')->count();
+
         return [
             '',
-            'Sex Distribution of Active Cases',
+            'Sex Distribution of Active Cases N = '.$formsctr,
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brgy;
+use App\Models\City;
 use App\Models\Forms;
 use App\Exports\DOHExport;
 use App\Exports\FormsExport;
@@ -48,6 +49,23 @@ class ReportController extends Controller
             'notPresent' => $notPresent,
             'list' => $list,
             'brgy_list' => $brgy
+        ]);
+    }
+
+    public function viewClustering($city_id, $brgy_id) {
+        $city_data = City::findOrFail($city_id);
+        $brgy_data = Brgy::findOrFail($brgy_id);
+
+        $clustered_forms = Forms::where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereHas('records', function ($query) use ($brgy_data, $city_data){
+            $query->where('records.address_brgy', $brgy_data->brgyName)
+            ->where('records.address_city', $city_data->cityName);
+        })->get();
+
+        return view('report_clustering', [
+            'clustered_forms' => $clustered_forms,
+            'brgy_name' => $brgy_data->brgyName,
         ]);
     }
 
