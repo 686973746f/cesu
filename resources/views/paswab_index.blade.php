@@ -1073,6 +1073,9 @@
                     <p class="font-weight-bold text-danger">PARA SA MGA NAKAPAG-REHISTRO NA, PAKIBASA PO</p>
                     <p>Upang makita ang status at kung kailan ka naka-schedule na is-swab, bumisita lamang sa <a href="{{route('main')}}">cesugentri.com</a> at dumako sa [I am a Patient] Section at gamitin ang "Schedule Code" na ibinigay sa iyo ng system.</p>
                     <p>Ikaw rin ay makakatanggap ng tawag o text mula sa iyong Barangay na kinabibilangan sa <strong>mismong araw ding iyon</strong> kung kailan ka naka-schedule na is-swab.</p>
+                    <hr>
+                    <p class="font-weight-bold text-danger">SA MGA MAGR-REHISTRO PA LANG,</p>
+                    <p></p>
                     <p>Maraming Salamat po!</p>
                 </div>
                 <div class="modal-footer ">

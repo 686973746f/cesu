@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 @else
-                @if($form->isPresentOnSwabDay == 0 && $form->testDateCollected1 < date('Y-m-d'))
+                @if(!is_null($form->isPresentOnSwabDay) && $form->isPresentOnSwabDay == 0 && $form->testDateCollected1 < date('Y-m-d'))
                 <div class="card border-danger">
                     <div class="card-header bg-danger text-center text-white font-weight-bold">You did not attended on your Swab Collection Schedule on {{date('F d, Y (l)', strtotime($form->testDateCollected1))}}</div>
                     <div class="card-body text-center">
