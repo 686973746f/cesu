@@ -68,9 +68,9 @@
                         @if($form->testType1 == 'OPS' || $form->testType1 == 'NPS' || $form->testType1 == 'OPS AND NPS')
                         <p>Please wait for 3-7 Days regarding the release your swab test result.</p>
                         <p>You will be also informed by your respective Barangay (BRGY. {{$data->address_brgy}}) if you already have a result.</p>
-                        <p>Thank you for attending and for cooperating with us.</p>
+                        <p>Thank you for attending and cooperating with us.</p>
                         @else
-                        <p>Thank you for attending and for cooperating with us.</p>
+                        <p>Thank you for attending and cooperating with us.</p>
                         @endif
                         <p></p>
                     </div>
