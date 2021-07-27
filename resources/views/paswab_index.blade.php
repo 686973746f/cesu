@@ -1075,7 +1075,9 @@
                     <p>Ikaw rin ay makakatanggap ng tawag o text mula sa iyong Barangay na kinabibilangan sa <strong>mismong araw ding iyon</strong> kung kailan ka naka-schedule na is-swab.</p>
                     <hr>
                     <p class="font-weight-bold text-danger">SA MGA MAGR-REHISTRO PA LANG,</p>
-                    <p></p>
+                    <p>Hangga't maaari, isulat ang iyong PhilHealth Number kapag magr-rehistro. Kung ikaw ay menorde-edad pa lang, isulat naman ang PhilHealth Number ng iyong magulang. Ito ay para makaiwas sa mahabang proseso at abala sa araw ng iyong schedule.</p>
+                    <p>Kung walang PhilHealth Number, magdala na lamang ng ibang Valid ID/Birth Certificate na naka-photocopy sa araw ng iyong schedule.</p>
+                    <hr>
                     <p>Maraming Salamat po!</p>
                 </div>
                 <div class="modal-footer ">
