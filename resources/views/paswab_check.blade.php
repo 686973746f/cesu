@@ -61,6 +61,20 @@
                         <p>You can report to your respective Barangay (BRGY. {{$data->address_brgy}}) about what happened and for possibilities of re-scheduling.</p>
                     </div>
                 </div>
+                @elseif(!is_null($form->isPresentOnSwabDay) && $form->isPresentOnSwabDay == 1 && $form->testDateCollected1 < date('Y-m-d'))
+                <div class="card border-success">
+                    <div class="card-header bg-success text-center font-weight-bold">Your swab test schedule was completed on {{date('F d, Y (l)', strtotime($form->testDateCollected1))}}</div>
+                    <div class="card-body text-center">
+                        @if($form->testType1 == 'OPS' || $form->testType1 == 'NPS' || $form->testType1 == 'OPS AND NPS')
+                        <p>Please wait for 3-7 Days regarding the release your swab test result.</p>
+                        <p>You will be also informed by your respective Barangay (BRGY. {{$data->address_brgy}}) if you already have a result.</p>
+                        <p>Thank you for attending and for cooperating with us.</p>
+                        @else
+                        <p>Thank you for attending and for cooperating with us.</p>
+                        @endif
+                        <p></p>
+                    </div>
+                </div>
                 @else
                 <table class="table table-bordered">
                     <tbody>
@@ -88,6 +102,14 @@
                         <p>Your swab schedule is now <strong class="text-success">approved</strong> by CESU Staff/Encoders.</p>
                         <p>You have been scheduled at <strong>{{date('m/d/Y (l)', strtotime($form->testDateCollected1))}}.</strong> Please be on time at COVID-19 Testing Center on General Trias Oval, Brgy. Santiago for the collection of your swab.</p>
                         <p>Please be present as <strong class="text-danger">re-scheduling of swab collection is strictly prohibited.</strong> No Face Mask and Face Shield, No Swab.</p>
+                        <p>Also bring all of the photocopies of your requirements (such as Philhealth ID or MDR, PSA/Birth Certificate, and Any Valid IDs)</p>
+                        <hr>
+                        @if($form->testType1 == 'OPS' || $form->testType1 == 'NPS' || $form->testType1 == 'OPS AND NPS')
+                        <p>Your swab test will be collected using <strong>{{$form->testType1}}</strong>. Results will take 3-7 Days to release. After your requirements is checked and your swab has been collected, you can leave the testing facility immediately.</p>
+                        @else
+                        <p>Your swab test will be collected using <strong>{{$form->testType1}}</strong>. Results will take 30 Minutes or Less to finish. Do not leave the testing facility until the result paper was given to you.</p>
+                        @endif
+                        <hr>
                         <p>Please be guided accordingly.</p>
                     </div>
                 </div>
