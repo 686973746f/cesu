@@ -100,17 +100,16 @@
 
             <form action="{{route('forms.options')}}" method="POST">
                 @csrf
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
+                    <button type="button" class="btn btn-primary" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
+                    <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>
-                            <tr>
-                                <th colspan="21" class="text-left">
-                                    <button type="button" class="btn btn-primary" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
-                                    <button type="button" class="btn btn-primary" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
-                                    <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
-                                </th>
-                            </tr>
                             <tr class="text-center bg-light">
+                                <th></th>
                                 <th style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
                                 <th style="vertical-align: middle;">Name</th>
                                 <th style="vertical-align: middle;">Philhealth</th>
@@ -174,7 +173,8 @@
                                 }
                             @endphp
                             <tr class="bg-{{$textcolor}}">
-                                <th class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="listToPrint[]" id="" value="{{$form->id}}"></th>
+                                <td class="text-center" style="vertical-align: middle;"></td>
+                                <td class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks" name="listToPrint[]" id="" value="{{$form->id}}"></td>
                                 <td style="vertical-align: middle;"><a href="forms/{{$form->id}}/edit{{(request()->get('view') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('view')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" class="text-dark font-weight-bold">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</a></td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->mobile}}</td>
@@ -335,12 +335,23 @@
         $('#selectPatient').modal('show');
         @endif
 
-        $('#table_id').DataTable(
-            {
-        "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
-        "order": [17, 'asc']
-            }
-        );
+        $('#table_id').DataTable({
+            responsive: {
+                details: {
+                    type: 'inline',
+                    target: 'tr'
+                }
+            },
+            columnDefs: [ {
+                className: 'control',
+                orderable: false,
+                targets:   0
+            } ],
+            fixedHeader: true,
+            dom: 'Qfrtip',
+            "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
+            "order": [18, 'asc']
+        });
 
         $('#select_all').change(function() {
         var checkboxes = $(this).closest('form').find(':checkbox');
