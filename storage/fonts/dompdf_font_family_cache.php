@@ -81,17 +81,17 @@
     'normal' => $fontDir . '/nunito_normal_7173294b894229c46ad1835001660d90',
   ),
   'font awesome 5 brands' => array(
-    'normal' => $fontDir . '/font_awesome__5_brands_normal_6861e6d27775a5ace078f1f65b31c6d8',
+    'normal' => $fontDir . '/font_awesome__5_brands_normal_9a3c5b1a4be2e6f670052710674b4ce5',
   ),
   'font awesome 5 free' => array(
-    'normal' => $fontDir . '/font_awesome__5_free_normal_cf2403f202d51b4055f114069964ccd7',
-    '900' => $fontDir . '/font_awesome__5_free_900_76d315f083b6751802476bb51930c1dd',
+    'normal' => $fontDir . '/font_awesome__5_free_normal_5e4e5842aab6e66cb853c9aa9db48d5d',
+    '900' => $fontDir . '/font_awesome__5_free_900_7f2f627c7f407735d93af706b5a9e95e',
   ),
   'font awesome\\ 5 brands' => array(
-    'normal' => $fontDir . '/font_awesome__5_brands_normal_6861e6d27775a5ace078f1f65b31c6d8',
+    'normal' => $fontDir . '/font_awesome__5_brands_normal_9a3c5b1a4be2e6f670052710674b4ce5',
   ),
   'font awesome\\ 5 free' => array(
-    'normal' => $fontDir . '/font_awesome__5_free_normal_cf2403f202d51b4055f114069964ccd7',
-    '900' => $fontDir . '/font_awesome__5_free_900_76d315f083b6751802476bb51930c1dd',
+    'normal' => $fontDir . '/font_awesome__5_free_normal_5e4e5842aab6e66cb853c9aa9db48d5d',
+    '900' => $fontDir . '/font_awesome__5_free_900_7f2f627c7f407735d93af706b5a9e95e',
   ),
 ) ?>

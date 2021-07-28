@@ -10,9 +10,8 @@
                 </div>
                 <div>
                     @if(auth()->user()->isCesuAccount())
+                    <a href="{{route('forms.ciflist.print')}}" class="btn btn-primary">Print CIF List</a>
                     <a href="{{route('forms.antigenlinelist.print')}}" class="btn btn-primary">Print Antigen Linelist</a>
-                    @endif
-                    @if(auth()->user()->isCesuAccount())
                     <a href="{{route('paswab.view')}}" class="btn btn-primary">View Pa-Swab List <span class="text-warning">({{$paswabctr}})</span></a>
                     @endif
                     @if($records->count() > 0)
@@ -106,7 +105,7 @@
                     <button type="submit" class="btn btn-primary my-3" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-sm" id="table_id">
+                    <table class="table table-bordered table-sm" id="table_id">
                         <thead>
                             <tr class="text-center bg-light">
                                 <th></th>

@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
 
     Route::resource('records', RecordsController::class);
 
+    Route::get('/forms/printCIFList/', [FormsController::class, 'printCIFList'])->name('forms.ciflist.print');
     Route::get('/forms/printAntigenLinelist/', [FormsController::class, 'printAntigenLinelist'])->name('forms.antigenlinelist.print');
     
     Route::resource('/forms', FormsController::class);
