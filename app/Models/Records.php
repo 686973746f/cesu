@@ -72,6 +72,20 @@ class Records extends Model
         }
     }
 
+    public function getEditedBy() {
+        if(!is_null($this->updated_by)) {
+            $u = User::find($this->updated_by);
+            return $u->name;
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public function getAddress() {
+        return $this->address_houseno.', '.$this->address_street.', BRGY.'.$this->address_brgy.', '.$this->address_city.', '.$this->address_province;
+    }
+
     public function getName() {
         return $this->lname.", ".$this->fname." ".$this->mname;
     }

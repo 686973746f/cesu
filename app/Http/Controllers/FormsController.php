@@ -488,7 +488,9 @@ class FormsController extends Controller
                 ->with('eType', (!is_null($ex_id->testType2)) ? $ex_id->testType2 : $ex_id->testType1)
                 ->with('eResult', (!is_null($ex_id->testType2)) ? $ex_id->testResult2 : $ex_id->testResult1)
                 ->with('encodedBy', $ex_id->user->name)
+                ->with('editedBy', (!is_null($ex_id->updated_by)) ? $ex_id->getEditedBy() : NULL)
                 ->with('encodedDate', date('m/d/Y h:i A', strtotime($ex_id->created_at)))
+                ->with('editedDate', (!is_null($ex_id->updated_by)) ? date('m/d/Y h:i A', strtotime($ex_id->updated_at)) : NULL)
                 ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y', strtotime($ex_id->testDateCollected2)) : date('m/d/Y', strtotime($ex_id->testDateCollected1)));
             }
             else {

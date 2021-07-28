@@ -42,15 +42,16 @@
                     <table class="table table-bordered" id="table_id">
                         <thead>
                             <tr class="text-center bg-light">
-                                <th>Name</th>
-                                <th>Birthdate</th>
-                                <th>Age/Gender</th>
-                                <th>Civil Status</th>
-                                <th>Mobile</th>
-                                <th>Philhealth</th>
-                                <th>Occupation</th>
-                                <th>Created By</th>
-                                <th>Created At</th>
+                                <th style="vertical-align: middle">Name</th>
+                                <th style="vertical-align: middle">Birthdate</th>
+                                <th style="vertical-align: middle">Age/Gender</th>
+                                <th style="vertical-align: middle">Civil Status</th>
+                                <th style="vertical-align: middle">Mobile</th>
+                                <th style="vertical-align: middle">Philhealth</th>
+                                <th style="vertical-align: middle">Occupation</th>
+                                <th style="vertical-align: middle">Address</th>
+                                <th style="vertical-align: middle">Encoded/Edited By</th>
+                                <th style="vertical-align: middle">Date Encoded/Edited</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,13 +61,14 @@
                                         <a href="records/{{$record->id}}/edit" class="btn btn-link text-left">{{$record->lname.", ".$record->fname." ".$record->mname}}</a>
                                     </td>
                                     <td style="vertical-align: middle" class="text-center">{{date("m/d/Y", strtotime($record->bdate))}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{$record->getAge()}} / {{$record->gender}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{$record->getAge()}} / {{substr($record->gender,0,1)}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$record->cs}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$record->mobile}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{(!is_null($record->philhealth)) ? $record->philhealth : "N/A"}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{(!is_null($record->occupation)) ? $record->occupation : "N/A"}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{$record->user->name}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{date('m/d/Y h:i A', strtotime($record->created_at))}}</td>
+                                    <td style="vertical-align: middle"><small>{{$record->getAddress()}}</small></td>
+                                    <td style="vertical-align: middle" class="text-center">{{$record->user->name}} {{(!is_null($record->updated_by)) ? ' / '.$record->getEditedBy() : ''}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{(!is_null($record->updated_by)) ? date('m/d/Y h:i A', strtotime($record->updated_at)) : date('m/d/Y h:i A', strtotime($record->created_at))}}</td>
                                 </tr>
                             @empty
                                 
@@ -85,6 +87,7 @@
     <script>
         $(document).ready(function () {
             $('#table_id').DataTable({
+                responsive: true,
                 "order": [[0, "asc"]],
                 "dom": "rt"
             });

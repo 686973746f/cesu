@@ -302,10 +302,13 @@
                     </form>
                     <hr>
                     <p class="text-info">Philhealth: <u>{{session('philhealth')}}</u></p>
-                    <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / {{session('eType')}}</u></p>
+                    <p class="text-info">Date Collected / Type: <u>{{session('dateCollected')}} / <strong>{{session('eType')}}</strong></u></p>
                     <p class="text-info">Result: <u>{{session('eResult')}}</u></p>
                     <p class="text-info">Attended: <u>{{session('attended')}}</u></p>
                     <p class="text-info">Encoded by / at: <u>{{session('encodedBy')}} / {{session('encodedDate')}}</u></p>
+                    @if(!is_null(session('editedBy')))
+                    <p class="text-info">Edited by / at: <u>{{session('editedBy')}} / {{session('editedDate')}}</u></p>
+                    @endif
                     <hr>
                     To edit the existing CIF, click <a href="forms/{{session('exist_id')}}/edit">HERE</a>
                 </div>
