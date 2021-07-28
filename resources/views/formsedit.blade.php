@@ -65,6 +65,32 @@
                             </div>
                         </div>
                     </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td class="bg-light">Encoded By / Date</td>
+                                    <td class="text-center">{{$records->user->name}} ({{date("m/d/Y h:i A - l", strtotime($records->created_at))}})</td>
+                                </tr>
+                                @if(!is_null($records->updated_by))
+                                <tr>
+                                    <td class="bg-light">Edited By / Date</td>
+                                    <td class="text-center">{{$records->getEditedBy()}} ({{date("m/d/Y h:i A - l", strtotime($records->created_at))}})</td>
+                                </tr>
+                                @endif
+                                @if($records->getReferralCode() != 'N/A')
+                                <tr>
+                                    <td class="bg-light">Pa-swab Schedule Code</td>
+                                    <td class="text-center">{{$records->majikCode}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light">Pa-swab Referral Code</td>
+                                    <td class="text-center">{{$records->getReferralCode()}}</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
     
                     <div class="row">
                         <div class="col-md-4">
