@@ -125,8 +125,8 @@
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
-                                <th style="vertical-align: middle;">Encoded/Edited By</th>
-                                <th style="vertical-align: middle;">Encoded/Edited At</th>
+                                <th style="vertical-align: middle;">Enc./Edited By</th>
+                                <th style="vertical-align: middle;">Date Created/Edited</th>
                                 <th style="vertical-align: middle;">Printed? / Time</th>
                                 <th style="vertical-align: middle;">Attended?</th>
                             </tr>
@@ -189,9 +189,9 @@
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}{{(!is_null($form->updated_by)) ? ' / '.$form->getEditedBy() : ''}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->updated_by)) ? date("m/d/Y h:i A", strtotime($form->updated_at)) : date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES ('.date("m/d/Y h:i A", strtotime($form->updated_at)).')' : 'NO'}}</td>
+                                <td style="vertical-align: middle;" class="text-center"><small>{{$form->user->name}}{{(!is_null($form->updated_by)) ? ' / '.$form->getEditedBy() : ''}}</small></td>
+                                <td style="vertical-align: middle;" class="text-center"><small>{{(!is_null($form->updated_by)) ? date("m/d/Y h:i A", strtotime($form->updated_at)) : date("m/d/Y h:i A", strtotime($form->created_at))}}</small></td>
+                                <td style="vertical-align: middle;" class="text-center"><small>{{($form->isExported == 1) ? 'YES ('.date("m/d/Y h:i A", strtotime($form->updated_at)).')' : 'NO'}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
                             </tr>
                             @empty
