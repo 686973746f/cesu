@@ -32,34 +32,32 @@
                     <table class="table table-bordered" id="paswabtbl">
                         <thead class="text-center bg-light">
                             <tr>
-                                <th>Date Submitted</th>
-                                <th>Referral Code</th>
-                                <th>Schedule Code</th>
-                                <th>New Record</th>
-                                <th>Name</th>
-                                <th>Philhealth</th>
-                                <th>Birthdate</th>
-                                <th>Age / Gender</th>
-                                <th>Pregnant</th>
-                                <th>Client Type</th>
-                                <th>For Hospitalization</th>
-                                <th>For Antigen</th>
-                                <th>Have Symptoms</th>
-                                <th>Date Onset of Illness</th>
-                                <th>Date Interviewed</th>
-                                <th>Address</th>
-                                <th>Mobile</th>
+                                <th style="vertical-align: middle;">Date Submitted</th>
+                                <th style="vertical-align: middle;">Name</th>
+                                <th style="vertical-align: middle;">Philhealth</th>
+                                <th style="vertical-align: middle;">Mobile</th>
+                                <th style="vertical-align: middle;">Birthdate</th>
+                                <th style="vertical-align: middle;">Age / Gender</th>
+                                <th style="vertical-align: middle;">Pregnant</th>
+                                <th style="vertical-align: middle;">Client Type</th>
+                                <th style="vertical-align: middle;">For Hospitalization</th>
+                                <th style="vertical-align: middle;">For Antigen</th>
+                                <th style="vertical-align: middle;">Have Symptoms</th>
+                                <th style="vertical-align: middle;">Date Onset of Illness</th>
+                                <th style="vertical-align: middle;">Date Interviewed</th>
+                                <th style="vertical-align: middle;">Address</th>
+                                <th style="vertical-align: middle;">New Record</th>
+                                <th style="vertical-align: middle;">Referral Code</th>
+                                <th style="vertical-align: middle;">Schedule Code</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($list as $item)
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle;"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
-                                    <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->linkCode)) ? $item->linkCode : 'N/A'}}</td>
-                                    <td class="text-center" style="vertical-align: middle;">{{$item->majikCode}}</td>
-                                    <td class="text-center" style="vertical-align: middle;">{{($item->isNewRecord == 1) ? 'NEW' : 'OLD'}}</td>
                                     <td style="vertical-align: middle;"><a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">{{$item->getName()}}</a></td>
                                     <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$item->mobile}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->bdate))}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->getAge()." / ".substr($item->gender,0,1)}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->isPregnant == 1) ? 'YES' : 'NO'}}</td>
@@ -70,7 +68,9 @@
                                     <td class="text-center {{(!is_null($item->dateOnsetOfIllness)) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{(!is_null($item->dateOnsetOfIllness)) ? date('m/d/Y (D)', strtotime($item->dateOnsetOfIllness)).' - '.$item->diff4Humans($item->dateOnsetOfIllness) : 'N/A'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
                                     <td style="vertical-align: middle;"><small>{{$item->getAddress()}}</small></td>
-                                    <td class="text-center" style="vertical-align: middle;">{{$item->mobile}}</td>
+                                    <td class="text-center font-weight-bold {{($item->isNewRecord == 1) ? 'text-success' : 'text-secondary'}}" style="vertical-align: middle;">{{($item->isNewRecord == 1) ? 'NEW' : 'OLD'}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->linkCode)) ? $item->linkCode : 'N/A'}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$item->majikCode}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
