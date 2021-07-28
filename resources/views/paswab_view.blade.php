@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card">
             <div class="card-header font-weight-bold">Pa-Swab List</div>
             <div class="card-body">
@@ -15,7 +15,7 @@
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search">
+                                <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search Name / Schedule Code /Referral Code">
                                 <div class="input-group-append">
                                   <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>

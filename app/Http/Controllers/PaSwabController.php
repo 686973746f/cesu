@@ -288,6 +288,7 @@ class PaSwabController extends Controller
             $list = PaSwabDetails::where(function ($query) {
                 $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
                 ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                ->orWhere('majikCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
                 ->orWhere('linkCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
             })->where('status', 'pending')
             ->paginate(10);
