@@ -565,6 +565,7 @@ class RecordsController extends Controller
 		}
 		else {
 			$record = Records::where('id', $id)->update([
+				'updated_by' => auth()->user()->id,
 				'lname' => mb_strtoupper($request->lname),
 				'fname' => mb_strtoupper($request->fname),
 				'mname' => $request->filled('mname') ? mb_strtoupper($request->mname) : NULL,

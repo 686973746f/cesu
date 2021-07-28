@@ -24,6 +24,16 @@ class Forms extends Model
         return $this->belongsTo(Records::class);
     }
 
+    public function getEditedBy() {
+        if(!is_null($this->updated_by)) {
+            $u = User::find($this->updated_by);
+            return $u->name;
+        }
+        else {
+            return NULL;
+        }
+    }
+
     public function getReferralCode() {
         if(!is_null($this->majikCode)) {
             $check = PaSwabDetails::where('majikCode', $this->majikCode)->first();

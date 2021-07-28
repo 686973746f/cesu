@@ -1143,6 +1143,7 @@ class FormsController extends Controller
             $form = Forms::where('id', $id)->update([
                 'isExported' => '0',
                 'exportedDate' => null,
+                'updated_by' => auth()->user()->id,
                 'isPresentOnSwabDay' => $attended,
                 'drunit' => $request->drunit,
                 'drregion' => $request->drregion,

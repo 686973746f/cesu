@@ -100,13 +100,13 @@
 
             <form action="{{route('forms.options')}}" method="POST">
                 @csrf
-                <div class="mb-3">
-                    <button type="button" class="btn btn-primary" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
-                    <button type="button" class="btn btn-primary" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
-                    <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
+                <div>
+                    <button type="button" class="btn btn-primary my-3" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
+                    <button type="button" class="btn btn-primary my-3" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
+                    <button type="submit" class="btn btn-primary my-3" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-sm" id="table_id">
+                    <table class="table table-sm" id="table_id">
                         <thead>
                             <tr class="text-center bg-light">
                                 <th></th>
@@ -125,9 +125,9 @@
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
                                 <th style="vertical-align: middle;">Status</th>
-                                <th style="vertical-align: middle;">Encoded By</th>
-                                <th style="vertical-align: middle;">Encoded At</th>
-                                <th style="vertical-align: middle;">Printed?</th>
+                                <th style="vertical-align: middle;">Encoded/Edited By</th>
+                                <th style="vertical-align: middle;">Encoded/Edited At</th>
+                                <th style="vertical-align: middle;">Printed? / Time</th>
                                 <th style="vertical-align: middle;">Attended?</th>
                             </tr>
                         </thead>
@@ -177,7 +177,7 @@
                                 <td class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks" name="listToPrint[]" id="" value="{{$form->id}}"></td>
                                 <td style="vertical-align: middle;"><a href="forms/{{$form->id}}/edit{{(request()->get('view') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('view')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" class="text-dark font-weight-bold">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}</a></td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->records->mobile}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->mobile}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{substr($form->records->gender,0,1)}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->records->address_street}}</small></td>
@@ -189,9 +189,9 @@
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES' : 'NO'}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$form->user->name}}{{(!is_null($form->updated_by)) ? ' / '.$form->getEditedBy() : ''}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->updated_by)) ? date("m/d/Y h:i A", strtotime($form->updated_at)) : date("m/d/Y h:i A", strtotime($form->created_at))}}</td>
+                                <td style="vertical-align: middle;" class="text-center">{{($form->isExported == 1) ? 'YES ('.date("m/d/Y h:i A", strtotime($form->updated_at)).')' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
                             </tr>
                             @empty
