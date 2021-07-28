@@ -343,13 +343,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                           <label for="occupation"><span class="text-danger font-weight-bold">*</span>Trabaho / Occupation</label>
-                                          <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}">
+                                          <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="occupation_name">Saan nagt-trabaho / Name of Workplace</label>
-                                            <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}">
+                                            <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -385,7 +385,7 @@
                                         <div id="specifyWorkNatureDiv">
                                             <div class="form-group">
                                                 <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Tukuyin / Please specify</label>
-                                                <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}">
+                                                <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}" style="text-transform: uppercase;">
                                                 @error('natureOfWorkIfOthers')
                                                 <small class="text-danger">{{$message}}</small>
                                                 @enderror
@@ -441,13 +441,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}">
+                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}">
+                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -473,13 +473,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                    <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}">
+                                                    <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
-                                                    <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}">
+                                                    <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -944,7 +944,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact1Name">Name of Close Contact #1</label>
-                                                  <input type="text" class="form-control" name="contact1Name" id="contact1Name">
+                                                  <input type="text" class="form-control" name="contact1Name" id="contact1Name" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -958,7 +958,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact2Name">Name of Close Contact #2</label>
-                                                  <input type="text" class="form-control" name="contact2Name" id="contact2Name">
+                                                  <input type="text" class="form-control" name="contact2Name" id="contact2Name" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -972,7 +972,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact3Name">Name of Close Contact #3</label>
-                                                  <input type="text" class="form-control" name="contact3Name" id="contact3Name">
+                                                  <input type="text" class="form-control" name="contact3Name" id="contact3Name" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -986,7 +986,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact4Name">Name of Close Contact #4</label>
-                                                  <input type="text" class="form-control" name="contact4Name" id="contact4Name">
+                                                  <input type="text" class="form-control" name="contact4Name" id="contact4Name" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

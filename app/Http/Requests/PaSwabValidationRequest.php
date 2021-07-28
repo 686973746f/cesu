@@ -95,7 +95,7 @@ class PaSwabValidationRequest extends FormRequest
             'contact4Name' => 'nullable|string',
             'contact4No' => 'nullable|numeric|digits:11|starts_with:09',
 
-            'patientmsg' => 'nullable|string',
+            'patientmsg' => 'nullable|string|max:250',
         ];
     }
 }

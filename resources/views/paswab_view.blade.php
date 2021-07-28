@@ -38,7 +38,7 @@
                                 <th style="vertical-align: middle;">Mobile</th>
                                 <th style="vertical-align: middle;">Birthdate</th>
                                 <th style="vertical-align: middle;">Age / Gender</th>
-                                <th style="vertical-align: middle;">Pregnant</th>
+                                <th style="vertical-align: middle;">Pregnant / LMP</th>
                                 <th style="vertical-align: middle;">Client Type</th>
                                 <th style="vertical-align: middle;">For Hospitalization</th>
                                 <th style="vertical-align: middle;">For Antigen</th>
@@ -60,7 +60,7 @@
                                     <td class="text-center" style="vertical-align: middle;">{{$item->mobile}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->bdate))}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->getAge()." / ".substr($item->gender,0,1)}}</td>
-                                    <td class="text-center" style="vertical-align: middle;">{{($item->isPregnant == 1) ? 'YES' : 'NO'}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{($item->isPregnant == 1) ? 'YES / '.date('m/d/Y', strtotime($item->ifPregnantLMP)).' - '.$item->diff4Humans($item->ifPregnantLMP) : 'NO'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->getPatientType()}} <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y - D', strtotime($item->expoDateLastCont)).", ".$item->diff4Humans($item->expoDateLastCont).")" : ''}}</small></td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->isForHospitalization == 1) ? 'YES' : 'NO'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->forAntigen == 1) ? 'YES' : 'NO'}}</td>

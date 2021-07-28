@@ -86,7 +86,7 @@
                                 @if($data->isPregnant == 1)
                                 <div class="form-group">
                                     <label for="lmp">Last Menstrual Period (LMP)</label>
-                                    <input type="date" class="form-control" value="{{$data->ifPregnantLMP}}" readonly>
+                                    <input type="text" class="form-control" value="{{($data->isPregnant == 1) ? date('m/d/Y', strtotime($data->ifPregnantLMP)).' - '.$data->diff4Humans($data->ifPregnantLMP) : 'N/A'}}" readonly>
                                 </div>
                                 @endif
                                 @endif
@@ -755,7 +755,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Pregnant / LMP</label>
-                            <input type="text" class="form-control" readonly value="{{($data->isPregnant == 1) ? 'YES / '.date('m/d/Y', strtotime($data->ifPregnantLMP)) : 'NO'}}">
+                            <input type="text" class="form-control" readonly value="{{($data->isPregnant == 1) ? 'YES / '.date('m/d/Y', strtotime($data->ifPregnantLMP)).' - '.$data->diff4Humans($data->ifPregnantLMP) : 'NO'}}">
                         </div>
                         <div class="form-group">
                             <label for="">Type of Client</label>

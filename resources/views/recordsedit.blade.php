@@ -37,7 +37,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-                                <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname', $record->lname)}}" max="50" required>
+                                <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname', $record->lname)}}" style="text-transform: uppercase;" max="50" required>
                                 @error('lname')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -46,7 +46,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
-                                <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname', $record->fname)}}" max="50" required>
+                                <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname', $record->fname)}}" style="text-transform: uppercase;" max="50" required>
                                 @error('fname')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -55,7 +55,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
-                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $record->mname)}}" max="50">
+                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $record->mname)}}" style="text-transform: uppercase;" max="50">
                                 @error('mname')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -240,7 +240,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno', $record->address_houseno)}}" required>
+                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno', $record->address_houseno)}}" style="text-transform: uppercase;" required>
                                 @error('address_houseno')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -249,7 +249,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
-                                <input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street', $record->address_street)}}" required>
+                                <input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street', $record->address_street)}}" style="text-transform: uppercase;" required>
                                 @error('address_street')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -340,7 +340,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="permaaddress_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                    <input type="text" class="form-control" id="permaaddress_houseno" name="permaaddress_houseno" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_houseno', $record->permaaddress_houseno) : old('permaaddress_houseno')}}">
+                                    <input type="text" class="form-control" id="permaaddress_houseno" name="permaaddress_houseno" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_houseno', $record->permaaddress_houseno) : old('permaaddress_houseno')}}" style="text-transform: uppercase;">
                                     @error('permaaddress_houseno')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -349,7 +349,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="permaaddress_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
-                                    <input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_street', $record->permaaddressDifferent) : old('permaaddress_street')}}">
+                                    <input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_street', $record->permaaddressDifferent) : old('permaaddress_street')}}" style="text-transform: uppercase;">
                                     @error('permaaddress_street')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -404,7 +404,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
-                                    <input type="text" class="form-control" name="occupation" id="occupation" value="{{(old('hasoccupation', $record->hasOccupation) == 1) ? old('occupation', $record->occupation) : ""}}">
+                                    <input type="text" class="form-control" name="occupation" id="occupation" value="{{(old('hasoccupation', $record->hasOccupation) == 1) ? old('occupation', $record->occupation) : ""}}" style="text-transform: uppercase;">
                                     @error('occupation')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -458,7 +458,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="occupation_name">Name of Workplace <small>(Optional)</small></label>
-                                    <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{($record->hasOccupation == 1) ? $record->occupation_name : ""}}">
+                                    <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{($record->hasOccupation == 1) ? $record->occupation_name : ""}}" style="text-transform: uppercase;">
                                     @error('occupation_name')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -540,7 +540,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="occupation_lotbldg">Lot/Building <small>(Optional)</small></label>
-                                    <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{($record->hasOccupation == 1) ? $record->occupation_lotbldg : ""}}">
+                                    <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{($record->hasOccupation == 1) ? $record->occupation_lotbldg : ""}}" style="text-transform: uppercase;">
                                     @error('occupation_lotbldg')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -549,7 +549,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="occupation_street">Street <small>(Optional)</small></label>
-                                    <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{($record->hasOccupation == 1) ? $record->occupation_street : ""}}">
+                                    <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{($record->hasOccupation == 1) ? $record->occupation_street : ""}}" style="text-transform: uppercase;">
                                     @error('occupation_street')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
