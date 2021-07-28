@@ -45,6 +45,7 @@
                                 <th>For Hospitalization</th>
                                 <th>For Antigen</th>
                                 <th>Have Symptoms</th>
+                                <th>Date Onset of Illness</th>
                                 <th>Date Interviewed</th>
                                 <th>Address</th>
                                 <th>Mobile</th>
@@ -62,10 +63,11 @@
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->bdate))}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->getAge()." / ".substr($item->gender,0,1)}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->isPregnant == 1) ? 'YES' : 'NO'}}</td>
-                                    <td class="text-center" style="vertical-align: middle;">{{$item->getPatientType()}} <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y', strtotime($item->expoDateLastCont)).")" : ''}}</small></td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$item->getPatientType()}} <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y - D', strtotime($item->expoDateLastCont)).", ".$item->diff4Humans($item->expoDateLastCont).")" : ''}}</small></td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->isForHospitalization == 1) ? 'YES' : 'NO'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->forAntigen == 1) ? 'YES' : 'NO'}}</td>
                                     <td class="text-center {{!is_null($item->SAS) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{!is_null($item->SAS) ? 'YES' : 'NONE'}}</td>
+                                    <td class="text-center {{(!is_null($item->dateOnsetOfIllness)) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{(!is_null($item->dateOnsetOfIllness)) ? date('m/d/Y (D)', strtotime($item->dateOnsetOfIllness)).' - '.$item->diff4Humans($item->dateOnsetOfIllness) : 'N/A'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
                                     <td style="vertical-align: middle;"><small>{{$item->getAddress()}}</small></td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->mobile}}</td>
@@ -85,6 +87,7 @@
     <script>
         $('#paswabtbl').dataTable({
             dom: 'tr',
+            responsive: true,
             "ordering": false,
         });
     </script>

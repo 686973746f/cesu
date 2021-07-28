@@ -122,4 +122,8 @@ class PaSwabDetails extends Model
     public function toDateTimeString() {
         return Carbon::createFromTimeStamp(strtotime($this->expoDateLastCont))->diffForHumans();
     }
+
+    public function diff4Humans($idate) {
+        return Carbon::createFromTimeStamp(strtotime($idate))->diffForHumans();
+    }
 }

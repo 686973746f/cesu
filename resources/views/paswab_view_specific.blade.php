@@ -655,7 +655,7 @@
                                 <div id="divExpoitem1">
                                     <div class="form-group">
                                         <label for="">Date of Last Contact</label>
-                                        <input type="date" class="form-control" value="{{$data->expoDateLastCont}}" readonly>
+                                        <input type="text" class="form-control" value="{{date('m/d/Y - l', strtotime($data->expoDateLastCont))}}" readonly>
                                     </div>
                                     <div class="card">
                                         <div class="card-header">List the Names of your Close Contact</div>
@@ -767,7 +767,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Date of Last Exposure</label>
-                            <input type="text" class="form-control" readonly value="{{(!is_null($data->expoDateLastCont)) ? date('m/d/Y', strtotime($data->expoDateLastCont)).' - '.$data->toDateTimeString() : 'N/A'}}">
+                            <input type="text" class="form-control" readonly value="{{(!is_null($data->expoDateLastCont)) ? date('m/d/Y (l)', strtotime($data->expoDateLastCont)).' - '.$data->toDateTimeString() : 'N/A'}}">
                         </div>
                         <hr>
                         <div class="form-group">

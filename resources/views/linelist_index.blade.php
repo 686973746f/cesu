@@ -71,10 +71,11 @@
                 <table class="table table-bordered text-center">
                     <thead class="bg-light">
                         <tr>
-                            <th>#</th>
-                            <th>Type</th>
-                            <th>Number of Patients</th>
-                            <th>Date Created</th>
+                            <th style="vertical-align: middle;">#</th>
+                            <th style="vertical-align: middle;">Type</th>
+                            <th style="vertical-align: middle;">Number of Patients</th>
+                            <th style="vertical-align: middle;">Date Created</th>
+                            <th style="vertical-align: middle;">Created By</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -90,12 +91,13 @@
                         }
                         @endphp
                         <tr>
-                            <td scope="row">{{$item->id}}</td>
-                            <td>{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
-                            <td>{{$item->linelistsub->where('linelist_masters_id', $item->id)->count()}}</td>
-                            <td>{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
-                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=legal">Print (Legal)</a></td>
-                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4">Print (A4)</a></td>
+                            <td scope="row" style="vertical-align: middle;">{{$item->id}}</td>
+                            <td style="vertical-align: middle;">{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
+                            <td style="vertical-align: middle;">{{$item->linelistsub->where('linelist_masters_id', $item->id)->count()}}</td>
+                            <td style="vertical-align: middle;">{{date('m/d/Y h:i A (D)', strtotime($item->created_at))}}</td>
+                            <td style="vertical-align: middle;">{{$item->user->name}}</td>
+                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=legal">Print (Legal)</a></td>
+                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4">Print (A4)</a></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -108,10 +110,10 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Specimen Location</th>
-                            <th class="text-center">Linelist Date Created</th>
-                            <th class="text-center">Specimen Date Collected</th>
+                            <th class="text-center" style="vertical-align: middle;">Name</th>
+                            <th class="text-center" style="vertical-align: middle;">Specimen Location</th>
+                            <th class="text-center" style="vertical-align: middle;">Linelist Date Created</th>
+                            <th class="text-center" style="vertical-align: middle;">Specimen Date Collected</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -127,12 +129,12 @@
                         }
                         @endphp
                         <tr>
-                            <td>{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                            <td class="text-center">{{(!is_null($item->oniSpecType)) ? 'ONI' : 'LASALLE'}}</td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($item->created_at))}}</td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($item->dateAndTimeCollected))}}</td>
-                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=legal">Print (Legal)</a></td>
-                            <td class="text-center"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=a4">Print (A4)</a></td>
+                            <td style="vertical-align: middle;">{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->oniSpecType)) ? 'ONI' : 'LASALLE'}}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->created_at))}}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->dateAndTimeCollected))}}</td>
+                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=legal">Print (Legal)</a></td>
+                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=a4">Print (A4)</a></td>
                         </tr>
                         @endforeach
                     </tbody>
