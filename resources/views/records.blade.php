@@ -39,9 +39,9 @@
                 </form>
                 
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="table_id">
+                    <table class="table table-bordered table-striped" id="table_id">
                         <thead>
-                            <tr class="text-center bg-light">
+                            <tr class="text-center thead-light">
                                 <th style="vertical-align: middle">Name</th>
                                 <th style="vertical-align: middle">Birthdate</th>
                                 <th style="vertical-align: middle">Age/Gender</th>

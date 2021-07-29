@@ -107,7 +107,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>
-                            <tr class="text-center bg-light">
+                            <tr class="text-center thead-light">
                                 <th></th>
                                 <th style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
                                 <th style="vertical-align: middle;">Name</th>

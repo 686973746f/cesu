@@ -68,8 +68,8 @@
 
             <div class="table-responsive">
                 @if(!request()->input('q'))
-                <table class="table table-bordered text-center">
-                    <thead class="bg-light">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="thead-light">
                         <tr>
                             <th style="vertical-align: middle;">#</th>
                             <th style="vertical-align: middle;">Type</th>
@@ -107,7 +107,7 @@
                     <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>The search returned {{$list->count()}} {{Str::plural('result', $list->count())}}. <a href="{{route('linelist.index')}}">GO BACK</a>
                 </div>
                 @if($list->count())
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th class="text-center" style="vertical-align: middle;">Name</th>
