@@ -403,6 +403,161 @@
                         </div>
                     </div>
                     <hr>
+                    @if(auth()->user()->isCompanyAccount())
+                    <div class="form-check form-check-inline">
+                        <label for="" class="mr-3 mt-1">Patient has Occupation?</label>
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="hasoccupation" id="hasoccupation_yes" value="1" checked> Yes
+                        </label>
+                    </div>
+                    <div id="occupation_div">
+                        <hr>
+                        <h5 class="font-weight-bold">Current Workplace Information and Address</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="occupation">Occupation</label>
+                                    <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation', $record->occupation)}}" style="text-transform: uppercase;">
+                                    @error('occupation')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
+                                    <select class="form-control" name="natureOfWork" id="natureOfWork">
+                                        <option value="" disabled {{(is_null(old('natureOfWork', $record->natureOfWork))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="AGRICULTURE" {{(old('natureOfWork', $record->natureOfWork) == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
+                                        <option value="BPO" {{(old('natureOfWork', $record->natureOfWork) == 'BPO') ? 'selected' : ''}}>BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
+                                        <option value="COMMUNICATIONS" {{(old('natureOfWork', $record->natureOfWork) == 'COMMUNICATIONS') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
+                                        <option value="CONSTRUCTION" {{(old('natureOfWork', $record->natureOfWork) == 'CONSTRUCTION') ? 'selected' : ''}}>Construction (E.G. Makati Dev Corp)</option>
+                                        <option value="EDUCATION" {{(old('natureOfWork', $record->natureOfWork) == 'EDUCATION') ? 'selected' : ''}}>Education (E.G. DLSU)</option>
+                                        <option value="ELECTRICITY" {{(old('natureOfWork', $record->natureOfWork) == 'ELECTRICITY') ? 'selected' : ''}}>Electricity</option>
+                                        <option value="FINANCIAL" {{(old('natureOfWork', $record->natureOfWork) == 'FINANCIAL') ? 'selected' : ''}}>Financial (E.G. Banks)</option>
+                                        <option value="GOVERNMENT UNITS/ORGANIZATIONS" {{(old('natureOfWork', $record->natureOfWork) == 'GOVERNMENT UNITS/ORGANIZATIONS') ? 'selected' : ''}}>Government Units/Organizations (E.G. GSIS)</option>
+                                        <option value="HOTEL AND RESTAURANT" {{(old('natureOfWork', $record->natureOfWork) == 'HOTEL AND RESTAURANT') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
+                                        <option value="MANNING/SHIPPING AGENCY" {{(old('natureOfWork', $record->natureOfWork) == 'MANNING/SHIPPING AGENCY') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
+                                        <option value="MANUFACTURING" {{(old('natureOfWork', $record->natureOfWork) == 'MANUFACTURING') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
+                                        <option value="MEDICAL AND HEALTH SERVICES" {{(old('natureOfWork', $record->natureOfWork) == 'MEDICAL AND HEALTH SERVICES') ? 'selected' : ''}}>Medical and Health Services</option>
+                                        <option value="MICROFINANCE" {{(old('natureOfWork', $record->natureOfWork) == 'MICROFINANCE') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
+                                        <option value="MINING AND QUARRYING" {{(old('natureOfWork', $record->natureOfWork) == 'MINING AND QUARRYING') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
+                                        <option value="NON PROFIT ORGANIZATIONS" {{(old('natureOfWork', $record->natureOfWork) == 'NON PROFIT ORGANIZATIONS') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
+                                        <option value="REAL ESTATE" {{(old('natureOfWork', $record->natureOfWork) == 'REAL ESTATE') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
+                                        <option value="STORAGE" {{(old('natureOfWork', $record->natureOfWork) == 'STORAGE') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
+                                        <option value="TRANSPORTATION" {{(old('natureOfWork', $record->natureOfWork) == 'TRANSPORTATION') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
+                                        <option value="WHOLESALE AND RETAIL TRADE" {{(old('natureOfWork', $record->natureOfWork) == 'WHOLESALE AND RETAIL TRADE') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
+                                        <option value="OTHERS" {{(old('natureOfWork', $record->natureOfWork) == 'OTHERS') ? 'selected' : ''}}>Others (Specify)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="specifyWorkNatureDiv">
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Specify</label>
+                                        <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers', $record->natureOfWorkIfOthers)}}">
+                                        @error('natureOfWorkIfOthers')
+                                        <small class="text-danger">{{$message}}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="occupation_name">Name of Workplace</small></label>
+                                    <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{$record->occupation_name}}" readonly>
+                                    @error('occupation_name')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
+                                    <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
+                                        <option value="UNKNOWN" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
+                                        <option value="YES" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "YES") ? 'selected' : ''}}>Yes</option>
+                                        <option value="NO" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "NO") ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="occupation_province">Province</label>
+                                    <input type="text" class="form-control" name="occupation_province" id="occupation_province" value="{{$record->occupation_province}}" readonly>
+                                    @error('occupation_province')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="occupation_city">City</label>
+                                    <input type="text" class="form-control" name="occupation_city" id="occupation_city" value="{{$record->occupation_city}}" readonly>
+                                    @error('occupation_city')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="occupation_brgy">Barangay</label>
+                                    <input type="text" class="form-control" name="occupation_brgy" id="occupation_brgy" value="{{$record->occupation_brgy}}" readonly>
+                                    @error('occupation_brgy')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="occupation_lotbldg">Lot/Building</label>
+                                    <input type="text" class="form-control" name="occupation_lotbldg" id="occupation_lotbldg" value="{{$record->occupation_lotbldg}}" readonly>
+                                    @error('occupation_lotbldg')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="occupation_street">Street</label>
+                                    <input type="text" class="form-control" name="occupation_street" id="occupation_street" value="{{$record->occupation_street}}" readonly>
+                                    @error('occupation_street')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="occupation_mobile">Phone/Mobile No.</label>
+                                    <input type="text" class="form-control" name="occupation_mobile" id="occupation_mobile" value="{{$record->occupation_mobile}}" readonly>
+                                    @error('occupation_mobile')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="occupation_email">Email</label>
+                                    <input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{$record->occupation_email}}" readonly>
+                                    @error('occupation_email')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <div class="form-check form-check-inline">
                         <label for="" class="mr-3 mt-1">Patient has Occupation?</label>
                         <label class="form-check-label">
@@ -591,6 +746,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Update</button>

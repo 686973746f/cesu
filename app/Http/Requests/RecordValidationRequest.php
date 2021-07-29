@@ -57,7 +57,7 @@ class RecordValidationRequest extends FormRequest
 			'occupation_city' => 'nullable',
 			'occupation_province' => 'nullable',
 			'occupation_name' => 'nullable',
-			'occupation_mobile' => 'nullable|numeric|digits:11|starts_with:09',
+			'occupation_mobile' => (auth()->user()->isCompanyAccount()) ? 'nullable|numeric' : 'nullable|numeric|digits:11|starts_with:09',
 			'occupation_email' => 'nullable|email',
 
 			'natureOfWork' => ($this->hasoccupation == 1) ? 'required' : 'nullable',

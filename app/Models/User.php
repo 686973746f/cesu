@@ -116,7 +116,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function company() {
-        return $this->hasMany(Companies::class);
+        return $this->hasOne(Companies::class);
     }
 
     public function referralCode() {

@@ -20,7 +20,6 @@
                         <p>3.) Please fill out all blanks and put a check mark on the appropriate box. <b>Items with asterisk mark <span class="text-danger">(*)</span> are required fields.</b></p>
                     </div>
                     <hr>
-
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
                         @foreach ($errors->all() as $error)
@@ -30,7 +29,6 @@
                     </div>
                     <hr>
                     @endif
-                    
                     <div class="form-group">
                         <label for=""><span class="text-danger font-weight-bold">*</span>Currently Creating CIF record for</label>
                         <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>

@@ -80,14 +80,9 @@ class RecordsController extends Controller
      */
     public function create()
     {
-		if(!is_null(auth()->user()->company_id)) {
-			$list = Companies::find(auth()->user()->company_id);
-
-			return view ('addrecord_company', ['list' => $list]);
-		}
-		else {
-			return view ('addrecord');
-		}
+		$list = Companies::find(auth()->user()->company_id);
+			
+		return view ('addrecord', ['list' => $list]);
     }
 
     /**
@@ -196,111 +191,86 @@ class RecordsController extends Controller
 			->with('where', $where);
 		}
 		else {
-			if(is_null(auth()->user()->company_id)) {
-				$data = $request->user()->records()->create([
-					'status' => 'approved',
-					'lname' => mb_strtoupper($request->lname),
-					'fname' => mb_strtoupper($request->fname),
-					'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
-					'gender' => strtoupper($request->gender),
-					'isPregnant' => $isPregnant,
-					'cs' => strtoupper($request->cs),
-					'nationality' => strtoupper($request->nationality),
-					'bdate' => $request->bdate,
-					'mobile' => $request->mobile,
-					'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
-					'email' => $request->email,
-					'philhealth' => $philhealth_organized,
-					'address_houseno' => strtoupper($request->address_houseno),
-					'address_street' => strtoupper($request->address_street),
-					'address_brgy' => strtoupper($request->address_brgy),
-					'address_city' => strtoupper($request->address_city),
-					'address_cityjson' => $request->address_cityjson,
-					'address_province' => strtoupper($request->address_province),
-					'address_provincejson' => $request->address_provincejson,
-		
-					'permaaddressDifferent' => $request->paddressdifferent,
-					'permaaddress_houseno' => strtoupper($paddress_houseno),
-					'permaaddress_street' => strtoupper($paddress_street),
-					'permaaddress_brgy' => strtoupper($paddress_brgy),
-					'permaaddress_city' => strtoupper($paddress_city),
-					'permaaddress_cityjson' => $paddress_cityjson,
-					'permaaddress_province' => strtoupper($paddress_province),
-					'permaaddress_provincejson' => $paddress_provincejson,
-					'permamobile' => $pmobile,
-					'permaphoneno' => $pphoneno,
-					'permaemail' => $pemail,
-		
-					'hasOccupation' => $request->hasoccupation,
-					'occupation' => ($request->filled('occupation') && $request->hasoccupation == 1) ? strtoupper($request->occupation) : NULL,
-					'worksInClosedSetting' => ($request->filled('occupation') && $request->hasoccupation == 1) ? $request->worksInClosedSetting : 'NO',
-					'occupation_lotbldg' => ($request->filled('occupation_lotbldg') && $request->hasoccupation == 1) ? strtoupper($request->occupation_lotbldg) : NULL,
-					'occupation_street' => ($request->filled('occupation_street') && $request->hasoccupation == 1) ? strtoupper($request->occupation_street) : NULL,
-					'occupation_brgy' => ($request->filled('occupation_brgy') && $request->hasoccupation == 1) ? strtoupper($request->occupation_brgy) : NULL,
-					'occupation_city' => ($request->filled('occupation_city') && $request->hasoccupation == 1) ? strtoupper($request->occupation_city) : NULL,
-					'occupation_cityjson' => ($request->hasoccupation == 1) ? $request->occupation_cityjson : NULL,
-					'occupation_province' => ($request->filled('occupation_province') && $request->hasoccupation == 1) ? strtoupper($request->occupation_province) : NULL,
-					'occupation_provincejson' => ($request->hasoccupation == 1) ? $request->occupation_provincejson : NULL,
-					'occupation_name' => ($request->filled('occupation_name') && $request->hasoccupation == 1) ? strtoupper($request->occupation_name) : NULL,
-					'occupation_mobile' => ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL,
-					'occupation_email' => ($request->hasoccupation == 1) ? $request->occupation_email : NULL,
-
-					'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
-					'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
-				]);
-			}
-			else {
+			if(auth()->user()->isCompanyAccount()) {
 				$list = Companies::find(auth()->user()->company_id);
 
-				$data = $request->user()->records()->create([
-					'status' => 'approved',
-					'lname' => mb_strtoupper($request->lname),
-					'fname' => mb_strtoupper($request->fname),
-					'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
-					'gender' => strtoupper($request->gender),
-					'isPregnant' => $isPregnant,
-					'cs' => strtoupper($request->cs),
-					'nationality' => strtoupper($request->nationality),
-					'bdate' => $request->bdate,
-					'mobile' => $request->mobile,
-					'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
-					'email' => $request->email,
-					'philhealth' => $philhealth_organized,
-					'address_houseno' => strtoupper($request->address_houseno),
-					'address_street' => strtoupper($request->address_street),
-					'address_brgy' => strtoupper($request->address_brgy),
-					'address_city' => strtoupper($request->address_city),
-					'address_cityjson' => $request->address_cityjson,
-					'address_province' => strtoupper($request->address_province),
-					'address_provincejson' => $request->address_provincejson,
-		
-					'permaaddressDifferent' => $request->paddressdifferent,
-					'permaaddress_houseno' => strtoupper($paddress_houseno),
-					'permaaddress_street' => strtoupper($paddress_street),
-					'permaaddress_brgy' => strtoupper($paddress_brgy),
-					'permaaddress_city' => strtoupper($paddress_city),
-					'permaaddress_cityjson' => $paddress_cityjson,
-					'permaaddress_province' => strtoupper($paddress_province),
-					'permaaddress_provincejson' => $paddress_provincejson,
-					'permamobile' => $pmobile,
-					'permaphoneno' => $pphoneno,
-					'permaemail' => $pemail,
-		
-					'hasOccupation' => 1,
-					'occupation' => strtoupper($request->occupation),
-					'worksInClosedSetting' => $request->worksInClosedSetting,
-					'occupation_lotbldg' => $list->loc_lotbldg,
-					'occupation_street' => $list->loc_street,
-					'occupation_brgy' => $list->loc_brgy,
-					'occupation_city' => $list->loc_city,
-					'occupation_cityjson' => $list->loc_cityjson,
-					'occupation_province' => $list->loc_province,
-					'occupation_provincejson' => $list->loc_provincejson,
-					'occupation_name' => $list->companyName,
-					'occupation_mobile' => $list->contactNumber,
-					'occupation_email' => $list->email,
-				]);
+				$hasOccupation = 1;
+				$occupation_lotbldg = $list->loc_lotbldg;
+				$occupation_street = $list->loc_street;
+				$occupation_brgy = $list->loc_brgy;
+				$occupation_city = $list->loc_city;
+				$occupation_cityjson = $list->loc_cityjson;
+				$occupation_province = $list->loc_province;
+				$occupation_provincejson = $list->loc_provincejson;
+				$occupation_name = $list->companyName;
+				$occupation_mobile = $list->contactNumber;
+				$occupation_email = $list->email;
 			}
+			else {
+				$hasOccupation = $request->hasoccupation;
+				$occupation_lotbldg = ($request->filled('occupation_lotbldg') && $request->hasoccupation == 1) ? strtoupper($request->occupation_lotbldg) : NULL;
+				$occupation_street = ($request->filled('occupation_street') && $request->hasoccupation == 1) ? strtoupper($request->occupation_street) : NULL;
+				$occupation_brgy = ($request->filled('occupation_brgy') && $request->hasoccupation == 1) ? strtoupper($request->occupation_brgy) : NULL;
+				$occupation_city = ($request->filled('occupation_city') && $request->hasoccupation == 1) ? strtoupper($request->occupation_city) : NULL;
+				$occupation_cityjson = ($request->hasoccupation == 1) ? $request->occupation_cityjson : NULL;
+				$occupation_province = ($request->filled('occupation_province') && $request->hasoccupation == 1) ? strtoupper($request->occupation_province) : NULL;
+				$occupation_provincejson = ($request->hasoccupation == 1) ? $request->occupation_provincejson : NULL;
+				$occupation_name = ($request->filled('occupation_name') && $request->hasoccupation == 1) ? strtoupper($request->occupation_name) : NULL;
+				$occupation_mobile = ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL;
+				$occupation_email = ($request->hasoccupation == 1) ? $request->occupation_email : NULL;
+			}
+
+			$data = $request->user()->records()->create([
+				'status' => 'approved',
+				'lname' => mb_strtoupper($request->lname),
+				'fname' => mb_strtoupper($request->fname),
+				'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
+				'gender' => strtoupper($request->gender),
+				'isPregnant' => $isPregnant,
+				'cs' => strtoupper($request->cs),
+				'nationality' => strtoupper($request->nationality),
+				'bdate' => $request->bdate,
+				'mobile' => $request->mobile,
+				'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
+				'email' => $request->email,
+				'philhealth' => $philhealth_organized,
+				'address_houseno' => strtoupper($request->address_houseno),
+				'address_street' => strtoupper($request->address_street),
+				'address_brgy' => strtoupper($request->address_brgy),
+				'address_city' => strtoupper($request->address_city),
+				'address_cityjson' => $request->address_cityjson,
+				'address_province' => strtoupper($request->address_province),
+				'address_provincejson' => $request->address_provincejson,
+	
+				'permaaddressDifferent' => $request->paddressdifferent,
+				'permaaddress_houseno' => strtoupper($paddress_houseno),
+				'permaaddress_street' => strtoupper($paddress_street),
+				'permaaddress_brgy' => strtoupper($paddress_brgy),
+				'permaaddress_city' => strtoupper($paddress_city),
+				'permaaddress_cityjson' => $paddress_cityjson,
+				'permaaddress_province' => strtoupper($paddress_province),
+				'permaaddress_provincejson' => $paddress_provincejson,
+				'permamobile' => $pmobile,
+				'permaphoneno' => $pphoneno,
+				'permaemail' => $pemail,
+	
+				'hasOccupation' => $hasOccupation,
+				'occupation' => ($request->filled('occupation') && $request->hasoccupation == 1) ? strtoupper($request->occupation) : NULL,
+				'worksInClosedSetting' => ($request->filled('occupation') && $request->hasoccupation == 1) ? $request->worksInClosedSetting : 'NO',
+				'occupation_lotbldg' => $occupation_lotbldg,
+				'occupation_street' => $occupation_street,
+				'occupation_brgy' => $occupation_brgy,
+				'occupation_city' => $occupation_city,
+				'occupation_cityjson' => $occupation_cityjson,
+				'occupation_province' => $occupation_province,
+				'occupation_provincejson' => $occupation_provincejson,
+				'occupation_name' => $occupation_name,
+				'occupation_mobile' => $occupation_mobile,
+				'occupation_email' => $occupation_email,
+
+				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
+				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+			]);
 
 			//return redirect('/forms/'.$data->id.'/new')
 			//->with('msg', 'Patient details has been saved. You may now proceed creating CIF for the patient.')
@@ -369,9 +339,6 @@ class RecordsController extends Controller
      */
     public function update(RecordValidationRequest $request, $id)
     {
-
-		
-
 		$current = Records::findOrFail($id);
 
 		$request->validated();
@@ -564,6 +531,35 @@ class RecordsController extends Controller
 			->with('where', $where);
 		}
 		else {
+			if(auth()->user()->isCompanyAccount()) {
+				$list = Companies::find(auth()->user()->company_id);
+
+				$hasOccupation = 1;
+				$occupation_lotbldg = $list->loc_lotbldg;
+				$occupation_street = $list->loc_street;
+				$occupation_brgy = $list->loc_brgy;
+				$occupation_city = $list->loc_city;
+				$occupation_cityjson = $list->loc_cityjson;
+				$occupation_province = $list->loc_province;
+				$occupation_provincejson = $list->loc_provincejson;
+				$occupation_name = $list->companyName;
+				$occupation_mobile = $list->contactNumber;
+				$occupation_email = $list->email;
+			}
+			else {
+				$hasOccupation = $request->hasoccupation;
+				$occupation_lotbldg = ($request->filled('occupation_lotbldg') && $request->hasoccupation == 1) ? strtoupper($request->occupation_lotbldg) : NULL;
+				$occupation_street = ($request->filled('occupation_street') && $request->hasoccupation == 1) ? strtoupper($request->occupation_street) : NULL;
+				$occupation_brgy = ($request->filled('occupation_brgy') && $request->hasoccupation == 1) ? strtoupper($request->occupation_brgy) : NULL;
+				$occupation_city = ($request->filled('occupation_city') && $request->hasoccupation == 1) ? strtoupper($request->occupation_city) : NULL;
+				$occupation_cityjson = ($request->hasoccupation == 1) ? $request->occupation_cityjson : NULL;
+				$occupation_province = ($request->filled('occupation_province') && $request->hasoccupation == 1) ? strtoupper($request->occupation_province) : NULL;
+				$occupation_provincejson = ($request->hasoccupation == 1) ? $request->occupation_provincejson : NULL;
+				$occupation_name = ($request->filled('occupation_name') && $request->hasoccupation == 1) ? strtoupper($request->occupation_name) : NULL;
+				$occupation_mobile = ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL;
+				$occupation_email = ($request->hasoccupation == 1) ? $request->occupation_email : NULL;
+			}
+			
 			$record = Records::where('id', $id)->update([
 				'updated_by' => auth()->user()->id,
 				'lname' => mb_strtoupper($request->lname),
@@ -598,19 +594,19 @@ class RecordsController extends Controller
 				'permaphoneno' => $pphoneno,
 				'permaemail' => $pemail,
 
-				'hasOccupation' => $request->hasoccupation,
+				'hasOccupation' => $hasOccupation,
 				'occupation' => ($request->filled('occupation') && $request->hasoccupation == 1) ? strtoupper($request->occupation) : NULL,
 				'worksInClosedSetting' => ($request->filled('occupation') && $request->hasoccupation == 1) ? $request->worksInClosedSetting : 'NO',
-				'occupation_lotbldg' => ($request->filled('occupation_lotbldg') && $request->hasoccupation == 1) ? strtoupper($request->occupation_lotbldg) : NULL,
-				'occupation_street' => ($request->filled('occupation_street') && $request->hasoccupation == 1) ? strtoupper($request->occupation_street) : NULL,
-				'occupation_brgy' => ($request->filled('occupation_brgy') && $request->hasoccupation == 1) ? strtoupper($request->occupation_brgy) : NULL,
-				'occupation_city' => ($request->filled('occupation_city') && $request->hasoccupation == 1) ? strtoupper($request->occupation_city) : NULL,
-				'occupation_cityjson' => ($request->hasoccupation == 1) ? $request->occupation_cityjson : NULL,
-				'occupation_province' => ($request->filled('occupation_province') && $request->hasoccupation == 1) ? strtoupper($request->occupation_province) : NULL,
-				'occupation_provincejson' => ($request->hasoccupation == 1) ? $request->occupation_provincejson : NULL,
-				'occupation_name' => ($request->filled('occupation_name') && $request->hasoccupation == 1) ? strtoupper($request->occupation_name) : NULL,
-				'occupation_mobile' => ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL,
-				'occupation_email' => ($request->hasoccupation == 1) ? $request->occupation_email : NULL,
+				'occupation_lotbldg' => $occupation_lotbldg,
+				'occupation_street' => $occupation_street,
+				'occupation_brgy' => $occupation_brgy,
+				'occupation_city' => $occupation_city,
+				'occupation_cityjson' => $occupation_cityjson,
+				'occupation_province' => $occupation_province,
+				'occupation_provincejson' => $occupation_provincejson,
+				'occupation_name' => $occupation_name,
+				'occupation_mobile' => $occupation_mobile,
+				'occupation_email' => $occupation_email,
 
 				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
