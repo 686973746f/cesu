@@ -67,7 +67,7 @@
                                     <td style="vertical-align: middle" class="text-center">{{(!is_null($record->philhealth)) ? $record->philhealth : "N/A"}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{(!is_null($record->occupation)) ? $record->occupation : "N/A"}}</td>
                                     <td style="vertical-align: middle"><small>{{$record->getAddress()}}</small></td>
-                                    <td style="vertical-align: middle" class="text-center">{{$record->user->name}} {{(!is_null($record->updated_by)) ? ' / '.$record->getEditedBy() : ''}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{$record->user->name}}{{(!is_null($record->updated_by) && $record->user_id != $record->updated_by) ? ' / '.$record->getEditedBy() : ''}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{(!is_null($record->updated_by)) ? date('m/d/Y h:i A', strtotime($record->updated_at)) : date('m/d/Y h:i A', strtotime($record->created_at))}}</td>
                                 </tr>
                             @empty
