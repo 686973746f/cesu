@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card">
-            <div class="card-header font-weight-bold">Pa-Swab List</div>
+            <div class="card-header font-weight-bold">Pa-Swab List @if(!request()->input('q'))(Total: {{$list->count()}})@endif</div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -69,7 +69,7 @@
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>
                                     <td style="vertical-align: middle;"><small>{{$item->getAddress()}}</small></td>
                                     <td class="text-center font-weight-bold {{($item->isNewRecord == 1) ? 'text-success' : 'text-secondary'}}" style="vertical-align: middle;">{{($item->isNewRecord == 1) ? 'NEW' : 'OLD'}}</td>
-                                    <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->linkCode)) ? $item->linkCode : 'N/A'}}</td>
+                                    <td class="text-center" style="vertical-align: middle;"><small>{{(!is_null($item->linkCode)) ? $item->linkCode : 'N/A'}}</small></td>
                                     <td class="text-center" style="vertical-align: middle;">{{$item->majikCode}}</td>
                                 </tr>
                             @endforeach

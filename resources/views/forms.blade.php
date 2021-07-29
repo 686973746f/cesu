@@ -12,7 +12,7 @@
                     @if(auth()->user()->isCesuAccount())
                     <a href="{{route('forms.ciflist.print')}}" class="btn btn-primary">Print CIF List</a>
                     <a href="{{route('forms.antigenlinelist.print')}}" class="btn btn-primary">Print Antigen Linelist</a>
-                    <a href="{{route('paswab.view')}}" class="btn btn-primary">View Pa-Swab List <span class="text-warning">({{$paswabctr}})</span></a>
+                    <a href="{{route('paswab.view')}}" class="btn btn-primary">Pa-Swab List <span class="text-warning">({{$paswabctr}})</span></a>
                     @endif
                     @if($records->count() > 0)
                         <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
