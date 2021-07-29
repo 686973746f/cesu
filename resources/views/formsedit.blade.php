@@ -48,22 +48,16 @@
                     </div>
                     @endif
 
-                    <div class="row">
-                        <div class="col-md-8">
-                            <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
-                                <div class="input-group-append">
-                                  <a class="btn btn-outline-primary" id="quickreclink" href="/records/{{$records->records_id}}/edit?fromFormsPage=true">Edit Record</a>
-                                </div>
-                            </div>
+                    <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
+                        <div class="input-group-append">
+                            <a class="btn btn-outline-primary" id="quickreclink" href="/records/{{$records->records_id}}/edit?fromFormsPage=true">Edit Record</a>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="remarks">Remarks</label>
-                                <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $records->remarks)}}">
-                            </div>
-                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="remarks">Remarks</label>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $records->remarks)}}</textarea>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -91,7 +85,7 @@
                             </tbody>
                         </table>
                     </div>
-    
+                    <hr>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

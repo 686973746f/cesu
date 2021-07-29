@@ -434,7 +434,7 @@ class PaSwabController extends Controller
                     'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
                 ]);
 
-                $fcheck = Forms::where('records_id', $data->records_id)->delete();
+                $oldform = Forms::where('records_id', $rec->id)->first();
             }
 
             if(!is_null($rec->philhealth)) {
@@ -494,9 +494,9 @@ class PaSwabController extends Controller
                 'pType' => $data->pType,
                 'isForHospitalization' => $data->isForHospitalization,
                 'testingCat' => 'C',
-                'havePreviousCovidConsultation' => '0',
-                'dateOfFirstConsult' => NULL,
-                'facilityNameOfFirstConsult' => NULL,
+                'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
+                'dateOfFirstConsult' => ($data->isNewRecord == 0) ? $oldform->interviewDate : NULL,
+                'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? $oldform->drunit : NULL,
 
                 'vaccinationDate1' => $data->vaccinationDate1,
                 'vaccinationName1' => $data->vaccinationName1,
@@ -515,8 +515,8 @@ class PaSwabController extends Controller
                 'dispoType' => NULL,
                 'dispoName' => NULL,
                 'dispoDate' => NULL,
-                'healthStatus' => 'Asymptomatic',
-                'caseClassification' => 'Suspect',
+                'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
+                'caseClassification' => (!is_null($data->SAS)) ? 'Suspect' : 'Probable',
                 'healthCareCompanyName' => NULL,
                 'healthCareCompanyLocation' => NULL,
                 'isOFW' => '0',
@@ -661,12 +661,14 @@ class PaSwabController extends Controller
                 'contact4Name' => $data->contact4Name,
                 'contact4No' => $data->contact4No,
 
-                'remarks' => NULL,
+                'remarks' => $data->patientmsg,
             ]);
 
             $upd = PaSwabDetails::where('id', $id)->update([
                 'status' => 'approved'
             ]);
+
+            $fcheck = Forms::where('id', $oldform->id)->delete();
 
             return redirect()->action([PaSwabController::class, 'view'])
             ->with('msg', 'Swab Schedule for '.$data->getName()." has been approved successfully.")

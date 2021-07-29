@@ -30,20 +30,14 @@
                     </div>
                     <hr>
                     @endif
-    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for=""><span class="text-danger font-weight-bold">*</span>Currently Creating CIF record for</label>
-                                <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="remarks">Remarks</label>
-                              <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks')}}">
-                            </div>
-                        </div>
+                    
+                    <div class="form-group">
+                        <label for=""><span class="text-danger font-weight-bold">*</span>Currently Creating CIF record for</label>
+                        <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>
+                    </div>
+                    <div class="form-group">
+                      <label for="remarks">Remarks</label>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks')}}</textarea>
                     </div>
 
                     <div class="row">
