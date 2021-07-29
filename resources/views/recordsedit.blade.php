@@ -484,9 +484,9 @@
                                 <div class="form-group">
                                     <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
                                     <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
-                                      <option value="YES" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "YES") ? 'selected' : ''}}>Yes</option>
-                                      <option value="NO" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "NO") ? 'selected' : ''}}>No</option>
-                                      <option value="UNKNOWN" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
+                                        <option value="UNKNOWN" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
+                                        <option value="YES" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "YES") ? 'selected' : ''}}>Yes</option>
+                                        <option value="NO" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "NO") ? 'selected' : ''}}>No</option>
                                     </select>
                                 </div>
                             </div>
