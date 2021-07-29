@@ -668,8 +668,10 @@ class PaSwabController extends Controller
                 'status' => 'approved'
             ]);
 
-            $fcheck = Forms::where('id', $oldform->id)->delete();
-
+            if($data->isNewRecord == 0) {
+                $fcheck = Forms::where('id', $oldform->id)->delete();
+            }
+            
             return redirect()->action([PaSwabController::class, 'view'])
             ->with('msg', 'Swab Schedule for '.$data->getName()." has been approved successfully.")
             ->with('msgtype', 'success');
