@@ -39,6 +39,9 @@
                         </li>
                         @if(auth()->user()->isCesuAccount())
                         <li class="nav-item">
+                            <a class="nav-link {{Request::is('selfreport*') ? 'active' : ''}}" href="#">Self-Report</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{Request::is('linelist*') ? 'active' : ''}}" href="{{route('linelist.index')}}">Line Lists</a>
                         </li>
                         @endif

@@ -17,6 +17,7 @@ use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
@@ -58,6 +59,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/paswab', [PaSwabController::class, 'store'])->name('paswab.store');
     Route::get('/paswab/completed', [PaSwabController::class, 'complete'])->name('paswab.complete');
     Route::post('/paswab/check', [PaSwabController::class, 'check'])->name('paswab.check');
+
+    Route::get('/selfreport', [SelfReportController::class, 'index'])->name('selfreport.index');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
