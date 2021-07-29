@@ -20,6 +20,22 @@
                     Edit Patient Information
                 </div>
                 <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td class="bg-light">Encoded By / Date</td>
+                                    <td class="text-center">{{$record->user->name}} ({{date("m/d/Y h:i A - l", strtotime($record->created_at))}})</td>
+                                </tr>
+                                @if(!is_null($record->updated_by))
+                                <tr>
+                                    <td class="bg-light">Edited By / Date</td>
+                                    <td class="text-center">{{$record->getEditedBy()}} ({{date("m/d/Y h:i A - l", strtotime($record->updated_at))}})</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="alert alert-info" role="alert">
                         All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
                     </div>

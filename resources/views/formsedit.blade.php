@@ -75,7 +75,7 @@
                                 @if(!is_null($records->updated_by))
                                 <tr>
                                     <td class="bg-light">Edited By / Date</td>
-                                    <td class="text-center">{{$records->getEditedBy()}} ({{date("m/d/Y h:i A - l", strtotime($records->created_at))}})</td>
+                                    <td class="text-center">{{$records->getEditedBy()}} ({{date("m/d/Y h:i A - l", strtotime($records->updated_at))}})</td>
                                 </tr>
                                 @endif
                                 @if($records->getReferralCode() != 'N/A')
