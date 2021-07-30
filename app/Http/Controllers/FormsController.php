@@ -254,6 +254,8 @@ class FormsController extends Controller
     }
 
     public function printCIFList() {
+        ini_set('max_execution_time', 600);
+        
         $data = Forms::join('records', 'records_id', '=', 'records.id')
         ->where(function ($query) {
             $query->where('testDateCollected1', date('Y-m-d'))

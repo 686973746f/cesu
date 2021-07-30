@@ -163,9 +163,6 @@
                                     <div class="form-group">
                                         <label for="philhealth">Philhealth Number <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
                                         <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
-                                        <small class="form-text text-muted">Tandaan: Iwasan ang maraming abala sa iyong schedule ng swab sa pagbigay ng iyong Philhealth Number <i>(WALANG NAKATAGONG BAYAD ang sisingilin sa iyo gamit ng iyong Philhealth Account)</i></small>
-                                        <hr>
-                                        <small class="form-text text-muted">Note: Avoid hassle in your swab schedule by providing your Philhealth Number <i>(There are NO HIDDEN CHARGES applied into your Philhealth Account)</i></small>
                                         @error('philhealth')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
