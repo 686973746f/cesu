@@ -269,7 +269,7 @@
                         </div>
                         @endif
                         @else
-                        <p class="text-center">Not Vaccinated</p>
+                        <p class="text-center">Not Yet Vaccinated</p>
                         @endif
                     </div>
                 </div>
