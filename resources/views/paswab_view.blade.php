@@ -54,19 +54,6 @@
                         </thead>
                         <tbody>
                             @foreach ($list as $item)
-                            @php
-                            if(!is_null($item->vaccinationDate1)) {
-                                if(!is_null($item->vaccinationDate2)) {
-                                    $vaccineDose = '2nd Dose';
-                                }
-                                else {
-                                    $vaccineDose = '1st Dose';
-                                }
-                            }
-                            else {
-                                $vaccineDose = NULL;
-                            }
-                            @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle;"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
                                     <td style="vertical-align: middle;"><a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">{{$item->getName()}}</a></td>
@@ -78,7 +65,7 @@
                                     <td class="text-center" style="vertical-align: middle;">{{$item->getPatientType()}} <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y - D', strtotime($item->expoDateLastCont)).", ".$item->diff4Humans($item->expoDateLastCont).")" : ''}}</small></td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->isForHospitalization == 1) ? 'YES' : 'NO'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{($item->forAntigen == 1) ? 'YES' : 'NO'}}</td>
-                                    <td class="text-center" style="vertical-align: middle;"><small>{{(!is_null($item->vaccinationDate1)) ? 'YES ('.$item->vaccinationName1.') - ' : 'NO'}}{{$vaccineDose}}</small></td>
+                                    <td class="text-center" style="vertical-align: middle;"><small>{{(!is_null($item->vaccinationDate1)) ? 'YES ('.$item->vaccinationName1.') - ' : 'NO'}}{{(!is_null($item->vaccinationDate1)) ? (!is_null($item->vaccinationDate2)) ? '2nd Dose' : '1st Dose' : ''}}</small></td>
                                     <td class="text-center {{!is_null($item->SAS) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{!is_null($item->SAS) ? 'YES' : 'NONE'}}</td>
                                     <td class="text-center {{(!is_null($item->dateOnsetOfIllness)) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{(!is_null($item->dateOnsetOfIllness)) ? date('m/d/Y (D)', strtotime($item->dateOnsetOfIllness)).' - '.$item->diff4Humans($item->dateOnsetOfIllness) : 'N/A'}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->interviewDate))}}</td>

@@ -824,6 +824,10 @@
                             <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{$data->getName()}} / {{$data->getAge()}} / {{substr($data->gender,0,1)}}">
                         </div>
                         <div class="form-group">
+                            <label for="">Patient Address</label>
+                            <input type="text" class="form-control" readonly value="{{$data->address_street}}, BRGY. {{$data->address_brgy}}, {{$data->address_city}}, {{$data->address_province}}">
+                        </div>
+                        <div class="form-group">
                             <label for="">Pregnant / LMP</label>
                             <input type="text" class="form-control" readonly value="{{($data->isPregnant == 1) ? 'YES / '.date('m/d/Y', strtotime($data->ifPregnantLMP)).' - '.$data->diff4Humans($data->ifPregnantLMP) : 'NO'}}">
                         </div>
@@ -832,8 +836,8 @@
                             <input type="text" class="form-control" readonly value="{{$data->getPatientType()}}">
                         </div>
                         <div class="form-group">
-                          <label for="">Patient Address</label>
-                          <input type="text" class="form-control" readonly value="{{$data->address_street}}, BRGY. {{$data->address_brgy}}, {{$data->address_city}}, {{$data->address_province}}">
+                            <label for="">Vaccinated</label>
+                            <input type="text" class="form-control" readonly value="{{(!is_null($data->vaccinationDate1)) ? 'YES ('.$data->vaccinationName1.') - ' : 'NO'}}{{(!is_null($data->vaccinationDate1)) ? (!is_null($data->vaccinationDate2)) ? '2nd Dose' : '1st Dose' : ''}}">
                         </div>
                         <div class="form-group">
                             <label for="">Date of Last Exposure</label>
