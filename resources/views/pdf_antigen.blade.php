@@ -30,7 +30,7 @@ else {
     $result = ($details->testResult1 != "PENDING") ? $details->testResult1 : '';
 }
 @endphp
-<div class="container-fluid" style="font-family: 'Times New Roman', Times, serif">
+<div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
     <table class="table table-borderless">
         <tbody>
             <tr>

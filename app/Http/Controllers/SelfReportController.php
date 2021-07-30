@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class SelfReportController extends Controller
 {
     public function index() {
-        dd('works');
+        return view('selfreport_index');
     }
 }
