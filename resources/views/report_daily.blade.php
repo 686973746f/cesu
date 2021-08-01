@@ -244,6 +244,10 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="table-responsive">
+                    
+                </div>
             </div>
         </div>
     </div>
