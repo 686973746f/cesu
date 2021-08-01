@@ -204,7 +204,77 @@
                     </div>
                 </div>
                 <div class="card mb-3">
-                    <div class="card-header font-weight-bold">4. Clinical Information</div>
+                    <div class="card-header font-weight-bold">4. COVID-19 Vaccination Information</div>
+                    <div class="card-body">
+                        @if(!is_null($data->vaccinationDate1))
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Name of Vaccine</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{$data->vaccinationName1}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="">1.) First Dose Date</label>
+                                  <input type="date" class="form-control" name="" id="" value="{{$data->vaccinationDate1}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Vaccination Center/Facility</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationFacility1)) ? $data->vaccinationFacility1 : 'N/A'}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Region of Health Facility</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationRegion1)) ? $data->vaccinationRegion1 : 'N/A'}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Adverse Event/s</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{($data->haveAdverseEvents1 == 1) ? 'YES' : 'NO'}}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        @if(!is_null($data->vaccinationDate2))
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="">2.) Second Dose Date</label>
+                                  <input type="date" class="form-control" name="" id="" value="{{$data->vaccinationDate2}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Vaccination Center/Facility</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationFacility2)) ? $data->vaccinationFacility2 : 'N/A'}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Region of Health Facility</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationRegion2)) ? $data->vaccinationRegion2 : 'N/A'}}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Adverse Event/s</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{($data->haveAdverseEvents2 == 1) ? 'YES' : 'NO'}}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @else
+                        <p class="text-center">Not Yet Vaccinated</p>
+                        @endif
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header font-weight-bold">5. Clinical Information</div>
                     <div class="card-body">
                         <div id="ifHaveSymptoms">
                             <div class="form-group">
@@ -606,7 +676,7 @@
                             </div>
                         </div>
                         <div class="card mb-3">
-                            <div class="card-header font-weight-bold">5. Chest X-ray Details</div>
+                            <div class="card-header font-weight-bold">6. Chest X-ray Details</div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
@@ -645,7 +715,7 @@
                             </div>
                         </div>
                         <div class="card">
-                            <div class="card-header font-weight-bold">6. Exposure History</div>
+                            <div class="card-header font-weight-bold">7. Exposure History</div>
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="expoitem1">History of exposure to known probable and/or confirmed COVID-19 case 14 days before the onset of signs and symptoms?  OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
@@ -754,6 +824,10 @@
                             <input type="text" class="form-control font-weight-bold text-primary" readonly value="{{$data->getName()}} / {{$data->getAge()}} / {{substr($data->gender,0,1)}}">
                         </div>
                         <div class="form-group">
+                            <label for="">Patient Address</label>
+                            <input type="text" class="form-control" readonly value="{{$data->address_street}}, BRGY. {{$data->address_brgy}}, {{$data->address_city}}, {{$data->address_province}}">
+                        </div>
+                        <div class="form-group">
                             <label for="">Pregnant / LMP</label>
                             <input type="text" class="form-control" readonly value="{{($data->isPregnant == 1) ? 'YES / '.date('m/d/Y', strtotime($data->ifPregnantLMP)).' - '.$data->diff4Humans($data->ifPregnantLMP) : 'NO'}}">
                         </div>
@@ -762,8 +836,8 @@
                             <input type="text" class="form-control" readonly value="{{$data->getPatientType()}}">
                         </div>
                         <div class="form-group">
-                          <label for="">Patient Address</label>
-                          <input type="text" class="form-control" readonly value="{{$data->address_street}}, BRGY. {{$data->address_brgy}}, {{$data->address_city}}, {{$data->address_province}}">
+                            <label for="">Vaccinated</label>
+                            <input type="text" class="form-control" readonly value="{{(!is_null($data->vaccinationDate1)) ? 'YES ('.$data->vaccinationName1.') - ' : 'NO'}}{{(!is_null($data->vaccinationDate1)) ? (!is_null($data->vaccinationDate2)) ? '2nd Dose' : '1st Dose' : ''}}">
                         </div>
                         <div class="form-group">
                             <label for="">Date of Last Exposure</label>

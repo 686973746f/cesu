@@ -254,14 +254,20 @@ class FormsController extends Controller
     }
 
     public function printCIFList() {
+        ini_set('max_execution_time', 600);
+
         $data = Forms::join('records', 'records_id', '=', 'records.id')
         ->where(function ($query) {
             $query->where('testDateCollected1', date('Y-m-d'))
             ->orWhere('testDateCollected2', date('Y-m-d'));
         })->orderBy('records.lname', 'ASC')->get();
 
-        $pdf = PDF::loadView('pdf_cif_list',['data' => $data])->setPaper('a4', 'landscape');
+        return view('pdf_cif_list',['data' => $data]);
+
+        /*
+        $pdf = PDF::loadView()->setPaper('a4', 'landscape');
         return $pdf->download('CIFList_'.date('m_d_Y').'.pdf');
+        */
     }
 
     public function printAntigen($id, $testType) {
