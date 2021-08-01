@@ -86,7 +86,7 @@ class ActiveConfirmedDistributionSheet implements FromArray, WithMapping, WithHe
 
         return [
             $form,
-            $totalCounts,
+            ($totalCounts > 0) ? $totalCounts : '0',
         ];
     }
 
@@ -152,10 +152,12 @@ class ConfirmedVsNewCasesDistribution implements FromArray, WithMapping, WithHea
             ->orWhere('testDateCollected2', $form);
         })->count();
 
+        $totalCounts = $this->totalActiveCount - $recoveredCount;
+
         return [
             $form,
-            ($this->totalActiveCount - $recoveredCount),
-            ($newCasesCount),
+            ($totalCounts > 0) ? $totalCounts : '0',
+            ($newCasesCount > 0) ? $newCasesCount : '0',
         ];
     }
 
@@ -305,7 +307,7 @@ class NatureOfWorkDistributionSheet implements FromArray, WithMapping, WithHeadi
 
     public function map($form): array {
         return [
-            (!is_null($form)) ? $form : 'NON-WORKING',
+            (!is_null($form)) ? $form : 'NON-WORKING (SENIORS, HOUSEWIVES, ETC.)',
             Forms::with('records')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
