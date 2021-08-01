@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/report/daily', [ReportController::class, 'viewDaily'])->name('report.daily');
     Route::get('/report/situational')->name('report.situational.index');
     Route::get('/report/situationalv2', [ReportController::class, 'viewSituationalv2'])->name('report.situationalv2.index');
+    Route::get('/report/situational/excel', [ReportController::class, 'printSituationalv2'])->name('report.situationalv2.print');
     Route::get('/report/clustering/{city}/{brgy}', [ReportController::class, 'viewClustering']);
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
 

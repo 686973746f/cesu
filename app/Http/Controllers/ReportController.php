@@ -101,6 +101,20 @@ class ReportController extends Controller
     }
 
     public function viewSituationalv2() {
+        $brgyList = Brgy::where('city_id', 1) //dapat mai-automate ang city id soon base sa system settings
+        ->where('displayInList', 1)
+        ->orderBy('brgyName', 'ASC')
+        ->get();
+
+        $formsList = Forms::with('records')->get();
+
+        return view('situationalv2_index', [
+            'brgyList' => $brgyList,
+            'formsList' => $formsList,
+        ]);
+    }
+
+    public function printSituationalv2() {
         return (new SitReportExport)->download('invoices.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 

@@ -11,6 +11,16 @@ import 'datatables.net-responsive-bs4';
 import 'datatables.net-searchbuilder-bs4';
 import 'datatables.net-datetime';
 import 'datatables.net-scroller-bs4';
+import 'datatables.net-rowgroup-bs4';
+import 'datatables.net-buttons-bs4';
+import jsZip from 'jszip';
+import 'datatables.net-buttons/js/buttons.colVis.min';
+import 'datatables.net-buttons/js/dataTables.buttons.min';
+import 'datatables.net-buttons/js/buttons.flash.min';
+import 'datatables.net-buttons/js/buttons.html5.min';
+import 'datatables.net-buttons/js/buttons.print.min';
+
+window.JSZip = jsZip;
 
 // Register the plugin to all charts:
 Chart.plugins.register(ChartDataLabels);
