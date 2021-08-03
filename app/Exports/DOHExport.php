@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Carbon\Carbon;
 
 class DOHExport implements WithMultipleSheets
 {
@@ -77,6 +78,25 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
             $displayFirstTestDateRelease = (!is_null($form->testDateReleased2)) ? date('m/d/Y', strtotime($form->testDateReleased2)) : 'N/A';
         }
 
+        return [
+            Carbon::createFromFormat('Y-m-d', $form->created_at)->format('M'),
+            Carbon::createFromFormat('Y-m-d', $form->created_at)->format('W'),
+            date('m/d/Y', strtotime($form->interviewDate)),
+            $form->drunit,
+            '4A', //must be automated
+            'GENERAL TRIAS', //must be automated
+            $form->records->lname,
+            $form->records->fname,
+            (!is_null($form->records->mname)) ? $form->records->mname : "N/A",
+            date('m/d/Y', strtotime($form->records->bdate)),
+            $form->records->getAge(),
+            substr($form->records->gender,0,1),
+            $form->records->nationality,
+            'IV A',
+            
+        ];
+
+        /*
         return [
             'FOR SWAB',
             (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : '',
@@ -160,9 +180,74 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
             '',
             '',
         ];
+        */
     }
 
     public function headings(): array {
+        return [
+            'MM (Morbidity Month)',
+            'MW (Morbidity Week',
+            'DATE REPORTED',
+            'DRU',
+            'REGION OF DRU',
+            'MUNCITY OF DRU',
+            'LAST NAME',
+            'FIRST NAME',
+            'MIDDLE NAME',
+            'DOB',
+            'AGE (AGE IN YEARS)',
+            'SEX(M/F)',
+            'NATIONALITY',
+            'REGION',
+            'PROVINCE/HUC',
+            'MUNICIPALITY/CITY',
+            'BARANGAY',
+            'HOUSE N. AND STREET OR NEAREST LANDMARK',
+            'CONTACT N.',
+            'OCCUPATION',
+            'HEALTHCARE WORKER(Y/N)',
+            'PLACE OF WORK',
+            'SEVERITY OF THE CASE (ASYMTOMATIC,MILD,MODERATE,SEVERE,CRITICAL)',
+            'PREGNANT (Y/N)',
+            'ONSET OF ILLNESS',
+            'FEVER(Y/N)',
+            'COUGH (Y/N)',
+            'COLDS (Y/N)',
+            'DOB (Y/N)',
+            'LOSS OF SMELL (Y/N)',
+            'LOSS OF TASTE (Y/N)',
+            'SORETHROAT (Y/N)',
+            'DIARRHEA (Y/N)',
+            'OTHER SYMPTOMS',
+            'W. COMORBIDITY (Y/N)',
+            'COMORBIDITY (HYPERTENSIVE, DIABETIC, WITH HEART PROBLEM, AND OTHERS)',
+            'DATE OF SPECIMEN COLLECTION',
+            'ANTIGEN (POSITIVE/NEGATIVE)',
+            'PCR(POSITIVE/NEGATIVE)',
+            'RDT(+IGG, +IGM,NEGATIVE)',
+            'CLASSIFICATION (CONFIRMED,SUSPECTED,PROBABLE,FOR VALIDATION)',
+            'QUARANTINE STATUS (ADMITTED,HOME QUARANTINE,TTMF,CLEARED,DISCHARGED)',
+            'NAME OF FACILITY (FOR FACILITY QUARANTINE AND ADMITTED)',
+            'DATE START OF QUARANTINE',
+            'DATE COMPLETED QUARANTINE (FOR HOME AND FACILITY QUARANTINE)',
+            'OUTCOME(ALIVE/RECOVERED/DIED)',
+            'DATE RECOVERED',
+            'DATE DIED',
+            'CAUSE OF DEATH',
+            'W. TRAVEL HISTORY(Y/N)',
+            'PLACE OF TRAVEL',
+            'DATE OF TRAVEL',
+            'LSI (Y/N)',
+            'ADDRESS(LSI)',
+            'OFW(Y/N)',
+            'PLACE OF ORIGIN (OFW)',
+            'DATE OF ARRIVAL (OFW)',
+            'AUTHORIZED PERSON OUTSIDE RESIDENCE (Y/N)',
+            'LOCAL/IMPORTED CASE',
+            'RETURNING OVERSEAS FILIPINO (Y/N)',
+            'REMARKS',
+        ];
+        /*
         return [
             'Laboratory Result',
             'Date Released',
@@ -247,6 +332,7 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
             'Total Close Contacts',
             'Remarks',
         ];
+        */
     }
 }
 
