@@ -9,9 +9,9 @@
                 Case Investigation Form List
                 </div>
                 <div>
-                    @if(auth()->user()->isCesuAccount())
                     <a href="{{route('forms.ciflist.print')}}" class="btn btn-primary">Print CIF List</a>
                     <a href="{{route('forms.antigenlinelist.print')}}" class="btn btn-primary">Print Antigen Linelist</a>
+                    @if(auth()->user()->isCesuAccount())
                     <a href="{{route('paswab.view')}}" class="btn btn-primary">Pa-Swab List <span class="text-warning">({{$paswabctr}})</span></a>
                     @endif
                     @if($records->count() > 0)

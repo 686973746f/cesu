@@ -240,27 +240,77 @@ class FormsController extends Controller
     }
 
     public function printAntigenLinelist() {
-        $data = Forms::join('records', 'records_id', '=', 'records.id')
-        ->where(function ($query) {
-            $query->where('testDateCollected1', date('Y-m-d'))
-            ->orWhere('testDateCollected2', date('Y-m-d'));
-        })->where(function ($query) {
-            $query->where('testType1', 'ANTIGEN')
-            ->orWhere('testType2', 'ANTIGEN');
-        })->orderBy('records.lname', 'ASC')->get();
-
+        if(auth()->user()->isCesuAccount()) {
+            $data = Forms::join('records', 'records_id', '=', 'records.id')
+            ->where(function ($query) {
+                $query->where('testDateCollected1', date('Y-m-d'))
+                ->orWhere('testDateCollected2', date('Y-m-d'));
+            })->where(function ($query) {
+                $query->where('testType1', 'ANTIGEN')
+                ->orWhere('testType2', 'ANTIGEN');
+            })->orderBy('records.lname', 'ASC')->get();
+        }
+        else {
+            if(auth()->user()->isBrgyAccount()) {
+                $data = Forms::join('records', 'records_id', '=', 'records.id')
+                ->where(function ($query) {
+                    $query->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                })->where(function ($query) {
+                    $query->where('testType1', 'ANTIGEN')
+                    ->orWhere('testType2', 'ANTIGEN');
+                })->whereHas('user', function ($query) {
+                    $query->where('brgy_id', auth()->user()->brgy_id);
+                })->orderBy('records.lname', 'ASC')->get();
+            }
+            else if(auth()->user()->isCompanyAccount()) {
+                $data = Forms::join('records', 'records_id', '=', 'records.id')
+                ->where(function ($query) {
+                    $query->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                })->where(function ($query) {
+                    $query->where('testType1', 'ANTIGEN')
+                    ->orWhere('testType2', 'ANTIGEN');
+                })->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->company_id);
+                })->orderBy('records.lname', 'ASC')->get();
+            }
+        }
+        
         $pdf = PDF::loadView('pdf_antigen_linelist',['data' => $data])->setPaper('a4', 'landscape');
         return $pdf->download('Antigen_Linelist_'.date('m_d_Y').'.pdf');
     }
 
     public function printCIFList() {
-        ini_set('max_execution_time', 600);
+        //ini_set('max_execution_time', 600);
 
-        $data = Forms::join('records', 'records_id', '=', 'records.id')
-        ->where(function ($query) {
-            $query->where('testDateCollected1', date('Y-m-d'))
-            ->orWhere('testDateCollected2', date('Y-m-d'));
-        })->orderBy('records.lname', 'ASC')->get();
+        if(auth()->user()->isCesuAccount()) {
+            $data = Forms::join('records', 'records_id', '=', 'records.id')
+            ->where(function ($query) {
+                $query->where('testDateCollected1', date('Y-m-d'))
+                ->orWhere('testDateCollected2', date('Y-m-d'));
+            })->orderBy('records.lname', 'ASC')->get();
+        }
+        else {
+            if(auth()->user()->isBrgyAccount()) {
+                $data = Forms::join('records', 'records_id', '=', 'records.id')
+                ->where(function ($query) {
+                    $query->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                })->whereHas('user', function ($query) {
+                    $query->where('brgy_id', auth()->user()->brgy_id);
+                })->orderBy('records.lname', 'ASC')->get();
+            }
+            else if(auth()->user()->isCompanyAccount()) {
+                $data = Forms::join('records', 'records_id', '=', 'records.id')
+                ->where(function ($query) {
+                    $query->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                })->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->company_id);
+                })->orderBy('records.lname', 'ASC')->get();
+            }
+        }
 
         return view('pdf_cif_list',['data' => $data]);
 
