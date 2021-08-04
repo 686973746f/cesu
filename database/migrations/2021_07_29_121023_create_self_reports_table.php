@@ -20,7 +20,7 @@ class CreateSelfReportsTable extends Migration
             $table->string('status')->default('pending');
             $table->tinyInteger('isNewRecord')->default(1);
             $table->foreignId('records_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('patientmsg')->nullable();
+            $table->text('patientmsg')->nullable();
 
             $table->string('lname');
             $table->string('fname');
@@ -110,15 +110,15 @@ class CreateSelfReportsTable extends Migration
             $table->date('vaccinationDate1')->nullable();
             $table->string('vaccinationName1')->nullable();
             $table->tinyInteger('vaccinationNoOfDose1')->nullable();
-            $table->string('vaccinationFacility1')->nullable();
-            $table->string('vaccinationRegion1')->nullable();
+            $table->text('vaccinationFacility1')->nullable();
+            $table->text('vaccinationRegion1')->nullable();
 		    $table->tinyInteger('haveAdverseEvents1')->nullable();
 
             $table->date('vaccinationDate2')->nullable();
             $table->string('vaccinationName2')->nullable();
             $table->tinyInteger('vaccinationNoOfDose2')->nullable();
-            $table->string('vaccinationFacility2')->nullable();
-            $table->string('vaccinationRegion2')->nullable();
+            $table->text('vaccinationFacility2')->nullable();
+            $table->text('vaccinationRegion2')->nullable();
             $table->tinyInteger('haveAdverseEvents2')->nullable();
 
             $table->date('dateOnsetOfIllness')->nullable();

@@ -148,7 +148,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="informantName">Name of Informant <small><i>(If patient unavailable)</i></small></label>
-                                <input type="text" name="informantName" id="informantName" class="form-control" value="{{old('informantName', $records->informantName)}}">
+                                <input type="text" name="informantName" id="informantName" class="form-control" value="{{old('informantName', $records->informantName)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -249,7 +249,7 @@
                                     <div id="divECOthers">
                                         <div class="form-group mt-2">
                                             <label for="ecOthersRemarks"><span class="text-danger font-weight-bold">*</span>Specify</label>
-                                          <input type="text" name="ecOthersRemarks" id="ecOthersRemarks" class="form-control">
+                                          <input type="text" name="ecOthersRemarks" id="ecOthersRemarks" value="{{old('ecOthersRemarks', $records->ecOthersRemarks)}}" class="form-control" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                 </div>
@@ -573,13 +573,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="healthCareCompanyName"><span class="text-danger font-weight-bold">*</span>Name of Health Facility</label>
-                                                            <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{old('healthCareCompanyName', $records->healthCareCompanyName)}}">
+                                                            <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{old('healthCareCompanyName', $records->healthCareCompanyName)}}" style="text-transform: uppercase;">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="healthCareCompanyLocation"><span class="text-danger font-weight-bold">*</span>Location</label>
-                                                            <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{old('healthCareCompanyLocation', $records->healthCareCompanyLocation)}}">
+                                                            <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{old('healthCareCompanyLocation', $records->healthCareCompanyLocation)}}" style="text-transform: uppercase;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -607,7 +607,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="OFWPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
-                                                    <input type="text" class="form-control" name="OFWPassportNo" id="OFWPassportNo" value="{{old('OFWPassportNo', $records->OFWPassportNo)}}">
+                                                    <input type="text" class="form-control" name="OFWPassportNo" id="OFWPassportNo" value="{{old('OFWPassportNo', $records->OFWPassportNo)}}" style="text-transform: uppercase;">
                                                 </div>
                                                 <div class="form-group">
                                                   <label for="ofwType"><span class="text-danger font-weight-bold">*</span>OFW?</label>
@@ -643,7 +643,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="FNTPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
-                                                    <input type="text" class="form-control" name="FNTPassportNo" id="FNTPassportNo" value="{{old('FNTPassportNo', $records->FNTPassportNo)}}">
+                                                    <input type="text" class="form-control" name="FNTPassportNo" id="FNTPassportNo" value="{{old('FNTPassportNo', $records->FNTPassportNo)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -696,14 +696,14 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                           <label for="institutionType"><span class="text-danger font-weight-bold">*</span>Specify Institution Type</label>
-                                                          <input type="text" class="form-control" name="institutionType" id="institutionType" value="{{old('institutionType', $records->institutionType)}}">
+                                                          <input type="text" class="form-control" name="institutionType" id="institutionType" value="{{old('institutionType', $records->institutionType)}}" style="text-transform: uppercase;">
                                                           <small><i>(e.g. prisons, residential facilities, retirement communities, care homes, camps etc.)</i></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="institutionName"><span class="text-danger font-weight-bold">*</span>Name of Institution</label>
-                                                            <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{old('institutionName', $records->institutionName)}}">
+                                                            <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{old('institutionName', $records->institutionName)}}" style="text-transform: uppercase;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -735,7 +735,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="facilityNameOfFirstConsult"><span class="text-danger font-weight-bold">*</span>Name of facility where first consult was done</label>
-                                                            <input type="text" class="form-control" name="facilityNameOfFirstConsult" id="facilityNameOfFirstConsult" value="{{old('facilityNameOfFirstConsult', $records->facilityNameOfFirstConsult)}}">
+                                                            <input type="text" class="form-control" name="facilityNameOfFirstConsult" id="facilityNameOfFirstConsult" value="{{old('facilityNameOfFirstConsult', $records->facilityNameOfFirstConsult)}}" style="text-transform: uppercase;">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -767,7 +767,7 @@
                                             <div id="divYes5">
                                                 <div class="form-group">
                                                     <label for="dispositionName" id="dispositionlabel"></label>
-                                                    <input type="text" class="form-control" name="dispositionName" id="dispositionName" value="{{old('dispositionName', $records->dispoName)}}">
+                                                    <input type="text" class="form-control" name="dispositionName" id="dispositionName" value="{{old('dispositionName', $records->dispoName)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div id="divYes6">
@@ -827,7 +827,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationName1">Name of Vaccine</label>
-                                                <input type="text" class="form-control" name="vaccinationName1" id="vaccinationName1" value="{{old('vaccinationName1', $records->vaccinationName1)}}">
+                                                <input type="text" class="form-control" name="vaccinationName1" id="vaccinationName1" value="{{old('vaccinationName1', $records->vaccinationName1)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -843,13 +843,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $records->vaccinationFacility1)}}">
+                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $records->vaccinationFacility1)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $records->vaccinationRegion1)}}">
+                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $records->vaccinationRegion1)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -874,7 +874,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationName2">Name of Vaccine</label>
-                                                <input type="text" class="form-control" name="vaccinationName2" id="vaccinationName2" value="{{old('vaccinationName2', $records->vaccinationName2)}}">
+                                                <input type="text" class="form-control" name="vaccinationName2" id="vaccinationName2" value="{{old('vaccinationName2', $records->vaccinationName2)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -890,13 +890,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $records->vaccinationFacility2)}}">
+                                                <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $records->vaccinationFacility2)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $records->vaccinationRegion2)}}">
+                                                <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $records->vaccinationRegion2)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1135,7 +1135,7 @@
                                                             <div id="divSASOtherChecked">
                                                                 <div class="form-group mt-2">
                                                                   <label for="SASOtherRemarks">Specify Findings</label>
-                                                                  <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks', $records->SASOtherRemarks)}}">
+                                                                  <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks', $records->SASOtherRemarks)}}" style="text-transform: uppercase;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1274,7 +1274,7 @@
                                                             <div id="divComOthersChecked">
                                                                 <div class="form-group mt-2">
                                                                   <label for="COMOOtherRemarks">Specify Findings</label>
-                                                                  <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks', $records->COMOOtherRemarks)}}">
+                                                                  <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks', $records->COMOOtherRemarks)}}" style="text-transform: uppercase;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1391,7 +1391,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="testedPositiveLab"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
-                                                  <input type="text" class="form-control" name="testedPositiveLab" id="testedPositiveLab" value="{{old('testedPositiveLab', $records->testedPositiveLab)}}">
+                                                  <input type="text" class="form-control" name="testedPositiveLab" id="testedPositiveLab" value="{{old('testedPositiveLab', $records->testedPositiveLab)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -1416,14 +1416,13 @@
                                                 <label for="testDateReleased1">Date released</label>
                                                 <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
                                             </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testLaboratory1">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
-                                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1', $records->testLaboratory1)}}">
+                                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1', $records->testLaboratory1)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1441,13 +1440,13 @@
                                               <div id="divTypeOthers1">
                                                   <div class="form-group">
                                                     <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason:</label>
-                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}">
+                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}" style="text-transform: uppercase;">
                                                   </div>
                                               </div>
                                               <div id="ifAntigen1">
                                                 <div class="form-group">
                                                     <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
-                                                    <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1', $records->antigenKit1)}}">
+                                                    <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1', $records->antigenKit1)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -1465,7 +1464,7 @@
                                               <div id="divResultOthers1">
                                                   <div class="form-group">
                                                       <label for="testResultOtherRemarks1">Specify</label>
-                                                      <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}">
+                                                      <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}" style="text-transform: uppercase;">
                                                   </div>
                                               </div>
                                               @if($records->testType1 == "ANTIGEN")
@@ -1500,7 +1499,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testLaboratory2">Laboratory <small><i>(Leave blank if N/A)</i></small></label>
-                                                <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2', $records->testLaboratory2)}}">
+                                                <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2', $records->testLaboratory2)}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1519,13 +1518,13 @@
                                             <div id="divTypeOthers2">
                                                 <div class="form-group">
                                                   <label for="testTypeOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
-                                                  <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2', ($records->testType2 == "ANTIGEN") ? $records->testTypeAntigenRemarks2 : $records->testResultOtherRemarks2)}}">
+                                                  <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2', ($records->testType2 == "ANTIGEN") ? $records->testTypeAntigenRemarks2 : $records->testResultOtherRemarks2)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div id="ifAntigen2">
                                                 <div class="form-group">
                                                     <label for="antigenKit2"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
-                                                    <input type="text" class="form-control" name="antigenKit2" id="antigenKit2" value="{{old('antigenKit2', $records->antigenKit2)}}">
+                                                    <input type="text" class="form-control" name="antigenKit2" id="antigenKit2" value="{{old('antigenKit2', $records->antigenKit2)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -1543,7 +1542,7 @@
                                             <div id="divResultOthers2">
                                                 <div class="form-group">
                                                     <label for="testResultOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify</label>
-                                                    <input type="text" class="form-control" name="testResultOtherRemarks2" id="testResultOtherRemarks2" value="{{old('testResultOtherRemarks2', $records->testResultOtherRemarks2)}}">
+                                                    <input type="text" class="form-control" name="testResultOtherRemarks2" id="testResultOtherRemarks2" value="{{old('testResultOtherRemarks2', $records->testResultOtherRemarks2)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             @if($records->testType2 == "ANTIGEN")
@@ -1583,13 +1582,13 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="deathImmeCause"><span class="text-danger font-weight-bold">*</span>Immediate Cause</label>
-                                                    <input type="text" class="form-control" name="deathImmeCause" id="deathImmeCause" value="{{old('deathImmeCause', $records->deathImmeCause)}}">
+                                                    <input type="text" class="form-control" name="deathImmeCause" id="deathImmeCause" value="{{old('deathImmeCause', $records->deathImmeCause)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="deathAnteCause">Antecedent Cause</label>
-                                                    <input type="text" class="form-control" name="deathAnteCause" id="deathAnteCause" value="{{old('deathAnteCause', $records->deathAnteCause)}}">
+                                                    <input type="text" class="form-control" name="deathAnteCause" id="deathAnteCause" value="{{old('deathAnteCause', $records->deathAnteCause)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -1597,13 +1596,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="deathUndeCause">Underlying Cause</label>
-                                                    <input type="text" class="form-control" name="deathUndeCause" id="deathUndeCause" value="{{old('deathUndeCause', $records->deathUndeCause)}}">
+                                                    <input type="text" class="form-control" name="deathUndeCause" id="deathUndeCause" value="{{old('deathUndeCause', $records->deathUndeCause)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="deathUndeCause">Contributory Conditions</label>
-                                                    <input type="text" class="form-control" name="contriCondi" id="contriCondi" value="{{old('contriCondi', $records->contriCondi)}}">
+                                                    <input type="text" class="form-control" name="contriCondi" id="contriCondi" value="{{old('contriCondi', $records->contriCondi)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -1687,13 +1686,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                           <label for="intVessel">Airline/Sea vessel</label>
-                                                          <input type="text" class="form-control" name="intVessel" id="intVessel" value="{{old('intVessel', $records->intVessel)}}">
+                                                          <input type="text" class="form-control" name="intVessel" id="intVessel" value="{{old('intVessel', $records->intVessel)}}" style="text-transform: uppercase;">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="intVesselNo">Flight/Vessel Number</label>
-                                                            <input type="text" class="form-control" name="intVesselNo" id="intVesselNo" value="{{old('intVesselNo', $records->intVesselNo)}}">
+                                                            <input type="text" class="form-control" name="intVesselNo" id="intVesselNo" value="{{old('intVesselNo', $records->intVesselNo)}}" style="text-transform: uppercase;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1731,13 +1730,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName1">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName1" id="locName1" value="{{old('locName1', $records->locName1)}}">
+                                                              <input class="form-control" type="text" name="locName1" id="locName1" value="{{old('locName1', $records->locName1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress1">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress1" id="locAddress1" value="{{old('locAddress1', $records->locAddress1)}}">
+                                                                <input class="form-control" type="text" name="locAddress1" id="locAddress1" value="{{old('locAddress1', $records->locAddress1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1785,13 +1784,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName2">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName2" id="locName2" value="{{old('locName2', $records->locName2)}}">
+                                                              <input class="form-control" type="text" name="locName2" id="locName2" value="{{old('locName2', $records->locName2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress2">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress2" id="locAddress2" value="{{old('locAddress2', $records->locAddress2)}}">
+                                                                <input class="form-control" type="text" name="locAddress2" id="locAddress2" value="{{old('locAddress2', $records->locAddress2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1839,13 +1838,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName3">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName3" id="locName3" value="{{old('locName3', $records->locName3)}}">
+                                                              <input class="form-control" type="text" name="locName3" id="locName3" value="{{old('locName3', $records->locName3)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress3">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress3" id="locAddress3" value="{{old('locAddress3', $records->locAddress3)}}">
+                                                                <input class="form-control" type="text" name="locAddress3" id="locAddress3" value="{{old('locAddress3', $records->locAddress3)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1893,13 +1892,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName4">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName4" id="locName4" value="{{old('locName4', $records->locName4)}}">
+                                                              <input class="form-control" type="text" name="locName4" id="locName4" value="{{old('locName4', $records->locName4)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress4">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress4" id="locAddress4" value="{{old('locAddress4', $records->locAddress4)}}">
+                                                                <input class="form-control" type="text" name="locAddress4" id="locAddress4" value="{{old('locAddress4', $records->locAddress4)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1947,13 +1946,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName5">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName5" id="locName5" value="{{old('locName5', $records->locName5)}}">
+                                                              <input class="form-control" type="text" name="locName5" id="locName5" value="{{old('locName5', $records->locName5)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress5">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress5" id="locAddress5" value="{{old('locAddress5', $records->locAddress5)}}">
+                                                                <input class="form-control" type="text" name="locAddress5" id="locAddress5" value="{{old('locAddress5', $records->locAddress5)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2001,13 +2000,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName6">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName6" id="locName6" value="{{old('locName6', $records->locName6)}}">
+                                                              <input class="form-control" type="text" name="locName6" id="locName6" value="{{old('locName6', $records->locName6)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress6">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress6" id="locAddress6" value="{{old('locAddress6', $records->locAddress6)}}">
+                                                                <input class="form-control" type="text" name="locAddress6" id="locAddress6" value="{{old('locAddress6', $records->locAddress6)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2055,13 +2054,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName7">Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName7" id="locName7" value="{{old('locName7', $records->locName7)}}">
+                                                              <input class="form-control" type="text" name="locName7" id="locName7" value="{{old('locName7', $records->locName7)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress7">Location</label>
-                                                                <input class="form-control" type="text" name="locAddress7" id="locAddress7" value="{{old('locAddress7', $records->locAddress7)}}">
+                                                                <input class="form-control" type="text" name="locAddress7" id="locAddress7" value="{{old('locAddress7', $records->locAddress7)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2109,19 +2108,19 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                               <label for="localVessel1">1. Airline/Sea vessel/Bus line/Train</label>
-                                                              <input type="text" class="form-control" name="localVessel1" id="localVessel1" value="{{old('localVessel1', $records->localVessel1)}}">
+                                                              <input type="text" class="form-control" name="localVessel1" id="localVessel1" value="{{old('localVessel1', $records->localVessel1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localVesselNo1">Flight/Vessel/Bus No.</label>
-                                                                <input type="text" class="form-control" name="localVesselNo1" id="localVesselNo1" value="{{old('localVesselNo1', $records->localVesselNo1)}}">
+                                                                <input type="text" class="form-control" name="localVesselNo1" id="localVesselNo1" value="{{old('localVesselNo1', $records->localVesselNo1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localOrigin1">Place of Origin</label>
-                                                                <input type="text" class="form-control" name="localOrigin1" id="localOrigin1" value="{{old('localOrigin1', $records->localOrigin1)}}">
+                                                                <input type="text" class="form-control" name="localOrigin1" id="localOrigin1" value="{{old('localOrigin1', $records->localOrigin1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2135,7 +2134,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDest1">Destination</label>
-                                                                <input type="text" class="form-control" name="localDest1" id="localDest1" value="{{old('localDest1', $records->localDest1)}}">
+                                                                <input type="text" class="form-control" name="localDest1" id="localDest1" value="{{old('localDest1', $records->localDest1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
@@ -2150,19 +2149,19 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                               <label for="localVessel2">2. Airline/Sea vessel/Bus line/Train</label>
-                                                              <input type="text" class="form-control" name="localVessel2" id="localVessel2" value="{{old('localVessel2', $records->localVessel2)}}">
+                                                              <input type="text" class="form-control" name="localVessel2" id="localVessel2" value="{{old('localVessel2', $records->localVessel2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localVesselNo2">Flight/Vessel/Bus No.</label>
-                                                                <input type="text" class="form-control" name="localVesselNo2" id="localVesselNo2" value="{{old('localVesselNo2', $records->localVesselNo2)}}">
+                                                                <input type="text" class="form-control" name="localVesselNo2" id="localVesselNo2" value="{{old('localVesselNo2', $records->localVesselNo2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localOrigin2">Place of Origin</label>
-                                                                <input type="text" class="form-control" name="localOrigin2" id="localOrigin2" value="{{old('localOrigin2', $records->localOrigin2)}}">
+                                                                <input type="text" class="form-control" name="localOrigin2" id="localOrigin2" value="{{old('localOrigin2', $records->localOrigin2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2176,7 +2175,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDest2">Destination</label>
-                                                                <input type="text" class="form-control" name="localDest2" id="localDest2" value="{{old('localDest2', $records->localDest2)}}">
+                                                                <input type="text" class="form-control" name="localDest2" id="localDest2" value="{{old('localDest2', $records->localDest2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
@@ -2205,16 +2204,16 @@
                                                         <div class="card-header">Name</div>
                                                         <div class="card-body">
                                                             <div class="form-group">
-                                                              <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{old('contact1Name', $records->contact1Name)}}">
+                                                              <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{old('contact1Name', $records->contact1Name)}}" style="text-transform: uppercase;">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{old('contact2Name', $records->contact2Name)}}">
+                                                                <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{old('contact2Name', $records->contact2Name)}}" style="text-transform: uppercase;">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{old('contact3Name', $records->contact3Name)}}">
+                                                                <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{old('contact3Name', $records->contact3Name)}}" style="text-transform: uppercase;">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{old('contact4Name', $records->contact4Name)}}">
+                                                                <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{old('contact4Name', $records->contact4Name)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>

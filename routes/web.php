@@ -61,6 +61,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/paswab/check', [PaSwabController::class, 'check'])->name('paswab.check');
 
     Route::get('/selfreport', [SelfReportController::class, 'index'])->name('selfreport.index');
+    Route::post('/selfreport', [SelfReportController::class, 'store'])->name('selfreport.store');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
