@@ -240,6 +240,8 @@ class FormsController extends Controller
     }
 
     public function printAntigenLinelist() {
+        ini_set('max_execution_time', 600);
+        
         if(auth()->user()->isCesuAccount()) {
             $data = Forms::join('records', 'records_id', '=', 'records.id')
             ->where(function ($query) {
@@ -276,7 +278,7 @@ class FormsController extends Controller
                 })->orderBy('records.lname', 'ASC')->get();
             }
         }
-        
+
         $pdf = PDF::loadView('pdf_antigen_linelist',['data' => $data])->setPaper('a4', 'landscape');
         return $pdf->download('Antigen_Linelist_'.date('m_d_Y').'.pdf');
     }
