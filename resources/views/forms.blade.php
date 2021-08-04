@@ -9,8 +9,20 @@
                 Case Investigation Form List
                 </div>
                 <div>
+                    @if(($forms->where('testDateCollected1', date('Y-m-d'))->merge($forms->where('testDateCollected2', date('Y-m-d')))->count()) > 0)
                     <a href="{{route('forms.ciflist.print')}}" class="btn btn-primary">Print CIF List</a>
+                    @else
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="There is no existing CIF Data scheduled for today.">
+                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>Print CIF List</button>
+                    </span>
+                    @endif
+                    @if(($forms->where('testType1', 'ANTIGEN')->merge($forms->where('testType2', 'ANTIGEN'))->count()) > 0)
                     <a href="{{route('forms.antigenlinelist.print')}}" class="btn btn-primary">Print Antigen Linelist</a>
+                    @else
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="There is no existing Antigen CIF Scheduled for today.">
+                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>Print Antigen Linelist</button>
+                    </span>
+                    @endif
                     @if(auth()->user()->isCesuAccount())
                     <a href="{{route('paswab.view')}}" class="btn btn-primary">Pa-Swab List <span class="text-warning">({{$paswabctr}})</span></a>
                     @endif
@@ -330,7 +342,7 @@
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
-    })
+    });
 
     $(document).ready(function () {
         @if(session('modalmsg'))
