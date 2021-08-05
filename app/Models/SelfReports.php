@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class SelfReports extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'company_id',
+        'refCode',
+    ];
 }
