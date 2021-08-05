@@ -5,9 +5,9 @@
     $proceed = 1;
     @endphp
     @if($proceed == 1)
-    <form action="{{route('selfreport.store')}}" method="POST" id="myForm" name="wholeForm">
+    <form action="{{route('selfreport.store')}}" method="POST" id="myForm" name="wholeForm" enctype="multipart/form-data">
         @csrf
-        <div class="container">
+        <div class="container" style="font-family: Arial, Helvetica, sans-serif">
 
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -26,7 +26,11 @@
             @endif
 
             <div class="card mb-3">
-                <div class="card-header font-weight-bold">1. Patient Information</div>
+                <div class="card-header">
+                    <h3 class="text-center">Self-Report</h3>
+                    <hr>
+                    1. Patient Information
+                </div>
                 <div class="card-body">
                     <div class="card mb-3">
                         <div class="card-header">Personal Information</div>
@@ -257,7 +261,7 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                              <label for="">Upload Requirements</label>
+                              <label for=""><span class="text-danger font-weight-bold">*</span>Upload Requirements <small>(Valid IDs, Birth Certifate, etc.)</small></label>
                               <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
                             </div>
                         </div>
@@ -1127,6 +1131,13 @@
             <div class="card mb-3">
                 <div class="card-header font-weight-bold">6. Chest X-ray Details</div>
                 <div class="card-body">
+                    <div class="form-group">
+                        <label for="diagWithSARI"><span class="text-danger font-weight-bold">*</span>Was diagnosed to have Severe Acute Respiratory Illness?</label>
+                        <select class="form-control" name="diagWithSARI" id="diagWithSARI" required>
+                          <option value="1" {{(old('diagWithSARI') == 1) ? 'selected' : ''}}>Yes</option>
+                          <option value="0" {{(is_null(old('diagWithSARI')) || old('diagWithSARI') == 0) ? 'selected' : ''}}>No</option>
+                        </select>
+                      </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">

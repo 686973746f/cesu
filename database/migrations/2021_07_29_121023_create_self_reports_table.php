@@ -93,19 +93,6 @@ class CreateSelfReportsTable extends Migration
             $table->string('testTypeAntigenRemarks1')->nullable();
             $table->string('antigenKit1')->nullable();
             $table->string('testTypeOtherRemarks1')->nullable();
-            $table->string('testResult1');
-            $table->string('testResultOtherRemarks1')->nullable();
-
-            $table->date('testDateCollected2')->nullable();
-            $table->time('oniTimeCollected2')->nullable();
-            $table->date('testDateReleased2')->nullable();
-            $table->string('testLaboratory2')->nullable();
-            $table->string('testType2')->nullable();
-            $table->string('testTypeAntigenRemarks2')->nullable();
-            $table->string('antigenKit2')->nullable();
-            $table->string('testTypeOtherRemarks2')->nullable();
-            $table->string('testResult2')->nullable();
-            $table->string('testResultOtherRemarks2')->nullable();
 
             $table->date('vaccinationDate1')->nullable();
             $table->string('vaccinationName1')->nullable();
@@ -216,7 +203,8 @@ class CreateSelfReportsTable extends Migration
 
             $table->string('remarks')->nullable();
 
-            $table->string('req_file');
+            $table->text('req_file');
+            $table->text('result_file');
         });
     }
 
