@@ -215,5 +215,7 @@ class SelfReportController extends Controller
             'req_file' => $newFileName1,
             'result_file' => $newFileName2,
         ]);
+
+        return view('selfreport_completed', ['completed' => true]);
     }
 }
