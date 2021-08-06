@@ -17,6 +17,12 @@ class SelfReportController extends Controller
         return view('selfreport_index', ['countries' => $all]);
     }
 
+    public function view() {
+        $list = SelfReports::all();
+
+        return view('selfreport_view', ['list' => $list]);
+    }
+
     public function store(SelfReportValidationRequest $request) {
         $request->validated();
 
@@ -32,6 +38,12 @@ class SelfReportController extends Controller
         else {
             $philhealth_organized = null;
         }
+
+        $newFileName1 = time() . ' - ' . $request->req_file->getClientOriginalName();
+        $newFileName2 = time() . ' - ' . $request->result_file->getClientOriginalName();
+
+        $upload1 = $request->req_file->move(public_path('assets/self_reports'), $newFileName1);
+        $upload2 = $request->result_file->move(public_path('assets/self_reports'), $newFileName2);
 
         $new = SelfReports::create([
             'isNewRecord' => 0,
@@ -200,8 +212,8 @@ class SelfReportController extends Controller
             'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
             'contact4No' => $request->contact4No,
             'remarks' => NULL,
-            'req_file' => 'PALITAN',
-            'result_file' => 'PALITAN',
+            'req_file' => $newFileName1,
+            'result_file' => $newFileName2,
         ]);
     }
 }

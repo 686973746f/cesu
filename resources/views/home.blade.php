@@ -22,7 +22,7 @@
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Information</a>
                     <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-file mr-2" aria-hidden="true"></i>View/Create CIF</a>
                     @if(auth()->user()->isCesuAccount())
-                    <a href="#" class="btn btn-primary btn-lg btn-block">View Self-Report List <i class="text-warning font-weight-bold">[Under Development]</i></a>
+                    <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block">View Self-Report List <i class="text-warning font-weight-bold">[Under Development]</i></a>
                     @endif
                     @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
                     <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-archive mr-2"></i>Line List</a>

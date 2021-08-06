@@ -261,8 +261,8 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                              <label for=""><span class="text-danger font-weight-bold">*</span>Upload Requirements <small>(Valid IDs, Birth Certifate, etc.)</small></label>
-                              <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
+                              <label for="req_file"><span class="text-danger font-weight-bold">*</span>Upload Requirements <small>(Valid IDs, Birth Certifate, etc.)</small></label>
+                              <input type="file" class="form-control-file" name="req_file" id="req_file">
                             </div>
                         </div>
                     </div>
@@ -1122,9 +1122,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="">Upload Positive Result</label>
-                      <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
-                      <small id="fileHelpId" class="form-text text-muted">Help text</small>
+                      <label for="result_file">Upload Positive Result</label>
+                      <input type="file" class="form-control-file" name="result_file" id="result_file" required>
                     </div>
                 </div>
             </div>
