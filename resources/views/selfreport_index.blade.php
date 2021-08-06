@@ -24,13 +24,53 @@
             </div>
             <hr>
             @endif
+            
+            <div class="card mb-3">
+                <div class="card-header text-center"><h3 class="text-center">Self-Report</h3></div>
+                <div class="card-body">
+                    <div id="carouselId" class="carousel slide mb-3" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselId" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselId" data-slide-to="1"></li>
+                            <li data-target="#carouselId" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img data-src="holder.js/1280x720/auto/#777:#555/text:First slide" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Title</h3>
+                                    <p>Description</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img data-src="holder.js/1280x720/auto/#666:#444/text:Second slide" alt="Second slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Title</h3>
+                                    <p>Description</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img data-src="holder.js/1280x720/auto/#666:#444/text:Third slide" alt="Third slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Title</h3>
+                                    <p>Description</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselId" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselId" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
             <div class="card mb-3">
-                <div class="card-header">
-                    <h3 class="text-center">Self-Report</h3>
-                    <hr>
-                    1. Patient Information
-                </div>
+                <div class="card-header font-weight-bold">1. Patient Information</div>
                 <div class="card-body">
                     <div class="card mb-3">
                         <div class="card-header">Personal Information</div>
@@ -78,9 +118,9 @@
                                     <div class="form-group">
                                         <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
                                         <select class="form-control" id="gender" name="gender" required>
-                                            <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Pumili / Choose</option>
-                                            <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Lalaki / Male</option>
-                                            <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Babae / Female</option>
+                                            <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
+                                            <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
                                         </select>
                                         @error('gender')
                                             <small class="text-danger">{{$message}}</small>
@@ -91,8 +131,8 @@
                                             <label for="isPregnant"><span class="text-danger font-weight-bold">*</span>Are you Pregnant?</label>
                                             <select class="form-control" name="isPregnant" id="isPregnant">
                                                 <option value="" disabled {{(is_null(old('isPregnant'))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="0" {{(old('isPregnant') == '0') ? 'selected' : ''}}>Hindi / No</option>
-                                                <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                                <option value="0" {{(old('isPregnant') == '0') ? 'selected' : ''}}>No</option>
+                                                <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>Yes</option>
                                             </select>
                                         </div>
                                         <div id="ifPregnant">
@@ -108,9 +148,9 @@
                                         <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
                                         <select class="form-control" id="cs" name="cs" required>
                                             <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Pumili / Choose</option>
-                                            <option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>Walang Asawa / Single</option>
-                                            <option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>Kasal / Married</option>
-                                            <option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>Balo / Widowed</option>
+                                            <option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>Single</option>
+                                            <option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>Married</option>
+                                            <option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>Widowed</option>
                                             <option value="N/A" @if(old('cs') == 'N/A') {{'selected'}} @endif>N/A</option>
                                         </select>
                                         @error('cs')
@@ -120,7 +160,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="nationality"><span class="text-danger font-weight-bold">*</span>Nasyonalidad / Nationality</label>
+                                        <label for="nationality"><span class="text-danger font-weight-bold">*</span>Nationality</label>
                                         <select class="form-control" id="nationality" name="nationality" required>
                                             <option value="Filipino" @if(old('nationality') == 'Filipino' || empty(old('nationality'))) {{'selected'}} @endif>Filipino</option>
                                             <option value="Foreign" @if(old('nationality') == 'Foreign') {{'selected'}} @endif>Foreign</option>
@@ -144,7 +184,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="philhealth">Philhealth Number <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
+                                        <label for="philhealth">Philhealth Number <small><i>(Leave blank if N/A)</i></small></label>
                                         <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
                                         @error('philhealth')
                                             <small class="text-danger">{{$message}}</small>
@@ -155,7 +195,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phoneno">Telephone Number (& Area Code) <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
+                                        <label for="phoneno">Telephone Number (& Area Code) <small><i>(Leave blank if N/A)</i></small></label>
                                         <input type="text" class="form-control" id="phoneno" name="phoneno" value="{{old('phoneno')}}">
                                         @error('phoneno')
                                             <small class="text-danger">{{$message}}</small>
@@ -164,7 +204,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">Email Address <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
+                                        <label for="email">Email Address <small><i>(Leave blank if N/A)</i></small></label>
                                         <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
                                         @error('email')
                                                 <small class="text-danger">{{$message}}</small>
@@ -206,7 +246,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>Probinsya / Province</label>
+                                        <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>Province</label>
                                         <select class="form-control" name="saddress_province" id="saddress_province" required>
                                             <option value="" selected disabled>Choose...</option>
                                         </select>
@@ -217,7 +257,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>Siyudad o Munisipalidad / City or Municipality</label>
+                                        <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>City or Municipality</label>
                                         <select class="form-control" name="saddress_city" id="saddress_city" required>
                                         <option value="" selected disabled>Choose...</option>
                                         </select>
@@ -263,6 +303,7 @@
                             <div class="form-group">
                               <label for="req_file"><span class="text-danger font-weight-bold">*</span>Upload Requirements <small>(Valid IDs, Birth Certifate, etc.)</small></label>
                               <input type="file" class="form-control-file" name="req_file" id="req_file">
+                              <small class="form-text text-muted">Accepted file formats: JPG, JPEG, PNG, PDF. Max file size: 5MB</small>
                             </div>
                         </div>
                     </div>
@@ -270,30 +311,30 @@
                         <div class="card-header">Work Information</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>Kasalukuyan ka bang may trabaho? / Are you currently employed?</label>
+                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>Are you currently employed?</label>
                                 <select class="form-control" name="haveOccupation" id="haveOccupation" required>
-                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>Pumili / Choose...</option>
-                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>Meron / Yes</option>
-                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>Wala / No</option>
+                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>Yes</option>
+                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>No</option>
                                 </select>
                             </div>
                             <div id="occupationRow">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="occupation"><span class="text-danger font-weight-bold">*</span>Trabaho / Occupation</label>
+                                            <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
                                             <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="occupation_name">Saan nagt-trabaho / Name of Workplace</label>
+                                            <label for="occupation_name">Name of Workplace</label>
                                             <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-4"> 
                                         <div class="form-group">
-                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Uri ng Trabaho / Nature of Work</label>
+                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
                                             <select class="form-control" name="natureOfWork" id="natureOfWork">
                                                 <option value="" disabled {{(is_null(old('natureOfWork'))) ? 'selected' : ''}}>Choose...</option>
                                                 <option value="AGRICULTURE" {{(old('natureOfWork') == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
@@ -323,7 +364,7 @@
                                         </div>
                                         <div id="specifyWorkNatureDiv">
                                             <div class="form-group">
-                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Tukuyin / Please specify</label>
+                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Please specify</label>
                                                 <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}" style="text-transform: uppercase;">
                                                 @error('natureOfWorkIfOthers')
                                                 <small class="text-danger">{{$message}}</small>
@@ -338,12 +379,12 @@
                     <div class="card">
                         <div class="card-header">Special Population</div>
                         <div class="card-body">
-
                             <div class="form-group">
                                 <label for="isHealthCareWorker"><span class="text-danger font-weight-bold">*</span>Health Care Worker</label>
                                 <select class="form-control" name="isHealthCareWorker" id="isHealthCareWorker" required>
+                                    <option value="" disabled {{(is_null(old('isHealthCareWorker'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="1" {{(old('isHealthCareWorker') == 1) ? 'selected' : ''}}>Yes</option>
-                                    <option value="0" {{(old('isHealthCareWorker') == 0 || is_null(old('isHealthCareWorker'))) ? 'selected' : ''}}>No</option>
+                                    <option value="0" {{(old('isHealthCareWorker') == 0) ? 'selected' : ''}}>No</option>
                                 </select>
                             </div>
                             <div id="divisHealthCareWorker">
@@ -365,8 +406,9 @@
                             <div class="form-group">
                                 <label for="isOFW"><span class="text-danger font-weight-bold">*</span>Returning Overseas Filipino</label>
                                 <select class="form-control" name="isOFW" id="isOFW" required>
+                                    <option value="" disabled {{(is_null(old('isOFW'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="1" {{(old('isOFW') == 1) ? 'selected' : ''}}>Yes</option>
-                                    <option value="0" {{(old('isOFW') == 0 || is_null(old('isOFW'))) ? 'selected' : ''}}>No</option>
+                                    <option value="0" {{(old('isOFW') == 0) ? 'selected' : ''}}>No</option>
                                 </select>
                             </div>
                             <div id="divisOFW">
@@ -388,16 +430,18 @@
                                 <div class="form-group">
                                     <label for="ofwType"><span class="text-danger font-weight-bold">*</span>OFW?</label>
                                     <select class="form-control" name="ofwType" id="ofwType">
-                                    <option value="1" {{(old('ofwType') == "YES") ? 'selected' : ''}}>Yes</option>
-                                    <option value="2" {{(old('ofwType') == "NO") ? 'selected' : ''}}>No (Non-OFW)</option>
+                                        <option value="" disabled {{(is_null(old('ofwType'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="1" {{(old('ofwType') == "YES") ? 'selected' : ''}}>Yes</option>
+                                        <option value="2" {{(old('ofwType') == "NO") ? 'selected' : ''}}>No (Non-OFW)</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="isFNT"><span class="text-danger font-weight-bold">*</span>Foreign National Traveler</label>
                                 <select class="form-control" name="isFNT" id="isFNT" required>
+                                    <option value="" disabled {{(is_null(old('isFNT'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="1" {{(old('isFNT') == 1) ? 'selected' : ''}}>Yes</option>
-                                    <option value="0" {{(old('isFNT') == 0 || is_null(old('isFNT'))) ? 'selected' : ''}}>No</option>
+                                    <option value="0" {{(old('isFNT') == 0) ? 'selected' : ''}}>No</option>
                                 </select>
                             </div>
                             <div id="divisFNT">
@@ -420,8 +464,9 @@
                             <div class="form-group">
                                 <label for="isLSI"><span class="text-danger font-weight-bold">*</span>Locally Stranded Individual/APOR/Traveler</label>
                                 <select class="form-control" name="isLSI" id="isLSI" required>
+                                    <option value="" disabled {{(is_null(old('isLSI'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="1" {{(old('isLSI') == 1) ? 'selected' : ''}}>Yes</option>
-                                    <option value="0" {{(old('isLSI') == 0 || is_null(old('isLSI'))) ? 'selected' : ''}}>No</option>
+                                    <option value="0" {{(old('isLSI') == 0) ? 'selected' : ''}}>No</option>
                                 </select>
                             </div>
                             <div id="divisLSI">
@@ -446,16 +491,18 @@
                                 <div class="form-group">
                                     <label for="lsiType"><span class="text-danger font-weight-bold">*</span>Type</label>
                                     <select class="form-control" name="lsiType" id="lsiType">
-                                    <option value="1" {{(old('lsiType') == 1) ? 'selected' : ''}}>Locally Stranted Individual</option>
-                                    <option value="0" {{(old('lsiType') == 2) ? 'selected' : ''}}>Authorized Person Outside Residence/Local Traveler</option>
+                                        <option value="" disabled {{(is_null(old('lsiType'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="1" {{(old('lsiType') == 1) ? 'selected' : ''}}>Locally Stranted Individual</option>
+                                        <option value="0" {{(old('lsiType') == 2) ? 'selected' : ''}}>Authorized Person Outside Residence/Local Traveler</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
                                 <select class="form-control" name="isLivesOnClosedSettings" id="isLivesOnClosedSettings" required>
+                                    <option value="" disabled {{(is_null(old('isLivesOnClosedSettings'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="1" {{(old('isLivesOnClosedSettings') == 1) ? 'selected' : ''}}>Yes</option>
-                                    <option value="0" {{(old('isLivesOnClosedSettings') == 0 || is_null(old('isLivesOnClosedSettings'))) ? 'selected' : ''}}>No</option>
+                                    <option value="0" {{(old('isLivesOnClosedSettings') == 0) ? 'selected' : ''}}>No</option>
                                 </select>
                             </div>
                             <div id="divisLivesOnClosedSettings">
@@ -1124,6 +1171,7 @@
                     <div class="form-group">
                       <label for="result_file">Upload Positive Result</label>
                       <input type="file" class="form-control-file" name="result_file" id="result_file" required>
+                      <small class="form-text text-muted">Accepted file formats: JPG, JPEG, PNG, PDF. Max file size: 5MB</small>
                     </div>
                 </div>
             </div>
@@ -2202,6 +2250,46 @@
                 $('#natureOfWork').prop('required', false);
             }
         }).trigger('change');
+        
+        $('#LSICity').prop({'disabled': true, 'required': false});
+
+        $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
+            var sorted = data.sort(function(a, b) {
+                if (a.provDesc > b.provDesc) {
+                return 1;
+                }
+                if (a.provDesc < b.provDesc) {
+                return -1;
+                }
+                return 0;
+            });
+            $.each(sorted, function(key, val) {
+                $("#LSIProvince").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
+            });
+        });
+
+        $('#LSIProvince').change(function (e) { 
+            e.preventDefault();
+            $('#LSICity').prop({'disabled': false, 'required': true});
+            $('#LSICity').empty();
+            $("#LSICity").append('<option value="" selected disabled>Choose...</option>');
+            $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
+                var sorted = data.sort(function(a, b) {
+                    if (a.citymunDesc > b.citymunDesc) {
+                    return 1;
+                    }
+                    if (a.citymunDesc < b.citymunDesc) {
+                    return -1;
+                    }
+                    return 0;
+                });
+                $.each(sorted, function(key, val) {
+                    if($('#LSIProvince').val() == val.provCode) {
+                        $("#LSICity").append('<option value="'+val.citymunCode+'">'+val.citymunDesc+'</option>');
+                    }
+                });
+            });
+        });
 
         $('#gender').change(function (e) { 
             e.preventDefault();
