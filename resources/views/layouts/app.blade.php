@@ -41,6 +41,8 @@
                         <li class="nav-item">
                             <a class="nav-link {{Request::is('selfreport*') ? 'active' : ''}}" href="#">Self-Report</a>
                         </li>
+                        @endif
+                        @if(auth()->user()->canUseLinelist())
                         <li class="nav-item">
                             <a class="nav-link {{Request::is('linelist*') ? 'active' : ''}}" href="{{route('linelist.index')}}">Line Lists</a>
                         </li>

@@ -94,34 +94,41 @@ class LineListController extends Controller
             else {
                 if(auth()->user()->isBrgyAccount()) {
                     $query = Forms::with('user')
-                    ->where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'))
-                    ->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
+                    ->where(function ($query) {
+                        $query->where('testDateCollected1', date('Y-m-d'))
+                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    })->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
                     })->pluck('records_id')
                     ->toArray();
                 }
                 else if(auth()->user()->isCompanyAccount()) {
                     $query = Forms::with('user')
-                    ->where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'))
-                    ->whereHas('user', function ($query) {
+                    ->where(function ($query) {
+                        $query->where('testDateCollected1', date('Y-m-d'))
+                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    })->whereHas('user', function ($query) {
                         $query->where('company_id', auth()->user()->company_id);
                     })->pluck('records_id')
                     ->toArray();
                 }
             }
-
-            $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
         }
 
-        if($request->submit == 1) {
-            //LaSalle
-            return view('linelist_createlasalle', ['list' => $query]);
+        if(!empty($query)) {
+            $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+            
+            if($request->submit == 1) {
+                //LaSalle
+                return view('linelist_createlasalle', ['list' => $query]);
+            }
+            else {
+                //ONI
+                return view('linelist_createoni', ['list' => $query]);
+            }
         }
         else {
-            //ONI
-            return view('linelist_createoni', ['list' => $query]);
+            return redirect()->action([LineListController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
         }
     }
 
@@ -194,21 +201,65 @@ class LineListController extends Controller
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })->update(['isPresentOnSwabDay' => 1]);
 
-        $update1 = Forms::whereNotIn('records_id', $request->user)
-        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
-        ->where(function ($query) use ($request) {
-            $query->whereNull('testDateCollected2')
-            ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
-        })
-        ->where(function ($query) {
-            $query->where('isPresentOnSwabDay', '!=', 1)
-            ->orWhereNull('isPresentOnSwabDay');
-        })
-        ->where(function ($query) {
-            $query->where('testType1', '!=', 'ANTIGEN')
-            ->orWhere('testType2', '!=', 'ANTIGEN');
-        })
-        ->update(['isPresentOnSwabDay' => 0]);
+        if(auth()->user()->isCesuAccount()) {
+            $update1 = Forms::whereNotIn('records_id', $request->user)
+            ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            ->where(function ($query) use ($request) {
+                $query->whereNull('testDateCollected2')
+                ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+            })
+            ->where(function ($query) {
+                $query->where('isPresentOnSwabDay', '!=', 1)
+                ->orWhereNull('isPresentOnSwabDay');
+            })
+            ->where(function ($query) {
+                $query->where('testType1', '!=', 'ANTIGEN')
+                ->orWhere('testType2', '!=', 'ANTIGEN');
+            })
+            ->update(['isPresentOnSwabDay' => 0]);
+        }
+        else {
+            if(auth()->user()->isBrgyAccount()) {
+                $update1 = Forms::with('user')
+                ->whereNotIn('records_id', $request->user)
+                ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+                ->where(function ($query) use ($request) {
+                    $query->whereNull('testDateCollected2')
+                    ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+                })
+                ->where(function ($query) {
+                    $query->where('isPresentOnSwabDay', '!=', 1)
+                    ->orWhereNull('isPresentOnSwabDay');
+                })
+                ->where(function ($query) {
+                    $query->where('testType1', '!=', 'ANTIGEN')
+                    ->orWhere('testType2', '!=', 'ANTIGEN');
+                })
+                ->whereHas('user', function ($query) {
+                    $query->where('brgy_id', auth()->user()->brgy_id);
+                })->update(['isPresentOnSwabDay' => 0]);
+            }
+            else if(auth()->user()->isCompanyAccount()) {
+                $update1 = Forms::with('user')
+                ->whereNotIn('records_id', $request->user)
+                ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+                ->where(function ($query) use ($request) {
+                    $query->whereNull('testDateCollected2')
+                    ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+                })
+                ->where(function ($query) {
+                    $query->where('isPresentOnSwabDay', '!=', 1)
+                    ->orWhereNull('isPresentOnSwabDay');
+                })
+                ->where(function ($query) {
+                    $query->where('testType1', '!=', 'ANTIGEN')
+                    ->orWhere('testType2', '!=', 'ANTIGEN');
+                })
+                ->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->company_id);
+                })->update(['isPresentOnSwabDay' => 0]);
+            }
+        }
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'ONI Linelist has been created successfully.')->with('statustype', 'success');
     }
@@ -244,28 +295,63 @@ class LineListController extends Controller
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
         })->update(['isPresentOnSwabDay' => 1]);
 
-        $update = Forms::whereIn('records_id', $request->user)
-        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
-        ->where(function ($query) use ($request) {
-            $query->whereNull('testDateCollected2')
-            ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
-        })->update(['isPresentOnSwabDay' => 1]);
-
-        $update1 = Forms::whereNotIn('records_id', $request->user)
-        ->whereIn('testDateCollected1', array_unique($request->dateCollected))
-        ->where(function ($query) use ($request) {
-            $query->whereNull('testDateCollected2')
-            ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
-        })
-        ->where(function ($query) {
-            $query->where('isPresentOnSwabDay', '!=', 1)
-            ->orWhereNull('isPresentOnSwabDay');
-        })
-        ->where(function ($query) {
-            $query->where('testType1', '!=', 'ANTIGEN')
-            ->orWhere('testType2', '!=', 'ANTIGEN');
-        })
-        ->update(['isPresentOnSwabDay' => 0]);
+        if(auth()->user()->isCesuAccount()) {
+            $update1 = Forms::whereNotIn('records_id', $request->user)
+            ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+            ->where(function ($query) use ($request) {
+                $query->whereNull('testDateCollected2')
+                ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+            })
+            ->where(function ($query) {
+                $query->where('isPresentOnSwabDay', '!=', 1)
+                ->orWhereNull('isPresentOnSwabDay');
+            })
+            ->where(function ($query) {
+                $query->where('testType1', '!=', 'ANTIGEN')
+                ->orWhere('testType2', '!=', 'ANTIGEN');
+            })
+            ->update(['isPresentOnSwabDay' => 0]);
+        }
+        else {
+            if(auth()->user()->isBrgyAccount()) {
+                $update1 = Forms::with('user')
+                ->whereNotIn('records_id', $request->user)
+                ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+                ->where(function ($query) use ($request) {
+                    $query->whereNull('testDateCollected2')
+                    ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+                })
+                ->where(function ($query) {
+                    $query->where('isPresentOnSwabDay', '!=', 1)
+                    ->orWhereNull('isPresentOnSwabDay');
+                })
+                ->where(function ($query) {
+                    $query->where('testType1', '!=', 'ANTIGEN')
+                    ->orWhere('testType2', '!=', 'ANTIGEN');
+                })->whereHas('user', function ($query) {
+                    $query->where('brgy_id', auth()->user()->brgy_id);
+                })->update(['isPresentOnSwabDay' => 0]);
+            }
+            else if(auth()->user()->isCompanyAccount()) {
+                $update1 = Forms::with('user')
+                ->whereNotIn('records_id', $request->user)
+                ->whereIn('testDateCollected1', array_unique($request->dateCollected))
+                ->where(function ($query) use ($request) {
+                    $query->whereNull('testDateCollected2')
+                    ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
+                })
+                ->where(function ($query) {
+                    $query->where('isPresentOnSwabDay', '!=', 1)
+                    ->orWhereNull('isPresentOnSwabDay');
+                })
+                ->where(function ($query) {
+                    $query->where('testType1', '!=', 'ANTIGEN')
+                    ->orWhere('testType2', '!=', 'ANTIGEN');
+                })->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->company_id);
+                })->update(['isPresentOnSwabDay' => 0]);
+            }
+        }
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
     }

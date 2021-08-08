@@ -52,6 +52,7 @@ class CreateFormsTable extends Migration
 
             $table->string('healthStatus');
             $table->string('caseClassification');
+            $table->string('confirmedVariantName')->nullable();
 
             $table->date('vaccinationDate1')->nullable();
             $table->string('vaccinationName1')->nullable();
