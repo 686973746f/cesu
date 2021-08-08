@@ -2,7 +2,7 @@
 
 @section('content')
     @if($proceed == 1)
-    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm">
+    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm" style="font-family: Arial, Helvetica, sans-serif">
         @csrf
         <div class="container">
             <div class="card">
@@ -23,17 +23,10 @@
                     <hr>
                     @endif
                     <div class="alert alert-info" role="alert">
-                        <h4 class="alert-heading">Please read carefully:</h4>
+                        <h4 class="alert-heading">{{__('paswab.notice.readcarefully') }}</h4>
                         <hr>
-                        All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required. If the field is not required, you may leave it blank if N/A.
+                        {{__('paswab.notice.asterisk') }}
                     </div>
-
-                    <div class="alert alert-info" role="alert">
-                        <h4 class="alert-heading">Pakibasang maigi:</h4>
-                        <hr>
-                        Lahat ng detalye na may markang asterisk (<span class="text-danger font-weight-bold">*</span>) ay kailangang sagutan. Kung hindi kailangang sagutan ang walang asterisk, maaaring iwanan lang na blanko kung N/A.
-                    </div>
-
                     <div class="form-group d-none">
                       <label for="linkcode">Link Code</label>
                       <input type="text" class="form-control" name="linkcode" id="linkcode" value="{{old('linkcode', request()->input('rlink'))}}" required readonly>
@@ -45,14 +38,14 @@
                       </div>
 
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">1. Detalye sa Konsultasyon / Consultation Details</div>
+                        <div class="card-header font-weight-bold">{{__('paswab.consultationDetails')}}</div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="pType"><span class="text-danger font-weight-bold">*</span>Uri ng Kliyente / Type of Client</label>
+                                        <label for="pType"><span class="text-danger font-weight-bold">*</span>{{__('paswab.pType')}}</label>
                                         <select class="form-control" name="pType" id="pType" required>
-                                            <option value="" disabled selected>Choose...</option>
+                                            <option value="" disabled selected>{{__('paswab.select.Choose')}}</option>
                                             <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>Suspected</option>
                                             <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
                                             <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>Not A Case of COVID</option>
@@ -61,7 +54,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>Kailan na-interview sa Barangay / Date Interviewed in Barangay</label>
+                                        <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>{{__('paswab.interviewDate')}}</label>
                                         <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-14 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate')}}" required>
                                     </div>
                                 </div>
@@ -69,38 +62,39 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>Gagamitin para sa Hospitalisasyon / For Hospitalization</label>
+                                        <label for="isForHospitalization"><span class="text-danger font-weight-bold">*</span>{{__('paswab.isForHospitalization')}}</label>
                                         <select class="form-control" name="isForHospitalization" id="isForHospitalization" required>
-                                            <option value="" disabled {{is_null(old('isForHospitalization')) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>Oo / Yes</option>
-                                            <option value="0" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>Hindi / No</option>
+                                            <option value="" disabled {{is_null(old('isForHospitalization')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                            <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
+                                            <option value="0" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="forAntigen"><span class="text-danger font-weight-bold">*</span>For Antigen</label>
+                                        <label for="forAntigen"><span class="text-danger font-weight-bold">*</span>{{__('paswab.forAntigen')}}</label>
                                         <select class="form-control" name="forAntigen" id="forAntigen" required>
-                                            <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>Hindi / No</option>
-                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                            <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
+                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
                                         </select>
+                                        <small class="text-muted">{{__('paswab.forAntigenNotice')}}</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                              <label for="patientmsg">Personal Message to CESU Staff/Encoders <small>(Optional)</small></label>
+                              <label for="patientmsg">{{__('paswab.patientmsg')}} <small>{{__('paswab.optional')}}</small></label>
                               <textarea class="form-control" name="patientmsg" id="patientmsg" rows="3">{{old('patientmsg')}}</textarea>
                             </div>
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">2. Personal na Impormasyon / Personal Information</div>
+                        <div class="card-header font-weight-bold">{{__('paswab.personalInformation')}}</div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="lname"><span class="text-danger font-weight-bold">*</span>Apelyido / Last Name</label>
+                                        <label for="lname"><span class="text-danger font-weight-bold">*</span>{{__('paswab.lname')}}</label>
                                         <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" required>
                                         @error('lname')
                                             <small class="text-danger">{{$message}}</small>
@@ -109,8 +103,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="fname"><span class="text-danger font-weight-bold">*</span>Unang Pangalan / First Name (and Suffix)</label>
+                                        <label for="fname"><span class="text-danger font-weight-bold">*</span>{{__('paswab.fname')}}</label>
                                         <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" style="text-transform: uppercase;" required>
+                                        <small class="text-muted">{{__('paswab.fNameNotice')}}</small>
                                         @error('fname')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -118,7 +113,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="mname">Gitnang Pangalan / Middle Name <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
+                                        <label for="mname">{{__('paswab.mname')}} <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
                                         <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" style="text-transform: uppercase;" max="50">
                                         @error('mname')
                                             <small class="text-danger">{{$message}}</small>
@@ -129,7 +124,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="bdate"><span class="text-danger font-weight-bold">*</span>Araw ng kapanganakan / Birthdate</label>
+                                        <label for="bdate"><span class="text-danger font-weight-bold">*</span>{{__('paswab.bdate')}}</label>
                                         <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                                         @error('bdate')
                                             <small class="text-danger">{{$message}}</small>
@@ -138,11 +133,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="gender"><span class="text-danger font-weight-bold">*</span>Kasarian / Gender</label>
+                                        <label for="gender"><span class="text-danger font-weight-bold">*</span>{{__('paswab.gender')}}</label>
                                         <select class="form-control" id="gender" name="gender" required>
-                                            <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Pumili / Choose</option>
-                                            <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Lalaki / Male</option>
-                                            <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Babae / Female</option>
+                                            <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                            <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>{{__('paswab.male')}}</option>
+                                            <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>{{__('paswab.female')}}</option>
                                         </select>
                                         @error('gender')
                                             <small class="text-danger">{{$message}}</small>
@@ -150,30 +145,30 @@
                                     </div>
                                     <div id="ifGenderFemale">
                                         <div class="form-group">
-                                            <label for="isPregnant"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay Buntis? / Are you Pregnant?</label>
+                                            <label for="isPregnant"><span class="text-danger font-weight-bold">*</span>{{__('paswab.isPregnant')}}</label>
                                             <select class="form-control" name="isPregnant" id="isPregnant">
-                                                <option value="" disabled {{(is_null(old('isPregnant'))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="0" {{(old('isPregnant') == '0') ? 'selected' : ''}}>Hindi / No</option>
-                                                <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                                <option value="" disabled {{(is_null(old('isPregnant'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                                <option value="0" {{(old('isPregnant') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
+                                                <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
                                             </select>
                                         </div>
                                         <div id="ifPregnant">
                                             <div class="form-group">
-                                              <label for="lmp"><span class="text-danger font-weight-bold">*</span>Kailan ang huling araw ng regla / Last Menstrual Period (LMP)</label>
-                                              <input type="date" class="form-control" name="lmp" id="lmp" value="{{old('lmp')}}">
+                                              <label for="lmp"><span class="text-danger font-weight-bold">*</span>{{__('paswab.lmp')}}</label>
+                                              <input type="date" class="form-control" name="lmp" id="lmp" value="{{old('lmp')}}" max="{{date('Y-m-d', strtotime('yesterday'))}}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="cs"><span class="text-danger font-weight-bold">*</span>Katayuan ng Sibil / Civil Status</label>
+                                        <label for="cs"><span class="text-danger font-weight-bold">*</span>{{__('paswab.cs')}}</label>
                                         <select class="form-control" id="cs" name="cs" required>
-                                            <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Pumili / Choose</option>
-                                            <option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>Walang Asawa / Single</option>
-                                            <option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>Kasal / Married</option>
-                                            <option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>Balo / Widowed</option>
-                                            <option value="N/A" @if(old('cs') == 'N/A') {{'selected'}} @endif>N/A</option>
+                                            <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                            <option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>{{__('paswab.single')}}</option>
+                                            <option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>{{__('paswab.married')}}</option>
+                                            <option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>{{__('paswab.widowed')}}</option>
+                                            <option value="N/A" @if(old('cs') == 'N/A') {{'selected'}} @endif>{{__('paswab.na')}}</option>
                                         </select>
                                         @error('cs')
                                             <small class="text-danger">{{$message}}</small>
@@ -182,7 +177,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="nationality"><span class="text-danger font-weight-bold">*</span>Nasyonalidad / Nationality</label>
+                                        <label for="nationality"><span class="text-danger font-weight-bold">*</span>{{__('paswab.nationality')}}</label>
                                         <select class="form-control" id="nationality" name="nationality" required>
                                             <option value="Filipino" @if(old('nationality') == 'Filipino' || empty(old('nationality'))) {{'selected'}} @endif>Filipino</option>
                                             <option value="Foreign" @if(old('nationality') == 'Foreign') {{'selected'}} @endif>Foreign</option>
@@ -198,7 +193,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number <small>(Format: 09*********)</small></label>
-                                        <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx" required>
+                                        <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="09*********" required>
                                         @error('mobile')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -206,11 +201,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="philhealth">Philhealth Number <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
+                                        <label for="philhealth">Philhealth Number <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
                                         <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
-                                        <small class="form-text text-muted">Tandaan: Iwasan ang maraming abala sa iyong schedule ng swab sa pagbigay ng iyong Philhealth Number <i>(WALANG NAKATAGONG BAYAD ang sisingilin sa iyo gamit ng iyong Philhealth Account)</i></small>
-                                        <hr>
-                                        <small class="form-text text-muted">Note: Avoid hassle in your swab schedule by providing your Philhealth Number <i>(There are NO HIDDEN CHARGES applied into your Philhealth Account)</i></small>
+                                        <small class="form-text text-muted">{{__('paswab.philhealth.notice')}}</i></small>
                                         @error('philhealth')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -220,7 +213,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phoneno">Telephone Number (& Area Code) <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
+                                        <label for="phoneno">Telephone Number (& Area Code) <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
                                         <input type="text" class="form-control" id="phoneno" name="phoneno" value="{{old('phoneno')}}">
                                         @error('phoneno')
                                             <small class="text-danger">{{$message}}</small>
@@ -229,8 +222,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">Email Address <small><i>(Iwanang blangko kung N/A / Leave blank if N/A)</i></small></label>
-                                        <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
+                                        <label for="email">Email Address <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
+                                        <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}" placeholder="juandelacruz@example.com">
                                         @error('email')
                                               <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -272,7 +265,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>Probinsya / Province</label>
+                                        <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>{{__('paswab.saddress_province')}}</label>
                                         <select class="form-control" name="saddress_province" id="saddress_province" required>
                                           <option value="" selected disabled>Choose...</option>
                                         </select>
@@ -283,7 +276,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>Siyudad o Munisipalidad / City or Municipality</label>
+                                      <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>{{__('paswab.saddress_city')}}</label>
                                       <select class="form-control" name="saddress_city" id="saddress_city" required>
                                         <option value="" selected disabled>Choose...</option>
                                       </select>
@@ -307,7 +300,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
+                                        <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Section, Block and Lot/Building</label>
                                         <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" required>
                                         @error('address_houseno')
                                             <small class="text-danger">{{$message}}</small>
@@ -318,7 +311,7 @@
                                     <div class="form-group">
                                         <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio/Subdivision</label>
                                         <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" required>
-                                        <small class="text-muted">Kung N/A, lagyan ng pinakamalapit na establisyemento kung saan ka nakatira (e.g Near Brgy. Hall, Near Alfamart, Near Tulay, Near Ilog, etc.)</small>
+                                        <small class="text-muted">{{__('paswab.street.notice')}}</small>
                                         @error('address_street')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -328,35 +321,35 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">3. Detalye sa Trabaho / Occupation Details</div>
+                        <div class="card-header font-weight-bold">{{__('paswab.occupationDetails')}}</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>Kasalukuyan ka bang may trabaho? / Are you currently employed?</label>
+                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>{{__('paswab.haveOccupation')}}</label>
                                 <select class="form-control" name="haveOccupation" id="haveOccupation" required>
-                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>Pumili / Choose...</option>
-                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>Meron / Yes</option>
-                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>Wala / No</option>
+                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
+                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                 </select>
                             </div>
                             <div id="occupationRow">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                          <label for="occupation"><span class="text-danger font-weight-bold">*</span>Trabaho / Occupation</label>
+                                          <label for="occupation"><span class="text-danger font-weight-bold">*</span>{{__('paswab.occupation')}}</label>
                                           <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="occupation_name">Saan nagt-trabaho / Name of Workplace</label>
+                                            <label for="occupation_name">{{__('paswab.occupation_name')}}</label>
                                             <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Uri ng Trabaho / Nature of Work</label>
+                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>{{__('paswab.natureOfWork')}}</label>
                                             <select class="form-control" name="natureOfWork" id="natureOfWork">
-                                              <option value="" disabled {{(is_null(old('natureOfWork'))) ? 'selected' : ''}}>Choose...</option>
+                                              <option value="" disabled {{(is_null(old('natureOfWork'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                               <option value="AGRICULTURE" {{(old('natureOfWork') == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
                                               <option value="BPO" {{(old('natureOfWork') == 'BPO') ? 'selected' : ''}}>BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
                                               <option value="COMMUNICATIONS" {{(old('natureOfWork') == 'COMMUNICATIONS') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
@@ -376,7 +369,7 @@
                                               <option value="STORAGE" {{(old('natureOfWork') == 'STORAGE') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
                                               <option value="TRANSPORTATION" {{(old('natureOfWork') == 'TRANSPORTATION') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
                                               <option value="WHOLESALE AND RETAIL TRADE" {{(old('natureOfWork') == 'WHOLESALE AND RETAIL TRADE') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
-                                              <option value="OTHERS" {{(old('natureOfWork') == 'OTHERS') ? 'selected' : ''}}>Others (Specify)</option>
+                                              <option value="OTHERS" {{(old('natureOfWork') == 'OTHERS') ? 'selected' : ''}}>{{__('paswab.select.ChooseOthers')}}</option>
                                             </select>
                                               @error('natureOfWork')
                                               <small class="text-danger">{{$message}}</small>
@@ -384,7 +377,7 @@
                                         </div>
                                         <div id="specifyWorkNatureDiv">
                                             <div class="form-group">
-                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Tukuyin / Please specify</label>
+                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>{{__('paswab.specify')}}</label>
                                                 <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}" style="text-transform: uppercase;">
                                                 @error('natureOfWorkIfOthers')
                                                 <small class="text-danger">{{$message}}</small>
@@ -400,16 +393,16 @@
                         <div class="card-header font-weight-bold">4. COVID-19 Vaccination Information</div>
                         <div class="card-body">
                             <div class="form-group">
-                              <label for="vaccineq1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay bakunado na kontra COVID-19? / Are you currently vaccinated againts COVID-19?</label>
+                              <label for="vaccineq1"><span class="text-danger font-weight-bold">*</span>{{__('paswab.vaccineq1')}}</label>
                               <select class="form-control" name="vaccineq1" id="vaccineq1">
-                                <option value="" disabled {{is_null(old('vaccineq1')) ? 'selected' : ''}}>Choose...</option>
-                                <option value="1" {{(old('vaccineq1') == '1') ? 'selected' : ''}}>Oo / Yes</option>
-                                <option value="0" {{(old('vaccineq1') == '0') ? 'selected' : ''}}>Hindi / No</option>
+                                <option value="" disabled {{is_null(old('vaccineq1')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                <option value="1" {{(old('vaccineq1') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
+                                <option value="0" {{(old('vaccineq1') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                               </select>
                             </div>
                             <div id="ifVaccinated">
                                 <div class="form-group">
-                                  <label for="howManyDose"><span class="text-danger font-weight-bold">*</span>Ilang Dose na ang nakumpleto? / How many Dose have you completed?</label>
+                                  <label for="howManyDose"><span class="text-danger font-weight-bold">*</span>{{__('paswab.howManyDose')}}</label>
                                   <select class="form-control" name="howManyDose" id="howManyDose">
                                     <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>Choose...</option>
                                     <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose</option>
@@ -1004,13 +997,11 @@
                     <div class="card">
                         <div class="card-header font-weight-bold">Data Privacy Statement of General Trias</div>
                         <div class="card-body text-center">
-                            <p>Sa pamamagitan ng pagpili ng "Sumasang-ayon ako" at pag-click sa pindutang "Isumite" sa ibaba, kinikilala ko at napatunayan na maingat kong binasa at naintindihan ang Mga Tuntunin at Kundisyon ng Patakaran sa Data Privacy/Polisiya ng Pamahalaan ng Lunsod ng General Trias. Sa pamamagitan ng pagbibigay ng personal na impormasyon sa Pamahalaang Lungsod ng General Trias, kinukumpirma ko na ang data ay totoo at tama. Naiintindihan ko na ang Pamahalaang Lungsod ng General Trias ay may karapatang baguhin ang anumang desisyon na ginawa batay sa impormasyong ibinigay ko kung ang impormasyon ay mapatunayan na hindi totoo o hindi tama. Sumasang-ayon din ako na ang anumang isyu na maaaring lumabas na may kaugnayan sa pagproseso ng aking personal na impormasyon ay maaayos sa Pamahalaang Panlungsod ng General Trias bago gamitin ang naaangkop na arbitrasyon o paglilitis sa korte sa loob ng hurisdiksyon ng Pilipinas. Sa wakas, nagbibigay ako ng aking kusang-loob na pahintulot at permiso sa Pamahalaang Lungsod ng General Trias at ang mga kinatawan na pinahintulutan na ligal na maproseso ang aking data / impormasyon.</p>
-                            <hr>
-                            <p>By choosing "I Agree" and clicking the "Submit" button below, I hereby acknowledge and certify that I have carefully read and understood the Terms and Conditions of the Data Privacy Policy/Notice of the City Government of General Trias. By providing personal information to City Government of General Trias, I am confirming that the data is true and correct. I understand that City Government of General Trias reserves the right to revise any decision made on the basis of the information I provided should the information be found to be untrue or incorrect. I likewise agree that any issue that may arise in connection with the processing of my personal information will be settled amicably with City Government of General Trias before resorting to appropriate arbitration or court proceedings within the Philippine jurisdiction. Finally, I am providing my voluntary consent and authorization to City Government of General Trias and its authorized representatives to lawfully process my data/information.</p>
+                            <p>{{__('paswab.dataPrivacy')}}</p>
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="dpsagree" id="dpsagree" required>
-                                Sumasang-ayon ako / I Agree
+                                {{__('paswab.iAgree')}}
                               </label>
                             </div>
                         </div>

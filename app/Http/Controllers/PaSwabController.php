@@ -9,12 +9,19 @@ use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use App\Http\Requests\PaSwabValidationRequest;
 use IlluminateAgnostic\Collection\Support\Str;
 
 class PaSwabController extends Controller
 {
-    public function index() {
+    public function index($locale) {
+        if (! in_array($locale, ['en', 'fil'])) {
+            abort(404);
+        }
+
+        App::setLocale($locale);
+        
         if(request()->input('rlink') && request()->input('s')) {
             $checkcode = PaSwabLinks::where('code', mb_strtoupper(request()->input('rlink')))
             ->where('secondary_code', mb_strtoupper(request()->input('s')))
@@ -31,6 +38,10 @@ class PaSwabController extends Controller
         else {
             return view('paswab_index', ['proceed' => 0]);
         }
+    }
+
+    public function selectLanguage() {
+        return view('paswab_language');
     }
 
     public function store(PaSwabValidationRequest $request) {

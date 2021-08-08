@@ -26,7 +26,7 @@
             @endif
             
             <div class="card mb-3">
-                <div class="card-header text-center"><h3 class="text-center">Self-Report</h3></div>
+                <div class="card-header text-center font-weight-bold"><h4>Self-Report</h4></div>
                 <div class="card-body">
                     <div id="carouselId" class="carousel slide mb-3" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -78,7 +78,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
+                                        <label for="lname"><span class="text-danger font-weight-bold">*</span>{{ __('selfreport.lastname') }}</label>
                                         <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" required>
                                         @error('lname')
                                             <small class="text-danger">{{$message}}</small>
@@ -301,7 +301,7 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                              <label for="req_file"><span class="text-danger font-weight-bold">*</span>Upload Requirements <small>(Valid IDs, Birth Certifate, etc.)</small></label>
+                              <label for="req_file">Upload Requirements <small>(Valid IDs, Birth Certifate, etc.)</small></label>
                               <input type="file" class="form-control-file" name="req_file" id="req_file">
                               <small class="form-text text-muted">Accepted file formats: JPG, JPEG, PNG, PDF. Max file size: 5MB</small>
                             </div>
@@ -577,7 +577,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
-                                <select class="form-control" name="dispositionType" id="dispositionType">
+                                <select class="form-control" name="dispositionType" id="dispositionType" required>
                                     <option value="" {{(is_null(old('dispositionType'))) ? 'selected' : ''}}>N/A</option>
                                     <option value="1" {{(old('dispositionType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
                                     <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
@@ -1169,7 +1169,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="result_file">Upload Positive Result</label>
+                      <label for="result_file"><span class="text-danger font-weight-bold">*</span>Upload Positive Result</label>
                       <input type="file" class="form-control-file" name="result_file" id="result_file" required>
                       <small class="form-text text-muted">Accepted file formats: JPG, JPEG, PNG, PDF. Max file size: 5MB</small>
                     </div>

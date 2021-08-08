@@ -76,6 +76,15 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function canUseLinelist() {
+        if($this->canAccessLinelist == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function records() {
         return $this->hasMany(Records::class);
     }

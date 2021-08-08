@@ -14,14 +14,40 @@ class LineListController extends Controller
 {
     public function index() {
         if(request()->input('q')) {
-            $list = LinelistSubs::with('records')
-            ->whereHas('records', function ($query) {
-                $query->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
-            })->orderby('created_at', 'desc')->paginate(10);
+            if(auth()->user()->isCesuAccount()) {
+                $list = LinelistSubs::with('records')
+                ->whereHas('records', function ($query) {
+                    $query->where(DB::raw('CONCAT(lname, " ",fname, " ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
+                })->orderby('created_at', 'desc')->paginate(10);
+            }
+            else {
+                if(auth()->user()->isBrgyAccount()) {
+
+                }
+                else if(auth()->user()->isCompanyAccount()) {
+
+                }
+            }
         }
         else {
-            $list = LinelistMasters::orderby('created_at', 'desc')->paginate(10);
+            if(auth()->user()->isCesuAccount()) {
+                $list = LinelistMasters::orderby('created_at', 'desc')->paginate(10);
+            }
+            else {
+                if(auth()->user()->isBrgyAccount()) {
+                    $list = LinelistMasters::with('user')
+                    ->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })->orderby('created_at', 'desc')->paginate(10);
+                }
+                else if(auth()->user()->isCompanyAccount()) {
+                    $list = LinelistMasters::with('user')
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })->orderby('created_at', 'desc')->paginate(10);
+                }
+            }
         }
 
         return view('linelist_index', ['list' => $list]);
@@ -29,13 +55,62 @@ class LineListController extends Controller
 
     public function createLineList(Request $request) {
         if($request->isOverride == 1) {
-            //$query = Records::orderBy('lname', 'asc')->get();
-            $query = Forms::whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])->pluck('records_id')->toArray();
+            if(auth()->user()->isCesuAccount()) {
+                $query = Forms::whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
+                ->pluck('records_id')
+                ->toArray();
+            }
+            else {
+                if(auth()->user()->isBrgyAccount()) {
+                    $query = Forms::with('user')
+                    ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                    ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
+                    ->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })->pluck('records_id')
+                    ->toArray();
+                }
+                else if(auth()->user()->isCompanyAccount()) {
+                    $query = Forms::with('user')
+                    ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                    ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })->pluck('records_id')
+                    ->toArray();
+                }
+            }
 
             $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
         }
         else {
-            $query = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->pluck('records_id')->toArray();
+            if(auth()->user()->isCesuAccount()) {
+                $query = Forms::where('testDateCollected1', date('Y-m-d'))
+                ->orWhere('testDateCollected2', date('Y-m-d'))
+                ->pluck('records_id')
+                ->toArray();
+            }
+            else {
+                if(auth()->user()->isBrgyAccount()) {
+                    $query = Forms::with('user')
+                    ->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'))
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })->pluck('records_id')
+                    ->toArray();
+                }
+                else if(auth()->user()->isCompanyAccount()) {
+                    $query = Forms::with('user')
+                    ->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'))
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })->pluck('records_id')
+                    ->toArray();
+                }
+            }
 
             $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
         }

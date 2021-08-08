@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\SelfReports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use PragmaRX\Countries\Package\Countries;
 use App\Http\Requests\SelfReportValidationRequest;
 
 class SelfReportController extends Controller
 {
-    public function index() {
+    public function index($locale) {
+        if (! in_array($locale, ['en', 'fil'])) {
+            abort(404);
+        }
+
+        App::setLocale($locale);
+
         $countries = new Countries();
         $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
         $all = $countries->all()->pluck('name.common')->toArray();
@@ -17,12 +24,16 @@ class SelfReportController extends Controller
         return view('selfreport_index', ['countries' => $all]);
     }
 
+    public function selectLanguage() {
+        return view('selfreport_language');
+    }
+
     public function view() {
         $list = SelfReports::all();
 
         return view('selfreport_view', ['list' => $list]);
     }
-
+    
     public function store(SelfReportValidationRequest $request) {
         $request->validated();
 
