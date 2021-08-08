@@ -301,8 +301,9 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                              <label for="req_file">Upload Requirements <small>(Valid IDs, Birth Certifate, etc.)</small></label>
+                              <label for="req_file">Upload Requirements <small>(Optional)</small></label>
                               <input type="file" class="form-control-file" name="req_file" id="req_file">
+                              <small class="form-text text-muted">Valid IDs, Birth Certifate, etc.</small>
                               <small class="form-text text-muted">Accepted file formats: JPG, JPEG, PNG, PDF. Max file size: 5MB</small>
                             </div>
                         </div>
