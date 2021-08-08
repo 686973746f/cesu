@@ -14,8 +14,8 @@
                 <p>Select Language</p>
                 <p>Pumili ng Wika</p>
                 <hr>
-                <a class="btn btn-primary btn-block" href="en?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button">English</a>
-                <a class="btn btn-primary btn-block" href="fil?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button">Filipino / Tag-lish</a>
+                <a class="btn btn-primary btn-block" href="{{route('paswab.index')}}/en?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button">English</a>
+                <a class="btn btn-primary btn-block" href="{{route('paswab.index')}}/fil?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button">Filipino / Tag-lish</a>
             </div>
         </div>
     </div>

@@ -203,8 +203,10 @@ class CreateSelfReportsTable extends Migration
 
             $table->string('remarks')->nullable();
 
-            $table->text('req_file');
+            $table->text('req_file')->nullable();
             $table->text('result_file');
+
+            $table->ipAddress('senderIP');
         });
     }
 
