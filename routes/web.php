@@ -61,7 +61,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/paswab/completed', [PaSwabController::class, 'complete'])->name('paswab.complete');
     Route::post('/paswab/check', [PaSwabController::class, 'check'])->name('paswab.check');
     
-    Route::get('/selfreport/{locale}', [SelfReportController::class, 'index']);
+    Route::get('/selfreport/{locale}', [SelfReportController::class, 'index'])->name('selfreport.index');
     Route::get('/selfreport', [SelfReportController::class, 'selectLanguage'])->name('selfreport.language');
     Route::post('/selfreport', [SelfReportController::class, 'store'])->name('selfreport.store');
 });

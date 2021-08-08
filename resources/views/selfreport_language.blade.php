@@ -14,8 +14,8 @@
                 <p>Select Language</p>
                 <p>Pumili ng Wika</p>
                 <hr>
-                <a name="" id="" class="btn btn-primary btn-block" href="selfreport/en/" role="button">English</a>
-                <a name="" id="" class="btn btn-primary btn-block" href="selfreport/fil/" role="button">Filipino / Tag-lish</a>
+                <a name="" id="" class="btn btn-primary btn-block" href="{{route('selfreport.index', ['locale' => 'en'])}}" role="button">English</a>
+                <a name="" id="" class="btn btn-primary btn-block" href="{{route('selfreport.index', ['locale' => 'fil'])}}" role="button">Filipino / Tag-lish</a>
             </div>
         </div>
     </div>
