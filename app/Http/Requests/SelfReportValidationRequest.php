@@ -193,7 +193,7 @@ class SelfReportValidationRequest extends FormRequest
             'contact3No' => 'nullable|numeric|digits:11|starts_with:09',
             'contact4Name' => 'nullable|string',
             'contact4No' => 'nullable|numeric|digits:11|starts_with:09',
-            'req_file' => 'required|mimes:jpg,png,jpeg,pdf|max:5048',
+            'req_file' => 'nullable|mimes:jpg,png,jpeg,pdf|max:5048',
             'result_file' => 'required|mimes:jpg,png,jpeg,pdf|max:5048',
         ];
     }

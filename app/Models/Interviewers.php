@@ -17,6 +17,10 @@ class Interviewers extends Model
         'brgy_id'
     ];
 
+    public function getName() {
+        return $this->lname.', '.$this->fname.' '.$this->mname;
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }

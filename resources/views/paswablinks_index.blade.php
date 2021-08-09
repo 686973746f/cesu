@@ -43,10 +43,11 @@
                                     <form action="/admin/paswablinks/{{$item->id}}/options" method="POST">
                                         @csrf
                                         @if($item->active == 1)
-                                        <button type="submit" name="submit" value="activeInit" class="btn btn-warning">Disable</button>
+                                        <button type="submit" name="submit" value="activeInit" class="btn btn-warning btn-block">Disable</button>
                                         @else
-                                        <button type="submit" name="submit" value="activeInit" class="btn btn-success">Enable</button>
+                                        <button type="submit" name="submit" value="activeInit" class="btn btn-success btn-block">Enable</button>
                                         @endif
+                                        <button type="submit" name="submit" value="changeSecondaryCode" class="btn btn-primary btn-block">Change Secondary Code</button>
                                     </form>
                                 </td>
                             </tr>
@@ -79,8 +80,16 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                          <label for="code">Input Pa-swab Referral Link here:</label>
+                          <label for="code">Input Pa-swab Referral Code</label>
                           <input type="text" class="form-control" name="code" id="code" value="{{old('code')}}" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="interviewer_id">Link Referral Code to this Interviewer Account</label>
+                          <select class="form-control" name="interviewer_id" id="interviewer_id">
+                            @foreach($interviewers as $i)
+                                <option value="{{$i->id}}">{{$i->getName()}}</option>
+                            @endforeach
+                          </select>
                         </div>
                     </div>
                     <div class="modal-footer">

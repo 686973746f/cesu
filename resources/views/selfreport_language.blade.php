@@ -6,9 +6,10 @@
             <div class="card-header text-center">
                 <h5>Province of Cavite</h5>
                 <h5>City of General Trias</h5>
-                <h5>Office of the City Health Officer</h5>
+                <h5>City Health Office</h5>
+                <h5>City Epidemiology and Surveillance Unit</h5>
                 <hr>
-                <h5 class="font-weight-bold">CESU Self-Report</h5>
+                <h5 class="font-weight-bold">COVID-19 Self-Reporting System</h5>
             </div>
             <div class="card-body text-center">
                 <p>Select Language</p>

@@ -12,6 +12,7 @@ class PaSwabLinks extends Model
     protected $fillable = [
         'code',
         'secondary_code',
+        'interviewer_id',
     ];
 
     public function user() {

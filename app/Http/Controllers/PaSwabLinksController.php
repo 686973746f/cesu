@@ -3,20 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaSwabLinks;
+use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use IlluminateAgnostic\Collection\Support\Str;
 
 class PaSwabLinksController extends Controller
 {
     public function index() {
+        $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+
         $data = PaSwabLinks::orderBy('created_at', 'desc')->paginate(10);
 
-        return view('paswablinks_index', ['data' => $data]);
+        return view('paswablinks_index', ['data' => $data, 'interviewers' => $interviewers]);
     }
 
     public function store(Request $request) {
         $request->validate([
             'code' => 'required|string|max:20',
+            'interviewer_id' => 'required|numeric',
         ]);
 
         $check = PaSwabLinks::where('code', mb_strtoupper($request->code))->first();
@@ -25,13 +29,14 @@ class PaSwabLinksController extends Controller
             $request->user()->paSwabLink()->create([
                 'code' => mb_strtoupper($request->code),
                 'secondary_code' => mb_strtoupper(Str::random(6)),
+                'interviewer_id' => $request->interviewer_id,
             ]);
 
             return redirect()->action([PaSwabLinksController::class, 'index'])
             ->with('msg', 'Pa-Swab Link Code has been created successfully.')
             ->with('msgtype', 'success');
         }
-        else{
+        else {
             return redirect()->action([PaSwabLinksController::class, 'index'])
             ->with('msg', 'There was an error processing your request. Pa-Swab Link Code already exists in the sytem. Please input another code and then try again.')
             ->with('msgtype', 'warning');
@@ -55,6 +60,15 @@ class PaSwabLinksController extends Controller
 
             return redirect()->action([PaSwabLinksController::class, 'index'])
             ->with('msg', 'Pa-Swab Link Code status has been updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else if($request->submit == 'changeSecondaryCode') {
+            $update = PaSwabLinks::where('id', $id)->update([
+                'secondary_code' => mb_strtoupper(Str::random(6)),
+            ]);
+
+            return redirect()->action([PaSwabLinksController::class, 'index'])
+            ->with('msg', 'Pa-Swab Secondary Link Code for ('.$item->code.') has been updated successfully.')
             ->with('msgtype', 'success');
         }
     }

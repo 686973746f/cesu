@@ -26,7 +26,7 @@
             @endif
             
             <div class="card mb-3">
-                <div class="card-header text-center font-weight-bold"><h4>Self-Report</h4></div>
+                <div class="card-header text-center font-weight-bold"><h4>COVID-19 Self-Reporting System</h4></div>
                 <div class="card-body">
                     <div id="carouselId" class="carousel slide mb-3" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -298,13 +298,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                              <label for="req_file">Upload Requirements <small>(Optional)</small></label>
-                              <input type="file" class="form-control-file" name="req_file" id="req_file">
-                              <small class="form-text text-muted">Valid IDs, Birth Certifate, etc.</small>
-                              <small class="form-text text-muted">Accepted file formats: JPG, JPEG, PNG, PDF. Max file size: 5MB</small>
                             </div>
                         </div>
                     </div>
