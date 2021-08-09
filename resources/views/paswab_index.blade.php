@@ -413,13 +413,15 @@
                                   <label for="nameOfVaccine"><span class="text-danger font-weight-bold">*</span>Pangalan ng Bakuna / Name of Vaccine</label>
                                   <select class="form-control" name="nameOfVaccine" id="nameOfVaccine">
                                     <option value="" disabled {{is_null(old('nameOfVaccine')) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="ASTRAZENECA" {{(old('nameOfVaccine') == 'ASTRAZENECA') ? 'selected' : ''}}>Astrazeneca</option>
-                                    <option value="JOHNSON & JOHNSON'S" {{(old('nameOfVaccine') == "JOHNSON & JOHNSON'S") ? 'selected' : ''}}>Johnson & Johnson's</option>
+                                    <option value="BHARAT BIOTECH" {{(old('nameOfVaccine') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
+                                    <option value="GAMALEYA SPUTNIK V" {{(old('nameOfVaccine') == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
+                                    <option value="JANSSEN" {{(old('nameOfVaccine') == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
                                     <option value="MODERNA" {{(old('nameOfVaccine') == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
-                                    <option value="PFIZER" {{(old('nameOfVaccine') == 'PFIZER') ? 'selected' : ''}}>Pfizer</option>
-                                    <option value="SINOFARM" {{(old('nameOfVaccine') == 'SINOFARM') ? 'selected' : ''}}>Sinofarm</option>
-                                    <option value="SINOVAC" {{(old('nameOfVaccine') == 'SINOVAC') ? 'selected' : ''}}>Sinovac</option>
-                                    <option value="SPUTNIK V" {{(old('nameOfVaccine') == 'SPUTNIK V') ? 'selected' : ''}}>Sputnik V</option>
+                                    <option value="NOVARAX" {{(old('nameOfVaccine') == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
+                                    <option value="OXFORD ASTRAZENECA" {{(old('nameOfVaccine') == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
+                                    <option value="PFIZER BIONTECH" {{(old('nameOfVaccine') == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
+                                    <option value="SINOPHARM" {{(old('nameOfVaccine') == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
+                                    <option value="SINOVAC CORONAVAC" {{(old('nameOfVaccine') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
                                   </select>
                                 </div>
                                 <div id="VaccineDose1">
