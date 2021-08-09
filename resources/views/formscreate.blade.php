@@ -787,7 +787,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="vaccinationName1"><span class="text-danger font-weight-bold">*</span>Pangalan ng Bakuna / Name of Vaccine</label>
+                                                <label for="vaccinationName1">Name of Vaccine</label>
                                                 <select class="form-control" name="vaccinationName1" id="vaccinationName1">
                                                     <option value="" disabled {{is_null(old('vaccinationName1')) ? 'selected' : ''}}>Choose...</option>
                                                     <option value="BHARAT BIOTECH" {{(old('vaccinationName1') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
@@ -845,7 +845,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="vaccinationName2"><span class="text-danger font-weight-bold">*</span>Pangalan ng Bakuna / Name of Vaccine</label>
+                                                <label for="vaccinationName2">Name of Vaccine</label>
                                                 <select class="form-control" name="vaccinationName2" id="vaccinationName2">
                                                     <option value="" disabled {{is_null(old('vaccinationName2')) ? 'selected' : ''}}>Choose...</option>
                                                     <option value="BHARAT BIOTECH" {{(old('vaccinationName2') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
