@@ -57,8 +57,8 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::group(['middleware' => ['guest']], function () {
     Route::get('/paswab', [PaSwabController::class, 'selectLanguage'])->name('paswab.language');
     Route::get('/paswab/{locale}', [PaSwabController::class, 'index'])->name('paswab.index');
-    Route::post('/paswab', [PaSwabController::class, 'store'])->name('paswab.store');
-    Route::get('/paswab/completed', [PaSwabController::class, 'complete'])->name('paswab.complete');
+    Route::post('/paswab/{locale}', [PaSwabController::class, 'store'])->name('paswab.store');
+    Route::get('/paswab/{locale}/completed', [PaSwabController::class, 'complete'])->name('paswab.complete');
     Route::post('/paswab/check', [PaSwabController::class, 'check'])->name('paswab.check');
     
     Route::get('/selfreport/{locale}', [SelfReportController::class, 'index'])->name('selfreport.index');

@@ -2,7 +2,7 @@
 
 @section('content')
     @if($proceed == 1)
-    <form action="{{route('paswab.store')}}" method="POST" id="myForm" name="wholeForm" style="font-family: Arial, Helvetica, sans-serif">
+    <form action="{{route('paswab.store', ['locale' => app()->getLocale()])}}" method="POST" id="myForm" name="wholeForm" style="font-family: Arial, Helvetica, sans-serif">
         @csrf
         <div class="container">
             <div class="card">

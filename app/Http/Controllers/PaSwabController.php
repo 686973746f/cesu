@@ -48,7 +48,7 @@ class PaSwabController extends Controller
         
     }
 
-    public function store(PaSwabValidationRequest $request) {
+    public function store(PaSwabValidationRequest $request, $locale) {
         $request->validated();
 
         if(PaSwabDetails::where('lname', mb_strtoupper($request->lname))
@@ -244,8 +244,10 @@ class PaSwabController extends Controller
             
                             'senderIP' => request()->ip(),
                         ]);
+
+                        
             
-                        return redirect()->action([PaSwabController::class, 'complete'])
+                        return redirect()->route('paswab.complete', ['locale' => $locale])
                         ->with('majik', $majik)
                         ->with('statustype', 'success')
                         ->with('fcode', mb_strtoupper($request->linkcode))
@@ -263,7 +265,13 @@ class PaSwabController extends Controller
         }
     }
 
-    public function complete() {
+    public function complete($locale) {
+        if (! in_array($locale, ['en', 'fil'])) {
+            abort(404);
+        }
+
+        App::setLocale($locale);
+
         return view('paswab_complete');
     }
 
