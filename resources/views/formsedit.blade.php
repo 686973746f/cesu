@@ -827,7 +827,16 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationName1">Name of Vaccine</label>
-                                                <input type="text" class="form-control" name="vaccinationName1" id="vaccinationName1" value="{{old('vaccinationName1', $records->vaccinationName1)}}" style="text-transform: uppercase;">
+                                                <select class="form-control" name="vaccinationName1" id="vaccinationName1">
+                                                    <option value="" disabled {{is_null(old('vaccinationName1', $records->vaccinationName1)) ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="ASTRAZENECA" {{(old('vaccinationName1', $records->vaccinationName1) == 'ASTRAZENECA') ? 'selected' : ''}}>Astrazeneca</option>
+                                                    <option value="JOHNSON & JOHNSON'S" {{(old('vaccinationName1', $records->vaccinationName1) == "JOHNSON & JOHNSON'S") ? 'selected' : ''}}>Johnson & Johnson's</option>
+                                                    <option value="MODERNA" {{(old('vaccinationName1', $records->vaccinationName1) == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+                                                    <option value="PFIZER" {{(old('vaccinationName1', $records->vaccinationName1) == 'PFIZER') ? 'selected' : ''}}>Pfizer</option>
+                                                    <option value="SINOFARM" {{(old('vaccinationName1', $records->vaccinationName1) == 'SINOFARM') ? 'selected' : ''}}>Sinofarm</option>
+                                                    <option value="SINOVAC" {{(old('vaccinationName1', $records->vaccinationName1) == 'SINOVAC') ? 'selected' : ''}}>Sinovac</option>
+                                                    <option value="SPUTNIK V" {{(old('vaccinationName1', $records->vaccinationName1) == 'SPUTNIK V') ? 'selected' : ''}}>Sputnik V</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -874,7 +883,16 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vaccinationName2">Name of Vaccine</label>
-                                                <input type="text" class="form-control" name="vaccinationName2" id="vaccinationName2" value="{{old('vaccinationName2', $records->vaccinationName2)}}" style="text-transform: uppercase;">
+                                                <select class="form-control" name="vaccinationName2" id="vaccinationName2">
+                                                    <option value="" disabled {{is_null(old('vaccinationName2', $records->vaccinationName2)) ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="ASTRAZENECA" {{(old('vaccinationName2', $records->vaccinationName2) == 'ASTRAZENECA') ? 'selected' : ''}}>Astrazeneca</option>
+                                                    <option value="JOHNSON & JOHNSON'S" {{(old('vaccinationName2', $records->vaccinationName2) == "JOHNSON & JOHNSON'S") ? 'selected' : ''}}>Johnson & Johnson's</option>
+                                                    <option value="MODERNA" {{(old('vaccinationName2', $records->vaccinationName2) == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+                                                    <option value="PFIZER" {{(old('vaccinationName2', $records->vaccinationName2) == 'PFIZER') ? 'selected' : ''}}>Pfizer</option>
+                                                    <option value="SINOFARM" {{(old('vaccinationName2', $records->vaccinationName2) == 'SINOFARM') ? 'selected' : ''}}>Sinofarm</option>
+                                                    <option value="SINOVAC" {{(old('vaccinationName2', $records->vaccinationName2) == 'SINOVAC') ? 'selected' : ''}}>Sinovac</option>
+                                                    <option value="SPUTNIK V" {{(old('vaccinationName2', $records->vaccinationName2) == 'SPUTNIK V') ? 'selected' : ''}}>Sputnik V</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">

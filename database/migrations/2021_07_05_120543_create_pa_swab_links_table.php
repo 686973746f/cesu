@@ -20,6 +20,7 @@ class CreatePaSwabLinksTable extends Migration
             $table->tinyInteger('active')->default(1);
             $table->string('code');
             $table->string('secondary_code');
+            $table->foreignId('interviewers_id')->constrained()->onDelete('cascade');
             $table->string('listOfAcceptedTestType')->nullable();
         });
     }
