@@ -44,6 +44,10 @@ class PaSwabController extends Controller
         return view('paswab_language');
     }
 
+    public function bulkAccept(Request $request) {
+        
+    }
+
     public function store(PaSwabValidationRequest $request) {
         $request->validated();
 
