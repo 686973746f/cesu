@@ -17,7 +17,7 @@ class CreatePaSwabLinksTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('interviewer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('interviewer_id')->nullable()->constrained()->onDelete('cascade');
             $table->tinyInteger('active')->default(1);
             $table->string('code');
             $table->string('secondary_code');
