@@ -33,6 +33,7 @@ class DOHExport implements WithMultipleSheets
         $sheets[] = new SuspectedCaseSheet($this->id);
         $sheets[] = new ProbableCaseSheet($this->id);
         $sheets[] = new ConfirmedCaseSheet($this->id);
+        $sheets[] = new ActiveConfirmedCaseSheet($this->id);
         $sheets[] = new NegativeCaseSheet($this->id);
 
         return $sheets;
