@@ -67,6 +67,7 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
+    Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
     Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
     Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific']);
     Route::post('/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);

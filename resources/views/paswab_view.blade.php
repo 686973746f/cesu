@@ -28,8 +28,9 @@
                     <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>The search returned {{$list->count()}} {{Str::plural('result', $list->count())}}. <a href="{{route('paswab.view')}}">GO BACK</a>
                 </div>
                 @endif
-                <form action="">
-                    <button type="button" class="btn btn-primary">Bulk Approve Data</button>
+                <form action="{{route('paswab.options')}}" method="POST">
+                    @csrf
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bulkapprove">Bulk Approve Data</button>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped" id="paswabtbl">
                             <thead class="text-center thead-light">
@@ -84,6 +85,55 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="modal fade" id="bulkapprove" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Bulk Approve Data</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                      <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date of Swab Collection</label>
+                                      <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of Test</label>
+                                      <select class="form-control" name="testType1" id="testType1" required>
+                                        <option value="" disabled {{(is_null(old('testType1'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                        <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                        <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                        <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                        <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                        <option value="OTHERS" {{(old('testType1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                      </select>
+                                    </div>
+                                    <div id="divTypeOthers1">
+                                        <div class="form-group">
+                                            <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
+                                            <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1')}}">
+                                        </div>
+                                        <div id="ifAntigen1">
+                                            <div class="form-group">
+                                                <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                                <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-info" role="alert">
+                                        Note: If the selected pa-swab data contains 'For Antigen', the test type will still remain as is after accepted. Name of Antigen Test Kit and Reason for Antigen Test will be written based on default values in system settings.
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" name="submit" value="bulkApprove" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
 
                 <div class="pagination justify-content-center mt-3">
@@ -92,6 +142,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <script>
         $('#paswabtbl').dataTable({
@@ -109,5 +161,34 @@
             }],
             "ordering": false,
         });
+
+        $('#select_all').change(function() {
+        var checkboxes = $(this).closest('form').find(':checkbox');
+        checkboxes.prop('checked', $(this).is(':checked'));
+        });
+
+        $('#testType1').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
+                $('#divTypeOthers1').show();
+                $('#testTypeOtherRemarks1').prop('required', true);
+                if($(this).val() == 'ANTIGEN') {
+                    $('#ifAntigen1').show();
+                    $('#antigenKit1').prop('required', true);
+                }
+                else {
+                    $('#ifAntigen1').hide();
+                    $('#antigenKit1').prop('required', false);
+                }
+            }
+            else {
+                $('#divTypeOthers1').hide();
+                $('#testTypeOtherRemarks1').empty();
+                $('#testTypeOtherRemarks1').prop('required', false);
+
+                $('#ifAntigen1').hide();
+                $('#antigenKit1').prop('required', false);
+            }
+        }).trigger('change');
     </script>
 @endsection
