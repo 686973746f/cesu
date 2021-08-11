@@ -30,13 +30,15 @@
                 @endif
                 <form action="{{route('paswab.options')}}" method="POST">
                     @csrf
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bulkapprove">Bulk Approve Data</button>
+                    <div>
+                        <button type="button" class="btn btn-primary my-3" data-toggle="modal" data-target="#bulkapprove" id="bulkbtn">Bulk Approve Data</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped" id="paswabtbl">
                             <thead class="text-center thead-light">
                                 <tr>
                                     <th></th>
-                                    <th><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
+                                    <th style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
                                     <th style="vertical-align: middle;">Date Submitted</th>
                                     <th style="vertical-align: middle;">Name</th>
                                     <th style="vertical-align: middle;">Philhealth</th>
@@ -143,9 +145,20 @@
         </div>
     </div>
 
-    
-
     <script>
+        $('#bulkbtn').prop('disabled', true);
+
+        $('input:checkbox').click(function() {
+            if ($(this).is(':checked')) {
+                $('#bulkbtn').prop('disabled', false);
+            }
+            else {
+                if ($('.checks').filter(':checked').length < 1 || $('#select_all').prop('checked') == false) {
+                    $('#bulkbtn').prop('disabled', true);
+                }
+            }
+        });
+
         $('#paswabtbl').dataTable({
             dom: 'tr',
             responsive: {
@@ -159,6 +172,7 @@
                 orderable: false,
                 targets: 0,
             }],
+            fixedHeader: true,
             "ordering": false,
         });
 
