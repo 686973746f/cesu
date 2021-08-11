@@ -82,7 +82,7 @@ class LineListController extends Controller
                 }
             }
 
-            $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+            //$query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
         }
         else {
             if(auth()->user()->isCesuAccount()) {
