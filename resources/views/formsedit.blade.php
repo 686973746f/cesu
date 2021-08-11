@@ -89,11 +89,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit</label>
-                                <select class="form-control" name="drunit" id="drunit" required>
-                                    <option value="" disabled {{(is_null(old('drunit', $records->drunit))) ? 'selected' : ''}}>Choose...</option>
-                                    <option class="CHO GENERAL TRIAS" {{(old('drunit', $records->drunit) == "CHO GENERAL TRIAS") ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
-                                </select>
+                                <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
+                                <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit', $records->drunit)}}">
                             </div>
                         </div>
                         <div class="col-md-4">

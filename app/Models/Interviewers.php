@@ -28,4 +28,8 @@ class Interviewers extends Model
     public function brgy() {
         return $this->belongsTo(Brgy::class);
     }
+
+    public function paswablink() {
+        return $this->belongsTo(PaSwabLinks::class);
+    }
 }

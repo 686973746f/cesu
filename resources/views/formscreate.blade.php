@@ -41,11 +41,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit</label>
-                                <select class="form-control" name="drunit" id="drunit" required>
-                                    <option value="" disabled {{(empty(old('drunit'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option class="CHO GENERAL TRIAS" {{(old('drunit') == "CHO GENERAL TRIAS") ? 'selected' : 'selected'}}>CHO GENERAL TRIAS</option>
-                                </select>
+                              <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
+                              <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit', 'CHO GENERAL TRIAS')}}">
                             </div>
                         </div>
                         <div class="col-md-4">
