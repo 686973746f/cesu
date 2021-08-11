@@ -22,6 +22,9 @@ class CreateSiteSettingsTable extends Migration
             $table->tinyInteger('lockencode_enabled')->default(1);
             $table->time('lockencode_start_time')->default('09:30');
             $table->time('lockencode_end_time')->default('09:30');
+            $table->text('default_dru')->nullable();
+            $table->text('default_dru_region')->nullable();
+            $table->text('default_dru_province')->nullable();
         });
     }
 

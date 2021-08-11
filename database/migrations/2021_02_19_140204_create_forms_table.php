@@ -31,6 +31,7 @@ class CreateFormsTable extends Migration
             
             $table->string('drunit');
             $table->string('drregion');
+            $table->string('drprovince');
             $table->string('interviewerName');
             $table->string('interviewerMobile'); 
             $table->date('interviewDate');

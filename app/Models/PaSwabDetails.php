@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\PaSwabLinks;
+use App\Models\Interviewers;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PaSwabDetails extends Model
 {
@@ -117,6 +119,13 @@ class PaSwabDetails extends Model
         else {
             return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
         }
+    }
+
+    public function getDefaultInterviewerName() {
+        $referralCode = PaSwabLinks::where('code', $this->linkCode)->first();
+        $interviewer = Interviewers::where('id', $referralCode->interviewer_id)->first();
+
+        return $interviewer->getCifName();
     }
 
     public function toDateTimeString() {

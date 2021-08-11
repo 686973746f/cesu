@@ -21,6 +21,11 @@ class Interviewers extends Model
         return $this->lname.', '.$this->fname.' '.$this->mname;
     }
 
+    public function getCifName() {
+        //para mag-match sa dropdown ng create cif, di kailangan ng middle name
+        return $this->lname.', '.$this->fname;
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }
