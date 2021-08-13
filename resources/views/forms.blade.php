@@ -344,6 +344,10 @@
         $('[data-toggle="tooltip"]').tooltip()
     });
 
+    $('#changeTypeBtn').prop('disabled', true);
+    $('#reschedBtn').prop('disabled', true);
+    $('#exportBtn').prop('disabled', true);
+
     $(document).ready(function () {
         @if(session('modalmsg'))
         $('#selectPatient').modal('show');
@@ -374,21 +378,18 @@
 
         $('#patient').selectize();
     });
-
-    $('#changeTypeBtn').prop('disabled', true);
-    $('#reschedBtn').prop('disabled', true);
-    $('#exportBtn').prop('disabled', true);
-
+    
     $('input:checkbox').click(function() {
         if ($(this).is(':checked')) {
             $('#changeTypeBtn').prop('disabled', false);
             $('#reschedBtn').prop('disabled', false);
             $('#exportBtn').prop("disabled", false);
-        } else {
-        if ($('.checks').filter(':checked').length < 1){
-            $('#changeTypeBtn').prop('disabled', true);
-            $('#reschedBtn').prop('disabled', true);
-            $('#exportBtn').attr('disabled',true);}
+        } else {        
+            if ($('.checks').filter(':checked').length < 1 || $('#select_all').prop('checked') == false) {
+                $('#changeTypeBtn').prop('disabled', true);
+                $('#reschedBtn').prop('disabled', true);
+                $('#exportBtn').attr('disabled',true);
+            }
         }
     });
 
