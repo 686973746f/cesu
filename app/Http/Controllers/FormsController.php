@@ -232,7 +232,8 @@ class FormsController extends Controller
     }
 
     public function importInit(Request $request) {
-        Excel::import(new CifImport([$request->importDate, $request->importType]), request()->file('thefile'));
+        dd($request->thefile);
+        //Excel::import(new CifImport(), request()->file('thefile'));
     }
 
     public function soloExport($id) {

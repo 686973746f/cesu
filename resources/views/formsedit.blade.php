@@ -753,7 +753,6 @@
                                             <div class="form-group">
                                                 <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
                                                 <select class="form-control" name="dispositionType" id="dispositionType">
-                                                    <option value="" {{(is_null(old('dispositionType', $records->dispoType))) ? 'selected' : ''}}>N/A</option>
                                                     <option value="1" {{(old('dispositionType', $records->dispoType) == 1) ? 'selected' : ''}}>Admitted in hospital</option>
                                                     <option value="2" {{(old('dispositionType', $records->dispoType) == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
                                                     <option value="3" {{(old('dispositionType', $records->dispoType) == 3) ? 'selected' : ''}}>In home isolation/quarantine</option>
@@ -770,7 +769,7 @@
                                             <div id="divYes6">
                                                 <div class="form-group">
                                                     <label for="dispositionDate" id="dispositiondatelabel"></label>
-                                                    <input type="datetime-local" class="form-control" name="dispositionDate" id="dispositionDate" value="{{old('dispositionDate', $records->dispoDate)}}">
+                                                    <input type="datetime-local" class="form-control" name="dispositionDate" id="dispositionDate" value="{{old('dispositionDate', date('Y-m-d\TH:i', strtotime($records->dispoDate)))}}">
                                                 </div>
                                             </div>
                                         </div>
