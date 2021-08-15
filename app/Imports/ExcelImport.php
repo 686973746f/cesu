@@ -17,7 +17,7 @@ class ExcelImport implements ToCollection, WithStartRow
     */
     public function collection(Collection $rows)
     {
-        //dd($rows);
+        dd($rows);
 
         foreach ($rows as $row) {
             //dd(Date::excelToDateTimeObject($row[2])->format('Y-m-d'));
@@ -105,7 +105,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     'permaemail' => NULL,
         
                     'hasOccupation' => (!is_null($row[19])) ? 1 : 0,
-                    'occupation' => (!is_null($row[19])) ? mb_strtoupper($row[19]) : NULL,
+                    'occupation' => (!is_null($row[19]) || $row[19] == 'N/A') ? mb_strtoupper($row[19]) : NULL,
                     'worksInClosedSetting' => 'UNKNOWN',
                     'occupation_lotbldg' => NULL,
                     'occupation_street' => NULL,
@@ -121,6 +121,47 @@ class ExcelImport implements ToCollection, WithStartRow
                     'natureOfWork' => NULL,
                     'natureOfWorkIfOthers' => NULL,
                 ]);
+
+                //Health Status
+                if($row[22] == 'ASYMPTOMATIC') {
+                    $healthStatus = 'Asymptomatic';
+                }
+                else if($row[22] == 'SYMPTOMATIC' || $row[22] == 'MILD -SYMPTOMATIC' || $row[22] == 'MILD - SYMPTOMATIC') {
+                    $healthStatus = 'Mild';
+                }
+                else {
+                    $healthStatus = ucfirst($row[22]);
+                }
+
+                //Classification
+                if($row[40] == 'CONFIRMED CASE') {
+                    $classification = 'Confirmed';
+                }
+                else if($row[40] == 'SUSPECTED') {
+                    $classification = 'Suspect';
+                }
+                else if($row[40] == 'NEGATIVE') {
+                    $classification = 'Non-COVID-19 Case'; 
+                }
+                else {
+                    $classification = ucfirst($row[40]);
+                }
+
+                //Outcome
+                if($row[41] == 'RECOVERED') {
+
+                }
+                else if($row[41] == 'DONE QUARANTINE') {
+
+                }
+                else if($row[41] == 'SELF QUARANTINE') {
+
+                }
+                else {
+
+                }
+
+                
 
                 $forms = auth()->forms()->create([
                     'majikCode' => NULL,
@@ -138,7 +179,49 @@ class ExcelImport implements ToCollection, WithStartRow
                     'existingCaseList' => '1',
                     'ecOthersRemarks' => NULL,
                     'pType' => 'PROBABLE',
+                    'isForHospitalization' => 0,
+                    'testingCat' => 'C',
+                    'havePreviousCovidConsultation' => 0,
+                    'dateOfFirstConsult' => NULL,
+                    'facilityNameOfFirstConsult' => NULL,
+
+                    'vaccinationDate1' => NULL,
+                    'vaccinationName1' => NULL,
+                    'vaccinationNoOfDose1' => NULL,
+                    'vaccinationFacility1' => NULL,
+                    'vaccinationRegion1' => NULL,
+                    'haveAdverseEvents1' => NULL,
+
+                    'vaccinationDate2' => NULL,
+                    'vaccinationName2' => NULL,
+                    'vaccinationNoOfDose2' => NULL,
+                    'vaccinationFacility2' => NULL,
+                    'vaccinationRegion2' => NULL,
+                    'haveAdverseEvents2' => NULL,
                     
+                    //PLESE FINISH
+                    'dispoType' => NULL,
+                    'dispoName' => NULL,
+                    'dispoDate' => NULL,
+
+                    'healthStatus' => $healthStatus,
+                    'caseClassification' => $classification,
+                    'isHealthCareWorker' => ($row[20] == 'Y') ? '1' : '0',
+                    'healthCareCompanyName' => ($row[20] == 'Y') ? mb_strtoupper($row[21]) : NULL,
+                    'healthCareCompanyLocation' => NULL,
+
+                    'isOFW' => ($row[54] == 'Y') ? '1' : '0',
+                    'OFWCountyOfOrigin' => ($row[54] == 'Y') ? mb_strtoupper($row[55]) : NULL,
+                    'ofwType' => 1,
+
+                    //WALA NAMANG FOREIGN NATIONAL TRAVELER COLUMN SA EXCEL BRUH
+                    'isFNT' => '0',
+                    'lsiType' => NULL,
+                    'FNTCountryOfOrigin' => NULL,
+
+                    'isLSI' => '0',
+                    'LSICity' => NULL,
+                    'LSIProvince' => NULL,
                 ]);
             }
         }
