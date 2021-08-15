@@ -18,12 +18,13 @@
         "postcss": "^8.3.6",
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.32.13",
-        "sass-loader": "^12.1.0"
+        "sass-loader": "^12.1.0",
+        "select2": "^4.1.0-rc.0"
     },
     "dependencies": {
         "@chartisan/chartjs": "^2.1.0",
-        "@fortawesome/fontawesome-free": "^5.15.3",
-        "@types/chart.js": "^2.9.32",
+        "@fortawesome/fontawesome-free": "^5.15.4",
+        "@types/chart.js": "^2.9.34",
         "chart.js": "^2.9.4",
         "chartjs-plugin-datalabels": "^1.0.0",
         "datatables.net": "^1.10.25",
@@ -38,7 +39,8 @@
         "datatables.net-searchbuilder-bs4": "^1.1.0",
         "holderjs": "^2.9.9",
         "jquery": "^3.6.0",
-        "jszip": "^3.7.0",
+        "jszip": "^3.7.1",
+        "select2-theme-bootstrap4": "^1.0.0",
         "selectize": "^0.12.6",
         "uuid": "^8.3.2"
     }

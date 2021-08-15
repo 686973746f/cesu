@@ -8,9 +8,11 @@ use App\Models\Records;
 use App\Imports\CifImport;
 use App\Models\CifUploads;
 use App\Exports\FormsExport;
+use App\Imports\ExcelImport;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use PragmaRX\Countries\Package\Countries;
 use App\Http\Requests\FormValidationRequest;
@@ -227,13 +229,40 @@ class FormsController extends Controller
         return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr, 'paswabctr' => $paswabctr]);
     }
 
+    public function ajaxList(Request $request) {
+        $data = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            /*
+            $data = Records::select("id","lname")->where(function ($query) {
+                $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
+                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+            })->get();
+            */
+            //$data = Records::where('lname', 'LIKE', "%$search%")->get();
+
+            $data = Records::where(function ($query) use ($search) {
+                $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
+                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+            })->get();
+
+            //$data = Records::select("id","lname")->where('lname','LIKE',"%$search%")->get();
+        }
+        
+        return response()->json($data);
+    }
+
     public function importIndex() {
         return view('forms_import');
     }
 
     public function importInit(Request $request) {
-        dd($request->thefile);
-        //Excel::import(new CifImport(), request()->file('thefile'));
+        $request->validate([
+            'thefile' => 'required'
+        ]);
+        
+        Excel::import(new ExcelImport(), request()->file('thefile'));
     }
 
     public function soloExport($id) {

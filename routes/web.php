@@ -80,13 +80,14 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
 
     Route::resource('records', RecordsController::class);
 
+    Route::get('/forms/ajaxList', [FormsController::class, 'ajaxList'])->name('forms.ajaxList');
     Route::get('/forms/printCIFList/', [FormsController::class, 'printCIFList'])->name('forms.ciflist.print');
     Route::get('/forms/printAntigenLinelist/', [FormsController::class, 'printAntigenLinelist'])->name('forms.antigenlinelist.print');
 
     Route::get('/forms/selfreport/', [SelfReportController::class, 'view'])->name('selfreport.view');
     
     Route::resource('/forms', FormsController::class);
-    Route::get('/forms/{id}/new', [FormsController::class, 'new']);
+    Route::get('/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
     Route::post('/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
     Route::get('/forms/download/{id}', [FormsController::class, 'downloadDocs']);

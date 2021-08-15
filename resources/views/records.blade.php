@@ -6,7 +6,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div class="font-weight-bold">
-                        Patient List
+                        Patient List (Total Count: {{number_format($records->total())}})
                     </div>
                     <div>
                         <a href="{{route('records.create')}}" class="btn btn-success"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Add Patient</a>

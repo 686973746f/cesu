@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card">
-            <div class="card-header font-weight-bold">Pa-Swab List @if(!request()->input('q'))(Total: {{$list->count()}})@endif</div>
+            <div class="card-header font-weight-bold">Pa-Swab List @if(!request()->input('q'))(Total: {{number_format($list->total())}})@endif</div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">

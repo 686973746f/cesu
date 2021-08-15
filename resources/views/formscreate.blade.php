@@ -47,11 +47,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region and Province</label>
-                                <select class="form-control" name="drregion" id="drregion" required>
-                                    <option value="" disabled {{(empty('drregion')) ? 'selected' : ''}}>Choose...</option>
-                                    <option class="4A CAVITE" {{(old('drregion') == "4A CAVITE") ? 'selected' : 'selected'}}>4A CAVITE</option>
-                                </select>
+                                <label for="drregion"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
+                                <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drunit', '4A CAVITE')}}">
                             </div>
                         </div>
                         <div class="col-md-4">

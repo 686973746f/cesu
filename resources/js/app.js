@@ -20,6 +20,7 @@ import 'datatables.net-buttons/js/buttons.flash.min';
 import 'datatables.net-buttons/js/buttons.html5.min';
 import 'datatables.net-buttons/js/buttons.print.min';
 import 'holderjs';
+import 'select2';
 
 window.JSZip = jsZip;
 

@@ -290,7 +290,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="selectPatient" tabindex="-1" role="dialog">
+<div class="modal fade" id="selectPatient" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -326,20 +326,15 @@
                 <hr>
                 @endif
                 <div class="form-group">
-                  <label for="id">Select Patient to Create or Search (If existing)</label>
-                    <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" id="patient">
-                        <option value="" disabled selected>Choose...</option>
-                        @foreach ($records as $item)
-                        <option value="/forms/{{$item->id}}/new">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()."/".strtoupper(substr($item->gender, 0,1))}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
-                        @endforeach
-                    </select>
+                  <label for="newList">Select Patient to Create or Search (If existing)</label>
+                  <select class="form-control" name="newList" id="newList"></select>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
@@ -349,6 +344,34 @@
     $('#exportBtn').prop('disabled', true);
 
     $(document).ready(function () {
+        $('#newList').select2({
+            theme: "bootstrap",
+            placeholder: 'Choose...',
+            ajax: {
+                url: "{{route('forms.ajaxList')}}",
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results:  $.map(data, function (item) {
+                            return {
+                                text: item.lname + ', ' + item.fname + ' ' + (item.mname = item.mname || ''),
+                                id: item.id,
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#newList').change(function (e) { 
+            e.preventDefault();
+            var url = "{{route("forms.new", ['id' => ':id']) }}";
+            url = url.replace(':id', $(this).val());
+            window.location.href = url;
+        });
+
         @if(session('modalmsg'))
         $('#selectPatient').modal('show');
         @endif
@@ -375,8 +398,6 @@
         var checkboxes = $(this).closest('form').find(':checkbox');
         checkboxes.prop('checked', $(this).is(':checked'));
         });
-
-        $('#patient').selectize();
     });
     
     $('input:checkbox').click(function() {

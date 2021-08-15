@@ -96,10 +96,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region and Province</label>
-                                <select class="form-control" name="drregion" id="drregion" required>
-                                    <option value="" disabled {{(is_null(old('drregion', $records->drregion))) ? 'selected' : ''}}>Choose...</option>
-                                    <option class="4A CAVITE" {{($records->drregion == "4A CAVITE") ? 'selected' : ''}}>4A CAVITE</option>
-                                </select>
+                                <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion', $records->drregion)}}">
                             </div>
                         </div>
                         <div class="col-md-4">

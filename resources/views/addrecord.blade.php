@@ -386,7 +386,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
-								<input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}">
+								<input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
 								@error('occupation')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
@@ -431,7 +431,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Specify</label>
-								  	<input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}">
+								  	<input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}" style="text-transform: uppercase;">
 								  	@error('natureOfWorkIfOthers')
                                     <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -443,7 +443,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="occupation_name">Name of Workplace</small></label>
-								<input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{$list->companyName}}" readonly>
+								<input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{$list->companyName}}" style="text-transform: uppercase;" readonly>
 								@error('occupation_name')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
@@ -549,7 +549,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
-								<input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}">
+								<input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
 								@error('occupation')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
@@ -594,7 +594,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Specify</label>
-								  	<input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}">
+								  	<input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}" style="text-transform: uppercase;">
 								  	@error('natureOfWorkIfOthers')
                                     <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -606,7 +606,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="occupation_name">Name of Workplace <small>(Optional)</small></label>
-								<input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}">
+								<input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
 								@error('occupation_name')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
@@ -691,7 +691,7 @@
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="occupation_lotbldg">Lot/Building <small>(Optional)</small></label>
-								<input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}">
+								<input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" style="text-transform: uppercase;">
 								@error('occupation_lotbldg')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
@@ -700,7 +700,7 @@
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="occupation_street">Street</label>
-								<input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}">
+								<input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" style="text-transform: uppercase;">
 								@error('occupation_street')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
