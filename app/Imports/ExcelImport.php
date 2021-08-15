@@ -219,9 +219,16 @@ class ExcelImport implements ToCollection, WithStartRow
                     'lsiType' => NULL,
                     'FNTCountryOfOrigin' => NULL,
 
-                    'isLSI' => '0',
-                    'LSICity' => NULL,
-                    'LSIProvince' => NULL,
+                    'isLSI' => ($row[52] == 'Y') ? '1' : '0',
+                    'LSICity' => ($row[52] == 'Y') ? mb_strtoupper($row[53]) : NULL,
+                    'LSIProvince' => ($row[52] == 'Y') ? mb_strtoupper($row[53]) : NULL,
+
+                    'isLivesOnClosedSettings' => '0',
+                    'institutionType' => NULL,
+                    'institutionName' => NULL,
+                    'indgSpecify' => NULL,
+
+                    
                 ]);
             }
         }
