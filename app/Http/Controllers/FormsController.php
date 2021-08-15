@@ -151,26 +151,6 @@ class FormsController extends Controller
 
         if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
             if(!is_null(auth()->user()->brgy_id)) {
-                $records = Records::with('user')
-                ->whereHas('user', function($q) {
-                    $q->where('brgy_id', auth()->user()->brgy_id);
-                })
-                ->orderBy('lname', 'asc')->get();
-            }
-            else {
-                $records = Records::with('user')
-                ->whereHas('user', function($q) {
-                    $q->where('company_id', auth()->user()->company_id);
-                })
-                ->orderBy('lname', 'asc')->get();
-            }
-        }
-        else {
-            $records = Records::orderBy('lname', 'asc')->get();
-        }
-
-        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
-            if(!is_null(auth()->user()->brgy_id)) {
                 if(request()->input('view') != null) {
                     $formsctr = Forms::with('user')
                     ->whereHas('user', function ($query) {
@@ -226,13 +206,13 @@ class FormsController extends Controller
 
         $paswabctr = PaSwabDetails::where('status', 'pending')->count();
 
-        return view('forms', ['forms' => $forms, 'records' => $records, 'formsctr' => $formsctr, 'paswabctr' => $paswabctr]);
+        return view('forms', ['forms' => $forms, 'formsctr' => $formsctr, 'paswabctr' => $paswabctr]);
     }
 
     public function ajaxList(Request $request) {
         $data = [];
 
-        if($request->has('q')){
+        if($request->has('q')) {
             $search = $request->q;
             /*
             $data = Records::select("id","lname")->where(function ($query) {
@@ -242,10 +222,32 @@ class FormsController extends Controller
             */
             //$data = Records::where('lname', 'LIKE', "%$search%")->get();
 
-            $data = Records::where(function ($query) use ($search) {
-                $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
-                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
-            })->get();
+            if(auth()->user()->isCesuAccount()) {
+                $data = Records::where(function ($query) use ($search) {
+                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+                })->get();
+            }
+            else {
+                if(auth()->user()->isBrgyAccount()) {
+                    $data = Records::with('user')
+                    ->where(function ($query) use ($search) {
+                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+                    })->whereHas('user', function($q) {
+                        $q->where('brgy_id', auth()->user()->brgy_id);
+                    })->get();
+                }
+                else if(auth()->user()->isCompanyAccount()) {
+                    $data = Records::with('user')
+                    ->where(function ($query) use ($search) {
+                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+                    })->whereHas('user', function($q) {
+                        $q->where('company_id', auth()->user()->company_id);
+                    })->get();
+                }
+            }
 
             //$data = Records::select("id","lname")->where('lname','LIKE',"%$search%")->get();
         }

@@ -26,13 +26,7 @@
                     @if(auth()->user()->isCesuAccount())
                     <a href="{{route('paswab.view')}}" class="btn btn-primary">Pa-Swab List <span class="text-warning">({{$paswabctr}})</span></a>
                     @endif
-                    @if($records->count() > 0)
-                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
-                    @else
-                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Create patient record first to process CIF.">
-                        <button class="btn btn-success" style="pointer-events: none;" type="button" disabled>New/Search CIF</button>
-                    </span>
-                    @endif
+                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
                 </div>
             </div>
         </div>
