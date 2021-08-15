@@ -257,6 +257,7 @@ class PaSwabController extends Controller
                         'dispoDate' => NULL,
                         'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
                         'caseClassification' => (!is_null($data->SAS)) ? 'Suspect' : 'Probable',
+                        'isHealthCareWorker' => '0',
                         'healthCareCompanyName' => NULL,
                         'healthCareCompanyLocation' => NULL,
                         'isOFW' => '0',
