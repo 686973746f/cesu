@@ -343,6 +343,10 @@
     $('#reschedBtn').prop('disabled', true);
     $('#exportBtn').prop('disabled', true);
 
+    @if(session('modalmsg'))
+        $('#selectPatient').modal('show');
+    @endif
+
     $(document).ready(function () {
         $('#newList').select2({
             theme: "bootstrap",
@@ -371,34 +375,30 @@
             url = url.replace(':id', $(this).val());
             window.location.href = url;
         });
+    });
 
-        @if(session('modalmsg'))
-        $('#selectPatient').modal('show');
-        @endif
+    $('#table_id').DataTable({
+        responsive: {
+            details: {
+                type: 'inline',
+                target: 'tr'
+            }
+        },
+        columnDefs: [{
+            className: 'control',
+            orderable: false,
+            targets: 0,
+        }],
+        fixedHeader: true,
+        dom: 'Qfrtip',
+        "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
+        "order": [18, 'asc']
+    });
 
-        $('#table_id').DataTable({
-            responsive: {
-                details: {
-                    type: 'inline',
-                    target: 'tr'
-                }
-            },
-            columnDefs: [{
-                className: 'control',
-                orderable: false,
-                targets: 0,
-            }],
-            fixedHeader: true,
-            dom: 'Qfrtip',
-            "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
-            "order": [18, 'asc']
-        });
-
-        $('#select_all').change(function() {
+    $('#select_all').change(function() {
         var checkboxes = $(this).closest('form').find(':checkbox');
         checkboxes.prop('checked', $(this).is(':checked'));
         });
-    });
     
     $('input:checkbox').click(function() {
         if ($(this).is(':checked')) {
