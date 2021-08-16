@@ -133,6 +133,31 @@ class ExcelImport implements ToCollection, WithStartRow
                     $healthStatus = ucfirst($row[22]);
                 }
 
+                //PCR Result
+                if($row[38] == '2019-Ncov Viral RNA  Detected' || $row[38] == '2019-Ncov Viral RNA Detected') {
+                    $ttype = 'OPS';
+                    $result = 'POSITIVE';
+                }
+                else if($row[38] == '2019-nCoV Viral RNA not Detected') {
+                    $ttype = 'OPS';
+                    $result = 'NEGATIVE';
+                }
+                else {
+                    if(!is_null($row[38])) {
+                        $ttype = 'OPS';
+                    }
+                    else {
+                        if(!is_null($row[37]) && $row[37] != 'N/A') {
+                            $ttype = 'ANTIGEN';
+                        }
+                        else {
+                            $ttype = 'OPS';
+                        }
+                    }
+
+                    $result = 'PENDING';
+                }
+
                 //Classification
                 if($row[40] == 'CONFIRMED CASE') {
                     $classification = 'Confirmed';
@@ -147,7 +172,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     $classification = ucfirst($row[40]);
                 }
 
-                //Outcome
+                //Quarantine Status
                 if($row[41] == 'RECOVERED') {
 
                 }
@@ -161,14 +186,60 @@ class ExcelImport implements ToCollection, WithStartRow
 
                 }
 
+                //Outcome
+                if($row[45] == 'RECOVERED') {
+                    $outcome = 'Active';
+                    $dateRecovered = NULL;
+
+                }
+                else if ($row[45] == 'RECOVERED') {
+                    $outcome = 'Recovered';
+                }
+                else if ($row[45] == 'EXPIRED' || $row[45] == 'DIED') {
+                    $outcome = 'Died';
+                }
+                else {
+                    $outcome = 'Active';
+                }
+
+                //For Symptoms
+                $symptomsList = array();
+                $otherSymptoms = array();
+                if($row[25] == 'Y') {
+                    array_push($symptomsList, 'Fever');
+                }
+                if($row[26] == 'Y') {
+                    array_push($symptomsList, 'Cough');
+                }
                 
+                if($row[27] == 'Y') {
+                    array_push($otherSymptoms, 'Colds');
+                }
+                if($row[28] == 'Y') {
+                    array_push($otherSymptoms, 'DOB');
+                }
+                if($row[29] == 'Y') {
+                    array_push($symptomsList, 'Anosmia (Loss of Smell)');
+                }
+                if($row[30] == 'Y') {
+                    array_push($symptomsList, 'Ageusia (Loss of Taste)');
+                }
+                if($row[31] == 'Y') {
+                    array_push($symptomsList, 'Sore throat');
+                }
+                if($row[32] == 'Y') {
+                    array_push($symptomsList, 'Diarrhea');
+                }
+                if(!is_null($row[33])) {
+                    array_push($otherSymptoms, mb_strtoupper($row[33]));
+                }
 
                 $forms = auth()->forms()->create([
                     'majikCode' => NULL,
                     'status' => 'approved',
                     'isPresentOnSwabDay' => 1,
                     'records_id' => $records->id,
-                    'drunit' => mb_strtoupper($row[3]),
+                    'drunit' => (!is_null($row[3])) ? mb_strtoupper($row[3]) : 'CHO GENERAL TRIAS',
                     'drregion' => mb_strtoupper($row[4])." ".mb_strtoupper($row[5]),
                     'interviewerName' => 'BROAS, LUIS',
                     'interviewerMobile' => '09190664324',
@@ -228,7 +299,133 @@ class ExcelImport implements ToCollection, WithStartRow
                     'institutionName' => NULL,
                     'indgSpecify' => NULL,
 
+                    'dateOnsetOfIllness' (!is_null($row[24])) ? Date::excelToDateTimeObject($row[24])->format('Y-m-d') : Date::excelToDateTimeObject($row[2])->format('Y-m-d'),
+                    'SAS' => (!empty($symptomsList)) ? implode(",", $symptomsList) : NULL,
+                    'SASFeverDeg' => ($row[25] == 'Y') ? '38' : NULL,
+                    'SASOtherRemarks' => (!empty($otherSymptoms)) ? implode(",", $otherSymptoms) : NULL,
+                    'PregnantLMP' => NULL,
+                    'PregnantHighRisk' => ($isPregnant == 1) ? '1' : '0',
+                    'imagingDoneDate' => NULL,
+                    'imagingDone' => NULL,
+                    'imagingResult' => NULL,
+                    'imagingOtherFindings' => NULL,
+
+                    'testedPositiveUsingRTPCRBefore' => '0',
+                    'testedPositiveNumOfSwab' => '0',
+                    'testedPositiveLab' => NULL,
+                    'testedPositiveSpecCollectedDate' => NULL,
+
+                    'testDateCollected1' => (!is_null($row[36])) ? Date::excelToDateTimeObject($row[36])->format('Y-m-d') : NULL,
+                    'oniTimeCollected1' => NULL,
+                    'testDateReleased1' => NULL,
+                    'testLaboratory1' => NULL,
+                    'testType1' => $ttype,
+                    'testTypeAntigenRemarks1' => ($ttype == "ANTIGEN") ? mb_strtoupper($row[37]) : NULL,
+                    'antigenKit1' => ($ttype == "ANTIGEN") ? 'ABBOTT' : NULL,
+                    'testTypeOtherRemarks1' => NULL,
+                    'testResult1' => 'PENDING',
+                    'testResultOtherRemarks1' => NULL,
+
+                    'testDateCollected2' => NULL,
+                    'oniTimeCollected2' => NULL,
+                    'testDateReleased2' => NULL,
+                    'testLaboratory2' => NULL,
+                    'testType2' => NULL,
+                    'testTypeAntigenRemarks2' => NULL,
+                    'antigenKit2' => NULL,
+                    'testTypeOtherRemarks2' => NULL,
+                    'testResult2' => NULL,
+                    'testResultOtherRemarks2' => NULL,
+
+                    'outcomeCondition' => $outcome,
+                    'outcomeRecovDate' => $dateRecovered,
+                    'outcomeDeathDate' => $dateDied,
+                    'deathImmeCause' => $cod,
+                    'deathAnteCause' => NULL,
+                    'deathUndeCause' => NULL,
+                    'contriCondi' => NULL,
+
+                    'expoitem1' => '0',
+                    'expoDateLastCont' => NULL,
+
+                    'expoitem2' => '0',
+                    'intCountry' => NULL,
+                    'intDateFrom' => NULL,
+                    'intDateTo' => NULL,
+                    'intWithOngoingCovid' => 'N/A',
+                    'intVessel' => NULL,
+                    'intVesselNo' => NULL,
+                    'intDateDepart' => NULL,
+                    'intDateArrive' => NULL,
+
+                    'placevisited' => NULL,
+
+                    'locName1' => NULL,
+                    'locAddress1' => NULL,
+                    'locDateFrom1' => NULL,
+                    'locDateTo1' => NULL,
+                    'locWithOngoingCovid1' => 'N/A',
+
+                    'locName2' => NULL,
+                    'locAddress2' => NULL,
+                    'locDateFrom2' => NULL,
+                    'locDateTo2' => NULL,
+                    'locWithOngoingCovid2' => 'N/A',
                     
+                    'locName3' => NULL,
+                    'locAddress3' => NULL,
+                    'locDateFrom3' => NULL,
+                    'locDateTo3' => NULL,
+                    'locWithOngoingCovid3' => 'N/A',
+                    
+                    'locName4' => NULL,
+                    'locAddress4' => NULL,
+                    'locDateFrom4' => NULL,
+                    'locDateTo4' => NULL,
+                    'locWithOngoingCovid4' => 'N/A',
+
+                    'locName5' => NULL,
+                    'locAddress5' => NULL,
+                    'locDateFrom5' => NULL,
+                    'locDateTo5' => NULL,
+                    'locWithOngoingCovid5' => 'N/A',
+
+                    'locName6' => NULL,
+                    'locAddress6' => NULL,
+                    'locDateFrom6' => NULL,
+                    'locDateTo6' => NULL,
+                    'locWithOngoingCovid6' => 'N/A',
+
+                    'locName7' => NULL,
+                    'locAddress7' => NULL,
+                    'locDateFrom7' => NULL,
+                    'locDateTo7' => NULL,
+                    'locWithOngoingCovid7' => 'N/A',
+
+                    'localVessel1' => NULL,
+                    'localVesselNo1' => NULL,
+                    'localOrigin1' => NULL,
+                    'localDateDepart1' => NULL,
+                    'localDest1' => NULL,
+                    'localDateArrive1' => NULL,
+
+                    'localVessel2' => NULL,
+                    'localVesselNo2' => NULL,
+                    'localOrigin2' => NULL,
+                    'localDateDepart2' => NULL,
+                    'localDest2' => NULL,
+                    'localDateArrive2' => NULL,
+
+                    'contact1Name' => NULL,
+                    'contact1No' => NULL,
+                    'contact2Name' => NULL,
+                    'contact2No' => NULL,
+                    'contact3Name' => NULL,
+                    'contact3No' => NULL,
+                    'contact4Name' => NULL,
+                    'contact4No' => NULL,
+
+                    'remarks' => $row[60],
                 ]);
             }
         }
