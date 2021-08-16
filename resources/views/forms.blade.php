@@ -321,7 +321,7 @@
                 @endif
                 <div class="form-group">
                   <label for="newList">Select Patient to Create or Search (If existing)</label>
-                  <select class="" name="newList" id="newList"></select>
+                  <select class="form-control" name="newList" id="newList"></select>
                 </div>
             </div>
         </div>
