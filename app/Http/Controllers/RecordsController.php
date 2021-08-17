@@ -481,15 +481,38 @@ class RecordsController extends Controller
 			$param2 = 0;
 		}
 		else {
-			$check1 = Records::where('lname', mb_strtoupper($request->lname))
-			->where('fname', mb_strtoupper($request->fname))
-			->where(function ($query) use ($request) {
-				$query->where('mname', mb_strtoupper($request->mname))
-				->orWhereNull('mname');
-			})
-			->where('bdate', $request->bdate)
-			->where('gender', strtoupper($request->gender))
-			->first();
+			if(!is_null($newmname)) {
+				$check1 = Records::where('lname', mb_strtoupper($request->lname))
+				->where('fname', mb_strtoupper($request->fname))
+				->where('mname', mb_strtoupper($request->mname))
+				->where('bdate', $request->bdate)
+				->where('gender', strtoupper($request->gender))
+				->first();
+
+				$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
+				->where('fname', mb_strtoupper($request->fname))
+				->where('mname', mb_strtoupper($request->mname))
+				->where('bdate', $request->bdate)
+				->where('gender', strtoupper($request->gender))
+				->whereIn('status', ['approved', 'pending'])
+				->first();
+			}
+			else {
+				$check1 = Records::where('lname', mb_strtoupper($request->lname))
+				->where('fname', mb_strtoupper($request->fname))
+				->whereNull('mname')
+				->where('bdate', $request->bdate)
+				->where('gender', strtoupper($request->gender))
+				->first();
+
+				$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
+				->where('fname', mb_strtoupper($request->fname))
+				->whereNull('mname')
+				->where('bdate', $request->bdate)
+				->where('gender', strtoupper($request->gender))
+				->whereIn('status', ['approved', 'pending'])
+				->first();
+			}
 
 			if($check1) {
 				$param1 = 1;
@@ -498,17 +521,8 @@ class RecordsController extends Controller
 			else {
 				$param1 = 0;
 			}
-
-			if(PaSwabDetails::where('lname', mb_strtoupper($request->lname))
-			->where('fname', mb_strtoupper($request->fname))
-			->where(function ($query) use ($request) {
-				$query->where('mname', mb_strtoupper($request->mname))
-				->orWhereNull('mname');
-			})
-			->where('bdate', $request->bdate)
-			->where('gender', strtoupper($request->gender))
-			->whereIn('status', ['approved', 'pending'])
-			->exists()) {
+			
+			if($check2) {
 				$param2 = 1;
 				$where = '(Existing in Pa-Swab Page, waiting for Approval)';
 			}
