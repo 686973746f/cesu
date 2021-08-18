@@ -53,6 +53,7 @@ class FormValidationRequest extends FormRequest
         return [
             'drunit' => 'required',
             'drregion' => 'required',
+            'drprovince' => 'required',
             'interviewerName' => 'required',
             'interviewerMobile' => 'required|numeric|digits:11|starts_with:09',
             'interviewDate' => 'required|date|before_or_equal:today',

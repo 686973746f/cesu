@@ -24,6 +24,7 @@ class CreateRecordsTable extends Migration
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
+            $table->string('suffix')->nullable();
             $table->date('bdate');
             $table->string('gender');
             $table->smallInteger('isPregnant'); //only for female
@@ -69,6 +70,8 @@ class CreateRecordsTable extends Migration
             $table->string('occupation_mobile')->nullable();
             $table->string('occupation_email')->nullable();
             
+            $table->text('remarks')->nullable();
+            $table->text('sharedOnId')->nullable();
         });
     }
 
