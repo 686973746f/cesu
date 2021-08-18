@@ -253,9 +253,9 @@ class PaSwabController extends Controller
                         'vaccinationRegion2' => $data->vaccinationRegion2,
                         'haveAdverseEvents2' => $data->haveAdverseEvents2,
 
-                        'dispoType' => NULL,
+                        'dispoType' => 3,
                         'dispoName' => NULL,
-                        'dispoDate' => NULL,
+                        'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                         'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
                         'caseClassification' => (!is_null($data->SAS)) ? 'Suspect' : 'Probable',
                         'isHealthCareWorker' => '0',
@@ -913,9 +913,9 @@ class PaSwabController extends Controller
                 'vaccinationRegion2' => $data->vaccinationRegion2,
                 'haveAdverseEvents2' => $data->haveAdverseEvents2,
 
-                'dispoType' => NULL,
+                'dispoType' => 3,
                 'dispoName' => NULL,
-                'dispoDate' => NULL,
+                'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                 'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
                 'caseClassification' => (!is_null($data->SAS)) ? 'Suspect' : 'Probable',
                 'healthCareCompanyName' => NULL,

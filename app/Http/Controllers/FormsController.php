@@ -224,16 +224,16 @@ class FormsController extends Controller
 
             if(auth()->user()->isCesuAccount()) {
                 $data = Records::where(function ($query) use ($search) {
-                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
-                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
                 })->get();
             }
             else {
                 if(auth()->user()->isBrgyAccount()) {
                     $data = Records::with('user')
                     ->where(function ($query) use ($search) {
-                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
-                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
                     })->whereHas('user', function($q) {
                         $q->where('brgy_id', auth()->user()->brgy_id);
                     })->get();
@@ -241,8 +241,8 @@ class FormsController extends Controller
                 else if(auth()->user()->isCompanyAccount()) {
                     $data = Records::with('user')
                     ->where(function ($query) use ($search) {
-                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
-                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
+                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
                     })->whereHas('user', function($q) {
                         $q->where('company_id', auth()->user()->company_id);
                     })->get();
