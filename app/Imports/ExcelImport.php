@@ -180,7 +180,8 @@ class ExcelImport implements ToCollection, WithStartRow
 
                 }
                 else if($row[41] == 'SELF QUARANTINE') {
-
+                    $dispoType = 3;
+                    
                 }
                 else {
 
@@ -189,14 +190,15 @@ class ExcelImport implements ToCollection, WithStartRow
                 //Outcome
                 if($row[45] == 'RECOVERED') {
                     $outcome = 'Active';
-                    $dateRecovered = NULL;
-
                 }
                 else if ($row[45] == 'RECOVERED') {
                     $outcome = 'Recovered';
+                    $dateRecovered = Date::excelToDateTimeObject($row[46])->format('Y-m-d');
                 }
                 else if ($row[45] == 'EXPIRED' || $row[45] == 'DIED') {
                     $outcome = 'Died';
+                    $dateDied = Date::excelToDateTimeObject($row[47])->format('Y-m-d');
+                    $cod = (!is_null($row[48])) ? mb_strtoupper($row[48]) : NULL;
                 }
                 else {
                     $outcome = 'Active';
@@ -240,7 +242,8 @@ class ExcelImport implements ToCollection, WithStartRow
                     'isPresentOnSwabDay' => 1,
                     'records_id' => $records->id,
                     'drunit' => (!is_null($row[3])) ? mb_strtoupper($row[3]) : 'CHO GENERAL TRIAS',
-                    'drregion' => mb_strtoupper($row[4])." ".mb_strtoupper($row[5]),
+                    'drregion' => mb_strtoupper($row[4]),
+                    'drprovince' => mb_strtoupper($row[5]),
                     'interviewerName' => 'BROAS, LUIS',
                     'interviewerMobile' => '09190664324',
                     'interviewDate' => Date::excelToDateTimeObject($row[2])->format('Y-m-d'),
@@ -338,9 +341,9 @@ class ExcelImport implements ToCollection, WithStartRow
                     'testResultOtherRemarks2' => NULL,
 
                     'outcomeCondition' => $outcome,
-                    'outcomeRecovDate' => $dateRecovered,
-                    'outcomeDeathDate' => $dateDied,
-                    'deathImmeCause' => $cod,
+                    'outcomeRecovDate' => (isset($dateRecovered)) ? $dateRecovered : NULL,
+                    'outcomeDeathDate' => (isset($dateDied)) ? $dateDied : NULL,
+                    'deathImmeCause' => (isset($cod)) ? $cod : NULL,
                     'deathAnteCause' => NULL,
                     'deathUndeCause' => NULL,
                     'contriCondi' => NULL,
