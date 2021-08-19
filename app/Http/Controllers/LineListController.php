@@ -133,15 +133,17 @@ class LineListController extends Controller
     }
 
     public function printoni($id) {
-        ini_set('max_execution_time', 600);
+        //ini_set('max_execution_time', 600);
 
         $setPaper = request()->input('s');
         
         $details = LineListMasters::find($id);
         $list = LineListSubs::where('linelist_masters_id', $id)->orderBy('specNo', 'asc')->get();
 
-        $pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper])->setPaper($setPaper, 'landscape');
-        return $pdf->download('LINELIST_ONI_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
+        //$pdf = PDF::loadView('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper])->setPaper($setPaper, 'landscape');
+        //return $pdf->download('LINELIST_ONI_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
+
+        return view('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper]);
     }
 
     public function printlasalle($id) {

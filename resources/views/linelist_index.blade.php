@@ -77,7 +77,6 @@
                             <th style="vertical-align: middle;">Date Created</th>
                             <th style="vertical-align: middle;">Created By</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,8 +95,7 @@
                             <td style="vertical-align: middle;">{{$item->linelistsub->where('linelist_masters_id', $item->id)->count()}}</td>
                             <td style="vertical-align: middle;">{{date('m/d/Y h:i A (D)', strtotime($item->created_at))}}</td>
                             <td style="vertical-align: middle;">{{$item->user->name}}</td>
-                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=legal">Print (Legal)</a></td>
-                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4">Print (A4)</a></td>
+                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -114,7 +112,6 @@
                             <th class="text-center" style="vertical-align: middle;">Specimen Location</th>
                             <th class="text-center" style="vertical-align: middle;">Linelist Date Created</th>
                             <th class="text-center" style="vertical-align: middle;">Specimen Date Collected</th>
-                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -133,8 +130,7 @@
                             <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->oniSpecType)) ? 'ONI' : 'LASALLE'}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->created_at))}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->dateAndTimeCollected))}}</td>
-                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=legal">Print (Legal)</a></td>
-                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=a4">Print (A4)</a></td>
+                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=a4"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></td>
                         </tr>
                         @endforeach
                     </tbody>
