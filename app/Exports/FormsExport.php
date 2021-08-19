@@ -118,7 +118,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
 
         return [
             $form->drunit,
-            $form->drregion,
+            $form->drregion." ".$form->drprovince,
             (!is_null($form->records->philhealth)) ? $form->records->philhealth : "N/A",
             strtoupper($form->interviewerName),
             $form->interviewerMobile,
