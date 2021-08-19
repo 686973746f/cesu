@@ -125,7 +125,7 @@ class PaSwabController extends Controller
                         ]);
                     }
                     else {
-                        $rec = Records::where('id', $data->records_id)->first();
+                        $rec = Records::findOrFail($data->records_id);
 
                         $rec->update([
                             'status' => 'approved',
@@ -236,8 +236,8 @@ class PaSwabController extends Controller
                         'isForHospitalization' => $data->isForHospitalization,
                         'testingCat' => 'C',
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
-                        'dateOfFirstConsult' => ($data->isNewRecord == 0) ? $oldform->interviewDate : NULL,
-                        'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? $oldform->drunit : NULL,
+                        'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
+                        'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
 
                         'vaccinationDate1' => $data->vaccinationDate1,
                         'vaccinationName1' => $data->vaccinationName1,
@@ -410,7 +410,7 @@ class PaSwabController extends Controller
                         'status' => 'approved'
                     ]);
 
-                    if($data->isNewRecord == 0) {
+                    if($data->isNewRecord == 0 && $oldform) {
                         $fcheck = Forms::where('id', $oldform->id)->delete();
                     }
                 }
@@ -785,7 +785,7 @@ class PaSwabController extends Controller
                 ]);
             }
             else {
-                $rec = Records::where('id', $data->records_id)->first();
+                $rec = Records::findOrFail($data->records_id);
 
                 $rec->update([
                     'status' => 'approved',
@@ -896,8 +896,8 @@ class PaSwabController extends Controller
                 'isForHospitalization' => $data->isForHospitalization,
                 'testingCat' => 'C',
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
-                'dateOfFirstConsult' => ($data->isNewRecord == 0) ? $oldform->interviewDate : NULL,
-                'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? $oldform->drunit : NULL,
+                'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
+                'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
 
                 'vaccinationDate1' => $data->vaccinationDate1,
                 'vaccinationName1' => $data->vaccinationName1,
@@ -1069,7 +1069,7 @@ class PaSwabController extends Controller
                 'status' => 'approved'
             ]);
 
-            if($data->isNewRecord == 0) {
+            if($data->isNewRecord == 0 && $oldform) {
                 $fcheck = Forms::where('id', $oldform->id)->delete();
             }
             
