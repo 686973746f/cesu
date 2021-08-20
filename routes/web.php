@@ -143,6 +143,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/admin/paswablinks', [PaSwabLinksController::class, 'index'])->name('paswablinks.index');
     Route::post('/admin/paswablinks', [PaSwabLinksController::class, 'store'])->name('paswablinks.store');
     Route::post('/admin/paswablinks/{id}/options', [PaSwabLinksController::class, 'linkInit']);
+
+    Route::get('/viewphp', [HomeController::class, 'viewphp']);
 });
 
 

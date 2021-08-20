@@ -28,4 +28,8 @@ class HomeController extends Controller
         $currentWeek = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('W');
         return view('home', ['currentWeek' => $currentWeek]);
     }
+
+    public function viewphp() {
+        return phpinfo();
+    }
 }

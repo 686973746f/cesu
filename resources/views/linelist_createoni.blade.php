@@ -47,27 +47,27 @@
                             <tr class="trclone">
                                 <td>
                                     <div class="form-group">
-                                      <input type="text" class="form-control text-center" name="specNo[]" id="specNo" value="1" readonly required>
+                                      <input type="text" class="form-control text-center" name="linelist[0][specNo]" id="specNo" value="1" readonly required>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="date" class="form-control" name="dateCollected[]" id="" value="{{date('Y-m-d')}}" required>
+                                        <input type="date" class="form-control" name="linelist[0][dateCollected]" id="" value="{{date('Y-m-d')}}" required>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="time" class="form-control" name="timeCollected[]" id="" value="">
+                                        <input type="time" class="form-control" name="linelist[0][timeCollected]" id="" value="">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="accessionNo[]" id="">
+                                        <input type="text" class="form-control" name="linelist[0][accessionNo]" id="">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                      <select name="user[]" class="patient" required>
+                                      <select name="linelist[0][user]" class="patient" required>
                                           <option value="" selected disabled>Choose...</option>
                                             @foreach($list as $item)
                                                 <option value="{{$item->id}}">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()}}/{{substr($item->gender, 0, 1)}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
@@ -77,14 +77,14 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                      <select class="form-control" name="oniReferringHospital[]" id="" required>
+                                      <select class="form-control" name="linelist[0][oniReferringHospital]" id="" required>
                                         <option value="CHO GENERAL TRIAS">CHO GENERAL TRIAS</option>
                                       </select>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="oniSpecType[]" id="oniSpecType" required>
+                                        <select class="form-control" name="linelist[0][oniSpecType]" id="oniSpecType" required>
                                           <option value="OPS">OPS</option>
                                           <option value="NPS">NPS</option>
                                         </select>
@@ -92,7 +92,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="remarks[]" id="" required>
+                                        <select class="form-control" name="linelist[0][remarks]" id="" required>
                                           <option value="1ST">1ST</option>
                                           <option value="2ND">2ND</option>
                                           <option value="3RD">3RD</option>
@@ -149,7 +149,14 @@
                 });
 
                 var clone = $(newRowContent).clone();
+                var prefix = "linelist[" + (n-1) + "]";
                 $(clone).find('#specNo').val(n);
+                $(clone).find("input").each(function() {
+                    this.name = this.name.replace(/linelist\[\d+\]/, prefix);
+                });
+                $(clone).find("select").each(function() {
+                    this.name = this.name.replace(/linelist\[\d+\]/, prefix);
+                });
                 $(clone).find('#oniSpecType').val($('#oniSpecType').val());
                 $(clone).appendTo($('#tbl tbody'));
                 $('.patient').selectize();

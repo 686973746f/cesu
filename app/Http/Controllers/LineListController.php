@@ -161,6 +161,7 @@ class LineListController extends Controller
     }
 
     public function oniStore(Request $request) {
+        dd($request);
 
         $master = $request->user()->linelistmaster()->create([
             'type' => 1, //ONI = 1, LaSalle = 2
@@ -168,6 +169,8 @@ class LineListController extends Controller
             'contactPerson' => $request->contactPerson,
             'contactMobile' => $request->contactMobile,
         ]);
+
+        
 
         for($i=0;$i<count($request->user);$i++) {
             if(!is_null($request->timeCollected[$i])) {
