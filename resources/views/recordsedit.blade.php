@@ -36,19 +36,23 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="alert alert-info" role="alert">
-                        All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
-                    </div>
                     
                     @if(session('msg'))
 					<div class="alert alert-danger" role="alert">
 						{{session('msg')}}
 					</div>
 				    @endif
-
+                    @if($cifcheck)
+                    <div class="alert alert-success" role="alert">
+                        The patient has existing CIF details. To check it, click <a href="{{route('forms.edit', ['form' => $cifcheck->id])}}">HERE</a>
+                    </div>
+                    @endif
                     <hr>
                     <h5 class="font-weight-bold">Patient Information</h5>
                     <hr>
+                    <div class="alert alert-info" role="alert">
+                        Note: All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
+                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

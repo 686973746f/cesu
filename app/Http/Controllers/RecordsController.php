@@ -73,6 +73,95 @@ class RecordsController extends Controller
         return view ('records', ['records' => $records]);
     }
 
+	public function check(Request $request) {
+		$request->validate([
+			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
+			'gender' => 'required|in:MALE,FEMALE',
+			'bdate' => "required|date|before:tomorrow",
+		]);
+
+		$check1 = Records::where('lname', mb_strtoupper($request->lname))
+		->where('fname', mb_strtoupper($request->fname))
+		->where(function ($query) use ($request) {
+			$query->where('mname', mb_strtoupper($request->mname))
+			->orWhereNull('mname');
+		})
+		->where('bdate', $request->bdate)
+		->where('gender', strtoupper($request->gender))
+		->first();
+
+		if($check1) {
+			$param1 = 1;
+			$where = '(Existing in the Records Page)';
+		}
+		else {
+			$param1 = 0;
+		}
+
+		$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
+		->where('fname', mb_strtoupper($request->fname))
+		->where(function ($query) use ($request) {
+			$query->where('mname', mb_strtoupper($request->mname))
+			->orWhereNull('mname');
+		})
+		->where('bdate', $request->bdate)
+		->where('gender', strtoupper($request->gender))
+		->where('status', 'pending')
+		->first();
+
+		if($check2) {
+			$param2 = 1;
+			$where = '(Existing in Pa-Swab Page, waiting for Approval)';
+		}
+		else {
+			$param2 = 0;
+		}
+
+		if($param1 == 1 || $param2 == 1) {
+			if($param1 == 1) {
+				$check3 = Forms::where('records_id', $check1->id)->first();
+
+				if($check3) {
+					//kung may existing CIF na
+					return back()
+					->withInput()
+					->with('type', 'recordExisting')
+					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('statustype', 'danger')
+					->with('link', route('records.edit', ['record' => $check1->id]))
+					->with('ciflink', route('forms.edit', ['form' => $check3->id]));
+				}
+				else {
+					return back()
+					->withInput()
+					->with('type', 'recordExisting')
+					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('statustype', 'danger')
+					->with('link', route('records.edit', ['record' => $check1->id]));
+				}
+			}
+			else if($param2 == 1) {
+				return back()
+				->withInput()
+				->with('type', 'recordExisting')
+				->with('status', 'Error: Record of '.$check2->getName().' already exists in Pa-swab list.')
+				->with('statustype', 'danger')
+				->with('link', route('paswab.viewspecific', ['id' => $check2->id]));
+			}
+		}
+		else {
+			return redirect()->route('records.create', [
+				'lname' => mb_strtoupper($request->lname),
+				'fname' => mb_strtoupper($request->fname),
+				'mname' => (!is_null($request->mname)) ? mb_strtoupper($request->mname) : NULL,
+				'gender' => $request->gender,
+				'bdate' => $request->bdate,
+			]);
+		}
+	}
+
     /**
      * Show the form for creating a new resource.
      *
@@ -80,9 +169,22 @@ class RecordsController extends Controller
      */
     public function create()
     {
-		$list = Companies::find(auth()->user()->company_id);
+		//Kailangan manggaling sa check function para gumana
+		if(request()->input('lname') && request()->input('fname') && request()->input('gender') && request()->input('bdate')) {
+			$list = Companies::find(auth()->user()->company_id);
 			
-		return view ('addrecord', ['list' => $list]);
+			return view ('addrecord', [
+				'list' => $list,
+				'lname' => mb_strtoupper(request()->input('lname')),
+				'fname' => mb_strtoupper(request()->input('fname')),
+				'mname' => (!is_null(request()->input('mname'))) ? mb_strtoupper(request()->input('mname')) : NULL,
+				'gender' => request()->input('gender'),
+				'bdate' => request()->input('bdate'),
+			]);
+		}
+		else {
+			return redirect()->action([RecordsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
+		}
     }
 
     /**
@@ -323,7 +425,12 @@ class RecordsController extends Controller
 		}
 
 		if($record) {
-			return view('recordsedit', ['record' => $record]);
+			$cifcheck = Forms::where('records_id', $record->id)->first();
+
+			return view('recordsedit', [
+				'record' => $record,
+				'cifcheck' =>$cifcheck,
+			]);
 		}
 		else {
 			return redirect()->action([RecordsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');

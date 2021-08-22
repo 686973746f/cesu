@@ -9,7 +9,7 @@
                         Patient List (Total Count: {{number_format($records->total())}})
                     </div>
                     <div>
-                        <a href="{{route('records.create')}}" class="btn btn-success"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Add Patient</a>
+                        <button href="{{route('records.create')}}" class="btn btn-success" data-toggle="modal" data-target="#checkuser"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Add Patient</button>
                     </div>
                 </div>
             </div>
@@ -17,6 +17,13 @@
                 @if(session('status'))
                     <div class="alert alert-{{session('statustype')}}" role="alert">
                         {{session('status')}}
+                        @if(session('type') == 'recordExisting')
+                        <hr>
+                        <p>To check the existing data, click <a href="{{session('link')}}">HERE</a></p>
+                            @if(session('ciflink'))
+                            <p class="mb-0">To check the existing CIF associated with the record, click <a href="{{session('ciflink')}}">HERE</a></p>
+                            @endif
+                        @endif
                         @if(session('type') == 'createRecord')
                         <hr>
                         Click <a href="/forms/{{session('newid')}}/new">HERE</a> to proceed on creating CIF for the newly added patient.
@@ -83,6 +90,57 @@
             </div>
         </div>
     </div>
+
+    <form action="{{route('records.check')}}" method="POST">
+        @csrf
+        <div class="modal fade" id="checkuser" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Check Record</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+							<label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
+							<input type="text" class="form-control" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" required>
+						</div>
+                        <div class="form-group">
+							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
+							<input type="text" class="form-control" id="fname" name="fname" value="{{old('fname')}}" max="50" style="text-transform: uppercase;" required>
+						</div>
+                        <div class="form-group">
+							<label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
+							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50" style="text-transform: uppercase;">
+						</div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                                    <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
+                                    <select class="form-control" id="gender" name="gender" required>
+                                        <option value="" disabled selected>Choose</option>
+                                        <option value="MALE" @if(old('gender') == 'MALE') {{'selected'}} @endif>Male</option>
+                                        <option value="FEMALE" @if(old('gender') == 'FEMALE') {{'selected'}} @endif>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Check</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <script>
         $(document).ready(function () {

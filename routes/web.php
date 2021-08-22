@@ -69,7 +69,7 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
     Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
     Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
-    Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific']);
+    Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
     Route::post('/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);
     Route::post('/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
 });
@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     // your routes
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+    Route::post('/records/check', [RecordsController::class, 'check'])->name('records.check');
     Route::resource('records', RecordsController::class);
 
     Route::get('/forms/ajaxList', [FormsController::class, 'ajaxList'])->name('forms.ajaxList');

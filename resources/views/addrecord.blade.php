@@ -12,17 +12,20 @@
 					{{session('msg')}} {{session('where')}}
 				</div>
 				@endif
-				<div class="alert alert-info" role="alert">
-					All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
+				<div class="alert alert-success" role="alert">
+					The record is not yet existing in the database. You can now proceed filling other required details.
 				</div>
 				<hr>
 				<h5 class="font-weight-bold">Patient Information</h5>
 				<hr>
+				<div class="alert alert-info" role="alert">
+					Note: All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
+				</div>
 				<div class="row">
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-							<input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" autofocus required>
+							<input type="text" class="form-control" id="lname" name="lname" value="{{$lname}}" max="50" style="text-transform: uppercase;" readonly required>
 							@error('lname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -31,7 +34,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
-							<input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" max="50" style="text-transform: uppercase;" required>
+							<input type="text" class="form-control" id="fname" name="fname" value="{{$fname}}" max="50" style="text-transform: uppercase;" readonly required>
 							@error('fname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -40,7 +43,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
-							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" style="text-transform: uppercase;" max="50">
+							<input type="text" class="form-control" id="mname" name="mname" value="{{$mname}}" max="50" style="text-transform: uppercase;" readonly required>
 							@error('mname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -51,7 +54,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+							<input type="date" class="form-control" id="bdate" name="bdate" value="{{$bdate}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" readonly required>
 							@error('bdate')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -60,13 +63,9 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
-							<select class="form-control" id="gender" name="gender" required>
-								<option value="" disabled selected>Choose</option>
-								<option value="MALE" @if(old('gender') == 'MALE') {{'selected'}} @endif>Male</option>
-								<option value="FEMALE" @if(old('gender') == 'FEMALE') {{'selected'}} @endif>Female</option>
-							</select>
+						  	<input type="text" class="form-control" name="gender" id="gender" value="{{$gender}}" readonly required>
 							@error('gender')
-								<small class="text-danger">{{$message}}</small>
+							<small class="text-danger">{{$message}}</small>
 							@enderror
 						</div>
 					</div>
