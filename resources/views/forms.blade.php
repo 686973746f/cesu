@@ -353,7 +353,7 @@
                     return {
                         results:  $.map(data, function (item) {
                             return {
-                                text: item.lname + ', ' + item.fname + ' ' + (item.mname = item.mname || ''),
+                                text: item.text,
                                 id: item.id,
                             }
                         })

@@ -210,9 +210,9 @@ class FormsController extends Controller
     }
 
     public function ajaxList(Request $request) {
-        $data = [];
+        $list = [];
 
-        if($request->has('q')) {
+        if($request->has('q') && strlen($request->input('q')) != 0) {
             $search = $request->q;
             /*
             $data = Records::select("id","lname")->where(function ($query) {
@@ -250,9 +250,16 @@ class FormsController extends Controller
             }
 
             //$data = Records::select("id","lname")->where('lname','LIKE',"%$search%")->get();
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->id,
+                    'text' => $item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                ]);
+            }
         }
         
-        return response()->json($data);
+        return response()->json($list);
     }
 
     public function importIndex() {

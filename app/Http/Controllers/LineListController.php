@@ -54,82 +54,106 @@ class LineListController extends Controller
     }
 
     public function createLineList(Request $request) {
-        if($request->isOverride == 1) {
-            if(auth()->user()->isCesuAccount()) {
-                $query = Forms::whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
-                ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
-                ->pluck('records_id')
-                ->toArray();
-            }
-            else {
-                if(auth()->user()->isBrgyAccount()) {
-                    $query = Forms::with('user')
-                    ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
-                    ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
-                    ->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
-                    })->pluck('records_id')
-                    ->toArray();
-                }
-                else if(auth()->user()->isCompanyAccount()) {
-                    $query = Forms::with('user')
-                    ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
-                    ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
-                    ->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
-                    })->pluck('records_id')
-                    ->toArray();
-                }
-            }
-
-            //$query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+        if($request->submit == 1) {
+            //LaSalle
+            return view('linelist_createlasalle', [
+                'isOverride' => $request->isOverride,
+                'sFrom' => ($request->isOverride == 1) ? $request->sFrom : date('Y-m-d'),
+                'sTo' => ($request->isOverride == 1) ? $request->sTo : date('Y-m-d'),
+            ]);
         }
         else {
-            if(auth()->user()->isCesuAccount()) {
-                $query = Forms::where('testDateCollected1', date('Y-m-d'))
-                ->orWhere('testDateCollected2', date('Y-m-d'))
-                ->pluck('records_id')
-                ->toArray();
-            }
-            else {
-                if(auth()->user()->isBrgyAccount()) {
-                    $query = Forms::with('user')
-                    ->where(function ($query) {
-                        $query->where('testDateCollected1', date('Y-m-d'))
-                        ->orWhere('testDateCollected2', date('Y-m-d'));
-                    })->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
-                    })->pluck('records_id')
-                    ->toArray();
-                }
-                else if(auth()->user()->isCompanyAccount()) {
-                    $query = Forms::with('user')
-                    ->where(function ($query) {
-                        $query->where('testDateCollected1', date('Y-m-d'))
-                        ->orWhere('testDateCollected2', date('Y-m-d'));
-                    })->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
-                    })->pluck('records_id')
-                    ->toArray();
-                }
-            }
+            //ONI
+            return view('linelist_createoni', [
+                'isOverride' => $request->isOverride,
+                'sFrom' => ($request->isOverride == 1) ? $request->sFrom : date('Y-m-d'),
+                'sTo' => ($request->isOverride == 1) ? $request->sTo : date('Y-m-d'),
+            ]);
         }
+    }
 
-        if(!empty($query)) {
-            $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
+    public function ajaxLineList(Request $request) {
+        $list = [];
+
+        if($request->has('q') && strlen($request->input('q')) != 0) {
+            $search = $request->q;
             
-            if($request->submit == 1) {
-                //LaSalle
-                return view('linelist_createlasalle', ['list' => $query]);
+            if($request->isOverride == 1) {
+                if(auth()->user()->isCesuAccount()) {
+                    $query = Forms::whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                    ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
+                    ->pluck('records_id')
+                    ->toArray();
+                }
+                else {
+                    if(auth()->user()->isBrgyAccount()) {
+                        $query = Forms::with('user')
+                        ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                        ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
+                        ->whereHas('user', function ($query) {
+                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        })->pluck('records_id')
+                        ->toArray();
+                    }
+                    else if(auth()->user()->isCompanyAccount()) {
+                        $query = Forms::with('user')
+                        ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                        ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
+                        ->whereHas('user', function ($query) {
+                            $query->where('company_id', auth()->user()->company_id);
+                        })->pluck('records_id')
+                        ->toArray();
+                    }
+                }
+    
+                //$query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
             }
             else {
-                //ONI
-                return view('linelist_createoni', ['list' => $query]);
+                if(auth()->user()->isCesuAccount()) {
+                    $query = Forms::where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'))
+                    ->pluck('records_id')
+                    ->toArray();
+                }
+                else {
+                    if(auth()->user()->isBrgyAccount()) {
+                        $query = Forms::with('user')
+                        ->where(function ($query) {
+                            $query->where('testDateCollected1', date('Y-m-d'))
+                            ->orWhere('testDateCollected2', date('Y-m-d'));
+                        })->whereHas('user', function ($query) {
+                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        })->pluck('records_id')
+                        ->toArray();
+                    }
+                    else if(auth()->user()->isCompanyAccount()) {
+                        $query = Forms::with('user')
+                        ->where(function ($query) {
+                            $query->where('testDateCollected1', date('Y-m-d'))
+                            ->orWhere('testDateCollected2', date('Y-m-d'));
+                        })->whereHas('user', function ($query) {
+                            $query->where('company_id', auth()->user()->company_id);
+                        })->pluck('records_id')
+                        ->toArray();
+                    }
+                }
+            }
+
+            $query = Records::whereIn('id', $query)
+            ->where(function ($q) use ($search) {
+                $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+            })->orderBy('lname', 'asc')->get();
+
+            foreach($query as $item) {
+                array_push($list, [
+                    'id' => $item->id,
+                    'text' => $item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                ]);
             }
         }
-        else {
-            return redirect()->action([LineListController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
-        }
+
+        return response()->json($list);
     }
 
     public function printoni($id) {

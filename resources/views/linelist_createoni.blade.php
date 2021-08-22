@@ -67,12 +67,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                      <select name="user[]" class="patient" required>
-                                          <option value="" selected disabled>Choose...</option>
-                                            @foreach($list as $item)
-                                                <option value="{{$item->id}}">{{$item->lname.", ".$item->fname." ".$item->mname}} | {{$item->getAge()}}/{{substr($item->gender, 0, 1)}} | {{date('m/d/Y', strtotime($item->bdate))}}</option>
-                                            @endforeach
-                                      </select>
+                                      <select name="user[]" class="patient form-control" required></select>
                                     </div>
                                 </td>
                                 <td>
@@ -117,7 +112,26 @@
     
     <script>
         $(document).ready(function () {
-            $('.patient').selectize();
+            $('.patient').select2({
+                theme: "bootstrap",
+                placeholder: 'Choose...',
+                ajax: {
+                    url: "{{route('linelist.ajax')}}?isOverride={{$isOverride}}&sFrom={{$sFrom}}&sTo={{$sTo}}",
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id,
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
         });
 
        var newRowContent = $('.trclone');
@@ -139,20 +153,34 @@
             e.preventDefault();
             for(i=1; i <= $('#rowsToAdd').val(); i++) {
                 n++;
-            
-                $('.patient').each(function(){ // do this for every select with the 'combobox' class
-                    if ($(this)[0].selectize) { // requires [0] to select the proper object
-                        var value = $(this).val(); // store the current value of the select/input
-                        $(this)[0].selectize.destroy(); // destroys selectize()
-                        $(this).val(value);  // set back the value of the select/input
-                    }
-                });
+
+                $('.patient').select2("destroy");
 
                 var clone = $(newRowContent).clone();
                 $(clone).find('#specNo').val(n);
+                $(clone).find('.patient').val();
                 $(clone).find('#oniSpecType').val($('#oniSpecType').val());
                 $(clone).appendTo($('#tbl tbody'));
-                $('.patient').selectize();
+                $('.patient').select2({
+                    theme: "bootstrap",
+                    placeholder: 'Choose...',
+                    ajax: {
+                        url: "{{route('linelist.ajax')}}?isOverride={{$isOverride}}&sFrom={{$sFrom}}&sTo={{$sTo}}",
+                        dataType: 'json',
+                        delay: 250,
+                        processResults: function (data) {
+                            return {
+                                results:  $.map(data, function (item) {
+                                    return {
+                                        text: item.text,
+                                        id: item.id,
+                                    }
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                });
             }
 
             if(n != 1) {
