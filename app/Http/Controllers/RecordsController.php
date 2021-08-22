@@ -121,6 +121,28 @@ class RecordsController extends Controller
 
 		if($param1 == 1 || $param2 == 1) {
 			if($param1 == 1) {
+				if(auth()->user()->isCesuAccount()) {
+					$eligibleToEdit = true;
+				}
+				else {
+					if(auth()->user()->isBrgyAccount()) {
+						if($check1->user->brgy_id == auth()->user()->brgy_id) {
+							$eligibleToEdit = true;
+						}
+						else {
+							$eligibleToEdit = false;
+						}
+					}
+					else if(auth()->user()->isCompanyAccount()) {
+						if($check1->user->company_id == auth()->user()->company_id) {
+							$eligibleToEdit = true;
+						}
+						else {
+							$eligibleToEdit = false;
+						}
+					}
+				}
+
 				$check3 = Forms::where('records_id', $check1->id)->first();
 
 				if($check3) {
@@ -129,6 +151,7 @@ class RecordsController extends Controller
 					->withInput()
 					->with('type', 'recordExisting')
 					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('eligibleToEdit', $eligibleToEdit)
 					->with('statustype', 'danger')
 					->with('link', route('records.edit', ['record' => $check1->id]))
 					->with('ciflink', route('forms.edit', ['form' => $check3->id]));
@@ -138,15 +161,24 @@ class RecordsController extends Controller
 					->withInput()
 					->with('type', 'recordExisting')
 					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('eligibleToEdit', $eligibleToEdit)
 					->with('statustype', 'danger')
 					->with('link', route('records.edit', ['record' => $check1->id]));
 				}
 			}
 			else if($param2 == 1) {
+				if(auth()->user()->isCesuAccount()) {
+					$eligibleToEdit = true;
+				}
+				else {
+					$eligibleToEdit = false;
+				}
+
 				return back()
 				->withInput()
 				->with('type', 'recordExisting')
 				->with('status', 'Error: Record of '.$check2->getName().' already exists in Pa-swab list.')
+				->with('eligibleToEdit', $eligibleToEdit)
 				->with('statustype', 'danger')
 				->with('link', route('paswab.viewspecific', ['id' => $check2->id]));
 			}

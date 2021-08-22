@@ -18,10 +18,15 @@
                     <div class="alert alert-{{session('statustype')}}" role="alert">
                         {{session('status')}}
                         @if(session('type') == 'recordExisting')
-                        <hr>
-                        <p>To check the existing data, click <a href="{{session('link')}}">HERE</a></p>
-                            @if(session('ciflink'))
-                            <p class="mb-0">To check the existing CIF associated with the record, click <a href="{{session('ciflink')}}">HERE</a></p>
+                            @if(session('eligibleToEdit') == true)
+                            <hr>
+                            <p>To check the existing data, click <a href="{{session('link')}}">HERE</a></p>
+                                @if(session('ciflink'))
+                                <p class="mb-0">To check the existing CIF associated with the record, click <a href="{{session('ciflink')}}">HERE</a></p>
+                                @endif
+                            @else
+                            <hr>
+                            The record was created by other Barangay or CESU Staff/Encoder Account, therefore you cannot proceed editing the record.
                             @endif
                         @endif
                         @if(session('type') == 'createRecord')
