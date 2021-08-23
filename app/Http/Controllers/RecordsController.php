@@ -633,7 +633,7 @@ class RecordsController extends Controller
 				->where('mname', mb_strtoupper($newmname))
 				->where('bdate', $request->bdate)
 				->where('gender', strtoupper($request->gender))
-				->whereIn('status', ['approved', 'pending'])
+				->where('status', 'pending')
 				->first();
 			}
 			else {
@@ -649,7 +649,7 @@ class RecordsController extends Controller
 				->whereNull('mname')
 				->where('bdate', $request->bdate)
 				->where('gender', strtoupper($request->gender))
-				->whereIn('status', ['approved', 'pending'])
+				->where('status', 'pending')
 				->first();
 			}
 
