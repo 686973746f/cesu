@@ -140,7 +140,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Check</button>
+                        <button type="submit" class="btn btn-primary btn-block">Check</button>
                     </div>
                 </div>
             </div>
