@@ -623,14 +623,14 @@ class RecordsController extends Controller
 			if(!is_null($newmname)) {
 				$check1 = Records::where('lname', mb_strtoupper($request->lname))
 				->where('fname', mb_strtoupper($request->fname))
-				->where('mname', mb_strtoupper($request->mname))
+				->where('mname', mb_strtoupper($newmname))
 				->where('bdate', $request->bdate)
 				->where('gender', strtoupper($request->gender))
 				->first();
 
 				$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
 				->where('fname', mb_strtoupper($request->fname))
-				->where('mname', mb_strtoupper($request->mname))
+				->where('mname', mb_strtoupper($newmname))
 				->where('bdate', $request->bdate)
 				->where('gender', strtoupper($request->gender))
 				->whereIn('status', ['approved', 'pending'])
