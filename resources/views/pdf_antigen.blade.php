@@ -27,7 +27,7 @@ else {
     }
 
     $time = (!is_null($details->oniTimeCollected2)) ? date('h:i A', strtotime($details->oniTimeCollected2)) : '';
-    $result = ($details->testResult1 != "PENDING") ? $details->testResult1 : '';
+    $result = ($details->testResult2 != "PENDING") ? $details->testResult2 : '';
 }
 @endphp
 <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
