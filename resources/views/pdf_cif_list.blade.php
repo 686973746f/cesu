@@ -30,10 +30,31 @@
         else {
             $pTypeStr = "NON-COVID CASE";
         }
+
+        if(!is_null($item->testType2)) {
+            if($item->testType2 == 'ANTIGEN') {
+                $textcolor = 'bg-warning';
+                $showType = ' - ANTIGEN';
+            }
+            else {
+                $textcolor = '';
+                $showType = '';
+            }
+        }
+        else {
+            if($item->testType1 == 'ANTIGEN') {
+                $textcolor = 'bg-warning';
+                $showType = ' - ANTIGEN';
+            }
+            else {
+                $textcolor = '';
+                $showType = '';
+            }
+        }
         @endphp
         <tr>
             <td scope="row" class="text-center">{{$loop->iteration}}</td>
-            <td class="font-weight-bold" style="vertical-align: middle;">{{$item->records->getName()}} - <span class="text-primary">{{(!is_null($item->testDateCollected2)) ? $item->testType2 : $item->testType1}}</span></td>
+            <td class="font-weight-bold" style="vertical-align: middle;">{{$item->records->getName()}}<span class="text-primary">{{$showType}}</span></td>
             <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->records->philhealth)) ? $item->records->philhealth : "N/A"}}</td>
             <td class="text-center" style="vertical-align: middle;">{{$pTypeStr}}</td>
             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
