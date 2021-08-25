@@ -25,7 +25,7 @@
                     @endif
                     @if(auth()->user()->isCesuAccount())
                     <a href="{{route('bulkupdate.index')}}" class="btn btn-primary">Bulk Update CIF</span></a>
-                    <a href="{{route('paswab.view')}}" class="btn btn-primary">Pa-Swab List <span class="text-warning">({{$paswabctr}})</span></a>
+                    <a href="{{route('paswab.view')}}" class="btn btn-primary">Pa-Swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
                     @endif
                     <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
                 </div>
