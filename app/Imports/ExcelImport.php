@@ -17,10 +17,7 @@ class ExcelImport implements ToCollection, WithStartRow
     */
     public function collection(Collection $rows)
     {
-        dd($rows);
-
         foreach ($rows as $row) {
-            //dd(Date::excelToDateTimeObject($row[2])->format('Y-m-d'));
             //double entry checking
             $check1 = Records::where('lname', mb_strtoupper($row[6]))
             ->where('fname', mb_strtoupper($row[7]))
@@ -174,26 +171,32 @@ class ExcelImport implements ToCollection, WithStartRow
 
                 //Quarantine Status
                 if($row[41] == 'RECOVERED') {
-
+                    $dispoType = 2;
+                    $dispoName = 'ISOLATION FACILITY';
+                    $dispoDate = Date::excelToDateTimeObject($row[2])->format('Y-m-d').' 08:00:00';
                 }
                 else if($row[41] == 'DONE QUARANTINE') {
-
+                    $dispoType = 4;
+                    $dispoDate = (!is_null($row[44])) ? Date::excelToDateTimeObject($row[44])->format('Y-m-d') : Date::excelToDateTimeObject($row[2])->format('Y-m-d');
                 }
                 else if($row[41] == 'SELF QUARANTINE') {
                     $dispoType = 3;
-                    
+                    $dispoName = NULL;
+                    $dispoDate = Date::excelToDateTimeObject($row[2])->format('Y-m-d').' 08:00:00';
                 }
                 else {
-
+                    $dispoType = 1;
+                    $dispoName = mb_strtoupper($row[41]);
+                    $dispoDate = Date::excelToDateTimeObject($row[2])->format('Y-m-d').' 08:00:00';
                 }
 
                 //Outcome
-                if($row[45] == 'RECOVERED') {
+                if($row[45] == 'ACTIVE') {
                     $outcome = 'Active';
                 }
                 else if ($row[45] == 'RECOVERED') {
                     $outcome = 'Recovered';
-                    $dateRecovered = Date::excelToDateTimeObject($row[46])->format('Y-m-d');
+                    $dateRecovered = ;
                 }
                 else if ($row[45] == 'EXPIRED' || $row[45] == 'DIED') {
                     $outcome = 'Died';
@@ -274,9 +277,9 @@ class ExcelImport implements ToCollection, WithStartRow
                     'haveAdverseEvents2' => NULL,
                     
                     //PLESE FINISH
-                    'dispoType' => NULL,
-                    'dispoName' => NULL,
-                    'dispoDate' => NULL,
+                    'dispoType' => $dispoType,
+                    'dispoName' => $dispoName,
+                    'dispoDate' => $dispoDate,
 
                     'healthStatus' => $healthStatus,
                     'caseClassification' => $classification,
