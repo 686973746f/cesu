@@ -49,6 +49,7 @@
                                             <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>Suspected</option>
                                             <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
                                             <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>Not A Case of COVID</option>
+                                            <option value="FOR TRAVEL" @if(old('pType') == "FOR TRAVEL"){{'selected'}}@endif>For Travel</option>
                                         </select>
                                     </div>
                                 </div>
@@ -430,7 +431,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationDate1"><span class="text-danger font-weight-bold">*</span>1.) First (1st) Dose - Date of Vaccination</label>
-                                                <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1')}}">
+                                                <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1')}}" min="2019-01-01" max="{{date('Y-m-d')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -462,7 +463,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="vaccinationDate2"><span class="text-danger font-weight-bold">*</span>2.) Second (2nd) Dose - Date of Vaccination</label>
-                                                  <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2')}}">
+                                                  <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2')}}" min="2019-01-01" max="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

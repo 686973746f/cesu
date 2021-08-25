@@ -110,6 +110,9 @@ class PaSwabDetails extends Model
         else if($this->pType == 'TESTING') {
             return 'NOT A CASE OF COVID';
         }
+        else {
+            return $this->pType;
+        }
     }
 
     public function getAge() {

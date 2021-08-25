@@ -17,6 +17,7 @@ use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\BulkUpdateController;
 use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
@@ -67,6 +68,8 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
+    Route::get('/forms/bulkupdate', [BulkUpdateController::class, 'viewBulkUpdate'])->name('bulkupdate.index');
+
     Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
     Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
     Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
