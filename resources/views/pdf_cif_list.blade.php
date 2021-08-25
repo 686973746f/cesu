@@ -1,16 +1,15 @@
 @extends('layouts.app_pdf')
 
 @section('content')
-<table class="table table-bordered table-sm" style="font-family: Arial, Helvetica, sans-serif;font-size: 60%">
+<table class="table table-bordered table-sm" style="font-family: Arial, Helvetica, sans-serif;font-size: 65%">
     <thead class="text-center">
         <tr>
             <th colspan="10">For Swab List for {{date('F d, Y - l')}}</th>
         </tr>
         <tr>
             <th>No.</th>
-            <th>Name</th>
+            <th>Name / Test Type</th>
             <th>Philhealth</th>
-            <th>Test Type</th>
             <th>Client Type</th>
             <th>Birthdate</th>
             <th>Age / Sex</th>
@@ -34,9 +33,9 @@
         @endphp
         <tr>
             <td scope="row" class="text-center">{{$loop->iteration}}</td>
-            <td class="font-weight-bold" style="vertical-align: middle;">{{$item->records->getName()}}</td>
+            <td class="font-weight-bold" style="vertical-align: middle;">{{$item->records->getName()}} - <span class="text-primary">{{(!is_null($item->testDateCollected2)) ? $item->testType2 : $item->testType1}}</span></td>
             <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->records->philhealth)) ? $item->records->philhealth : "N/A"}}</td>
-            <td class="text-center font-weight-bold" style="vertical-align: middle;">{{(!is_null($item->testDateCollected2)) ? $item->testType2 : $item->testType1}}</td>
+            <td class="text-center font-weight-bold" style="vertical-align: middle;"></td>
             <td class="text-center" style="vertical-align: middle;">{{$pTypeStr}}</td>
             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
             <td class="text-center" style="vertical-align: middle;">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
