@@ -791,19 +791,19 @@ class FormsController extends Controller
                 'dateOfFirstConsult' => $request->dateOfFirstConsult,
                 'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
 
-                'vaccinationDate1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationDate1 : NULL,
-                'vaccinationName1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationName1) : NULL,
-                'vaccinationNoOfDose1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationNoOfDose1 : NULL,
-                'vaccinationFacility1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
-                'vaccinationRegion1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
-                'haveAdverseEvents1' => (!is_null($request->vaccinationDate1)) ? $request->haveAdverseEvents1 : NULL,
+                'vaccinationDate1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccinationDate1 : NULL,
+                'haveAdverseEvents1' => (!is_null($request->howManyDoseVaccine)) ? $request->haveAdverseEvents1 : NULL,
+                'vaccinationName1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccineName : NULL,
+                'vaccinationNoOfDose1' => (!is_null($request->howManyDoseVaccine)) ? 1 : NULL,
+                'vaccinationFacility1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+                'vaccinationRegion1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
 
-                'vaccinationDate2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationDate2 : NULL,
-                'vaccinationName2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationName2) : NULL,
-                'vaccinationNoOfDose2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationNoOfDose2 : NULL,
-                'vaccinationFacility2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
-                'vaccinationRegion2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
-                'haveAdverseEvents2' => (!is_null($request->vaccinationDate2)) ? $request->haveAdverseEvents2 : NULL,
+                'vaccinationDate2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+                'haveAdverseEvents2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+                'vaccinationName2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+                'vaccinationNoOfDose2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? 2 : NULL,
+                'vaccinationFacility2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+                'vaccinationRegion2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
                 
                 'dispoType' => $request->dispositionType,
                 'dispoName' => $request->dispositionName,
@@ -1042,7 +1042,27 @@ class FormsController extends Controller
 
             $oldRecords = Forms::where('records_id', $records->records_id)->onlyTrashed()->get();
 
-            return view('formsedit', ['countries' => $all, 'records' => $records, 'interviewers' => $interviewers, 'docs' => $docs, 'oldRecords' => $oldRecords]);
+            //Vaccination Details
+            if(!is_null($records->vaccinationDate2) || !is_null($records->vaccinationDate1)) {
+                if(!is_null($records->vaccinationDate2)) {
+                    $vaccineDose = 2;
+                }
+                else {
+                    $vaccineDose = 1;
+                }
+            }
+            else {
+                $vaccineDose = NULL;
+            }
+
+            return view('formsedit', [
+                'countries' => $all,
+                'records' => $records,
+                'interviewers' => $interviewers,
+                'docs' => $docs,
+                'oldRecords' => $oldRecords,
+                'vaccineDose' => $vaccineDose,
+            ]);
         }
         else {
             return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
@@ -1274,19 +1294,19 @@ class FormsController extends Controller
                 'dateOfFirstConsult' => $request->dateOfFirstConsult,
                 'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
 
-                'vaccinationDate1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationDate1 : NULL,
-                'vaccinationName1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationName1) : NULL,
-                'vaccinationNoOfDose1' => (!is_null($request->vaccinationDate1)) ? $request->vaccinationNoOfDose1 : NULL,
-                'vaccinationFacility1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
-                'vaccinationRegion1' => (!is_null($request->vaccinationDate1)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
-                'haveAdverseEvents1' => (!is_null($request->vaccinationDate1)) ? $request->haveAdverseEvents1 : NULL,
+                'vaccinationDate1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccinationDate1 : NULL,
+                'haveAdverseEvents1' => (!is_null($request->howManyDoseVaccine)) ? $request->haveAdverseEvents1 : NULL,
+                'vaccinationName1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccineName : NULL,
+                'vaccinationNoOfDose1' => (!is_null($request->howManyDoseVaccine)) ? 1 : NULL,
+                'vaccinationFacility1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+                'vaccinationRegion1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
 
-                'vaccinationDate2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationDate2 : NULL,
-                'vaccinationName2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationName2) : NULL,
-                'vaccinationNoOfDose2' => (!is_null($request->vaccinationDate2)) ? $request->vaccinationNoOfDose2 : NULL,
-                'vaccinationFacility2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
-                'vaccinationRegion2' => (!is_null($request->vaccinationDate2)) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
-                'haveAdverseEvents2' => (!is_null($request->vaccinationDate2)) ? $request->haveAdverseEvents2 : NULL,
+                'vaccinationDate2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+                'haveAdverseEvents2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+                'vaccinationName2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+                'vaccinationNoOfDose2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? 2 : NULL,
+                'vaccinationFacility2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+                'vaccinationRegion2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
                 
                 'dispoType' => $request->dispositionType,
                 'dispoName' => $request->dispositionName,

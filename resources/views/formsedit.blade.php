@@ -820,118 +820,91 @@
                             <div class="card mb-3">
                                 <div class="card-header">2.5 Vaccination Information</div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="vaccinationDate1">1.) Date of Vaccination</label>
-                                              <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1', $records->vaccinationDate1)}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="vaccinationName1">Name of Vaccine</label>
-                                                <select class="form-control" name="vaccinationName1" id="vaccinationName1">
-                                                    <option value="" disabled {{is_null(old('vaccinationName1', $records->vaccinationName1)) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="BHARAT BIOTECH" {{(old('vaccinationName1', $records->vaccinationName1) == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
-                                                    <option value="GAMALEYA SPUTNIK V" {{(old('vaccinationName1', $records->vaccinationName1) == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
-                                                    <option value="JANSSEN" {{(old('vaccinationName1', $records->vaccinationName1) == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
-                                                    <option value="MODERNA" {{(old('vaccinationName1', $records->vaccinationName1) == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
-                                                    <option value="NOVARAX" {{(old('vaccinationName1', $records->vaccinationName1) == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
-                                                    <option value="OXFORD ASTRAZENECA" {{(old('vaccinationName1', $records->vaccinationName1) == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
-                                                    <option value="PFIZER BIONTECH" {{(old('vaccinationName1', $records->vaccinationName1) == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
-                                                    <option value="SINOPHARM" {{(old('vaccinationName1', $records->vaccinationName1) == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
-                                                    <option value="SINOVAC CORONAVAC" {{(old('vaccinationName1', $records->vaccinationName1) == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="vaccinationNoOfDose1">Dose Number</label>
-                                              <select class="form-control" name="vaccinationNoOfDose1" id="vaccinationNoOfDose1">
-                                                <option value="" disabled {{(is_null(old('vaccinationNoOfDose1', $records->vaccinationNoOfDose1))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="1" {{(old('vaccinationNoOfDose1', $records->vaccinationNoOfDose1) == '1') ? 'selected' : ''}}>1st</option>
-                                                <option value="2" {{(old('vaccinationNoOfDose1', $records->vaccinationNoOfDose1) == '2') ? 'selected' : ''}}>2nd</option>
-                                              </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $records->vaccinationFacility1)}}" style="text-transform: uppercase;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $records->vaccinationRegion1)}}" style="text-transform: uppercase;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="haveAdverseEvents1">Adverse Event/s</label>
-                                                <select class="form-control" name="haveAdverseEvents1" id="haveAdverseEvents1">
-                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents1', $records->haveAdverseEvents1))) ? 'selected' : ''}}>Choose...</option>
-                                                  <option value="1" {{(old('haveAdverseEvents1', $records->haveAdverseEvents1) == '1') ? 'selected' : ''}}>Yes</option>
-                                                  <option value="0" {{(old('haveAdverseEvents1', $records->haveAdverseEvents1) == '0') ? 'selected' : ''}}>No</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                    <div class="form-group">
+                                      <label for="howManyDoseVaccine"><span class="text-danger font-weight-bold">*</span>If vaccinated, how many dose?</label>
+                                      <select class="form-control" name="howManyDoseVaccine" id="howManyDoseVaccine">
+                                        <option value="" {{(is_null(old('howManyDoseVaccine', $vaccineDose))) ? 'selected' : ''}}>N/A</option>
+                                        <option value="1" {{(old('howManyDoseVaccine', $vaccineDose) == '1') ? 'selected' : ''}}>1st Dose</option>
+                                        <option value="2" {{(old('howManyDoseVaccine', $vaccineDose) == '2') ? 'selected' : ''}}>2nd Dose</option>
+                                      </select>
                                     </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="vaccinationDate2">2.) Date of Vaccination</label>
-                                              <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2', $records->vaccinationDate2)}}">
+                                    <div id="ifVaccinated">
+                                        <div class="form-group">
+                                          <label for="vaccineName"><span class="text-danger font-weight-bold">*</span>Name of Vaccine</label>
+                                          <select class="form-control" name="vaccineName" id="vaccineName">
+                                            <option value="" disabled {{is_null(old('vaccineName', $records->vaccinationName1)) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="BHARAT BIOTECH" {{(old('vaccineName', $records->vaccinationName1) == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
+                                            <option value="GAMALEYA SPUTNIK V" {{(old('vaccineName', $records->vaccinationName1) == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
+                                            <option value="JANSSEN" {{(old('vaccineName', $records->vaccinationName1) == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
+                                            <option value="MODERNA" {{(old('vaccineName', $records->vaccinationName1) == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+                                            <option value="NOVARAX" {{(old('vaccineName', $records->vaccinationName1) == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
+                                            <option value="OXFORD ASTRAZENECA" {{(old('vaccineName', $records->vaccinationName1) == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
+                                            <option value="PFIZER BIONTECH" {{(old('vaccineName', $records->vaccinationName1) == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
+                                            <option value="SINOPHARM" {{(old('vaccineName', $records->vaccinationName1) == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
+                                            <option value="SINOVAC CORONAVAC" {{(old('vaccineName', $records->vaccinationName1) == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
+                                          </select>
+                                        </div>
+                                        <hr>
+                                        <div id="ifFirstDoseVaccine">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="vaccinationDate1"><span class="text-danger font-weight-bold">*</span>First (1st) Dose Date</label>
+                                                        <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1', $records->vaccinationDate1)}}" max="{{date('Y-m-d')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="haveAdverseEvents1"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
+                                                        <select class="form-control" name="haveAdverseEvents1" id="haveAdverseEvents1">
+                                                            <option value="0" {{(old('haveAdverseEvents1', $records->haveAdverseEvents1) == '0') ? 'selected' : ''}}>No</option>
+                                                            <option value="1" {{(old('haveAdverseEvents1', $records->haveAdverseEvents1) == '1') ? 'selected' : ''}}>Yes</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
+                                                        <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $records->vaccinationFacility1)}}" style="text-transform: uppercase;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
+                                                        <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $records->vaccinationRegion1)}}" style="text-transform: uppercase;">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="vaccinationName2">Name of Vaccine</label>
-                                                <select class="form-control" name="vaccinationName2" id="vaccinationName2">
-                                                    <option value="" disabled {{is_null(old('vaccinationName2', $records->vaccinationName2)) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="BHARAT BIOTECH" {{(old('vaccinationName2', $records->vaccinationName2) == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
-                                                    <option value="GAMALEYA SPUTNIK V" {{(old('vaccinationName2', $records->vaccinationName2) == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
-                                                    <option value="JANSSEN" {{(old('vaccinationName2', $records->vaccinationName2) == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
-                                                    <option value="MODERNA" {{(old('vaccinationName2', $records->vaccinationName2) == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
-                                                    <option value="NOVARAX" {{(old('vaccinationName2', $records->vaccinationName2) == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
-                                                    <option value="OXFORD ASTRAZENECA" {{(old('vaccinationName2', $records->vaccinationName2) == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
-                                                    <option value="PFIZER BIONTECH" {{(old('vaccinationName2', $records->vaccinationName2) == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
-                                                    <option value="SINOPHARM" {{(old('vaccinationName2', $records->vaccinationName2) == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
-                                                    <option value="SINOVAC CORONAVAC" {{(old('vaccinationName2', $records->vaccinationName2) == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="vaccinationNoOfDose2">Dose Number</label>
-                                              <select class="form-control" name="vaccinationNoOfDose2" id="vaccinationNoOfDose2">
-                                                <option value="" disabled {{(is_null(old('vaccinationNoOfDose2', $records->vaccinationNoOfDose2))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="1" {{(old('vaccinationNoOfDose2', $records->vaccinationNoOfDose2) == '1') ? 'selected' : ''}}>1st</option>
-                                                <option value="2" {{(old('vaccinationNoOfDose2', $records->vaccinationNoOfDose2) == '2') ? 'selected' : ''}}>2nd</option>
-                                              </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $records->vaccinationFacility2)}}" style="text-transform: uppercase;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $records->vaccinationRegion2)}}" style="text-transform: uppercase;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="haveAdverseEvents2">Adverse Event/s</label>
-                                                <select class="form-control" name="haveAdverseEvents2" id="haveAdverseEvents2">
-                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents2', $records->haveAdverseEvents2))) ? 'selected' : ''}}>Choose...</option>
-                                                  <option value="1" {{(old('haveAdverseEvents2', $records->haveAdverseEvents2) == '1') ? 'selected' : ''}}>Yes</option>
-                                                  <option value="0" {{(old('haveAdverseEvents2', $records->haveAdverseEvents2) == '0') ? 'selected' : ''}}>No</option>
-                                                </select>
+                                        <div id="ifSecondDoseVaccine">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="vaccinationDate2"><span class="text-danger font-weight-bold">*</span>Second (2nd) Dose Date</label>
+                                                        <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2', $records->vaccinationDate2)}}" max="{{date('Y-m-d')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="haveAdverseEvents2"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
+                                                        <select class="form-control" name="haveAdverseEvents2" id="haveAdverseEvents2">
+                                                            <option value="0" {{(old('haveAdverseEvents2', $records->haveAdverseEvents2) == '0') ? 'selected' : ''}}>No</option>
+                                                            <option value="1" {{(old('haveAdverseEvents2', $records->haveAdverseEvents2) == '1') ? 'selected' : ''}}>Yes</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
+                                                        <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $records->vaccinationFacility2)}}" style="text-transform: uppercase;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
+                                                        <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $records->vaccinationRegion2)}}" style="text-transform: uppercase;">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2693,43 +2666,45 @@
                 }
             }).trigger('keydown');
 
-            $('#vaccinationDate1').keydown(function (e) { 
-                if(!Date.parse($(this).val())) {
-                    $('#vaccinationDate1').prop('required', false);
-                    $('#vaccinationName1').prop({disabled: true, required: false});
-                    $('#vaccinationNoOfDose1').prop({disabled: true, required: false});
-                    $('#vaccinationFacility1').prop({disabled: true, required: false});
-                    $('#vaccinationRegion1').prop({disabled: true, required: false});
-                    $('#haveAdverseEvents1').prop({disabled: true, required: false});
-                }
-                else {
-                    $('#vaccinationDate1').prop('required', true);
-                    $('#vaccinationName1').prop({disabled: false, required: true});
-                    $('#vaccinationNoOfDose1').prop({disabled: false, required: true});
-                    $('#vaccinationFacility1').prop({disabled: false, required: false});
-                    $('#vaccinationRegion1').prop({disabled: false, required: false});
-                    $('#haveAdverseEvents1').prop({disabled: false, required: true});
-                }
-            }).trigger('keydown');
+            $('#howManyDoseVaccine').change(function (e) { 
+                e.preventDefault();
+                if($(this).val() == '') {
+                    $('#vaccineName').prop('required', false);
 
-            $('#vaccinationDate2').keydown(function (e) { 
-                if(!Date.parse($(this).val())) {
+                    $('#ifVaccinated').hide();
+                    $('#ifFirstDoseVaccine').hide();
+                    $('#ifSecondDoseVaccine').hide();
+
+                    $('#vaccinationDate1').prop('required', false);
+                    $('#haveAdverseEvents1').prop('required', false);
                     $('#vaccinationDate2').prop('required', false);
-                    $('#vaccinationName2').prop({disabled: true, required: false});
-                    $('#vaccinationNoOfDose2').prop({disabled: true, required: false});
-                    $('#vaccinationFacility2').prop({disabled: true, required: false});
-                    $('#vaccinationRegion2').prop({disabled: true, required: false});
-                    $('#haveAdverseEvents2').prop({disabled: true, required: false});
+                    $('#haveAdverseEvents2').prop('required', false);
                 }
-                else {
+                else if($(this).val() == '1') {
+                    $('#vaccineName').prop('required', true);
+
+                    $('#ifVaccinated').show();
+                    $('#ifFirstDoseVaccine').show();
+                    $('#ifSecondDoseVaccine').hide();
+
+                    $('#vaccinationDate1').prop('required', true);
+                    $('#haveAdverseEvents1').prop('required', true);
+                    $('#vaccinationDate2').prop('required', false);
+                    $('#haveAdverseEvents2').prop('required', false);
+                }
+                else if($(this).val() == '2') {
+                    $('#vaccineName').prop('required', true);
+
+                    $('#ifVaccinated').show();
+                    $('#ifFirstDoseVaccine').show();
+                    $('#ifSecondDoseVaccine').show();
+
+                    $('#vaccinationDate1').prop('required', true);
+                    $('#haveAdverseEvents1').prop('required', true);
                     $('#vaccinationDate2').prop('required', true);
-                    $('#vaccinationName2').prop({disabled: false, required: true});
-                    $('#vaccinationNoOfDose2').prop({disabled: false, required: true});
-                    $('#vaccinationFacility2').prop({disabled: false, required: false});
-                    $('#vaccinationRegion2').prop({disabled: false, required: false});
-                    $('#haveAdverseEvents2').prop({disabled: false, required: true});
+                    $('#haveAdverseEvents2').prop('required', true);
                 }
-            }).trigger('keydown');
+            }).trigger('change');
             
             @if(!is_null($records->informantRelationship))
                 $('#informantRelationship').val("{{$records->informantRelationship}}");

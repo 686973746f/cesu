@@ -96,20 +96,21 @@ class FormValidationRequest extends FormRequest
             'healthStatus' => 'required',
             //2.4 Case Classification
             'caseClassification' => 'required',
+
             //2.5 Vaccination
-            'vaccinationDate1' => (!is_null($this->vaccinationDate1)) ? 'required|date' : 'nullable|date',
-            'vaccinationName1' => (!is_null($this->vaccinationDate1)) ? 'required|string' : 'nullable|string',
-            'vaccinationNoOfDose1' => (!is_null($this->vaccinationDate1)) ? 'required|numeric' : 'nullable|numeric',
+            'howManyDoseVaccine' => 'nullable',
+            'vaccineName' => (!is_null($this->howManyDoseVaccine)) ? 'required' : 'nullable',
+
+            'vaccinationDate1' => (!is_null($this->howManyDoseVaccine)) ? 'required|date|before_or_equal:today' : 'nullable|date',
+            'haveAdverseEvents1' => (!is_null($this->howManyDoseVaccine)) ? 'required|numeric' : 'nullable|numeric',
             'vaccinationFacility1' => 'nullable|string',
             'vaccinationRegion1' => 'nullable|string',
-            'haveAdverseEvents1' => (!is_null($this->vaccinationDate1)) ? 'required|numeric' : 'nullable|numeric',
-
-            'vaccinationDate2' => (!is_null($this->vaccinationDate2)) ? 'required|date' : 'nullable|date',
-            'vaccinationName2' => (!is_null($this->vaccinationDate2)) ? 'required|string' : 'nullable|string',
-            'vaccinationNoOfDose2' => (!is_null($this->vaccinationDate2)) ? 'required|numeric' : 'nullable|numeric',
+        
+            'vaccinationDate2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|date|before_or_equal:today' : 'nullable|date',
+            'haveAdverseEvents2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|numeric' : 'nullable|numeric',
             'vaccinationFacility2' => 'nullable|string',
             'vaccinationRegion2' => 'nullable|string',
-            'haveAdverseEvents2' => (!is_null($this->vaccinationDate2)) ? 'required|numeric' : 'nullable|numeric',
+            
             //2.6 Clinical Information
             'dateOnsetOfIllness' => 'nullable|date|before_or_equal:today',
             'sasCheck' => 'nullable',
