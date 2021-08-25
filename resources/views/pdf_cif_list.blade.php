@@ -35,7 +35,6 @@
             <td scope="row" class="text-center">{{$loop->iteration}}</td>
             <td class="font-weight-bold" style="vertical-align: middle;">{{$item->records->getName()}} - <span class="text-primary">{{(!is_null($item->testDateCollected2)) ? $item->testType2 : $item->testType1}}</span></td>
             <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->records->philhealth)) ? $item->records->philhealth : "N/A"}}</td>
-            <td class="text-center font-weight-bold" style="vertical-align: middle;"></td>
             <td class="text-center" style="vertical-align: middle;">{{$pTypeStr}}</td>
             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
             <td class="text-center" style="vertical-align: middle;">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
