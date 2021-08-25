@@ -232,7 +232,7 @@ class PaSwabController extends Controller
                         'informantMobile' => NULL,
                         'existingCaseList' => '1',
                         'ecOthersRemarks' => NULL,
-                        'pType' => $data->pType,
+                        'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                         'isForHospitalization' => $data->isForHospitalization,
                         'testingCat' => 'C',
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
@@ -621,9 +621,7 @@ class PaSwabController extends Controller
             
                             'senderIP' => request()->ip(),
                         ]);
-
                         
-            
                         return redirect()->route('paswab.complete', ['locale' => $locale])
                         ->with('majik', $majik)
                         ->with('statustype', 'success')
@@ -892,7 +890,7 @@ class PaSwabController extends Controller
                 'informantMobile' => NULL,
                 'existingCaseList' => '1',
                 'ecOthersRemarks' => NULL,
-                'pType' => $data->pType,
+                'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                 'isForHospitalization' => $data->isForHospitalization,
                 'testingCat' => 'C',
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
