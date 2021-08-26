@@ -116,6 +116,7 @@
                                     <div class="form-group">
                                         <label for="mname">{{__('paswab.mname')}} <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
                                         <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" style="text-transform: uppercase;" minlength="2" maxlength="50">
+                                        <small class="form-text text-muted">{{__('paswab.mnameNotice')}}</small>
                                         @error('mname')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
