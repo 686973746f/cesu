@@ -751,6 +751,17 @@
                         </div>
                     </div>
                     @endif
+                    <hr>
+                    <div class="card">
+                        <div class="card-header">Other Settings <i>(Development In-Progress)</i></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                              <label for="">Share Access To Other Accounts</label>
+                              <select class="form-control" name="" id="" multiple>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Update</button>
@@ -761,6 +772,29 @@
 
     <script>
         $(document).ready(function () {
+
+            $('#saddress_province').select2({
+                theme: "bootstrap",
+            });
+            $('#saddress_city').select2({
+                theme: "bootstrap",
+            });
+            $('#address_brgy').select2({
+                theme: "bootstrap",
+            });
+            $('#natureOfWork').select2({
+                theme: "bootstrap",
+            });
+            $('#spermaaddress_province').select2({
+                theme: "bootstrap",
+            });
+            $('#spermaaddress_city').select2({
+                theme: "bootstrap",
+            });
+            $('#permaaddress_brgy').select2({
+                theme: "bootstrap",
+            });
+
             $('#addresstext').hide();
             $('#permaaddresstext').hide();
             $('#occupationaddresstext').hide();

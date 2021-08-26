@@ -736,6 +736,29 @@
 
 <script>
 	$(document).ready(function () {
+		
+		$('#saddress_province').select2({
+			theme: "bootstrap",
+		});
+		$('#saddress_city').select2({
+			theme: "bootstrap",
+		});
+		$('#address_brgy').select2({
+			theme: "bootstrap",
+		});
+		$('#natureOfWork').select2({
+			theme: "bootstrap",
+		});
+		$('#spermaaddress_province').select2({
+			theme: "bootstrap",
+		});
+		$('#spermaaddress_city').select2({
+			theme: "bootstrap",
+		});
+		$('#permaaddress_brgy').select2({
+			theme: "bootstrap",
+		});
+
 		$('#addresstext').hide();
 		$('#permaaddresstext').hide();
 		$('#occupationaddresstext').hide();
