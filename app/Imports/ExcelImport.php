@@ -196,7 +196,7 @@ class ExcelImport implements ToCollection, WithStartRow
                 }
                 else if ($row[45] == 'RECOVERED') {
                     $outcome = 'Recovered';
-                    $dateRecovered = ;
+                    $dateRecovered = Date::excelToDateTimeObject($row[2])->format('Y-m-d');
                 }
                 else if ($row[45] == 'EXPIRED' || $row[45] == 'DIED') {
                     $outcome = 'Died';
@@ -239,7 +239,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     array_push($otherSymptoms, mb_strtoupper($row[33]));
                 }
 
-                $forms = auth()->forms()->create([
+                $forms = auth()->user()->form()->create([
                     'majikCode' => NULL,
                     'status' => 'approved',
                     'isPresentOnSwabDay' => 1,
@@ -258,7 +258,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     'pType' => 'PROBABLE',
                     'isForHospitalization' => 0,
                     'testingCat' => 'C',
-                    'havePreviousCovidConsultation' => 0,
+                    'havePreviousCovidConsultation' => '0',
                     'dateOfFirstConsult' => NULL,
                     'facilityNameOfFirstConsult' => NULL,
 
@@ -305,14 +305,18 @@ class ExcelImport implements ToCollection, WithStartRow
                     'institutionName' => NULL,
                     'indgSpecify' => NULL,
 
-                    'dateOnsetOfIllness' (!is_null($row[24])) ? Date::excelToDateTimeObject($row[24])->format('Y-m-d') : Date::excelToDateTimeObject($row[2])->format('Y-m-d'),
+                    'dateOnsetOfIllness' => (!is_null($row[24])) ? Date::excelToDateTimeObject($row[24])->format('Y-m-d') : Date::excelToDateTimeObject($row[2])->format('Y-m-d'),
                     'SAS' => (!empty($symptomsList)) ? implode(",", $symptomsList) : NULL,
                     'SASFeverDeg' => ($row[25] == 'Y') ? '38' : NULL,
                     'SASOtherRemarks' => (!empty($otherSymptoms)) ? implode(",", $otherSymptoms) : NULL,
+                    
+                    'COMO' => 'None',
+                    'COMOOtherRemarks' => NULL,
+
                     'PregnantLMP' => NULL,
                     'PregnantHighRisk' => ($isPregnant == 1) ? '1' : '0',
                     'imagingDoneDate' => NULL,
-                    'imagingDone' => NULL,
+                    'imagingDone' => 'None',
                     'imagingResult' => NULL,
                     'imagingOtherFindings' => NULL,
 
