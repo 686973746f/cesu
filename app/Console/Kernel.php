@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
 
         //$schedule->command('autorecoveredactivecases:daily')->dailyAt('06:00');
 
-        $schedule->command('test:everyminute')->everyMinute();
+        //$schedule->command('test:everyminute')->everyMinute();
     }
 
     /**
