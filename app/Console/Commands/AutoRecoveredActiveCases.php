@@ -57,7 +57,7 @@ class AutoRecoveredActiveCases extends Command
             }
             else if($item->pType == 'CLOSE CONTACT') {
                 if(!is_null($item->expoitem1)) {
-                    $startDate = Carbon::parse($item->expoitem1);
+                    $startDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1)));
                 }
                 else {
                     $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));

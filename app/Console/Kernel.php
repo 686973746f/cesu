@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        //$schedule->command('autorecoveredactivecases:daily')->dailyAt('06:00');
+        $schedule->command('autorecoveredactivecases:daily')->dailyAt('06:00');
 
         //$schedule->command('test:everyminute')->everyMinute();
     }
