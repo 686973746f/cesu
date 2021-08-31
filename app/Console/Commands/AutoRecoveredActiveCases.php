@@ -64,7 +64,7 @@ class AutoRecoveredActiveCases extends Command
                 }
             }
             
-            if($item->dispoType == 1 || $item->healthStatus == 'Severe') {
+            if($item->dispoType == 1 || $item->healthStatus == 'Severe' || $item->healthStatus == 'Critical') {
                 $daysToRecover = 21;
             }
             else {
