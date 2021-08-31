@@ -63,9 +63,16 @@ class AutoRecoveredActiveCases extends Command
                     $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));
                 }
             }
+            
+            if($item->dispoType == 1 || $item->healthStatus == 'Severe') {
+                $daysToRecover = 21;
+            }
+            else {
+                $daysToRecover = 14;
+            }
 
             $diff = $startDate->diffInDays($dateToday);
-            if($diff >= 14) {
+            if($diff >= $daysToRecover) {
                 $update = Forms::find($item->id);
 
                 $update->outcomeCondition = 'Recovered';
