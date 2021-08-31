@@ -111,20 +111,32 @@
                         <div class="form-group">
 							<label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
 							<input type="text" class="form-control" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" required>
+                            @error('lname')
+								<small class="text-danger">{{$message}}</small>
+							@enderror
 						</div>
                         <div class="form-group">
 							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
 							<input type="text" class="form-control" id="fname" name="fname" value="{{old('fname')}}" max="50" style="text-transform: uppercase;" required>
+                            @error('fname')
+								<small class="text-danger">{{$message}}</small>
+							@enderror
 						</div>
                         <div class="form-group">
 							<label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
 							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50" style="text-transform: uppercase;">
+                            @error('mname')
+								<small class="text-danger">{{$message}}</small>
+							@enderror
 						</div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
                                     <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                                    @error('bdate')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -135,6 +147,9 @@
                                         <option value="MALE" @if(old('gender') == 'MALE') {{'selected'}} @endif>Male</option>
                                         <option value="FEMALE" @if(old('gender') == 'FEMALE') {{'selected'}} @endif>Female</option>
                                     </select>
+                                    @error('gender')
+                                        <small class="text-danger">{{$message}}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -148,6 +163,10 @@
     </form>
 
     <script>
+        @if($errors->any())
+        $('#checkuser').modal('show');
+        @endif
+
         $(document).ready(function () {
             $('#table_id').DataTable({
                 responsive: true,

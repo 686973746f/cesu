@@ -785,8 +785,8 @@
                                       <label for="howManyDoseVaccine"><span class="text-danger font-weight-bold">*</span>If vaccinated, how many dose?</label>
                                       <select class="form-control" name="howManyDoseVaccine" id="howManyDoseVaccine">
                                         <option value="" {{(is_null(old('howManyDoseVaccine'))) ? 'selected' : ''}}>N/A</option>
-                                        <option value="1" {{(old('howManyDoseVaccine') == '1') ? 'selected' : ''}}>1st Dose</option>
-                                        <option value="2" {{(old('howManyDoseVaccine') == '2') ? 'selected' : ''}}>2nd Dose</option>
+                                        <option value="1" {{(old('howManyDoseVaccine') == '1') ? 'selected' : ''}}>1st Dose only</option>
+                                        <option value="2" {{(old('howManyDoseVaccine') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
                                       </select>
                                     </div>
                                     <div id="ifVaccinated">
