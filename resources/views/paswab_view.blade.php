@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card">
-            <div class="card-header font-weight-bold">Pa-Swab List @if(!request()->input('q'))(Total: {{number_format($list->total())}})@endif</div>
+            <div class="card-header font-weight-bold">Pa-Swab List @if(!request()->input('q'))(Current Pending Total: {{number_format($list->total())}})@endif</div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -31,7 +31,8 @@
                 <form action="{{route('paswab.options')}}" method="POST">
                     @csrf
                     <div>
-                        <button type="button" class="btn btn-primary my-3" data-toggle="modal" data-target="#bulkapprove" id="bulkbtn">Bulk Approve Data</button>
+                        <button type="button" class="btn btn-success my-3" data-toggle="modal" data-target="#bulkapprove" id="bulkbtn"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i> Bulk Approve Data</button>
+                        <!--<button type="button" class="btn btn-danger my-3" data-toggle="modal" data-target="#bulkreject" id="bulkrejectbtn"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i> Bulk Reject Data</button> -->
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped" id="paswabtbl">
@@ -90,7 +91,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Bulk Approve Data</h5>
+                                    <h5 class="modal-title text-success font-weight-bold">Bulk Approve Data</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -98,11 +99,11 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                       <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date of Swab Collection</label>
-                                      <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}" required>
+                                      <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
                                     </div>
                                     <div class="form-group">
                                       <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of Test</label>
-                                      <select class="form-control" name="testType1" id="testType1" required>
+                                      <select class="form-control" name="testType1" id="testType1">
                                         <option value="" disabled {{(is_null(old('testType1'))) ? 'selected' : ''}}>Choose...</option>
                                         <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
                                         <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
@@ -125,11 +126,36 @@
                                         </div>
                                     </div>
                                     <div class="alert alert-info" role="alert">
-                                        Note: If the selected pa-swab data contains 'For Antigen', the test type will still remain as is after accepted. Name of Antigen Test Kit and Reason for Antigen Test will be written based on default values in system settings.
+                                        Note: If the selected Pa-Swab Request/s contains 'For Antigen', the test type will still remain as is after accepted. Name of Antigen Test Kit and Reason for Antigen Test will be written based on default values in system settings.
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" name="submit" value="bulkApprove" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="bulkreject" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-danger font-weight-bold">Bulk Reject Data</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                      <label for="rejectReason"><span class="text-danger font-weight-bold">*</span>State Reason for Rejection</label>
+                                      <textarea class="form-control" name="rejectReason" id="rejectReason" rows="3"></textarea>
+                                    </div>
+                                    <div class="alert alert-info" role="alert">
+                                        Note: By Rejecting a Pa-Swab Request/s, their details will still be saved in our system for later use but it is not included in the masterlist (Meaning, it will not be counted in the official list).
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" name="submit" value="bulkReject" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -145,16 +171,31 @@
 
     <script>
         $('#bulkbtn').prop('disabled', true);
+        $('#bulkrejectbtn').prop('disabled', true);
 
         $('input:checkbox').click(function() {
             if ($(this).is(':checked')) {
+                $('#bulkrejectbtn').prop('disabled', false);
                 $('#bulkbtn').prop('disabled', false);
             }
             else {
                 if ($('.checks').filter(':checked').length < 1 || $('#select_all').prop('checked') == false) {
                     $('#bulkbtn').prop('disabled', true);
+                    $('#bulkrejectbtn').prop('disabled', true);
                 }
             }
+        });
+
+        $('#bulkbtn').click(function (e) { 
+            $('#testDateCollected1').prop('required', true);
+            $('#testType1').prop('required', true);
+            $('#rejectReason').prop('required', false);
+        });
+
+        $('#bulkrejectbtn').click(function (e) { 
+            $('#testDateCollected1').prop('required', false);
+            $('#testType1').prop('required', false);
+            $('#rejectReason').prop('required', true);
         });
 
         $('#paswabtbl').dataTable({

@@ -20,9 +20,19 @@
                     @endif
 
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Information</a>
-                    <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-file mr-2" aria-hidden="true"></i>View/Create CIF</a>
+                    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa fa-file mr-2" aria-hidden="true"></i>Case Investigation Forms
+                    </button>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block">View/Create CIFs</a>
+                            <a href="{{route('paswab.view')}}" class="btn btn-primary btn-lg btn-block">Pa-swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
+                            <a href="{{route('bulkupdate.index')}}" class="btn btn-primary btn-lg btn-block">Bulk Update CIF Status</a>
+                        </div>
+                    </div>
+                    
                     @if(auth()->user()->isCesuAccount())
-                    <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block">View Self-Report List <i class="text-warning font-weight-bold">[Under Development]</i></a>
+                    <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block mt-2">View Self-Report List <i class="text-warning font-weight-bold">[Under Development]</i></a>
                     @endif
                     @if(auth()->user()->canUseLinelist())
                     <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-archive mr-2"></i>Line List</a>

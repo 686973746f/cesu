@@ -91,8 +91,8 @@
                   </div>
                   <div id="collapseTwo" class="collapse {{(session('openform') == 'patient') ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <form action="{{route('paswab.check')}}" method="POST">
+                        @csrf
                         <div class="card-body">
-                            @csrf
                             @if(session('msg'))
                             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                                 <p class="mb-0">{{session('msg')}}</p>

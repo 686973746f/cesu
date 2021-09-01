@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Models\PaSwabDetails;
 
 class HomeController extends Controller
 {
@@ -26,10 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $currentWeek = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('W');
-        return view('home', ['currentWeek' => $currentWeek]);
-    }
-
-    public function viewphp() {
-        return phpinfo();
+        $paswabctr = PaSwabDetails::where('status', 'pending')->count();
+        return view('home', ['currentWeek' => $currentWeek, 'paswabctr' => $paswabctr]);
     }
 }

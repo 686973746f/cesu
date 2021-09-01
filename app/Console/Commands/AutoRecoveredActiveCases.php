@@ -39,7 +39,8 @@ class AutoRecoveredActiveCases extends Command
      */
     public function handle()
     {
-        $forms = Forms::where('outcomeCondition', 'Active')
+        $forms = Forms::where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')->get();
 
         $dateToday = Carbon::parse(date('Y-m-d'));
