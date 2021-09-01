@@ -32,7 +32,7 @@
                     @csrf
                     <div>
                         <button type="button" class="btn btn-success my-3" data-toggle="modal" data-target="#bulkapprove" id="bulkbtn"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i> Bulk Approve Data</button>
-                        <!--<button type="button" class="btn btn-danger my-3" data-toggle="modal" data-target="#bulkreject" id="bulkrejectbtn"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i> Bulk Reject Data</button> -->
+                        <button type="button" class="btn btn-danger my-3" data-toggle="modal" data-target="#bulkreject" id="bulkrejectbtn"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i> Bulk Reject Data</button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped" id="paswabtbl">

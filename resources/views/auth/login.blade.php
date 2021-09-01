@@ -89,8 +89,8 @@
                       </button>
                     </h2>
                   </div>
-                  <div id="collapseTwo" class="collapse {{(session('openform') == 'patient') ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <form action="{{route('paswab.check')}}" method="POST">
+                  <div id="collapseTwo" class="collapse {{(session('openform') == 'patient') ? 'show' : ''}}">
+                    <form action="{{route('paswab.check', ['locale' => 'en'])}}" method="POST">
                         @csrf
                         <div class="card-body">
                             @if(session('msg'))

@@ -1272,6 +1272,7 @@ class FormsController extends Controller
 
         if($proceed == 1) {
             $form = Forms::where('id', $id)->update([
+                'status' => 'approved',
                 'isExported' => '0',
                 'exportedDate' => null,
                 'updated_by' => auth()->user()->id,

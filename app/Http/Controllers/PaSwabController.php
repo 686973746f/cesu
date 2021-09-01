@@ -174,7 +174,7 @@ class PaSwabController extends Controller
                             'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
                         ]);
 
-                        $oldform = Forms::where('records_id', $rec->id)->first();
+                        $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
                     }
 
                     if(!is_null($rec->philhealth)) {
@@ -436,11 +436,11 @@ class PaSwabController extends Controller
                     if($data->forAntigen == 1) {
                         $ttype = 'ANTIGEN';
                         //dapat baguhin 'to ayon sa system settings
-                        $tOtherRemarks = 'TO FOLLOW';
-                        $tAntigenKit = 'TO FOLLOW';
+                        $tOtherRemarks = 'FOR ANTIGEN REJECTED IN PASWAB';
+                        $tAntigenKit = 'FOR ANTIGEN REJECTED IN PASWAB';
                     }
                     else {
-                        $ttype = 'TO FOLLOW';
+                        $ttype = 'REJECTED IN PASWAB';
                         $tOtherRemarks = NULL;
                         $tAntigenKit = NULL;
                     }
@@ -548,7 +548,7 @@ class PaSwabController extends Controller
                             'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
                         ]);
 
-                        $oldform = Forms::where('records_id', $rec->id)->first();
+                        $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
                     }
 
                     $request->user()->form()->create([
@@ -988,15 +988,14 @@ class PaSwabController extends Controller
         return view('paswab_complete');
     }
 
-    public function check (Request $request) {
-        
+    public function check (Request $request, $locale) {
         $request->validate([
             'scode' => 'required',
         ]);
 
-        if(PaSwabDetails::where('majikCode', strtoupper($request->scode))->exists()) {
-            $check = PaSwabDetails::where('majikCode', strtoupper($request->scode))->first();
-            
+        $check = PaSwabDetails::where('majikCode', strtoupper($request->scode))->first();
+
+        if($check) {
             if($check->status == 'approved') {
                 $form = Forms::where('majikCode', $check->majikCode)->first();
 
