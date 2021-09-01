@@ -130,7 +130,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" name="submit" value="bulkApprove" class="btn btn-primary">Submit</button>
+                                    <button type="submit" name="submit" value="bulkApprove" class="btn btn-success">Accept</button>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" name="submit" value="bulkReject" class="btn btn-primary">Submit</button>
+                                    <button type="submit" name="submit" value="bulkReject" class="btn btn-danger">Reject</button>
                                 </div>
                             </div>
                         </div>
