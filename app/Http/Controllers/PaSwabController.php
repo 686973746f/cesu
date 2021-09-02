@@ -1422,6 +1422,7 @@ class PaSwabController extends Controller
     }
 
     public function reject($id, Request $request) {
+        /*
         $data = PaSwabDetails::findOrFail($id);
 
         $request->validate([
@@ -1444,5 +1445,6 @@ class PaSwabController extends Controller
             ->with('msg', 'You are not allowed to do that.')
             ->with('msgtype', 'warning');
         }
+        */
     }
 }
