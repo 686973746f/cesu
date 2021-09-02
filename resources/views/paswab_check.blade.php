@@ -105,11 +105,14 @@
                         <p>Also bring all of the photocopies of your requirements (such as Philhealth ID or MDR, PSA/Birth Certificate, and Any Valid IDs)</p>
                         <hr>
                         @if($form->testType1 == 'OPS' || $form->testType1 == 'NPS' || $form->testType1 == 'OPS AND NPS')
-                        <p>Your swab test will be collected using <strong>{{$form->testType1}}</strong>. Results will take 3-7 Days to release. After your requirements is checked and your swab has been collected, you can leave the testing facility immediately.</p>
+                        <p>Your swab test will be collected using <strong>{{$form->testType1}}</strong>. Results will take 5-7 Days to release. After your requirements is checked and your swab has been collected, you can leave the testing facility immediately.</p>
                         @else
                         <p>Your swab test will be collected using <strong>{{$form->testType1}}</strong>. Results will take 30 Minutes or Less to finish. Do not leave the testing facility until the result paper was given to you.</p>
                         @endif
                         <hr>
+                        <div class="alert alert-info" role="alert">
+                            Note: Due to the limited slots of patients that can be entertained per day, your pa-swab schedule could be re-scheduled without prior notice.
+                        </div>
                         <p>Please be guided accordingly.</p>
                     </div>
                 </div>
