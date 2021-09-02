@@ -400,6 +400,9 @@ class FormsController extends Controller
             
             return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.csv');
         }
+        else if($request->submit == 'export_type1') {
+            
+        }
         else if($request->submit == 'resched') {
             $request->validate([
                 'listToPrint' => 'required',
