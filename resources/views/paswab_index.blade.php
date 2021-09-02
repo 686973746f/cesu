@@ -1083,6 +1083,21 @@
     </div>
 
     <script>
+        $(document).ready(function () {
+            $('#saddress_province').select2({
+			    theme: "bootstrap",
+            });
+            $('#saddress_city').select2({
+                theme: "bootstrap",
+            });
+            $('#address_brgy').select2({
+                theme: "bootstrap",
+            });
+            $('#natureOfWork').select2({
+                theme: "bootstrap",
+            });
+        });
+
         @if(session('skipmodal') == false)
         $('#announcement').modal({backdrop: 'static', keyboard: false});
         $('#announcement').modal('show');
