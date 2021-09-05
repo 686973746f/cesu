@@ -216,8 +216,8 @@
         });
 
         $('#select_all').change(function() {
-        var checkboxes = $(this).closest('form').find(':checkbox');
-        checkboxes.prop('checked', $(this).is(':checked'));
+            var checkboxes = $(this).closest('form').find(':checkbox');
+            checkboxes.prop('checked', $(this).is(':checked'));
         });
 
         $('#testType1').change(function (e) { 

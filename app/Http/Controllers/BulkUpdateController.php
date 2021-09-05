@@ -54,6 +54,27 @@ class BulkUpdateController extends Controller
     }
 
     public function store(Request $request) {
-        dd($request);
+        foreach($request->bu as $item) {
+            $form = Forms::findOrFail($item['forms_id']);
+
+            if(!is_null($form->testDateCollected2)) {
+                $form->testResult2 = $item['testResult'];
+                $form->testDateReleased2 = $item['dateReleased'];
+                $form->oniTimeCollected2 = $item['timeReleased'];
+            }
+            else {
+                $form->testResult1 = $item['testResult'];
+                $form->testDateReleased1 = $item['dateReleased'];
+                $form->oniTimeCollected1 = $item['timeReleased'];
+            }
+
+            $form->dispoType = $item['dispoType'];
+            $form->outcomeCondition = $item['outcomeCondition'];
+            
+            if($form->isDirty()) {
+                dd('may nagbago');
+                $form->save();
+            }
+        }
     }
 }
