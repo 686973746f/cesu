@@ -69,6 +69,8 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
     Route::get('/forms/bulkupdate', [BulkUpdateController::class, 'viewBulkUpdate'])->name('bulkupdate.index');
+    Route::post('/forms/bulkupdate', [BulkUpdateController::class, 'store'])->name('bulkupdate.store');
+    Route::get('/forms/bulkupdate/ajax', [BulkUpdateController::class, 'ajaxController'])->name('bulkupdate.ajax');
 
     Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
     Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');

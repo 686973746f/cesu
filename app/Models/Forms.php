@@ -34,6 +34,18 @@ class Forms extends Model
         }
     }
 
+    public function getType() {
+        if($this->pType == 'PROBABLE') {
+            return 'SUSPECTED';
+        }
+        else if($this->pType == 'CLOSE CONTACT') {
+            return 'CLOSE CONTACT';
+        }
+        else if($this->pType == 'CLOSE CONTACT') {
+            return 'NON-COVID CASE';
+        }
+    }
+
     public function getReferralCode() {
         if(!is_null($this->majikCode)) {
             $check = PaSwabDetails::where('majikCode', $this->majikCode)->first();
