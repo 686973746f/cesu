@@ -58,23 +58,24 @@ class BulkUpdateController extends Controller
             $form = Forms::findOrFail($item['forms_id']);
 
             if(!is_null($form->testDateCollected2)) {
-                $form->testResult2 = $item['testResult'];
-                $form->testDateReleased2 = $item['dateReleased'];
-                $form->oniTimeCollected2 = $item['timeReleased'];
+                $form->testResult2 = (!is_null($item['testResult'])) ? $item['testResult'] : $form->testResult2;
+                $form->testDateReleased2 = (!is_null($item['dateReleased'])) ? $item['dateReleased'] : $form->testDateReleased2;
+                $form->oniTimeCollected2 = (!is_null($item['timeReleased'])) ? $item['timeReleased'] : $form->oniTimeCollected2;
             }
             else {
-                $form->testResult1 = $item['testResult'];
-                $form->testDateReleased1 = $item['dateReleased'];
-                $form->oniTimeCollected1 = $item['timeReleased'];
+                $form->testResult1 = (!is_null($item['testResult'])) ? $item['testResult'] : $form->testResult1;
+                $form->testDateReleased1 = (!is_null($item['dateReleased'])) ? $item['dateReleased'] : $form->testDateReleased1;
+                $form->oniTimeCollected1 = (!is_null($item['timeReleased'])) ? $item['timeReleased'] : $form->oniTimeCollected1;
             }
 
-            $form->dispoType = $item['dispoType'];
-            $form->outcomeCondition = $item['outcomeCondition'];
+            $form->dispoType = (!is_null($item['dispoType'])) ? $item['dispoType'] : $form->dispoType;
+            $form->outcomeCondition = (!is_null($item['outcomeCondition'])) ? $item['outcomeCondition'] : $form->outcomeCondition;
             
             if($form->isDirty()) {
-                dd('may nagbago');
                 $form->save();
             }
         }
+
+        return view('bulkupdate_index')->with('msg', 'Bulk Update Processed Successfully.')->with('msgtype', 'success');
     }
 }
