@@ -18,37 +18,37 @@
                             <div class="card-body">
                                 <div class="form-group">
                                   <label for="forms_id">Name of Patient to Update</label>
-                                  <select class="patient form-control" name="bu[0][forms_id]" id="forms_id" required>
+                                  <select class="patient form-control" name="bu[0][forms_id]" required>
                                   </select>
                                 </div>
-                                <div id="ifPatientSelected">
+                                <div class="ifPatientSelected">
                                     <div class="form-group">
                                         <label for="testResult">Update Result of Recent Test</label>
-                                        <select class="form-control" name="bu[0][testResult]" id="testResult">
+                                        <select class="testResult form-control" name="bu[0][testResult]">
                                           <option value="">No Changes</option>
                                           <option value="POSITIVE">Positive</option>
                                           <option value="NEGATIVE">Negative</option>
                                         </select>
                                     </div>
-                                    <div id="ifResult">
+                                    <div class="ifResult">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="dateReleased">Date Released</label>
-                                                  <input type="date" class="form-control" name="bu[0][dateReleased]" id="dateReleased">
+                                                  <input type="date" class="dateReleased form-control" name="bu[0][dateReleased]">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="timeReleased">Time Released</label>
-                                                    <input type="time" class="form-control" name="bu[0][timeReleased]" id="timeReleased">
+                                                    <input type="time" class="timeReleased form-control" name="bu[0][timeReleased]">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="dispoType">Update Disposition</label>
-                                        <select class="form-control" name="bu[0][dispoType]" id="dispoType">
+                                        <select class="dispoType form-control" name="bu[0][dispoType]">
                                             <option value="">No Changes</option>
                                             <option value="1">Admitted in hospital</option>
                                             <option value="2">Admitted in isolation/quarantine facility</option>
@@ -59,24 +59,24 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="outcomeCondition">Update Outcome</label>
-                                        <select class="form-control" name="bu[0][outcomeCondition]" id="outcomeCondition">
+                                        <select class="outcomeCondition form-control" name="bu[0][outcomeCondition]">
                                             <option value="">No Changes</option>
                                             <option value="Recovered">Recovered</option>
                                             <option value="Died">Died</option>
                                         </select>
                                     </div>
-                                    <div id="ifRecovered">
+                                    <div class="ifRecovered">
                                         <div class="form-group">
                                           <label for="dateRecovered">Date of Recovery</label>
-                                          <input type="date" class="form-control" name="bu[0][dateRecovered]" id="dateRecovered" max="{{date('Y-m-d')}}">
+                                          <input type="date" class="dateRecovered form-control" name="bu[0][dateRecovered]" max="{{date('Y-m-d')}}">
                                         </div>
                                     </div>
-                                    <div id="ifDied">
+                                    <div class="ifDied">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="outcomeDeathDate"><span class="text-danger font-weight-bold">*</span>Date of Death</label>
-                                                    <input type="date" class="form-control" name="outcomeDeathDate" id="outcomeDeathDate" max="2021-09-08" value="">
+                                                    <input type="date" class="outcomeDeathDate form-control" name="outcomeDeathDate" max="2021-09-08" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -154,22 +154,54 @@
         });
         var iteration = 0;
 
-        $('#forms_id').change(function (e) { 
+        $('.patient').change(function (e) { 
+            e.preventDefault();
             if($(this).val() == null) {
-                $('#ifPatientSelected').hide();
+                $('.ifPatientSelected').hide();
             }
             else {
-                $('#ifPatientSelected').show();
+                $('.ifPatientSelected').show();
             }
         }).trigger('change');
         
-        $('#testResult').change(function (e) { 
+        $('.testResult').change(function (e) { 
+            e.preventDefault();
             e.preventDefault();
             if($(this).val() == '') {
-                $('#ifResult').hide();
+                $('.ifResult').hide();
+                $('.dateReleased').prop('required', false);
             }
             else {
-                $('#ifResult').show();
+                $('.ifResult').show();
+                $('.dateReleased').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('.outcomeCondition').change(function (e) {
+            e.preventDefault();
+            if($(this).val() == '') {
+                $('.ifRecovered').hide();
+                $('.ifDied').hide();
+
+                $('.dateRecovered').prop('required', false);
+                $('.outcomeDeathDate').prop('required', false);
+                $('.deathImmeCause').prop('required', false);
+            }
+            else if($(this).val() == 'Recovered') {
+                $('.ifRecovered').show();
+                $('.ifDied').hide();
+
+                $('.dateRecovered').prop('required', true);
+                $('.outcomeDeathDate').prop('required', false);
+                $('.deathImmeCause').prop('required', false);
+            }
+            else if($(this).val() == 'Died') {
+                $('.ifRecovered').hide();
+                $('.ifDied').show();
+
+                $('.dateRecovered').prop('required', false);
+                $('.outcomeDeathDate').prop('required', true);
+                $('.deathImmeCause').prop('required', true);
             }
         }).trigger('change');
 
@@ -188,13 +220,11 @@
                     var clone = $(newRowContent).clone();
                     $(clone).find('.patient').val('');
                     $(clone).find('#headnum').text('#'+(iteration+1));
-                    $(clone).find('.patient').attr('id', "forms_id"+iteration).attr('name', "bu[" + iteration + "][forms_id]");
-                    $(clone).find('#ifPatientSelected').attr('id', "ifPatientSelected"+iteration);
-                    $(clone).find('#ifResult').attr('id', "forms_id"+iteration);
+                    $(clone).find('.patient').attr('name', "bu[" + iteration + "][forms_id]");
                     $(clone).find('#testResult').attr('name', "bu[" + iteration + "][testResult]");
                     $(clone).find('#dateReleased').attr('name', "bu[" + iteration + "][dateReleased]");
                     $(clone).find('#timeReleased').attr('name', "bu[" + iteration + "][timeReleased]");
-                    $(clone).find('#dispoType').attr('id', "dispoType"+iteration).attr('name', "bu[" + iteration + "][dispoType]");
+                    $(clone).find('#dispoType').attr('name', "bu[" + iteration + "][dispoType]");
                     $(clone).find('#outcomeCondition').attr('name', "bu[" + iteration + "][outcomeCondition]");
                     $(clone).appendTo($('#cloneHere'));
                     $('.patient').select2({
@@ -218,18 +248,54 @@
                         }
                     });
 
-                    $('#forms_id'+iteration).change(function (e) { 
-                        alert($('#forms_id'+iteration).val());
+                    $(clone).find('.patient').change(function (e) { 
+                        e.preventDefault();
                         if($(this).val() == null) {
-                            $('#ifPatientSelected'+iteration).hide();
+                            $(clone).find('.ifPatientSelected').hide();
                         }
                         else {
-                            $('#ifPatientSelected'+iteration).show();
+                            $(clone).find('.ifPatientSelected').show();
                         }
                     });
 
-                    $('#dispoType'+iteration).change(function (e) { 
+                    $(clone).find('.testResult').change(function (e) { 
                         e.preventDefault();
+                        if($(this).val() == '') {
+                            $(clone).find('.ifResult').hide();
+                            $(clone).find('.dateReleased').prop('required', false);
+                        }
+                        else {
+                            $(clone).find('.ifResult').show();
+                            $(clone).find('.dateReleased').prop('required', true);
+                        }
+                    });
+
+                    $(clone).find('.outcomeCondition').change(function (e) {
+                        e.preventDefault();
+                        if($(this).val() == '') {
+                            $(clone).find('.ifRecovered').hide();
+                            $(clone).find('.ifDied').hide();
+
+                            $(clone).find('.dateRecovered').prop('required', false);
+                            $(clone).find('.outcomeDeathDate').prop('required', false);
+                            $(clone).find('.deathImmeCause').prop('required', false);
+                        }
+                        else if($(this).val() == 'Recovered') {
+                            $(clone).find('.ifRecovered').show();
+                            $(clone).find('.ifDied').hide();
+
+                            $(clone).find('.dateRecovered').prop('required', true);
+                            $(clone).find('.outcomeDeathDate').prop('required', false);
+                            $(clone).find('.deathImmeCause').prop('required', false);
+                        }
+                        else if($(this).val() == 'Died') {
+                            $(clone).find('.ifRecovered').hide();
+                            $(clone).find('.ifDied').show();
+
+                            $(clone).find('.dateRecovered').prop('required', false);
+                            $(clone).find('.outcomeDeathDate').prop('required', true);
+                            $(clone).find('.deathImmeCause').prop('required', true);
+                        }
                     });
 
                     iteration++;
