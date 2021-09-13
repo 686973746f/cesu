@@ -9,12 +9,22 @@ use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use ErrorException;
 
 class ExcelImport implements ToCollection, WithStartRow
 {
     /**
     * @param Collection $collection
     */
+    private function transformDateTime(string $value, string $format = 'Y-m-d')
+    {
+        try {
+            return Carbon::instance(Date::excelToDateTimeObject($value))->format($format);
+        } catch (\ErrorException $e) {
+            return Carbon::createFromFormat($format, $value);
+        }
+    }
+
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
@@ -25,7 +35,7 @@ class ExcelImport implements ToCollection, WithStartRow
                 $query->where('mname', mb_strtoupper($row[8]))
                 ->orWhereNull('mname');
             })
-            ->where('bdate', Date::excelToDateTimeObject($row[9])->format('Y-m-d'))
+            ->where('bdate', $this->transformDateTime($row[9]))
             ->where('gender', strtoupper($row[11]))
             ->first();
 
@@ -43,7 +53,7 @@ class ExcelImport implements ToCollection, WithStartRow
                 $query->where('mname', mb_strtoupper($row[8]))
                 ->orWhereNull('mname');
             })
-            ->where('bdate', Date::excelToDateTimeObject($row[9])->format('Y-m-d'))
+            ->where('bdate', $this->transformDateTime($row[9]))
             ->where('gender', strtoupper($row[11]))
             ->where('status', 'pending')
             ->first();
@@ -76,7 +86,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     'isPregnant' => $isPregnant,
                     'cs' => 'SINGLE', //walang civil status column sa NEW DOH Excel
                     'nationality' => strtoupper($row[12]),
-                    'bdate' => Date::excelToDateTimeObject($row[9])->format('Y-m-d'),
+                    'bdate' => $this->transformDateTime($row[9]),
                     'mobile' => $row[18],
                     'phoneno' => NULL,
                     'email' => NULL,
@@ -173,21 +183,21 @@ class ExcelImport implements ToCollection, WithStartRow
                 if($row[41] == 'RECOVERED') {
                     $dispoType = 2;
                     $dispoName = 'ISOLATION FACILITY';
-                    $dispoDate = Date::excelToDateTimeObject($row[2])->format('Y-m-d').' 08:00:00';
+                    $dispoDate = $this->transformDateTime($row[2]).' 08:00:00';
                 }
                 else if($row[41] == 'DONE QUARANTINE') {
                     $dispoType = 4;
-                    $dispoDate = (!is_null($row[44])) ? Date::excelToDateTimeObject($row[44])->format('Y-m-d') : Date::excelToDateTimeObject($row[2])->format('Y-m-d');
+                    $dispoDate = (!is_null($row[44])) ? $this->transformDateTime($row[44]) : $this->transformDateTime($row[2]);
                 }
                 else if($row[41] == 'SELF QUARANTINE') {
                     $dispoType = 3;
                     $dispoName = NULL;
-                    $dispoDate = Date::excelToDateTimeObject($row[2])->format('Y-m-d').' 08:00:00';
+                    $dispoDate = $this->transformDateTime($row[2]).' 08:00:00';
                 }
                 else {
                     $dispoType = 1;
                     $dispoName = mb_strtoupper($row[41]);
-                    $dispoDate = Date::excelToDateTimeObject($row[2])->format('Y-m-d').' 08:00:00';
+                    $dispoDate = $this->transformDateTime($row[2]).' 08:00:00';
                 }
 
                 //Outcome
@@ -196,11 +206,11 @@ class ExcelImport implements ToCollection, WithStartRow
                 }
                 else if ($row[45] == 'RECOVERED') {
                     $outcome = 'Recovered';
-                    $dateRecovered = Date::excelToDateTimeObject($row[2])->format('Y-m-d');
+                    $dateRecovered = $this->transformDateTime($row[2]);
                 }
                 else if ($row[45] == 'EXPIRED' || $row[45] == 'DIED') {
                     $outcome = 'Died';
-                    $dateDied = Date::excelToDateTimeObject($row[47])->format('Y-m-d');
+                    $dateDied = $this->transformDateTime($row[47]);
                     $cod = (!is_null($row[48])) ? mb_strtoupper($row[48]) : NULL;
                 }
                 else {
@@ -249,7 +259,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     'drprovince' => mb_strtoupper($row[5]),
                     'interviewerName' => 'BROAS, LUIS',
                     'interviewerMobile' => '09190664324',
-                    'interviewDate' => Date::excelToDateTimeObject($row[2])->format('Y-m-d'),
+                    'interviewDate' => $this->transformDateTime($row[2]),
                     'informantName' => NULL,
                     'informantRelationship' => NULL,
                     'informantMobile' => NULL,
@@ -305,7 +315,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     'institutionName' => NULL,
                     'indgSpecify' => NULL,
 
-                    'dateOnsetOfIllness' => (!is_null($row[24])) ? Date::excelToDateTimeObject($row[24])->format('Y-m-d') : Date::excelToDateTimeObject($row[2])->format('Y-m-d'),
+                    'dateOnsetOfIllness' => (!is_null($row[24])) ? $this->transformDateTime($row[24]) : $this->transformDateTime($row[2]),
                     'SAS' => (!empty($symptomsList)) ? implode(",", $symptomsList) : NULL,
                     'SASFeverDeg' => ($row[25] == 'Y') ? '38' : NULL,
                     'SASOtherRemarks' => (!empty($otherSymptoms)) ? implode(",", $otherSymptoms) : NULL,
@@ -325,7 +335,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     'testedPositiveLab' => NULL,
                     'testedPositiveSpecCollectedDate' => NULL,
 
-                    'testDateCollected1' => (!is_null($row[36])) ? Date::excelToDateTimeObject($row[36])->format('Y-m-d') : NULL,
+                    'testDateCollected1' => (!is_null($row[36])) ? $this->transformDateTime($row[36]) : NULL,
                     'oniTimeCollected1' => NULL,
                     'testDateReleased1' => NULL,
                     'testLaboratory1' => NULL,
