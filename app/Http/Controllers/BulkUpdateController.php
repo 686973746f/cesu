@@ -68,14 +68,29 @@ class BulkUpdateController extends Controller
                 $form->oniTimeCollected1 = (!is_null($item['timeReleased'])) ? $item['timeReleased'] : $form->oniTimeCollected1;
             }
 
-            $form->dispoType = (!is_null($item['dispoType'])) ? $item['dispoType'] : $form->dispoType;
-            $form->outcomeCondition = (!is_null($item['outcomeCondition'])) ? $item['outcomeCondition'] : $form->outcomeCondition;
+            $form->dispoType = (!is_null($item['dispositionType'])) ? $item['dispositionType'] : $form->dispoType;
+            if(!is_null($item['dispositionType'])) {
+                $form->dispoName = $item['dispositionName'];
+                $form->dispoDate = $item['dispositionDate'];
+            }
+            else {
+                $form->dispoName = $form->dispoName;
+                $form->dispoDate = $form->dispoDate;
+            }
             
+            $form->outcomeCondition = (!is_null($item['outcomeCondition'])) ? $item['outcomeCondition'] : $form->outcomeCondition;
+            $form->outcomeRecovDate = (!is_null($item['dateRecovered']) && $item['outcomeCondition'] == 'Recovered') ? $item['dateRecovered'] : $form->outcomeRecovDate;
+            $form->outcomeDeathDate = (!is_null($item['outcomeDeathDate']) && $item['outcomeCondition'] == 'Died') ? $item['outcomeDeathDate'] : $form->outcomeDeathDate;
+            $form->deathImmeCause = (!is_null($item['deathImmeCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathImmeCause'] : $form->deathImmeCause;
+            $form->deathAnteCause = (!is_null($item['deathAnteCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathAnteCause'] : $form->deathAnteCause;
+            $form->deathUndeCause = (!is_null($item['deathUndeCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathUndeCause'] : $form->deathUndeCause;
+            $form->contriCondi = (!is_null($item['contriCondi']) && $item['outcomeCondition'] == 'Died') ? $item['contriCondi'] : $form->contriCondi;
+
             if($form->isDirty()) {
                 $form->save();
             }
         }
 
-        return view('bulkupdate_index')->with('msg', 'Bulk Update Processed Successfully.')->with('msgtype', 'success');
+        return redirect()->action([BulkUpdateController::class, 'viewBulkUpdate'])->with('msg', 'Bulk Update Processed Successfully.')->with('msgtype', 'success');
     }
 }
