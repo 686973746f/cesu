@@ -112,7 +112,7 @@
                     <button type="submit" class="btn btn-primary my-3" id="exportBtnExp" name="submit" value="export_type1"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Experimental Mode)</button>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-sm" id="table_id">
+                    <table class="table table-bordered table-hover table-sm" id="table_id">
                         <thead>
                             <tr class="text-center thead-light">
                                 <th></th>
