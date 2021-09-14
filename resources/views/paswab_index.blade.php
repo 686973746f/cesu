@@ -40,6 +40,10 @@
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">{{__('paswab.consultationDetails')}}</div>
                         <div class="card-body">
+                            <div class="form-group">
+                                <label>Name of Interviewer</label>
+                                <input type="text" class="form-control" value="{{$interviewerName}}" disabled>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

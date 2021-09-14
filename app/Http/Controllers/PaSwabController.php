@@ -29,7 +29,7 @@ class PaSwabController extends Controller
             ->first();
 
             if($checkcode) {
-                return view('paswab_index', ['proceed' => 1]);
+                return view('paswab_index', ['proceed' => 1, 'interviewerName' => $checkcode->interviewer->getCifName()]);
             }
             else {
                 return view('paswab_index', ['proceed' => 0]);

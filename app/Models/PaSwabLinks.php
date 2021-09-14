@@ -21,6 +21,6 @@ class PaSwabLinks extends Model
     }
 
     public function interviewer() {
-        return $this->hasOne(Interviewers::class);
+        return $this->belongsTo(Interviewers::class);
     }
 }
