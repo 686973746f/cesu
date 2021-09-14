@@ -29,7 +29,16 @@ class PaSwabController extends Controller
             ->first();
 
             if($checkcode) {
-                return view('paswab_index', ['proceed' => 1, 'interviewerName' => $checkcode->interviewer->getCifName()]);
+                return view('paswab_index', [
+                    'proceed' => 1,
+                    'interviewerName' => $checkcode->interviewer->getCifName(),
+                    'enableLockAddress' => $checkcode->enableLockAddress,
+                    'lock_brgy' => $checkcode->lock_brgy,
+                    'lock_city' => $checkcode->lock_city,
+                    'lock_city_text' => $checkcode->lock_city_text,
+                    'lock_province' => $checkcode->lock_province,
+                    'lock_province_text' => $checkcode->lock_province_text,
+                ]);
             }
             else {
                 return view('paswab_index', ['proceed' => 0]);
@@ -882,6 +891,21 @@ class PaSwabController extends Controller
                         ->with('skipmodal', true);
                     }
                     else {
+                        if($check->enableLockAddress == 1) {
+                            $brgy = mb_strtoupper($check->lock_brgy);
+                            $city = mb_strtoupper($check->lock_city_text);
+                            $city_json = $check->lock_city;
+                            $province = mb_strtoupper($check->lock_province_text);
+                            $province_json = $check->lock_province;
+                        }
+                        else {
+                            $brgy = mb_strtoupper($request->address_brgy);
+                            $city = mb_strtoupper($request->address_city);
+                            $city_json = $request->saddress_city;
+                            $province = mb_strtoupper($request->address_province);
+                            $province_json = $request->saddress_province;
+                        }
+
                         $data = PaSwabDetails::create([
                             'isNewRecord' => ($checku) ? 0 : 1,
                             'records_id' => ($checku) ? $checku->id : NULL,
@@ -906,11 +930,12 @@ class PaSwabController extends Controller
                             'philhealth' => $philhealth_organized,
                             'address_houseno' => strtoupper($request->address_houseno),
                             'address_street' => strtoupper($request->address_street),
-                            'address_brgy' => strtoupper($request->address_brgy),
-                            'address_city' => strtoupper($request->address_city),
-                            'address_cityjson' => $request->saddress_city,
-                            'address_province' => strtoupper($request->address_province),
-                            'address_provincejson' => $request->saddress_province,
+
+                            'address_brgy' => $brgy,
+                            'address_city' => $city,
+                            'address_cityjson' => $city_json,
+                            'address_province' => $province,
+                            'address_provincejson' => $province_json,
     
                             'vaccinationDate1' => ($request->vaccineq1 == 1) ? $request->vaccinationDate1 : NULL,
                             'vaccinationName1'=> ($request->vaccineq1 == 1) ? $request->nameOfVaccine : NULL,

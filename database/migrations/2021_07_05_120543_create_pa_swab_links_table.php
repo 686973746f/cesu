@@ -22,6 +22,12 @@ class CreatePaSwabLinksTable extends Migration
             $table->string('code');
             $table->string('secondary_code');
             $table->string('listOfAcceptedTestType')->nullable();
+            $table->tinyInteger('enableLockAddress')->default(0);
+            $table->string('lock_brgy')->nullable();
+            $table->string('lock_city')->nullable();
+            $table->string('lock_city_text')->nullable();
+            $table->string('lock_province')->nullable();
+            $table->string('lock_province_text')->nullable();
         });
     }
 

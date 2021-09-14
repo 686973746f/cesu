@@ -236,8 +236,59 @@
                                     </div>
                                 </div>
                             </div>
-
                             <hr>
+                            @if($enableLockAddress == 1)
+                            <div id="addresstext">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                          <input type="text" class="form-control" name="address_province" id="address_province" value="{{$lock_province_text}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="address_city" id="address_city" value="{{$lock_city_text}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                          <input type="text" class="form-control" name="address_provincejson" id="address_provincejson" value="{{$lock_province}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="address_cityjson" id="address_cityjson" value="{{$lock_city}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>{{__('paswab.saddress_province')}}</label>
+                                        <input type="text" class="form-control" name="saddress_province" id="" value="{{$lock_province_text}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>{{__('paswab.saddress_city')}}</label>
+                                        <input type="text" class="form-control" name="saddress_city" id="" value="{{$lock_city_text}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="address_brgy"><span class="text-danger font-weight-bold">*</span>Barangay</label>
+                                        <input type="text" class="form-control" name="address_brgy" id="" value="{{$lock_brgy}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            @else
                             <div id="addresstext">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -303,6 +354,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -400,7 +452,7 @@
                         <div class="card-body">
                             <div class="form-group">
                               <label for="vaccineq1"><span class="text-danger font-weight-bold">*</span>{{__('paswab.vaccineq1')}}</label>
-                              <select class="form-control" name="vaccineq1" id="vaccineq1">
+                              <select class="form-control" name="vaccineq1" id="vaccineq1" required>
                                 <option value="" disabled {{is_null(old('vaccineq1')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                 <option value="1" {{(old('vaccineq1') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
                                 <option value="0" {{(old('vaccineq1') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
