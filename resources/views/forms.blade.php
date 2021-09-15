@@ -181,7 +181,13 @@
                             <tr class="bg-{{$textcolor}}">
                                 <td class="text-center" style="vertical-align: middle;"></td>
                                 <td class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks" name="listToPrint[]" id="" value="{{$form->id}}"></td>
-                                <td style="vertical-align: middle;"><a href="forms/{{$form->id}}/edit{{(request()->get('view') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('view')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" class="text-dark font-weight-bold">{{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}} @if($form->records->isPregnant == 1) <span class="badge badge-info">P</span>@endif @if($form->isForHospitalization == 1) <span class="badge badge-secondary">H</span> @endif</a></td>
+                                <td style="vertical-align: middle;">
+                                    <a href="forms/{{$form->id}}/edit{{(request()->get('view') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('view')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" class="text-dark font-weight-bold">
+                                        {{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}
+                                        @if($form->records->isPregnant == 1)<span class="badge badge-info">P</span>@endif
+                                        @if($form->isForHospitalization == 1)<span class="badge badge-secondary">H</span>@endif
+                                    </a>
+                                </td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? $form->records->philhealth : 'N/A'}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->mobile}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>

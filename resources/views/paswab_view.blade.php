@@ -48,8 +48,6 @@
                                     <th style="vertical-align: middle;">Age / Gender</th>
                                     <th style="vertical-align: middle;">Pregnant / LMP</th>
                                     <th style="vertical-align: middle;">Client Type</th>
-                                    <th style="vertical-align: middle;">For Hospitalization</th>
-                                    <th style="vertical-align: middle;">For Antigen</th>
                                     <th style="vertical-align: middle;">Vaccinated</th>
                                     <th style="vertical-align: middle;">Have Symptoms</th>
                                     <th style="vertical-align: middle;">Date Onset of Illness</th>
@@ -65,15 +63,21 @@
                                         <td></td>
                                         <td class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks" name="bulkIDList[]" id="" value="{{$item->id}}"></td>
                                         <td class="text-center" style="vertical-align: middle;"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
-                                        <td style="vertical-align: middle;">@if($item->isNewRecord == 1)<span class="badge badge-danger">New</span>@endif<a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">{{$item->getName()}}</a></td>
+                                        <td style="vertical-align: middle;">
+                                            <a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">
+                                                @if($item->isNewRecord == 1)<span class="badge badge-danger">New</span>@endif
+                                                {{$item->getName()}}
+                                                @if($item->isPregnant == 1)<span class="badge badge-info">PREGNANT</span>@endif
+                                                @if($item->isForHospitalization == 1)<span class="badge badge-secondary">HOSP.</span>@endif
+                                                @if($item->forAntigen == 1)<span class="badge badge-success">ANTIGEN</span>@endif
+                                            </a>
+                                        </td>
                                         <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->philhealth)) ? $item->philhealth : 'N/A'}}</td>
                                         <td class="text-center" style="vertical-align: middle;">{{$item->mobile}}</td>
                                         <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->bdate))}}</td>
                                         <td class="text-center" style="vertical-align: middle;">{{$item->getAge()." / ".substr($item->gender,0,1)}}</td>
                                         <td class="text-center" style="vertical-align: middle;">{{($item->isPregnant == 1) ? 'YES / '.date('m/d/Y', strtotime($item->ifPregnantLMP)).' - '.$item->diff4Humans($item->ifPregnantLMP) : 'NO'}}</td>
                                         <td class="text-center" style="vertical-align: middle;"><span class="{{($item->getPatientType() == 'FOR TRAVEL') ? 'font-weight-bold text-danger' : ''}}">{{$item->getPatientType()}}</span> <small>{{(!is_null($item->expoDateLastCont) && $item->pType == 'CLOSE CONTACT') ? "(".date('m/d/Y - D', strtotime($item->expoDateLastCont)).", ".$item->diff4Humans($item->expoDateLastCont).")" : ''}}</small></td>
-                                        <td class="text-center" style="vertical-align: middle;">{{($item->isForHospitalization == 1) ? 'YES' : 'NO'}}</td>
-                                        <td class="text-center" style="vertical-align: middle;">{{($item->forAntigen == 1) ? 'YES' : 'NO'}}</td>
                                         <td class="text-center" style="vertical-align: middle;"><small>{{(!is_null($item->vaccinationDate1)) ? 'YES ('.$item->vaccinationName1.') - ' : 'NO'}}{{(!is_null($item->vaccinationDate1)) ? (!is_null($item->vaccinationDate2)) ? '2nd Dose' : '1st Dose' : ''}}</small></td>
                                         <td class="text-center {{!is_null($item->SAS) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{!is_null($item->SAS) ? 'YES' : 'NONE'}}</td>
                                         <td class="text-center {{(!is_null($item->dateOnsetOfIllness)) ? 'text-danger font-weight-bold' : ''}}" style="vertical-align: middle;">{{(!is_null($item->dateOnsetOfIllness)) ? date('m/d/Y (D)', strtotime($item->dateOnsetOfIllness)).' - '.$item->diff4Humans($item->dateOnsetOfIllness) : 'N/A'}}</td>
