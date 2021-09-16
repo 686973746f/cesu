@@ -132,6 +132,7 @@ class AdminPanelController extends Controller
 
         $request->user()->brgy()->create([
             'brgyName' => strtoupper($request->brgyName),
+            'city_id' => 1,
         ]);
 
         return redirect()->action([AdminPanelController::class, 'brgyIndex'])->with('status', 'Barangay Data has been created successfully.')->with('statustype', 'success');
