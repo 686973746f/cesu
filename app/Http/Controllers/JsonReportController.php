@@ -70,6 +70,7 @@ class JsonReportController extends Controller
     }
 
     public function genderBreakdown() {
+
         $arr = [];
 
         $male = Forms::with('records')
@@ -87,9 +88,13 @@ class JsonReportController extends Controller
         ->where('caseClassification', 'Confirmed')->count();
 
         array_push($arr, [
-            'male' => $male,
-            'female' => $female,
-            'total' => ($male + $female),
+            'gender' => 'MALE',
+            'count' => $male,
+        ]);
+
+        array_push($arr, [
+            'gender' => 'FEMALE',
+            'count' => $female,
         ]);
 
         return response()->json($arr);
