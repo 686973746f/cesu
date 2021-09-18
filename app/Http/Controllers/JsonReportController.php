@@ -12,11 +12,14 @@ class JsonReportController extends Controller
         $arr = [];
 
         $list = Brgy::where('city_id', 1)
-        ->where('displayInList', 1)->get();
+        ->where('displayInList', '1')
+        ->orderBy('brgyName', 'ASC')->get();
 
         foreach($list as $item) {
             $confirmedCases = Forms::with('records')
-            ->where('status', 'approved')
+            ->whereHas('records', function($q) use ($item) {
+                $q->where('address_brgy', $item->brgyName);
+            })->where('status', 'approved')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')->count();
 
