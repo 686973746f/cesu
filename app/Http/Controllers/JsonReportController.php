@@ -20,12 +20,33 @@ class JsonReportController extends Controller
             ->whereHas('records', function($q) use ($item) {
                 $q->where('address_brgy', $item->brgyName);
             })->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')->count();
+
+            $activeCases = Forms::with('records')
+            ->whereHas('records', function($q) use ($item) {
+                $q->where('address_brgy', $item->brgyName);
+            })->where('status', 'approved')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')->count();
+
+            $deaths = Forms::with('records')
+            ->whereHas('records', function($q) use ($item) {
+                $q->where('address_brgy', $item->brgyName);
+            })->where('status', 'approved')
+            ->where('outcomeCondition', 'Died')->count();
+
+            $recovered = Forms::with('records')
+            ->whereHas('records', function($q) use ($item) {
+                $q->where('address_brgy', $item->brgyName);
+            })->where('status', 'approved')
+            ->where('outcomeCondition', 'Recovered')->count();
 
             array_push($arr, [
                 'brgyName' => $item->brgyName,
                 'numOfConfirmedCases' => $confirmedCases,
+                'numOfActiveCases' => $activeCases,
+                'numOfDeaths' => $deaths,
+                'numOfRecoveries' => $recovered,
             ]);
         }
         
