@@ -159,6 +159,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 Route::get('/json/brgy', [JsonReportController::class, 'brgyCases']);
 Route::get('/json/genderBreakdown', [JsonReportController::class, 'genderBreakdown']);
 Route::get('json/conditionBreakdown', [JsonReportController::class, 'conditionBreakdown']);
+Route::get('json/casesDistribution', [JsonReportController::class, 'casesDistribution']);
 
 //Main landing page
 Route::get('/', function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brgy;
 use App\Models\Forms;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class JsonReportController extends Controller
@@ -17,7 +18,38 @@ class JsonReportController extends Controller
     }
 
     public function casesDistribution() {
+        $arr = [];
 
+        $period = CarbonPeriod::create('2021-01-01', date('Y-m-d'));
+
+        $activeCount = 0;
+
+        foreach ($period as $date) {
+            $currentActiveCount = Forms::where('status', 'approved')
+            ->whereDate('created_at', $date->toDateString())
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->count();
+            
+            $currentRecoveredCount = Forms::where('status', 'approved')
+            ->whereDate('created_at', $date->toDateString())
+            ->where('outcomeCondition', 'Recovered')
+            ->count();
+
+            $currentDiedCount = Forms::where('status', 'approved')
+            ->whereDate('created_at', $date->toDateString())
+            ->where('outcomeCondition', 'Died')
+            ->count();
+
+            array_push($arr, [
+                'date' => $date->toDateString(),
+                'activeConfirmedCases' => ($currentActiveCount - $currentRecoveredCount - $currentDiedCount),
+                'recoveredCases' => $currentRecoveredCount,
+                'deathCases' => $currentDiedCount,
+            ]);
+        }
+
+        return response()->json($arr);
     }
 
     public function brgyCases() {
