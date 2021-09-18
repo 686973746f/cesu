@@ -73,14 +73,14 @@ class JsonReportController extends Controller
         $arr = [];
 
         $male = Forms::with('records')
-        ->whereHas('records', function($q) use ($item) {
+        ->whereHas('records', function($q) {
             $q->where('gender', 'MALE');
         })->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')->count();
 
         $female = Forms::with('records')
-        ->whereHas('records', function($q) use ($item) {
+        ->whereHas('records', function($q) {
             $q->where('gender', 'FEMALE');
         })->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
