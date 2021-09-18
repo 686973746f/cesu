@@ -101,6 +101,48 @@ class JsonReportController extends Controller
     }
 
     public function conditionBreakdown() {
+        $arr = [];
 
+        array_push($arr, [
+            'status' => 'ASYMPTOMATIC',
+            'count' => Forms::where('status', 'approved')
+            ->where('healthStatus', 'Asymptomatic')
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')->count(),
+        ]);
+        
+        array_push($arr, [
+            'status' => 'MILD',
+            'count' => Forms::where('status', 'approved')
+            ->where('healthStatus', 'Mild')
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')->count(),
+        ]);
+
+        array_push($arr, [
+            'status' => 'MODERATE',
+            'count' => Forms::where('status', 'approved')
+            ->where('healthStatus', 'Moderate')
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')->count(),
+        ]);
+        
+        array_push($arr, [
+            'status' => 'SEVERE',
+            'count' => Forms::where('status', 'approved')
+            ->where('healthStatus', 'Severe')
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')->count(),
+        ]);
+
+        array_push($arr, [
+            'status' => 'CRITICAL',
+            'count' => Forms::where('status', 'approved')
+            ->where('healthStatus', 'Critical')
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')->count(),
+        ]);
+
+        return response()->json($arr);
     }
 }
