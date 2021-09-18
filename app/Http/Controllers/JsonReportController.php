@@ -18,6 +18,8 @@ class JsonReportController extends Controller
     }
 
     public function casesDistribution() {
+        ini_set('max_execution_time', 600);
+        
         $arr = [];
 
         $period = CarbonPeriod::create('2021-01-01', date('Y-m-d'));
