@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 
 class JsonReportController extends Controller
 {
+    public function totalCases() {
+
+    }
+
+    public function dailyNewCases() {
+        
+    }
+
+    public function casesDistribution() {
+
+    }
+
     public function brgyCases() {
         $arr = [];
 
@@ -55,5 +67,35 @@ class JsonReportController extends Controller
         }
         
         return response()->json($arr);
+    }
+
+    public function genderBreakdown() {
+        $arr = [];
+
+        $male = Forms::with('records')
+        ->whereHas('records', function($q) use ($item) {
+            $q->where('gender', 'MALE');
+        })->where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')->count();
+
+        $female = Forms::with('records')
+        ->whereHas('records', function($q) use ($item) {
+            $q->where('gender', 'FEMALE');
+        })->where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')->count();
+
+        array_push($arr, [
+            'male' => $male,
+            'female' => $female,
+            'total' => ($male + $female),
+        ]);
+
+        return response()->json($arr);
+    }
+
+    public function conditionBreakdown() {
+
     }
 }
