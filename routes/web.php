@@ -18,6 +18,7 @@ use App\Http\Controllers\LineListController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\BulkUpdateController;
+use App\Http\Controllers\JsonReportController;
 use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
@@ -154,6 +155,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/viewphp', [HomeController::class, 'viewphp']);
 });
 
+//Reports
+Route::get('/json/brgy', [JsonReportController::class, 'brgyCases']);
 
 
 //Main landing page
