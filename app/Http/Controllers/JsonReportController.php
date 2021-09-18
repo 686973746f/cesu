@@ -45,10 +45,12 @@ class JsonReportController extends Controller
 
             array_push($arr, [
                 'date' => $date->toDateString(),
-                'activeConfirmedCases' => ($currentActiveCount - $currentRecoveredCount - $currentDiedCount),
+                'activeConfirmedCases' => ($currentActiveCount + $activeCount - $currentRecoveredCount - $currentDiedCount),
                 'recoveredCases' => $currentRecoveredCount,
                 'deathCases' => $currentDiedCount,
             ]);
+
+            $activeCount += $currentActiveCount - $currentRecoveredCount - $currentDiedCount;
         }
 
         return response()->json($arr);
