@@ -69,7 +69,7 @@ class AutoRecoveredActiveCases extends Command
                 $daysToRecover = 21;
             }
             else {
-                $daysToRecover = 14;
+                $daysToRecover = 10;
             }
 
             $diff = $startDate->diffInDays($dateToday);

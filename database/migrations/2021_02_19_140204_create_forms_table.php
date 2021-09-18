@@ -20,6 +20,7 @@ class CreateFormsTable extends Migration
             $table->string('majikCode')->nullable();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status');
+            $table->date('dateReported')->nullable();
             $table->foreignId('status_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status_remarks')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -41,6 +42,7 @@ class CreateFormsTable extends Migration
             $table->text('existingCaseList'); // new
             $table->string('ecOthersRemarks')->nullable(); // new
             $table->string('pType');
+            $table->tinyInteger('ccType')->nullable();
             $table->text('testingCat');
 
             $table->enum('havePreviousCovidConsultation', [0,1]);
