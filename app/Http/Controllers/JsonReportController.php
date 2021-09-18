@@ -22,7 +22,7 @@ class JsonReportController extends Controller
 
             array_push($arr, [
                 'brgyName' => $item->brgyName,
-                'Confirmed Cases' => $confirmedCases,
+                'numOfConfirmedCases' => $confirmedCases,
             ]);
         }
         
