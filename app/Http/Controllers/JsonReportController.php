@@ -16,11 +16,13 @@ class JsonReportController extends Controller
         ->orderBy('brgyName', 'ASC')->get();
 
         foreach($list as $item) {
+            /*
             $confirmedCases = Forms::with('records')
             ->whereHas('records', function($q) use ($item) {
                 $q->where('address_brgy', $item->brgyName);
             })->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')->count();
+            */
 
             $activeCases = Forms::with('records')
             ->whereHas('records', function($q) use ($item) {
@@ -40,6 +42,8 @@ class JsonReportController extends Controller
                 $q->where('address_brgy', $item->brgyName);
             })->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')->count();
+
+            $confirmedCases = ($activeCases + $deaths + $recovered);
 
             array_push($arr, [
                 'brgyName' => $item->brgyName,
