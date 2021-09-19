@@ -10,7 +10,39 @@ use Illuminate\Http\Request;
 class JsonReportController extends Controller
 {
     public function totalCases() {
+        $arr = [];
 
+        $totalActiveCases = Forms::where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')
+        ->count();
+
+        $totalRecovered = Forms::where('status', 'approved')
+        ->where('outcomeCondition', 'Recovered')
+        ->count();
+        $totalDeaths = Forms::where('status', 'approved')
+        ->where('outcomeCondition', 'Died')
+        ->count();
+
+        array_push($arr, [
+            'totalActiveCases' => $totalActiveCases,
+            'totalRecovered' => $totalRecovered,
+            'totalDeaths' => $totalDeaths,
+            'totalCases' => $totalActiveCases + $totalRecovered + $totalDeaths,
+            'newActive' => Forms::where('status', 'approved')
+            ->whereDate('created_at', date('Y-m-d'))
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->count(),
+            'newRecovered' => Forms::where('status', 'approved')
+            ->whereDate('created_at', date('Y-m-d'))
+            ->where('outcomeCondition', 'Recovered')
+            ->count(),
+            'newDeaths' => Forms::where('status', 'approved')
+            ->whereDate('created_at', date('Y-m-d'))
+            ->where('outcomeCondition', 'Died')
+            ->count(),
+        ]);
     }
 
     public function dailyNewCases() {
