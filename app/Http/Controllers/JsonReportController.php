@@ -43,6 +43,8 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Died')
             ->count(),
         ]);
+
+        return response()->json($arr);
     }
 
     public function dailyNewCases() {
