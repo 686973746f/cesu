@@ -20,7 +20,7 @@ class CreateFormsTable extends Migration
             $table->string('majikCode')->nullable();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status');
-            $table->date('dateReported')->nullable();
+            $table->timestamp('dateReported')->useCurrent();
             $table->foreignId('status_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status_remarks')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

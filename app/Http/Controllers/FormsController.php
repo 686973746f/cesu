@@ -411,17 +411,20 @@ class FormsController extends Controller
 
             $models = Forms::whereIn('id', $list)->get();
             foreach($models as $item) {
+                $f = Forms::find($item->id);
+                
                 if(!is_null($item->testDateCollected2)) {
-                    $query = Forms::where('id', $item->id)->update([
-                        'testDateCollected2' => $request->reschedDate,
-                        'isExported' => '0'
-                    ]);
+                    $f->testDateCollected2 = $request->reschedDate;
                 }
                 else {
-                    $query = Forms::where('id', $item->id)->update([
-                        'testDateCollected1' => $request->reschedDate,
-                        'isExported' => '0'
-                    ]);
+                    $f->testDateCollected1 = $request->reschedDate;
+                }
+
+                if($f->isDirty('testDateCollected2') || $f->isDirty('testDateCollected1')) {
+                    $f->isExported = 0;
+                    $f->updated_by = auth()->user()->id;
+
+                    $f->save();
                 }
             }
 
@@ -536,6 +539,7 @@ class FormsController extends Controller
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
                     $query = Forms::where('id', $item->id)->update([
+                        'updated_by' => auth()->user()->id,
                         'testType2' => $request->changeType,
                         'isExported' => '0',
                         'testTypeAntigenRemarks2' => $antigenReason,
@@ -545,6 +549,7 @@ class FormsController extends Controller
                 }
                 else {
                     $query = Forms::where('id', $item->id)->update([
+                        'updated_by' => auth()->user()->id,
                         'testType1' => $request->changeType,
                         'isExported' => '0',
                         'testTypeAntigenRemarks1' => $antigenReason,
