@@ -195,7 +195,7 @@
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->records->address_street}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->address_brgy}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->address_city}}, {{$form->records->address_province}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{$pTypeStr}} @if($pTypeStr == 'CC' && !is_null($form->expoDateLastCont))<span class="badge badge-primary">{{Carbon\Carbon::parse($form->expoDateLastCont)->diffInDays()}}D</span>@endif</td>
+                                <td style="vertical-align: middle;" class="text-center">{{$pTypeStr}} @if($pTypeStr == 'CC' && !is_null($form->expoDateLastCont))<span class="badge badge-primary">{{Carbon\Carbon::parse($form->expoDateLastCont)->diffInDays()}} D</span>@endif</td>
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->healthStatus)}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->getReferralCode()}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
