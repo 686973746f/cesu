@@ -94,7 +94,6 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
             substr($form->records->gender,0,1),
             $form->records->nationality,
             'IV A',
-            
         ];
 
         /*

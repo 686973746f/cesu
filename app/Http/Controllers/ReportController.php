@@ -8,6 +8,7 @@ use App\Models\Forms;
 use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
+use App\Exports\DOHExportAll;
 use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -126,6 +127,10 @@ class ReportController extends Controller
         ->update(['caseClassification' => 'Suspect']);
 
         return redirect()->action([ReportController::class, 'index'])->with('status', 'All patients who were absent for today were moved in SUSPECTED Case.')->with('statustype', 'success');
+    }
+
+    public function DOHExportAll() {
+        return Excel::download(new DOHExportAll(), 'DOH_Excel_'.date('m_d_Y').'.xlsx');
     }
 
     public function reportExport(Request $request) {
