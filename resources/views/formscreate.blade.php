@@ -37,7 +37,10 @@
                       <label for="remarks">Remarks</label>
                       <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks')}}</textarea>
                     </div>
-
+                    <div class="form-group">
+                      <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
+                      <input type="date" class="form-control" name="dateReported" id="dateReported" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d'))}}" required>
+                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

@@ -86,6 +86,10 @@
                         </table>
                     </div>
                     <hr>
+                    <div class="form-group">
+                        <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
+                        <input type="date" class="form-control" name="dateReported" id="dateReported" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d', strtotime($records->dateReported)))}}" required>
+                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
