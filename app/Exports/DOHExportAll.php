@@ -2,17 +2,18 @@
 
 namespace App\Exports;
 
+use Carbon\Carbon;
 use App\Models\Forms;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 class DOHExportAll implements WithMultipleSheets
 {
@@ -35,7 +36,7 @@ class DOHExportAll implements WithMultipleSheets
     }
 }
 
-class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles {
+class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles, WithChunkReading {
     public function collection()
     {
         return Forms::where('status', 'approved')
@@ -230,9 +231,14 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
             'REMARKS',
         ];
     }
+
+    public function chunkSize(): int
+    {
+        return 1000;
+    }
 }
 
-class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles {
+class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles, WithChunkReading {
     public function collection()
     {
         return Forms::where('status', 'approved')
@@ -427,9 +433,14 @@ class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, Wi
             'REMARKS',
         ];
     }
+
+    public function chunkSize(): int
+    {
+        return 1000;
+    }
 }
 
-class ConfirmedCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles {
+class ConfirmedCaseSheet implements FromCollection, WithMapping, WithHeadings, WithTitle, ShouldAutoSize, WithStyles, WithChunkReading {
     public function collection()
     {
         return Forms::where('status', 'approved')
@@ -622,5 +633,10 @@ class ConfirmedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
             'RETURNING OVERSEAS FILIPINO (Y/N)',
             'REMARKS',
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 }
