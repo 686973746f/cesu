@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Exports\DOHExportAll;
 use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
+use App\User;
 
 class ReportController extends Controller
 {
@@ -130,7 +132,20 @@ class ReportController extends Controller
     }
 
     public function DOHExportAll() {
-        return Excel::download(new DOHExportAll(), 'DOH_Excel_'.date('m_d_Y').'.xlsx');
+        //return Excel::download(new DOHExportAll(), 'DOH_Excel_'.date('m_d_Y').'.xlsx');s
+        $data = collect();
+
+        $list = Forms::where('status', 'approved')->chunk(200, function ($flights) use ($data) {
+            foreach($flights as $flight) {
+                $data->push([
+                    'id' => $flight->status,
+                    'created_at' => $flight->created_at,
+                ]);
+            }
+        });
+
+        // Export all users
+        return (new FastExcel($data))->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
