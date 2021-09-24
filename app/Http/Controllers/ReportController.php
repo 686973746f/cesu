@@ -411,14 +411,8 @@ class ReportController extends Controller
         });
         */
 
-        $sheets = new SheetCollection([
-            'Suspected' => suspectedGenerator(),
-            'Probable' => probableGenerator(),
-            'Confirmed' => confirmedGenerator(),
-        ]);
-
         // Export all users
-        return (new FastExcel($sheets))->download('file.xlsx');
+        return (new FastExcel(suspectedGenerator()))->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
