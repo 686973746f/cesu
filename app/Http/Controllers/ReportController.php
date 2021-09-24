@@ -142,8 +142,9 @@ class ReportController extends Controller
         ->where('caseClassification', 'Suspect')
         ->where('outcomeCondition', 'Active')
         ->orderby('created_at', 'asc')
-        ->chunk(10, function ($data) use ($suspected) {
+        ->chunk(200, function ($data) use ($suspected) {
             foreach($data as $form) {
+                yield $form;
                 $arr_sas = explode(",", $form->SAS);
                 $arr_othersas = explode(",", $form->SASOtherRemarks);
                 $arr_como = explode(",", $form->COMO);
@@ -259,8 +260,9 @@ class ReportController extends Controller
         ->where('caseClassification', 'Probable')
         ->where('outcomeCondition', 'Active')
         ->orderby('created_at', 'asc')
-        ->chunk(10, function ($data) use ($probable) {
+        ->chunk(200, function ($data) use ($probable) {
             foreach($data as $form) {
+                yield $form;
                 $arr_sas = explode(",", $form->SAS);
                 $arr_othersas = explode(",", $form->SASOtherRemarks);
                 $arr_como = explode(",", $form->COMO);
@@ -375,8 +377,9 @@ class ReportController extends Controller
         $list3 = Forms::where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
         ->orderby('created_at', 'asc')
-        ->chunk(10, function ($data) use ($confirmed) {
+        ->chunk(200, function ($data) use ($confirmed) {
             foreach($data as $form) {
+                yield $form;
                 $arr_sas = explode(",", $form->SAS);
                 $arr_othersas = explode(",", $form->SASOtherRemarks);
                 $arr_como = explode(",", $form->COMO);
