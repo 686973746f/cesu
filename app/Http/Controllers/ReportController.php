@@ -412,7 +412,7 @@ class ReportController extends Controller
         */
 
         $sheets = new SheetCollection([
-            'Suspected' => usersGenerator(),
+            'Suspected' => suspectedGenerator(),
             'Probable' => probableGenerator(),
             'Confirmed' => confirmedGenerator(),
         ]);
