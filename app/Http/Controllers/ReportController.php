@@ -10,7 +10,6 @@ use App\Models\Forms;
 use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
-use App\Exports\DOHExportAll;
 use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -143,7 +142,7 @@ class ReportController extends Controller
         ->where('caseClassification', 'Suspect')
         ->where('outcomeCondition', 'Active')
         ->orderby('created_at', 'asc')
-        ->chunk(100, function ($data) use ($suspected) {
+        ->chunk(10, function ($data) use ($suspected) {
             foreach($data as $form) {
                 $arr_sas = explode(",", $form->SAS);
                 $arr_othersas = explode(",", $form->SASOtherRemarks);
@@ -260,7 +259,7 @@ class ReportController extends Controller
         ->where('caseClassification', 'Probable')
         ->where('outcomeCondition', 'Active')
         ->orderby('created_at', 'asc')
-        ->chunk(100, function ($data) use ($probable) {
+        ->chunk(10, function ($data) use ($probable) {
             foreach($data as $form) {
                 $arr_sas = explode(",", $form->SAS);
                 $arr_othersas = explode(",", $form->SASOtherRemarks);
@@ -376,7 +375,7 @@ class ReportController extends Controller
         $list3 = Forms::where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
         ->orderby('created_at', 'asc')
-        ->chunk(100, function ($data) use ($confirmed) {
+        ->chunk(10, function ($data) use ($confirmed) {
             foreach($data as $form) {
                 $arr_sas = explode(",", $form->SAS);
                 $arr_othersas = explode(",", $form->SASOtherRemarks);
