@@ -11,9 +11,8 @@ use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Rap2hpoutre\FastExcel\FastExcel;
 use Rap2hpoutre\FastExcel\SheetCollection;
+use FastExcel;
 
 class ReportController extends Controller
 {
@@ -133,6 +132,7 @@ class ReportController extends Controller
     }
 
     public function DOHExportAll() {
+        ini_set('max_execution_time', 600);
         //return Excel::download(new DOHExportAll(), 'DOH_Excel_'.date('m_d_Y').'.xlsx');s
         //$suspected = collect();
         //$probable = collect();
@@ -148,9 +148,7 @@ class ReportController extends Controller
         });
         */
         function suspectedGenerator() {
-            foreach (Forms::where('status', 'approved')
-            ->where('caseClassification', 'Suspect')
-            ->where('outcomeCondition', 'Active')->cursor() as $user) {
+            foreach (Forms::cursor() as $user) {
                 yield $user;
             }
         }
@@ -412,7 +410,7 @@ class ReportController extends Controller
         */
 
         // Export all users
-        return (new FastExcel(suspectedGenerator()))->download('file.xlsx');
+        return FastExcel::data(suspectedGenerator())->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
