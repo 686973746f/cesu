@@ -234,7 +234,7 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
 
     public function chunkSize(): int
     {
-        return 1000;
+        return 200;
     }
 }
 
@@ -436,7 +436,7 @@ class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, Wi
 
     public function chunkSize(): int
     {
-        return 1000;
+        return 200;
     }
 }
 
@@ -637,6 +637,6 @@ class ConfirmedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
 
     public function chunkSize(): int
     {
-        return 1000;
+        return 200;
     }
 }
