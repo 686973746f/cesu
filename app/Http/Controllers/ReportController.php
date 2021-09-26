@@ -420,7 +420,7 @@ class ReportController extends Controller
 
         $var = new FastExcel($list);
 
-        return $var->download('file.xlsx');
+        return $var->export('file.xlsx');
     }
 
     public function reportExport(Request $request) {
