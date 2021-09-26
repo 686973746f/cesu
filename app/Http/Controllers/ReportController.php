@@ -11,7 +11,7 @@ use App\Exports\FormsExport;
 use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
-use FastExcel;
+use fExcel;
 
 class ReportController extends Controller
 {
@@ -130,7 +130,7 @@ class ReportController extends Controller
         return redirect()->action([ReportController::class, 'index'])->with('status', 'All patients who were absent for today were moved in SUSPECTED Case.')->with('statustype', 'success');
     }
 
-    public function DOHExportAll() {
+    public function dohExportAll() {
         //ini_set('max_execution_time', 600);
         //return Excel::download(new DOHExportAll(), 'DOH_Excel_'.date('m_d_Y').'.xlsx');s
         //$suspected = collect();
@@ -418,7 +418,7 @@ class ReportController extends Controller
             [ 'id' => 2, 'name' => 'John' ],
         ]);
 
-        return FastExcel::data($list)->download('file.xlsx');
+        return fExcel::data($list)->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
