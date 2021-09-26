@@ -418,9 +418,7 @@ class ReportController extends Controller
             [ 'id' => 2, 'name' => 'John' ],
         ]);
 
-        $var = new FastExcel($list);
-
-        return $var->export('file.xlsx');
+        return (new FastExcel($list))->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
