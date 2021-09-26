@@ -415,7 +415,12 @@ class ReportController extends Controller
         // Export all users
         $v1 = suspectedGenerator();
 
-        return (new FastExcel($v1))->download('file.xlsx');
+        return (new FastExcel($v1))->download('file.xlsx', function ($line) {
+           return [
+               'id' => $line->id,
+               'dateReported' => date('Y-m-d', strtotime($line->dateReported)),
+           ];
+        });
     }
 
     public function reportExport(Request $request) {
