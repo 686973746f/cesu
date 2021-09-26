@@ -10,8 +10,7 @@ use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
-use Maatwebsite\Excel\Facades\Excel;
-use fExcel;
+use Rap2hpoutre\FastExcel\Facades\FastExcel as fExcel;
 
 class ReportController extends Controller
 {
