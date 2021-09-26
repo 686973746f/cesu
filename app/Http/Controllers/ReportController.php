@@ -419,7 +419,116 @@ class ReportController extends Controller
             'Confirmed' => confirmedGenerator(),
         ]);
 
-        return (new FastExcel($sheets))->download('file.xlsx');
+        return (new FastExcel($sheets))->download('GENTRI_COVID19_DATABASE_'.date('Ymd').'.xlsx', function ($form) {
+            $arr_sas = explode(",", $form->SAS);
+            $arr_othersas = explode(",", $form->SASOtherRemarks);
+            $arr_como = explode(",", $form->COMO);
+
+            if(is_null($form->testType2)) {
+                $testType = $form->testType1;
+                $testDate = date('m/d/Y', strtotime($form->testDateCollected1));
+                $testReleased = (!is_null($form->testDateReleased1)) ? date('m/d/Y', strtotime($form->testDateReleased1)) : 'N/A';
+                $testResult = $form->testResult1;
+            }
+            else {
+                //ilalagay sa unahan yung pangalawang swab dahil mas bago ito
+                $testType = $form->testType2;
+                $testDate = date('m/d/Y', strtotime($form->testDateCollected2));
+                $testReleased = (!is_null($form->testDateReleased2)) ? date('m/d/Y', strtotime($form->testDateReleased2)) : 'N/A';
+                $testResult = $form->testResult2;
+            }
+
+            if($form->dispoType == 1) {
+                $dispo = 'ADMITTED AT HOSPITAL';
+                $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+            else if($form->dispoType == 2) {
+                $dispo = 'ADMITTED AT ISOLATION FACILITY';
+                $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+            else if($form->dispoType == 3) {
+                $dispo = 'HOME QUARANTINE';
+                $dispoName = "N/A";
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+            else if($form->dispoType == 4) {
+                $dispo = 'DISCHARGED';
+                $dispoName = "N/A";
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+            else if($form->dispoType == 5) {
+                $dispo = 'OTHERS';
+                $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+
+            return [
+                'CIF Patient ID' => $form->id,
+                'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->created_at)),
+                'MW (Morbidity Week' => Carbon::parse($form->created_at)->format('W'),
+                'DATE REPORTED' => date('m/d/Y', strtotime($form->dateReported)),
+                'DRU' => $form->drunit,
+                'REGION OF DRU' => $form->drregion,
+                'MUNCITY OF DRU' => $form->drprovince,
+                'LAST NAME' => $form->records->lname,
+                'FIRST NAME' => $form->records->fname,
+                'MIDDLE NAME' => (!is_null($form->records->mname)) ? $form->records->mname : "N/A",
+                'DOB' => date('m/d/Y', strtotime($form->records->bdate)),
+                'AGE (AGE IN YEARS)' => $form->records->getAge(),
+                'SEX(M/F)' => substr($form->records->gender,0,1),
+                'NATIONALITY' => $form->records->nationality,
+                'REGION' => 'IV A',
+                'PROVINCE/HUC' => $form->records->permaaddress_province,
+                'MUNICIPALITY/CITY' => $form->records->permaaddress_city,
+                'BARANGAY' => $form->records->permaaddress_brgy,
+                'HOUSE N. AND STREET OR NEAREST LANDMARK' => $form->records->permaaddress_houseno.', '.$form->records->permaaddress_street,
+                'CONTACT N.' => $form->records->mobile,
+                'OCCUPATION' => (!is_null($form->records->occupation)) ? $form->records->occupation : "N/A",
+                'HEALTHCARE WORKER(Y/N)' => ($form->isHealthCareWorker == 1) ? 'Y' : 'N',
+                'PLACE OF WORK' => ($form->isHealthCareWorker == 1) ? $form->healthCareCompanyLocation : 'N/A',
+                'SEVERITY OF THE CASE (ASYMTOMATIC,MILD,MODERATE,SEVERE,CRITICAL)' => $form->healthStatus,
+                'PREGNANT (Y/N)' => ($form->records->isPregnant == 1) ? 'Y' : 'N',
+                'ONSET OF ILLNESS' => (!is_null($form->dateOnsetOfIllness)) ? date('m/d/Y', strtotime($form->dateOnsetOfIllness)) : 'N/A',
+                'FEVER(Y/N)' => (in_array('Fever', $arr_sas)) ? 'Y' : 'N',
+                'COUGH (Y/N)' => (in_array('Cough', $arr_sas)) ? 'Y' : 'N',
+                'COLDS (Y/N)' => (in_array('COLDS', $arr_othersas) || in_array('COLD', $arr_othersas)) ? 'Y' : 'N',
+                'DOB (Y/N)' => (in_array('DOB', $arr_othersas) || in_array('DIFFICULTY IN BREATHING', $arr_othersas) || in_array('NAHIHIRAPANG HUMINGA', $arr_othersas)) ? 'Y' : 'N',
+                'LOSS OF SMELL (Y/N)' => (in_array('Anosmia (Loss of Smell)', $arr_sas)) ? 'Y' : 'N',
+                'LOSS OF TASTE (Y/N)' => (in_array('Ageusia (Loss of Taste)', $arr_sas)) ? 'Y' : 'N',
+                'SORETHROAT (Y/N)' => (in_array('Sore throat', $arr_sas)) ? 'Y' : 'N',
+                'DIARRHEA (Y/N)' => (in_array('Diarrhea', $arr_sas)) ? 'Y' : 'N',
+                'OTHER SYMPTOMS' => (!is_null($form->SASOtherRemarks)) ? mb_strtoupper($form->SASOtherRemarks) : 'N/A',
+                'W. COMORBIDITY (Y/N)' => ($form->COMO != 'None') ? 'Y' : 'N',
+                'COMORBIDITY (HYPERTENSIVE, DIABETIC, WITH HEART PROBLEM, AND OTHERS)' => ($form->COMO != 'None') ? $form->COMO : 'N/A',
+                'DATE OF SPECIMEN COLLECTION' => $testDate,
+                'ANTIGEN (POSITIVE/NEGATIVE)' => ($testType == 'ANTIGEN') ? $testResult : 'N/A',
+                'PCR(POSITIVE/NEGATIVE)' => ($testType == 'OPS' || $testType == 'NPS' || $testType == 'OPS AND NPS') ? $testResult : 'N/A',
+                'RDT(+IGG, +IGM,NEGATIVE)' => ($testType == 'ANTIBODY') ? $testResult : 'N/A',
+                'CLASSIFICATION (CONFIRMED,SUSPECTED,PROBABLE,FOR VALIDATION)' => $form->caseClassification,
+                'QUARANTINE STATUS (ADMITTED,HOME QUARANTINE,TTMF,CLEARED,DISCHARGED)' => $dispo,
+                'NAME OF FACILITY (FOR FACILITY QUARANTINE AND ADMITTED)' => $dispoName,
+                'DATE START OF QUARANTINE' => $dispoDate,
+                'DATE COMPLETED QUARANTINE (FOR HOME AND FACILITY QUARANTINE)' => ($form->dispoType == 4) ? $dispoDate : 'N/A',
+                'OUTCOME(ALIVE/RECOVERED/DIED)' => $form->outcomeCondition,
+                'DATE RECOVERED' => ($form->outcomeCondition == 'Recovered') ? date('m/d/Y', strtotime($form->outcomeRecovDate)) : 'N/A',
+                'DATE DIED' => ($form->outcomeCondition == 'Died') ? date('m/d/Y', strtotime($form->outcomeDeathDate)) : 'N/A',
+                'CAUSE OF DEATH' => ($form->outcomeCondition == 'Died') ? mb_strtoupper($form->deathImmeCause) : 'N/A',
+                'W. TRAVEL HISTORY(Y/N)' => ($form->expoitem2 == 1) ? 'Y' : 'N',
+                'PLACE OF TRAVEL' => (!is_null($form->placevisited)) ? $form->placevisited : 'N/A',
+                'DATE OF TRAVEL' => (!is_null($form->localDateDepart1)) ? date('m/d/Y', strtotime($form->localDateDepart1)) : 'N/A',
+                'LSI (Y/N)' => ($form->isLSI == 1) ? 'Y' : 'N',
+                'ADDRESS(LSI)' => ($form->isLSI == 1) ? $form->LSICity : 'N/A',
+                'OFW(Y/N)' => ($form->isOFW == 1 && $form->ofwType == 1) ? 'Y': 'N',
+                'PLACE OF ORIGIN (OFW)' => ($form->isOFW == 1 && $form->ofwType == 1) ? $form->OFWCountyOfOrigin : 'N/A',
+                'DATE OF ARRIVAL (OFW)' => "N/A", //OFW DATE OF ARRIVAL, WALA NAMANG GANITO SA CIF DATABASE ROWS,
+                'AUTHORIZED PERSON OUTSIDE RESIDENCE (Y/N)' => ($form->isLSI == 1 && $form->lsiType == 0) ? 'Y' : 'N',
+                'LOCAL/IMPORTED CASE' => "UNKNOWN",
+                'RETURNING OVERSEAS FILIPINO (Y/N)' => ($form->isOFW == 1 && $form->ofwType == 2) ? 'Y': 'N',
+                'REMARKS' => (!is_null($form->remarks)) ? $form->remarks : 'N/A',
+            ];
+        });
     }
 
     public function reportExport(Request $request) {
