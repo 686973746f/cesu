@@ -10,8 +10,8 @@ use App\Models\Forms;
 use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel;
 use App\Exports\SitReportExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
