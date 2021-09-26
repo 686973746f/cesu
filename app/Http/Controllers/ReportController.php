@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use FastExcel;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use App\Models\City;
@@ -12,6 +11,7 @@ use App\Exports\FormsExport;
 use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class ReportController extends Controller
 {
