@@ -146,7 +146,7 @@ class ReportController extends Controller
             
         });
         */
-        /*
+        
         function suspectedGenerator() {
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Suspect')
@@ -168,11 +168,10 @@ class ReportController extends Controller
         function confirmedGenerator() {
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->orderby('created_at', 'asc')->lazy() as $user) {
+            ->orderby('created_at', 'asc')->cursor() as $user) {
                 yield $user;
             }
         }
-        */
 
         /*
         $list2 = Forms::where('status', 'approved')
@@ -413,12 +412,13 @@ class ReportController extends Controller
         });
         */
 
-        $list = collect([
-            [ 'id' => 1, 'name' => 'Jane' ],
-            [ 'id' => 2, 'name' => 'John' ],
+        $sheets = new SheetCollection([
+            'Suspected' => suspectedGenerator(),
+            'Probable' => probableGenerator(),
+            'Confirmed' => confirmedGenerator(),
         ]);
 
-        return (new FastExcel($list))->download('file.xlsx');
+        return (new FastExcel($sheets))->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
