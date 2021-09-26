@@ -132,7 +132,7 @@ class ReportController extends Controller
     }
 
     public function DOHExportAll() {
-        ini_set('max_execution_time', 600);
+        //ini_set('max_execution_time', 600);
         //return Excel::download(new DOHExportAll(), 'DOH_Excel_'.date('m_d_Y').'.xlsx');s
         //$suspected = collect();
         //$probable = collect();
@@ -147,6 +147,7 @@ class ReportController extends Controller
             
         });
         */
+        /*
         function suspectedGenerator() {
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Suspect')
@@ -172,6 +173,7 @@ class ReportController extends Controller
                 yield $user;
             }
         }
+        */
 
         /*
         $list2 = Forms::where('status', 'approved')
