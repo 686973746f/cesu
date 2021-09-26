@@ -413,7 +413,9 @@ class ReportController extends Controller
         */
 
         // Export all users
-        return (new FastExcel(suspectedGenerator()))->download('file.xlsx');
+        $v1 = suspectedGenerator();
+
+        return (new FastExcel($v1))->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
