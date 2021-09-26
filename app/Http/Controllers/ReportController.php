@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use App\Models\City;
@@ -11,8 +10,8 @@ use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
+use Rap2hpoutre\FastExcel\FastExcel;
 use Rap2hpoutre\FastExcel\SheetCollection;
-use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class ReportController extends Controller
 {
@@ -419,7 +418,7 @@ class ReportController extends Controller
             [ 'id' => 2, 'name' => 'John' ],
         ]);
 
-        return FastExcel::data($list)->download('file.xlsx');
+        return (new FastExcel($list))->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
