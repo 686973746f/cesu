@@ -10,8 +10,7 @@ use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
-use Rap2hpoutre\FastExcel\FastExcel;
-use Rap2hpoutre\FastExcel\SheetCollection;
+use FastExcel;
 
 class ReportController extends Controller
 {
@@ -418,7 +417,7 @@ class ReportController extends Controller
             [ 'id' => 2, 'name' => 'John' ],
         ]);
 
-        return (new FastExcel($list))->download('file.xlsx');
+        return FastExcel::data($list)->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
