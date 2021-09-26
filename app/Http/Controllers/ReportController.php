@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
-use Rap2hpoutre\FastExcel\Facades\FastExcel as fExcel;
 
 class ReportController extends Controller
 {
@@ -419,7 +418,7 @@ class ReportController extends Controller
             [ 'id' => 2, 'name' => 'John' ],
         ]);
 
-        return fExcel::data($list)->download('file.xlsx');
+        return (new FastExcel($list))->download('file.xlsx');
     }
 
     public function reportExport(Request $request) {
