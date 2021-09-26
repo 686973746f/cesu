@@ -148,7 +148,10 @@ class ReportController extends Controller
         });
         */
         function suspectedGenerator() {
-            foreach (Forms::cursor() as $user) {
+            foreach (Forms::where('status', 'approved')
+            ->where('caseClassification', 'Suspect')
+            ->where('outcomeCondition', 'Active')
+            ->lazy() as $user) {
                 yield $user;
             }
         }
@@ -157,7 +160,7 @@ class ReportController extends Controller
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
-            ->orderby('created_at', 'asc')->cursor() as $user) {
+            ->orderby('created_at', 'asc')->lazy() as $user) {
                 yield $user;
             }
         }
@@ -165,7 +168,7 @@ class ReportController extends Controller
         function confirmedGenerator() {
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->orderby('created_at', 'asc')->cursor() as $user) {
+            ->orderby('created_at', 'asc')->lazy() as $user) {
                 yield $user;
             }
         }
