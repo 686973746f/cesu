@@ -11,8 +11,8 @@ use App\Exports\DOHExport;
 use App\Exports\FormsExport;
 use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
-use FastExcel;
 use Rap2hpoutre\FastExcel\SheetCollection;
+use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class ReportController extends Controller
 {
