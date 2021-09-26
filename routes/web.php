@@ -135,7 +135,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::post('/admin/brgy/create/code', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
 
     Route::get('/admin/forms/import', [FormsController::class, 'importIndex'])->name('forms.import');
-    Route::post('/admin/forms/import', [FormsController::class, 'importInit'])->name('forms.upload');
+    Route::post('/admin/forms/import', [FormsController::class, 'importInit'])->name('forms.uploadcif');
     
     Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
     Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
