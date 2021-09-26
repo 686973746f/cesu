@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Rap2hpoutre\FastExcel\SheetCollection;
 
 class ReportController extends Controller
 {
