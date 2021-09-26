@@ -43,9 +43,9 @@
             <a href="{{route('report.daily')}}" class="btn btn-primary btn-block">Daily Report</a>
             <a href="" class="btn btn-primary btn-block">Barangay Report</a>
             <a href="" class="btn btn-primary btn-block">Company Report</a>
-            <hr>
+            <!--<hr>
             <a href="{{route('report.situational.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report</a>
-            <a href="{{route('report.situationalv2.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report V2</a>
+            <a href="{{route('report.situationalv2.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report V2</a>-->
             <hr>
             <a href="{{route('report.DOHExportAll')}}" class="btn btn-primary btn-block">DOH Export All to Excel</a>
         </div>
