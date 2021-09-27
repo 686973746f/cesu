@@ -53,19 +53,7 @@ class AutoRecoveredActiveCases extends Command
                 else {
                     $swabDateCollected = $item->testDateCollected1;
                 }
-    
-                if($item->pType == 'PROBABLE' || $item->pType == 'TESTING') {
-                    $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));
-                }
-                else if($item->pType == 'CLOSE CONTACT') {
-                    if(!is_null($item->expoitem1)) {
-                        $startDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1)));
-                    }
-                    else {
-                        $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));
-                    }
-                }
-                
+
                 if($item->dispoType == 1 || $item->healthStatus == 'Severe' || $item->healthStatus == 'Critical') {
                     $daysToRecover = 21;
                 }
@@ -73,12 +61,27 @@ class AutoRecoveredActiveCases extends Command
                     $daysToRecover = 10;
                 }
     
+                if($item->pType == 'PROBABLE' || $item->pType == 'TESTING') {
+                    $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));
+                    $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover+1).' Day')));
+                }
+                else if($item->pType == 'CLOSE CONTACT') {
+                    if(!is_null($item->expoitem1)) {
+                        $startDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1)));
+                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1.' + '.($daysToRecover+1).' Day')));
+                    }
+                    else {
+                        $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));
+                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover+1).' Day')));
+                    }
+                }
+                
                 $diff = $startDate->diffInDays($dateToday);
                 if($diff >= $daysToRecover) {
                     $update = Forms::find($item->id);
     
                     $update->outcomeCondition = 'Recovered';
-                    $update->outcomeRecovDate = date('Y-m-d');
+                    $update->outcomeRecovDate = $recoverDate->format('Y-m-d');
     
                     $update->save();
                 }
