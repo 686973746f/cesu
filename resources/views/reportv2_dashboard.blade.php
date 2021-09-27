@@ -22,7 +22,7 @@
     </div>
     <div class="container-fluid">
         <div class="card mb-3">
-            <div class="card-header">List of Active Confirmed Patients (Total: {{number_format($activeconfirmed_count)}})</div>
+            <div class="card-header font-weight-bold">List of Active Confirmed Patients (Total: {{number_format($activeconfirmed_count)}})</div>
             <div class="card-body">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
@@ -68,7 +68,7 @@
         </div>
 
         <div class="card mb-3">
-            <div class="card-header">List of Recovered Patients (Total: {{number_format($recovered_count)}})</div>
+            <div class="card-header font-weight-bold">List of Recovered Patients (Total: {{number_format($recovered_count)}})</div>
             <div class="card-body">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
@@ -114,7 +114,7 @@
         </div>
 
         <div class="card">
-            <div class="card-header">List of Death Patients (Total: {{number_format($death_count)}})</div>
+            <div class="card-header font-weight-bold">List of Death Patients (Total: {{number_format($death_count)}})</div>
             <div class="card-body">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
