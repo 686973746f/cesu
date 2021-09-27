@@ -46,7 +46,7 @@
                     <tbody>
                         @foreach($activeconfirmed_list as $item)
                         <tr>
-                            <td scope="row" class="text-center"><a href="forms/{{$item->id}}/edit">{{$item->id}}</a></td>
+                            <td scope="row" class="text-center"><a href="/forms/{{$item->id}}/edit">{{$item->id}}</a></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($item->created_at))}}</td>
                             <td class="text-center">{{date('W', strtotime($item->created_at))}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
@@ -92,7 +92,7 @@
                     <tbody>
                         @foreach($recovered_list as $item)
                         <tr>
-                            <td scope="row" class="text-center"><a href="forms/{{$item->id}}/edit">{{$item->id}}</a></td>
+                            <td scope="row" class="text-center"><a href="/forms/{{$item->id}}/edit">{{$item->id}}</a></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($item->created_at))}}</td>
                             <td class="text-center">{{date('W', strtotime($item->created_at))}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
