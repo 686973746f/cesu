@@ -25,7 +25,7 @@
             <div class="card-header">List of Active Confirmed Patients (Total: {{number_format($activeconfirmed_count)}})</div>
             <div class="card-body">
                 <table class="table table-bordered table-hover">
-                    <thead>
+                    <thead class="thead-light">
                         <tr class="text-center">
                             <th>CIF ID</th>
                             <th>MM</th>
@@ -71,7 +71,7 @@
             <div class="card-header">List of Recovered Patients (Total: {{number_format($recovered_count)}})</div>
             <div class="card-body">
                 <table class="table table-bordered table-hover">
-                    <thead>
+                    <thead class="thead-light">
                         <tr class="text-center">
                             <th>CIF ID</th>
                             <th>MM</th>
@@ -117,7 +117,7 @@
             <div class="card-header">List of Death Patients (Total: {{number_format($death_count)}})</div>
             <div class="card-body">
                 <table class="table table-bordered table-hover">
-                    <thead>
+                    <thead class="thead-light">
                         <tr class="text-center">
                             <th>CIF ID</th>
                             <th>MM</th>
