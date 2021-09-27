@@ -3130,9 +3130,9 @@
                     $('#ifOutcomeDied').show();
                     $('#outcomeDeathDate').prop('required', true);
                     $('#deathImmeCause').prop('required', true);
-                    $('#deathAnteCause').prop('required', true);
-                    $('#deathUndeCause').prop('required', true);
-                    $('#contriCondi').prop('required', true);
+                    $('#deathAnteCause').prop('required', false);
+                    $('#deathUndeCause').prop('required', false);
+                    $('#contriCondi').prop('required', false);
                 }
                 else {
                     $('#ifOutcomeRecovered').hide();
