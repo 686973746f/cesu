@@ -1,6 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #loading {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+        background-color: #fff;
+        z-index: 99;
+    }
+</style>
+<div id="loading">
+    <div class="text-center">
+        <i class="fas fa-circle-notch fa-spin fa-5x my-3"></i>
+        <h3>Loading Data. Please Wait...</h3>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
@@ -371,30 +390,32 @@
             }
         });
 
-        $('#newList').change(function (e) { 
-            e.preventDefault();
-            var url = "{{route("forms.new", ['id' => ':id']) }}";
-            url = url.replace(':id', $(this).val());
-            window.location.href = url;
+        $('#table_id').DataTable({
+            responsive: {
+                details: {
+                    type: 'inline',
+                    target: 'tr'
+                }
+            },
+            columnDefs: [{
+                className: 'control',
+                orderable: false,
+                targets: 0,
+            }],
+            fixedHeader: true,
+            dom: 'Qfrtip',
+            "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
+            "order": [18, 'asc']
         });
+
+        $('#loading').fadeOut();
     });
 
-    $('#table_id').DataTable({
-        responsive: {
-            details: {
-                type: 'inline',
-                target: 'tr'
-            }
-        },
-        columnDefs: [{
-            className: 'control',
-            orderable: false,
-            targets: 0,
-        }],
-        fixedHeader: true,
-        dom: 'Qfrtip',
-        "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
-        "order": [18, 'asc']
+    $('#newList').change(function (e) { 
+        e.preventDefault();
+        var url = "{{route("forms.new", ['id' => ':id']) }}";
+        url = url.replace(':id', $(this).val());
+        window.location.href = url;
     });
 
     $('#select_all').change(function() {
