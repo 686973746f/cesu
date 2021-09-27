@@ -235,9 +235,9 @@ class ExcelImport implements ToCollection, WithStartRow
                         $u->testResult1 = $result;
                         $u->testResultOtherRemarks1 = NULL;
                         $u->outcomeCondition = $outcome;
-                        $u->outcomeRecovDate = (isset($dateRecovered)) ? $dateRecovered : NULL;
-                        $u->outcomeDeathDate = (isset($dateDied)) ? $dateDied : NULL;
-                        $u->deathImmeCause = (isset($cod)) ? $cod : NULL;
+                        $u->outcomeRecovDate = (isset($dateRecovered) && $outcome == 'Recovered') ? $dateRecovered : NULL;
+                        $u->outcomeDeathDate = (isset($dateDied) && $outcome == 'Died') ? $dateDied : NULL;
+                        $u->deathImmeCause = (isset($cod) && $outcome == 'Died') ? $cod : NULL;
                         $u->deathAnteCause = NULL;
                         $u->deathUndeCause = NULL;
                         $u->contriCondi = NULL;
@@ -408,9 +408,9 @@ class ExcelImport implements ToCollection, WithStartRow
                         'testResultOtherRemarks2' => NULL,
     
                         'outcomeCondition' => $outcome,
-                        'outcomeRecovDate' => (isset($dateRecovered)) ? $dateRecovered : NULL,
-                        'outcomeDeathDate' => (isset($dateDied)) ? $dateDied : NULL,
-                        'deathImmeCause' => (isset($cod)) ? $cod : NULL,
+                        'outcomeRecovDate' => (!is_null($dateRecovered) && $outcome == 'Recovered') ? $dateRecovered : NULL,
+                        'outcomeDeathDate' => (!is_null($dateDied) && $outcome == 'Died') ? $dateDied : NULL,
+                        'deathImmeCause' => (!is_null($cod) && $outcome == 'Died') ? $cod : NULL,
                         'deathAnteCause' => NULL,
                         'deathUndeCause' => NULL,
                         'contriCondi' => NULL,
