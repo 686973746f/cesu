@@ -47,7 +47,6 @@ class ExcelImport implements ToCollection, WithStartRow
                     $query->where('mname', mb_strtoupper($row[8]))
                     ->orWhereNull('mname');
                 })
-                ->where('bdate', $this->transformDateTime($row[9]))
                 ->where('gender', strtoupper($row[11]))
                 ->first();
 
@@ -83,7 +82,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     $isPregnant = 0;
                 }
                 else {
-                    $isPregnant = ($row[23] == 'Y') ? 1 : 0;
+                    $isPregnant = ($row[23] == 'Y' || $row[23] == 'YES') ? 1 : 0;
                 }
 
                 //Health Status
@@ -181,29 +180,29 @@ class ExcelImport implements ToCollection, WithStartRow
                 //For Symptoms
                 $symptomsList = array();
                 $otherSymptoms = array();
-                if($row[25] == 'Y') {
+                if($row[25] == 'Y' || $row[25] == 'YES') {
                     array_push($symptomsList, 'Fever');
                 }
-                if($row[26] == 'Y') {
+                if($row[26] == 'Y' || $row[26] == 'YES') {
                     array_push($symptomsList, 'Cough');
                 }
                 
-                if($row[27] == 'Y') {
+                if($row[27] == 'Y' || $row[27] == 'YES') {
                     array_push($otherSymptoms, 'Colds');
                 }
-                if($row[28] == 'Y') {
+                if($row[28] == 'Y' || $row[28] == 'YES') {
                     array_push($otherSymptoms, 'DOB');
                 }
-                if($row[29] == 'Y') {
+                if($row[29] == 'Y' || $row[29] == 'YES') {
                     array_push($symptomsList, 'Anosmia (Loss of Smell)');
                 }
-                if($row[30] == 'Y') {
+                if($row[30] == 'Y' || $row[30] == 'YES') {
                     array_push($symptomsList, 'Ageusia (Loss of Taste)');
                 }
-                if($row[31] == 'Y') {
+                if($row[31] == 'Y' || $row[31] == 'YES') {
                     array_push($symptomsList, 'Sore throat');
                 }
-                if($row[32] == 'Y') {
+                if($row[32] == 'Y' || $row[32] == 'YES') {
                     array_push($symptomsList, 'Diarrhea');
                 }
                 if(!is_null($row[33])) {
@@ -344,12 +343,12 @@ class ExcelImport implements ToCollection, WithStartRow
     
                         'healthStatus' => $healthStatus,
                         'caseClassification' => $classification,
-                        'isHealthCareWorker' => ($row[20] == 'Y') ? '1' : '0',
-                        'healthCareCompanyName' => ($row[20] == 'Y') ? mb_strtoupper($row[21]) : NULL,
+                        'isHealthCareWorker' => ($row[20] == 'Y' || $row[20] == 'YES') ? '1' : '0',
+                        'healthCareCompanyName' => ($row[20] == 'Y' || $row[20] == 'YES') ? mb_strtoupper($row[21]) : NULL,
                         'healthCareCompanyLocation' => NULL,
     
-                        'isOFW' => ($row[54] == 'Y') ? '1' : '0',
-                        'OFWCountyOfOrigin' => ($row[54] == 'Y') ? mb_strtoupper($row[55]) : NULL,
+                        'isOFW' => ($row[54] == 'Y' || $row[54] == 'YES') ? '1' : '0',
+                        'OFWCountyOfOrigin' => ($row[54] == 'Y' || $row[54] == 'YES') ? mb_strtoupper($row[55]) : NULL,
                         'ofwType' => 1,
     
                         //WALA NAMANG FOREIGN NATIONAL TRAVELER COLUMN SA EXCEL BRUH
@@ -357,9 +356,9 @@ class ExcelImport implements ToCollection, WithStartRow
                         'lsiType' => NULL,
                         'FNTCountryOfOrigin' => NULL,
     
-                        'isLSI' => ($row[52] == 'Y') ? '1' : '0',
-                        'LSICity' => ($row[52] == 'Y') ? mb_strtoupper($row[53]) : NULL,
-                        'LSIProvince' => ($row[52] == 'Y') ? mb_strtoupper($row[53]) : NULL,
+                        'isLSI' => ($row[52] == 'Y' || $row[52] == 'YES') ? '1' : '0',
+                        'LSICity' => ($row[52] == 'Y' || $row[52] == 'YES') ? mb_strtoupper($row[53]) : NULL,
+                        'LSIProvince' => ($row[52] == 'Y' || $row[52] == 'YES') ? mb_strtoupper($row[53]) : NULL,
     
                         'isLivesOnClosedSettings' => '0',
                         'institutionType' => NULL,
@@ -368,7 +367,7 @@ class ExcelImport implements ToCollection, WithStartRow
     
                         'dateOnsetOfIllness' => (!is_null($row[24]) && $row[24] != 'N/A') ? $this->transformDateTime($row[24]) : $this->transformDateTime($row[2]),
                         'SAS' => (!empty($symptomsList)) ? implode(",", $symptomsList) : NULL,
-                        'SASFeverDeg' => ($row[25] == 'Y') ? '38' : NULL,
+                        'SASFeverDeg' => ($row[25] == 'Y' || $row[25] == 'YES') ? '38' : NULL,
                         'SASOtherRemarks' => (!empty($otherSymptoms)) ? implode(",", $otherSymptoms) : NULL,
                         
                         'COMO' => 'None',

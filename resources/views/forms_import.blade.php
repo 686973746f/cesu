@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="{{route('forms.upload')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('forms.uploadcif')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="container">
             <div class="card">

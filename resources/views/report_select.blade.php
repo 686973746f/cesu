@@ -47,7 +47,7 @@
             <a href="{{route('report.situational.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report</a>
             <a href="{{route('report.situationalv2.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report V2</a>-->
             <hr>
-            <a href="{{route('report.DOHExportAll')}}" class="btn btn-primary btn-block">DOH Export All to Excel</a>
+            <a href="{{route('report.DOHExportAll')}}" class="btn btn-primary btn-block">Generate COVID-19 Excel Database</a>
         </div>
     </div>
 </div>
