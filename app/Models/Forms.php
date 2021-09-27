@@ -60,4 +60,22 @@ class Forms extends Model
             return 'N/A';
         }
     }
+
+    public function getQuarantineStatus() {
+        if($this->dispoType == 1) {
+            return 'ADMITTED AT HOSPITAL';
+        }
+        else if($this->dispoType == 2) {
+            return 'ADMITTED IN ISOLATION FACILITY';
+        }
+        else if($this->dispoType == 3) {
+            return 'SELF-QUARANTINE';
+        }
+        else if($this->dispoType == 4) {
+            return 'DISCHARGED TO HOME';
+        }
+        else {
+            return 'OTHERS';
+        }
+    }
 }

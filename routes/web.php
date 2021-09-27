@@ -15,6 +15,7 @@ use App\Http\Controllers\PaSwabController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
+use App\Http\Controllers\ReportV2Controller;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\BulkUpdateController;
@@ -119,6 +120,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/report/clustering/{city}/{brgy}', [ReportController::class, 'viewClustering']);
     Route::get('/report/dohExportAll/', [ReportController::class, 'dohExportAll'])->name('report.DOHExportAll');
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
+    Route::get('/report/v2/dashboard', [ReportV2Controller::class, 'viewDashboard'])->name('reportv2.dashboard');
 
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
@@ -139,6 +141,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     
     Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
     Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
+    
 
     Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('adminpanel.account.options');
 
