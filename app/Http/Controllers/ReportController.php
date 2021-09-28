@@ -13,6 +13,7 @@ use App\Exports\SitReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Rap2hpoutre\FastExcel\SheetCollection;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 
 class ReportController extends Controller
 {
@@ -164,7 +165,13 @@ class ReportController extends Controller
             'Confirmed' => confirmedGenerator(),
         ]);
 
-        return (new FastExcel($sheets))->download('GENTRI_COVID19_DATABASE_'.date('Ymd').'.xlsx', function ($form) {
+        $header_style = (new StyleBuilder())->setFontBold()->build();
+        $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
+
+        return (new FastExcel($sheets))
+        ->headerStyle($header_style)
+        ->rowsStyle($rows_style)
+        ->download('GENTRI_COVID19_DATABASE_'.date('Ymd').'.xlsx', function ($form) {
             $arr_sas = explode(",", $form->SAS);
             $arr_othersas = explode(",", $form->SASOtherRemarks);
             $arr_como = explode(",", $form->COMO);
