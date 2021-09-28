@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAcc
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
     // your routes
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+    Route::get('/records/duplicatechecker', [RecordsController::class, 'duplicateCheckerDashboard'])->name('records.duplicatechecker');
     Route::post('/records/check', [RecordsController::class, 'check'])->name('records.check');
     Route::resource('records', RecordsController::class);
 
