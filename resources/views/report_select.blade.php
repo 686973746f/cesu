@@ -48,9 +48,14 @@
             <a href="{{route('report.situationalv2.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report V2</a>-->
             <hr>
             
-            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-block">Dashboard</a>
-            <a href="{{route('report.DOHExportAll')}}" class="btn btn-primary btn-block">Generate COVID-19 Excel Database</a>
+            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-block mb-2">Dashboard</a>
+            <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-block">Generate COVID-19 Excel Database</button></a>
         </div>
     </div>
 </div>
+<script>
+    $('#generateExcel').click(function (e) { 
+        $(this).prop('disabled', true);
+    });
+</script>
 @endsection

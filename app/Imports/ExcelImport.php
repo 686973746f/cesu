@@ -41,27 +41,20 @@ class ExcelImport implements ToCollection, WithStartRow
         foreach ($rows as $row) {
             if(!is_null($row[6])) {
                 //double entry checking
-                $check1 = Records::where('lname', mb_strtoupper($row[6]))
-                ->where('fname', mb_strtoupper($row[7]))
-                ->where(function ($query) use ($row) {
-                    $query->where('mname', mb_strtoupper($row[8]))
-                    ->orWhereNull('mname');
-                })
-                ->where('gender', strtoupper($row[11]))
-                ->first();
-
-                /*
-                $check2 = PaSwabDetails::where('lname', mb_strtoupper($row[6]))
-                ->where('fname', mb_strtoupper($row[7]))
-                ->where(function ($query) use ($row) {
-                    $query->where('mname', mb_strtoupper($row[8]))
-                    ->orWhereNull('mname');
-                })
-                ->where('bdate', $this->transformDateTime($row[9]))
-                ->where('gender', strtoupper($row[11]))
-                ->where('status', 'pending')
-                ->first();
-                */
+                if(!is_null($row[8]) && $row[8] != 'N/A') {
+                    $check1 = Records::where('lname', mb_strtoupper($row[6]))
+                    ->where('fname', mb_strtoupper($row[7]))
+                    ->where('mname', mb_strtoupper($row[8]))
+                    ->where('gender', strtoupper($row[11]))
+                    ->first();
+                }
+                else {
+                    $check1 = Records::where('lname', mb_strtoupper($row[6]))
+                    ->where('fname', mb_strtoupper($row[7]))
+                    ->whereNull('mname')
+                    ->where('gender', strtoupper($row[11]))
+                    ->first();
+                }
 
                 if(!is_null($row[2]) && $row[2] != 'N/A') {
                     $row[2] = $row[2];
@@ -163,18 +156,27 @@ class ExcelImport implements ToCollection, WithStartRow
                 //Outcome
                 if($row[45] == 'ACTIVE') {
                     $outcome = 'Active';
+                    $dateRecovered = NULL;
+                    $dateDied = NULL;
+                    $cod = NULL;
                 }
                 else if ($row[45] == 'RECOVERED') {
                     $outcome = 'Recovered';
-                    $dateRecovered = $this->transformDateTime($row[2]);
+                    $dateRecovered = (!is_null($row[46])) ? $this->transformDateTime($row[46]) : $this->transformDateTime($row[2]);
+                    $dateDied = NULL;
+                    $cod = NULL;
                 }
                 else if ($row[45] == 'EXPIRED' || $row[45] == 'DIED') {
                     $outcome = 'Died';
+                    $dateRecovered = NULL;
                     $dateDied = $this->transformDateTime($row[47]);
                     $cod = (!is_null($row[48])) ? mb_strtoupper($row[48]) : NULL;
                 }
                 else {
                     $outcome = 'Active';
+                    $dateRecovered = NULL;
+                    $dateDied = NULL;
+                    $cod = NULL;
                 }
 
                 //For Symptoms
@@ -215,6 +217,9 @@ class ExcelImport implements ToCollection, WithStartRow
                     if($fcheck) {
                         $u = Forms::find($fcheck->id);
 
+                        $u->created_at = $this->transformDateTime($row[2]).' 00:00:00';
+                        $u->updated_at = $this->transformDateTime($row[2]).' 00:00:00';
+
                         $u->dateReported = (!is_null($row[2])) ? $this->transformDateTime($row[2]).' 00:00:00' : $this->transformDateTime($row[36]);
                         
                         $u->dispoType = $dispoType;
@@ -235,9 +240,9 @@ class ExcelImport implements ToCollection, WithStartRow
                         $u->testResult1 = $result;
                         $u->testResultOtherRemarks1 = NULL;
                         $u->outcomeCondition = $outcome;
-                        $u->outcomeRecovDate = (isset($dateRecovered) && $outcome == 'Recovered') ? $dateRecovered : NULL;
-                        $u->outcomeDeathDate = (isset($dateDied) && $outcome == 'Died') ? $dateDied : NULL;
-                        $u->deathImmeCause = (isset($cod) && $outcome == 'Died') ? $cod : NULL;
+                        $u->outcomeRecovDate = (!is_null($dateRecovered) && $outcome == 'Recovered') ? $dateRecovered : NULL;
+                        $u->outcomeDeathDate = (!is_null($dateDied) && $outcome == 'Died') ? $dateDied : NULL;
+                        $u->deathImmeCause = (!is_null($cod) && $outcome == 'Died') ? $cod : NULL;
                         $u->deathAnteCause = NULL;
                         $u->deathUndeCause = NULL;
                         $u->contriCondi = NULL;
@@ -299,6 +304,8 @@ class ExcelImport implements ToCollection, WithStartRow
                     ]);
 
                     $forms = auth()->user()->form()->create([
+                        'created_at' => $this->transformDateTime($row[2]).' 00:00:00',
+                        'updated_at' => $this->transformDateTime($row[2]).' 00:00:00',
                         'majikCode' => NULL,
                         'dateReported' => (!is_null($row[2])) ? $this->transformDateTime($row[2]).' 00:00:00' : $this->transformDateTime($row[36]),
                         'status' => 'approved',
