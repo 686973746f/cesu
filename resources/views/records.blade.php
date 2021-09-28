@@ -9,7 +9,7 @@
                         Patient List (Total Count: {{number_format($records->total())}})
                     </div>
                     <div>
-                        <a href="{{route('records.duplicatechecker')}}" class="btn btn-primary">Duplicate Checker</a>
+                        <a href="{{route('records.duplicatechecker')}}" class="btn btn-primary">Duplicate Checker (Coming Soon)</a>
                         <button href="{{route('records.create')}}" class="btn btn-success" data-toggle="modal" data-target="#checkuser"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Add Patient</button>
                     </div>
                 </div>
