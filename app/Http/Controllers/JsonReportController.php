@@ -30,14 +30,15 @@ class JsonReportController extends Controller
             'totalDeaths' => $totalDeaths,
             'totalCases' => $totalActiveCases + $totalRecovered + $totalDeaths,
             'newActive' => Forms::where('status', 'approved')
-            ->whereDate('created_at', date('Y-m-d'))
-            ->whereBetween('dateReported', [date('Y-m-d', strtotime('-3 Days')), date('Y-m-d')])
-            ->where('outcomeCondition', 'Active')
+            ->where(function ($q) {
+                $q->where('created_at', date('Y-m-d'))
+                ->orWhere('dateReported', date('Y-m-d'));
+            })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
             'lateActive' => Forms::where('status', 'approved')
-            ->whereDate('created_at', date('Y-m-d'))
-            ->whereDate('dateReported', '<', date('Y-m-d', strtotime('-3 Days')))
+            ->where('created_at', date('Y-m-d'))
+            ->whereDate('dateReported', '!=', date('Y-m-d'))
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
@@ -46,7 +47,7 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Recovered')
             ->count(),
             'lateRecovered' => Forms::where('status', 'approved')
-             ->whereDate('created_at', date('Y-m-d'))
+            ->whereDate('created_at', date('Y-m-d'))
             ->whereDate('outcomeRecovDate', '!=', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->count(),
