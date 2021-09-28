@@ -86,6 +86,20 @@
                         </table>
                     </div>
                     <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="">Morbidity Month (MM)</label>
+                              <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($records->created_at))}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="">Morbidity Week (MW)</label>
+                              <input type="text" class="form-control" value="{{date('W', strtotime($records->created_at))}}" readonly>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
                         <input type="date" class="form-control" name="dateReported" id="dateReported" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d', strtotime($records->dateReported)))}}" required>
