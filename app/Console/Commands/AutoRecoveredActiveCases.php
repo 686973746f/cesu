@@ -62,17 +62,17 @@ class AutoRecoveredActiveCases extends Command
                 }
     
                 if($item->pType == 'PROBABLE' || $item->pType == 'TESTING') {
-                    $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));
-                    $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover+1).' Day')));
+                    $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
+                    $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.$daysToRecover.' Day')));
                 }
                 else if($item->pType == 'CLOSE CONTACT') {
                     if(!is_null($item->expoitem1)) {
                         $startDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1)));
-                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1.' + '.($daysToRecover+1).' Day')));
+                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1.' + '.$daysToRecover.' Day')));
                     }
                     else {
-                        $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + 1 Day')));
-                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover+1).' Day')));
+                        $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
+                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.$daysToRecover.' Day')));
                     }
                 }
                 
