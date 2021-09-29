@@ -611,15 +611,11 @@ class RecordsController extends Controller
 				$check1 = Records::where('lname', mb_strtoupper($request->lname))
 				->where('fname', mb_strtoupper($request->fname))
 				->where('mname', mb_strtoupper($newmname))
-				->where('bdate', $request->bdate)
-				->where('gender', strtoupper($request->gender))
 				->first();
 
 				$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
 				->where('fname', mb_strtoupper($request->fname))
 				->where('mname', mb_strtoupper($newmname))
-				->where('bdate', $request->bdate)
-				->where('gender', strtoupper($request->gender))
 				->where('status', 'pending')
 				->first();
 			}
@@ -627,15 +623,11 @@ class RecordsController extends Controller
 				$check1 = Records::where('lname', mb_strtoupper($request->lname))
 				->where('fname', mb_strtoupper($request->fname))
 				->whereNull('mname')
-				->where('bdate', $request->bdate)
-				->where('gender', strtoupper($request->gender))
 				->first();
 
 				$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
 				->where('fname', mb_strtoupper($request->fname))
 				->whereNull('mname')
-				->where('bdate', $request->bdate)
-				->where('gender', strtoupper($request->gender))
 				->where('status', 'pending')
 				->first();
 			}
