@@ -32,35 +32,38 @@ class JsonReportController extends Controller
             'totalCases' => $totalActiveCases + $totalRecovered + $totalDeaths,
             'newActive' => Forms::where('status', 'approved')
             ->where(function ($q) {
-                $q->where('created_at', date('Y-m-d'))
-                ->orWhereBetween('dateReported', [date('Y-m-d', strtotime('-3 Days')), date('Y-m-d')]);
+                $q->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
             'lateActive' => Forms::where('status', 'approved')
             ->where(function ($q) {
-                $q->where('created_at', date('Y-m-d'))
-                ->orWhereBetween('dateReported', [date('Y-m-d', strtotime('-3 Days')), date('Y-m-d', strtotime('-1 Day'))]);
-            })->whereDate('dateReported', '<', date('Y-m-d', strtotime('-3 Days')))
-            ->where('outcomeCondition', 'Active')
+                $q->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')));
+            })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
             'newRecovered' => Forms::where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
+            ->where(function ($q) {
+                $q->whereD('testDateCollected1', '>', date('Y-m-d', strtotime('-10 Days')))
+                ->orWhere('testDateCollected2', '>', date('Y-m-d', strtotime('-10 Days')));
+            })
             ->where('outcomeCondition', 'Recovered')
             ->count(),
             'lateRecovered' => Forms::where('status', 'approved')
-            ->whereDate('created_at', date('Y-m-d'))
-            ->whereDate('outcomeRecovDate', '!=', date('Y-m-d'))
+            ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->count(),
-            'newDeaths' => Forms::where('status', 'approved')
-            ->where(function ($q) {
-                $q->where('created_at', date('Y-m-d'))
+            'newDeaths' => Forms::where(function ($q) {
+                $q->where('status', 'approved')
+                ->whereDate('outcomeDeathDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Died');
             })->orWhere(function ($q) {
-                $q->whereDate('outcomeDeathDate', date('Y-m-d'))
-                ->where('outcomeCondition', 'Died');
+                $q->where('status', 'approved')
+                ->whereDate('morbidityMonth', '<', date('Y-m-d'))
+                ->where('outcomeDeathDate', date('Y-m-d'));
             })->count(),
         ]);
 

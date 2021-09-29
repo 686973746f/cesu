@@ -61,23 +61,31 @@ class AutoRecoveredActiveCases extends Command
                     $daysToRecover = 10;
                 }
     
+                /*
+
+                OLD FORMAT (IBANG DATE PAG SA CLOSE CONTACT)
+
                 if($item->pType == 'PROBABLE' || $item->pType == 'TESTING') {
                     $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
-                    $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.$daysToRecover.' Day')));
+                    $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover-1).' Day')));
                 }
                 else if($item->pType == 'CLOSE CONTACT') {
                     if(!is_null($item->expoitem1)) {
                         $startDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1)));
-                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1.' + '.$daysToRecover.' Day')));
+                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($item->expoitem1.' + '.($daysToRecover-1).' Day')));
                     }
                     else {
                         $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
-                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.$daysToRecover.' Day')));
+                        $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover-1).' Day')));
                     }
                 }
+                */
+
+                $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
+                $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover - 1).' Day'))); //MINUS ONE BECAUSE START DATE IS CONSIRED AS DAY 1
                 
                 $diff = $startDate->diffInDays($dateToday);
-                if($diff >= $daysToRecover) {
+                if($diff >= ($daysToRecover - 1)) { //MINUS ONE BECAUSE START DATE IS CONSIRED AS DAY 1
                     $update = Forms::find($item->id);
     
                     $update->outcomeCondition = 'Recovered';
