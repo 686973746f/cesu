@@ -20,6 +20,7 @@ class JsonReportController extends Controller
         $totalRecovered = Forms::where('status', 'approved')
         ->where('outcomeCondition', 'Recovered')
         ->count();
+        
         $totalDeaths = Forms::where('status', 'approved')
         ->where('outcomeCondition', 'Died')
         ->count();

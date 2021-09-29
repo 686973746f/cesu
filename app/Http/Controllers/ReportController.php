@@ -137,6 +137,11 @@ class ReportController extends Controller
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Suspect')
             ->where('outcomeCondition', 'Active')
+            ->where(function ($q) {
+                $q->whereDate('testDateCollected1', '<=', date('Y-m-d'))
+                ->orWhereDate('testDateCollected2', '<=', date('Y-m-d'));
+            })
+            ->orderby('created_at', 'asc')
             ->cursor() as $user) {
                 yield $user;
             }
@@ -152,6 +157,15 @@ class ReportController extends Controller
         }
 
         function confirmedGenerator() {
+            foreach (Forms::where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', ['Active','Recovered', 'Died'])
+            ->orderby('created_at', 'asc')->cursor() as $user) {
+                yield $user;
+            }
+        }
+
+        function negativeGenerator() {
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->orderby('created_at', 'asc')->cursor() as $user) {
