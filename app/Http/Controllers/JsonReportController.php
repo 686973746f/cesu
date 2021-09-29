@@ -131,7 +131,7 @@ class JsonReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->whereDate('created_at', $date->toDateString())
+            ->whereDate('morbidityMonth', $date->toDateString())
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count();
@@ -142,7 +142,7 @@ class JsonReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->whereDate('created_at', $date->toDateString())
+            ->whereDate('morbidityMonth', $date->toDateString())
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
@@ -152,7 +152,7 @@ class JsonReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->whereDate('created_at', $date->toDateString())
+            ->whereDate('morbidityMonth', $date->toDateString())
             ->where('outcomeCondition', 'Died')
             ->count();
 

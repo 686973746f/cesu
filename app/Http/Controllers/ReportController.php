@@ -146,7 +146,7 @@ class ReportController extends Controller
                 $q->whereDate('testDateCollected1', '<=', date('Y-m-d'))
                 ->orWhereDate('testDateCollected2', '<=', date('Y-m-d'));
             })
-            ->orderby('created_at', 'asc')
+            ->orderby('morbidityMonth', 'asc')
             ->cursor() as $user) {
                 yield $user;
             }
@@ -161,7 +161,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
-            ->orderby('created_at', 'asc')->cursor() as $user) {
+            ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
         }
@@ -174,7 +174,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->orderby('created_at', 'asc')->cursor() as $user) {
+            ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
         }
@@ -187,7 +187,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->orderby('created_at', 'asc')->cursor() as $user) {
+            ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
         }

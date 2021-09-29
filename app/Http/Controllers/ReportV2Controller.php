@@ -18,7 +18,7 @@ class ReportV2Controller extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->orderby('created_at', 'asc')->cursor() as $data) {
+            ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
                 yield $data;
             }
         }
@@ -31,7 +31,7 @@ class ReportV2Controller extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
-            ->orderby('created_at', 'asc')->cursor() as $data) {
+            ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
                 yield $data;
             }
         }
@@ -44,7 +44,7 @@ class ReportV2Controller extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Died')
-            ->orderby('created_at', 'asc')->cursor() as $data) {
+            ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
                 yield $data;
             }
         }
@@ -54,16 +54,31 @@ class ReportV2Controller extends Controller
         $death = deathGenerator();
 
         return view('reportv2_dashboard', [
-            'activeconfirmed_count' => Forms::where('status', 'approved')
+            'activeconfirmed_count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->count(),
             'activeconfirmed_list' => $activeconfirmed,
-            'recovered_count' => Forms::where('status', 'approved')
+            'recovered_count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
             ->count(),
             'recovered_list' => $recovered,
-            'death_count' => Forms::where('status', 'approved')
+            'death_count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('outcomeCondition', 'Died')
             ->count(),
             'death_list' => $death,
