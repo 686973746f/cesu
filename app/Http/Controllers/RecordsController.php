@@ -197,7 +197,7 @@ class RecordsController extends Controller
     public function create()
     {
 		//Kailangan manggaling sa check function para gumana
-		if(request()->input('lname') && request()->input('fname') && request()->input('gender') && request()->input('bdate')) {
+		if(request()->input('lname') && request()->input('fname')) {
 			$list = Companies::find(auth()->user()->company_id);
 			
 			return view ('addrecord', [
