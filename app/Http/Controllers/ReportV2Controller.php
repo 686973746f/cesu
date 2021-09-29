@@ -10,7 +10,12 @@ class ReportV2Controller extends Controller
 {
     public function viewDashboard() {
         function activeConfirmedGenerator() {
-            foreach (Forms::where('status', 'approved')
+            foreach (Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->orderby('created_at', 'asc')->cursor() as $data) {
@@ -19,7 +24,12 @@ class ReportV2Controller extends Controller
         }
 
         function recoveredGenerator() {
-            foreach (Forms::where('status', 'approved')
+            foreach (Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
             ->orderby('created_at', 'asc')->cursor() as $data) {
                 yield $data;
@@ -27,7 +37,12 @@ class ReportV2Controller extends Controller
         }
 
         function deathGenerator() {
-            foreach (Forms::where('status', 'approved')
+            foreach (Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('outcomeCondition', 'Died')
             ->orderby('created_at', 'asc')->cursor() as $data) {
                 yield $data;

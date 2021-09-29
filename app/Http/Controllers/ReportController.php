@@ -134,7 +134,12 @@ class ReportController extends Controller
 
     public function dohExportAll() {
         function suspectedGenerator() {
-            foreach (Forms::where('status', 'approved')
+            foreach (Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Suspect')
             ->where('outcomeCondition', 'Active')
             ->where(function ($q) {
@@ -148,7 +153,12 @@ class ReportController extends Controller
         }
 
         function probableGenerator() {
-            foreach (Forms::where('status', 'approved')
+            foreach (Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
             ->orderby('created_at', 'asc')->cursor() as $user) {
@@ -157,7 +167,12 @@ class ReportController extends Controller
         }
 
         function confirmedGenerator() {
-            foreach (Forms::where('status', 'approved')
+            foreach (Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->orderby('created_at', 'asc')->cursor() as $user) {
                 yield $user;
@@ -165,7 +180,12 @@ class ReportController extends Controller
         }
 
         function negativeGenerator() {
-            foreach (Forms::where('status', 'approved')
+            foreach (Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->orderby('created_at', 'asc')->cursor() as $user) {
                 yield $user;
