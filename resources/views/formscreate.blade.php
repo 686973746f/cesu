@@ -47,7 +47,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="">Morbidity Week (MW)</label>
-                              <input type="text" class="form-control" value="{{!is_null(old('morbidityMonth')) ? date('W', strtotime(old('morbidityMonth'))) : date('W')}}" readonly>
+                              <input type="date" class="form-control" value="{{!is_null(old('morbidityMonth')) ? date('W', strtotime(old('morbidityMonth'))) : date('W')}}" readonly>
                             </div>
                         </div>
                     </div>
