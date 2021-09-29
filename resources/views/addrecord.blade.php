@@ -54,7 +54,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-							<input type="date" class="form-control" id="bdate" name="bdate" value="{{$bdate}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" readonly required>
+							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
 							@error('bdate')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -63,21 +63,22 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
-						  	<input type="text" class="form-control" name="gender" id="gender" value="{{$gender}}" readonly required>
-							@error('gender')
-							<small class="text-danger">{{$message}}</small>
-							@enderror
+						  	<select class="form-control" name="gender" id="gender">
+								  <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
+								  <option value="MALE">Male</option>
+								  <option value="FEMALE">Female</option>
+						  	</select>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
 							<select class="form-control" id="cs" name="cs" required>
-								<option value="" disabled selected>Choose</option>
-								<option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>Single</option>
-								<option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>Married</option>
-								<option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>Widowed</option>
-								<option value="N/A" @if(old('cs') == 'N/A') {{'selected'}} @endif>N/A</option>
+								<option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Choose...</option>
+								<option value="SINGLE" {{(old('cs') == 'SINGLE') ? 'selected' : ''}}>Single</option>
+								<option value="MARRIED" {{(old('cs') == 'MARRIED') ? 'selected' : ''}}>Married</option>
+								<option value="WIDOWED" {{(old('cs') == 'WIDOWED') ? 'selected' : ''}}>Widowed</option>
+								<option value="N/A" {{(old('cs') == 'N/A') ? 'selected' : ''}}>N/A</option>
 							</select>
 							@error('cs')
 								<small class="text-danger">{{$message}}</small>

@@ -205,8 +205,6 @@ class RecordsController extends Controller
 				'lname' => mb_strtoupper(request()->input('lname')),
 				'fname' => mb_strtoupper(request()->input('fname')),
 				'mname' => (!is_null(request()->input('mname'))) ? mb_strtoupper(request()->input('mname')) : NULL,
-				'gender' => request()->input('gender'),
-				'bdate' => request()->input('bdate'),
 			]);
 		}
 		else {
@@ -274,10 +272,7 @@ class RecordsController extends Controller
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
 			->orWhereNull('mname');
-		})
-		->where('bdate', $request->bdate)
-		->where('gender', strtoupper($request->gender))
-		->first();
+		})->first();
 
 		if($check1) {
 			$param1 = 1;
@@ -292,10 +287,7 @@ class RecordsController extends Controller
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
 			->orWhereNull('mname');
-		})
-		->where('bdate', $request->bdate)
-		->where('gender', strtoupper($request->gender))
-		->where('status', 'pending')
+		})->where('status', 'pending')
 		->first();
 
 		if($check2) {
