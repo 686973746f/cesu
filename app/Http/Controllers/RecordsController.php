@@ -78,8 +78,6 @@ class RecordsController extends Controller
 			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
-			'gender' => 'required|in:MALE,FEMALE',
-			'bdate' => "required|date|before:tomorrow",
 		]);
 
 		$check1 = Records::where('lname', mb_strtoupper($request->lname))
@@ -87,10 +85,7 @@ class RecordsController extends Controller
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
 			->orWhereNull('mname');
-		})
-		->where('bdate', $request->bdate)
-		->where('gender', strtoupper($request->gender))
-		->first();
+		})->first();
 
 		if($check1) {
 			$param1 = 1;
@@ -105,10 +100,7 @@ class RecordsController extends Controller
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
 			->orWhereNull('mname');
-		})
-		->where('bdate', $request->bdate)
-		->where('gender', strtoupper($request->gender))
-		->where('status', 'pending')
+		})->where('status', 'pending')
 		->first();
 
 		if($check2) {
@@ -195,13 +187,6 @@ class RecordsController extends Controller
 	}
 
 	public function duplicateCheckerDashboard() {
-		$records = Records::all();
-
-
-		$usersUnique = $records->unique(['lname','fname','mname']);
-		$userDuplicates = $records->diff($usersUnique);
-
-		return view('duplicatechecker', ['records' => $userDuplicates->toArray()]);
 	}
 
     /**
