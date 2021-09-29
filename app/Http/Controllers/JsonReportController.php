@@ -47,7 +47,7 @@ class JsonReportController extends Controller
             'newRecovered' => Forms::where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where(function ($q) {
-                $q->whereD('testDateCollected1', '>', date('Y-m-d', strtotime('-10 Days')))
+                $q->where('testDateCollected1', '>', date('Y-m-d', strtotime('-10 Days')))
                 ->orWhere('testDateCollected2', '>', date('Y-m-d', strtotime('-10 Days')));
             })
             ->where('outcomeCondition', 'Recovered')
