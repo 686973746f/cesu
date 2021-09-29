@@ -89,13 +89,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="morbidityMonth">Morbidity Month (MM)</label>
+                              <label for="morbidityMonth"><span class="text-danger font-weight-bold">*</span>Morbidity Month (MM)</label>
                               <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('morbidityMonth', date('Y-m-d', strtotime($records->morbidityMonth)))}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="">Morbidity Week (MW)</label>
+                              <label for=""><span class="text-danger font-weight-bold">*</span>Morbidity Week (MW)</label>
                               <input type="text" class="form-control" value="{{!is_null(old('morbidityMonth')) ? date('W', strtotime(old('morbidityMonth'))) : date('W', strtotime($records->morbidityMonth))}}" readonly>
                             </div>
                         </div>
