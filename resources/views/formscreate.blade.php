@@ -41,7 +41,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="morbidityMonth"><span class="text-danger font-weight-bold">*</span>Morbidity Month (MM)</label>
-                              <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('morbidityMonth', date('m/d/Y'))}}" required>
+                              <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('morbidityMonth', date('Y-m-d'))}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
