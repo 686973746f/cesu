@@ -12,16 +12,31 @@ class JsonReportController extends Controller
     public function totalCases() {
         $arr = [];
 
-        $totalActiveCases = Forms::where('status', 'approved')
+        $totalActiveCases = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->count();
 
-        $totalRecovered = Forms::where('status', 'approved')
+        $totalRecovered = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
         ->where('outcomeCondition', 'Recovered')
         ->count();
         
-        $totalDeaths = Forms::where('status', 'approved')
+        $totalDeaths = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
         ->where('outcomeCondition', 'Died')
         ->count();
 
@@ -30,21 +45,36 @@ class JsonReportController extends Controller
             'totalRecovered' => $totalRecovered,
             'totalDeaths' => $totalDeaths,
             'totalCases' => $totalActiveCases + $totalRecovered + $totalDeaths,
-            'newActive' => Forms::where('status', 'approved')
+            'newActive' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where(function ($q) {
                 $q->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
-            'lateActive' => Forms::where('status', 'approved')
+            'lateActive' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where(function ($q) {
                 $q->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')));
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
-            'newRecovered' => Forms::where('status', 'approved')
+            'newRecovered' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where(function ($q) {
                 $q->where('testDateCollected1', '>', date('Y-m-d', strtotime('-10 Days')))
@@ -52,12 +82,22 @@ class JsonReportController extends Controller
             })
             ->where('outcomeCondition', 'Recovered')
             ->count(),
-            'lateRecovered' => Forms::where('status', 'approved')
+            'lateRecovered' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-10 Days')))
             ->where('outcomeCondition', 'Recovered')
             ->count(),
-            'newDeaths' => Forms::where(function ($q) {
+            'newDeaths' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where(function ($q) {
                 $q->where('status', 'approved')
                 ->whereDate('outcomeDeathDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Died');
