@@ -13,8 +13,8 @@
             <tbody>
                 @foreach($records as $record)
                 <tr>
-                    <td scope="row">{{$record->id}}</td>
-                    <td>{{$record->getName()}}</td>
+                    <td scope="row">{{$record['id']}}</td>
+                    <td>{{$record['lname'].', '.$record['fname'].' '.$record['mname']}}</td>
                     <td></td>
                 </tr>
                 @endforeach

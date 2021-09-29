@@ -195,24 +195,13 @@ class RecordsController extends Controller
 	}
 
 	public function duplicateCheckerDashboard() {
-		$records = Records::where('status', 'approved')->get();
+		$records = Records::all();
 
-		$list = collect();
 
-		foreach($records as $record) {
-			$count = Records::where('lname', $record->lname)
-			->where('fname', $record->fname)
-			->where(function ($query) use ($record) {
-				$query->where('mname', $record->mname)
-				->orWhereNull('mname');
-			})->count();
+		$usersUnique = $records->unique(['lname','fname','mname']);
+		$userDuplicates = $records->diff($usersUnique);
 
-			if($count >= 2) {
-				$list->push($record);
-			}
-		}
-
-		return view('duplicatechecker', ['records' => $list]);
+		return view('duplicatechecker', ['records' => $userDuplicates->toArray()]);
 	}
 
     /**
