@@ -54,6 +54,7 @@ class JsonReportController extends Controller
             ->count(),
             'lateRecovered' => Forms::where('status', 'approved')
             ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-10 Days')))
             ->where('outcomeCondition', 'Recovered')
             ->count(),
             'newDeaths' => Forms::where(function ($q) {
