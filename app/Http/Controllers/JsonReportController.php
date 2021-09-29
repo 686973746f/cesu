@@ -54,9 +54,13 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Recovered')
             ->count(),
             'newDeaths' => Forms::where('status', 'approved')
-            ->whereDate('outcomeDeathDate', date('Y-m-d'))
-            ->where('outcomeCondition', 'Died')
-            ->count(),
+            ->where(function ($q) {
+                $q->where('created_at', date('Y-m-d'))
+                ->where('outcomeCondition', 'Died');
+            })->orWhere(function ($q) {
+                $q->whereDate('outcomeDeathDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Died');
+            })->count(),
         ]);
 
         return response()->json($arr);
