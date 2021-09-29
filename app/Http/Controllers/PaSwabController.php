@@ -781,10 +781,7 @@ class PaSwabController extends Controller
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
 			->orWhereNull('mname');
-		})
-		->where('bdate', $request->bdate)
-		->where('gender', strtoupper($request->gender))
-        ->where('status', 'pending')
+		})->where('status', 'pending')
 		->exists()) {
 			$param2 = 1;
 		}
@@ -805,10 +802,7 @@ class PaSwabController extends Controller
             ->where(function ($query) use ($request) {
                 $query->where('mname', mb_strtoupper($request->mname))
                 ->orWhereNull('mname');
-            })
-            ->where('bdate', $request->bdate)
-            ->where('gender', strtoupper($request->gender))
-            ->whereIn('status', ['pending', 'approved'])
+            })->whereIn('status', ['pending', 'approved'])
             ->whereDate('created_at', date('Y-m-d'))
             ->exists()) {
                 $param3 = 1;
@@ -867,10 +861,7 @@ class PaSwabController extends Controller
                     ->where(function ($query) use ($request) {
                         $query->where('mname', mb_strtoupper($request->mname))
                         ->orWhereNull('mname');
-                    })
-                    ->where('bdate', $request->bdate)
-                    ->where('gender', strtoupper($request->gender))
-                    ->first();
+                    })->first();
 
                     if($checku) {
                         $ifScheduledToday = Forms::where('records_id', $checku->id)
