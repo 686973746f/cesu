@@ -141,6 +141,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("11", $arr_existingCase)) ? mb_strtoupper($form->ecOthersRemarks) : "N/A",
             
             $form->pType,
+            $form->caseClassification,
             (in_array("A", $arr_testingcat)) ? "YES" : "NO",
             (in_array("B", $arr_testingcat)) ? "YES" : "NO",
             (in_array("C", $arr_testingcat)) ? "YES" : "NO",
@@ -459,6 +460,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'Others',
             'Others, specify:',
             'Type of Client',
+            'Case Classification',
             'Testing Category / Subgroup A',
             'Testing Category / Subgroup B',
             'Testing Category / Subgroup C',
