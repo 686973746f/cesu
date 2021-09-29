@@ -40,20 +40,20 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="">Morbidity Month (MM)</label>
-                              <input type="text" class="form-control" value="{{date('m/d/Y')}}" readonly>
+                              <label for="morbidityMonth">Morbidity Month (MM)</label>
+                              <input type="text" class="form-control" id="morbidityMonth" name="morbidityMonth" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('morbidityMonth', date('m/d/Y'))}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="">Morbidity Week (MW)</label>
-                              <input type="text" class="form-control" value="{{date('W')}}" readonly>
+                              <input type="text" class="form-control" value="{{!is_null(old('morbidityMonth')) ? date('W', strtotime(old('morbidityMonth'))) : date('W')}}" readonly>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                       <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
-                      <input type="date" class="form-control" name="dateReported" id="dateReported" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d'))}}" required>
+                      <input type="date" class="form-control" name="dateReported" id="dateReported" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d'))}}" required>
                     </div>
                     <div class="row">
                         <div class="col-md-4">

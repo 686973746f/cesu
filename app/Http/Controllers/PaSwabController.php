@@ -226,6 +226,8 @@ class PaSwabController extends Controller
                     }
 
                     $request->user()->form()->create([
+                        'morbidityMonth' => date('Y-m-d'),
+                        'dateReported' => date('Y-m-d'),
                         'majikCode' => $data->majikCode,
                         'status' => 'approved',
                         'isPresentOnSwabDay' => NULL,
@@ -561,6 +563,8 @@ class PaSwabController extends Controller
                     }
 
                     $request->user()->form()->create([
+                        'morbidityMonth' => date('Y-m-d'),
+                        'dateReported' => date('Y-m-d'),
                         'majikCode' => $data->majikCode,
                         'status' => 'paswab_rejected',
                         'isPresentOnSwabDay' => NULL,
@@ -1230,6 +1234,8 @@ class PaSwabController extends Controller
             }
 
             $request->user()->form()->create([
+                'morbidityMonth' => date('Y-m-d'),
+                'dateReported' => date('Y-m-d'),
                 'majikCode' => $data->majikCode,
                 'status' => 'approved',
                 'isPresentOnSwabDay' => NULL,
@@ -1589,6 +1595,8 @@ class PaSwabController extends Controller
             }
 
             $request->user()->form()->create([
+                'morbidityMonth' => date('Y-m-d'),
+                'dateReported' => date('Y-m-d'),
                 'majikCode' => $data->majikCode,
                 'status' => 'paswab_rejected',
                 'isPresentOnSwabDay' => NULL,

@@ -51,6 +51,7 @@ class FormValidationRequest extends FormRequest
         }
         
         return [
+            'morbidityMonth' => 'required|before_or_equal:today',
             'dateReported' => 'required|before_or_equal:today',
             'drunit' => 'required',
             'drregion' => 'required',

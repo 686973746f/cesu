@@ -783,6 +783,7 @@ class FormsController extends Controller
             }
 
             $request->user()->form()->create([
+                'morbidityMonth' => $request->morbidityMonth,
                 'dateReported' => $request->dateReported,
                 'status' => 'approved',
                 'isPresentOnSwabDay' => $attended,
@@ -1291,6 +1292,7 @@ class FormsController extends Controller
 
         if($proceed == 1) {
             $form = Forms::where('id', $id)->update([
+                'morbidityMonth' => $request->morbidityMonth,
                 'dateReported' => $request->dateReported,
                 'status' => 'approved',
                 'isExported' => '0',
