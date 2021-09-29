@@ -777,6 +777,11 @@ class FormsController extends Controller
                 }
             }
 
+            //Auto Change Classification kung Recovered or Patay na ang pasyente
+            if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
+                $caseClassi = 'Confirmed';
+            }
+
             $request->user()->form()->create([
                 'dateReported' => $request->dateReported,
                 'status' => 'approved',
@@ -1233,6 +1238,11 @@ class FormsController extends Controller
         }
         else {
             $oniTimeFinal = $request->oniTimeCollected1;
+        }
+
+        //Auto Change Classification kung Recovered or Patay na ang pasyente
+        if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
+            $caseClassi = 'Confirmed';
         }
         
         if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {

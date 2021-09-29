@@ -827,8 +827,8 @@
                                                 <select class="form-control" name="caseClassification" id="caseClassification" required>
                                                     <option value="Probable" {{(old('caseClassification', $records->caseClassification) == 'Probable') ? 'selected' : ''}}>Probable</option>
                                                     <option value="Suspect" {{(old('caseClassification', $records->caseClassification) == 'Suspect') ? 'selected' : ''}}>Suspect</option>
-                                                    <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed</option>
-                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case</option>
+                                                    <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
+                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -1580,6 +1580,7 @@
                                         <option value="Recovered" {{(old('outcomeCondition', $records->outcomeCondition) == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition', $records->outcomeCondition) == 'Died') ? 'selected' : ''}}>Died</option>
                                       </select>
+                                      <small class="text-danger">Note: When Changing the Outcome from Active to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case".</small>
                                     </div>
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">

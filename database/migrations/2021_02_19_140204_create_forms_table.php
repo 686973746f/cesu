@@ -17,6 +17,7 @@ class CreateFormsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
+            $table->date('morbidityMonth')->nullable();
             $table->string('majikCode')->nullable();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status');
