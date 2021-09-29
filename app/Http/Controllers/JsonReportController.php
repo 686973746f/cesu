@@ -32,7 +32,7 @@ class JsonReportController extends Controller
             'newActive' => Forms::where('status', 'approved')
             ->where(function ($q) {
                 $q->where('created_at', date('Y-m-d'))
-                ->orWhere('dateReported', date('Y-m-d'));
+                ->orWhereBetween('dateReported', [date('Y-m-d', strtotime('-3 Days')), date('Y-m-d')]);
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
