@@ -125,18 +125,33 @@ class JsonReportController extends Controller
         $activeCount = 0;
 
         foreach ($period as $date) {
-            $currentActiveCount = Forms::where('status', 'approved')
+            $currentActiveCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->whereDate('created_at', $date->toDateString())
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count();
             
-            $currentRecoveredCount = Forms::where('status', 'approved')
+            $currentRecoveredCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->whereDate('created_at', $date->toDateString())
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
-            $currentDiedCount = Forms::where('status', 'approved')
+            $currentDiedCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->whereDate('created_at', $date->toDateString())
             ->where('outcomeCondition', 'Died')
             ->count();
@@ -209,17 +224,23 @@ class JsonReportController extends Controller
 
         $male = Forms::with('records')
         ->whereHas('records', function($q) {
-            $q->where('gender', 'MALE');
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->where('gender', 'MALE');
         })->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
-        ->where('caseClassification', 'Confirmed')->count();
+        ->where('caseClassification', 'Confirmed')
+        ->count();
 
         $female = Forms::with('records')
         ->whereHas('records', function($q) {
-            $q->where('gender', 'FEMALE');
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->where('gender', 'FEMALE');
         })->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
-        ->where('caseClassification', 'Confirmed')->count();
+        ->where('caseClassification', 'Confirmed')
+        ->count();
 
         array_push($arr, [
             'gender' => 'MALE',
@@ -239,7 +260,12 @@ class JsonReportController extends Controller
 
         array_push($arr, [
             'status' => 'ASYMPTOMATIC',
-            'count' => Forms::where('status', 'approved')
+            'count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('healthStatus', 'Asymptomatic')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')->count(),
@@ -247,7 +273,12 @@ class JsonReportController extends Controller
         
         array_push($arr, [
             'status' => 'MILD',
-            'count' => Forms::where('status', 'approved')
+            'count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('healthStatus', 'Mild')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')->count(),
@@ -255,7 +286,12 @@ class JsonReportController extends Controller
 
         array_push($arr, [
             'status' => 'MODERATE',
-            'count' => Forms::where('status', 'approved')
+            'count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('healthStatus', 'Moderate')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')->count(),
@@ -263,7 +299,12 @@ class JsonReportController extends Controller
         
         array_push($arr, [
             'status' => 'SEVERE',
-            'count' => Forms::where('status', 'approved')
+            'count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('healthStatus', 'Severe')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')->count(),
@@ -271,7 +312,12 @@ class JsonReportController extends Controller
 
         array_push($arr, [
             'status' => 'CRITICAL',
-            'count' => Forms::where('status', 'approved')
+            'count' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
             ->where('healthStatus', 'Critical')
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')->count(),
