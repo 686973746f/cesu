@@ -38,7 +38,7 @@ class JsonReportController extends Controller
             ->count(),
             'lateActive' => Forms::where('status', 'approved')
             ->where('created_at', date('Y-m-d'))
-            ->whereDate('dateReported', '!=', date('Y-m-d'))
+            ->whereDate('dateReported', '<', date('Y-m-d', strtotime('-3 Days')))
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->count(),
