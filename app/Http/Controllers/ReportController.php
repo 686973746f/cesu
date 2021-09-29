@@ -159,7 +159,6 @@ class ReportController extends Controller
         function confirmedGenerator() {
             foreach (Forms::where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->where('outcomeCondition', ['Active','Recovered', 'Died'])
             ->where(function ($q) {
                 $q->whereDate('testDateCollected1', '<=', date('Y-m-d'))
                 ->orWhereDate('testDateCollected2', '<=', date('Y-m-d'));
