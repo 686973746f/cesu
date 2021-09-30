@@ -320,7 +320,8 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->where('caseClassification', 'Confirmed')
+            ->where('caseClassification', 'Non-COVID-19 Case')
+            ->where('outcomeCondition', 'Active')
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
@@ -330,6 +331,7 @@ class ReportController extends Controller
             'Suspected' => suspectedGenerator(),
             'Probable' => probableGenerator(),
             'Confirmed' => confirmedGenerator(),
+            'Negative' => negativeGenerator(),
         ]);
 
         $header_style = (new StyleBuilder())->setFontBold()->build();
