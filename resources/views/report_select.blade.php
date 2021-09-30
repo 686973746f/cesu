@@ -112,6 +112,39 @@
                     </div>
                 </div>
             </div>
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title font-weight-bold">{{number_format(($activeCount + $recoveredCount + $deathCount))}}</h4>
+                    <p class="card-text">Total Number of Cases</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="card text-white bg-secondary">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold"><i class="fas fa-hotel mr-2"></i>{{number_format($facilityCount)}}</h4>
+                            <p class="card-text">Admitted in the City of General Trias Ligtas COVID-19 Facility</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-secondary">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold"><i class="fas fa-home mr-2"></i>{{number_format($hqCount)}}</h4>
+                            <p class="card-text">On Strict Home Quarantine</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-secondary">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold"><i class="far fa-hospital mr-2"></i>{{number_format($hospitalCount)}}</h4>
+                            <p class="card-text">Admitted in the Hospital/Other Isolation Facility</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-block mb-2">List of All Cases</a>
             <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-block">Generate COVID-19 Excel Database</button></a>
         </div>

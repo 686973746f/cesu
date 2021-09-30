@@ -113,6 +113,39 @@ class ReportController extends Controller
                 ->where('outcomeDeathDate', date('Y-m-d'));
             })->count();
 
+            $facilityCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 2)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
+            $hqCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 3)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
+            $hospitalCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->whereIn('dispoType', [1,5])
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
             return view('report_select', [
                 'activeCount' => $activeCount,
                 'recoveredCount' => $recoveredCount,
@@ -122,6 +155,9 @@ class ReportController extends Controller
                 'newRecoveredCount' => $newRecoveredCount,
                 'lateRecoveredCount' => $lateRecoveredCount,
                 'newDeathCount' => $newDeathCount,
+                'facilityCount' => $facilityCount,
+                'hqCount' => $hqCount,
+                'hospitalCount' => $hospitalCount,
             ]);
         }
         else {
