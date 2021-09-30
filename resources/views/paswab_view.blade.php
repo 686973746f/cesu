@@ -65,7 +65,11 @@
                                         <td class="text-center" style="vertical-align: middle;"><small>{{date('m/d/Y h:i:s A', strtotime($item->created_at))}}</small></td>
                                         <td style="vertical-align: middle;">
                                             <a href="/forms/paswab/view/{{$item->id}}" class="btn btn-link text-left">
-                                                @if($item->isNewRecord == 1)<span class="badge badge-danger">New</span>@endif
+                                                @if($item->isNewRecord == 1)
+                                                <span class="badge badge-danger">New</span>
+                                                @else
+                                                <span class="badge badge-warning">RESWAB</span>
+                                                @endif
                                                 {{$item->getName()}}
                                                 @if($item->isPregnant == 1)<span class="badge badge-info">PREGNANT</span>@endif
                                                 @if($item->isForHospitalization == 1)<span class="badge badge-secondary">HOSP.</span>@endif
