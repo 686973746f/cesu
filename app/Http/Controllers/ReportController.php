@@ -471,8 +471,8 @@ class ReportController extends Controller
 
             return [
                 'CIF Patient ID' => $form->id,
-                'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->created_at)),
-                'MW (Morbidity Week' => Carbon::parse($form->created_at)->format('W'),
+                'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->morbidityMonth)),
+                'MW (Morbidity Week' => Carbon::parse($form->morbidityMonth)->format('W'),
                 'DATE REPORTED' => date('m/d/Y', strtotime($form->dateReported)),
                 'DRU' => $form->drunit,
                 'REGION OF DRU' => $form->drregion,
