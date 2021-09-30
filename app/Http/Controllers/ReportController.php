@@ -19,7 +19,110 @@ class ReportController extends Controller
 {
     public function index() {
         if(auth()->user()->isCesuAccount()) {
-            return view('report_select');
+            $activeCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
+            $recoveredCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('outcomeCondition', 'Recovered')
+            ->count();
+
+            $deathCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('outcomeCondition', 'Died')
+            ->count();
+
+            $newActiveCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where(function ($q) {
+                $q->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
+            })->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->count();
+
+            $lateActiveCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where(function ($q) {
+                $q->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')));
+            })->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->count();
+
+            $newRecoveredCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereDate('outcomeRecovDate', date('Y-m-d'))
+            ->where(function ($q) {
+                $q->where('testDateCollected1', '>', date('Y-m-d', strtotime('-10 Days')))
+                ->orWhere('testDateCollected2', '>', date('Y-m-d', strtotime('-10 Days')));
+            })
+            ->where('outcomeCondition', 'Recovered')
+            ->count();
+
+            $lateRecoveredCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-10 Days')))
+            ->where('outcomeCondition', 'Recovered')
+            ->count();
+
+            $newDeathCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where(function ($q) {
+                $q->where('status', 'approved')
+                ->whereDate('outcomeDeathDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Died');
+            })->orWhere(function ($q) {
+                $q->where('status', 'approved')
+                ->whereDate('morbidityMonth', '<', date('Y-m-d'))
+                ->where('outcomeDeathDate', date('Y-m-d'));
+            })->count();
+
+            return view('report_select', [
+                'activeCount' => $activeCount,
+                'recoveredCount' => $recoveredCount,
+                'deathCount' => $deathCount,
+                'newActiveCount' => $newActiveCount,
+                'lateActiveCount' => $lateActiveCount,
+                'newRecoveredCount' => $newRecoveredCount,
+                'lateRecoveredCount' => $lateRecoveredCount,
+                'newDeathCount' => $newDeathCount,
+            ]);
         }
         else {
             if(auth()->user()->isBrgyAccount()) {

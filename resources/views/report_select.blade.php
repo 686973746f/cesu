@@ -43,12 +43,76 @@
             <a href="{{route('report.daily')}}" class="btn btn-primary btn-block">Daily Report</a>
             <a href="" class="btn btn-primary btn-block">Barangay Report</a>
             <a href="" class="btn btn-primary btn-block">Company Report</a>
-            <!--<hr>
-            <a href="{{route('report.situational.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report</a>
-            <a href="{{route('report.situationalv2.index')}}" class="btn btn-primary btn-block">COVID-19 Situational Report V2</a>-->
             <hr>
-            
-            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-block mb-2">Dashboard</a>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($activeCount)}}</h4>
+                            <p class="card-text">Total Active Cases</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($recoveredCount)}}</h4>
+                            <p class="card-text">Total Recoveries</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-dark">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($deathCount)}}</h4>
+                            <p class="card-text">Total Deaths</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($newActiveCount)}}</h4>
+                            <p class="card-text">New Cases</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($lateActiveCount)}}</h4>
+                            <p class="card-text">Late Cases</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($newRecoveredCount)}}</h4>
+                            <p class="card-text">New Recoveries</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($lateRecoveredCount)}}</h4>
+                            <p class="card-text">Late Recoveries</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-dark">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold">{{number_format($newDeathCount)}}</h4>
+                            <p class="card-text">New Deaths</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-block mb-2">List of All Cases</a>
             <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-block">Generate COVID-19 Excel Database</button></a>
         </div>
     </div>
