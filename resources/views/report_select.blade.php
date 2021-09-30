@@ -148,6 +148,96 @@
                     </div>
                 </div>
             </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <thead class="font-weight-bold text-center">
+                            <tr class="bg-danger text-white">
+                                <th colspan="5">DATA PER BARANGAY</th>
+                            </tr>
+                            <tr class="thead-light">
+                                <th>Barangay</th>
+                                <th class="text-danger">Confirmed</th>
+                                <th>Active</th>
+                                <th>Deaths</th>
+                                <th class="text-success">Recoveries</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $totalConfirmed = 0;
+                            $totalActive = 0;
+                            $totalDeaths = 0;
+                            $totalRecoveries = 0;
+                            @endphp
+                            @foreach($brgylist as $brgy)
+                            <tr>
+                                <td class="font-weight-bold">{{$brgy['name']}}</td>
+                                <td class="text-danger text-center">{{number_format($brgy['confirmed'])}}</td>
+                                <td class="text-center">{{number_format($brgy['active'])}}</td>
+                                <td class="text-center">{{number_format($brgy['deaths'])}}</td>
+                                <td class="text-success text-center">{{number_format($brgy['recoveries'])}}</td>
+                            </tr>
+                            @php
+                            $totalConfirmed += $brgy['confirmed'];
+                            $totalActive += $brgy['active'];
+                            $totalDeaths += $brgy['deaths'];
+                            $totalRecoveries += $brgy['recoveries'];
+                            @endphp
+                            @endforeach
+                        </tbody>
+                        <tfoot class="bg-light text-center font-weight-bold">
+                            <tr>
+                                <td>TOTAL</td>
+                                <td class="text-danger">{{number_format($totalConfirmed)}}</td>
+                                <td>{{number_format($totalActive)}}</td>
+                                <td>{{number_format($totalDeaths)}}</td>
+                                <td class="text-success">{{number_format($totalRecoveries)}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <thead class="font-weight-bold text-center">
+                            <tr>
+                                <th colspan="3" class="bg-danger text-white">SUSPECTED/PROBABLE CASES PER BARANGAY</th>
+                            </tr>
+                            <tr class="thead-light">
+                                <th>Barangay</th>
+                                <th>Suspected</th>
+                                <th>Probable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $totalSuspected = 0;
+                            $totalProbable = 0;
+                            @endphp
+                            @foreach($brgylist as $brgy)
+                            <tr>
+                                <td class="font-weight-bold">{{$brgy['name']}}</td>
+                                <td class="text-center">{{$brgy['suspected']}}</td>
+                                <td class="text-center">{{$brgy['probable']}}</td>
+                            </tr>
+                            @php
+                            $totalSuspected += $brgy['suspected'];
+                            $totalProbable += $brgy['probable'];
+                            @endphp
+                            @endforeach
+                        </tbody>
+                        <tfoot class="bg-light text-center font-weight-bold">
+                            <tr>
+                                <td>TOTAL</td>
+                                <td>{{number_format($totalSuspected)}}</td>
+                                <td>{{number_format($totalProbable)}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <hr>
             <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-block mb-2">List of All Cases</a>
             <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-block">Generate COVID-19 Excel Database</button></a>
         </div>

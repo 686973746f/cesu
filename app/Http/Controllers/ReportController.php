@@ -141,6 +141,89 @@ class ReportController extends Controller
             ->where('outcomeCondition', 'Active')
             ->count();
 
+            //Barangay Counter
+            $brgyArray = collect();
+
+            $brgyList = Brgy::where('displayInList', 1)
+            ->where('city_id', 1)
+            ->orderBy('brgyName', 'asc')
+            ->get();
+
+            foreach($brgyList as $brgy) {
+                $brgyConfirmedCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($brgy) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->count();
+
+                $brgyActiveCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($brgy) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->count();
+
+                $brgyDeathCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($brgy) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Died')
+                ->count();
+
+                $brgyRecoveryCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($brgy) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->count();
+
+                $brgySuspectedCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($brgy) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Suspect')
+                ->where('outcomeCondition', 'Active')
+                ->count();
+
+                $brgyProbableCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($brgy) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Probable')
+                ->where('outcomeCondition', 'Active')
+                ->count();
+
+                $brgyArray->push([
+                    'name' => $brgy->brgyName,
+                    'confirmed' => $brgyConfirmedCount,
+                    'active' => $brgyActiveCount,
+                    'deaths' => $brgyDeathCount,
+                    'recoveries' => $brgyRecoveryCount,
+                    'suspected' => $brgySuspectedCount,
+                    'probable' => $brgyProbableCount,
+                ]);
+            }
+
             return view('report_select', [
                 'activeCount' => $activeCount,
                 'recoveredCount' => $recoveredCount,
@@ -153,6 +236,7 @@ class ReportController extends Controller
                 'facilityCount' => $facilityCount,
                 'hqCount' => $hqCount,
                 'hospitalCount' => $hospitalCount,
+                'brgylist' => $brgyArray,
             ]);
         }
         else {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Brgy;
 use App\Models\Forms;
 use Illuminate\Http\Request;
 
