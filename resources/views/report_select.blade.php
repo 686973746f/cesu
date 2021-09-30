@@ -51,7 +51,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-danger">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">{{number_format($activeCount)}} <small>({{round(($activeCount/$totalCount) * 100, 2)}}%)</small></h4>
+                            <h4 class="card-title font-weight-bold">{{number_format($activeCount)}} <small>({{round(($activeCount/$totalCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Active Cases</p>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-success">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">{{number_format($recoveredCount)}} <small>({{round(($recoveredCount/$totalCount) * 100, 2)}}%)</small></h4>
+                            <h4 class="card-title font-weight-bold">{{number_format($recoveredCount)}} <small>({{round(($recoveredCount/$totalCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Recoveries</p>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-dark">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">{{number_format($deathCount)}} <small>({{round(($deathCount/$totalCount) * 100, 2)}}%)</small></h4>
+                            <h4 class="card-title font-weight-bold">{{number_format($deathCount)}} <small>({{round(($deathCount/$totalCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Deaths</p>
                         </div>
                     </div>
