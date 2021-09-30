@@ -82,14 +82,14 @@ class AutoRecoveredActiveCases extends Command
                 */
 
                 $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
-                $recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover - 1).' Day'))); //MINUS ONE BECAUSE START DATE IS CONSIRED AS DAY 1
+                //$recoverDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected.' + '.($daysToRecover - 1).' Day'))); //MINUS ONE BECAUSE START DATE IS CONSIRED AS DAY 1
                 
                 $diff = $startDate->diffInDays($dateToday);
                 if($diff >= ($daysToRecover - 1)) { //MINUS ONE BECAUSE START DATE IS CONSIRED AS DAY 1
                     $update = Forms::find($item->id);
     
                     $update->outcomeCondition = 'Recovered';
-                    $update->outcomeRecovDate = $recoverDate->format('Y-m-d');
+                    $update->outcomeRecovDate = date('Y-m-d');
     
                     $update->save();
                 }
