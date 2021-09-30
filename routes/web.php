@@ -166,6 +166,7 @@ Route::get('/json/totalCases', [JsonReportController::class, 'totalCases']);
 Route::get('/json/genderBreakdown', [JsonReportController::class, 'genderBreakdown']);
 Route::get('json/conditionBreakdown', [JsonReportController::class, 'conditionBreakdown']);
 Route::get('json/casesDistribution', [JsonReportController::class, 'casesDistribution']);
+Route::get('json/facilityCount', [JsonReportController::class, 'facilityCount']);
 
 //Main landing page
 Route::get('/', function () {

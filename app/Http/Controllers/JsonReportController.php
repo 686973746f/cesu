@@ -169,6 +169,45 @@ class JsonReportController extends Controller
         return response()->json($arr);
     }
 
+    public function facilityCount() {
+        $arr = [];
+
+        array_push($arr, [
+            'facilityCount' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 2)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count(),
+            'hqCount' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 3)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count(),
+            'hospitalCount' => Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->whereIn('dispoType', [1,5])
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count(),
+        ]);
+
+        return response()->json($arr);
+    }
+
     public function brgyCases() {
         $arr = [];
 
