@@ -117,4 +117,27 @@ class ReportV2Controller extends Controller
             $i->save();
         }
     }
+
+    public function convertNegativeCases() {
+        $list = Forms::where('status', 'approved')
+        ->whereIn('caseClassification', ['Suspect', 'Probable'])
+        ->where('outcomeCondition', 'Active')
+        ->get();
+
+        foreach($list as $item) {
+            $i = Forms::find($item->id);
+            
+            if(!is_null($i->testDateCollected2)) {
+                $testType = $i->testResult2;
+            }
+            else {
+                $testType = $i->testResult1;
+            }
+
+            if($testType == 'NEGATIVE') {
+                $i->caseClassification = 'Non-COVID-19 Case';
+                $i->save();
+            }
+        }
+    }
 }
