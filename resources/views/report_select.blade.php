@@ -37,6 +37,9 @@
         </div>
     </form>
     @endif
+    @php
+    $totalCount = $activeCount + $recoveredCount + $deathCount;
+    @endphp
     <div class="card">
         <div class="card-header font-weight-bold">Reports</div>
         <div class="card-body">
@@ -48,7 +51,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-danger">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">{{number_format($activeCount)}}</h4>
+                            <h4 class="card-title font-weight-bold">{{number_format($activeCount)}} <small>({{round(($activeCount/$totalCount) * 100, 2)}}%)</small></h4>
                             <p class="card-text">Total Active Cases</p>
                         </div>
                     </div>
@@ -56,7 +59,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-success">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">{{number_format($recoveredCount)}}</h4>
+                            <h4 class="card-title font-weight-bold">{{number_format($recoveredCount)}} <small>({{round(($recoveredCount/$totalCount) * 100, 2)}}%)</small></h4>
                             <p class="card-text">Total Recoveries</p>
                         </div>
                     </div>
@@ -64,7 +67,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-dark">
                         <div class="card-body">
-                            <h4 class="card-title font-weight-bold">{{number_format($deathCount)}}</h4>
+                            <h4 class="card-title font-weight-bold">{{number_format($deathCount)}} <small>({{round(($deathCount/$totalCount) * 100, 2)}}%)</small></h4>
                             <p class="card-text">Total Deaths</p>
                         </div>
                     </div>
@@ -114,7 +117,7 @@
             </div>
             <div class="card text-white bg-danger mb-3">
                 <div class="card-body text-center">
-                    <h4 class="card-title font-weight-bold">{{number_format(($activeCount + $recoveredCount + $deathCount))}}</h4>
+                    <h4 class="card-title font-weight-bold">{{number_format(($totalCount))}}</h4>
                     <p class="card-text">Total Number of Cases</p>
                 </div>
             </div>

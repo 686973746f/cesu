@@ -80,10 +80,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
-            ->where(function ($q) {
-                $q->where('testDateCollected1', '>', date('Y-m-d', strtotime('-10 Days')))
-                ->orWhere('testDateCollected2', '>', date('Y-m-d', strtotime('-10 Days')));
-            })
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
@@ -94,7 +90,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->whereDate('morbidityMonth', date('Y-m-d'))
-            ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-10 Days')))
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
