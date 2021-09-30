@@ -19,39 +19,35 @@ class ReportController extends Controller
 {
     public function index() {
         if(auth()->user()->isCesuAccount()) {
-            $activeCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $activeCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->count();
 
-            $recoveredCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $recoveredCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
-            $deathCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $deathCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Died')
             ->count();
 
-            $newActiveCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $newActiveCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('status', 'approved')
             ->where(function ($q) {
                 $q->whereDate('morbidityMonth', date('Y-m-d'))
@@ -60,11 +56,10 @@ class ReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->count();
 
-            $lateActiveCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $lateActiveCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('status', 'approved')
             ->where(function ($q) {
                 $q->whereDate('morbidityMonth', date('Y-m-d'))
@@ -73,31 +68,28 @@ class ReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->count();
 
-            $newRecoveredCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $newRecoveredCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
-            $lateRecoveredCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $lateRecoveredCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('status', 'approved')
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
-            $newDeathCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $newDeathCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where(function ($q) {
                 $q->where('status', 'approved')
                 ->whereDate('outcomeDeathDate', date('Y-m-d'))
@@ -108,33 +100,30 @@ class ReportController extends Controller
                 ->where('outcomeDeathDate', date('Y-m-d'));
             })->count();
 
-            $facilityCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $facilityCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('dispoType', 2)
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->count();
 
-            $hqCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $hqCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->where('dispoType', 3)
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->count();
 
-            $hospitalCount = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
+            $hospitalCount = Forms::with(['records' => function ($q) {
+                $q->where('address_province', 'CAVITE')
+                ->where('address_city', 'GENERAL TRIAS');
+            }])
             ->whereIn('dispoType', [1,5])
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
@@ -150,63 +139,57 @@ class ReportController extends Controller
             ->get();
 
             foreach($brgyList as $brgy) {
-                $brgyConfirmedCount = Forms::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.address_brgy', $brgy->brgyName);
+                $brgyConfirmedCount = Forms::whereHas('records', function ($q) use ($brgy) {
+                    $q->where('address_province', 'CAVITE')
+                    ->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->count();
 
-                $brgyActiveCount = Forms::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.address_brgy', $brgy->brgyName);
+                $brgyActiveCount = Forms::whereHas('records', function ($q) use ($brgy) {
+                    $q->where('address_province', 'CAVITE')
+                    ->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->count();
 
-                $brgyDeathCount = Forms::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.address_brgy', $brgy->brgyName);
+                $brgyDeathCount = Forms::whereHas('records', function ($q) use ($brgy) {
+                    $q->where('address_province', 'CAVITE')
+                    ->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
                 ->count();
 
-                $brgyRecoveryCount = Forms::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.address_brgy', $brgy->brgyName);
+                $brgyRecoveryCount = Forms::whereHas('records', function ($q) use ($brgy) {
+                    $q->where('address_province', 'CAVITE')
+                    ->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
 
-                $brgySuspectedCount = Forms::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.address_brgy', $brgy->brgyName);
+                $brgySuspectedCount = Forms::whereHas('records', function ($q) use ($brgy) {
+                    $q->where('address_province', 'CAVITE')
+                    ->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Suspect')
                 ->where('outcomeCondition', 'Active')
                 ->count();
 
-                $brgyProbableCount = Forms::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.address_brgy', $brgy->brgyName);
+                $brgyProbableCount = Forms::whereHas('records', function ($q) use ($brgy) {
+                    $q->where('address_province', 'CAVITE')
+                    ->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Probable')
