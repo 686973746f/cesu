@@ -43,9 +43,20 @@
     <div class="card">
         <div class="card-header font-weight-bold">Reports</div>
         <div class="card-body">
+            <!--
             <a href="{{route('report.daily')}}" class="btn btn-primary btn-block">Daily Report</a>
             <a href="" class="btn btn-primary btn-block">Barangay Report</a>
             <a href="" class="btn btn-primary btn-block">Company Report</a>
+            -->
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block mb-2">Display List of All Cases</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)</button></a>
+                    <div class="text-center"><small class="text-muted" id="downloadNotice">Note: Downloading might take a while to finish. Please be patient.</small></div>
+                </div>
+            </div>
             <hr>
             <div class="row mb-3">
                 <div class="col-md-4">
@@ -237,15 +248,15 @@
                     </table>
                 </div>
             </div>
-            <hr>
-            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-block mb-2">List of All Cases</a>
-            <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-block">Generate COVID-19 Excel Database</button></a>
         </div>
     </div>
 </div>
 <script>
+    $('#downloadNotice').hide();
+
     $('#generateExcel').click(function (e) { 
         $(this).prop('disabled', true);
+        $('#downloadNotice').show();
     });
 </script>
 @endsection
