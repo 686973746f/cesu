@@ -34,6 +34,7 @@ class FormsController extends Controller
                         ->whereHas('user', function ($query) {
                             $query->where('brgy_id', auth()->user()->brgy_id);
                         })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                             ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
@@ -45,6 +46,7 @@ class FormsController extends Controller
                         ->whereHas('user', function ($query) {
                             $query->where('company_id', auth()->user()->company_id);
                         })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                             ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
@@ -56,7 +58,8 @@ class FormsController extends Controller
                     $forms = Forms::where(function ($query) {
                         $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                         ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                    })->orderBy('created_at', 'desc')->get();
+                    })->whereIn('caseClassification', ['Suspect', 'Probable'])
+                    ->orderBy('created_at', 'desc')->get();
                 }
             }
             else if(request()->input('view') == 2) {
@@ -64,6 +67,7 @@ class FormsController extends Controller
                     if(!is_null(auth()->user()->brgy_id)) {
                         $forms = Forms::with('user')
                         ->whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->whereHas('user', function ($query) {
                             $query->where('brgy_id', auth()->user()->brgy_id);
                         })->orderBy('created_at', 'desc')->get();
@@ -71,13 +75,15 @@ class FormsController extends Controller
                     else {
                         $forms = Forms::with('user')
                         ->whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->whereHas('user', function ($query) {
                             $query->where('company_id', auth()->user()->company_id);
                         })->orderBy('created_at', 'desc')->get();
                     }
                 }
                 else {
-                    $forms = Forms::whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))->orderBy('created_at', 'desc')->get();
+                    $forms = Forms::whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))->whereIn('caseClassification', ['Suspect', 'Probable'])
+                    ->orderBy('created_at', 'desc')->get();
                 }
                 
             }
@@ -88,7 +94,9 @@ class FormsController extends Controller
                         ->where(function ($query) {
                             $query->where('isExported', 0)
                             ->orWhereNull('isExported');
-                        })->where(function ($query) {
+                        })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                        ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                             ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
                         })->whereHas('user', function ($query) {
@@ -100,7 +108,9 @@ class FormsController extends Controller
                         ->where(function ($query) {
                             $query->where('isExported', 0)
                             ->orWhereNull('isExported');
-                        })->where(function ($query) {
+                        })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                        ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                             ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
                         })->whereHas('user', function ($query) {
@@ -112,7 +122,9 @@ class FormsController extends Controller
                     $forms = Forms::where(function ($query) {
                         $query->where('isExported', 0)
                         ->orWhereNull('isExported');
-                    })->where(function ($query) {
+                    })
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                    ->where(function ($query) {
                         $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                         ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
                     })->orderBy('created_at', 'desc')->get();
@@ -123,6 +135,7 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                 if(!is_null(auth()->user()->brgy_id)) {
                     $forms = Forms::with('user')
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
@@ -134,6 +147,7 @@ class FormsController extends Controller
                 }
                 else {
                     $forms = Forms::with('user')
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
@@ -145,7 +159,10 @@ class FormsController extends Controller
                 }
             }
             else {
-                $forms = Forms::where('testDateCollected1', date('Y-m-d'))->orWhere('testDateCollected2', date('Y-m-d'))->orderBy('created_at', 'desc')->get();
+                $forms = Forms::where('testDateCollected1', date('Y-m-d'))
+                ->orWhere('testDateCollected2', date('Y-m-d'))
+                ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                ->orderBy('created_at', 'desc')->get();
             }
         }
 
@@ -153,6 +170,7 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id)) {
                 if(request()->input('view') != null) {
                     $formsctr = Forms::with('user')
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->whereHas('user', function ($query) {
                         $query->where('brgy_id', auth()->user()->brgy_id);
                     })->where(function ($query) {
@@ -162,6 +180,7 @@ class FormsController extends Controller
                 }
                 else {
                     $formsctr = Forms::with('user')
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->whereHas('user', function ($query) {
                         $query->where('brgy_id', auth()->user()->brgy_id);
                     })->where(function ($query) {
@@ -173,6 +192,7 @@ class FormsController extends Controller
             else {
                 if(request()->input('view') != null) {
                     $formsctr = Forms::with('user')
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->whereHas('user', function ($query) {
                         $query->where('company_id', auth()->user()->company_id);
                     })->where(function ($query) {
@@ -182,6 +202,7 @@ class FormsController extends Controller
                 }
                 else {
                     $formsctr = Forms::with('user')
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->whereHas('user', function ($query) {
                         $query->where('company_id', auth()->user()->company_id);
                     })->where(function ($query) {
@@ -196,11 +217,15 @@ class FormsController extends Controller
                 $formsctr = Forms::where(function ($query) {
                     $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                     ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                })->get();
+                })
+                ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                ->get();
             }
             else {
                 $formsctr = Forms::where('testDateCollected1', date('Y-m-d'))
-                ->orWhere('testDateCollected2', date('Y-m-d'))->get();
+                ->orWhere('testDateCollected2', date('Y-m-d'))
+                ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                ->get();
             }
         }
 
