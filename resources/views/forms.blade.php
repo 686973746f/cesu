@@ -70,9 +70,7 @@
                                     <label for="view">Filter Type</label>
                                     <select class="form-control" name="view" id="view" required>
                                       <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
-                                      <option value="2" {{(request()->get('view') == '2') ? 'selected' : ''}}>Show All Except Records that has less than 5 Days Exposure History from this day</option>
-                                      <option value="3" {{(request()->get('view') == '3') ? 'selected' : ''}}>Show All Except Records that has not been exported to Excel yet</option>
-                                      </select>
+                                    </select>
                                 </div>
                                 <div>
                                     <div class="row">

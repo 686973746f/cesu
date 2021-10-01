@@ -34,126 +34,66 @@ class FormsController extends Controller
                         ->whereHas('user', function ($query) {
                             $query->where('brgy_id', auth()->user()->brgy_id);
                         })
-                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                             ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
                         })
-                        ->orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                        ->orderBy('created_at', 'desc')
+                        ->get();
                     }
                     else {
                         $forms = Forms::with('user')
                         ->whereHas('user', function ($query) {
                             $query->where('company_id', auth()->user()->company_id);
                         })
-                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                             ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
                         })
-                        ->orderBy('testDateCollected1', 'desc')->orderBy('created_at', 'desc')->get();
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                        ->orderBy('created_at', 'desc')
+                        ->get();
                     }
                 }
                 else {
                     $forms = Forms::where(function ($query) {
                         $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
                         ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                    })->whereIn('caseClassification', ['Suspect', 'Probable'])
+                    })
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
                 }
             }
             else if(request()->input('view') == 2) {
-                if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
-                    if(!is_null(auth()->user()->brgy_id)) {
-                        $forms = Forms::with('user')
-                        ->whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))
-                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                        ->whereHas('user', function ($query) {
-                            $query->where('brgy_id', auth()->user()->brgy_id);
-                        })->orderBy('created_at', 'desc')->get();
-                    }
-                    else {
-                        $forms = Forms::with('user')
-                        ->whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))
-                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                        ->whereHas('user', function ($query) {
-                            $query->where('company_id', auth()->user()->company_id);
-                        })->orderBy('created_at', 'desc')->get();
-                    }
-                }
-                else {
-                    $forms = Forms::whereDate('expoDateLastCont', '<=', date('Y-m-d', strtotime("-5 Days")))->whereIn('caseClassification', ['Suspect', 'Probable'])
-                    ->orderBy('created_at', 'desc')->get();
-                }
-                
+
             }
             else if(request()->input('view') == 3) {
-                if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
-                    if(!is_null(auth()->user()->brgy_id)) {
-                        $forms = Forms::with('user')
-                        ->where(function ($query) {
-                            $query->where('isExported', 0)
-                            ->orWhereNull('isExported');
-                        })
-                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                        ->where(function ($query) {
-                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                        })->whereHas('user', function ($query) {
-                            $query->where('brgy_id', auth()->user()->brgy_id);
-                        })->orderBy('created_at', 'desc')->get();
-                    }
-                    else {
-                        $forms = Forms::with('user')
-                        ->where(function ($query) {
-                            $query->where('isExported', 0)
-                            ->orWhereNull('isExported');
-                        })
-                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                        ->where(function ($query) {
-                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                        })->whereHas('user', function ($query) {
-                            $query->where('company_id', auth()->user()->company_id);
-                        })->orderBy('created_at', 'desc')->get();
-                    }
-                }
-                else {
-                    $forms = Forms::where(function ($query) {
-                        $query->where('isExported', 0)
-                        ->orWhereNull('isExported');
-                    })
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                    ->where(function ($query) {
-                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                    })->orderBy('created_at', 'desc')->get();
-                }
+
             }
         }
         else {
             if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                 if(!is_null(auth()->user()->brgy_id)) {
                     $forms = Forms::with('user')
+                    ->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
-                    })
-                    ->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
                     })
                     ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
                 }
                 else {
                     $forms = Forms::with('user')
-                    
+                    ->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
-                    })
-                    ->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
                     })
                     ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
@@ -169,6 +109,7 @@ class FormsController extends Controller
             }
         }
 
+        //Forms Counter
         if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
             if(!is_null(auth()->user()->brgy_id)) {
                 if(request()->input('view') != null) {
