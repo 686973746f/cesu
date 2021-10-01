@@ -18,7 +18,7 @@
                                 <div class="card-header" id="headnum">#1</div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                      <label for="forms_id">Name of Patient to Update</label>
+                                      <label for="forms_id"><span class="text-danger font-weight-bold">*</span>Name of Patient to Update</label>
                                       <select class="patient form-control" name="bu[0][forms_id]" required>
                                       </select>
                                     </div>
@@ -316,6 +316,29 @@
                     $(clone).find('.patient').val('');
                     $(clone).find('.itm').attr('id', parseInt(iteration));
                     $(clone).find('#headnum').text('#'+(iteration+1));
+
+                    //hiding sections
+                    $(clone).find('.ifPatientSelected').hide();
+                    $(clone).find('.ifResult').hide();
+                    $(clone).find('#divYes5').hide();
+                    $(clone).find('#divYes6').hide();
+                    $(clone).find('.ifRecovered').hide();
+                    $(clone).find('.ifDied').hide();
+
+                    //clearing values
+                    $(clone).find('.morbidityMonth').val('');
+                    $(clone).find('.dateReported').val('');
+                    $(clone).find('.dateReleased').val('');
+                    $(clone).find('.timeReleased').val('');
+                    $(clone).find('.dispositionName').val('');
+                    $(clone).find('.dispositionDate').val('');
+                    $(clone).find('.dateRecovered').val('');
+                    $(clone).find('.outcomeDeathDate').val('');
+                    $(clone).find('.deathImmeCause').val('');
+                    $(clone).find('.deathAnteCause').val('');
+                    $(clone).find('.deathUndeCause').val('');
+                    $(clone).find('.contriCondi').val('');
+
                     $(clone).find('.patient').attr('name', "bu[" + iteration + "][forms_id]");
                     $(clone).find('.morbidityMonth').attr('name', "bu[" + iteration + "][morbidityMonth]");
                     $(clone).find('.dateReported').attr('name', "bu[" + iteration + "][dateReported]");
