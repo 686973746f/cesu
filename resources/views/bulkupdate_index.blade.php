@@ -23,12 +23,26 @@
                                       </select>
                                     </div>
                                     <div class="ifPatientSelected">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="morbidityMonth">Update Morbidity Month <small>(Leave Blank if No Changes)</small></label>
+                                                    <input type="date" class="morbidityMonth form-control" name="bu[0][morbidityMonth]" max="{{date('Y-m-d')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="dateReported">Update Date Reported <small>(Leave Blank if No Changes)</small></label>
+                                                    <input type="date" class="dateReported form-control" name="bu[0][dateReported]" max="{{date('Y-m-d')}}">
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label for="testResult">Update Result of Recent Test</label>
                                             <select class="testResult form-control" name="bu[0][testResult]">
                                               <option value="">No Changes</option>
-                                              <option value="POSITIVE">Positive</option>
-                                              <option value="NEGATIVE">Negative</option>
+                                              <option value="POSITIVE">Positive (+) (Will also update Case Classification to 'Confirmed')</option>
+                                              <option value="NEGATIVE">Negative (-) (Will also update Case Classification to 'Non-COVID-19 Case')</option>
                                             </select>
                                         </div>
                                         <div class="ifResult">
@@ -36,7 +50,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                       <label for="dateReleased"><span class="text-danger font-weight-bold">*</span>Date Released</label>
-                                                      <input type="date" class="dateReleased form-control" name="bu[0][dateReleased]">
+                                                      <input type="date" class="dateReleased form-control" name="bu[0][dateReleased]" max="{{date('Y-m-d')}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -79,6 +93,7 @@
                                                 <option value="Recovered">Recovered</option>
                                                 <option value="Died">Died</option>
                                             </select>
+                                            <small class="text-danger">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case".</small>
                                         </div>
                                         <div class="ifRecovered">
                                             <div class="form-group">
@@ -302,6 +317,8 @@
                     $(clone).find('.itm').attr('id', parseInt(iteration));
                     $(clone).find('#headnum').text('#'+(iteration+1));
                     $(clone).find('.patient').attr('name', "bu[" + iteration + "][forms_id]");
+                    $(clone).find('.morbidityMonth').attr('name', "bu[" + iteration + "][morbidityMonth]");
+                    $(clone).find('.dateReported').attr('name', "bu[" + iteration + "][dateReported]");
                     $(clone).find('.testResult').attr('name', "bu[" + iteration + "][testResult]");
                     $(clone).find('.dateReleased').attr('name', "bu[" + iteration + "][dateReleased]");
                     $(clone).find('.timeReleased').attr('name', "bu[" + iteration + "][timeReleased]");

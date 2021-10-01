@@ -57,40 +57,67 @@ class BulkUpdateController extends Controller
         foreach($request->bu as $item) {
             $form = Forms::findOrFail($item['forms_id']);
 
-            if(!is_null($form->testDateCollected2)) {
-                $form->testResult2 = (!is_null($item['testResult'])) ? $item['testResult'] : $form->testResult2;
-                $form->testDateReleased2 = (!is_null($item['dateReleased'])) ? $item['dateReleased'] : $form->testDateReleased2;
-                $form->oniTimeCollected2 = (!is_null($item['timeReleased'])) ? $item['timeReleased'] : $form->oniTimeCollected2;
-            }
-            else {
-                $form->testResult1 = (!is_null($item['testResult'])) ? $item['testResult'] : $form->testResult1;
-                $form->testDateReleased1 = (!is_null($item['dateReleased'])) ? $item['dateReleased'] : $form->testDateReleased1;
-                $form->oniTimeCollected1 = (!is_null($item['timeReleased'])) ? $item['timeReleased'] : $form->oniTimeCollected1;
+            //Update Case Classification if Positive or Negative
+            if(!is_null($item['testResult'])) {
+                if($item['testResult'] == 'POSITIVE') {
+                    $form->caseClassification = 'Confirmed';
+                }
+                else if($item['testResult'] == 'NEGATIVE') {
+                    $form->caseClassification = 'Non-COVID-19 Case';
+                }
+
+                if(!is_null($form->testDateCollected2)) {
+                    $form->testResult2 = $item['testResult'];
+                    $form->testDateReleased2 = $item['dateReleased'];
+                    $form->oniTimeCollected2 = (!is_null($item['timeReleased'])) ? $item['timeReleased'] : $form->oniTimeCollected2;
+                }
+                else {
+                    $form->testResult1 = $item['testResult'];
+                    $form->testDateReleased1 = $item['dateReleased'];
+                    $form->oniTimeCollected1 = (!is_null($item['timeReleased'])) ? $item['timeReleased'] : $form->oniTimeCollected1;
+                }
             }
 
-            $form->dispoType = (!is_null($item['dispositionType'])) ? $item['dispositionType'] : $form->dispoType;
+            //Morbidity Month
+            if(!is_null($item['morbidityMonth'])) {
+                $form->morbidityMonth = $item['morbidityMonth'];
+            }
+
+            //Date Reported
+            if(!is_null($item['dateReported'])) {
+                $form->dateReported = date('Y-m-d 00:00:00', strtotime($item['morbidityMonth']));
+            }
+
             if(!is_null($item['dispositionType'])) {
+                $form->dispoType = $item['dispositionType'];
                 $form->dispoName = $item['dispositionName'];
                 $form->dispoDate = $item['dispositionDate'];
             }
-            else {
-                $form->dispoName = $form->dispoName;
-                $form->dispoDate = $form->dispoDate;
+
+            //Outcome
+            if(!is_null($item['outcomeCondition'])) {
+                $form->outcomeCondition = $item['outcomeCondition'];
+                $form->caseClassification = 'Confirmed'; //Auto update sa Confirmed either Recovered or Died
+
+                if($item['outcomeCondition'] == 'Recovered') {
+                    $form->outcomeRecovDate = $item['dateRecovered'];
+                }
+                else if($item['outcomeCondition'] == 'Died') {
+                    $form->outcomeDeathDate = $item['outcomeDeathDate'];
+                    $form->deathImmeCause = $item['deathImmeCause'];
+                    $form->deathAnteCause = (!is_null($item['deathAnteCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathAnteCause'] : $form->deathAnteCause;
+                    $form->deathUndeCause = (!is_null($item['deathUndeCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathUndeCause'] : $form->deathUndeCause;
+                    $form->contriCondi = (!is_null($item['contriCondi']) && $item['outcomeCondition'] == 'Died') ? $item['contriCondi'] : $form->contriCondi;
+                }
             }
-            
-            $form->outcomeCondition = (!is_null($item['outcomeCondition'])) ? $item['outcomeCondition'] : $form->outcomeCondition;
-            $form->outcomeRecovDate = (!is_null($item['dateRecovered']) && $item['outcomeCondition'] == 'Recovered') ? $item['dateRecovered'] : $form->outcomeRecovDate;
-            $form->outcomeDeathDate = (!is_null($item['outcomeDeathDate']) && $item['outcomeCondition'] == 'Died') ? $item['outcomeDeathDate'] : $form->outcomeDeathDate;
-            $form->deathImmeCause = (!is_null($item['deathImmeCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathImmeCause'] : $form->deathImmeCause;
-            $form->deathAnteCause = (!is_null($item['deathAnteCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathAnteCause'] : $form->deathAnteCause;
-            $form->deathUndeCause = (!is_null($item['deathUndeCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathUndeCause'] : $form->deathUndeCause;
-            $form->contriCondi = (!is_null($item['contriCondi']) && $item['outcomeCondition'] == 'Died') ? $item['contriCondi'] : $form->contriCondi;
 
             if($form->isDirty()) {
                 $form->save();
             }
         }
 
-        return redirect()->action([BulkUpdateController::class, 'viewBulkUpdate'])->with('msg', 'Bulk Update Processed Successfully.')->with('msgtype', 'success');
+        return redirect()->action([BulkUpdateController::class, 'viewBulkUpdate'])
+        ->with('msg', 'Bulk Update Processed Successfully.')
+        ->with('msgtype', 'success');
     }
 }

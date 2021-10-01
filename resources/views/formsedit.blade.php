@@ -1580,7 +1580,7 @@
                                         <option value="Recovered" {{(old('outcomeCondition', $records->outcomeCondition) == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition', $records->outcomeCondition) == 'Died') ? 'selected' : ''}}>Died</option>
                                       </select>
-                                      <small class="text-danger">Note: When Changing the Outcome from Active to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case".</small>
+                                      <small class="text-danger">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case".</small>
                                     </div>
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">
