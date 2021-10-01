@@ -85,7 +85,7 @@ class BulkUpdateController extends Controller
 
             //Date Reported
             if(!is_null($item['dateReported'])) {
-                $form->dateReported = date('Y-m-d 00:00:00', strtotime($item['morbidityMonth']));
+                $form->dateReported = date('Y-m-d 00:00:00', strtotime($item['dateReported']));
             }
 
             if(!is_null($item['dispositionType'])) {
