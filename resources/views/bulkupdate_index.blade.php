@@ -27,13 +27,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="morbidityMonth">Update Morbidity Month <small>(Leave Blank if No Changes)</small></label>
-                                                    <input type="date" class="morbidityMonth form-control" name="bu[0][morbidityMonth]" max="{{date('Y-m-d')}}">
+                                                    <input type="date" class="morbidityMonth form-control" name="bu[0][morbidityMonth]" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="dateReported">Update Date Reported <small>(Leave Blank if No Changes)</small></label>
-                                                    <input type="date" class="dateReported form-control" name="bu[0][dateReported]" max="{{date('Y-m-d')}}">
+                                                    <input type="date" class="dateReported form-control" name="bu[0][dateReported]" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -50,7 +50,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                       <label for="dateReleased"><span class="text-danger font-weight-bold">*</span>Date Released</label>
-                                                      <input type="date" class="dateReleased form-control" name="bu[0][dateReleased]" max="{{date('Y-m-d')}}">
+                                                      <input type="date" class="dateReleased form-control" name="bu[0][dateReleased]" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -82,7 +82,7 @@
                                             <div id="divYes6">
                                                 <div class="form-group">
                                                     <label for="dispositionDate" id="dispositiondatelabel"></label>
-                                                    <input type="datetime-local" class="dispositionDate form-control" name="bu[0][dispositionDate]">
+                                                    <input type="datetime-local" class="dispositionDate form-control" name="bu[0][dispositionDate]" min="{{date('Y-m-d', strtotime('-1 Year')).'T'.date('H:i')}}" max="{{date('Y-m-d').'T'.date('H:i')}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -98,7 +98,7 @@
                                         <div class="ifRecovered">
                                             <div class="form-group">
                                               <label for="dateRecovered"><span class="text-danger font-weight-bold">*</span>Date of Recovery</label>
-                                              <input type="date" class="dateRecovered form-control" name="bu[0][dateRecovered]" max="{{date('Y-m-d')}}">
+                                              <input type="date" class="dateRecovered form-control" name="bu[0][dateRecovered]" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                                             </div>
                                         </div>
                                         <div class="ifDied" id="ifDied_0">
@@ -106,7 +106,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="outcomeDeathDate"><span class="text-danger font-weight-bold">*</span>Date of Death</label>
-                                                        <input type="date" class="outcomeDeathDate form-control" name="bu[0][outcomeDeathDate]" max="{{date('Y-m-d')}}">
+                                                        <input type="date" class="outcomeDeathDate form-control" name="bu[0][outcomeDeathDate]" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
