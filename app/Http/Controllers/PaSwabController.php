@@ -780,6 +780,10 @@ class PaSwabController extends Controller
     public function store(PaSwabValidationRequest $request, $locale) {
         $request->validated();
 
+        /*
+        
+        Old Pa-swab duplicate Entry checker
+
         if(PaSwabDetails::where('lname', mb_strtoupper($request->lname))
 		->where('fname', mb_strtoupper($request->fname))
 		->where(function ($query) use ($request) {
@@ -792,8 +796,10 @@ class PaSwabController extends Controller
 		else {
 			$param2 = 0;
 		}
+        */
+        $c1 = PaSwabDetails::ifEntryPending($request->lname, $request->fname, $request->mname);
 
-        if($param2 == 1) {
+        if(!is_null($c1)) {
             return back()
 			->withInput()
 			->with('msg', 'Your pa-swab request is still pending. Please wait for the approval from CESU Staff/Encoders before sending another pa-swab request.')
@@ -801,6 +807,10 @@ class PaSwabController extends Controller
             ->with('skipmodal', true);
         }
         else {
+            /*
+
+            Old Pa-swab duplicate Entry checker
+
             if(PaSwabDetails::where('lname', mb_strtoupper($request->lname))
             ->where('fname', mb_strtoupper($request->fname))
             ->where(function ($query) use ($request) {
@@ -814,8 +824,11 @@ class PaSwabController extends Controller
             else {
                 $param3 = 0;
             }
+            */
 
-            if($param3 == 1) {
+            $c2 = PaSwabDetails::ifHaveEntryToday($request->lname, $request->fname, $request->mname);
+
+            if(!is_null($c2)) {
                 return back()
                 ->withInput()
                 ->with('msg', 'You can only send one pa-swab request per day. Please wait for your request to be approved by CESU Staff/Encoders.')
@@ -860,14 +873,19 @@ class PaSwabController extends Controller
                 }
 
                 if($finalproceed == 1) {
+                    $checku = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+                    /*
+                    Old Pa-swab duplicate Entry checker
+
                     $checku = Records::where('lname', mb_strtoupper($request->lname))
                     ->where('fname', mb_strtoupper($request->fname))
                     ->where(function ($query) use ($request) {
                         $query->where('mname', mb_strtoupper($request->mname))
                         ->orWhereNull('mname');
                     })->first();
+                    */
 
-                    if($checku) {
+                    if(!is_null($checku)) {
                         $ifScheduledToday = Forms::where('records_id', $checku->id)
                         ->where(function ($query) {
                             $query->whereDate('testDateCollected1', '>=', date('Y-m-d'))
@@ -902,8 +920,8 @@ class PaSwabController extends Controller
                         }
 
                         $data = PaSwabDetails::create([
-                            'isNewRecord' => ($checku) ? 0 : 1,
-                            'records_id' => ($checku) ? $checku->id : NULL,
+                            'isNewRecord' => (!is_null($checku)) ? 0 : 1,
+                            'records_id' => (!is_null($checku)) ? $checku->id : NULL,
                             'majikCode' => $majik,
                             'pType' => $request->pType,
                             'linkCode' => $request->linkcode,

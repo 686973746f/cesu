@@ -151,7 +151,7 @@ class PaSwabDetails extends Model
                 return $check;
             }
             else {
-                $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                $check1 = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
                 ->first();
 
@@ -166,6 +166,89 @@ class PaSwabDetails extends Model
         else {
             $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
             ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
+    }
+
+    public static function ifEntryPending ($lname, $fname, $mname) {
+        if(!is_null($mname)) {
+            $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+            ->where('status', 'pending')
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                $check1 = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->where('status', 'pending')
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
+            }
+        }
+        else {
+            $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->where('status', 'pending')
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
+    }
+
+    public static function ifHaveEntryToday ($lname, $fname, $mname) {
+        if(!is_null($mname)) {
+            $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+            ->whereIn('status', ['pending', 'approved'])
+            ->whereDate('created_at', date('Y-m-d'))
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                $check1 = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereIn('status', ['pending', 'approved'])
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
+            }
+        }
+        else {
+            $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->whereIn('status', ['pending', 'approved'])
+            ->whereDate('created_at', date('Y-m-d'))
             ->first();
 
             if($check) {
