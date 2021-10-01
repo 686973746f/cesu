@@ -787,8 +787,8 @@
                                                 <select class="form-control" name="caseClassification" id="caseClassification" required>
                                                     <option value="Probable" {{(old('caseClassification') == 'Probable') ? 'selected' : ''}}>Probable</option>
                                                     <option value="Suspect" {{(old('caseClassification') == 'Suspect') ? 'selected' : 'selected'}}>Suspect</option>
-                                                    <option value="Confirmed" {{(old('caseClassification') == 'Confirmed') ? 'selected' : ''}}>Confirmed</option>
-                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case</option>
+                                                    <option value="Confirmed" {{(old('caseClassification') == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
+                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
                                                 </select>
                                             </div>
                                         </div>

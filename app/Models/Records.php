@@ -87,6 +87,10 @@ class Records extends Model
         }
     }
 
+    public static function ifDuplicateFound($lname, $fname, $mname) {
+        return 'test';
+    }
+
     public function getAddress() {
         return $this->address_houseno.', '.$this->address_street.', BRGY.'.$this->address_brgy.', '.$this->address_city.', '.$this->address_province;
     }

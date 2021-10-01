@@ -80,10 +80,10 @@ class RecordsController extends Controller
     		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
 		]);
 
-		$check1 = Records::where('lname', mb_strtoupper($request->lname))
-		->where('fname', mb_strtoupper($request->fname))
+		$check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $request->lname)))
+		->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $request->fname)))
 		->where(function ($query) use ($request) {
-			$query->where('mname', mb_strtoupper($request->mname))
+			$query->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $request->mname)))
 			->orWhereNull('mname');
 		})->first();
 
