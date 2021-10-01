@@ -135,7 +135,6 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                 if(!is_null(auth()->user()->brgy_id)) {
                     $forms = Forms::with('user')
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
@@ -143,11 +142,12 @@ class FormsController extends Controller
                     ->whereHas('user', function ($query) {
                         $query->where('brgy_id', auth()->user()->brgy_id);
                     })
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
                 }
                 else {
                     $forms = Forms::with('user')
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                    
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
@@ -155,12 +155,15 @@ class FormsController extends Controller
                     ->whereHas('user', function ($query) {
                         $query->where('company_id', auth()->user()->company_id);
                     })
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
                 }
             }
             else {
-                $forms = Forms::where('testDateCollected1', date('Y-m-d'))
-                ->orWhere('testDateCollected2', date('Y-m-d'))
+                $forms = Forms::where(function ($q) {
+                    $q->where('testDateCollected1', date('Y-m-d'))
+                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                })
                 ->whereIn('caseClassification', ['Suspect', 'Probable'])
                 ->orderBy('created_at', 'desc')->get();
             }
