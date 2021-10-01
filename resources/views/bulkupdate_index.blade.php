@@ -93,7 +93,7 @@
                                                 <option value="Recovered">Recovered</option>
                                                 <option value="Died">Died</option>
                                             </select>
-                                            <small class="text-danger">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case".</small>
+                                            <div class="outcomeWarning"><small class="text-danger">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case".</small></div>
                                         </div>
                                         <div class="ifRecovered">
                                             <div class="form-group">
@@ -220,6 +220,8 @@
                 $(this).closest('.itm').find('.dateRecovered').prop('required', false);
                 $(this).closest('.itm').find('.outcomeDeathDate').prop('required', false);
                 $(this).closest('.itm').find('.deathImmeCause').prop('required', false);
+
+                $(this).closest('.itm').find('.outcomeWarning').hide();    
             }
             else if($(this).val() == 'Recovered') {
                 $(this).closest('.itm').find('.ifRecovered').show();
@@ -228,6 +230,8 @@
                 $(this).closest('.itm').find('.dateRecovered').prop('required', true);
                 $(this).closest('.itm').find('.outcomeDeathDate').prop('required', false);
                 $(this).closest('.itm').find('.deathImmeCause').prop('required', false);
+
+                $(this).closest('.itm').find('.outcomeWarning').show();
             }
             else if($(this).val() == 'Died') {
                 $(this).closest('.itm').find('.ifRecovered').hide();
@@ -236,6 +240,8 @@
                 $(this).closest('.itm').find('.dateRecovered').prop('required', false);
                 $(this).closest('.itm').find('.outcomeDeathDate').prop('required', true);
                 $(this).closest('.itm').find('.deathImmeCause').prop('required', true);
+
+                $(this).closest('.itm').find('.outcomeWarning').show();
             }
         });
 
@@ -324,6 +330,7 @@
                     $(clone).find('#divYes6').hide();
                     $(clone).find('.ifRecovered').hide();
                     $(clone).find('.ifDied').hide();
+                    $(clone).find('.outcomeWarning').hide();
 
                     //clearing values
                     $(clone).find('.morbidityMonth').val('');
