@@ -791,6 +791,14 @@
                                                     <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
                                                 </select>
                                             </div>
+                                            <div id="askIfReinfected">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" name="reinfected" id="reinfected" value="1" {{(old('reinfected') == 1) ? 'checked' : ''}}>
+                                                      Case of Re-infection
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2541,6 +2549,17 @@
                     $('#informantMobile').prop({disabled: false, required: true});
                 }
             }).trigger('keydown');
+
+            //For Reinfection
+            $('#caseClassification').change(function (e) { 
+                e.preventDefault();
+                if($(this).val() == 'Confirmed') {
+                    $('#askIfReinfected').show();
+                }
+                else {
+                    $('#askIfReinfected').hide();
+                }
+            }).trigger('change');
 
             $('#testDateCollected2').keydown(function (e) {
                 if(!Date.parse($(this).val())) {

@@ -691,6 +691,7 @@ class FormsController extends Controller
             }
 
             $request->user()->form()->create([
+                'reinfected' => ($request->reinfected) ? 1 : 0,
                 'morbidityMonth' => $request->morbidityMonth,
                 'dateReported' => $request->dateReported,
                 'status' => 'approved',
@@ -1200,6 +1201,7 @@ class FormsController extends Controller
 
         if($proceed == 1) {
             $form = Forms::where('id', $id)->update([
+                'reinfected' => ($request->reinfected) ? 1 : 0,
                 'morbidityMonth' => $request->morbidityMonth,
                 'dateReported' => $request->dateReported,
                 'status' => 'approved',
