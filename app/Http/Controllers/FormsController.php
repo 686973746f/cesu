@@ -110,68 +110,7 @@ class FormsController extends Controller
         }
 
         //Forms Counter
-        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
-            if(!is_null(auth()->user()->brgy_id)) {
-                if(request()->input('view') != null) {
-                    $formsctr = Forms::with('user')
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                    ->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
-                    })->where(function ($query) {
-                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                    })->get();
-                }
-                else {
-                    $formsctr = Forms::with('user')
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                    ->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
-                    })->where(function ($query) {
-                        $query->where('testDateCollected1', date('Y-m-d'))
-                        ->orWhere('testDateCollected2', date('Y-m-d'));
-                    })->get();
-                }
-            }
-            else {
-                if(request()->input('view') != null) {
-                    $formsctr = Forms::with('user')
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                    ->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
-                    })->where(function ($query) {
-                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                    })->get();
-                }
-                else {
-                    $formsctr = Forms::with('user')
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                    ->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
-                    })->where(function ($query) {
-                        $query->where('testDateCollected1', date('Y-m-d'))
-                        ->orWhere('testDateCollected2', date('Y-m-d'));
-                    })->get();
-                }   
-            }
-        }
-        else {
-            if(request()->input('view') != null) {
-                $formsctr = Forms::where(function ($query) {
-                    $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                    ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
-                })
-                ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                ->get();
-            }
-            else {
-                $formsctr = Forms::where('testDateCollected1', date('Y-m-d'))
-                ->orWhere('testDateCollected2', date('Y-m-d'))
-                ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                ->get();
-            }
-        }
+        $formsctr = $forms;
 
         $paswabctr = PaSwabDetails::where('status', 'pending')->count();
 
