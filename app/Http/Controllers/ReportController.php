@@ -27,6 +27,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0)
             ->count();
 
             $recoveredCount = Forms::with('records')
@@ -36,6 +37,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
+            ->where('reinfected', 0)
             ->count();
 
             $deathCount = Forms::with('records')
@@ -58,6 +60,7 @@ class ReportController extends Controller
                 ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
             ->count();
 
             $lateActiveCount = Forms::with('records')
@@ -71,6 +74,7 @@ class ReportController extends Controller
                 ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')));
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
             ->count();
 
             $newRecoveredCount = Forms::with('records')
@@ -82,6 +86,7 @@ class ReportController extends Controller
             ->whereDate('morbidityMonth', '!=', date('Y-m-d'))
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
+            ->where('reinfected', 0)
             ->count();
 
             $lateRecoveredCount = Forms::with('records')
@@ -92,6 +97,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
+            ->where('reinfected', 0)
             ->count();
 
             $newDeathCount = Forms::with('records')
@@ -108,6 +114,15 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<', date('Y-m-d'))
                 ->where('outcomeDeathDate', date('Y-m-d'));
             })->count();
+
+            $totalCasesCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->count();
 
             $facilityCount = Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -129,6 +144,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0)
             ->count();
 
             $hospitalCount = Forms::with('records')
@@ -140,6 +156,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0)
             ->count();
 
             //Barangay Counter
@@ -159,6 +176,7 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
+                ->where('reinfected', 0)
                 ->count();
 
                 $brgyActiveCount = Forms::with('records')
@@ -170,6 +188,7 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
+                ->where('reinfected', 0)
                 ->count();
 
                 $brgyDeathCount = Forms::with('records')
@@ -190,6 +209,7 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
+                ->where('reinfected', 0)
                 ->count();
 
                 $brgySuspectedCount = Forms::with('records')
@@ -234,6 +254,7 @@ class ReportController extends Controller
                 'newRecoveredCount' => $newRecoveredCount,
                 'lateRecoveredCount' => $lateRecoveredCount,
                 'newDeathCount' => $newDeathCount,
+                'totalCasesCount' => $totalCasesCount,
                 'facilityCount' => $facilityCount,
                 'hqCount' => $hqCount,
                 'hospitalCount' => $hospitalCount,

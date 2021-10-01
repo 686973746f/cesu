@@ -20,6 +20,7 @@ class JsonReportController extends Controller
         ->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
+        ->where('reinfected', 0)
         ->count();
 
         $totalRecovered = Forms::with('records')
@@ -29,6 +30,7 @@ class JsonReportController extends Controller
         })
         ->where('status', 'approved')
         ->where('outcomeCondition', 'Recovered')
+        ->where('reinfected', 0)
         ->count();
         
         $totalDeaths = Forms::with('records')
@@ -51,6 +53,7 @@ class JsonReportController extends Controller
             ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
         })->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
+        ->where('reinfected', 0)
         ->count();
 
         $lateActive = Forms::with('records')
@@ -64,6 +67,7 @@ class JsonReportController extends Controller
             ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')));
         })->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
+        ->where('reinfected', 0)
         ->count();
 
         $newRecovered = Forms::with('records')
@@ -74,6 +78,7 @@ class JsonReportController extends Controller
         ->where('status', 'approved')
         ->whereDate('outcomeRecovDate', date('Y-m-d'))
         ->where('outcomeCondition', 'Recovered')
+        ->where('reinfected', 0)
         ->count();
 
         $lateRecovered = Forms::with('records')
@@ -85,6 +90,7 @@ class JsonReportController extends Controller
         ->whereDate('morbidityMonth', date('Y-m-d'))
         ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-10 Days')))
         ->where('outcomeCondition', 'Recovered')
+        ->where('reinfected', 0)
         ->count();
 
         $newDeaths = Forms::with('records')
@@ -102,11 +108,20 @@ class JsonReportController extends Controller
             ->where('outcomeDeathDate', date('Y-m-d'));
         })->count();
 
+        $totalCasesCount = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->count();
+
         array_push($arr, [
             'totalActiveCases' => $totalActiveCases,
             'totalRecovered' => $totalRecovered,
             'totalDeaths' => $totalDeaths,
-            'totalCases' => $totalActiveCases + $totalRecovered + $totalDeaths,
+            'totalCases' => $totalCasesCount,
             'newActive' => $newActive,
             'lateActive' => $lateActive,
             'newRecovered' => $newRecovered,
@@ -140,6 +155,7 @@ class JsonReportController extends Controller
             ->whereDate('morbidityMonth', $date->toDateString())
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
             ->count();
             
             $currentRecoveredCount = Forms::with('records')
@@ -150,6 +166,7 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->whereDate('morbidityMonth', $date->toDateString())
             ->where('outcomeCondition', 'Recovered')
+            ->where('reinfected', 0)
             ->count();
 
             $currentDiedCount = Forms::with('records')
@@ -198,6 +215,7 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0)
             ->count(),
             'hospitalCount' => Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -208,6 +226,7 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0)
             ->count(),
         ]);
 
@@ -235,19 +254,24 @@ class JsonReportController extends Controller
                 $q->where('address_brgy', $item->brgyName);
             })->where('status', 'approved')
             ->where('outcomeCondition', 'Active')
-            ->where('caseClassification', 'Confirmed')->count();
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->count();
 
             $deaths = Forms::with('records')
             ->whereHas('records', function($q) use ($item) {
                 $q->where('address_brgy', $item->brgyName);
             })->where('status', 'approved')
-            ->where('outcomeCondition', 'Died')->count();
+            ->where('outcomeCondition', 'Died')
+            ->count();
 
             $recovered = Forms::with('records')
             ->whereHas('records', function($q) use ($item) {
                 $q->where('address_brgy', $item->brgyName);
             })->where('status', 'approved')
-            ->where('outcomeCondition', 'Recovered')->count();
+            ->where('outcomeCondition', 'Recovered')
+            ->where('reinfected', 0)
+            ->count();
 
             $confirmedCases = ($activeCases + $deaths + $recovered);
 
@@ -275,6 +299,7 @@ class JsonReportController extends Controller
         })->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
+        ->where('reinfected', 0)
         ->count();
 
         $female = Forms::with('records')
@@ -285,6 +310,7 @@ class JsonReportController extends Controller
         })->where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
+        ->where('reinfected', 0)
         ->count();
 
         array_push($arr, [
@@ -313,7 +339,9 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('healthStatus', 'Asymptomatic')
             ->where('outcomeCondition', 'Active')
-            ->where('caseClassification', 'Confirmed')->count(),
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->count(),
         ]);
         
         array_push($arr, [
@@ -326,7 +354,9 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('healthStatus', 'Mild')
             ->where('outcomeCondition', 'Active')
-            ->where('caseClassification', 'Confirmed')->count(),
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->count(),
         ]);
 
         array_push($arr, [
@@ -339,7 +369,9 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('healthStatus', 'Moderate')
             ->where('outcomeCondition', 'Active')
-            ->where('caseClassification', 'Confirmed')->count(),
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->count(),
         ]);
         
         array_push($arr, [
@@ -352,7 +384,9 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('healthStatus', 'Severe')
             ->where('outcomeCondition', 'Active')
-            ->where('caseClassification', 'Confirmed')->count(),
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->count(),
         ]);
 
         array_push($arr, [
@@ -365,7 +399,9 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('healthStatus', 'Critical')
             ->where('outcomeCondition', 'Active')
-            ->where('caseClassification', 'Confirmed')->count(),
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->count(),
         ]);
 
         return response()->json($arr);
