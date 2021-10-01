@@ -80,28 +80,16 @@ class RecordsController extends Controller
     		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
 		]);
 
-		$check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $request->lname)))
-		->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $request->fname)))
-		->where(function ($query) use ($request) {
-			$query->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $request->mname)))
-			->orWhereNull('mname');
-		})->first();
+		$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+		$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname);
 
-		if($check1) {
+		if(!is_null($check1)) {
 			$param1 = 1;
 			$where = '(Existing in the Records Page)';
 		}
 		else {
 			$param1 = 0;
 		}
-
-		$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
-		->where('fname', mb_strtoupper($request->fname))
-		->where(function ($query) use ($request) {
-			$query->where('mname', mb_strtoupper($request->mname))
-			->orWhereNull('mname');
-		})->where('status', 'pending')
-		->first();
 
 		if($check2) {
 			$param2 = 1;

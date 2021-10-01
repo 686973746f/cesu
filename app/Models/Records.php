@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Forms;
 use App\Models\LinelistSubs;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -87,10 +88,6 @@ class Records extends Model
         }
     }
 
-    public static function ifDuplicateFound($lname, $fname, $mname) {
-        return 'test';
-    }
-
     public function getAddress() {
         return $this->address_houseno.', '.$this->address_street.', BRGY.'.$this->address_brgy.', '.$this->address_city.', '.$this->address_province;
     }
@@ -109,5 +106,42 @@ class Records extends Model
 
     public function linelistsub() {
         return $this->hasMany(LinelistSubs::class);
+    }
+
+    public static function ifDuplicateFound($lname, $fname, $mname) {
+        if(!is_null($mname)) {
+            $check = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
+            }
+        }
+        else {
+            $check = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
     }
 }

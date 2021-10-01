@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\PaSwabLinks;
 use App\Models\Interviewers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -137,5 +138,42 @@ class PaSwabDetails extends Model
 
     public function diff4Humans($idate) {
         return Carbon::createFromTimeStamp(strtotime($idate))->diffForHumans();
+    }
+
+    public static function ifDuplicateFound($lname, $fname, $mname) {
+        if(!is_null($mname)) {
+            $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
+            }
+        }
+        else {
+            $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->first();
+
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
     }
 }
