@@ -79,6 +79,7 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
+            ->whereDate('morbidityMonth', '!=', date('Y-m-d'))
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->count();
