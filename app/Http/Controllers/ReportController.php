@@ -434,6 +434,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
