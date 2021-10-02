@@ -67,7 +67,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where(function ($q) {
                 $q->whereDate('morbidityMonth', date('Y-m-d'))
-                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-3 Days')), date('Y-m-d')]);
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
