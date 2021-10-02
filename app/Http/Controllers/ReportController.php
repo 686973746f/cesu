@@ -91,7 +91,7 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->whereDate('morbidityMonth', '!=', date('Y-m-d'))
+            ->whereDate('morbidityMonth', '>=', date('Y-m-d', strtotime('-9 Days')))
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->where('reinfected', 0)
@@ -103,7 +103,8 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-9 Days')))
+            ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->where('reinfected', 0)
             ->count();
