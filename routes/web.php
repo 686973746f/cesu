@@ -121,9 +121,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/report/dohExportAll/', [ReportController::class, 'dohExportAll'])->name('report.DOHExportAll');
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
     Route::get('/report/v2/dashboard', [ReportV2Controller::class, 'viewDashboard'])->name('reportv2.dashboard');
-    Route::get('/report/v2/conv', [ReportV2Controller::class, 'convertFalseDate']);
-    Route::get('/report/v2/convnegative', [ReportV2Controller::class, 'convertNegativeCases']);
-    
+
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
     //Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
