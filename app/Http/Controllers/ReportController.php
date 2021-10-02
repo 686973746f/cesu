@@ -40,7 +40,7 @@ class ReportController extends Controller
             ->where('reinfected', 0)
             ->count();
 
-            //Bilangin pati current reinfection sa total
+            //Bilangin pati current reinfection sa total ng recovered
             $recoveredCount += Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
@@ -67,7 +67,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where(function ($q) {
                 $q->whereDate('morbidityMonth', date('Y-m-d'))
-                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-3 Days')), date('Y-m-d')]);
             })->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
