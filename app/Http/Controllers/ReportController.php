@@ -65,10 +65,9 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->where(function ($q) {
-                $q->whereDate('morbidityMonth', date('Y-m-d'))
-                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
-            })->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
+            ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
             ->count();
@@ -79,10 +78,9 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->where(function ($q) {
-                $q->whereDate('morbidityMonth', date('Y-m-d'))
-                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')));
-            })->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
+            ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
             ->count();
