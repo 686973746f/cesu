@@ -41,6 +41,9 @@ class ExcelImport implements ToCollection, WithStartRow
         foreach ($rows as $row) {
             if(!is_null($row[6])) {
                 //double entry checking
+                $check1 = Records::ifDuplicateFound($row[6], $row[7], $row[8]);
+                /*
+                Old Checking Method
                 if(!is_null($row[8]) && $row[8] != 'N/A') {
                     $check1 = Records::where('lname', mb_strtoupper($row[6]))
                     ->where('fname', mb_strtoupper($row[7]))
@@ -55,6 +58,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     ->where('gender', strtoupper($row[11]))
                     ->first();
                 }
+                */
 
                 if(!is_null($row[2]) && $row[2] != 'N/A') {
                     $row[2] = $row[2];
@@ -90,11 +94,11 @@ class ExcelImport implements ToCollection, WithStartRow
                 }
 
                 //PCR Result
-                if($row[38] == '2019-Ncov Viral RNA  Detected' || $row[38] == '2019-Ncov Viral RNA Detected') {
+                if($row[38] == '2019-Ncov Viral RNA  Detected' || $row[38] == '2019-Ncov Viral RNA Detected' || $row[38] == 'POSITIVE') {
                     $ttype = 'OPS';
                     $result = 'POSITIVE';
                 }
-                else if($row[38] == '2019-nCoV Viral RNA not Detected') {
+                else if($row[38] == '2019-nCoV Viral RNA not Detected' || $row[38] == 'NEGATIVE') {
                     $ttype = 'OPS';
                     $result = 'NEGATIVE';
                 }
@@ -211,43 +215,44 @@ class ExcelImport implements ToCollection, WithStartRow
                     array_push($otherSymptoms, mb_strtoupper($row[33]));
                 }
 
-                if($check1) {
+                if(!is_null($check1)) {
                     $rcheck = Records::find($check1->id);
                     $fcheck = Forms::where('records_id', $rcheck->id)->first();
                     if($fcheck) {
-                        $u = Forms::find($fcheck->id);
+                        if($fcheck->caseClassification != 'Confirmed') {
+                            $u = Forms::find($fcheck->id);
 
-                        $u->created_at = $this->transformDateTime($row[2]).' 00:00:00';
-                        $u->updated_at = $this->transformDateTime($row[2]).' 00:00:00';
+                            $u->morbidityMonth = $this->transformDateTime($row[0]);
 
-                        $u->dateReported = (!is_null($row[2])) ? $this->transformDateTime($row[2]).' 00:00:00' : $this->transformDateTime($row[36]);
-                        
-                        $u->dispoType = $dispoType;
-                        $u->dispoName = $dispoName;
-                        $u->dispoDate = $dispoDate;
+                            $u->dateReported = (!is_null($row[2])) ? $this->transformDateTime($row[2]).' 00:00:00' : $this->transformDateTime($row[36]);
+                            
+                            $u->dispoType = $dispoType;
+                            $u->dispoName = $dispoName;
+                            $u->dispoDate = $dispoDate;
 
-                        $u->healthStatus = $healthStatus;
-                        $u->caseClassification = $classification;
-                        
-                        $u->testDateCollected1 = $this->transformDateTime($row[36]);
-                        $u->oniTimeCollected1 = NULL;
-                        $u->testDateReleased1 = NULL;
-                        $u->testLaboratory1 = NULL;
-                        $u->testType1 = $ttype;
-                        $u->testTypeAntigenRemarks1 = ($ttype == "ANTIGEN") ? mb_strtoupper($row[37]) : NULL;
-                        $u->antigenKit1 = ($ttype == "ANTIGEN") ? 'ABBOTT' : NULL;
-                        $u->testTypeOtherRemarks1 = NULL;
-                        $u->testResult1 = $result;
-                        $u->testResultOtherRemarks1 = NULL;
-                        $u->outcomeCondition = $outcome;
-                        $u->outcomeRecovDate = (!is_null($dateRecovered) && $outcome == 'Recovered') ? $dateRecovered : NULL;
-                        $u->outcomeDeathDate = (!is_null($dateDied) && $outcome == 'Died') ? $dateDied : NULL;
-                        $u->deathImmeCause = (!is_null($cod) && $outcome == 'Died') ? $cod : NULL;
-                        $u->deathAnteCause = NULL;
-                        $u->deathUndeCause = NULL;
-                        $u->contriCondi = NULL;
+                            $u->healthStatus = $healthStatus;
+                            $u->caseClassification = $classification;
+                            
+                            $u->testDateCollected1 = $this->transformDateTime($row[36]);
+                            $u->oniTimeCollected1 = NULL;
+                            $u->testDateReleased1 = NULL;
+                            $u->testLaboratory1 = NULL;
+                            $u->testType1 = $ttype;
+                            $u->testTypeAntigenRemarks1 = ($ttype == "ANTIGEN") ? mb_strtoupper($row[37]) : NULL;
+                            $u->antigenKit1 = ($ttype == "ANTIGEN") ? 'ABBOTT' : NULL;
+                            $u->testTypeOtherRemarks1 = NULL;
+                            $u->testResult1 = $result;
+                            $u->testResultOtherRemarks1 = NULL;
+                            $u->outcomeCondition = $outcome;
+                            $u->outcomeRecovDate = (!is_null($dateRecovered) && $outcome == 'Recovered') ? $dateRecovered : NULL;
+                            $u->outcomeDeathDate = (!is_null($dateDied) && $outcome == 'Died') ? $dateDied : NULL;
+                            $u->deathImmeCause = (!is_null($cod) && $outcome == 'Died') ? $cod : NULL;
+                            $u->deathAnteCause = NULL;
+                            $u->deathUndeCause = NULL;
+                            $u->contriCondi = NULL;
 
-                        $u->save();
+                            $u->save();
+                        }
                     }
                 }
                 else {
@@ -304,8 +309,7 @@ class ExcelImport implements ToCollection, WithStartRow
                     ]);
 
                     $forms = auth()->user()->form()->create([
-                        'created_at' => $this->transformDateTime($row[2]).' 00:00:00',
-                        'updated_at' => $this->transformDateTime($row[2]).' 00:00:00',
+                        'morbidityMonth' => $this->transformDateTime($row[0]).' 00:00:00',
                         'majikCode' => NULL,
                         'dateReported' => (!is_null($row[2])) ? $this->transformDateTime($row[2]).' 00:00:00' : $this->transformDateTime($row[36]),
                         'status' => 'approved',

@@ -40,6 +40,16 @@ class ReportController extends Controller
             ->where('reinfected', 0)
             ->count();
 
+            //Bilangin pati current reinfection sa total
+            $recoveredCount += Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('reinfected', 1)
+            ->count();
+
             $deathCount = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
@@ -219,7 +229,11 @@ class ReportController extends Controller
                     ->where('records.address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
-                ->where('caseClassification', 'Suspect')
+                ->where(function ($q) {
+                    $q->where('isPresentOnSwabDay', 0)
+                    ->orwhereNull('isPresentOnSwabDay');
+                })
+                ->whereIn('caseClassification', ['Suspect'])
                 ->where('outcomeCondition', 'Active')
                 ->count();
 
@@ -230,6 +244,7 @@ class ReportController extends Controller
                     ->where('records.address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved')
+                ->where('isPresentOnSwabDay', 1)
                 ->where('caseClassification', 'Probable')
                 ->where('outcomeCondition', 'Active')
                 ->count();
@@ -380,7 +395,11 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->where('caseClassification', 'Suspect')
+            ->where(function ($q) {
+                $q->where('isPresentOnSwabDay', 0)
+                ->orwhereNull('isPresentOnSwabDay');
+            })
+            ->whereIn('caseClassification', ['Suspect'])
             ->where('outcomeCondition', 'Active')
             ->where(function ($q) {
                 $q->whereDate('testDateCollected1', '<=', date('Y-m-d'))
@@ -399,6 +418,7 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
+            ->where('isPresentOnSwabDay', 1)
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {

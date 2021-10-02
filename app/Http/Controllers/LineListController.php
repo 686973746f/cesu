@@ -225,7 +225,10 @@ class LineListController extends Controller
         ->where(function ($query) use ($request) {
             $query->whereNull('testDateCollected2')
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
-        })->update(['isPresentOnSwabDay' => 1]);
+        })->update([
+            'caseClassification' => 'Probable',
+            'isPresentOnSwabDay' => 1
+        ]);
 
         if(auth()->user()->isCesuAccount()) {
             $update1 = Forms::whereNotIn('records_id', $request->user)
@@ -319,7 +322,10 @@ class LineListController extends Controller
         ->where(function ($query) use ($request) {
             $query->whereNull('testDateCollected2')
             ->orWhereIn('testDateCollected2', array_unique($request->dateCollected));
-        })->update(['isPresentOnSwabDay' => 1]);
+        })->update([
+            'caseClassification' => 'Probable',
+            'isPresentOnSwabDay' => 1
+        ]);
 
         if(auth()->user()->isCesuAccount()) {
             $update1 = Forms::whereNotIn('records_id', $request->user)
@@ -381,19 +387,4 @@ class LineListController extends Controller
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
     }
-
-    /*
-    
-    //Unused Ajax Woring Fetching Script
-    
-    public function ajaxGetLineList () {
-        $query = Forms::where('testDateCollected1', date('Y-m-d'))->pluck('records_id')->toArray();
-
-        $query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
-
-        $sdata['data'] = $query;
-        echo json_encode($sdata);
-        exit;
-    }
-    */
 }
