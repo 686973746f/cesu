@@ -97,7 +97,7 @@ class Records extends Model
     }
 
     public function form(){
-        return $this->hasMany(Forms::class);
+        return $this->hasOne(Forms::class);
     }
 
     public function user() {
