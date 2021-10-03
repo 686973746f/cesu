@@ -91,7 +91,7 @@ class RecordsController extends Controller
 			$param1 = 0;
 		}
 
-		if($check2) {
+		if(!is_null($check2)) {
 			$param2 = 1;
 			$where = '(Existing in Pa-Swab Page, waiting for Approval)';
 		}
@@ -255,14 +255,19 @@ class RecordsController extends Controller
 			$philhealth_organized = null;
 		}
 
+		$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+
+		/*
+		Checking Double Entry (Old Method)
 		$check1 = Records::where('lname', mb_strtoupper($request->lname))
 		->where('fname', mb_strtoupper($request->fname))
 		->where(function ($query) use ($request) {
 			$query->where('mname', mb_strtoupper($request->mname))
 			->orWhereNull('mname');
 		})->first();
+		*/
 
-		if($check1) {
+		if(!is_null($check1)) {
 			$param1 = 1;
 			$where = '(Existing in the Records Page)';
 		}
@@ -270,6 +275,10 @@ class RecordsController extends Controller
 			$param1 = 0;
 		}
 
+		$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+
+		/*
+		Checking Double Entry sa Paswab (Old Method)
 		$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
 		->where('fname', mb_strtoupper($request->fname))
 		->where(function ($query) use ($request) {
@@ -277,8 +286,9 @@ class RecordsController extends Controller
 			->orWhereNull('mname');
 		})->where('status', 'pending')
 		->first();
+		*/
 
-		if($check2) {
+		if(!is_null($check2)) {
 			$param2 = 1;
 			$where = '(Existing in Pa-Swab Page, waiting for Approval)';
 		}
@@ -595,6 +605,10 @@ class RecordsController extends Controller
 			$param2 = 0;
 		}
 		else {
+			$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+			$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+			/*
+			Double Entry Checker (Old Method)
 			if(!is_null($newmname)) {
 				$check1 = Records::where('lname', mb_strtoupper($request->lname))
 				->where('fname', mb_strtoupper($request->fname))
@@ -619,8 +633,9 @@ class RecordsController extends Controller
 				->where('status', 'pending')
 				->first();
 			}
+			*/
 
-			if($check1) {
+			if(!is_null($check1)) {
 				$param1 = 1;
 				$where = '(Existing in the Records Page)';
 			}
@@ -628,7 +643,7 @@ class RecordsController extends Controller
 				$param1 = 0;
 			}
 			
-			if($check2) {
+			if(!is_null($check2)) {
 				$param2 = 1;
 				$where = '(Existing in Pa-Swab Page, waiting for Approval)';
 			}

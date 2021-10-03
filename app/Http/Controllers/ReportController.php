@@ -120,8 +120,8 @@ class ReportController extends Controller
                 ->where('outcomeCondition', 'Died');
             })->orWhere(function ($q) {
                 $q->where('status', 'approved')
-                ->whereDate('morbidityMonth', '<', date('Y-m-d'))
-                ->where('outcomeDeathDate', date('Y-m-d'));
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->where('outcomeCondition', 'Died');
             })->count();
 
             $totalCasesCount = Forms::with('records')

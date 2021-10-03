@@ -25,6 +25,7 @@ class CreateSiteSettingsTable extends Migration
             $table->text('default_dru')->nullable();
             $table->text('default_dru_region')->nullable();
             $table->text('default_dru_province')->nullable();
+            $table->time('encodeActiveCasesCutoff')->default('16:00');
         });
     }
 
