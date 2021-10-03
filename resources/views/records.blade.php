@@ -68,7 +68,6 @@
                                 <th style="vertical-align: middle">Outcome</th>
                                 <th style="vertical-align: middle">Encoded/Edited By</th>
                                 <th style="vertical-align: middle">Date Encoded/Edited</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
