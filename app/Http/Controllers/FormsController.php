@@ -1017,6 +1017,7 @@ class FormsController extends Controller
         $oldTestType1 = $rec->testType1;
         $oldTestType2 = $rec->testType2;
         $currentPhilhealth = $rec->records->philhealth;
+        $currentOutcome = $rec->outcomeCondition;
 
         $rec = Records::findOrFail($rec->records->id);
 
@@ -1158,11 +1159,6 @@ class FormsController extends Controller
             $oniTimeFinal = $request->oniTimeCollected1;
         }
 
-        //Auto Change Classification kung Recovered or Patay na ang pasyente
-        if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
-            $caseClassi = 'Confirmed';
-        }
-        
         if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
             if(!is_null($currentPhilhealth)) {
                 if($request->filled('oniTimeCollected2')) {
@@ -1205,6 +1201,16 @@ class FormsController extends Controller
         }
         else {
             $oniTimeFinal2 = $request->oniTimeCollected2;
+        }
+
+        //Auto Change Classification kung Recovered or Patay na ang pasyente
+        if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
+            $caseClassi = 'Confirmed';
+        }
+
+        //Auto Change MM pag namatay
+        if($currentOutcome != 'Died' && $request->outcomeCondition == 'Died') {
+            
         }
 
         if($proceed == 1) {

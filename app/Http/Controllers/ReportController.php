@@ -433,7 +433,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
@@ -559,6 +558,7 @@ class ReportController extends Controller
                 'DATE START OF QUARANTINE' => $dispoDate,
                 'DATE COMPLETED QUARANTINE (FOR HOME AND FACILITY QUARANTINE)' => ($form->dispoType == 4) ? $dispoDate : 'N/A',
                 'OUTCOME(ALIVE/RECOVERED/DIED)' => $form->outcomeCondition,
+                'REINFECTED' => ($form->reinfected == 1) ? 'Y' : 'N',
                 'DATE RECOVERED' => ($form->outcomeCondition == 'Recovered') ? date('m/d/Y', strtotime($form->outcomeRecovDate)) : 'N/A',
                 'DATE DIED' => ($form->outcomeCondition == 'Died') ? date('m/d/Y', strtotime($form->outcomeDeathDate)) : 'N/A',
                 'CAUSE OF DEATH' => ($form->outcomeCondition == 'Died') ? mb_strtoupper($form->deathImmeCause) : 'N/A',
