@@ -66,16 +66,19 @@ class Forms extends Model
             return 'ADMITTED AT HOSPITAL';
         }
         else if($this->dispoType == 2) {
-            return 'ADMITTED IN ISOLATION FACILITY';
+            return 'ADMITTED AT OTHER ISOLATION FACILITY';
         }
         else if($this->dispoType == 3) {
-            return 'SELF-QUARANTINE';
+            return 'HOME QUARANTINE';
         }
         else if($this->dispoType == 4) {
             return 'DISCHARGED TO HOME';
         }
-        else {
+        else if($this->dispoType == 5) {
             return 'OTHERS';
+        }
+        else if($this->dispoType == 6) {
+            return 'ADMITTED AT GENERAL TRIAS ISOLATION FACILITY';
         }
     }
 }
