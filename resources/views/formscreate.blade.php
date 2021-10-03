@@ -733,14 +733,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="card mb-3">
-                                        <div class="card-header">2.2 Disposition at Time of Report</div>
+                                        <div class="card-header">2.2 Disposition at Time of Report / Quarantine Status</div>
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
                                                 <select class="form-control" name="dispositionType" id="dispositionType">
                                                     <option value="1" {{(old('dispositionType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
                                                     <option value="6" {{(old('dispositionType') == 6) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility</option>
-                                                    <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}}>Admitted in Other isolation/quarantine facility</option>
+                                                    <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}}>Admitted in OTHER isolation/quarantine facility</option>
                                                     <option value="3" {{(old('dispositionType') == 3 || is_null(old('dispositionType'))) ? 'selected' : ''}}>In home isolation/quarantine</option>
                                                     <option value="4" {{(old('dispositionType') == 4) ? 'selected' : ''}}>Discharged to home</option>
                                                     <option value="5" {{(old('dispositionType') == 5) ? 'selected' : ''}}>Others</option>

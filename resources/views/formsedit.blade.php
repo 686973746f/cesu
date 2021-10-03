@@ -764,14 +764,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="card mb-3">
-                                        <div class="card-header">2.2 Disposition at Time of Report</div>
+                                        <div class="card-header">2.2 Disposition at Time of Report / Quarantine Status</div>
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
                                                 <select class="form-control" name="dispositionType" id="dispositionType">
                                                     <option value="1" {{(old('dispositionType', $records->dispoType) == 1) ? 'selected' : ''}}>Admitted in hospital</option>
                                                     <option value="6" {{(old('dispositionType', $records->dispoType) == 6) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility</option>
-                                                    <option value="2" {{(old('dispositionType', $records->dispoType) == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
+                                                    <option value="2" {{(old('dispositionType', $records->dispoType) == 2) ? 'selected' : ''}}>Admitted in OTHER isolation/quarantine facility</option>
                                                     <option value="3" {{(old('dispositionType', $records->dispoType) == 3) ? 'selected' : ''}}>In home isolation/quarantine</option>
                                                     <option value="4" {{(old('dispositionType', $records->dispoType) == 4) ? 'selected' : ''}}>Discharged to home</option>
                                                     <option value="5" {{(old('dispositionType', $records->dispoType) == 5) ? 'selected' : ''}}>Others</option>
