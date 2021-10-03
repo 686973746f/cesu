@@ -221,6 +221,17 @@ class ReportController extends Controller
                 ->where('reinfected', 0)
                 ->count();
 
+                //Reinfection Count
+                $brgyRecoveryCount += Forms::with('records')
+                ->whereHas('records', function ($q) use ($brgy) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('reinfected', 1)
+                ->count();
+
                 $brgySuspectedCount = Forms::with('records')
                 ->whereHas('records', function ($q) use ($brgy) {
                     $q->where('records.address_province', 'CAVITE')
