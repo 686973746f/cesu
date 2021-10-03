@@ -80,7 +80,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="morbidityMonth"><span class="text-danger font-weight-bold">*</span>Morbidity Month (MM)</label>
-                              <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="2020-01-01" max="{{date('Y-m-d')}}" max="{{(time() >= strtotime('16:00:00')) ? date('Y-m-d', strtotime('+1 Day')) : date('Y-m-d')}}" required>
+                              <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="2020-01-01" value="{{old('morbidityMonth', $records->morbidityMonth)}}" max="{{(time() >= strtotime('16:00:00')) ? date('Y-m-d', strtotime('+1 Day')) : date('Y-m-d')}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
