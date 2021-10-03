@@ -693,7 +693,7 @@ class FormsController extends Controller
             if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
 			    ->withInput()
-                ->with('msg', 'Encoding and Editing Active Cases only allowed until 4PM Daily.')
+                ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM Daily.')
                 ->with('msgType', 'warning');
             }
             else {
@@ -1217,7 +1217,7 @@ class FormsController extends Controller
             if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
 			    ->withInput()
-                ->with('msg', 'Encoding and Editing Active Cases only allowed until 4PM Daily.')
+                ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM Daily.')
                 ->with('msgType', 'warning');
             }
             else {
