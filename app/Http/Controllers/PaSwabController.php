@@ -1066,10 +1066,12 @@ class PaSwabController extends Controller
                 ->orWhere('majikCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
                 ->orWhere('linkCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
             })->where('status', 'pending')
+            ->where('isNewRecord', 1)
             ->paginate(10);
 		}
         else {
             $list = PaSwabDetails::where('status', 'pending')
+            ->where('isNewRecord', 1)
             ->orderBy('created_at', 'asc')
             ->paginate(10);
         }
