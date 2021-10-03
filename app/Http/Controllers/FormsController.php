@@ -1210,7 +1210,7 @@ class FormsController extends Controller
 
         //Auto Change MM pag namatay
         if($currentOutcome != 'Died' && $request->outcomeCondition == 'Died') {
-            
+            $request->morbidityMonth = date('Y-m-d');
         }
 
         if($proceed == 1) {

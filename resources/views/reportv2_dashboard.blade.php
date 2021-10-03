@@ -294,7 +294,7 @@
     <script>
         $(document).ready(function () {
             $('.table').DataTable({
-                dom: 'Bfrtip',
+                dom: 'fBrtip',
                 buttons: [
                     'excel', 'pdf', 'print'
                 ]
