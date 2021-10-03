@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -769,6 +770,7 @@
                                                 <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
                                                 <select class="form-control" name="dispositionType" id="dispositionType">
                                                     <option value="1" {{(old('dispositionType', $records->dispoType) == 1) ? 'selected' : ''}}>Admitted in hospital</option>
+                                                    <option value="6" {{(old('dispositionType', $records->dispoType) == 6) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility</option>
                                                     <option value="2" {{(old('dispositionType', $records->dispoType) == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
                                                     <option value="3" {{(old('dispositionType', $records->dispoType) == 3) ? 'selected' : ''}}>In home isolation/quarantine</option>
                                                     <option value="4" {{(old('dispositionType', $records->dispoType) == 4) ? 'selected' : ''}}>Discharged to home</option>
@@ -2922,6 +2924,10 @@
                     $('#dispositionName').prop('required', true);
                     $('#dispositionDate').prop('required', false);
                 }
+                else if ($(this).val() == '6') {
+                    $('#dispositionName').prop('required', false);
+                    $('#dispositionDate').prop('required', true);
+                }
                 else if($(this).val().length == 0){
                     $('#dispositionName').prop('required', false);
                     $('#dispositionDate').prop('required', false);
@@ -2934,20 +2940,20 @@
                     $('#dispositionlabel').text("Name of Hospital");
                     $('#dispositiondatelabel').text("Date and Time Admitted in Hospital");
                 }
-                if($(this).val() == '2') {
+                else if($(this).val() == '2') {
                     $('#divYes5').show();
                     $('#divYes6').show();
 
                     $('#dispositionlabel').text("Name of Facility");
                     $('#dispositiondatelabel').text("Date and Time Admitted in Hospital");
                 }
-                if($(this).val() == '3') {
+                else if($(this).val() == '3') {
                     $('#divYes5').hide();
                     $('#divYes6').show();
 
                     $('#dispositiondatelabel').text("Date and Time isolated/quarantined at home");
                 }
-                if($(this).val() == '4') {
+                else if($(this).val() == '4') {
                     $('#divYes5').hide();
                     $('#divYes6').show();
 
@@ -2955,11 +2961,17 @@
 
                     $('#dispositiondatelabel').text("Date of Discharge");
                 }
-                if($(this).val() == '5') {
+                else if($(this).val() == '5') {
                     $('#divYes5').show();
                     $('#divYes6').hide();
 
                     $('#dispositionlabel').text("State Reason");
+                }
+                else if($(this).val() == '6') {
+                    $('#divYes5').hide();
+                    $('#divYes6').show();
+
+                    $('#dispositiondatelabel').text("Date and Time Started");
                 }
                 else if($(this).val().length == 0){
                     $('#divYes5').hide();

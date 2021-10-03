@@ -138,7 +138,7 @@ class ReportController extends Controller
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
-            ->where('dispoType', 2)
+            ->where('dispoType', 6)
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
@@ -161,7 +161,7 @@ class ReportController extends Controller
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
-            ->whereIn('dispoType', [1,5])
+            ->whereIn('dispoType', [1,2,5])
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
@@ -500,7 +500,7 @@ class ReportController extends Controller
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 2) {
-                $dispo = 'ADMITTED AT ISOLATION FACILITY';
+                $dispo = 'ADMITTED AT OTHER ISOLATION FACILITY';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
@@ -510,13 +510,18 @@ class ReportController extends Controller
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 4) {
-                $dispo = 'DISCHARGED';
+                $dispo = 'DISCHARGED TO HOME';
                 $dispoName = "N/A";
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 5) {
                 $dispo = 'OTHERS';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+            else if($form->dispoType == 6) {
+                $dispo = 'ADMITTED AT GENERAL TRIAS ISOLATION FACILITY';
+                $dispoName = 'GENERAL TRIAS ISOLATION FACILITY';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
 
