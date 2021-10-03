@@ -1415,15 +1415,6 @@ class FormsController extends Controller
      */
     public function destroy(Forms $form)
     {
-        if(auth()->user()->isAdmin == 1) {
-            $form->delete();
-
-            return redirect()->action([FormsController::class, 'index'])->with('status', "CIF for ".$form->records->getname()." has been updated successfully.")->with('statustype', 'success');
-        }
-        else {
-            return back()
-			->withInput()
-			->with('msg', 'You are not allowed to do that.');
-        }
+        
     }
 }

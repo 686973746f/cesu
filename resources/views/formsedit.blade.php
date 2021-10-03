@@ -2,16 +2,6 @@
 
 @section('content')
     <div class="container">
-        @if(auth()->user()->isAdmin == 1)
-        <form action="/forms/{{$records->id}}" method="POST">
-            @csrf
-            @method('delete')
-            <div class="text-right mb-3">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('You cannot undo once the process is done. Are you sure you want to DELETE? Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
-            </div>
-        </form>
-        @endif
-
         <form action="/forms/{{$records->id}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
             @csrf
             @method('PUT')
