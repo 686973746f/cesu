@@ -53,6 +53,10 @@
                     <div class="alert alert-info" role="alert">
                         Note: All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
                     </div>
+                    <div class="form-group">
+                      <label for="">Patient ID</label>
+                      <input type="text" class="form-control" value="#{{$record->id}}" readonly>
+                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

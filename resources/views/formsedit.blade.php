@@ -40,7 +40,7 @@
 
                     <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" value="{{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
+                        <input type="text" class="form-control" value="#{{$records->records->id}} - {{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>
                         <div class="input-group-append">
                             <a class="btn btn-outline-primary" id="quickreclink" href="/records/{{$records->records_id}}/edit?fromFormsPage=true">Edit Record</a>
                         </div>

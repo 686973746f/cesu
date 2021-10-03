@@ -55,7 +55,7 @@
                     <table class="table table-bordered table-striped" id="table_id">
                         <thead>
                             <tr class="text-center thead-light">
-                                <th style="vertical-align: middle">Name</th>
+                                <th style="vertical-align: middle">Name / ID</th>
                                 <th style="vertical-align: middle">Birthdate</th>
                                 <th style="vertical-align: middle">Age/Gender</th>
                                 <th style="vertical-align: middle">Civil Status</th>
@@ -74,7 +74,7 @@
                             @forelse ($records as $record)
                                 <tr>
                                     <td style="vertical-align: middle">
-                                        <a href="records/{{$record->id}}/edit" class="btn btn-link text-left">{{$record->lname.", ".$record->fname." ".$record->mname}}</a>
+                                        <a href="records/{{$record->id}}/edit" class="btn btn-link text-left">{{$record->lname.", ".$record->fname." ".$record->mname}} (#{{$record->id}})</a>
                                     </td>
                                     <td style="vertical-align: middle" class="text-center">{{date("m/d/Y", strtotime($record->bdate))}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$record->getAge()}} / {{substr($record->gender,0,1)}}</td>

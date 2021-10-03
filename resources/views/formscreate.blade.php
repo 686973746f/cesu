@@ -31,7 +31,7 @@
                     @endif
                     <div class="form-group">
                         <label for=""><span class="text-danger font-weight-bold">*</span>Currently Creating CIF record for</label>
-                        <input type="text" class="form-control" value="{{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>
+                        <input type="text" class="form-control" value="#{{$records->id}} - {{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>
                     </div>
                     <div class="form-group">
                       <label for="remarks">Remarks</label>

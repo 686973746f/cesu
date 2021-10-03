@@ -162,7 +162,7 @@ class FormsController extends Controller
             foreach($data as $item) {
                 array_push($list, [
                     'id' => $item->id,
-                    'text' => $item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                    'text' => '#'.$item->id.' - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
                 ]);
             }
         }
