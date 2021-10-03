@@ -42,10 +42,26 @@ class BulkUpdateController extends Controller
                 else {
                     $ph = 'P.Health: N/A';
                 }
+
+                if($item->dispoType == 1) {
+                    $adm = 'ADMITTED AT HOSPITAL';
+                }
+                else if($item->dispoType == 2) {
+                    $adm = 'ADMITTED AT ISOLATION FACILITY';
+                }
+                else if($item->dispoType == 3) {
+                    $adm = 'HOME QUARANTINE';
+                }
+                else if($item->dispoType == 4) {
+                    $adm = 'DISCHARGED TO HOME';
+                }
+                else {
+                    $adm = 'OTHERS';
+                }
     
                 array_push($list, [
                     'id' => $item->id,
-                    'text' => $item->records->getName().' ('.$item->getType().') | '.$item->records->getAge().'/'.substr($item->records->gender,0,1).' | '.date('m/d/Y', strtotime($item->records->bdate)).' | '.$ph.' - Recent Test: '.$testType.' @ '.$testDate.' ('.$testResult.')',
+                    'text' => '#'.$item->records->id.' - '.$item->records->getName().' ('.$item->getType().' - MM: '.date('m/d/Y', strtotime($item->morbidityMonth)).' - DR: '.date('m/d/Y', strtotime($item->dateReported)).') | '.$item->records->getAge().'/'.substr($item->records->gender,0,1).' | '.date('m/d/Y', strtotime($item->records->bdate)).' | '.$ph.' - Recent Test: '.$testType.' @ '.$testDate.' ('.$testResult.') | Classification: '.$item->caseClassification.' | Outcome: '.$item->outcomeCondition.' | Quarantine Status: '.$adm,
                 ]);
             }
         }
