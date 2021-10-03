@@ -185,7 +185,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $brgyActiveCount = Forms::with('records')
