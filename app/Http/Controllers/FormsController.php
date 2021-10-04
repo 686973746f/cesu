@@ -143,7 +143,7 @@ class FormsController extends Controller
                 foreach($paswab as $item) {
                     array_push($list, [
                         'id' => $item->id,
-                        'text' => '#'.$item->id.' - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                        'text' => '(PASWAB) - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
                         'class' => 'paswab',
                     ]);
                 }
