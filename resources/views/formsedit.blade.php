@@ -3,6 +3,25 @@
 
 @section('content')
     <div class="container">
+        @if($records->outcomeCondition == 'Recovered')
+            <form action="{{route('forms.reswab', ['id' => $records->records->id])}}" method="POST">
+                @csrf
+                <div class="text-right">
+                    <button type="submit" class="btn btn-success mb-3"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</button>
+                </div>
+            </form>
+            @endif
+            @if($records->ifCaseFinished())
+            <div class="alert alert-info" role="alert">
+                <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
+                <p>This CIF of Patient was already marked as <u><strong>{{$records->outcomeCondition}}</strong></u>.</p>
+                <p>Therefore, only an admin can edit the details of this particular CIF.</p>
+                @if($records->outcomeCondition == 'Recovered')
+                <hr>
+                <p>If for processing re-swab, click the Create New CIF Button above.</p>
+                @endif
+            </div>
+        @endif
         <form action="/forms/{{$records->id}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
             @csrf
             @method('PUT')
@@ -76,7 +95,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <hr>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

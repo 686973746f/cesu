@@ -93,7 +93,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/forms/printAntigenLinelist/', [FormsController::class, 'printAntigenLinelist'])->name('forms.antigenlinelist.print');
 
     Route::get('/forms/selfreport/', [SelfReportController::class, 'view'])->name('selfreport.view');
-    
+    Route::post('/forms/reswab/{id}', [FormsController::class, 'reswab'])->name('forms.reswab');
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);

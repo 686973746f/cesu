@@ -81,4 +81,13 @@ class Forms extends Model
             return 'ADMITTED AT GENERAL TRIAS ISOLATION FACILITY';
         }
     }
+
+    public function ifCaseFinished() {
+        if($this->outcomeCondition == 'Recovered' || $this->outcomeCondition == 'Died') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
