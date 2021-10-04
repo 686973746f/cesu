@@ -104,7 +104,6 @@ class FormsController extends Controller
                     $q->where('testDateCollected1', date('Y-m-d'))
                     ->orWhere('testDateCollected2', date('Y-m-d'));
                 })
-                ->whereIn('caseClassification', ['Suspect', 'Probable'])
                 ->orderBy('created_at', 'desc')->get();
             }
         }

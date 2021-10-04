@@ -121,6 +121,7 @@ class Records extends Model
             else {
                 $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereNull('mname')
                 ->first();
 
                 if($check1) {
@@ -134,13 +135,23 @@ class Records extends Model
         else {
             $check = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
             ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->whereNull('mname')
             ->first();
-
+            
             if($check) {
                 return $check;
             }
             else {
-                return NULL;
+                $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
             }
         }
     }
