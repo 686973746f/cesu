@@ -343,6 +343,11 @@
                 </div>
                 <hr>
                 @endif
+                @if(auth()->user()->isCesuAccount())
+                <div class="alert alert-info" role="alert">
+                    Notice: Pa-swab list can now be also searched here (Pending cases only).
+                </div>
+                @endif
                 <div class="form-group">
                   <label for="newList">Select Patient to Create or Search (If existing)</label>
                   <select class="form-control" name="newList" id="newList"></select>
@@ -380,6 +385,7 @@
                             return {
                                 text: item.text,
                                 id: item.id,
+                                class: item.class,
                             }
                         })
                     };
@@ -411,7 +417,14 @@
 
     $('#newList').change(function (e) { 
         e.preventDefault();
-        var url = "{{route("forms.new", ['id' => ':id']) }}";
+        var d = $('#newList').select2('data')[0].class;
+        if(d == 'cif') {
+            var url = "{{route("forms.new", ['id' => ':id']) }}";
+        }
+        else if (d == 'paswab') {
+            var url = "{{route("paswab.viewspecific", ['id' => ':id']) }}";
+        }
+
         url = url.replace(':id', $(this).val());
         window.location.href = url;
     });

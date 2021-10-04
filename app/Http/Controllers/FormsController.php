@@ -120,7 +120,7 @@ class FormsController extends Controller
         $list = [];
 
         if($request->has('q') && strlen($request->input('q')) != 0) {
-            $search = $request->q;
+            $search = mb_strtoupper($request->q);
             /*
             $data = Records::select("id","lname")->where(function ($query) {
                 $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
@@ -134,6 +134,19 @@ class FormsController extends Controller
                     $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
                     ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
                 })->get();
+
+                $paswab = PaSwabDetails::where(function ($query) use ($search) {
+                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',$search)."%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',$search)."%");
+                })->where('status', 'pending')->get();
+
+                foreach($paswab as $item) {
+                    array_push($list, [
+                        'id' => $item->id,
+                        'text' => '#'.$item->id.' - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                        'class' => 'paswab',
+                    ]);
+                }
             }
             else {
                 if(auth()->user()->isBrgyAccount()) {
@@ -162,6 +175,7 @@ class FormsController extends Controller
                 array_push($list, [
                     'id' => $item->id,
                     'text' => '#'.$item->id.' - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                    'class' => 'cif',
                 ]);
             }
         }
