@@ -136,6 +136,13 @@
 								<small class="text-danger">{{$message}}</small>
 							@enderror
 						</div>
+                        <div class="form-group">
+							<label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+							@error('bdate')
+								<small class="text-danger">{{$message}}</small>
+							@enderror
+						</div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-block">Check</button>

@@ -108,7 +108,7 @@ class Records extends Model
         return $this->hasMany(LinelistSubs::class);
     }
 
-    public static function ifDuplicateFound($lname, $fname, $mname) {
+    public static function ifDuplicateFound($lname, $fname, $mname, $bdate) {
         if(!is_null($mname)) {
             $check = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
             ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
@@ -121,7 +121,7 @@ class Records extends Model
             else {
                 $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
-                ->whereNull('mname')
+                ->whereDate('bdate', $bdate)
                 ->first();
 
                 if($check1) {
@@ -144,6 +144,7 @@ class Records extends Model
             else {
                 $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereDate('bdate', $bdate)
                 ->first();
 
                 if($check1) {

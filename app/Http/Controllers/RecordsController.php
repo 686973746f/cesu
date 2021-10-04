@@ -78,10 +78,11 @@ class RecordsController extends Controller
 			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
+			'bdate' => "required|date|before:tomorrow",
 		]);
 
-		$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
-		$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+		$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
+		$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
 
 		if(!is_null($check1)) {
 			$param1 = 1;
@@ -185,7 +186,7 @@ class RecordsController extends Controller
     public function create()
     {
 		//Kailangan manggaling sa check function para gumana
-		if(request()->input('lname') && request()->input('fname')) {
+		if(request()->input('lname') && request()->input('fname') && request()->input('bdate')) {
 			$list = Companies::find(auth()->user()->company_id);
 			
 			return view ('addrecord', [
@@ -193,6 +194,7 @@ class RecordsController extends Controller
 				'lname' => mb_strtoupper(request()->input('lname')),
 				'fname' => mb_strtoupper(request()->input('fname')),
 				'mname' => (!is_null(request()->input('mname'))) ? mb_strtoupper(request()->input('mname')) : NULL,
+				'bdate' => (request()->input('bdate')),
 			]);
 		}
 		else {
