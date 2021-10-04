@@ -9,7 +9,14 @@ use Illuminate\Support\Facades\DB;
 class BulkUpdateController extends Controller
 {
     public function viewBulkUpdate() {
-        return view('bulkupdate_index');
+        if(time() >= strtotime('16:00:00')) {
+            return redirect()->route('home')
+            ->with('status', 'Feature was disabled from 4PM Onwards Daily.')
+            ->with('statustype', 'warning');
+        }
+        else {
+            return view('bulkupdate_index');
+        }
     }
 
     public function ajaxController(Request $request) {
