@@ -11,7 +11,7 @@ class BulkUpdateController extends Controller
     public function viewBulkUpdate() {
         if(time() >= strtotime('16:00:00')) {
             return redirect()->route('home')
-            ->with('status', 'Feature was disabled from 4PM Onwards Daily.')
+            ->with('status', 'Feature was disabled from 4PM to 12AM Onwards Daily.')
             ->with('statustype', 'warning');
         }
         else {

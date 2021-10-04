@@ -1018,6 +1018,7 @@
 				$('#occupation_div').hide();
 
 				$('#occupation_name').prop('required', false);
+				$('#natureOfWork').prop('required', false);
 				$('#occupation').prop('required', false);
 				$('#soccupation_province').prop('required', false);
 				$('#soccupation_city').prop('required', false);
@@ -1031,6 +1032,7 @@
 				$('#occupation_div').show();
 
 				$('#occupation_name').prop('required', false);
+				$('#natureOfWork').prop('required', true);
 				$('#occupation').prop('required', true);
 				$('#soccupation_province').prop('required', false);
 				$('#soccupation_city').prop('required', false);
