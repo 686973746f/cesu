@@ -121,13 +121,6 @@ class FormsController extends Controller
 
         if($request->has('q') && strlen($request->input('q')) != 0) {
             $search = mb_strtoupper($request->q);
-            /*
-            $data = Records::select("id","lname")->where(function ($query) {
-                $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search%")
-                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search%");
-            })->get();
-            */
-            //$data = Records::where('lname', 'LIKE', "%$search%")->get();
 
             if(auth()->user()->isCesuAccount()) {
                 $data = Records::where(function ($query) use ($search) {
@@ -168,8 +161,6 @@ class FormsController extends Controller
                     })->get();
                 }
             }
-
-            //$data = Records::select("id","lname")->where('lname','LIKE',"%$search%")->get();
 
             foreach($data as $item) {
                 array_push($list, [
