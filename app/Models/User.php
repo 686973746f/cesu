@@ -48,6 +48,15 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function ifTopAdmin() {
+        if($this->isAdmin == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     
     public function isCesuAccount() {
         if($this->isAdmin == 1 || $this->isAdmin == 2) {

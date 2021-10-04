@@ -23,13 +23,15 @@ class BulkUpdateController extends Controller
         $list = [];
 
         if($request->has('q') && strlen($request->input('q')) != 0) {
-            $search = $request->q;
+            $search = mb_strtoupper($request->q);
 
             $data = Forms::with('records')
             ->whereHas('records', function ($q) use ($search) {
                 $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
                 ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
-            })->get();
+            })
+            ->where('outcomeCondition', 'Active')
+            ->get();
 
             foreach($data as $item) {
                 if(!is_null($item->testDateCollected2)) {
@@ -51,10 +53,10 @@ class BulkUpdateController extends Controller
                 }
 
                 if($item->dispoType == 1) {
-                    $adm = 'ADMITTED AT HOSPITAL';
+                    $adm = 'ADM. AT HOSPITAL';
                 }
                 else if($item->dispoType == 2) {
-                    $adm = 'ADMITTED AT ISOLATION FACILITY';
+                    $adm = 'ADM. AT OTHER ISOLATION FACILITY';
                 }
                 else if($item->dispoType == 3) {
                     $adm = 'HOME QUARANTINE';
@@ -62,8 +64,11 @@ class BulkUpdateController extends Controller
                 else if($item->dispoType == 4) {
                     $adm = 'DISCHARGED TO HOME';
                 }
-                else {
+                else if($item->dispoType == 5) {
                     $adm = 'OTHERS';
+                }
+                else if($item->dispoType == 6) {
+                    $adm = 'ADM. AT GENTRI ISOLATION FACILITY';
                 }
     
                 array_push($list, [

@@ -2263,7 +2263,17 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
+                    @if($records->outcomeCondition == 'Active' || auth()->user()->ifTopAdmin())
                     <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
+                    @elseif($records->outcomeCondition == 'Recovered')
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Details of Recovered cases can only be updated by an admin. If incase of reswab, create another CIF for this patient by pressing [Create New CIF] Button on the top right of this page.">
+                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
+                    </span>
+                    @else
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
+                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
+                    </span>
+                    @endif
                 </div>
             </div>
         </form>
@@ -2657,6 +2667,10 @@
     </div>
 
     <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         $(document).ready(function () {
             @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
