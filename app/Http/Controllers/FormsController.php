@@ -505,7 +505,7 @@ class FormsController extends Controller
         if($check) {
             if(Forms::where('records_id', $id)->exists()) {
                 //existing na
-                $ex_id = Forms::where('records_id', $id)->first();
+                $ex_id = Forms::where('records_id', $id)->orderby('created_at', 'DESC')->first();
                 return redirect()->back()
                 ->with('modalmsg', 'CIF Record already exists for ')
                 ->with('eName', $check->lname.", ".$check->fname." ".$check->mname)
