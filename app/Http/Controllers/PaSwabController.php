@@ -873,7 +873,7 @@ class PaSwabController extends Controller
                 }
 
                 if($finalproceed == 1) {
-                    $checku = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+                    $checku = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
                     /*
                     Old Pa-swab duplicate Entry checker
 
