@@ -277,7 +277,7 @@ class RecordsController extends Controller
 			$param1 = 0;
 		}
 
-		$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+		$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
 
 		/*
 		Checking Double Entry sa Paswab (Old Method)
@@ -607,8 +607,8 @@ class RecordsController extends Controller
 			$param2 = 0;
 		}
 		else {
-			$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
-			$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+			$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
+			$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
 			/*
 			Double Entry Checker (Old Method)
 			if(!is_null($newmname)) {
