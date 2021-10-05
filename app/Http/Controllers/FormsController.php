@@ -321,12 +321,12 @@ class FormsController extends Controller
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
                     $swabtype = $item->testType2;
-                    $swabdate = $item->testDateCollected2;
+                    $swabdate = date('m/d/Y', $item->testDateCollected2);
                     $swabtime = $item->oniTimeCollected2;
                 }
                 else {
                     $swabtype = $item->testType1;
-                    $swabdate = $item->testDateCollected1;
+                    $swabdate = date('m/d/Y', $item->testDateCollected1);
                     $swabtime = $item->oniTimeCollected1;
                 }
 
