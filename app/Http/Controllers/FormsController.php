@@ -742,7 +742,7 @@ class FormsController extends Controller
         if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
             return back()
             ->withInput()
-            ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM Daily.')
+            ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM - 12AM Daily. You can change the Morbidity Month to Tomorrow ('.date('m/d/Y', strtotime('+1 Day')).') so that it could be included early for the report tomorrow.')
             ->with('msgType', 'warning');
         }
         else {
@@ -1265,7 +1265,7 @@ class FormsController extends Controller
             if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
 			    ->withInput()
-                ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM Daily.')
+                ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM - 12AM Daily. You can change the Morbidity Month to Tomorrow ('.date('m/d/Y', strtotime('+1 Day')).') so that it could be included early for the report tomorrow.')
                 ->with('msgType', 'warning');
             }
             else {
