@@ -148,7 +148,18 @@ class PaSwabDetails extends Model
             ->first();
 
             if($check) {
-                return $check;
+                $checkwbdate = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+                ->whereDate('bdate', $bdate)
+                ->first();
+
+                if($checkwbdate) {
+                    return $checkwbdate;
+                }
+                else {
+                    return $check;
+                }  
             }
             else {
                 $check1 = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
@@ -171,7 +182,18 @@ class PaSwabDetails extends Model
             ->first();
 
             if($check) {
-                return $check;
+                $checkwbdate = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereNull('mname')
+                ->whereDate('bdate', $bdate)
+                ->first();
+
+                if($checkwbdate) {
+                    return $checkwbdate;
+                }
+                else {
+                    return $check;
+                }
             }
             else {
                 $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
