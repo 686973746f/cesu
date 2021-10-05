@@ -334,10 +334,18 @@ class FormsController extends Controller
                 if(!is_null($item->records->philhealth)) {
                     echo $item->records->getName().'<br>'.
                     $item->records->getAge().'/'.substr($item->records->gender,0,1).' '.date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                    $swabtype.' '.$swabdate.' '.$swabtime.'<br><br>'.
+                    $item->records->getName().'<br>'.
+                    $item->records->getAge().'/'.substr($item->records->gender,0,1).' '.date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
                     $swabtype.' '.$swabdate.' '.$swabtime.'<br><br>';
                 }
                 else {
                     echo $item->records->lname.',<br>'.
+                    $item->records->fname.' '.$item->records->lname.'<br>'.
+                    date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                    $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
+                    $swabtype.'<br><br>'.
+                    $item->records->lname.',<br>'.
                     $item->records->fname.' '.$item->records->lname.'<br>'.
                     date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
                     $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
