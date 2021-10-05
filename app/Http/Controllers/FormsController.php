@@ -323,12 +323,12 @@ class FormsController extends Controller
                 if(!is_null($item->testDateCollected2)) {
                     $swabtype = $item->testType2;
                     $swabdate = Carbon::parse($item->testDateCollected2)->format('m/d/Y');
-                    $swabtime = $item->oniTimeCollected2;
+                    $swabtime = Carbon::parse($item->oniTimeCollected2)->format('h:i A');
                 }
                 else {
                     $swabtype = $item->testType1;
                     $swabdate = Carbon::parse($item->testDateCollected1)->format('m/d/Y');
-                    $swabtime = $item->oniTimeCollected1;
+                    $swabtime = Carbon::parse($item->oniTimeCollected1)->format('h:i A');
                 }
 
                 if(!is_null($item->records->philhealth)) {
