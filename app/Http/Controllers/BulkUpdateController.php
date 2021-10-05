@@ -131,6 +131,7 @@ class BulkUpdateController extends Controller
                     $form->outcomeRecovDate = $item['dateRecovered'];
                 }
                 else if($item['outcomeCondition'] == 'Died') {
+                    $form->morbidityMonth = date('Y-m-d');
                     $form->outcomeDeathDate = $item['outcomeDeathDate'];
                     $form->deathImmeCause = $item['deathImmeCause'];
                     $form->deathAnteCause = (!is_null($item['deathAnteCause']) && $item['outcomeCondition'] == 'Died') ? $item['deathAnteCause'] : $form->deathAnteCause;
