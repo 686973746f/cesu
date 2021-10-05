@@ -140,7 +140,7 @@ class PaSwabDetails extends Model
         return Carbon::createFromTimeStamp(strtotime($idate))->diffForHumans();
     }
 
-    public static function ifDuplicateFound($lname, $fname, $mname) {
+    public static function ifDuplicateFound($lname, $fname, $mname, $bdate) {
         if(!is_null($mname)) {
             $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
             ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
@@ -153,6 +153,7 @@ class PaSwabDetails extends Model
             else {
                 $check1 = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereDate('bdate', $bdate)
                 ->first();
 
                 if($check1) {
@@ -166,13 +167,24 @@ class PaSwabDetails extends Model
         else {
             $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
             ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->whereNull('mname')
             ->first();
 
             if($check) {
                 return $check;
             }
             else {
-                return NULL;
+                $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereDate('bdate', $bdate)
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
             }
         }
     }
