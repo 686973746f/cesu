@@ -341,12 +341,12 @@ class FormsController extends Controller
                 }
                 else {
                     echo $item->records->lname.',<br>'.
-                    $item->records->fname.' '.$item->records->lname.'<br>'.
+                    $item->records->fname.' '.$item->records->mname.'<br>'.
                     date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
                     $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
                     $swabtype.'<br><br>'.
                     $item->records->lname.',<br>'.
-                    $item->records->fname.' '.$item->records->lname.'<br>'.
+                    $item->records->fname.' '.$item->records->mname.'<br>'.
                     date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
                     $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
                     $swabtype.'<br><br>';
