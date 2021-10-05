@@ -55,6 +55,18 @@ class CreatePaSwabDetailsTable extends Migration
             $table->string('natureOfWork')->nullable();
             $table->string('natureOfWorkIfOthers')->nullable();
 
+            //Occupation Details
+            $table->enum('worksInClosedSetting', ["YES","NO","UNKNOWN"])->default("NO");
+            $table->string('occupation_lotbldg')->nullable();
+            $table->string('occupation_street')->nullable();
+            $table->string('occupation_brgy')->nullable();
+            $table->string('occupation_city')->nullable();
+            $table->string('occupation_cityjson')->nullable();
+            $table->string('occupation_province')->nullable();
+            $table->string('occupation_provincejson')->nullable();
+            $table->string('occupation_mobile')->nullable();
+            $table->string('occupation_email')->nullable();
+
             $table->date('vaccinationDate1')->nullable();
             $table->string('vaccinationName1')->nullable();
             $table->tinyInteger('vaccinationNoOfDose1')->nullable();

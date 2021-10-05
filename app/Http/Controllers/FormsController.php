@@ -315,6 +315,36 @@ class FormsController extends Controller
         else if($request->submit == 'export_type1') {
             
         }
+        else if($request->submit == 'printsticker') {
+            $models = Forms::whereIn('id', $list)->get();
+
+            foreach($models as $item) {
+                if(!is_null($item->testDateCollected2)) {
+                    $swabtype = $item->testType2;
+                    $swabdate = $item->testDateCollected2;
+                    $swabtime = $item->oniTimeCollected2;
+                }
+                else {
+                    $swabtype = $item->testType1;
+                    $swabdate = $item->testDateCollected1;
+                    $swabtime = $item->oniTimeCollected1;
+                }
+
+                if(!is_null($item->records->philhealth)) {
+                    echo $item->records->getName().'<br>'.
+                    $item->records->getAge().'/'.substr($item->records->gender,0,1).' '.date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                    $swabtype.' '.$swabdate.' '.$swabtime.'<br><br>';
+                }
+                else {
+                    echo $item->records->lname.',<br>'.
+                    $item->records->fname.' '.$item->records->lname.'<br>'.
+                    date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                    $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
+                    $swabtype.'<br><br>';
+                }
+                
+            }
+        }
         else if($request->submit == 'resched') {
             $request->validate([
                 'listToPrint' => 'required',
