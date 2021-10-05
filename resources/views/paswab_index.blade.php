@@ -238,7 +238,7 @@
                             </div>
                             <hr>
                             @if($enableLockAddress == 1)
-                            <div id="addresstext">
+                            <div id="addresstext" class="d-none">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -289,7 +289,7 @@
                                 </div>
                             </div>
                             @else
-                            <div id="addresstext">
+                            <div id="addresstext" class="d-none">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -390,20 +390,25 @@
                                 </select>
                             </div>
                             <div id="occupationRow">
+                                <div class="alert alert-info" role="alert">
+                                    <strong class="text-danger">Notice:</strong> starting October 06, 2021. <strong>Name of Company/Workplace and Complete Company/Workplace Address are now required fields.</strong> This is to follow molecular laboratory requirements.
+                                </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                           <label for="occupation"><span class="text-danger font-weight-bold">*</span>{{__('paswab.occupation')}}</label>
                                           <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="occupation_name">{{__('paswab.occupation_name')}}</label>
+                                            <label for="occupation_name"><span class="text-danger font-weight-bold">*</span>{{__('paswab.occupation_name')}}</label>
                                             <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>{{__('paswab.natureOfWork')}}</label>
                                             <select class="form-control" name="natureOfWork" id="natureOfWork">
@@ -441,6 +446,119 @@
                                                 <small class="text-danger">{{$message}}</small>
                                                 @enderror
                                           </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
+                                            <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
+                                                <option value="" disabled {{(is_null(old('worksInClosedSetting'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                                <option value="YES" {{(old('worksInClosedSetting') == "YES") ? 'selected' : ''}}>Yes</option>
+                                                <option value="NO" {{(old('worksInClosedSetting') == "NO") ? 'selected' : ''}}>No</option>
+                                                <option value="UNKNOWN" {{(old('worksInClosedSetting') == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
+                                            </select>
+                                            @error('worksInClosedSetting')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="occupationaddresstext" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <input type="text" class="form-control" name="occupation_province" id="occupation_province" value="{{old('occupation_province')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="occupation_city" id="occupation_city" value="{{old('occupation_city')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <input type="text" class="form-control" name="occupation_provincejson" id="occupation_provincejson" value="{{old('occupation_provincejson')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="occupation_cityjson" id="occupation_cityjson" value="{{old('occupation_cityjson')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="soccupation_province"><span class="text-danger font-weight-bold">*</span>Province</label>
+                                            <select class="form-control" name="soccupation_province" id="soccupation_province">
+                                              <option value="" selected disabled>Choose...</option>
+                                            </select>
+                                                @error('soccupation_province')
+                                                  <small class="text-danger">{{$message}}</small>
+                                              @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="soccupation_city"><span class="text-danger font-weight-bold">*</span>City</label>
+                                            <select class="form-control" name="soccupation_city" id="soccupation_city">
+                                              <option value="" selected disabled>Choose...</option>
+                                            </select>
+                                              @error('soccupation_city')
+                                                  <small class="text-danger">{{$message}}</small>
+                                              @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="occupation_brgy"><span class="text-danger font-weight-bold">*</span>Barangay</label>
+                                            <select class="form-control" name="occupation_brgy" id="occupation_brgy">
+                                              <option value="" selected disabled>Choose...</option>
+                                            </select>
+                                                @error('occupation_brgy')
+                                                  <small class="text-danger">{{$message}}</small>
+                                              @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Lot/Building</label>
+                                            <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" style="text-transform: uppercase;">
+                                            @error('occupation_lotbldg')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Street</label>
+                                            <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" style="text-transform: uppercase;">
+                                            @error('occupation_street')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_mobile">Phone/Mobile No. <small>(Optional)</small></label>
+                                            <input type="text" class="form-control" id="occupation_mobile" name="occupation_mobile" pattern="[0-9]{11}" placeholder="0917xxxxxxx" value="{{old('occupation_mobile')}}">
+                                            @error('occupation_mobile')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_email">Email <small>(Optional)</small></label>
+                                            <input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{old('occupation_email')}}">
+                                            @error('occupation_email')
+                                                  <small class="text-danger">{{$message}}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -1140,17 +1258,16 @@
 
     <script>
         $(document).ready(function () {
-            $('#saddress_province').select2({
+            @if($enableLockAddress != 1)
+            //Patient Location Select2 Init
+            $('#saddress_province, #saddress_city, #address_brgy').select2({
 			    theme: "bootstrap",
             });
-            $('#saddress_city').select2({
-                theme: "bootstrap",
-            });
-            $('#address_brgy').select2({
-                theme: "bootstrap",
-            });
-            $('#natureOfWork').select2({
-                theme: "bootstrap",
+            @endif
+
+            //Occupation Location Select2 Init
+            $('#soccupation_province, #soccupation_city, #occupation_brgy, #natureOfWork').select2({
+			    theme: "bootstrap",
             });
         });
 
@@ -1164,14 +1281,6 @@
             setTimeout(function(){
                 $('#submitbtn').trigger('click');
             }, 500);
-        });
-
-        $('#address_houseno').keyup(function(){
-            this.value = this.value.toUpperCase();
-        });
-
-        $('#address_street').keyup(function(){
-            this.value = this.value.toUpperCase();
         });
 
         $('#verifyButton').click(function (e) { 
@@ -1223,10 +1332,11 @@
             }).trigger('change');;
         });
         
-        $('#addresstext').hide();
+        @if($enableLockAddress != 1)
         $('#saddress_city').prop('disabled', true);
 		$('#address_brgy').prop('disabled', true);
 
+        //Patient Province JSON Init
         $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
 			var sorted = data.sort(function(a, b) {
 				if (a.provDesc > b.provDesc) {
@@ -1305,24 +1415,120 @@
 				});
 			});
 		}).trigger('change');
-
-		//for Setting Default values on hidden address/json for Cavite - General Trias
+        
+        //for Setting Default values on hidden address/json for Cavite - General Trias
 		$("#address_province").val('CAVITE');
 		$("#address_provincejson").val('0421');
 		$("#address_city").val('GENERAL TRIAS');
 		$('#address_cityjson').val('042108');
+        @endif
+        
+        //Occupation Province JSON Init
+        $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
+			var sorted = data.sort(function(a, b) {
+				if (a.provDesc > b.provDesc) {
+				return 1;
+				}
+				if (a.provDesc < b.provDesc) {
+				return -1;
+				}
+				return 0;
+			});
 
+			$.each(sorted, function(key, val) {
+                $('#soccupation_province').append($('<option>', {
+					value: val.provCode,
+					text: val.provDesc,
+				}));
+			});
+        });
+
+        $('#soccupation_city').prop('disabled', true);
+		$('#occupation_brgy').prop('disabled', true);
+
+        $('#soccupation_province').change(function (e) {
+			e.preventDefault();
+			$('#soccupation_city').prop('disabled', false);
+			$('#occupation_brgy').prop('disabled', true);
+			$('#soccupation_city').prop('required', true);
+			$('#occupation_brgy').prop('required', false);
+			$('#soccupation_city').empty();
+			$("#soccupation_city").append('<option value="" selected disabled>Choose...</option>');
+			$('#occupation_brgy').empty();
+			$("#occupation_brgy").append('<option value="" selected disabled>Choose...</option>');
+			$("#occupation_province").val($('#soccupation_province option:selected').text());
+			$("#occupation_provincejson").val($('#soccupation_province').val());
+			
+			$.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
+				var sorted = data.sort(function(a, b) {
+					if (a.citymunDesc > b.citymunDesc) {
+					return 1;
+					}
+					if (a.citymunDesc < b.citymunDesc) {
+					return -1;
+					}
+					return 0;
+				});
+				$.each(sorted, function(key, val) {
+					if($('#soccupation_province').val() == val.provCode) {
+						$("#soccupation_city").append('<option value="'+val.citymunCode+'">'+val.citymunDesc+'</option>');
+					}
+				});
+			});
+		});
+
+        $('#soccupation_city').change(function (e) { 
+			e.preventDefault();
+			$('#occupation_brgy').prop('disabled', false);
+			$('#occupation_brgy').prop('required', true);
+			$('#occupation_brgy').empty();
+			$("#occupation_brgy").append('<option value="" selected disabled>Choose...</option>');
+			$("#occupation_city").val($('#soccupation_city option:selected').text());
+			$('#occupation_cityjson').val($('#soccupation_city').val());
+
+			$.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
+				var sorted = data.sort(function(a, b) {
+					if (a.brgyDesc > b.brgyDesc) {
+					return 1;
+					}
+					if (a.brgyDesc < b.brgyDesc) {
+					return -1;
+					}
+					return 0;
+				});
+				$.each(sorted, function(key, val) {
+					if($('#soccupation_city').val() == val.citymunCode) {
+						$("#occupation_brgy").append('<option value="'+val.brgyDesc.toUpperCase()+'">'+val.brgyDesc.toUpperCase()+'</option>');
+					}
+				});
+			});
+		});
+        
         $('#haveOccupation').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '1') {
                 $('#occupationRow').show();
                 $('#occupation').prop('required', true);
+                $('#occupation_name').prop('required', true);
                 $('#natureOfWork').prop('required', true);
+                $('#worksInClosedSetting').prop('required', true);
+                $('#soccupation_province').prop('required', true);
+                $('#soccupation_city').prop('required', true);
+                $('#occupation_brgy').prop('required', true);
+                $('#occupation_lotbldg').prop('required', true);
+                $('#occupation_street').prop('required', true);
             }
             else {
                 $('#occupationRow').hide();
                 $('#occupation').prop('required', false);
+                $('#occupation_name').prop('required', false);
                 $('#natureOfWork').prop('required', false);
+                $('#worksInClosedSetting').prop('required', false);
+                $('#soccupation_province').prop('required', false);
+                $('#soccupation_city').prop('required', false);
+                $('#occupation_brgy').prop('required', false);
+                $('#occupation_lotbldg').prop('required', false);
+                $('#occupation_street').prop('required', false);
             }
         }).trigger('change');
 

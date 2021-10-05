@@ -392,10 +392,7 @@ class RecordsController extends Controller
 				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
 			]);
-
-			//return redirect('/forms/'.$data->id.'/new')
-			//->with('msg', 'Patient details has been saved. You may now proceed creating CIF for the patient.')
-			//->with('type', 'success');
+			
 			return redirect()->action([RecordsController::class, 'index'])
 			->with('status', 'User information has been added successfully.')
 			->with('type', 'createRecord')
