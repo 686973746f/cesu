@@ -321,12 +321,12 @@ class FormsController extends Controller
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
                     $swabtype = $item->testType2;
-                    $swabdate = date('m/d/Y', $item->testDateCollected2);
+                    $swabdate = Carbon::parse($item->testDateCollected2)->format('m/d/Y');
                     $swabtime = $item->oniTimeCollected2;
                 }
                 else {
                     $swabtype = $item->testType1;
-                    $swabdate = date('m/d/Y', $item->testDateCollected1);
+                    $swabdate = Carbon::parse($item->testDateCollected1)->format('m/d/Y');
                     $swabtime = $item->oniTimeCollected1;
                 }
 
