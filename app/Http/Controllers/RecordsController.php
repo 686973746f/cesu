@@ -257,7 +257,7 @@ class RecordsController extends Controller
 			$philhealth_organized = null;
 		}
 
-		$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname);
+		$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
 
 		/*
 		Checking Double Entry (Old Method)
