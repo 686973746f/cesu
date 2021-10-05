@@ -391,7 +391,7 @@
                             </div>
                             <div id="occupationRow">
                                 <div class="alert alert-info" role="alert">
-                                    <strong class="text-danger">Notice:</strong> starting October 06, 2021. <strong>Name of Company/Workplace and Complete Company/Workplace Address are now required fields.</strong> This is to follow molecular laboratory requirements.
+                                    <strong class="text-danger">Notice:</strong> starting October 06, 2021. <strong>Name of Company/Workplace and Complete Company/Workplace Address are now required fields to be filled up.</strong> This is to comply with the requirements of the Molecular Laboratory.
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
