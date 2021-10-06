@@ -264,26 +264,26 @@
                           <option value="A" {{(collect(old('testingCat'))->contains("A")) ? 'selected' : ''}}>A. With Severe/Critical Symptoms</option>
                           <option value="B" {{(collect(old('testingCat'))->contains("B")) ? 'selected' : ''}}>B. With Mild Symptoms (Senior Citizens / Patients w. Comorbidity)</option>
                           <option value="C" {{(collect(old('testingCat'))->contains("C") || is_null(old('testingCat'))) ? 'selected' : ''}}>C. With Mild Symptoms Only</option>
-                          <optgroup label="D. No Symptoms but with Relevant History of Travel or Contact">
+                          <optgroup label="Category D - No Symptoms but with Relevant History of Travel or Contact">
                               <option value="D.1" {{(collect(old('testingCat'))->contains("D.1")) ? 'selected' : ''}}>D.1 Contact Traced Individuals</option>
                               <option value="D.2" {{(collect(old('testingCat'))->contains("D.2")) ? 'selected' : ''}}>D.2 Health Care Workers</option>
                               <option value="D.3" {{(collect(old('testingCat'))->contains("D.3")) ? 'selected' : ''}}>D.3 Returning Overseas Filipino</option>
                               <option value="D.4" {{(collect(old('testingCat'))->contains("D.4")) ? 'selected' : ''}}>D.4 Locally Stranded Individuals (LSI)</option>
                           </optgroup>
-                          <optgroup label="E. Frontliners (Non-Medical)">
+                          <optgroup label="Category E - Frontliners (Non-Medical)">
                               <option value="E.1" {{(collect(old('testingCat'))->contains("E.1")) ? 'selected' : ''}}>E.1 Frontliners (Non-Medical) w/ High or Direct Exposure to COVID-19</option>
                               <option value="E.2" {{(collect(old('testingCat'))->contains("E.2")) ? 'selected' : ''}}>E.1 Frontliners (Non-Medical) living/working in Special Concern Areas</option>
                           </optgroup>
                           <option value="F" {{(collect(old('testingCat'))->contains("F")) ? 'selected' : ''}}>F. Other Vulnerable Patients and Living in Confined Spaces (e.g. Pregnant, Dialysis Patient, HIV/AIDS, Chemotherapy, For Operation, Jail Admission)</option>
                           <option value="G" {{(collect(old('testingCat'))->contains("G")) ? 'selected' : ''}}>G. Targeted Testing (area w/ Clustering, Localized Lockdown)</option>
-                          <optgroup label="H. Frontliners in Tourist Zones">
+                          <optgroup label="Category H - Frontliners in Tourist Zones">
                               <option value="H.1" {{(collect(old('testingCat'))->contains("H.1")) ? 'selected' : ''}}>H.1 Workers/Employees in the Hospitality and Tourism Sectors</option>
                               <option value="H.2" {{(collect(old('testingCat'))->contains("H.2")) ? 'selected' : ''}}>H.2 Travelers</option>
                           </optgroup>
                           <option value="I" {{(collect(old('testingCat'))->contains("I")) ? 'selected' : ''}}>I. Employees of Manufacturing Companies and Public Service Providers Registered in Economic Zones</option>
-                          <optgroup label="J. Economy Workers">
-                              <option value="J.1" {{(collect(old('testingCat'))->contains("J.1")) ? 'selected' : ''}}>Frontline and Economic Priority Workers</option>
-                              <option value="J.2" {{(collect(old('testingCat'))->contains("J.2")) ? 'selected' : ''}}>Other Employee not Covered in J.1 Category but required to undergo testing every quarter</option>
+                          <optgroup label="Category J - Economy Workers">
+                              <option value="J.1" {{(collect(old('testingCat'))->contains("J.1")) ? 'selected' : ''}}>J.1 Frontline and Economic Priority Workers</option>
+                              <option value="J.2" {{(collect(old('testingCat'))->contains("J.2")) ? 'selected' : ''}}>J.2 Other Employee not Covered in J.1 Category but required to undergo testing every quarter</option>
                           </optgroup>
                           <option></option>
                         </select>
