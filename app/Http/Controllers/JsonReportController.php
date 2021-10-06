@@ -548,20 +548,29 @@ class JsonReportController extends Controller
         $arr = collect();
 
         $group = Records::select('natureOfWork')->distinct('natureOfWork')->get();
+        $group = $group->pluck('natureOfWork');
 
-        /*
-        $group = Records::with('form')
-        ->whereHas('form', function ($q) {
-            $q->where('status', 'approved')
+        foreach($group as $data) {
+            $count = Forms::with('records')
+            ->whereHas('records', function ($q) use ($data) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.natureOfWork', $data);
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0);
-        })
-        ->where('address_province', 'CAVITE')
-        ->where('address_city', 'GENERAL TRIAS')
-        ->get();
-        */
+            ->where('reinfected', 0)
+            ->count();
+            
+            if($count != 0) {
+                $arr->push([
+                    'title' => !is_null($data) ? $data : 'NON-WORKING',
+                    'count' => $count,
+                ]);
+            }
+        }
 
-        dd($group);
+        return response()->json($arr);
     }
 }
