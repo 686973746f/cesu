@@ -18,8 +18,8 @@ class JsonReportController extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('reinfected', 0)
         ->count();
 
@@ -31,6 +31,16 @@ class JsonReportController extends Controller
         ->where('status', 'approved')
         ->where('outcomeCondition', 'Recovered')
         ->where('reinfected', 0)
+        ->count();
+
+        //Bilangin pati current reinfection sa total ng recovered
+        $totalRecovered += Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('reinfected', 1)
         ->count();
         
         $totalDeaths = Forms::with('records')
@@ -48,10 +58,9 @@ class JsonReportController extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->where(function ($q) {
-            $q->whereDate('morbidityMonth', date('Y-m-d'))
-            ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')]);
-        })->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', date('Y-m-d'))
+        ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
+        ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->where('reinfected', 0)
         ->count();
@@ -62,10 +71,9 @@ class JsonReportController extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->where(function ($q) {
-            $q->whereDate('morbidityMonth', date('Y-m-d'))
-            ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')));
-        })->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', date('Y-m-d'))
+        ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
+        ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->where('reinfected', 0)
         ->count();
@@ -76,6 +84,7 @@ class JsonReportController extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->whereDate('morbidityMonth', '>=', date('Y-m-d', strtotime('-10 Days')))
         ->whereDate('outcomeRecovDate', date('Y-m-d'))
         ->where('outcomeCondition', 'Recovered')
         ->where('reinfected', 0)
@@ -87,8 +96,8 @@ class JsonReportController extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', date('Y-m-d'))
-        ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-10 Days')))
+        ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
+        ->whereDate('outcomeRecovDate', date('Y-m-d'))
         ->where('outcomeCondition', 'Recovered')
         ->where('reinfected', 0)
         ->count();
@@ -104,8 +113,8 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Died');
         })->orWhere(function ($q) {
             $q->where('status', 'approved')
-            ->whereDate('morbidityMonth', '<', date('Y-m-d'))
-            ->where('outcomeDeathDate', date('Y-m-d'));
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->where('outcomeCondition', 'Died');
         })->count();
 
         $totalCasesCount = Forms::with('records')
@@ -201,7 +210,7 @@ class JsonReportController extends Controller
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
-            ->where('dispoType', 2)
+            ->where('dispoType', 6)
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
@@ -222,7 +231,7 @@ class JsonReportController extends Controller
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
-            ->whereIn('dispoType', [1,5])
+            ->whereIn('dispoType', [1,2,5])
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
@@ -241,14 +250,6 @@ class JsonReportController extends Controller
         ->orderBy('brgyName', 'ASC')->get();
 
         foreach($list as $item) {
-            /*
-            $confirmedCases = Forms::with('records')
-            ->whereHas('records', function($q) use ($item) {
-                $q->where('address_brgy', $item->brgyName);
-            })->where('status', 'approved')
-            ->where('caseClassification', 'Confirmed')->count();
-            */
-
             $activeCases = Forms::with('records')
             ->whereHas('records', function($q) use ($item) {
                 $q->where('address_brgy', $item->brgyName);
