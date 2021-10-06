@@ -136,6 +136,10 @@ class PaSwabDetails extends Model
         }
     }
 
+    public function getAgeInt() {
+        return Carbon::parse($this->attributes['bdate'])->age;
+    }
+
     public function getDefaultInterviewerName() {
         $referralCode = PaSwabLinks::where('code', $this->linkCode)->first();
         $interviewer = Interviewers::where('id', $referralCode->interviewer_id)->first();

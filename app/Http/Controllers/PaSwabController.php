@@ -225,6 +225,25 @@ class PaSwabController extends Controller
                         $oniTimeFinal = NULL;
                     }
 
+                    //Auto Change Testing Category/Subgroup Base on the patient data
+                    $testCat = [];
+                    if(!is_null($data->SAS)) {
+                        array_push($testCat, "C");
+                    }
+                    else {
+                        array_push($testCat, "G");
+                    }
+
+                    if($data->getAgeInt() >= 60) {
+                        array_push($testCat, "B");
+                    }
+                    if($data->pType == 'CLOSE CONTACT') {
+                        array_push($testCat, "D.1");
+                    }
+                    if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
+                        array_push($testCat, "F");
+                    }
+
                     $request->user()->form()->create([
                         'morbidityMonth' => date('Y-m-d'),
                         'dateReported' => date('Y-m-d'),
@@ -245,7 +264,7 @@ class PaSwabController extends Controller
                         'ecOthersRemarks' => NULL,
                         'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                         'isForHospitalization' => $data->isForHospitalization,
-                        'testingCat' => 'C',
+                        'testingCat' => implode(",", $testCat),
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                         'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                         'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
@@ -561,6 +580,25 @@ class PaSwabController extends Controller
 
                         $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
                     }
+                    
+                    //Auto Change Testing Category/Subgroup Base on the patient data
+                    $testCat = [];
+                    if(!is_null($data->SAS)) {
+                        array_push($testCat, "C");
+                    }
+                    else {
+                        array_push($testCat, "G");
+                    }
+
+                    if($data->getAgeInt() >= 60) {
+                        array_push($testCat, "B");
+                    }
+                    if($data->pType == 'CLOSE CONTACT') {
+                        array_push($testCat, "D.1");
+                    }
+                    if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
+                        array_push($testCat, "F");
+                    }
 
                     $request->user()->form()->create([
                         'morbidityMonth' => date('Y-m-d'),
@@ -582,7 +620,7 @@ class PaSwabController extends Controller
                         'ecOthersRemarks' => NULL,
                         'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                         'isForHospitalization' => $data->isForHospitalization,
-                        'testingCat' => 'C',
+                        'testingCat' => implode(",", $testCat),
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                         'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                         'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
@@ -1264,6 +1302,25 @@ class PaSwabController extends Controller
                 $oniTimeFinal = NULL;
             }
 
+            //Auto Change Testing Category/Subgroup Base on the patient data
+            $testCat = [];
+            if(!is_null($data->SAS)) {
+                array_push($testCat, "C");
+            }
+            else {
+                array_push($testCat, "G");
+            }
+
+            if($data->getAgeInt() >= 60) {
+                array_push($testCat, "B");
+            }
+            if($data->pType == 'CLOSE CONTACT') {
+                array_push($testCat, "D.1");
+            }
+            if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
+                array_push($testCat, "F");
+            }
+
             $request->user()->form()->create([
                 'morbidityMonth' => date('Y-m-d'),
                 'dateReported' => date('Y-m-d'),
@@ -1284,7 +1341,7 @@ class PaSwabController extends Controller
                 'ecOthersRemarks' => NULL,
                 'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                 'isForHospitalization' => $data->isForHospitalization,
-                'testingCat' => 'C',
+                'testingCat' => implode(",", $testCat),
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                 'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                 'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
@@ -1625,6 +1682,25 @@ class PaSwabController extends Controller
                 $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
             }
 
+            //Auto Change Testing Category/Subgroup Base on the patient data
+            $testCat = [];
+            if(!is_null($data->SAS)) {
+                array_push($testCat, "C");
+            }
+            else {
+                array_push($testCat, "G");
+            }
+
+            if($data->getAgeInt() >= 60) {
+                array_push($testCat, "B");
+            }
+            if($data->pType == 'CLOSE CONTACT') {
+                array_push($testCat, "D.1");
+            }
+            if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
+                array_push($testCat, "F");
+            }
+
             $request->user()->form()->create([
                 'morbidityMonth' => date('Y-m-d'),
                 'dateReported' => date('Y-m-d'),
@@ -1645,7 +1721,7 @@ class PaSwabController extends Controller
                 'ecOthersRemarks' => NULL,
                 'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                 'isForHospitalization' => $data->isForHospitalization,
-                'testingCat' => 'C',
+                'testingCat' => implode(",", $testCat),
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                 'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                 'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
