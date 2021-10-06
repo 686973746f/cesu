@@ -563,14 +563,12 @@ class JsonReportController extends Controller
             ->where('reinfected', 0)
             ->count();
             
-            if($count != 0) {
-                $arr->push([
-                    'title' => !is_null($data) ? $data : 'NON-WORKING',
-                    'count' => $count,
-                ]);
-            }
+            $arr->push([
+                'title' => !is_null($data) ? $data : 'NON-WORKING',
+                'count' => $count,
+            ]);
         }
-
+        
         return response()->json($arr);
     }
 }
