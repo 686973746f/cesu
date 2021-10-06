@@ -243,49 +243,78 @@ class JsonReportController extends Controller
     }
 
     public function brgyCases() {
-        $arr = [];
+        $brgyArray = collect();
 
-        $list = Brgy::where('city_id', 1)
-        ->where('displayInList', '1')
-        ->orderBy('brgyName', 'ASC')->get();
+        $brgyList = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
 
-        foreach($list as $item) {
-            $activeCases = Forms::with('records')
-            ->whereHas('records', function($q) use ($item) {
-                $q->where('address_brgy', $item->brgyName);
-            })->where('status', 'approved')
-            ->where('outcomeCondition', 'Active')
+        foreach($brgyList as $brgy) {
+            $brgyConfirmedCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
+            ->count();
+
+            $brgyActiveCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
             ->count();
 
-            $deaths = Forms::with('records')
-            ->whereHas('records', function($q) use ($item) {
-                $q->where('address_brgy', $item->brgyName);
-            })->where('status', 'approved')
+            $brgyDeathCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
             ->where('outcomeCondition', 'Died')
             ->count();
 
-            $recovered = Forms::with('records')
-            ->whereHas('records', function($q) use ($item) {
-                $q->where('address_brgy', $item->brgyName);
-            })->where('status', 'approved')
+            $brgyRecoveryCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
             ->where('reinfected', 0)
             ->count();
 
-            $confirmedCases = ($activeCases + $deaths + $recovered);
+            //Reinfection Count
+            $brgyRecoveryCount += Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('reinfected', 1)
+            ->count();
 
-            array_push($arr, [
-                'brgyName' => $item->brgyName,
-                'numOfConfirmedCases' => $confirmedCases,
-                'numOfActiveCases' => $activeCases,
-                'numOfDeaths' => $deaths,
-                'numOfRecoveries' => $recovered,
+            $brgyArray->push([
+                'brgyName' => $brgy->brgyName,
+                'numOfConfirmedCases' => $brgyConfirmedCount,
+                'numOfActiveCases' => $brgyActiveCount,
+                'numOfDeaths' => $brgyDeathCount,
+                'numOfRecoveries' => $brgyRecoveryCount,
             ]);
         }
         
-        return response()->json($arr);
+        return response()->json($brgyArray);
     }
 
     public function genderBreakdown() {
