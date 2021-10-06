@@ -39,7 +39,7 @@ class PaSwabValidationRequest extends FormRequest
             'lmp' => ($this->isPregnant == 1) ? 'required|date|before_or_equal:today' : 'nullable',
             'cs' => 'required',
             'nationality' => 'required',
-            'mobile' => 'required|numeric|digits:11|starts_with:09',
+            'mobile' => 'required|numeric|digits:11|starts_with:09|not_in:09190664324',
             'philhealth' => 'nullable|regex:/^([0-9-]+)$/',
             'phoneno' => 'nullable|numeric',
             'email' => 'nullable|email',

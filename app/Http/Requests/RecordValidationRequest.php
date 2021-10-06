@@ -31,7 +31,7 @@ class RecordValidationRequest extends FormRequest
 			'cs' => 'required',
 			'nationality' => 'required',
 			'bdate' => "required|date|before:tomorrow",
-			'mobile' => 'required|numeric|digits:11|starts_with:09',
+			'mobile' => 'required|numeric|digits:11|starts_with:09|not_in:09190664324',
 			'phoneno' => 'nullable|numeric',
 			'email' => 'nullable|email',
 			'philhealth' => 'nullable|regex:/^([0-9-]+)$/',
