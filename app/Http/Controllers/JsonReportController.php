@@ -465,4 +465,81 @@ class JsonReportController extends Controller
 
         return response()->json($arr);
     }
+
+    public function ageDistribution() {
+        $arr = collect();
+
+        //Fetch Current Active Cases Only
+        function recordsGenerator() {
+            foreach(Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0)
+            ->cursor() as $user) {
+                yield $user;
+            }
+        }
+
+        $activelist = recordsGenerator();
+
+        $ageBracket1 = 0;
+        $ageBracket2 = 0;
+        $ageBracket3 = 0;
+        $ageBracket4 = 0;
+        $ageBracket5 = 0;
+        $ageBracket6 = 0;
+
+        foreach($activelist as $item) {
+            if($item->records->getAgeInt() >= 0 && $item->records->getAgeInt() <= 17) {
+                $ageBracket1++;
+            }
+            else if($item->records->getAgeInt() >= 18 && $item->records->getAgeInt() <= 25) {
+                $ageBracket2++;
+            }
+            else if($item->records->getAgeInt() >= 26 && $item->records->getAgeInt() <= 35) {
+                $ageBracket3++;
+            }
+            else if($item->records->getAgeInt() >= 36 && $item->records->getAgeInt() <= 45) {
+                $ageBracket4++;
+            }
+            else if($item->records->getAgeInt() >= 46 && $item->records->getAgeInt() <= 59) {
+                $ageBracket5++;
+            }
+            else if($item->records->getAgeInt() >= 60) {
+                $ageBracket6++;
+            }
+        }
+
+        $arr->push([
+            'bracket' => '0 YR - 17 YRS',
+            'count' => $ageBracket1,
+        ]);
+        $arr->push([
+            'bracket' => '18 YRS - 25 YRS',
+            'count' => $ageBracket2,
+        ]);
+        $arr->push([
+            'bracket' => '26 YRS - 35 YRS',
+            'count' => $ageBracket3,
+        ]);
+        $arr->push([
+            'bracket' => '36 YRS - 45 YRS',
+            'count' => $ageBracket4,
+        ]);
+        $arr->push([
+            'bracket' => '46 YRS - 59 YRS',
+            'count' => $ageBracket5,
+        ]);
+        $arr->push([
+            'bracket' => '60 YRS - UP',
+            'count' => $ageBracket6,
+        ]);
+
+        return response()->json($arr);
+    }
 }
