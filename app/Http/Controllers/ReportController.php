@@ -545,7 +545,7 @@ class ReportController extends Controller
                 'MUNICIPALITY/CITY' => $form->records->permaaddress_city,
                 'BARANGAY' => $form->records->permaaddress_brgy,
                 'HOUSE N. AND STREET OR NEAREST LANDMARK' => $form->records->permaaddress_houseno.', '.$form->records->permaaddress_street,
-                'CONTACT N.' => $form->records->mobile,
+                'CONTACT N.' => ($form->records->mobile != '09190664324') ? $form->records->mobile : 'N/A',
                 'OCCUPATION' => (!is_null($form->records->occupation)) ? $form->records->occupation : "N/A",
                 'HEALTHCARE WORKER(Y/N)' => ($form->isHealthCareWorker == 1) ? 'Y' : 'N',
                 'PLACE OF WORK' => ($form->isHealthCareWorker == 1) ? $form->healthCareCompanyLocation : 'N/A',
