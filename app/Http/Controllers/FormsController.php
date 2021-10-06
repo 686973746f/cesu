@@ -742,6 +742,9 @@ class FormsController extends Controller
         if(!in_array("G", $testCat) && $request->healthStatus == 'Asymptomatic') {
             array_push($testCat, "G");
         }
+        if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
+            array_push($testCat, "C");
+        }
         if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
             array_push($testCat, "B");
         }
@@ -1281,6 +1284,9 @@ class FormsController extends Controller
         }
         if(!in_array("G", $testCat) && $request->healthStatus == 'Asymptomatic') {
             array_push($testCat, "G");
+        }
+        if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
+            array_push($testCat, "C");
         }
         if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
             array_push($testCat, "B");
