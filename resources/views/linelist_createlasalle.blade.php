@@ -168,7 +168,6 @@
 
        var newRowContent = $('.trclone');
        var n = 1;
-       var tens = 1;
        var hour = 14; //starts at 2 PM
        var min = 0;
        var minstr = '';
@@ -178,7 +177,6 @@
        $('#remove').click(function (e) { 
            e.preventDefault();
            n--;
-           tens = n;
            $('#tbl tr:last').remove();
            
            if(n == 1) {
@@ -192,7 +190,6 @@
             e.preventDefault();
             for(i=1; i <= $('#rowsToAdd').val(); i++) {
                 n++;
-                tens++;
 
                 min = min + 2;
 
@@ -211,7 +208,7 @@
                 $('.patient').select2("destroy");
                 
                 var clone = $(newRowContent).clone();
-                $(clone).find('#specNo').val(tens);
+                $(clone).find('#specNo').val(n);
                 $(clone).find('.patient').val();
                 $(clone).find('#timeCollected').val(hour+ ':' + minstr);
                 $(clone).appendTo($('#tbl tbody'));
@@ -235,10 +232,6 @@
                         cache: true
                     }
                 });
-                
-                if(tens == 10) {
-                    tens = 0;
-                }
             }
             
             if(n != 1) {

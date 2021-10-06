@@ -126,7 +126,7 @@
                     <button type="button" class="btn btn-primary my-3" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
                     <button type="button" class="btn btn-primary my-3" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
                     <button type="submit" class="btn btn-primary my-3" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
-                    <button type="submit" class="btn btn-primary my-3" id="exportBtn" name="submit" value="printsticker"><i class="fas fa-file-csv mr-2"></i>Print as Sticker Text</button>
+                    <button type="submit" class="btn btn-primary my-3" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>Print as Sticker Text</button>
                     <button type="submit" class="btn btn-primary my-3" id="exportBtnExp" name="submit" value="export_type1"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Experimental Mode)</button>
                 </div>
                 <div class="table-responsive">
@@ -366,6 +366,7 @@
     $('#changeTypeBtn').prop('disabled', true);
     $('#reschedBtn').prop('disabled', true);
     $('#exportBtn').prop('disabled', true);
+    $('#exportBtnStk').prop('disabled', true);
     $('#exportBtnExp').prop('disabled', true);
 
     @if(session('modalmsg'))
@@ -440,12 +441,14 @@
             $('#changeTypeBtn').prop('disabled', false);
             $('#reschedBtn').prop('disabled', false);
             $('#exportBtn').prop("disabled", false);
+            $('#exportBtnStk').prop("disabled", false);
             $('#exportBtnExp').prop('disabled', false);
         } else {        
             if ($('.checks').filter(':checked').length < 1 || $('#select_all').prop('checked') == false) {
                 $('#changeTypeBtn').prop('disabled', true);
                 $('#reschedBtn').prop('disabled', true);
                 $('#exportBtn').attr('disabled',true);
+                $('#exportBtnStk').prop("disabled", true);
                 $('#exportBtnExp').prop('disabled', true);
             }
         }
