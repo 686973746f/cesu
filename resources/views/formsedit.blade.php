@@ -832,10 +832,12 @@
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <select class="form-control" name="caseClassification" id="caseClassification" required>
+                                                    @if($records->caseClassification != 'Confirmed')
                                                     <option value="Probable" {{(old('caseClassification', $records->caseClassification) == 'Probable') ? 'selected' : ''}}>Probable</option>
                                                     <option value="Suspect" {{(old('caseClassification', $records->caseClassification) == 'Suspect') ? 'selected' : ''}}>Suspect</option>
-                                                    <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
                                                     <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
+                                                    @endif
+                                                    <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
                                                 </select>
                                             </div>
                                             <div id="askIfReinfected">
