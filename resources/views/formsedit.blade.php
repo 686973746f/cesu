@@ -308,40 +308,37 @@
                             </div>
                         </div>
                     </div>
-                    <div><label for=""><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup <i>(Check all that apply)</i></label></div>
-                    <div class="form-check form-check-inline testingCatOptions">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="testingCat[]" id="testingCat_A" value="A" required {{(in_array("A", explode(',', $records->testingCat))) ? 'checked' : ''}}> A
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_B" value="B" required {{(in_array("B", explode(',', $records->testingCat))) ? 'checked' : ''}}> B
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_C" value="C" required {{(in_array("C", explode(',', $records->testingCat))) ? 'checked' : ''}}> C
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_D" value="D" required {{(in_array("D", explode(',', $records->testingCat))) ? 'checked' : ''}}> D
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_E" value="E" required {{(in_array("E", explode(',', $records->testingCat))) ? 'checked' : ''}}> E
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_F" value="F" required {{(in_array("F", explode(',', $records->testingCat))) ? 'checked' : ''}}> F
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_G" value="G" required {{(in_array("G", explode(',', $records->testingCat))) ? 'checked' : ''}}> G
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_H" value="H" required {{(in_array("H", explode(',', $records->testingCat))) ? 'checked' : ''}}> H
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_I" value="I" required {{(in_array("I", explode(',', $records->testingCat))) ? 'checked' : ''}}> I
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="checkbox" name="testingCat[]" id="testingCat_J" value="J" required {{(in_array("J", explode(',', $records->testingCat))) ? 'checked' : ''}}> J
-                        </label>
+                    <div class="form-group">
+                      <label for="testingCat"><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup <i>(Select all that apply)</i></label>
+                      <select class="form-control" name="testingCat[]" id="testingCat" required multiple>
+                        <option value="A" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('A')) ? 'selected' : ''}}>A. With Severe/Critical Symptoms</option>
+                        <option value="B" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('B')) ? 'selected' : ''}}>B. With Mild Symptoms (Senior Citizens / Patients w. Comorbidity)</option>
+                        <option value="C" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('C')) ? 'selected' : ''}}>C. With Mild Symptoms Only</option>
+                        <optgroup label="D. No Symptoms but with Relevant History of Travel or Contact">
+                            <option value="D.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('D.1')) ? 'selected' : ''}}>D.1 Contact Traced Individuals</option>
+                            <option value="D.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('D.2')) ? 'selected' : ''}}>D.2 Health Care Workers</option>
+                            <option value="D.3" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('D.3')) ? 'selected' : ''}}>D.3 Returning Overseas Filipino</option>
+                            <option value="D.4" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('D.4')) ? 'selected' : ''}}>D.4 Locally Stranded Individuals (LSI)</option>
+                        </optgroup>
+                        <optgroup label="E. Frontliners (Non-Medical)">
+                            <option value="E.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('E.1')) ? 'selected' : ''}}>E.1 Frontliners (Non-Medical) w/ High or Direct Exposure to COVID-19</option>
+                            <option value="E.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('E.2')) ? 'selected' : ''}}>E.1 Frontliners (Non-Medical) living/working in Special Concern Areas</option>
+                        </optgroup>
+                        <option value="F" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('F')) ? 'selected' : ''}}>F. Other Vulnerable Patients and Living in Confined Spaces (e.g. Pregnant, Dialysis Patient, HIV/AIDS, Chemotherapy, For Operation, Jail Admission)</option>
+                        <option value="G" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('G')) ? 'selected' : ''}}>G. Targeted Testing (area w/ Clustering, Localized Lockdown)</option>
+                        <optgroup label="H. Frontliners in Tourist Zones">
+                            <option value="H.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('H.1')) ? 'selected' : ''}}>H.1 Workers/Employees in the Hospitality and Tourism Sectors</option>
+                            <option value="H.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('H.2')) ? 'selected' : ''}}>H.2 Travelers</option>
+                        </optgroup>
+                        <option value="I" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('I')) ? 'selected' : ''}}>I. Employees of Manufacturing Companies and Public Service Providers Registered in Economic Zones</option>
+                        <optgroup label="J. Economy Workers">
+                            <option value="J.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('J.1')) ? 'selected' : ''}}>Frontline and Economic Priority Workers</option>
+                            <option value="J.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('J.2')) ? 'selected' : ''}}>Other Employee not Covered in J.1 Category but required to undergo testing every quarter</option>
+                        </optgroup>
+                        <option></option>
+                      </select>
+                      <small class="text-muted">Refer to Appendix 2 for more details (Button in top-right corner of this page)</small>
                     </div>
-                    
                     <div class="card mt-3">
                         <div class="card-header font-weight-bold">Part 1. Patient Information</div>
                         <div class="card-body">
@@ -2693,6 +2690,10 @@
             @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
             @endif
+            
+            $('#testingCat').select2({
+                theme: "bootstrap",
+            });
 
             $('#informantName').keydown(function (e) { 
                 if($(this).val().length <= 0 || $(this).val() == "") {
@@ -2786,17 +2787,6 @@
 
             $(function(){
                 var requiredCheckboxes = $('.exCaseList :checkbox[required]');
-                requiredCheckboxes.change(function(){
-                    if(requiredCheckboxes.is(':checked')) {
-                        requiredCheckboxes.removeAttr('required');
-                    } else {
-                        requiredCheckboxes.attr('required', 'required');
-                    }
-                }).trigger('change');
-            });
-
-            $(function(){
-                var requiredCheckboxes = $('.testingCatOptions :checkbox[required]');
                 requiredCheckboxes.change(function(){
                     if(requiredCheckboxes.is(':checked')) {
                         requiredCheckboxes.removeAttr('required');
