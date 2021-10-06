@@ -835,9 +835,11 @@
                                                     @if($records->caseClassification != 'Confirmed')
                                                     <option value="Probable" {{(old('caseClassification', $records->caseClassification) == 'Probable') ? 'selected' : ''}}>Probable</option>
                                                     <option value="Suspect" {{(old('caseClassification', $records->caseClassification) == 'Suspect') ? 'selected' : ''}}>Suspect</option>
-                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
                                                     @endif
                                                     <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
+                                                    @if($records->caseClassification != 'Confirmed')
+                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
+                                                    @endif
                                                 </select>
                                             </div>
                                             <div id="askIfReinfected">
