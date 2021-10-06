@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brgy;
 use App\Models\Forms;
+use App\Models\Records;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
@@ -541,5 +542,26 @@ class JsonReportController extends Controller
         ]);
 
         return response()->json($arr);
+    }
+
+    public function workDistribution() {
+        $arr = collect();
+
+        $group = Records::select('natureOfWork')->distinct('natureOfWork')->get();
+
+        /*
+        $group = Records::with('form')
+        ->whereHas('form', function ($q) {
+            $q->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0);
+        })
+        ->where('address_province', 'CAVITE')
+        ->where('address_city', 'GENERAL TRIAS')
+        ->get();
+        */
+
+        dd($group);
     }
 }
