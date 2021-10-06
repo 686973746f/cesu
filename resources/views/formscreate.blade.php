@@ -1534,7 +1534,7 @@
                                         <option value="Recovered" {{(old('outcomeCondition') == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition') == 'Died') ? 'selected' : ''}}>Died</option>
                                       </select>
-                                      <small class="text-danger">Note: When selecting the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case".</small>
+                                      <small class="text-danger">Note: When selecting the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case" and this CIF will be locked for editing.</small>
                                     </div>
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">
