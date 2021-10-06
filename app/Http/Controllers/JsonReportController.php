@@ -250,6 +250,11 @@ class JsonReportController extends Controller
         ->orderBy('brgyName', 'asc')
         ->get();
 
+        $totalConfirmed = 0;
+        $totalActive = 0;
+        $totalDeaths = 0;
+        $totalRecoveries = 0;
+
         foreach($brgyList as $brgy) {
             $brgyConfirmedCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($brgy) {
@@ -304,6 +309,11 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('reinfected', 1)
             ->count();
+            
+            $totalConfirmed += $brgyConfirmedCount;
+            $totalActive += $brgyActiveCount;
+            $totalDeaths += $brgyDeathCount;
+            $totalRecoveries += $brgyRecoveryCount;
 
             $brgyArray->push([
                 'brgyName' => $brgy->brgyName,
@@ -313,6 +323,14 @@ class JsonReportController extends Controller
                 'numOfRecoveries' => $brgyRecoveryCount,
             ]);
         }
+
+        $brgyArray->push([
+            'brgyName' => 'TOTAL',
+            'numOfConfirmedCases' => $totalConfirmed,
+            'numOfActiveCases' => $totalActive,
+            'numOfDeaths' => $totalDeaths,
+            'numOfRecoveries' => $totalRecoveries,
+        ]);
         
         return response()->json($brgyArray);
     }
