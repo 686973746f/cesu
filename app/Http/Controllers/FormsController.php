@@ -734,6 +734,24 @@ class FormsController extends Controller
             $caseClassi = 'Confirmed';
         }
 
+        //Auto Change Testing Category/Subgroup Base on the patient data
+        $testCat = $request->testingCat;
+        if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
+            array_push($testCat, "A");
+        }
+        if(!in_array("G", $testCat) && $request->healthStatus == 'Asymptomatic') {
+            array_push($testCat, "G");
+        }
+        if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
+            array_push($testCat, "B");
+        }
+        if(!in_array("D.1", $testCat) && $request->pType == 'CLOSE CONTACT') {
+            array_push($testCat, "D.1");
+        }
+        if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->isPregnant == 1) {
+            array_push($testCat, "F");
+        }
+
         if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
             return back()
             ->withInput()
@@ -761,7 +779,7 @@ class FormsController extends Controller
                 'ecOthersRemarks' => $request->ecOthersRemarks,
                 'pType' => $request->pType,
                 'isForHospitalization' => $request->isForHospitalization,
-                'testingCat' => implode(",",$request->testingCat),
+                'testingCat' => implode(",", $testCat),
                 'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
                 'dateOfFirstConsult' => $request->dateOfFirstConsult,
                 'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
@@ -1256,6 +1274,24 @@ class FormsController extends Controller
             $request->morbidityMonth = date('Y-m-d');
         }
 
+        //Auto Change Testing Category/Subgroup Base on the patient data
+        $testCat = $request->testingCat;
+        if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
+            array_push($testCat, "A");
+        }
+        if(!in_array("G", $testCat) && $request->healthStatus == 'Asymptomatic') {
+            array_push($testCat, "G");
+        }
+        if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
+            array_push($testCat, "B");
+        }
+        if(!in_array("D.1", $testCat) && $request->pType == 'CLOSE CONTACT') {
+            array_push($testCat, "D.1");
+        }
+        if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->isPregnant == 1) {
+            array_push($testCat, "F");
+        }
+
         if($proceed == 1) {
             if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -1286,7 +1322,7 @@ class FormsController extends Controller
                     'ecOthersRemarks' => $request->ecOthersRemarks,
                     'pType' => $request->pType,
                     'isForHospitalization' => $request->isForHospitalization,
-                    'testingCat' => implode(",",$request->testingCat),
+                    'testingCat' => implode(",", $testCat),
                     'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
                     'dateOfFirstConsult' => $request->dateOfFirstConsult,
                     'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,

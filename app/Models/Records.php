@@ -78,6 +78,10 @@ class Records extends Model
         }
     }
 
+    public function getAgeInt() {
+        return Carbon::parse($this->attributes['bdate'])->age;
+    }
+
     public function getEditedBy() {
         if(!is_null($this->updated_by)) {
             $u = User::find($this->updated_by);

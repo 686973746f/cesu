@@ -325,7 +325,7 @@
                             <option value="E.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('E.2')) ? 'selected' : ''}}>E.1 Frontliners (Non-Medical) living/working in Special Concern Areas</option>
                         </optgroup>
                         <option value="F" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('F')) ? 'selected' : ''}}>F. Other Vulnerable Patients and Living in Confined Spaces (e.g. Pregnant, Dialysis Patient, HIV/AIDS, Chemotherapy, For Operation, Jail Admission)</option>
-                        <option value="G" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('G')) ? 'selected' : ''}}>G. Targeted Testing (area w/ Clustering, Localized Lockdown)</option>
+                        <option value="G" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('G')) ? 'selected' : ''}}>G. Residents, occupants, or workes in a localized area with an active COVID-19 cluster</option>
                         <optgroup label="Category H - Frontliners in Tourist Zones">
                             <option value="H.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('H.1')) ? 'selected' : ''}}>H.1 Workers/Employees in the Hospitality and Tourism Sectors</option>
                             <option value="H.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('H.2')) ? 'selected' : ''}}>H.2 Travelers</option>
