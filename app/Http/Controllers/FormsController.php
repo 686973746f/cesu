@@ -66,12 +66,6 @@ class FormsController extends Controller
                     ->orderBy('created_at', 'desc')->get();
                 }
             }
-            else if(request()->input('view') == 2) {
-
-            }
-            else if(request()->input('view') == 3) {
-
-            }
         }
         else {
             if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
@@ -105,6 +99,7 @@ class FormsController extends Controller
                     $q->where('testDateCollected1', date('Y-m-d'))
                     ->orWhere('testDateCollected2', date('Y-m-d'));
                 })
+                ->whereIn('caseClassification', ['Suspect', 'Probable'])
                 ->orderBy('created_at', 'desc')->get();
             }
         }
