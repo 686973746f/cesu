@@ -305,12 +305,41 @@ class JsonReportController extends Controller
             ->where('reinfected', 1)
             ->count();
 
+            $brgySuspectedCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where(function ($q) {
+                $q->where('isPresentOnSwabDay', 0)
+                ->orwhereNull('isPresentOnSwabDay');
+            })
+            ->whereIn('caseClassification', ['Suspect'])
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
+            $brgyProbableCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('isPresentOnSwabDay', 1)
+            ->where('caseClassification', 'Probable')
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
             $brgyArray->push([
                 'brgyName' => $brgy->brgyName,
                 'numOfConfirmedCases' => $brgyConfirmedCount,
                 'numOfActiveCases' => $brgyActiveCount,
                 'numOfDeaths' => $brgyDeathCount,
                 'numOfRecoveries' => $brgyRecoveryCount,
+                'numOfSuspected' => $brgySuspectedCount,
+                'numOfProbable' => $brgyProbableCount,
             ]);
         }
         
