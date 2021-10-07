@@ -231,13 +231,13 @@ class PaSwabController extends Controller
                         array_push($testCat, "C");
                     }
                     else {
-                        array_push($testCat, "G");
+                        array_push($testCat, "D.1");
                     }
 
                     if($data->getAgeInt() >= 60) {
                         array_push($testCat, "B");
                     }
-                    if($data->pType == 'CLOSE CONTACT') {
+                    if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                         array_push($testCat, "D.1");
                     }
                     if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
@@ -587,13 +587,13 @@ class PaSwabController extends Controller
                         array_push($testCat, "C");
                     }
                     else {
-                        array_push($testCat, "G");
+                        array_push($testCat, "D.1");
                     }
 
                     if($data->getAgeInt() >= 60) {
                         array_push($testCat, "B");
                     }
-                    if($data->pType == 'CLOSE CONTACT') {
+                    if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                         array_push($testCat, "D.1");
                     }
                     if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
@@ -1308,13 +1308,13 @@ class PaSwabController extends Controller
                 array_push($testCat, "C");
             }
             else {
-                array_push($testCat, "G");
+                array_push($testCat, "D.1");
             }
 
             if($data->getAgeInt() >= 60) {
                 array_push($testCat, "B");
             }
-            if($data->pType == 'CLOSE CONTACT') {
+            if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                 array_push($testCat, "D.1");
             }
             if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
@@ -1688,13 +1688,13 @@ class PaSwabController extends Controller
                 array_push($testCat, "C");
             }
             else {
-                array_push($testCat, "G");
+                array_push($testCat, "D.1");
             }
 
             if($data->getAgeInt() >= 60) {
                 array_push($testCat, "B");
             }
-            if($data->pType == 'CLOSE CONTACT') {
+            if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                 array_push($testCat, "D.1");
             }
             if($data->isPregnant == 1 || $data->isForHospitalization == 1) {

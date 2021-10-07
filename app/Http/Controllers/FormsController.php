@@ -739,8 +739,8 @@ class FormsController extends Controller
         if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
             array_push($testCat, "A");
         }
-        if(!in_array("G", $testCat) && $request->healthStatus == 'Asymptomatic') {
-            array_push($testCat, "G");
+        if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
+            array_push($testCat, "D.1");
         }
         if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
             array_push($testCat, "C");
@@ -1282,8 +1282,8 @@ class FormsController extends Controller
         if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
             array_push($testCat, "A");
         }
-        if(!in_array("G", $testCat) && $request->healthStatus == 'Asymptomatic') {
-            array_push($testCat, "G");
+        if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
+            array_push($testCat, "D.1");
         }
         if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
             array_push($testCat, "C");
