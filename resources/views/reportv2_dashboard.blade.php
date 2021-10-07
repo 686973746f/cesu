@@ -87,6 +87,8 @@
                             <th>Name</th>
                             <th>Age / Sex</th>
                             <th>Birthdate</th>
+                            <td>Street</td>
+                            <td>Brgy</td>
                             <th>Case Severity</th>
                             <th>Date of Specimen Collection</th>
                             <th>Classification</th>
@@ -106,6 +108,8 @@
                             <td>{{$item->records->getName()}}</td>
                             <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                            <td class="text-center"><small>{{$item->records->address_street}}</small></td>
+                            <td class="text-center">{{$item->records->address_brgy}}</td>
                             <td class="text-center">{{$item->healthStatus}}</td>
                             <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
                             <td class="text-center">{{$item->caseClassification}}</td>
@@ -133,6 +137,8 @@
                             <th>Name</th>
                             <th>Age / Sex</th>
                             <th>Birthdate</th>
+                            <td>Street</td>
+                            <td>Brgy</td>
                             <th>Case Severity</th>
                             <th>Date of Specimen Collection</th>
                             <th>Classification</th>
@@ -152,6 +158,8 @@
                             <td>{{$item->records->getName()}}</td>
                             <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                            <td class="text-center"><small>{{$item->records->address_street}}</small></td>
+                            <td class="text-center">{{$item->records->address_brgy}}</td>
                             <td class="text-center">{{$item->healthStatus}}</td>
                             <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
                             <td class="text-center">{{$item->caseClassification}}</td>
@@ -179,6 +187,8 @@
                     <th>Name</th>
                     <th>Age / Sex</th>
                     <th>Birthdate</th>
+                    <td>Street</td>
+                    <td>Brgy</td>
                     <th>Case Severity</th>
                     <th>Date of Specimen Collection</th>
                     <th>Classification</th>
@@ -198,6 +208,8 @@
                     <td>{{$item->records->getName()}}</td>
                     <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
                     <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                    <td class="text-center"><small>{{$item->records->address_street}}</small></td>
+                    <td class="text-center">{{$item->records->address_brgy}}</td>
                     <td class="text-center">{{$item->healthStatus}}</td>
                     <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
                     <td class="text-center">{{$item->caseClassification}}</td>
@@ -222,6 +234,8 @@
                     <th>Name</th>
                     <th>Age / Sex</th>
                     <th>Birthdate</th>
+                    <td>Street</td>
+                    <td>Brgy</td>
                     <th>Case Severity</th>
                     <th>Date of Specimen Collection</th>
                     <th>Classification</th>
@@ -241,6 +255,8 @@
                     <td>{{$item->records->getName()}}</td>
                     <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
                     <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                    <td class="text-center"><small>{{$item->records->address_street}}</small></td>
+                    <td class="text-center">{{$item->records->address_brgy}}</td>
                     <td class="text-center">{{$item->healthStatus}}</td>
                     <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
                     <td class="text-center">{{$item->caseClassification}}</td>
@@ -266,6 +282,8 @@
                     <th>Name</th>
                     <th>Age / Sex</th>
                     <th>Birthdate</th>
+                    <td>Street</td>
+                    <td>Brgy</td>
                     <th>Case Severity</th>
                     <th>Date of Specimen Collection</th>
                     <th>Classification</th>
@@ -285,6 +303,8 @@
                     <td>{{$item->records->getName()}}</td>
                     <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
                     <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                    <td class="text-center"><small>{{$item->records->address_street}}</small></td>
+                    <td class="text-center">{{$item->records->address_brgy}}</td>
                     <td class="text-center">{{$item->healthStatus}}</td>
                     <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
                     <td class="text-center">{{$item->caseClassification}}</td>
