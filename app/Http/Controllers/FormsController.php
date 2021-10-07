@@ -312,7 +312,9 @@ class FormsController extends Controller
             
         }
         else if($request->submit == 'printsticker') {
-            $models = Forms::whereIn('id', $list)->get();
+            $models = Forms::with('records')->whereIn('id', $list)->get();
+
+            $models = $models->sortBy('records.lname');
 
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
