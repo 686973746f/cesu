@@ -182,4 +182,8 @@ class Records extends Model
             }
         }
     }
+
+    public static function detectChangeName($lname, $fname, $mname, $bdate, $id) {
+        
+    }
 }
