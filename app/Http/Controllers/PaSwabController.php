@@ -440,7 +440,7 @@ class PaSwabController extends Controller
                         'status' => 'approved'
                     ]);
 
-                    if($data->isNewRecord == 0 && $oldform) {
+                    if($data->isNewRecord == 0 && $oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
                         $fcheck = Forms::where('id', $oldform->id)->delete();
                     }
                 }
@@ -801,7 +801,7 @@ class PaSwabController extends Controller
 
                     $upd->save();
 
-                    if($data->isNewRecord == 0 && $oldform) {
+                    if($data->isNewRecord == 0 && $oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
                         //hayaan munang naka-disable para di mag-overlap sa existing data
                         
                         //$fcheck = Forms::where('id', $oldform->id)->delete();
@@ -1115,12 +1115,10 @@ class PaSwabController extends Controller
                 ->orWhere('majikCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
                 ->orWhere('linkCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
             })->where('status', 'pending')
-            ->where('isNewRecord', 1)
             ->paginate(10);
 		}
         else {
             $list = PaSwabDetails::where('status', 'pending')
-            ->where('isNewRecord', 1)
             ->orderBy('created_at', 'asc')
             ->paginate(10);
         }
@@ -1516,7 +1514,7 @@ class PaSwabController extends Controller
                 'status' => 'approved'
             ]);
 
-            if($data->isNewRecord == 0 && $oldform) {
+            if($data->isNewRecord == 0 && $oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
                 $fcheck = Forms::where('id', $oldform->id)->delete();
             }
             
