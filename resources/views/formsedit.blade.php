@@ -1441,7 +1441,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="">Time Collected <small><i>(for ONI, Leave Blank for Auto-fillup)</i></small></label>
+                                                <label for="">Time Collected</label>
                                                 <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control" value="{{old('oniTimeCollected1', $records->oniTimeCollected1)}}">
                                               </div>
                                             
@@ -1519,7 +1519,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="oniTimeCollected2">Time Collected <small><i>(for ONI, Leave Blank for Auto-fillup)</i></small></label>
+                                                <label for="oniTimeCollected2">Time Collected</label>
                                                 <input type="time" name="oniTimeCollected2" id="oniTimeCollected2" class="form-control" value="{{old('oniTimeCollected2', $records->oniTimeCollected2)}}">
                                             </div>
                                         </div>
