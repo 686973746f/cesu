@@ -184,6 +184,79 @@ class Records extends Model
     }
 
     public static function detectChangeName($lname, $fname, $mname, $bdate, $id) {
-        
+        if(!is_null($mname)) {
+            $check = Records::where('id', '!=', $id)
+            ->where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+            ->first();
+
+            if($check) {
+                $checkwbdate = Records::where('id', '!=', $id)
+                ->where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+                ->whereDate('bdate', $bdate)
+                ->first();
+
+                if($checkwbdate) {
+                    return $checkwbdate;
+                }
+                else {
+                    return $check;
+                }
+            }
+            else {
+                $check1 = Records::where('id', '!=', $id)
+                ->where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereDate('bdate', $bdate)
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
+            }
+        }
+        else {
+            $check = Records::where('id', '!=', $id)
+            ->where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+            ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+            ->whereNull('mname')
+            ->first();
+            
+            if($check) {
+                $checkwbdate = Records::where('id', '!=', $id)
+                ->where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereNull('mname')
+                ->whereDate('bdate', $bdate)
+                ->first();
+
+                if($checkwbdate) {
+                    return $checkwbdate;
+                }
+                else {
+                    return $check;
+                }
+            }
+            else {
+                $check1 = Records::where('id', '!=', $id)
+                ->where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
+                ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
+                ->whereDate('bdate', $bdate)
+                ->first();
+
+                if($check1) {
+                    return $check1;
+                }
+                else {
+                    return NULL;
+                }
+            }
+        }
     }
 }

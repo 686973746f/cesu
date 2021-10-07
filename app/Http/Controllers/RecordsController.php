@@ -602,7 +602,7 @@ class RecordsController extends Controller
 		$current->mname = (!is_null($request->mname)) ? mb_strtoupper($request->mname) : NULL;
 
 		if($current->isDirty('lname') || $current->isDirty('fname') || $current->isDirty('mname')) {
-			$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
+			$check1 = Records::detectChangeName($request->lname, $request->fname, $request->mname, $request->bdate, $id);
 			$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
 
 			if(!is_null($check1)) {

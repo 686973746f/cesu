@@ -160,6 +160,7 @@ class PaSwabDetails extends Model
             $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
             ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
             ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
+            ->where('status', 'pending')
             ->first();
 
             if($check) {
@@ -167,6 +168,7 @@ class PaSwabDetails extends Model
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
                 ->where(DB::raw("REPLACE(mname,' ','')"), mb_strtoupper(str_replace(' ', '', $mname)))
                 ->whereDate('bdate', $bdate)
+                ->where('status', 'pending')
                 ->first();
 
                 if($checkwbdate) {
@@ -180,6 +182,7 @@ class PaSwabDetails extends Model
                 $check1 = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
                 ->whereDate('bdate', $bdate)
+                ->where('status', 'pending')
                 ->first();
 
                 if($check1) {
@@ -194,6 +197,7 @@ class PaSwabDetails extends Model
             $check = PaSwabDetails::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
             ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
             ->whereNull('mname')
+            ->where('status', 'pending')
             ->first();
 
             if($check) {
@@ -201,6 +205,7 @@ class PaSwabDetails extends Model
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
                 ->whereNull('mname')
                 ->whereDate('bdate', $bdate)
+                ->where('status', 'pending')
                 ->first();
 
                 if($checkwbdate) {
@@ -214,6 +219,7 @@ class PaSwabDetails extends Model
                 $check1 = Records::where(DB::raw("REPLACE(lname,' ','')"), mb_strtoupper(str_replace(' ', '', $lname)))
                 ->where(DB::raw("REPLACE(fname,' ','')"), mb_strtoupper(str_replace(' ', '', $fname)))
                 ->whereDate('bdate', $bdate)
+                ->where('status', 'pending')
                 ->first();
 
                 if($check1) {
