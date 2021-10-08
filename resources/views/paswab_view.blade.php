@@ -110,7 +110,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                       <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date of Swab Collection</label>
-                                      <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
+                                      <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-m-d')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
                                     </div>
                                     <div class="form-group">
                                       <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of Test</label>
