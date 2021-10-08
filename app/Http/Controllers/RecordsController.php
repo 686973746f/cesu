@@ -597,42 +597,13 @@ class RecordsController extends Controller
 			}
 		}
 
-		$newmname = (!is_null($request->mname)) ? mb_strtoupper($request->mname) : NULL;
+		$current->lname = mb_strtoupper($request->lname);
+		$current->fname = mb_strtoupper($request->fname);
+		$current->mname = (!is_null($request->mname)) ? mb_strtoupper($request->mname) : NULL;
 
-		if($current->lname == mb_strtoupper($request->lname) && $current->fname == mb_strtoupper($request->fname) && $current->mname == $newmname && $current->bdate == $request->bdate && $current->gender == strtoupper($request->gender)) {
-			$param1 = 0;
-			$param2 = 0;
-		}
-		else {
-			$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
+		if($current->isDirty('lname') || $current->isDirty('fname') || $current->isDirty('mname')) {
+			$check1 = Records::detectChangeName($request->lname, $request->fname, $request->mname, $request->bdate, $id);
 			$check2 = PaSwabDetails::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
-			/*
-			Double Entry Checker (Old Method)
-			if(!is_null($newmname)) {
-				$check1 = Records::where('lname', mb_strtoupper($request->lname))
-				->where('fname', mb_strtoupper($request->fname))
-				->where('mname', mb_strtoupper($newmname))
-				->first();
-
-				$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
-				->where('fname', mb_strtoupper($request->fname))
-				->where('mname', mb_strtoupper($newmname))
-				->where('status', 'pending')
-				->first();
-			}
-			else {
-				$check1 = Records::where('lname', mb_strtoupper($request->lname))
-				->where('fname', mb_strtoupper($request->fname))
-				->whereNull('mname')
-				->first();
-
-				$check2 = PaSwabDetails::where('lname', mb_strtoupper($request->lname))
-				->where('fname', mb_strtoupper($request->fname))
-				->whereNull('mname')
-				->where('status', 'pending')
-				->first();
-			}
-			*/
 
 			if(!is_null($check1)) {
 				$param1 = 1;
@@ -649,6 +620,10 @@ class RecordsController extends Controller
 			else {
 				$param2 = 0;
 			}
+		}
+		else {
+			$param1 = 0;
+			$param2 = 0;
 		}
 
 		if($param1 == 1 || $param2 == 1) {

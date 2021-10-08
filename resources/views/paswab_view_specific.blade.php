@@ -796,12 +796,10 @@
                     </div>
                 </div>
             </div>
-            @if($data->isNewRecord == 1)
             <div class="card-footer text-right">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptmodal"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i> Approve</button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectmodal"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i> Reject</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptmodal"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>Approve</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectmodal"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i>Reject</button>
             </div>
-            @endif
         </div>
     </div>
     
