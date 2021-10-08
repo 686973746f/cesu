@@ -7,6 +7,12 @@
             <div class="card">
                 <div class="card-header">Bulk Update CIFs</div>
                 <div class="card-body">
+                    <div class="alert alert-info" role="alert">
+                        <strong class="text-danger">Notice:</strong> showing "Active" cases only. Recovered and Died not included in search results.
+                        <hr>
+                        Bulk-updating cut-off at <strong>4PM - 12AM</strong> Daily.
+                    </div>
+                    <hr>
                     @if(session('msg'))
                     <div class="alert alert-{{session('msgtype')}}" role="alert">
                         {{session('msg')}}
