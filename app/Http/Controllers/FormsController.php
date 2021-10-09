@@ -32,8 +32,13 @@ class FormsController extends Controller
                 if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                     if(!is_null(auth()->user()->brgy_id)) {
                         $forms = Forms::with('user')
-                        ->whereHas('user', function ($query) {
-                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('brgy_id', auth()->user()->brgy_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                            });
                         })
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
@@ -45,8 +50,13 @@ class FormsController extends Controller
                     }
                     else {
                         $forms = Forms::with('user')
-                        ->whereHas('user', function ($query) {
-                            $query->where('company_id', auth()->user()->company_id);
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('company_id', auth()->user()->company_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                            });
                         })
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
@@ -71,8 +81,13 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                 if(!is_null(auth()->user()->brgy_id)) {
                     $forms = Forms::with('user')
-                    ->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    ->where(function ($sq) {
+                        $sq->whereHas('user', function ($query) {
+                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        })
+                        ->orWhereHas('records', function ($query) {
+                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                        });
                     })
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
@@ -83,8 +98,13 @@ class FormsController extends Controller
                 }
                 else {
                     $forms = Forms::with('user')
-                    ->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
+                    ->where(function ($sq) {
+                        $sq->whereHas('user', function ($query) {
+                            $query->where('company_id', auth()->user()->company_id);
+                        })
+                        ->orWhereHas('records', function ($query) {
+                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                        });
                     })
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
@@ -1001,16 +1021,28 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id)) {
                 $records = Forms::with('user')
                 ->where('id', $id)
-                ->whereHas('user', function ($query) {
-                    $query->where('brgy_id', auth()->user()->brgy_id);
-                })->first();
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })
+                    ->orWhereHas('records', function ($query) {
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                    });
+                })
+                ->first();
             }
             else {
                 $records = Forms::with('user')
                 ->where('id', $id)
-                ->whereHas('user', function ($query) {
-                    $query->where('company_id', auth()->user()->company_id);
-                })->first();
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })
+                    ->orWhereHas('records', function ($query) {
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                    });
+                })
+                ->first();
             }
         }
         else {
