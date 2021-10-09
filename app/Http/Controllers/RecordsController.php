@@ -391,6 +391,20 @@ class RecordsController extends Controller
 
 				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+				'vaccinationDate1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccinationDate1 : NULL,
+				'haveAdverseEvents1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents1 : NULL,
+				'vaccinationName1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? 1 : NULL,
+				'vaccinationFacility1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+				'vaccinationRegion1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
+
+				'vaccinationDate2' => ($request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+				'haveAdverseEvents2' => ($request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+				'vaccinationName2' => ($request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
+				'vaccinationFacility2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 			]);
 			
 			return redirect()->action([RecordsController::class, 'index'])
@@ -443,9 +457,23 @@ class RecordsController extends Controller
 		if($record) {
 			$cifcheck = Forms::where('records_id', $record->id)->first();
 
+			//Vaccination Details
+            if(!is_null($record->vaccinationDate2) || !is_null($record->vaccinationDate1)) {
+                if(!is_null($record->vaccinationDate2)) {
+                    $vaccineDose = 2;
+                }
+                else {
+                    $vaccineDose = 1;
+                }
+            }
+            else {
+                $vaccineDose = NULL;
+            }
+
 			return view('recordsedit', [
 				'record' => $record,
 				'cifcheck' =>$cifcheck,
+				'vaccineDose' => $vaccineDose,
 			]);
 		}
 		else {
@@ -719,6 +747,20 @@ class RecordsController extends Controller
 
 				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+				'vaccinationDate1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccinationDate1 : NULL,
+				'haveAdverseEvents1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents1 : NULL,
+				'vaccinationName1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? 1 : NULL,
+				'vaccinationFacility1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+				'vaccinationRegion1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
+
+				'vaccinationDate2' => ($request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+				'haveAdverseEvents2' => ($request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+				'vaccinationName2' => ($request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
+				'vaccinationFacility2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 			]);
 
 			$record = Records::findOrFail($id);
