@@ -97,7 +97,7 @@ class InterviewersController extends Controller
             'brgy_id' => $request->brgy_id,
         ]);
 
-        return redirect()->action([InterviewersController::class, 'index'])->with('status', 'Interviewer record has been updated successfully.')->with('statustype', 'success');
+        return redirect()->route('interviewers.index')->with('status', 'Interviewer record has been updated successfully.')->with('statustype', 'success');
     }
 
     /**
