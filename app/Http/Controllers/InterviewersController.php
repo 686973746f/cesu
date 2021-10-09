@@ -110,4 +110,23 @@ class InterviewersController extends Controller
     {
         //
     }
+
+    public function options(Request $request, $id) {
+        $item = Interviewers::findOrFail($id);
+
+        if($request->submit == 'toggleStatus') {
+            if($item->enabled == 1) {
+                $item->enabled = 0;
+                $statusmsg = 'Interviewer #'.$item->id.' ('.$item->getName().') has been DISABLED successfully.';
+            }
+            else {
+                $item->enabled = 1;
+                $statusmsg = 'Interviewer #'.$item->id.' ('.$item->getName().') has been ENABLED successfully.';
+            }
+
+            $item->save();
+        }
+
+        return redirect()->action([InterviewersController::class, 'index'])->with('status', $statusmsg)->with('statustype', 'success');
+    }
 }

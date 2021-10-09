@@ -20,7 +20,7 @@ class CreateAntigensTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('antigenKitName');
             $table->string('lotNo');
-            $table->tinyInt('isDOHAccredited');
+            $table->tinyInteger('isDOHAccredited');
         });
     }
 

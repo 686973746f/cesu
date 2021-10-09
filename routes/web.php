@@ -143,9 +143,10 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
     
 
-    Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('adminpanel.account.options');
+    Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'options'])->name('adminpanel.account.options');
 
-    Route::resource('/interviewers', InterviewersController::class);
+    Route::post('/admin/interviewers/options/{id}', [InterviewersController::class, 'options'])->name('adminpanel.interviewers.options');
+    Route::resource('/admin/interviewers', InterviewersController::class);
 
     Route::post('/report', [ReportController::class, 'makeAllSuspected'])->name('report.makeAllSuspected');
 

@@ -558,7 +558,9 @@ class FormsController extends Controller
                 ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y (D)', strtotime($ex_id->testDateCollected2)) : date('m/d/Y (D)', strtotime($ex_id->testDateCollected1)));
             }
             else {
-                $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+                $interviewers = Interviewers::where('enabled', 1)
+                ->orderBy('lname', 'asc')
+                ->get();
                 
                 $countries = new Countries();
                 $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
@@ -1030,7 +1032,9 @@ class FormsController extends Controller
         }
 
         if($records) {
-            $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+            $interviewers = Interviewers::where('enabled', 1)
+            ->orderBy('lname', 'asc')
+            ->get();
 
             $docs = CifUploads::where('forms_id', $id)->get();
 

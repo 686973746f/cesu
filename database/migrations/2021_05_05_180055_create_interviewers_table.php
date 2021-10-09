@@ -18,6 +18,7 @@ class CreateInterviewersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->tinyInteger('enabled')->default(1);
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
