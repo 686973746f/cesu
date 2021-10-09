@@ -37,7 +37,7 @@ class FormsController extends Controller
                                 $query->where('brgy_id', auth()->user()->brgy_id);
                             })
                             ->orWhereHas('records', function ($query) {
-                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                             });
                         })
                         ->where(function ($query) {
@@ -55,7 +55,7 @@ class FormsController extends Controller
                                 $query->where('company_id', auth()->user()->company_id);
                             })
                             ->orWhereHas('records', function ($query) {
-                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                             });
                         })
                         ->where(function ($query) {
@@ -86,7 +86,7 @@ class FormsController extends Controller
                             $query->where('brgy_id', auth()->user()->brgy_id);
                         })
                         ->orWhereHas('records', function ($query) {
-                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                         });
                     })
                     ->where(function ($query) {
@@ -103,7 +103,7 @@ class FormsController extends Controller
                             $query->where('company_id', auth()->user()->company_id);
                         })
                         ->orWhereHas('records', function ($query) {
-                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                         });
                     })
                     ->where(function ($query) {
@@ -141,7 +141,8 @@ class FormsController extends Controller
             if(auth()->user()->isCesuAccount()) {
                 $data = Records::where(function ($query) use ($search) {
                     $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere('id', $search);
                 })->get();
 
                 $paswab = PaSwabDetails::where(function ($query) use ($search) {
@@ -1026,7 +1027,7 @@ class FormsController extends Controller
                         $query->where('brgy_id', auth()->user()->brgy_id);
                     })
                     ->orWhereHas('records', function ($query) {
-                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                     });
                 })
                 ->first();
@@ -1039,7 +1040,7 @@ class FormsController extends Controller
                         $query->where('company_id', auth()->user()->company_id);
                     })
                     ->orWhereHas('records', function ($query) {
-                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                     });
                 })
                 ->first();

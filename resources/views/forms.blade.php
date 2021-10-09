@@ -376,7 +376,7 @@
     $(document).ready(function () {
         $('#newList').select2({
             theme: "bootstrap",
-            placeholder: 'Choose...',
+            placeholder: 'Search by Name / Patient ID ...',
             ajax: {
                 url: "{{route('forms.ajaxList')}}",
                 dataType: 'json',
