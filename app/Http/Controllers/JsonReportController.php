@@ -317,7 +317,7 @@ class JsonReportController extends Controller
                 $q->where('isPresentOnSwabDay', 0)
                 ->orwhereNull('isPresentOnSwabDay');
             })
-            ->whereIn('caseClassification', ['Suspect'])
+            ->where('caseClassification', 'Suspect')
             ->where('outcomeCondition', 'Active')
             ->where('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
             ->count();

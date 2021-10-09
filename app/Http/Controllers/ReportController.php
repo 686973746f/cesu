@@ -410,12 +410,9 @@ class ReportController extends Controller
                 $q->where('isPresentOnSwabDay', 0)
                 ->orwhereNull('isPresentOnSwabDay');
             })
-            ->whereIn('caseClassification', ['Suspect'])
+            ->where('caseClassification', 'Suspect')
             ->where('outcomeCondition', 'Active')
-            ->where(function ($q) {
-                $q->whereDate('testDateCollected1', '<=', date('Y-m-d'))
-                ->orWhereDate('testDateCollected2', '<=', date('Y-m-d'));
-            })
+            ->where('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
             ->orderby('morbidityMonth', 'asc')
             ->cursor() as $user) {
                 yield $user;
@@ -432,6 +429,7 @@ class ReportController extends Controller
             ->where('isPresentOnSwabDay', 1)
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
+            ->where('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
