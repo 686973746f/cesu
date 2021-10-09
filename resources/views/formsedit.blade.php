@@ -18,7 +18,8 @@
                 <p>Therefore, only an admin can edit the details of this particular CIF.</p>
                 @if($records->outcomeCondition == 'Recovered')
                 <hr>
-                <p>If for processing re-swab, click the Create New CIF Button above.</p>
+                <p>If <strong>REINFECTION</strong>, check the [Case of Re-infection] Checkbox below and UPDATE the Data.</p>
+                <p>If <strong>RESWAB</strong>, click the Create New CIF Button above.</p>
                 @endif
             </div>
         @endif
@@ -845,7 +846,7 @@
                                             <div id="askIfReinfected">
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="reinfected" id="reinfected" value="1" {{(old('reinfected', $records->reinfected) == 1) ? 'checked' : ''}}>
+                                                      <input type="checkbox" class="form-check-input" name="reinfected" id="reinfected" value="1" {{(old('reinfected', $records->reinfected) == 1) ? 'checked' : ''}} {{($records->caseClassification == 'Confirmed') ? 'required' : ''}}>
                                                       Case of Re-infection
                                                     </label>
                                                 </div>
@@ -2259,16 +2260,26 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    @if($records->outcomeCondition == 'Active' || auth()->user()->ifTopAdmin())
+                    @if($records->outcomeCondition == 'Active')
                     <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
-                    @elseif($records->outcomeCondition == 'Recovered')
-                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Details of Recovered cases can only be updated by an admin. If incase of reswab, create another CIF for this patient by pressing [Create New CIF] Button on the top right of this page.">
-                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
-                    </span>
                     @else
-                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
-                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
-                    </span>
+                        @if($records->outcomeCondition == 'Recovered')
+                            @if(auth()->user()->isCesuAccount())
+                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
+                            @else
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Recovered Cases can only be updated by CESU Admin.">
+                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
+                            </span>
+                            @endif
+                        @else
+                            @if(auth()->user()->ifTopAdmin())
+                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
+                            @else
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
+                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
+                            </span>
+                            @endif
+                        @endif
                     @endif
                 </div>
             </div>
