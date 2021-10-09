@@ -281,7 +281,7 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header">COVID-19 Vaccination Information</div>
+                        <div class="card-header"><i class="fas fa-syringe mr-2"></i>COVID-19 Vaccination Information</div>
                         <div class="card-body">
                             <div class="form-group">
                               <label for="howManyDoseVaccine"><span class="text-danger font-weight-bold">*</span>If vaccinated, how many dose?</label>
