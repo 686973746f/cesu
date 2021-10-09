@@ -848,17 +848,22 @@
                         </div>
                     </div>
                     @endif
+                    @if($record->user_id == auth()->user()->id || auth()->user()->isCesuAccount())
                     <hr>
                     <div class="card">
-                        <div class="card-header">Other Settings <i>(Development In-Progress)</i></div>
+                        <div class="card-header">Other Settings</div>
                         <div class="card-body">
                             <div class="form-group">
-                              <label for="">Share Access To Other Accounts</label>
-                              <select class="form-control" name="" id="" multiple>
+                              <label for="sharedOnId">Share Access To Other Accounts</label>
+                              <select class="form-control" name="sharedOnId[]" id="sharedOnId" multiple>
+                                  @foreach($sharedAccessList as $i)
+                                  <option value="{{$i->id}}" {{(collect(old('sharedOnId', explode(',', $record->sharedOnId)))->contains($i->id)) ? 'selected' : ''}}>{{$i->name}}</option>
+                                  @endforeach
                               </select>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Update</button>
@@ -889,6 +894,9 @@
                 theme: "bootstrap",
             });
             $('#permaaddress_brgy').select2({
+                theme: "bootstrap",
+            });
+            $('#sharedOnId').select2({
                 theme: "bootstrap",
             });
 

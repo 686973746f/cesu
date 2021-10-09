@@ -75,6 +75,8 @@ class Records extends Model
         'vaccinationFacility2',
         'vaccinationRegion2',
         'haveAdverseEvents2',
+
+        'sharedOnId',
     ];
 
     public function getAge() {

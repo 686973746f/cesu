@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Forms;
 use App\Models\Records;
 use App\Models\Companies;
@@ -27,7 +28,8 @@ class RecordsController extends Controller
 						$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
                 		->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
 					})->whereHas('user', function ($query) {
-						$query->where('brgy_id', auth()->user()->brgy_id);
+						$query->where('brgy_id', auth()->user()->brgy_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
 					})->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 				else {
@@ -36,7 +38,8 @@ class RecordsController extends Controller
 						$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
                 		->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
 					})->whereHas('user', function ($query) {
-						$query->where('company_id', auth()->user()->company_id);
+						$query->where('company_id', auth()->user()->company_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
 					})->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 			}
@@ -53,14 +56,16 @@ class RecordsController extends Controller
 				if(!is_null(auth()->user()->brgy_id)) {
 					$records = Records::with('user')
 					->whereHas('user', function($q) {
-						$q->where('brgy_id', auth()->user()->brgy_id);
+						$q->where('brgy_id', auth()->user()->brgy_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
 					})
 					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 				else {
 					$records = Records::with('user')
 					->whereHas('user', function($q) {
-						$q->where('company_id', auth()->user()->company_id);
+						$q->where('company_id', auth()->user()->company_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
 					})
 					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
@@ -439,14 +444,16 @@ class RecordsController extends Controller
 				$record = Records::with('user')
 				->where('id', $id)
 				->whereHas('user', function ($query) {
-					$query->where('brgy_id', auth()->user()->brgy_id);
+					$query->where('brgy_id', auth()->user()->brgy_id)
+					->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
 				})->first();
 			}
 			else {
 				$record = Records::with('user')
 				->where('id', $id)
 				->whereHas('user', function ($query) {
-					$query->where('company_id', auth()->user()->company_id);
+					$query->where('company_id', auth()->user()->company_id)
+					->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id.'%');
 				})->first();
 			}
 		}
@@ -470,10 +477,16 @@ class RecordsController extends Controller
                 $vaccineDose = NULL;
             }
 
+			$sharedAccessList = User::where('enabled', 1)
+			->where('isAdmin', 0)
+			->where('id', '!=', auth()->user()->id)
+			->get();
+
 			return view('recordsedit', [
 				'record' => $record,
 				'cifcheck' =>$cifcheck,
 				'vaccineDose' => $vaccineDose,
+				'sharedAccessList' => $sharedAccessList,
 			]);
 		}
 		else {
@@ -761,6 +774,8 @@ class RecordsController extends Controller
 				'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
 				'vaccinationFacility2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
 				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
+
+				'sharedOnId' => (!is_null($request->sharedOnId)) ? implode(",", $request->sharedOnId) : NULL,
 			]);
 
 			$record = Records::findOrFail($id);
