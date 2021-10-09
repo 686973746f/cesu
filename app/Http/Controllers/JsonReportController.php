@@ -319,7 +319,7 @@ class JsonReportController extends Controller
             })
             ->where('caseClassification', 'Suspect')
             ->where('outcomeCondition', 'Active')
-            ->where('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+            ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
             ->count();
 
             $brgyProbableCount = Forms::with('records')
@@ -332,7 +332,7 @@ class JsonReportController extends Controller
             ->where('isPresentOnSwabDay', 1)
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
-            ->where('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+            ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
             ->count();
 
             $brgyArray->push([
