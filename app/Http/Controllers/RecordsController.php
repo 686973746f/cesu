@@ -86,9 +86,9 @@ class RecordsController extends Controller
 
 	public function check(Request $request) {
 		$request->validate([
-			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE',
+			'lname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
+    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
 			'bdate' => "required|date|before:tomorrow",
 		]);
 

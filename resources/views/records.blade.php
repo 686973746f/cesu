@@ -121,21 +121,21 @@
                     <div class="modal-body">
                         <div class="form-group">
 							<label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-							<input type="text" class="form-control" id="lname" name="lname" value="{{old('lname')}}" max="50" style="text-transform: uppercase;" required>
+							<input type="text" class="form-control" id="lname" name="lname" value="{{old('lname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                             @error('lname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
 						</div>
                         <div class="form-group">
 							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
-							<input type="text" class="form-control" id="fname" name="fname" value="{{old('fname')}}" max="50" style="text-transform: uppercase;" required>
+							<input type="text" class="form-control" id="fname" name="fname" value="{{old('fname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                             @error('fname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
 						</div>
                         <div class="form-group">
 							<label for="mname">Middle Name <small><i>(Leave blank if N/A)</i></small></label>
-							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50" style="text-transform: uppercase;">
+							<input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;">
                             @error('mname')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
