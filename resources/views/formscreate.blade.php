@@ -2509,6 +2509,7 @@
             if(e.ctrlKey && (e.which == 83)) {
                 e.preventDefault();
                 $('#formsubmit').trigger('click');
+                $('#formsubmit').prop('disabled', true);
                 return false;
             }
         });

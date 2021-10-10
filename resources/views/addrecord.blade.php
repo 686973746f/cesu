@@ -833,6 +833,7 @@
 		if(e.ctrlKey && (e.which == 83)) {
 			e.preventDefault();
 			$('#submitBtn').trigger('click');
+			$('#submitBtn').prop('disabled', true);
 			return false;
 		}
 	});
