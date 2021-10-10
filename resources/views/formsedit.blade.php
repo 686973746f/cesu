@@ -2262,31 +2262,31 @@
                 <div class="card-footer text-right">
                     @if($records->outcomeCondition == 'Active')
                         @if(auth()->user()->isCesuAccount())
-                        <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
+                        <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                         @else
                             @if($records->caseClassification == 'Confirmed')
                             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Confirmed Cases can only be updated by CESU Admin.">
-                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
+                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                             </span>
                             @else
-                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
+                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                             @endif
                         @endif
                     @else
                         @if($records->outcomeCondition == 'Recovered')
                             @if(auth()->user()->isCesuAccount())
-                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
+                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                             @else
                             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Recovered Cases can only be updated by CESU Admin.">
-                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
+                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                             </span>
                             @endif
                         @else
                             @if(auth()->user()->ifTopAdmin())
-                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update</button>
+                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                             @else
                             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
-                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update</button>
+                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                             </span>
                             @endif
                         @endif
