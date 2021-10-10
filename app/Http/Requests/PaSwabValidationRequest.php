@@ -32,7 +32,7 @@ class PaSwabValidationRequest extends FormRequest
             'forAntigen' => 'required|numeric',
             'lname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50',
     		'fname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50',
-    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|min:2|max:50',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE',
             'bdate' => "required|date|before:tomorrow",
             'gender' => 'required',
             'isPregnant' => ($this->gender == 'FEMALE') ? 'required|numeric' : 'nullable',

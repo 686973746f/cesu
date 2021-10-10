@@ -24,10 +24,14 @@
                             <p>To check the existing data, click <a href="{{session('link')}}">HERE</a></p>
                                 @if(session('ciflink'))
                                 <p class="mb-0">To check the existing CIF associated with the record, click <a href="{{session('ciflink')}}">HERE</a></p>
+                                <hr>
+                                <div class="alert alert-info" role="alert">
+                                    <p>Recent CIF Details:</p>
+                                </div>
                                 @endif
                             @else
                             <hr>
-                            The record was created by other Barangay or CESU Staff/Encoder Account, therefore you cannot proceed editing the record.
+                            The record was created by other Barangay or CESU Staff/Encoder Account, therefore you cannot proceed editing the record. You may coordinate to CESU for sharing the data access for this patient.
                             @endif
                         @endif
                         @if(session('type') == 'createRecord')

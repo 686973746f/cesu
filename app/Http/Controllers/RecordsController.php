@@ -88,7 +88,7 @@ class RecordsController extends Controller
 		$request->validate([
 			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE',
 			'bdate' => "required|date|before:tomorrow",
 		]);
 
@@ -142,7 +142,7 @@ class RecordsController extends Controller
 					return back()
 					->withInput()
 					->with('type', 'recordExisting')
-					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('status', 'Error: Record of '.$check1->getName().' (#'.$check1->id.') already exists in the Database.')
 					->with('eligibleToEdit', $eligibleToEdit)
 					->with('statustype', 'danger')
 					->with('link', route('records.edit', ['record' => $check1->id]))
@@ -152,7 +152,7 @@ class RecordsController extends Controller
 					return back()
 					->withInput()
 					->with('type', 'recordExisting')
-					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('status', 'Error: Record of '.$check1->getName().' (#'.$check1->id.') already exists in the Database.')
 					->with('eligibleToEdit', $eligibleToEdit)
 					->with('statustype', 'danger')
 					->with('link', route('records.edit', ['record' => $check1->id]));
@@ -169,7 +169,7 @@ class RecordsController extends Controller
 				return back()
 				->withInput()
 				->with('type', 'recordExisting')
-				->with('status', 'Error: Record of '.$check2->getName().' already exists in Pa-swab list.')
+				->with('status', 'Error: Record of '.$check2->getName().' (#'.$check2->id.') already exists in Pa-swab list.')
 				->with('eligibleToEdit', $eligibleToEdit)
 				->with('statustype', 'danger')
 				->with('link', route('paswab.viewspecific', ['id' => $check2->id]));
