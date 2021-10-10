@@ -866,15 +866,22 @@
                     @endif
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Update</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-edit mr-2"></i>Update</button>
                 </div>
             </div>
         </form>
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(document).bind('keydown', function(e) {
+            if(e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                $('#submitBtn').trigger('click');
+                return false;
+            }
+        });
 
+        $(document).ready(function () {
             $('#saddress_province').select2({
                 theme: "bootstrap",
             });

@@ -2505,6 +2505,14 @@
     </div>
 
     <script>
+        $(document).bind('keydown', function(e) {
+            if(e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                $('#formsubmit').trigger('click');
+                return false;
+            }
+        });
+
         $(document).ready(function () {
 
             //$('#records_id').selectize();

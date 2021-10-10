@@ -2688,6 +2688,14 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
 
+        $(document).bind('keydown', function(e) {
+            if(e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                $('#formsubmit').trigger('click');
+                return false;
+            }
+        });
+
         $(document).ready(function () {
             @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
