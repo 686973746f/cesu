@@ -46,7 +46,7 @@
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search by Name / ID">
+                                <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search by Name / ID" required>
                                 <div class="input-group-append">
                                   <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
@@ -127,7 +127,7 @@
 							@enderror
 						</div>
                         <div class="form-group">
-							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name (and Suffix)</label>
+							<label for="fname"><span class="text-danger font-weight-bold">*</span>First Name and Suffix (e.g. JR, SR, III, IV, etc.)</label>
 							<input type="text" class="form-control" id="fname" name="fname" value="{{old('fname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                             @error('fname')
 								<small class="text-danger">{{$message}}</small>
