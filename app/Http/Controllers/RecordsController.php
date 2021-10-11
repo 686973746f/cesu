@@ -419,11 +419,16 @@ class RecordsController extends Controller
 				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 			]);
 			
-			return redirect()->action([RecordsController::class, 'index'])
-			->with('status', 'User information has been added successfully.')
-			->with('type', 'createRecord')
-			->with('newid', $data->id)
-			->with('statustype', 'success');
+			if(auth()->user()->option_enableAutoRedirectToCif == 1) {
+				return redirect()->route('forms.new', ['id' => $data->id]);
+			}
+			else {
+				return redirect()->action([RecordsController::class, 'index'])
+				->with('status', 'User information has been added successfully.')
+				->with('type', 'createRecord')
+				->with('newid', $data->id)
+				->with('statustype', 'success');
+			}
 		}
     }
 
