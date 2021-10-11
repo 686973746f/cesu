@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\PaSwabController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\ReportV2Controller;
@@ -125,6 +126,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
     //Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
+
+    Route::post('/options', [OptionsController::class, 'submit'])->name('options.submit');
+    Route::get('/options', [OptionsController::class, 'index'])->name('options.index');
 
     Route::post('/forms', [FormsController::class, 'options'])->name('forms.options'); //print to excel, for admin only (temporary)
 });

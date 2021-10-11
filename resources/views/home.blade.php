@@ -41,6 +41,8 @@
                     @endif
                     <hr>
                     <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-chart-bar mr-2"></i>Reports <i class="text-warning font-weight-bold">[Under Development]</i></a>
+                    <hr>
+                    <a href="{{route('options.index')}}" class="btn btn-secondary btn-lg btn-block"><i class="fa fa-cog mr-2" aria-hidden="true"></i>Options</i></a>
                     @if(auth()->user()->isAdmin == 1)
                         <hr>
                         <a href="{{route('adminpanel.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-user-cog mr-2"></i>Admin Panel</a>
