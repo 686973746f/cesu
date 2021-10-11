@@ -98,20 +98,6 @@ class FormValidationRequest extends FormRequest
             'healthStatus' => 'required',
             //2.4 Case Classification
             'caseClassification' => 'required',
-
-            //2.5 Vaccination
-            'howManyDoseVaccine' => 'nullable',
-            'vaccineName' => (!is_null($this->howManyDoseVaccine)) ? 'required' : 'nullable',
-
-            'vaccinationDate1' => (!is_null($this->howManyDoseVaccine)) ? 'required|date|before_or_equal:today' : 'nullable|date',
-            'haveAdverseEvents1' => (!is_null($this->howManyDoseVaccine)) ? 'required|numeric' : 'nullable|numeric',
-            'vaccinationFacility1' => 'nullable|string',
-            'vaccinationRegion1' => 'nullable|string',
-        
-            'vaccinationDate2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|date|before_or_equal:today' : 'nullable|date',
-            'haveAdverseEvents2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|numeric' : 'nullable|numeric',
-            'vaccinationFacility2' => 'nullable|string',
-            'vaccinationRegion2' => 'nullable|string',
             
             //2.6 Clinical Information
             'dateOnsetOfIllness' => 'nullable|date|before_or_equal:today',

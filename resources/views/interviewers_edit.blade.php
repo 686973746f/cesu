@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container">
-        <form action="/interviewers/{{$record->id}}" method="POST" autocomplete="off">
+        <form action="{{route('interviewers.update', ['interviewer' => $record->id])}}" method="POST" autocomplete="off">
             @csrf
             @method('PUT')
             <div class="card">
-                <div class="card-header">Add Interviewer</div>
+                <div class="card-header">Edit Interviewer Details</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">

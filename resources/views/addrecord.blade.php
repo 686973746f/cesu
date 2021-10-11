@@ -240,6 +240,99 @@
 						</div>
 					</div>
 				</div>
+				<div class="card mb-3">
+					<div class="card-header"><i class="fas fa-syringe mr-2"></i>COVID-19 Vaccination Information</div>
+					<div class="card-body">
+						<div class="form-group">
+						  <label for="howManyDoseVaccine"><span class="text-danger font-weight-bold">*</span>If vaccinated, how many dose?</label>
+						  <select class="form-control" name="howManyDoseVaccine" id="howManyDoseVaccine">
+							<option value="" {{(is_null(old('howManyDoseVaccine'))) ? 'selected' : ''}}>N/A</option>
+							<option value="1" {{(old('howManyDoseVaccine') == '1') ? 'selected' : ''}}>1st Dose only</option>
+							<option value="2" {{(old('howManyDoseVaccine') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
+						  </select>
+						</div>
+						<div id="ifVaccinated">
+							<div class="form-group">
+							  <label for="vaccineName"><span class="text-danger font-weight-bold">*</span>Name of Vaccine</label>
+							  <select class="form-control" name="vaccineName" id="vaccineName">
+								<option value="" disabled {{is_null(old('vaccineName')) ? 'selected' : ''}}>Choose...</option>
+								<option value="BHARAT BIOTECH" {{(old('vaccineName') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
+								<option value="GAMALEYA SPUTNIK V" {{(old('vaccineName') == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
+								<option value="JANSSEN" {{(old('vaccineName') == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
+								<option value="MODERNA" {{(old('vaccineName') == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+								<option value="NOVARAX" {{(old('vaccineName') == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
+								<option value="OXFORD ASTRAZENECA" {{(old('vaccineName') == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
+								<option value="PFIZER BIONTECH" {{(old('vaccineName') == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
+								<option value="SINOPHARM" {{(old('vaccineName') == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
+								<option value="SINOVAC CORONAVAC" {{(old('vaccineName') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
+							  </select>
+							</div>
+							<hr>
+							<div id="ifFirstDoseVaccine">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="vaccinationDate1"><span class="text-danger font-weight-bold">*</span>First (1st) Dose Date</label>
+											<input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1')}}" max="{{date('Y-m-d')}}">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="haveAdverseEvents1"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
+											<select class="form-control" name="haveAdverseEvents1" id="haveAdverseEvents1">
+												<option value="0" {{(old('haveAdverseEvents1') == '0') ? 'selected' : ''}}>No</option>
+												<option value="1" {{(old('haveAdverseEvents1') == '1') ? 'selected' : ''}}>Yes</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
+											<input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}" style="text-transform: uppercase;">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
+											<input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}" style="text-transform: uppercase;">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="ifSecondDoseVaccine">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="vaccinationDate2"><span class="text-danger font-weight-bold">*</span>Second (2nd) Dose Date</label>
+											<input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2')}}" max="{{date('Y-m-d')}}">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="haveAdverseEvents2"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
+											<select class="form-control" name="haveAdverseEvents2" id="haveAdverseEvents2">
+												<option value="0" {{(old('haveAdverseEvents2') == '0') ? 'selected' : ''}}>No</option>
+												<option value="1" {{(old('haveAdverseEvents2') == '1') ? 'selected' : ''}}>Yes</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
+											<input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}" style="text-transform: uppercase;">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
+											<input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}" style="text-transform: uppercase;">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div id="addresscheck">
 					<div class="form-check form-check-inline">
 						<label for="" class="mr-3 mt-1">Current Address is Different from Permanent Address?</label>
@@ -729,15 +822,22 @@
 				@endif
 			</div>
 			<div class="card-footer text-right">
-				<button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
+				<button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-save mr-2"></i>Save (CTRL + S)</button>
 			</div>
 		</div>
 	</div>
 </form>
 
 <script>
+	$(document).bind('keydown', function(e) {
+		if(e.ctrlKey && (e.which == 83)) {
+			e.preventDefault();
+			$('#submitBtn').trigger('click');
+			$('#submitBtn').prop('disabled', true);
+			return false;
+		}
+	});
 	$(document).ready(function () {
-		
 		$('#saddress_province').select2({
 			theme: "bootstrap",
 		});
@@ -1053,6 +1153,46 @@
 			else {
 				$('#specifyWorkNatureDiv').hide();
 				$('#natureOfWorkIfOthers').prop('required', false);
+			}
+		}).trigger('change');
+
+		$('#howManyDoseVaccine').change(function (e) { 
+			e.preventDefault();
+			if($(this).val() == '') {
+				$('#vaccineName').prop('required', false);
+
+				$('#ifVaccinated').hide();
+				$('#ifFirstDoseVaccine').hide();
+				$('#ifSecondDoseVaccine').hide();
+
+				$('#vaccinationDate1').prop('required', false);
+				$('#haveAdverseEvents1').prop('required', false);
+				$('#vaccinationDate2').prop('required', false);
+				$('#haveAdverseEvents2').prop('required', false);
+			}
+			else if($(this).val() == '1') {
+				$('#vaccineName').prop('required', true);
+
+				$('#ifVaccinated').show();
+				$('#ifFirstDoseVaccine').show();
+				$('#ifSecondDoseVaccine').hide();
+
+				$('#vaccinationDate1').prop('required', true);
+				$('#haveAdverseEvents1').prop('required', true);
+				$('#vaccinationDate2').prop('required', false);
+				$('#haveAdverseEvents2').prop('required', false);
+			}
+			else if($(this).val() == '2') {
+				$('#vaccineName').prop('required', true);
+
+				$('#ifVaccinated').show();
+				$('#ifFirstDoseVaccine').show();
+				$('#ifSecondDoseVaccine').show();
+
+				$('#vaccinationDate1').prop('required', true);
+				$('#haveAdverseEvents1').prop('required', true);
+				$('#vaccinationDate2').prop('required', true);
+				$('#haveAdverseEvents2').prop('required', true);
 			}
 		}).trigger('change');
 	});

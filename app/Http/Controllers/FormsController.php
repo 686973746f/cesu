@@ -32,8 +32,13 @@ class FormsController extends Controller
                 if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                     if(!is_null(auth()->user()->brgy_id)) {
                         $forms = Forms::with('user')
-                        ->whereHas('user', function ($query) {
-                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('brgy_id', auth()->user()->brgy_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            });
                         })
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
@@ -45,8 +50,13 @@ class FormsController extends Controller
                     }
                     else {
                         $forms = Forms::with('user')
-                        ->whereHas('user', function ($query) {
-                            $query->where('company_id', auth()->user()->company_id);
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('company_id', auth()->user()->company_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            });
                         })
                         ->where(function ($query) {
                             $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
@@ -71,8 +81,13 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
                 if(!is_null(auth()->user()->brgy_id)) {
                     $forms = Forms::with('user')
-                    ->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    ->where(function ($sq) {
+                        $sq->whereHas('user', function ($query) {
+                            $query->where('brgy_id', auth()->user()->brgy_id);
+                        })
+                        ->orWhereHas('records', function ($query) {
+                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                        });
                     })
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
@@ -83,8 +98,13 @@ class FormsController extends Controller
                 }
                 else {
                     $forms = Forms::with('user')
-                    ->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
+                    ->where(function ($sq) {
+                        $sq->whereHas('user', function ($query) {
+                            $query->where('company_id', auth()->user()->company_id);
+                        })
+                        ->orWhereHas('records', function ($query) {
+                            $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                        });
                     })
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
@@ -121,7 +141,8 @@ class FormsController extends Controller
             if(auth()->user()->isCesuAccount()) {
                 $data = Records::where(function ($query) use ($search) {
                     $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere('id', $search);
                 })->get();
 
                 $paswab = PaSwabDetails::where(function ($query) use ($search) {
@@ -558,7 +579,9 @@ class FormsController extends Controller
                 ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y (D)', strtotime($ex_id->testDateCollected2)) : date('m/d/Y (D)', strtotime($ex_id->testDateCollected1)));
             }
             else {
-                $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+                $interviewers = Interviewers::where('enabled', 1)
+                ->orderBy('lname', 'asc')
+                ->get();
                 
                 $countries = new Countries();
                 $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
@@ -788,20 +811,6 @@ class FormsController extends Controller
                 'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
                 'dateOfFirstConsult' => $request->dateOfFirstConsult,
                 'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
-
-                'vaccinationDate1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccinationDate1 : NULL,
-                'haveAdverseEvents1' => (!is_null($request->howManyDoseVaccine)) ? $request->haveAdverseEvents1 : NULL,
-                'vaccinationName1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccineName : NULL,
-                'vaccinationNoOfDose1' => (!is_null($request->howManyDoseVaccine)) ? 1 : NULL,
-                'vaccinationFacility1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
-                'vaccinationRegion1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
-
-                'vaccinationDate2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
-                'haveAdverseEvents2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
-                'vaccinationName2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
-                'vaccinationNoOfDose2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? 2 : NULL,
-                'vaccinationFacility2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
-                'vaccinationRegion2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
                 
                 'dispoType' => $request->dispositionType,
                 'dispoName' => $request->dispositionName,
@@ -1013,16 +1022,28 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id)) {
                 $records = Forms::with('user')
                 ->where('id', $id)
-                ->whereHas('user', function ($query) {
-                    $query->where('brgy_id', auth()->user()->brgy_id);
-                })->first();
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })
+                    ->orWhereHas('records', function ($query) {
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                    });
+                })
+                ->first();
             }
             else {
                 $records = Forms::with('user')
                 ->where('id', $id)
-                ->whereHas('user', function ($query) {
-                    $query->where('company_id', auth()->user()->company_id);
-                })->first();
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })
+                    ->orWhereHas('records', function ($query) {
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                    });
+                })
+                ->first();
             }
         }
         else {
@@ -1030,7 +1051,9 @@ class FormsController extends Controller
         }
 
         if($records) {
-            $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+            $interviewers = Interviewers::where('enabled', 1)
+            ->orderBy('lname', 'asc')
+            ->get();
 
             $docs = CifUploads::where('forms_id', $id)->get();
 
@@ -1334,21 +1357,7 @@ class FormsController extends Controller
                     'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
                     'dateOfFirstConsult' => $request->dateOfFirstConsult,
                     'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
-    
-                    'vaccinationDate1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccinationDate1 : NULL,
-                    'haveAdverseEvents1' => (!is_null($request->howManyDoseVaccine)) ? $request->haveAdverseEvents1 : NULL,
-                    'vaccinationName1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccineName : NULL,
-                    'vaccinationNoOfDose1' => (!is_null($request->howManyDoseVaccine)) ? 1 : NULL,
-                    'vaccinationFacility1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
-                    'vaccinationRegion1' => (!is_null($request->howManyDoseVaccine)) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
-    
-                    'vaccinationDate2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
-                    'haveAdverseEvents2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
-                    'vaccinationName2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
-                    'vaccinationNoOfDose2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? 2 : NULL,
-                    'vaccinationFacility2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
-                    'vaccinationRegion2' => (!is_null($request->howManyDoseVaccine) && $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
-                    
+                        
                     'dispoType' => $request->dispositionType,
                     'dispoName' => $request->dispositionName,
                     'dispoDate' => $request->dispositionDate,

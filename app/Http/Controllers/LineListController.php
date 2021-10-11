@@ -80,75 +80,117 @@ class LineListController extends Controller
             
             if($request->isOverride == 1) {
                 if(auth()->user()->isCesuAccount()) {
-                    $query = Forms::whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                    $query = Forms::whereHas('records', function ($q) use ($search) {
+                        $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                    })
+                    ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
                     ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
-                    ->pluck('records_id')
-                    ->toArray();
+                    ->get();
                 }
                 else {
                     if(auth()->user()->isBrgyAccount()) {
                         $query = Forms::with('user')
-                        ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
-                        ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
-                        ->whereHas('user', function ($query) {
-                            $query->where('brgy_id', auth()->user()->brgy_id);
-                        })->pluck('records_id')
-                        ->toArray();
+                        ->whereHas('records', function ($q) use ($search) {
+                            $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                        })
+                        ->where(function ($q) use($request) {
+                            $q->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                            ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo]);
+                        })
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('brgy_id', auth()->user()->brgy_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            });
+                        })
+                        ->get();
                     }
                     else if(auth()->user()->isCompanyAccount()) {
                         $query = Forms::with('user')
-                        ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
-                        ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
-                        ->whereHas('user', function ($query) {
-                            $query->where('company_id', auth()->user()->company_id);
-                        })->pluck('records_id')
-                        ->toArray();
+                        ->whereHas('records', function ($q) use ($search) {
+                            $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                        })
+                        ->where(function ($q) use($request) {
+                            $q->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
+                            ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo]);
+                        })
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('company_id', auth()->user()->company_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            });
+                        })
+                        ->get();
                     }
                 }
-    
-                //$query = Records::whereIn('id', $query)->orderBy('lname', 'asc')->get();
             }
             else {
                 if(auth()->user()->isCesuAccount()) {
-                    $query = Forms::where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'))
-                    ->pluck('records_id')
-                    ->toArray();
+                    $query = Forms::whereHas('records', function ($q) use ($search) {
+                        $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                    })
+                    ->where(function ($query) {
+                        $query->where('testDateCollected1', date('Y-m-d'))
+                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    })
+                    ->get();
                 }
                 else {
                     if(auth()->user()->isBrgyAccount()) {
                         $query = Forms::with('user')
+                        ->whereHas('records', function ($q) use ($search) {
+                            $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                        })
                         ->where(function ($query) {
                             $query->where('testDateCollected1', date('Y-m-d'))
                             ->orWhere('testDateCollected2', date('Y-m-d'));
-                        })->whereHas('user', function ($query) {
-                            $query->where('brgy_id', auth()->user()->brgy_id);
-                        })->pluck('records_id')
-                        ->toArray();
+                        })
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('brgy_id', auth()->user()->brgy_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            });
+                        })
+                        ->get();
                     }
                     else if(auth()->user()->isCompanyAccount()) {
                         $query = Forms::with('user')
+                        ->whereHas('records', function ($q) use ($search) {
+                            $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                        })
                         ->where(function ($query) {
                             $query->where('testDateCollected1', date('Y-m-d'))
                             ->orWhere('testDateCollected2', date('Y-m-d'));
-                        })->whereHas('user', function ($query) {
-                            $query->where('company_id', auth()->user()->company_id);
-                        })->pluck('records_id')
-                        ->toArray();
+                        })
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('company_id', auth()->user()->company_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            });
+                        })
+                        ->get();
                     }
                 }
             }
 
-            $query = Records::whereIn('id', $query)
-            ->where(function ($q) use ($search) {
-                $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
-            })->orderBy('lname', 'asc')->get();
-
             foreach($query as $item) {
                 array_push($list, [
-                    'id' => $item->id,
-                    'text' => $item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                    'id' => $item->records->id,
+                    'text' => '#'.$item->records->id.' - '.$item->records->getName().' | '.$item->records->getAge().'/'.substr($item->records->gender,0,1).' | '.date('m/d/Y', strtotime($item->records->bdate)),
                 ]);
             }
         }
@@ -198,7 +240,7 @@ class LineListController extends Controller
                 $oniTime = $request->timeCollected[$i];
             }
             else {
-                $search = Forms::where('records_id', $request->user[$i])->first();
+                $search = Forms::where('records_id', $request->user[$i])->orderBy('created_at', 'DESC')->first();
 
                 if(!is_null($search->testDateCollected2)) {
                     $oniTime = $search->oniTimeCollected2;

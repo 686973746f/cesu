@@ -34,7 +34,17 @@
                             <td style="vertical-align: middle;">{{$item->lname.", ".$item->fname." ".$item->mname}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{$item->desc}}</td>
-                            <td class="text-center" style="vertical-align: middle;"><a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a></td>
+                            <td class="text-center" style="vertical-align: middle;">
+                                <a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a>
+                                <form action="{{route('adminpanel.interviewers.options', ['id' => $item->id])}}" method="POST">
+                                    @csrf
+                                    @if($item->enabled == 1)
+                                    <button type="submit" name="submit" value="toggleStatus" class="btn btn-warning my-3">Disable</button>
+                                    @else
+                                    <button type="submit" name="submit" value="toggleStatus" class="btn btn-success my-3">Enable</button>
+                                    @endif
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

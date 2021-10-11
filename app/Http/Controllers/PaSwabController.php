@@ -131,6 +131,20 @@ class PaSwabController extends Controller
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                             'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                            'vaccinationDate1' => $data->vaccinationDate1,
+                            'vaccinationName1' => $data->vaccinationName1,
+                            'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                            'vaccinationFacility1' => $data->vaccinationFacility1,
+                            'vaccinationRegion1' => $data->vaccinationRegion1,
+                            'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                            'vaccinationDate2' => $data->vaccinationDate2,
+                            'vaccinationName2' => $data->vaccinationName2,
+                            'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                            'vaccinationFacility2' => $data->vaccinationFacility2,
+                            'vaccinationRegion2' => $data->vaccinationRegion2,
+                            'haveAdverseEvents2' => $data->haveAdverseEvents2,
                         ]);
                     }
                     else {
@@ -181,6 +195,20 @@ class PaSwabController extends Controller
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                             'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                            'vaccinationDate1' => $data->vaccinationDate1,
+                            'vaccinationName1' => $data->vaccinationName1,
+                            'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                            'vaccinationFacility1' => $data->vaccinationFacility1,
+                            'vaccinationRegion1' => $data->vaccinationRegion1,
+                            'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                            'vaccinationDate2' => $data->vaccinationDate2,
+                            'vaccinationName2' => $data->vaccinationName2,
+                            'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                            'vaccinationFacility2' => $data->vaccinationFacility2,
+                            'vaccinationRegion2' => $data->vaccinationRegion2,
+                            'haveAdverseEvents2' => $data->haveAdverseEvents2,
                         ]);
 
                         $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
@@ -268,20 +296,6 @@ class PaSwabController extends Controller
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                         'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                         'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
-
-                        'vaccinationDate1' => $data->vaccinationDate1,
-                        'vaccinationName1' => $data->vaccinationName1,
-                        'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
-                        'vaccinationFacility1' => $data->vaccinationFacility1,
-                        'vaccinationRegion1' => $data->vaccinationRegion1,
-                        'haveAdverseEvents1' => $data->haveAdverseEvents1,
-
-                        'vaccinationDate2' => $data->vaccinationDate2,
-                        'vaccinationName2' => $data->vaccinationName2,
-                        'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
-                        'vaccinationFacility2' => $data->vaccinationFacility2,
-                        'vaccinationRegion2' => $data->vaccinationRegion2,
-                        'haveAdverseEvents2' => $data->haveAdverseEvents2,
 
                         'dispoType' => 3,
                         'dispoName' => NULL,
@@ -526,6 +540,20 @@ class PaSwabController extends Controller
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                             'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                            'vaccinationDate1' => $data->vaccinationDate1,
+                            'vaccinationName1' => $data->vaccinationName1,
+                            'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                            'vaccinationFacility1' => $data->vaccinationFacility1,
+                            'vaccinationRegion1' => $data->vaccinationRegion1,
+                            'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                            'vaccinationDate2' => $data->vaccinationDate2,
+                            'vaccinationName2' => $data->vaccinationName2,
+                            'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                            'vaccinationFacility2' => $data->vaccinationFacility2,
+                            'vaccinationRegion2' => $data->vaccinationRegion2,
+                            'haveAdverseEvents2' => $data->haveAdverseEvents2,
                         ]);
                     }
                     else {
@@ -576,6 +604,20 @@ class PaSwabController extends Controller
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                             'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                            'vaccinationDate1' => $data->vaccinationDate1,
+                            'vaccinationName1' => $data->vaccinationName1,
+                            'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                            'vaccinationFacility1' => $data->vaccinationFacility1,
+                            'vaccinationRegion1' => $data->vaccinationRegion1,
+                            'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                            'vaccinationDate2' => $data->vaccinationDate2,
+                            'vaccinationName2' => $data->vaccinationName2,
+                            'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                            'vaccinationFacility2' => $data->vaccinationFacility2,
+                            'vaccinationRegion2' => $data->vaccinationRegion2,
+                            'haveAdverseEvents2' => $data->haveAdverseEvents2,
                         ]);
 
                         $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
@@ -624,20 +666,6 @@ class PaSwabController extends Controller
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                         'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                         'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
-
-                        'vaccinationDate1' => $data->vaccinationDate1,
-                        'vaccinationName1' => $data->vaccinationName1,
-                        'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
-                        'vaccinationFacility1' => $data->vaccinationFacility1,
-                        'vaccinationRegion1' => $data->vaccinationRegion1,
-                        'haveAdverseEvents1' => $data->haveAdverseEvents1,
-
-                        'vaccinationDate2' => $data->vaccinationDate2,
-                        'vaccinationName2' => $data->vaccinationName2,
-                        'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
-                        'vaccinationFacility2' => $data->vaccinationFacility2,
-                        'vaccinationRegion2' => $data->vaccinationRegion2,
-                        'haveAdverseEvents2' => $data->haveAdverseEvents2,
 
                         'dispoType' => 3,
                         'dispoName' => NULL,
@@ -1206,6 +1234,20 @@ class PaSwabController extends Controller
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                     'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                    'vaccinationDate1' => $data->vaccinationDate1,
+                    'vaccinationName1' => $data->vaccinationName1,
+                    'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                    'vaccinationFacility1' => $data->vaccinationFacility1,
+                    'vaccinationRegion1' => $data->vaccinationRegion1,
+                    'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                    'vaccinationDate2' => $data->vaccinationDate2,
+                    'vaccinationName2' => $data->vaccinationName2,
+                    'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                    'vaccinationFacility2' => $data->vaccinationFacility2,
+                    'vaccinationRegion2' => $data->vaccinationRegion2,
+                    'haveAdverseEvents2' => $data->haveAdverseEvents2,
                 ]);
             }
             else {
@@ -1256,6 +1298,20 @@ class PaSwabController extends Controller
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                     'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                    'vaccinationDate1' => $data->vaccinationDate1,
+                    'vaccinationName1' => $data->vaccinationName1,
+                    'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                    'vaccinationFacility1' => $data->vaccinationFacility1,
+                    'vaccinationRegion1' => $data->vaccinationRegion1,
+                    'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                    'vaccinationDate2' => $data->vaccinationDate2,
+                    'vaccinationName2' => $data->vaccinationName2,
+                    'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                    'vaccinationFacility2' => $data->vaccinationFacility2,
+                    'vaccinationRegion2' => $data->vaccinationRegion2,
+                    'haveAdverseEvents2' => $data->haveAdverseEvents2,
                 ]);
 
                 $oldform = Forms::where('records_id', $rec->id)->first();
@@ -1343,20 +1399,6 @@ class PaSwabController extends Controller
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                 'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                 'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
-
-                'vaccinationDate1' => $data->vaccinationDate1,
-                'vaccinationName1' => $data->vaccinationName1,
-                'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
-                'vaccinationFacility1' => $data->vaccinationFacility1,
-                'vaccinationRegion1' => $data->vaccinationRegion1,
-                'haveAdverseEvents1' => $data->haveAdverseEvents1,
-
-                'vaccinationDate2' => $data->vaccinationDate2,
-                'vaccinationName2' => $data->vaccinationName2,
-                'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
-                'vaccinationFacility2' => $data->vaccinationFacility2,
-                'vaccinationRegion2' => $data->vaccinationRegion2,
-                'haveAdverseEvents2' => $data->haveAdverseEvents2,
 
                 'dispoType' => 3,
                 'dispoName' => NULL,
@@ -1625,6 +1667,20 @@ class PaSwabController extends Controller
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                     'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                    'vaccinationDate1' => $data->vaccinationDate1,
+                    'vaccinationName1' => $data->vaccinationName1,
+                    'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                    'vaccinationFacility1' => $data->vaccinationFacility1,
+                    'vaccinationRegion1' => $data->vaccinationRegion1,
+                    'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                    'vaccinationDate2' => $data->vaccinationDate2,
+                    'vaccinationName2' => $data->vaccinationName2,
+                    'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                    'vaccinationFacility2' => $data->vaccinationFacility2,
+                    'vaccinationRegion2' => $data->vaccinationRegion2,
+                    'haveAdverseEvents2' => $data->haveAdverseEvents2,
                 ]);
             }
             else {
@@ -1675,6 +1731,20 @@ class PaSwabController extends Controller
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
                     'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+                    'vaccinationDate1' => $data->vaccinationDate1,
+                    'vaccinationName1' => $data->vaccinationName1,
+                    'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                    'vaccinationFacility1' => $data->vaccinationFacility1,
+                    'vaccinationRegion1' => $data->vaccinationRegion1,
+                    'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+                    'vaccinationDate2' => $data->vaccinationDate2,
+                    'vaccinationName2' => $data->vaccinationName2,
+                    'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                    'vaccinationFacility2' => $data->vaccinationFacility2,
+                    'vaccinationRegion2' => $data->vaccinationRegion2,
+                    'haveAdverseEvents2' => $data->haveAdverseEvents2,
                 ]);
 
                 $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
@@ -1723,20 +1793,6 @@ class PaSwabController extends Controller
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                 'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                 'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
-
-                'vaccinationDate1' => $data->vaccinationDate1,
-                'vaccinationName1' => $data->vaccinationName1,
-                'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
-                'vaccinationFacility1' => $data->vaccinationFacility1,
-                'vaccinationRegion1' => $data->vaccinationRegion1,
-                'haveAdverseEvents1' => $data->haveAdverseEvents1,
-
-                'vaccinationDate2' => $data->vaccinationDate2,
-                'vaccinationName2' => $data->vaccinationName2,
-                'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
-                'vaccinationFacility2' => $data->vaccinationFacility2,
-                'vaccinationRegion2' => $data->vaccinationRegion2,
-                'haveAdverseEvents2' => $data->haveAdverseEvents2,
 
                 'dispoType' => 3,
                 'dispoName' => NULL,

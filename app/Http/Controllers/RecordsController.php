@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Forms;
 use App\Models\Records;
 use App\Models\Companies;
@@ -23,28 +24,36 @@ class RecordsController extends Controller
 			if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
 				if(!is_null(auth()->user()->brgy_id)) {
 					$records = Records::with('user')
-					->where(function ($query) {
-						$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-                		->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
+					->where(function ($q) {
+						$q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+						->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+						->orWhere('id', request()->input('q'));
 					})->whereHas('user', function ($query) {
-						$query->where('brgy_id', auth()->user()->brgy_id);
-					})->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
+						$query->where('brgy_id', auth()->user()->brgy_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+					})
+					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 				else {
 					$records = Records::with('user')
-					->where(function ($query) {
-						$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-                		->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
+					->where(function ($q) {
+						$q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+						->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+						->orWhere('id', request()->input('q'));
 					})->whereHas('user', function ($query) {
-						$query->where('company_id', auth()->user()->company_id);
-					})->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
+						$query->where('company_id', auth()->user()->company_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+					})
+					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 			}
 			else {
-				$records = Records::where(function ($query) {
-					$query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
-                	->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%");
-				})->orderByRaw('lname ASC, fname ASC, mname ASC')
+				$records = Records::where(function ($q) {
+					$q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+					->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
+					->orWhere('id', request()->input('q'));
+				})
+				->orderByRaw('lname ASC, fname ASC, mname ASC')
 				->paginate(10);
 			}
 		}
@@ -53,14 +62,16 @@ class RecordsController extends Controller
 				if(!is_null(auth()->user()->brgy_id)) {
 					$records = Records::with('user')
 					->whereHas('user', function($q) {
-						$q->where('brgy_id', auth()->user()->brgy_id);
+						$q->where('brgy_id', auth()->user()->brgy_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
 					})
 					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
 				else {
 					$records = Records::with('user')
 					->whereHas('user', function($q) {
-						$q->where('company_id', auth()->user()->company_id);
+						$q->where('company_id', auth()->user()->company_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
 					})
 					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
@@ -75,9 +86,9 @@ class RecordsController extends Controller
 
 	public function check(Request $request) {
 		$request->validate([
-			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
+			'lname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
+    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
 			'bdate' => "required|date|before:tomorrow",
 		]);
 
@@ -132,7 +143,7 @@ class RecordsController extends Controller
 					return back()
 					->withInput()
 					->with('type', 'recordExisting')
-					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('status', 'Error: Record of '.$check1->getName().' (#'.$check1->id.') already exists in the Database.')
 					->with('eligibleToEdit', $eligibleToEdit)
 					->with('statustype', 'danger')
 					->with('link', route('records.edit', ['record' => $check1->id]))
@@ -142,7 +153,7 @@ class RecordsController extends Controller
 					return back()
 					->withInput()
 					->with('type', 'recordExisting')
-					->with('status', 'Error: Record of '.$check1->getName().' already exists in the Database.')
+					->with('status', 'Error: Record of '.$check1->getName().' (#'.$check1->id.') already exists in the Database.')
 					->with('eligibleToEdit', $eligibleToEdit)
 					->with('statustype', 'danger')
 					->with('link', route('records.edit', ['record' => $check1->id]));
@@ -159,7 +170,7 @@ class RecordsController extends Controller
 				return back()
 				->withInput()
 				->with('type', 'recordExisting')
-				->with('status', 'Error: Record of '.$check2->getName().' already exists in Pa-swab list.')
+				->with('status', 'Error: Record of '.$check2->getName().' (#'.$check2->id.') already exists in Pa-swab list.')
 				->with('eligibleToEdit', $eligibleToEdit)
 				->with('statustype', 'danger')
 				->with('link', route('paswab.viewspecific', ['id' => $check2->id]));
@@ -392,6 +403,20 @@ class RecordsController extends Controller
 
 				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+				'vaccinationDate1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccinationDate1 : NULL,
+				'haveAdverseEvents1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents1 : NULL,
+				'vaccinationName1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? 1 : NULL,
+				'vaccinationFacility1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+				'vaccinationRegion1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
+
+				'vaccinationDate2' => ($request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+				'haveAdverseEvents2' => ($request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+				'vaccinationName2' => ($request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
+				'vaccinationFacility2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 			]);
 			
 			return redirect()->action([RecordsController::class, 'index'])
@@ -426,14 +451,16 @@ class RecordsController extends Controller
 				$record = Records::with('user')
 				->where('id', $id)
 				->whereHas('user', function ($query) {
-					$query->where('brgy_id', auth()->user()->brgy_id);
+					$query->where('brgy_id', auth()->user()->brgy_id)
+					->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
 				})->first();
 			}
 			else {
 				$record = Records::with('user')
 				->where('id', $id)
 				->whereHas('user', function ($query) {
-					$query->where('company_id', auth()->user()->company_id);
+					$query->where('company_id', auth()->user()->company_id)
+					->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
 				})->first();
 			}
 		}
@@ -444,9 +471,29 @@ class RecordsController extends Controller
 		if($record) {
 			$cifcheck = Forms::where('records_id', $record->id)->first();
 
+			//Vaccination Details
+            if(!is_null($record->vaccinationDate2) || !is_null($record->vaccinationDate1)) {
+                if(!is_null($record->vaccinationDate2)) {
+                    $vaccineDose = 2;
+                }
+                else {
+                    $vaccineDose = 1;
+                }
+            }
+            else {
+                $vaccineDose = NULL;
+            }
+
+			$sharedAccessList = User::where('enabled', 1)
+			->where('isAdmin', 0)
+			->where('id', '!=', auth()->user()->id)
+			->get();
+
 			return view('recordsedit', [
 				'record' => $record,
 				'cifcheck' =>$cifcheck,
+				'vaccineDose' => $vaccineDose,
+				'sharedAccessList' => $sharedAccessList,
 			]);
 		}
 		else {
@@ -720,6 +767,22 @@ class RecordsController extends Controller
 
 				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+
+				'vaccinationDate1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccinationDate1 : NULL,
+				'haveAdverseEvents1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents1 : NULL,
+				'vaccinationName1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? 1 : NULL,
+				'vaccinationFacility1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+				'vaccinationRegion1' => ($request->howManyDoseVaccine == 1 || $request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
+
+				'vaccinationDate2' => ($request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+				'haveAdverseEvents2' => ($request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+				'vaccinationName2' => ($request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
+				'vaccinationFacility2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
+
+				'sharedOnId' => (!is_null($request->sharedOnId)) ? implode(",", $request->sharedOnId) : NULL,
 			]);
 
 			$record = Records::findOrFail($id);
