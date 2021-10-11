@@ -1556,7 +1556,7 @@ class FormsController extends Controller
         $recentcif = Forms::where('records_id', $record->id)->orderBy('created_at', 'DESC')->first();
 
         if($recentcif->outcomeCondition == 'Recovered') {
-            $interviewers = Interviewers::orderBy('lname', 'asc')->get();
+            $interviewers = Interviewers::where('enabled', 1)->orderBy('lname', 'asc')->get();
                 
             $countries = new Countries();
             $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
