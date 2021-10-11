@@ -41,7 +41,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="morbidityMonth"><span class="text-danger font-weight-bold">*</span>Morbidity Month (MM)</label>
-                              <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="{{date('Y-m-d')}}" max="{{(time() >= strtotime('16:00:00')) ? date('Y-m-d', strtotime('+1 Day')) : date('Y-m-d')}}" value="{{old('morbidityMonth', date('Y-m-d'))}}" required>
+                              <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="{{date('Y-m-d')}}" max="{{(time() >= strtotime('16:00:00')) ? date('Y-m-d', strtotime('+1 Day')) : date('Y-m-d')}}" value="{{old('morbidityMonth', (time() >= strtotime('16:00:00')) ? date('Y-m-d', strtotime('+1 Day')) : date('Y-m-d'))}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
