@@ -780,6 +780,13 @@ class FormsController extends Controller
             array_push($testCat, "F");
         }
 
+        //Auto Change Case Classification based on symptoms
+        if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
+            if(in_array('Anosmia (Loss of Smell)', $request->sasCheck) || in_array('Ageusia (Loss of Taste)', $request->sasCheck)) {
+                $caseClassi = 'Probable';
+            }
+        }
+
         if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
             return back()
             ->withInput()
@@ -1321,6 +1328,13 @@ class FormsController extends Controller
         }
         if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->isPregnant == 1) {
             array_push($testCat, "F");
+        }
+
+        //Auto Change Case Classification based on symptoms
+        if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
+            if(in_array('Anosmia (Loss of Smell)', $request->sasCheck) || in_array('Ageusia (Loss of Taste)', $request->sasCheck)) {
+                $caseClassi = 'Probable';
+            }
         }
 
         if($proceed == 1) {
