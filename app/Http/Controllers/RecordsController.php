@@ -124,7 +124,8 @@ class RecordsController extends Controller
 					}
 				}
 
-				$check3 = Forms::where('records_id', $check1->id)->first();
+				//get latest form
+				$check3 = Forms::where('records_id', $check1->id)->orderBy('created_at', 'DESC')->first();
 
 				if($check3) {
 					//kung may existing CIF na
