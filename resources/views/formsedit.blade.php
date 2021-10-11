@@ -298,6 +298,16 @@
                                 <option value="TESTING" @if(old('pType', $records->pType) == "TESTING"){{'selected'}}@endif>For RT-PCR Testing (Not a Case of Close Contact)</option>
                                 </select>
                             </div>
+                            <div id="ifCC">
+                                <div class="form-group">
+                                  <label for="ccType"><span class="text-danger font-weight-bold">*</span>Close Contact Type</label>
+                                  <select class="form-control" name="ccType" id="ccType">
+                                    <option value="1" {{(old('ccType', $records->ccType) == 1) ? 'selected' : ''}}>Primary</option>
+                                    <option value="2" {{(old('ccType', $records->ccType) == 2) ? 'selected' : ''}}>Secondary</option>
+                                    <option value="3" {{(old('ccType', $records->ccType) == 3) ? 'selected' : ''}}>Tertiary</option>
+                                  </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -3567,6 +3577,18 @@
                     $('localDateDepart2').val("");
                     $('localDest2').val("");
                     $('localDateArrive2').val("");
+                }
+            }).trigger('change');
+
+            $('#pType').change(function (e) { 
+                e.preventDefault();
+                if($(this).val() == "CLOSE CONTACT") {
+                    $('#ifCC').show();
+                    $('#ccType').prop('required', true);
+                }
+                else {
+                    $('#ifCC').hide();
+                    $('#ccType').prop('required', false);
                 }
             }).trigger('change');
         });
