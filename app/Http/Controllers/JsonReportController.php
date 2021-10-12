@@ -329,7 +329,6 @@ class JsonReportController extends Controller
                 ->where('records.address_brgy', $brgy->brgyName);
             })
             ->where('status', 'approved')
-            ->where('isPresentOnSwabDay', 1)
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
             ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
