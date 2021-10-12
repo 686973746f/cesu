@@ -856,7 +856,7 @@
                                             <div id="askIfReinfected">
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="reinfected" id="reinfected" value="1" {{(old('reinfected', $records->reinfected) == 1) ? 'checked' : ''}} {{($records->caseClassification == 'Confirmed' && $records->outcomeCondition == 'Recovered') ? 'required' : ''}}>
+                                                      <input type="checkbox" class="form-check-input" name="reinfected" id="reinfected" value="1" {{(old('reinfected', $records->reinfected) == 1) ? 'checked' : ''}}>
                                                       Case of Re-infection
                                                     </label>
                                                 </div>

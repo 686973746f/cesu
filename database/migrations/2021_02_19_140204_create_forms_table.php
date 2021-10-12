@@ -17,6 +17,7 @@ class CreateFormsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
+            $table->tinyInt('isPriority')->default(0);
             $table->tinyInteger('reinfected')->default(0);
             $table->date('morbidityMonth');
             $table->string('majikCode')->nullable();
