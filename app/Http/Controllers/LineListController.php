@@ -86,6 +86,7 @@ class LineListController extends Controller
                     })
                     ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
                     ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->get();
                 }
                 else {
@@ -107,6 +108,7 @@ class LineListController extends Controller
                                 $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                             });
                         })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->get();
                     }
                     else if(auth()->user()->isCompanyAccount()) {
@@ -127,6 +129,7 @@ class LineListController extends Controller
                                 $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                             });
                         })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->get();
                     }
                 }
@@ -141,6 +144,7 @@ class LineListController extends Controller
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
                     })
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->get();
                 }
                 else {
@@ -162,6 +166,7 @@ class LineListController extends Controller
                                 $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                             });
                         })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->get();
                     }
                     else if(auth()->user()->isCompanyAccount()) {
@@ -182,6 +187,7 @@ class LineListController extends Controller
                                 $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                             });
                         })
+                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->get();
                     }
                 }
