@@ -272,6 +272,19 @@ class PaSwabController extends Controller
                         array_push($testCat, "F");
                     }
 
+                    //Auto Change Case Classification to Probable Based on Symptoms
+                    if(!is_null($data->SAS)) {
+                        if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
+                            $caseClassi = 'Probable';
+                        }
+                        else {
+                            $caseClassi = 'Suspect';
+                        }
+                    }
+                    else {
+                        $caseClassi = 'Suspect';
+                    }
+
                     $request->user()->form()->create([
                         'morbidityMonth' => date('Y-m-d'),
                         'dateReported' => date('Y-m-d'),
@@ -301,7 +314,7 @@ class PaSwabController extends Controller
                         'dispoName' => NULL,
                         'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                         'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
-                        'caseClassification' => 'Suspect',
+                        'caseClassification' => $caseClassi,
                         'isHealthCareWorker' => '0',
                         'healthCareCompanyName' => NULL,
                         'healthCareCompanyLocation' => NULL,
@@ -642,6 +655,19 @@ class PaSwabController extends Controller
                         array_push($testCat, "F");
                     }
 
+                    //Auto Change Case Classification to Probable Based on Symptoms
+                    if(!is_null($data->SAS)) {
+                        if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
+                            $caseClassi = 'Probable';
+                        }
+                        else {
+                            $caseClassi = 'Suspect';
+                        }
+                    }
+                    else {
+                        $caseClassi = 'Suspect';
+                    }
+
                     $request->user()->form()->create([
                         'morbidityMonth' => date('Y-m-d'),
                         'dateReported' => date('Y-m-d'),
@@ -671,7 +697,7 @@ class PaSwabController extends Controller
                         'dispoName' => NULL,
                         'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                         'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
-                        'caseClassification' => 'Suspect',
+                        'caseClassification' => $caseClassi,
                         'isHealthCareWorker' => '0',
                         'healthCareCompanyName' => NULL,
                         'healthCareCompanyLocation' => NULL,
@@ -1375,6 +1401,19 @@ class PaSwabController extends Controller
                 array_push($testCat, "F");
             }
 
+            //Auto Change Case Classification to Probable Based on Symptoms
+            if(!is_null($data->SAS)) {
+                if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
+                    $caseClassi = 'Probable';
+                }
+                else {
+                    $caseClassi = 'Suspect';
+                }
+            }
+            else {
+                $caseClassi = 'Suspect';
+            }
+
             $request->user()->form()->create([
                 'morbidityMonth' => date('Y-m-d'),
                 'dateReported' => date('Y-m-d'),
@@ -1404,7 +1443,7 @@ class PaSwabController extends Controller
                 'dispoName' => NULL,
                 'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                 'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
-                'caseClassification' => 'Suspect',
+                'caseClassification' => $caseClassi,
                 'healthCareCompanyName' => NULL,
                 'healthCareCompanyLocation' => NULL,
                 'isOFW' => '0',
@@ -1769,6 +1808,19 @@ class PaSwabController extends Controller
                 array_push($testCat, "F");
             }
 
+            //Auto Change Case Classification to Probable Based on Symptoms
+            if(!is_null($data->SAS)) {
+                if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
+                    $caseClassi = 'Probable';
+                }
+                else {
+                    $caseClassi = 'Suspect';
+                }
+            }
+            else {
+                $caseClassi = 'Suspect';
+            }
+
             $request->user()->form()->create([
                 'morbidityMonth' => date('Y-m-d'),
                 'dateReported' => date('Y-m-d'),
@@ -1798,7 +1850,7 @@ class PaSwabController extends Controller
                 'dispoName' => NULL,
                 'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                 'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
-                'caseClassification' => 'Suspect',
+                'caseClassification' => $caseClassi,
                 'isHealthCareWorker' => '0',
                 'healthCareCompanyName' => NULL,
                 'healthCareCompanyLocation' => NULL,
