@@ -781,7 +781,7 @@ class FormsController extends Controller
         }
 
         //Auto Change Case Classification based on symptoms
-        if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
+        if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
             if(in_array('Anosmia (Loss of Smell)', $request->sasCheck) || in_array('Ageusia (Loss of Taste)', $request->sasCheck)) {
                 $caseClassi = 'Probable';
             }
@@ -1332,7 +1332,7 @@ class FormsController extends Controller
         }
 
         //Auto Change Case Classification based on symptoms
-        if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
+        if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
             if(in_array('Anosmia (Loss of Smell)', $request->sasCheck) || in_array('Ageusia (Loss of Taste)', $request->sasCheck)) {
                 $caseClassi = 'Probable';
             }
