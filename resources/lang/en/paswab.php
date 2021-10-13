@@ -37,7 +37,12 @@ return [
     'occupation_name' => 'Name of Company/Workplace',
     'natureOfWork' => 'Nature of Work',
     'vaccineq1' => 'Are you currently vaccinated againts COVID-19?',
-    'howManyDose' => 'Ilang Dose na ang nakumpleto?',
+    'howManyDose' => 'Number of Dosage Completed?',
+    'nameOfVaccine' => 'Name of Vaccine',
+
+    'haveSymptoms' => 'Are you currently experiencing any COVID-19 signs or symptoms?',
+    'dateOnsetOfIllness' => 'Date of Onset of Illness',
+    'sxText' => 'Signs and Symptoms (Check all that apply)',
     
     'dataPrivacy' => 'By choosing "I Agree" and clicking the "Submit" button below, I hereby acknowledge and certify that I have carefully read and understood the Terms and Conditions of the Data Privacy Policy/Notice of the City Government of General Trias. By providing personal information to City Government of General Trias, I am confirming that the data is true and correct. I understand that City Government of General Trias reserves the right to revise any decision made on the basis of the information I provided should the information be found to be untrue or incorrect. I likewise agree that any issue that may arise in connection with the processing of my personal information will be settled amicably with City Government of General Trias before resorting to appropriate arbitration or court proceedings within the Philippine jurisdiction. Finally, I am providing my voluntary consent and authorization to City Government of General Trias and its authorized representatives to lawfully process my data/information.',
     'iAgree' => 'I Agree',

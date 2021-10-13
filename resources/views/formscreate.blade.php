@@ -919,7 +919,7 @@
                                                             <div id="divFeverChecked">
                                                                 <div class="form-group mt-2">
                                                                   <label for="SASFeverDeg"><span class="text-danger font-weight-bold">*</span>Degrees (in Celcius)</label>
-                                                                  <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" value="{{old('SASFeverDeg', '38')}}">
+                                                                  <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" max="90" value="{{old('SASFeverDeg', '38')}}">
                                                                 </div>
                                                             </div>
                                                             <div class="form-check">

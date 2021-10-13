@@ -325,7 +325,7 @@
                                     <div class="form-group">
                                         <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>{{__('paswab.saddress_province')}}</label>
                                         <select class="form-control" name="saddress_province" id="saddress_province" required>
-                                          <option value="" selected disabled>Choose...</option>
+                                          <option value="" selected disabled>{{__('paswab.select.Choose')}}</option>
                                         </select>
                                             @error('saddress_province')
                                               <small class="text-danger">{{$message}}</small>
@@ -336,7 +336,7 @@
                                     <div class="form-group">
                                       <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>{{__('paswab.saddress_city')}}</label>
                                       <select class="form-control" name="saddress_city" id="saddress_city" required>
-                                        <option value="" selected disabled>Choose...</option>
+                                        <option value="" selected disabled>{{__('paswab.select.Choose')}}</option>
                                       </select>
                                         @error('saddress_city')
                                             <small class="text-danger">{{$message}}</small>
@@ -347,7 +347,7 @@
                                     <div class="form-group">
                                       <label for="address_brgy"><span class="text-danger font-weight-bold">*</span>Barangay</label>
                                       <select class="form-control" name="address_brgy" id="address_brgy" required>
-                                        <option value="" selected disabled>Choose...</option>
+                                        <option value="" selected disabled>{{__('paswab.select.Choose')}}</option>
                                       </select>
                                           @error('address_brgy')
                                             <small class="text-danger">{{$message}}</small>
@@ -581,15 +581,15 @@
                                 <div class="form-group">
                                   <label for="howManyDose"><span class="text-danger font-weight-bold">*</span>{{__('paswab.howManyDose')}}</label>
                                   <select class="form-control" name="howManyDose" id="howManyDose">
-                                    <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose</option>
                                     <option value="2" {{(old('howManyDose') == '2') ? 'selected' : ''}}>2nd Dose</option>
                                   </select>
                                 </div>
                                 <div class="form-group">
-                                  <label for="nameOfVaccine"><span class="text-danger font-weight-bold">*</span>Pangalan ng Bakuna / Name of Vaccine</label>
+                                  <label for="nameOfVaccine"><span class="text-danger font-weight-bold">*</span>{{__('paswab.nameOfVaccine')}}</label>
                                   <select class="form-control" name="nameOfVaccine" id="nameOfVaccine">
-                                    <option value="" disabled {{is_null(old('nameOfVaccine')) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" disabled {{is_null(old('nameOfVaccine')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="BHARAT BIOTECH" {{(old('nameOfVaccine') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
                                     <option value="GAMALEYA SPUTNIK V" {{(old('nameOfVaccine') == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
                                     <option value="JANSSEN" {{(old('nameOfVaccine') == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
@@ -626,7 +626,7 @@
                                             <div class="form-group">
                                                 <label for="haveAdverseEvents1"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
                                                 <select class="form-control" name="haveAdverseEvents1" id="haveAdverseEvents1">
-                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents1'))) ? 'selected' : ''}}>Choose...</option>
+                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents1'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                                   <option value="1" {{(old('haveAdverseEvents1') == '1') ? 'selected' : ''}}>Yes</option>
                                                   <option value="0" {{(old('haveAdverseEvents1') == '0') ? 'selected' : ''}}>No</option>
                                                 </select>
@@ -658,7 +658,7 @@
                                                 <div class="form-group">
                                                     <label for="haveAdverseEvents2"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
                                                     <select class="form-control" name="haveAdverseEvents2" id="haveAdverseEvents2">
-                                                      <option value="" disabled {{(is_null(old('haveAdverseEvents2'))) ? 'selected' : ''}}>Choose...</option>
+                                                      <option value="" disabled {{(is_null(old('haveAdverseEvents2'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                                       <option value="1" {{(old('haveAdverseEvents2') == '1') ? 'selected' : ''}}>Yes</option>
                                                       <option value="0" {{(old('haveAdverseEvents2') == '0') ? 'selected' : ''}}>No</option>
                                                     </select>
@@ -674,20 +674,20 @@
                         <div class="card-header font-weight-bold">5. Clinical Information</div>
                         <div class="card-body">
                             <div class="form-group">
-                              <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Kasalukuyan ka bang nakakaranas ng senyales o sintomas ng COVID-19? / Are you currently experiencing any COVID-19 signs or symptoms?</label>
+                              <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>{{__('paswab.haveSymptoms')}}</label>
                               <select class="form-control" name="haveSymptoms" id="haveSymptoms">
-                                <option value="" disabled {{is_null(old('haveSymptoms')) ? 'selected' : ''}}>Choose...</option>
+                                <option value="" disabled {{is_null(old('haveSymptoms')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                 <option value="1" {{(old('haveSymptoms') == '1') ? 'selected' : ''}}>Oo / Yes</option>
                                 <option value="0" {{(old('haveSymptoms') == '0') ? 'selected' : ''}}>Hindi / No</option>
                               </select>
                             </div>
                             <div id="ifHaveSymptoms">
                                 <div class="form-group">
-                                    <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>Kailan nagsimula ang Sintomas / Date of Onset of Illness</label>
+                                    <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>{{__('paswab.dateOnsetOfIllness')}}</label>
                                     <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" min="1999-01-01" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">Senyales at Sintomas (Lagyan ng Check ang mayroon) / Signs and Symptoms (Check all that apply)</div>
+                                    <div class="card-header">{{__('paswab.sxText')}}</div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -716,7 +716,7 @@
                                                 <div id="divFeverChecked">
                                                     <div class="form-group mt-2">
                                                       <label for="SASFeverDeg"><span class="text-danger font-weight-bold">*</span>Degrees (in Celcius)</label>
-                                                      <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" value="{{old('SASFeverDeg')}}">
+                                                      <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" max="90" value="{{old('SASFeverDeg')}}">
                                                     </div>
                                                 </div>
                                                 <div class="form-check">
@@ -1097,7 +1097,7 @@
                             <div class="form-group">
                                 <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
                                 <select class="form-control" name="expoitem1" id="expoitem1" required>
-                                    <option value="" disabled {{is_null(old('expoitem1')) ? 'selected' : ''}}>Pumili / Choose...</option>
+                                    <option value="" disabled {{is_null(old('expoitem1')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="1" {{(old('expoitem1') == '1') ? 'selected' : ''}}>Oo / Yes</option>
                                     <option value="2" {{(old('expoitem1') == '2') ? 'selected' : ''}}>Hindi / No</option>
                                     <option value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Hindi sigurado / Unknown</option>
