@@ -1059,6 +1059,8 @@ class FormsController extends Controller
         }
 
         if($records) {
+            $oldCif = Forms::where('records_id', );
+
             $interviewers = Interviewers::where('enabled', 1)
             ->orderBy('lname', 'asc')
             ->get();
