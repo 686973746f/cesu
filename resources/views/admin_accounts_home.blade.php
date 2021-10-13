@@ -87,8 +87,10 @@
                           <label for="adminType">Admin Type</label>
                           <select class="form-control" name="adminType" id="adminType" required>
                                 <option value="" disabled selected>Choose...</option>
-                                <option value="1">Super Admin</option>
-                                <option value="2">Semi-Admin (for Encoders)</option>
+                                <option value="1">Admin</option>
+                                <option value="2">COVID Encoder</option>
+                                <option value="3">Contact Tracer</option>
+                                <option value="4">Facility Account</option>
                           </select>
                         </div>
                         <div class="form-group">

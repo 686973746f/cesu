@@ -32,6 +32,7 @@ class CreatePaSwabDetailsTable extends Migration
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
+            $table->string('suffix')->nullable();
             $table->date('bdate');
             $table->string('gender');
             $table->smallInteger('isPregnant');
