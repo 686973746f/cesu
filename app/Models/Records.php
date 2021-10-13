@@ -274,4 +274,40 @@ class Records extends Model
             }
         }
     }
+
+    public static function eligibleToUpdate($id) {
+        $record = Records::findOrFail($id);
+
+        if(auth()->user()->isCesuAccount()) {
+            return true;
+        }
+        else {
+            if($record->user_id == auth()->user()->id || in_array(auth()->user()->id, explode(",", $record->sharedOnId))) {
+                return true;
+            }
+            else {
+                if(auth()->user()->isBrgyAccount()) {
+                    //Barangay Account
+                    if($record->province == auth()->user()->brgy->city->province->provinceName && $record->address_city == auth()->user()->brgy->city->cityName && $record->address_brgy == auth()->user()->brgy->brgyName) {
+                        return true;
+                    }
+                    else if($record->user->brgy_id == auth()->user()->brgy_id) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    //Company Account
+                    if($record->user->company_id == auth()->user()->company_id) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
 }

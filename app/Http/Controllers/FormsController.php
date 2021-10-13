@@ -559,38 +559,7 @@ class FormsController extends Controller
      */
 
     public function new($id) {
-        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
-            if(!is_null(auth()->user()->brgy_id)) {
-                $check = Records::with('user')
-                ->where('id', $id)
-                ->where(function ($sq) {
-                    $sq->whereHas('user', function ($q) {
-                        $q->where('brgy_id', auth()->user()->brgy_id);
-                    })
-                    ->orWhereHas('records', function ($q) {
-                        $q->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
-                    })
-                    ->orWhereHas('records', function ($q) {
-                        $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
-                        ->where('address_city', auth()->user()->brgy->city->cityName)
-                        ->where('address_brgy', auth()->user()->brgy->brgyName);
-                    });
-                })
-                ->first();
-            }
-            else {
-                $check = Records::with('user')
-                ->where('id', $id)
-                ->whereHas('user', function ($query) {
-                    $query->where('company_id', auth()->user()->company_id);
-                })->first();
-            }
-        }
-        else {
-            $check = Records::findOrFail($id);
-        }
-
-        if($check) {
+        if(Records::eligibleToUpdate($id)) {
             if(Forms::where('records_id', $id)->exists()) {
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->orderby('created_at', 'DESC')->first();
@@ -623,6 +592,48 @@ class FormsController extends Controller
         else {
             return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
         }
+        
+        /*
+        Old Checking Method
+
+        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+            if(!is_null(auth()->user()->brgy_id)) {
+                $check = Records::with('user')
+                ->where('id', $id)
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($q) {
+                        $q->where('brgy_id', auth()->user()->brgy_id);
+                    })
+                    ->orWhereHas('records', function ($q) {
+                        $q->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                    })
+                    ->orWhereHas('records', function ($q) {
+                        $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+                        ->where('address_city', auth()->user()->brgy->city->cityName)
+                        ->where('address_brgy', auth()->user()->brgy->brgyName);
+                    });
+                })
+                ->first();
+            }
+            else {
+                $check = Records::with('user')
+                ->where('id', $id)
+                ->whereHas('user', function ($query) {
+                    $query->where('company_id', auth()->user()->company_id);
+                })->first();
+            }
+        }
+        else {
+            $check = Records::findOrFail($id);
+        }
+
+        if($check) {
+            
+        }
+        else {
+            
+        }
+        */ 
     }
 
     /**
@@ -1057,39 +1068,8 @@ class FormsController extends Controller
      */
     public function edit($id)
     {
-        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
-            if(!is_null(auth()->user()->brgy_id)) {
-                $records = Forms::with('user')
-                ->where('id', $id)
-                ->where(function ($sq) {
-                    $sq->whereHas('user', function ($query) {
-                        $query->where('brgy_id', auth()->user()->brgy_id);
-                    })
-                    ->orWhereHas('records', function ($query) {
-                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
-                    });
-                })
-                ->first();
-            }
-            else {
-                $records = Forms::with('user')
-                ->where('id', $id)
-                ->where(function ($sq) {
-                    $sq->whereHas('user', function ($query) {
-                        $query->where('company_id', auth()->user()->company_id);
-                    })
-                    ->orWhereHas('records', function ($query) {
-                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
-                    });
-                })
-                ->first();
-            }
-        }
-        else {
-            $records = Forms::findOrFail($id);
-        }
-
-        if($records) {
+        $currentForm = Forms::findOrFail($id);
+        if(Records::eligibleToUpdate($currentForm->records_id)) {
             $interviewers = Interviewers::where('enabled', 1)
             ->orderBy('lname', 'asc')
             ->get();
@@ -1127,6 +1107,48 @@ class FormsController extends Controller
         else {
             return redirect()->action([FormsController::class, 'index'])->with('status', 'You are not allowed to do that.')->with('statustype', 'warning');
         }
+
+        /*
+        Old Checking Method
+        if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+            if(!is_null(auth()->user()->brgy_id)) {
+                $records = Forms::with('user')
+                ->where('id', $id)
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($query) {
+                        $query->where('brgy_id', auth()->user()->brgy_id);
+                    })
+                    ->orWhereHas('records', function ($query) {
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                    });
+                })
+                ->first();
+            }
+            else {
+                $records = Forms::with('user')
+                ->where('id', $id)
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($query) {
+                        $query->where('company_id', auth()->user()->company_id);
+                    })
+                    ->orWhereHas('records', function ($query) {
+                        $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                    });
+                })
+                ->first();
+            }
+        }
+        else {
+            $records = Forms::findOrFail($id);
+        }
+
+        if($records) {
+            
+        }
+        else {
+            
+        }
+        */
     }
 
     /**
@@ -1139,63 +1161,29 @@ class FormsController extends Controller
     public function update(FormValidationRequest $request, $id)
     {
         $rec = Forms::findOrFail($id);
-        
-        $oldAttendance = $rec->isPresentOnSwabDay;
-        $olddate = $rec->testDateCollected1;
-        $oldTestType1 = $rec->testType1;
-        $oldTestType2 = $rec->testType2;
-        $currentPhilhealth = $rec->records->philhealth;
-        $currentOutcome = $rec->outcomeCondition;
 
-        $rec = Records::findOrFail($rec->records->id);
+        if(Records::eligibleToUpdate($rec->records_id)) {
+            $oldAttendance = $rec->isPresentOnSwabDay;
+            $olddate = $rec->testDateCollected1;
+            $oldTestType1 = $rec->testType1;
+            $oldTestType2 = $rec->testType2;
+            $currentPhilhealth = $rec->records->philhealth;
+            $currentOutcome = $rec->outcomeCondition;
 
-        if($rec->isPregnant == 0) {
-            $hrp = 0;
-        }
-        else {
-            $hrp = $request->highRiskPregnancy;
-        }
+            $rec = Records::findOrFail($rec->records->id);
 
-        if($request->testResult1 != "PENDING") {
-            if($request->testResult1 == "POSITIVE") {
-                $caseClassi = 'Confirmed';
-            }
-            else if($request->testResult1 == "NEGATIVE") {
-                if($request->pType == 'CLOSE CONTACT') {
-                    $caseClassi = 'Suspect';
-                }
-                else {
-                    $caseClassi = 'Non-COVID-19 Case';
-                }
+            if($rec->isPregnant == 0) {
+                $hrp = 0;
             }
             else {
-                $caseClassi = $request->caseClassification;
+                $hrp = $request->highRiskPregnancy;
             }
 
-            $attended = 1;
-        }
-        else {
-            $caseClassi = $request->caseClassification;
-
-            if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
-                if(!is_null($oldAttendance)) {
-                    $attended = $oldAttendance;
-                }
-                else {
-                    $attended = null;
-                }
-            }
-            else {
-                $attended = null;
-            }
-        }
-
-        if($request->filled('testType2')) {
-            if($request->testResult2 != "PENDING") {
-                if($request->testResult2 == "POSITIVE") {
+            if($request->testResult1 != "PENDING") {
+                if($request->testResult1 == "POSITIVE") {
                     $caseClassi = 'Confirmed';
                 }
-                else if($request->testResult2 == "NEGATIVE") {
+                else if($request->testResult1 == "NEGATIVE") {
                     if($request->pType == 'CLOSE CONTACT') {
                         $caseClassi = 'Suspect';
                     }
@@ -1204,15 +1192,15 @@ class FormsController extends Controller
                     }
                 }
                 else {
-                    //Equivocal and others will be placed here
                     $caseClassi = $request->caseClassification;
                 }
+
                 $attended = 1;
             }
             else {
                 $caseClassi = $request->caseClassification;
 
-                if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
+                if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
                     if(!is_null($oldAttendance)) {
                         $attended = $oldAttendance;
                     }
@@ -1224,352 +1212,394 @@ class FormsController extends Controller
                     $attended = null;
                 }
             }
-        }
 
-        $request->validated();
-
-        if($olddate == $request->testDateCollected1) {
-            $proceed = 1;
-        }
-        else {
-            if(Forms::where([
-                ['records_id', $rec->id],
-                ['testDateCollected1', $request->testDateCollected1]
-            ])->exists()) {
-                $proceed = 0;
-            }
-            else {
-                $proceed = 1;
-            }
-        }
-
-        if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
-            if(!is_null($currentPhilhealth)) {
-                if($request->filled('oniTimeCollected1')) {
-                    $oniTimeFinal = $request->oniTimeCollected1;
+            if($request->filled('testType2')) {
+                if($request->testResult2 != "PENDING") {
+                    if($request->testResult2 == "POSITIVE") {
+                        $caseClassi = 'Confirmed';
+                    }
+                    else if($request->testResult2 == "NEGATIVE") {
+                        if($request->pType == 'CLOSE CONTACT') {
+                            $caseClassi = 'Suspect';
+                        }
+                        else {
+                            $caseClassi = 'Non-COVID-19 Case';
+                        }
+                    }
+                    else {
+                        //Equivocal and others will be placed here
+                        $caseClassi = $request->caseClassification;
+                    }
+                    $attended = 1;
                 }
                 else {
-                    $trigger = 0;
-                    $addMinutes = 0;
-
-                    while ($trigger != 1) {
-                        $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
-
-                        $query = Forms::with('records')
-                        ->where('testDateCollected1', $request->testDateCollected1)
-                        ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
-                        ->whereHas('records', function ($q) {
-                            $q->whereNotNull('philhealth');
-                        })
-                        ->where('oniTimeCollected1', $oniStartTime)->get();
-
-                        if($query->count()) {
-                            if($query->count() < 5) {
+                    $caseClassi = $request->caseClassification;
+    
+                    if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
+                        if(!is_null($oldAttendance)) {
+                            $attended = $oldAttendance;
+                        }
+                        else {
+                            $attended = null;
+                        }
+                    }
+                    else {
+                        $attended = null;
+                    }
+                }
+            }
+    
+            $request->validated();
+    
+            if($olddate == $request->testDateCollected1) {
+                $proceed = 1;
+            }
+            else {
+                if(Forms::where([
+                    ['records_id', $rec->id],
+                    ['testDateCollected1', $request->testDateCollected1]
+                ])->exists()) {
+                    $proceed = 0;
+                }
+                else {
+                    $proceed = 1;
+                }
+            }
+    
+            if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
+                if(!is_null($currentPhilhealth)) {
+                    if($request->filled('oniTimeCollected1')) {
+                        $oniTimeFinal = $request->oniTimeCollected1;
+                    }
+                    else {
+                        $trigger = 0;
+                        $addMinutes = 0;
+    
+                        while ($trigger != 1) {
+                            $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+    
+                            $query = Forms::with('records')
+                            ->where('testDateCollected1', $request->testDateCollected1)
+                            ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                            ->whereHas('records', function ($q) {
+                                $q->whereNotNull('philhealth');
+                            })
+                            ->where('oniTimeCollected1', $oniStartTime)->get();
+    
+                            if($query->count()) {
+                                if($query->count() < 5) {
+                                    $oniTimeFinal = $oniStartTime;
+                                    $trigger = 1;
+                                }
+                                else {
+                                    $addMinutes = $addMinutes + 5;
+                                }
+                            }
+                            else {
                                 $oniTimeFinal = $oniStartTime;
                                 $trigger = 1;
                             }
-                            else {
-                                $addMinutes = $addMinutes + 5;
-                            }
-                        }
-                        else {
-                            $oniTimeFinal = $oniStartTime;
-                            $trigger = 1;
                         }
                     }
+                }
+                else {
+                    $oniTimeFinal = $request->oniTimeCollected1;
                 }
             }
             else {
                 $oniTimeFinal = $request->oniTimeCollected1;
             }
-        }
-        else {
-            $oniTimeFinal = $request->oniTimeCollected1;
-        }
-
-        if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
-            if(!is_null($currentPhilhealth)) {
-                if($request->filled('oniTimeCollected2')) {
-                    $oniTimeFinal2 = $request->oniTimeCollected2;
-                }
-                else {
-                    $trigger = 0;
-                    $addMinutes = 0;
-
-                    while ($trigger != 1) {
-                        $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
-
-                        $query = Forms::with('records')
-                        ->where('testDateCollected2', $request->testDateCollected2)
-                        ->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
-                        ->whereHas('records', function ($q) {
-                            $q->whereNotNull('philhealth');
-                        })
-                        ->where('oniTimeCollected2', $oniStartTime)->get();
-
-                        if($query->count()) {
-                            if($query->count() < 5) {
+    
+            if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
+                if(!is_null($currentPhilhealth)) {
+                    if($request->filled('oniTimeCollected2')) {
+                        $oniTimeFinal2 = $request->oniTimeCollected2;
+                    }
+                    else {
+                        $trigger = 0;
+                        $addMinutes = 0;
+    
+                        while ($trigger != 1) {
+                            $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+    
+                            $query = Forms::with('records')
+                            ->where('testDateCollected2', $request->testDateCollected2)
+                            ->whereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS'])
+                            ->whereHas('records', function ($q) {
+                                $q->whereNotNull('philhealth');
+                            })
+                            ->where('oniTimeCollected2', $oniStartTime)->get();
+    
+                            if($query->count()) {
+                                if($query->count() < 5) {
+                                    $oniTimeFinal2 = $oniStartTime;
+                                    $trigger = 1;
+                                }
+                                else {
+                                    $addMinutes = $addMinutes + 5;
+                                }
+                            }
+                            else {
                                 $oniTimeFinal2 = $oniStartTime;
                                 $trigger = 1;
                             }
-                            else {
-                                $addMinutes = $addMinutes + 5;
-                            }
-                        }
-                        else {
-                            $oniTimeFinal2 = $oniStartTime;
-                            $trigger = 1;
                         }
                     }
+                }
+                else {
+                    $oniTimeFinal2 = $request->oniTimeCollected2;
                 }
             }
             else {
                 $oniTimeFinal2 = $request->oniTimeCollected2;
             }
-        }
-        else {
-            $oniTimeFinal2 = $request->oniTimeCollected2;
-        }
-
-        //Auto Change Classification kung Recovered or Patay na ang pasyente
-        if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
-            $caseClassi = 'Confirmed';
-        }
-
-        //Auto Change MM pag namatay
-        if($currentOutcome != 'Died' && $request->outcomeCondition == 'Died') {
-            $request->morbidityMonth = date('Y-m-d');
-        }
-
-        //Auto Change Testing Category/Subgroup Base on the patient data
-        $testCat = $request->testingCat;
-        if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
-            array_push($testCat, "A");
-        }
-        if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
-            array_push($testCat, "D.1");
-        }
-        if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
-            array_push($testCat, "C");
-        }
-        if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
-            array_push($testCat, "B");
-        }
-        if(!in_array("D.1", $testCat) && $request->pType == 'CLOSE CONTACT') {
-            array_push($testCat, "D.1");
-        }
-        if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->isPregnant == 1) {
-            array_push($testCat, "F");
-        }
-
-        //Auto Change Case Classification based on symptoms
-        if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
-            if(in_array('Anosmia (Loss of Smell)', $request->sasCheck) || in_array('Ageusia (Loss of Taste)', $request->sasCheck)) {
-                $caseClassi = 'Probable';
-            }
-        }
-
-        if($proceed == 1) {
-            if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
-                return back()
-			    ->withInput()
-                ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM - 12AM Daily. You can change the Morbidity Month to Tomorrow ('.date('m/d/Y', strtotime('+1 Day')).') so that it could be encoded for tomorrow.')
-                ->with('msgType', 'warning');
-            }
-            else {
-                $form = Forms::where('id', $id)->update([
-                    'reinfected' => ($request->reinfected) ? 1 : 0,
-                    'morbidityMonth' => $request->morbidityMonth,
-                    'dateReported' => $request->dateReported,
-                    'status' => 'approved',
-                    'isExported' => '0',
-                    'exportedDate' => null,
-                    'updated_by' => auth()->user()->id,
-                    'isPresentOnSwabDay' => $attended,
-                    'drunit' => mb_strtoupper($request->drunit),
-                    'drregion' => mb_strtoupper($request->drregion),
-                    'drprovince' => mb_strtoupper($request->drprovince),
-                    'interviewerName' => $request->interviewerName,
-                    'interviewerMobile' => $request->interviewerMobile,
-                    'interviewDate' => $request->interviewDate,
-                    'informantName' => $request->informantName,
-                    'informantRelationship' => $request->informantRelationship,
-                    'informantMobile' => $request->informantMobile,
-                    'existingCaseList' => implode(",", $request->existingCaseList),
-                    'ecOthersRemarks' => $request->ecOthersRemarks,
-                    'pType' => $request->pType,
-                    'ccType' => ($request->pType == 'CLOSE CONTACT') ? $request->ccType : NULL,
-                    'isForHospitalization' => $request->isForHospitalization,
-                    'testingCat' => implode(",", $testCat),
-                    'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
-                    'dateOfFirstConsult' => $request->dateOfFirstConsult,
-                    'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
-                        
-                    'dispoType' => $request->dispositionType,
-                    'dispoName' => $request->dispositionName,
-                    'dispoDate' => $request->dispositionDate,
-                    'healthStatus' => $request->healthStatus,
-                    'caseClassification' => $caseClassi,
-                    'isHealthCareWorker' => $request->isHealthCareWorker,
-                    'healthCareCompanyName' => $request->healthCareCompanyName,
-                    'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
-                    'isOFW' => $request->isOFW,
-                    'OFWCountyOfOrigin' => ($request->isOFW == 1) ? $request->OFWCountyOfOrigin : NULL,
-                    'OFWPassportNo' => ($request->isOFW == 1) ? $request->OFWPassportNo : NULL,
-                    'ofwType' => ($request->isOFW == 1) ? $request->ofwType : NULL,
-                    'isFNT' => $request->isFNT,
-                    'FNTCountryOfOrigin' => ($request->isFNT == 1) ? $request->FNTCountryOfOrigin : NULL,
-                    'FNTPassportNo' => ($request->isFNT == 1) ? $request->FNTPassportNo : NULL,
-                    'lsiType' => $request->lsiType,
-                    'isLSI' => $request->isLSI,
-                    'LSICity' => $request->LSICity,
-                    'LSIProvince' => $request->LSIProvince,
-                    'isLivesOnClosedSettings' => $request->isLivesOnClosedSettings,
-                    'institutionType' => $request->institutionType,
-                    'institutionName' => $request->institutionName,
-                    'dateOnsetOfIllness' => $request->dateOnsetOfIllness,
-                    'SAS' => (!is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
-                    'SASFeverDeg' => $request->SASFeverDeg,
-                    'SASOtherRemarks' => $request->SASOtherRemarks,
-                    'COMO' => implode(",", $request->comCheck),
-                    'COMOOtherRemarks' => $request->COMOOtherRemarks,
-                    'PregnantLMP' => $request->PregnantLMP,
-                    'PregnantHighRisk' => $hrp,
-                    'diagWithSARI' => $request->diagWithSARI,
-                    'imagingDoneDate' => $request->imagingDoneDate,
-                    'imagingDone' => $request->imagingDone,
-                    'imagingResult' => $request->imagingResult,
-                    'imagingOtherFindings' => $request->imagingResult,
-        
-                    'testedPositiveUsingRTPCRBefore' => $request->testedPositiveUsingRTPCRBefore,
-                    'testedPositiveNumOfSwab' => $request->testedPositiveNumOfSwab,
-                    'testedPositiveLab' => $request->testedPositiveLab,
-                    'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
-        
-                    'testDateCollected1' => $request->testDateCollected1,
-                    'oniTimeCollected1' => $oniTimeFinal,
-                    'testDateReleased1' => $request->testDateReleased1,
-                    'testLaboratory1' => $request->testLaboratory1,
-                    'testType1' => $request->testType1,
-                    'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                    'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
-                    'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                    'testResult1' => $request->testResult1,
-                    'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
-        
-                    'testDateCollected2' => $request->testDateCollected2,
-                    'oniTimeCollected2' => $oniTimeFinal2,
-                    'testDateReleased2' => $request->testDateReleased2,
-                    'testLaboratory2' => $request->testLaboratory2,
-                    'testType2' => ($request->testType2 != "N/A") ? $request->testType2 : NULL,
-                    'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
-                    'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
-                    'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
-                    'testResult2' => ($request->testType2 != "N/A") ? $request->testResult2 : NULL,
-                    'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
-        
-                    'outcomeCondition' => $request->outcomeCondition,
-                    'outcomeRecovDate' => $request->outcomeRecovDate,
-                    'outcomeDeathDate' => $request->outcomeDeathDate,
-                    'deathImmeCause' => $request->deathImmeCause,
-                    'deathAnteCause' => $request->deathAnteCause,
-                    'deathUndeCause' => $request->deathUndeCause,
-                    'contriCondi' => $request->contriCondi,
-        
-                    'expoitem1' => $request->expoitem1,
-                    'expoDateLastCont' => $request->expoDateLastCont,
-        
-                    'expoitem2' => $request->expoitem2,
-                    'intCountry' => $request->intCountry,
-                    'intDateFrom' => $request->intDateFrom,
-                    'intDateTo' => $request->intDateTo,
-                    'intWithOngoingCovid' => ($request->expoitem2 == 2) ? $request->intWithOngoingCovid : 'N/A',
-                    'intVessel' => $request->intVessel,
-                    'intVesselNo' => $request->intVesselNo,
-                    'intDateDepart' => $request->intDateDepart,
-                    'intDateArrive' => $request->intDateArrive,
-        
-                    'placevisited' => (!is_null($request->placevisited)) ? implode(",", $request->placevisited) : NULL,
-        
-                    'locName1' => $request->locName1,
-                    'locAddress1' => $request->locAddress1,
-                    'locDateFrom1' => $request->locDateFrom1,
-                    'locDateTo1' => $request->locDateTo1,
-                    'locWithOngoingCovid1' => (!is_null($request->placevisited) && in_array('Health Facility', $request->placevisited)) ? $request->locWithOngoingCovid1 : 'N/A', 
-        
-                    'locName2' => $request->locName2,
-                    'locAddress2' => $request->locAddress2,
-                    'locDateFrom2' => $request->locDateFrom2,
-                    'locDateTo2' => $request->locDateTo2,
-                    'locWithOngoingCovid2' => (!is_null($request->placevisited) && in_array('Closed Settings', $request->placevisited)) ? $request->locWithOngoingCovid2 : 'N/A',
-                    
-                    'locName3' => $request->locName3,
-                    'locAddress3' => $request->locAddress3,
-                    'locDateFrom3' => $request->locDateFrom3,
-                    'locDateTo3' => $request->locDateTo3,
-                    'locWithOngoingCovid3' => (!is_null($request->placevisited) && in_array('School', $request->placevisited)) ? $request->locWithOngoingCovid3 : 'N/A',
-                    
-                    'locName4' => $request->locName4,
-                    'locAddress4' => $request->locAddress4,
-                    'locDateFrom4' => $request->locDateFrom4,
-                    'locDateTo4' => $request->locDateTo4,
-                    'locWithOngoingCovid4' => (!is_null($request->placevisited) && in_array('Workplace', $request->placevisited)) ? $request->locWithOngoingCovid4 : 'N/A',
-        
-                    'locName5' => $request->locName5,
-                    'locAddress5' => $request->locAddress5,
-                    'locDateFrom5' => $request->locDateFrom5,
-                    'locDateTo5' => $request->locDateTo5,
-                    'locWithOngoingCovid5' => (!is_null($request->placevisited) && in_array('Market', $request->placevisited)) ? $request->locWithOngoingCovid5 : 'N/A',
-        
-                    'locName6' => $request->locName6,
-                    'locAddress6' => $request->locAddress6,
-                    'locDateFrom6' => $request->locDateFrom6,
-                    'locDateTo6' => $request->locDateTo6,
-                    'locWithOngoingCovid6' => (!is_null($request->placevisited) && in_array('Social Gathering', $request->placevisited)) ? $request->locWithOngoingCovid6 : 'N/A',
-        
-                    'locName7' => $request->locName7,
-                    'locAddress7' => $request->locAddress7,
-                    'locDateFrom7' => $request->locDateFrom7,
-                    'locDateTo7' => $request->locDateTo7,
-                    'locWithOngoingCovid7' => (!is_null($request->placevisited) && in_array('Others', $request->placevisited)) ? $request->locWithOngoingCovid7 : 'N/A',
-        
-                    'localVessel1' => $request->localVessel1,
-                    'localVesselNo1' => $request->localVesselNo1,
-                    'localOrigin1' => $request->localOrigin1,
-                    'localDateDepart1' => $request->localDateDepart1,
-                    'localDest1' => $request->localDest1,
-                    'localDateArrive1' => $request->localDateArrive1,
-        
-                    'localVessel2' => $request->localVessel2,
-                    'localVesselNo2' => $request->localVesselNo2,
-                    'localOrigin2' => $request->localOrigin2,
-                    'localDateDepart2' => $request->localDateDepart2,
-                    'localDest2' => $request->localDest2,
-                    'localDateArrive2' => $request->localDateArrive2,
-        
-                    'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
-                    'contact1No' => $request->contact1No,
-                    'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
-                    'contact2No' => $request->contact2No,
-                    'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
-                    'contact3No' => $request->contact3No,
-                    'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
-                    'contact4No' => $request->contact4No,
     
-                    'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
-                ]);
+            //Auto Change Classification kung Recovered or Patay na ang pasyente
+            if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
+                $caseClassi = 'Confirmed';
+            }
     
-                if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {
-                    return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")->with('status', 'CIF for '.$rec->lname.", ".$rec->fname." ".$rec->mname." has been updated successfully.")->with('statustype', 'success');
+            //Auto Change MM pag namatay
+            if($currentOutcome != 'Died' && $request->outcomeCondition == 'Died') {
+                $request->morbidityMonth = date('Y-m-d');
+            }
+    
+            //Auto Change Testing Category/Subgroup Base on the patient data
+            $testCat = $request->testingCat;
+            if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
+                array_push($testCat, "A");
+            }
+            if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
+                array_push($testCat, "D.1");
+            }
+            if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
+                array_push($testCat, "C");
+            }
+            if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
+                array_push($testCat, "B");
+            }
+            if(!in_array("D.1", $testCat) && $request->pType == 'CLOSE CONTACT') {
+                array_push($testCat, "D.1");
+            }
+            if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->isPregnant == 1) {
+                array_push($testCat, "F");
+            }
+    
+            //Auto Change Case Classification based on symptoms
+            if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
+                if(in_array('Anosmia (Loss of Smell)', $request->sasCheck) || in_array('Ageusia (Loss of Taste)', $request->sasCheck)) {
+                    $caseClassi = 'Probable';
+                }
+            }
+
+            if($proceed == 1) {
+                if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
+                    return back()
+                    ->withInput()
+                    ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM - 12AM Daily. You can change the Morbidity Month to Tomorrow ('.date('m/d/Y', strtotime('+1 Day')).') so that it could be encoded for tomorrow.')
+                    ->with('msgType', 'warning');
                 }
                 else {
-                    return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF for '.$rec->lname.", ".$rec->fname." ".$rec->mname." has been updated successfully.")->with('statustype', 'success');
+                    $form = Forms::where('id', $id)->update([
+                        'reinfected' => ($request->reinfected) ? 1 : 0,
+                        'morbidityMonth' => $request->morbidityMonth,
+                        'dateReported' => $request->dateReported,
+                        'status' => 'approved',
+                        'isExported' => '0',
+                        'exportedDate' => null,
+                        'updated_by' => auth()->user()->id,
+                        'isPresentOnSwabDay' => $attended,
+                        'drunit' => mb_strtoupper($request->drunit),
+                        'drregion' => mb_strtoupper($request->drregion),
+                        'drprovince' => mb_strtoupper($request->drprovince),
+                        'interviewerName' => $request->interviewerName,
+                        'interviewerMobile' => $request->interviewerMobile,
+                        'interviewDate' => $request->interviewDate,
+                        'informantName' => $request->informantName,
+                        'informantRelationship' => $request->informantRelationship,
+                        'informantMobile' => $request->informantMobile,
+                        'existingCaseList' => implode(",", $request->existingCaseList),
+                        'ecOthersRemarks' => $request->ecOthersRemarks,
+                        'pType' => $request->pType,
+                        'ccType' => ($request->pType == 'CLOSE CONTACT') ? $request->ccType : NULL,
+                        'isForHospitalization' => $request->isForHospitalization,
+                        'testingCat' => implode(",", $testCat),
+                        'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
+                        'dateOfFirstConsult' => $request->dateOfFirstConsult,
+                        'facilityNameOfFirstConsult' => $request->facilityNameOfFirstConsult,
+                            
+                        'dispoType' => $request->dispositionType,
+                        'dispoName' => $request->dispositionName,
+                        'dispoDate' => $request->dispositionDate,
+                        'healthStatus' => $request->healthStatus,
+                        'caseClassification' => $caseClassi,
+                        'isHealthCareWorker' => $request->isHealthCareWorker,
+                        'healthCareCompanyName' => $request->healthCareCompanyName,
+                        'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
+                        'isOFW' => $request->isOFW,
+                        'OFWCountyOfOrigin' => ($request->isOFW == 1) ? $request->OFWCountyOfOrigin : NULL,
+                        'OFWPassportNo' => ($request->isOFW == 1) ? $request->OFWPassportNo : NULL,
+                        'ofwType' => ($request->isOFW == 1) ? $request->ofwType : NULL,
+                        'isFNT' => $request->isFNT,
+                        'FNTCountryOfOrigin' => ($request->isFNT == 1) ? $request->FNTCountryOfOrigin : NULL,
+                        'FNTPassportNo' => ($request->isFNT == 1) ? $request->FNTPassportNo : NULL,
+                        'lsiType' => $request->lsiType,
+                        'isLSI' => $request->isLSI,
+                        'LSICity' => $request->LSICity,
+                        'LSIProvince' => $request->LSIProvince,
+                        'isLivesOnClosedSettings' => $request->isLivesOnClosedSettings,
+                        'institutionType' => $request->institutionType,
+                        'institutionName' => $request->institutionName,
+                        'dateOnsetOfIllness' => $request->dateOnsetOfIllness,
+                        'SAS' => (!is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
+                        'SASFeverDeg' => $request->SASFeverDeg,
+                        'SASOtherRemarks' => $request->SASOtherRemarks,
+                        'COMO' => implode(",", $request->comCheck),
+                        'COMOOtherRemarks' => $request->COMOOtherRemarks,
+                        'PregnantLMP' => $request->PregnantLMP,
+                        'PregnantHighRisk' => $hrp,
+                        'diagWithSARI' => $request->diagWithSARI,
+                        'imagingDoneDate' => $request->imagingDoneDate,
+                        'imagingDone' => $request->imagingDone,
+                        'imagingResult' => $request->imagingResult,
+                        'imagingOtherFindings' => $request->imagingResult,
+            
+                        'testedPositiveUsingRTPCRBefore' => $request->testedPositiveUsingRTPCRBefore,
+                        'testedPositiveNumOfSwab' => $request->testedPositiveNumOfSwab,
+                        'testedPositiveLab' => $request->testedPositiveLab,
+                        'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
+            
+                        'testDateCollected1' => $request->testDateCollected1,
+                        'oniTimeCollected1' => $oniTimeFinal,
+                        'testDateReleased1' => $request->testDateReleased1,
+                        'testLaboratory1' => $request->testLaboratory1,
+                        'testType1' => $request->testType1,
+                        'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                        'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                        'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                        'testResult1' => $request->testResult1,
+                        'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
+            
+                        'testDateCollected2' => $request->testDateCollected2,
+                        'oniTimeCollected2' => $oniTimeFinal2,
+                        'testDateReleased2' => $request->testDateReleased2,
+                        'testLaboratory2' => $request->testLaboratory2,
+                        'testType2' => ($request->testType2 != "N/A") ? $request->testType2 : NULL,
+                        'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
+                        'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
+                        'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
+                        'testResult2' => ($request->testType2 != "N/A") ? $request->testResult2 : NULL,
+                        'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
+            
+                        'outcomeCondition' => $request->outcomeCondition,
+                        'outcomeRecovDate' => $request->outcomeRecovDate,
+                        'outcomeDeathDate' => $request->outcomeDeathDate,
+                        'deathImmeCause' => $request->deathImmeCause,
+                        'deathAnteCause' => $request->deathAnteCause,
+                        'deathUndeCause' => $request->deathUndeCause,
+                        'contriCondi' => $request->contriCondi,
+            
+                        'expoitem1' => $request->expoitem1,
+                        'expoDateLastCont' => $request->expoDateLastCont,
+            
+                        'expoitem2' => $request->expoitem2,
+                        'intCountry' => $request->intCountry,
+                        'intDateFrom' => $request->intDateFrom,
+                        'intDateTo' => $request->intDateTo,
+                        'intWithOngoingCovid' => ($request->expoitem2 == 2) ? $request->intWithOngoingCovid : 'N/A',
+                        'intVessel' => $request->intVessel,
+                        'intVesselNo' => $request->intVesselNo,
+                        'intDateDepart' => $request->intDateDepart,
+                        'intDateArrive' => $request->intDateArrive,
+            
+                        'placevisited' => (!is_null($request->placevisited)) ? implode(",", $request->placevisited) : NULL,
+            
+                        'locName1' => $request->locName1,
+                        'locAddress1' => $request->locAddress1,
+                        'locDateFrom1' => $request->locDateFrom1,
+                        'locDateTo1' => $request->locDateTo1,
+                        'locWithOngoingCovid1' => (!is_null($request->placevisited) && in_array('Health Facility', $request->placevisited)) ? $request->locWithOngoingCovid1 : 'N/A', 
+            
+                        'locName2' => $request->locName2,
+                        'locAddress2' => $request->locAddress2,
+                        'locDateFrom2' => $request->locDateFrom2,
+                        'locDateTo2' => $request->locDateTo2,
+                        'locWithOngoingCovid2' => (!is_null($request->placevisited) && in_array('Closed Settings', $request->placevisited)) ? $request->locWithOngoingCovid2 : 'N/A',
+                        
+                        'locName3' => $request->locName3,
+                        'locAddress3' => $request->locAddress3,
+                        'locDateFrom3' => $request->locDateFrom3,
+                        'locDateTo3' => $request->locDateTo3,
+                        'locWithOngoingCovid3' => (!is_null($request->placevisited) && in_array('School', $request->placevisited)) ? $request->locWithOngoingCovid3 : 'N/A',
+                        
+                        'locName4' => $request->locName4,
+                        'locAddress4' => $request->locAddress4,
+                        'locDateFrom4' => $request->locDateFrom4,
+                        'locDateTo4' => $request->locDateTo4,
+                        'locWithOngoingCovid4' => (!is_null($request->placevisited) && in_array('Workplace', $request->placevisited)) ? $request->locWithOngoingCovid4 : 'N/A',
+            
+                        'locName5' => $request->locName5,
+                        'locAddress5' => $request->locAddress5,
+                        'locDateFrom5' => $request->locDateFrom5,
+                        'locDateTo5' => $request->locDateTo5,
+                        'locWithOngoingCovid5' => (!is_null($request->placevisited) && in_array('Market', $request->placevisited)) ? $request->locWithOngoingCovid5 : 'N/A',
+            
+                        'locName6' => $request->locName6,
+                        'locAddress6' => $request->locAddress6,
+                        'locDateFrom6' => $request->locDateFrom6,
+                        'locDateTo6' => $request->locDateTo6,
+                        'locWithOngoingCovid6' => (!is_null($request->placevisited) && in_array('Social Gathering', $request->placevisited)) ? $request->locWithOngoingCovid6 : 'N/A',
+            
+                        'locName7' => $request->locName7,
+                        'locAddress7' => $request->locAddress7,
+                        'locDateFrom7' => $request->locDateFrom7,
+                        'locDateTo7' => $request->locDateTo7,
+                        'locWithOngoingCovid7' => (!is_null($request->placevisited) && in_array('Others', $request->placevisited)) ? $request->locWithOngoingCovid7 : 'N/A',
+            
+                        'localVessel1' => $request->localVessel1,
+                        'localVesselNo1' => $request->localVesselNo1,
+                        'localOrigin1' => $request->localOrigin1,
+                        'localDateDepart1' => $request->localDateDepart1,
+                        'localDest1' => $request->localDest1,
+                        'localDateArrive1' => $request->localDateArrive1,
+            
+                        'localVessel2' => $request->localVessel2,
+                        'localVesselNo2' => $request->localVesselNo2,
+                        'localOrigin2' => $request->localOrigin2,
+                        'localDateDepart2' => $request->localDateDepart2,
+                        'localDest2' => $request->localDest2,
+                        'localDateArrive2' => $request->localDateArrive2,
+            
+                        'contact1Name' => ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL,
+                        'contact1No' => $request->contact1No,
+                        'contact2Name' => ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL,
+                        'contact2No' => $request->contact2No,
+                        'contact3Name' => ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL,
+                        'contact3No' => $request->contact3No,
+                        'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
+                        'contact4No' => $request->contact4No,
+        
+                        'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
+                    ]);
+        
+                    if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {
+                        return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")->with('status', 'CIF for '.$rec->lname.", ".$rec->fname." ".$rec->mname." has been updated successfully.")->with('statustype', 'success');
+                    }
+                    else {
+                        return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF for '.$rec->lname.", ".$rec->fname." ".$rec->mname." has been updated successfully.")->with('statustype', 'success');
+                    }
                 }
+            }
+            else {
+                return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Edit Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y', strtotime($request->testDateCollected1)))->with('statustype', 'danger');
             }
         }
         else {
-            return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Edit Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y', strtotime($request->testDateCollected1)))->with('statustype', 'danger');
-        }   
+            return back()
+            ->withInput()
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgType', 'warning');
+        }
     }
 
     /**
