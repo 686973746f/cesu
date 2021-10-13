@@ -20,10 +20,10 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-6">
-                        <a class="btn btn-primary btn-lg btn-block" href="{{route('paswab.index', ['locale' => 'en'])}}?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button"><span class="flag-icon flag-icon-gb mr-2"></span>English</a>
+                        <a class="btn btn-primary btn-lg btn-block my-3" href="{{route('paswab.index', ['locale' => 'en'])}}?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button"><span class="flag-icon flag-icon-gb mr-2"></span>English</a>
                     </div>
                     <div class="col-md-6">
-                        <a class="btn btn-primary btn-lg btn-block" href="{{route('paswab.index', ['locale' => 'fil'])}}?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button"><span class="flag-icon flag-icon-ph mr-2"></span>Filipino / Tag-lish</a>
+                        <a class="btn btn-primary btn-lg btn-block my-3" href="{{route('paswab.index', ['locale' => 'fil'])}}?rlink={{request()->input('rlink')}}&s={{request()->input('s')}}" role="button"><span class="flag-icon flag-icon-ph mr-2"></span>Filipino / Tag-lish</a>
                     </div>
                 </div>
             </div>
