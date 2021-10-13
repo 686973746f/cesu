@@ -493,12 +493,12 @@ class ReportController extends Controller
             }
 
             if($form->dispoType == 1) {
-                $dispo = 'ADMITTED AT HOSPITAL';
+                $dispo = 'ADMITTED';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 2) {
-                $dispo = 'ADMITTED AT OTHER ISOLATION FACILITY';
+                $dispo = 'ADMITTED';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
@@ -508,17 +508,17 @@ class ReportController extends Controller
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 4) {
-                $dispo = 'DISCHARGED TO HOME';
+                $dispo = 'DISCHARGED';
                 $dispoName = "N/A";
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 5) {
-                $dispo = 'OTHERS';
+                $dispo = 'ADMITTED';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 6) {
-                $dispo = 'ADMITTED AT GENERAL TRIAS ISOLATION FACILITY';
+                $dispo = 'ADMITTED';
                 $dispoName = 'GENERAL TRIAS ISOLATION FACILITY';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
