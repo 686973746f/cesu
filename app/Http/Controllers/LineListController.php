@@ -106,6 +106,11 @@ class LineListController extends Controller
                             })
                             ->orWhereHas('records', function ($query) {
                                 $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            })
+                            ->orWhereHas('records', function ($q) {
+                                $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+                                ->where('address_city', auth()->user()->brgy->city->cityName)
+                                ->where('address_brgy', auth()->user()->brgy->brgyName);
                             });
                         })
                         ->whereIn('caseClassification', ['Suspect', 'Probable'])
@@ -159,11 +164,16 @@ class LineListController extends Controller
                             ->orWhere('testDateCollected2', date('Y-m-d'));
                         })
                         ->where(function ($sq) {
-                            $sq->whereHas('user', function ($query) {
-                                $query->where('brgy_id', auth()->user()->brgy_id);
+                            $sq->whereHas('user', function ($q) {
+                                $q->where('brgy_id', auth()->user()->brgy_id);
                             })
-                            ->orWhereHas('records', function ($query) {
-                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            ->orWhereHas('records', function ($q) {
+                                $q->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            })
+                            ->orWhereHas('records', function ($q) {
+                                $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+                                ->where('address_city', auth()->user()->brgy->city->cityName)
+                                ->where('address_brgy', auth()->user()->brgy->brgyName);
                             });
                         })
                         ->whereIn('caseClassification', ['Suspect', 'Probable'])

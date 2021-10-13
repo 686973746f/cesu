@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Brgy;
 use App\Models\Records;
 use App\Models\CifUploads;
 use App\Models\PaSwabLinks;
@@ -103,7 +104,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function brgy() {
-        return $this->hasMany(Brgy::class);
+        return $this->belongsTo(Brgy::class);
     }
 
     public function brgyCode() {

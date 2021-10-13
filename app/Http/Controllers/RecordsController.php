@@ -28,9 +28,17 @@ class RecordsController extends Controller
 						$q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
 						->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
 						->orWhere('id', request()->input('q'));
-					})->whereHas('user', function ($query) {
-						$query->where('brgy_id', auth()->user()->brgy_id)
-						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+					})
+					->where(function($sq) {
+						$sq->whereHas('user', function($q) {
+							$q->where('brgy_id', auth()->user()->brgy_id)
+							->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+						})
+						->orWhere(function ($q) {
+							$q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+							->where('address_city', auth()->user()->brgy->city->cityName)
+							->where('address_brgy', auth()->user()->brgy->brgyName);
+						});
 					})
 					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
@@ -61,9 +69,16 @@ class RecordsController extends Controller
 			if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
 				if(!is_null(auth()->user()->brgy_id)) {
 					$records = Records::with('user')
-					->whereHas('user', function($q) {
-						$q->where('brgy_id', auth()->user()->brgy_id)
-						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+					->where(function($sq) {
+						$sq->whereHas('user', function($q) {
+							$q->where('brgy_id', auth()->user()->brgy_id)
+							->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+						})
+						->orWhere(function ($q) {
+							$q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+							->where('address_city', auth()->user()->brgy->city->cityName)
+							->where('address_brgy', auth()->user()->brgy->brgyName);
+						});
 					})
 					->orderByRaw('lname ASC, fname ASC, mname ASC')->paginate(10);
 				}
@@ -455,9 +470,16 @@ class RecordsController extends Controller
 			if(!is_null(auth()->user()->brgy_id)) {
 				$record = Records::with('user')
 				->where('id', $id)
-				->whereHas('user', function ($query) {
-					$query->where('brgy_id', auth()->user()->brgy_id)
-					->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+				->where(function($sq) {
+					$sq->whereHas('user', function($q) {
+						$q->where('brgy_id', auth()->user()->brgy_id)
+						->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+					})
+					->orWhere(function ($q) {
+						$q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+						->where('address_city', auth()->user()->brgy->city->cityName)
+						->where('address_brgy', auth()->user()->brgy->brgyName);
+					});
 				})->first();
 			}
 			else {

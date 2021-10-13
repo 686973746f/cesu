@@ -33,11 +33,16 @@ class FormsController extends Controller
                     if(!is_null(auth()->user()->brgy_id)) {
                         $forms = Forms::with('user')
                         ->where(function ($sq) {
-                            $sq->whereHas('user', function ($query) {
-                                $query->where('brgy_id', auth()->user()->brgy_id);
+                            $sq->whereHas('user', function ($q) {
+                                $q->where('brgy_id', auth()->user()->brgy_id);
                             })
-                            ->orWhereHas('records', function ($query) {
-                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            ->orWhereHas('records', function ($q) {
+                                $q->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            })
+                            ->orWhereHas('records', function ($q) {
+                                $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+                                ->where('address_city', auth()->user()->brgy->city->cityName)
+                                ->where('address_brgy', auth()->user()->brgy->brgyName);
                             });
                         })
                         ->where(function ($query) {
@@ -87,6 +92,11 @@ class FormsController extends Controller
                         })
                         ->orWhereHas('records', function ($query) {
                             $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                        })
+                        ->orWhereHas('records', function ($q) {
+                            $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+                            ->where('address_city', auth()->user()->brgy->city->cityName)
+                            ->where('address_brgy', auth()->user()->brgy->brgyName);
                         });
                     })
                     ->where(function ($query) {
@@ -164,9 +174,19 @@ class FormsController extends Controller
                     ->where(function ($query) use ($search) {
                         $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
                         ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
-                    })->whereHas('user', function($q) {
-                        $q->where('brgy_id', auth()->user()->brgy_id);
-                    })->get();
+                    })
+                    ->where(function($sq) {
+						$sq->whereHas('user', function($q) {
+							$q->where('brgy_id', auth()->user()->brgy_id)
+							->orWhere('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+						})
+						->orWhere(function ($q) {
+							$q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+							->where('address_city', auth()->user()->brgy->city->cityName)
+							->where('address_brgy', auth()->user()->brgy->brgyName);
+						});
+					})
+                    ->get();
                 }
                 else if(auth()->user()->isCompanyAccount()) {
                     $data = Records::with('user')
@@ -543,9 +563,20 @@ class FormsController extends Controller
             if(!is_null(auth()->user()->brgy_id)) {
                 $check = Records::with('user')
                 ->where('id', $id)
-                ->whereHas('user', function ($query) {
-                    $query->where('brgy_id', auth()->user()->brgy_id);
-                })->first();
+                ->where(function ($sq) {
+                    $sq->whereHas('user', function ($q) {
+                        $q->where('brgy_id', auth()->user()->brgy_id);
+                    })
+                    ->orWhereHas('records', function ($q) {
+                        $q->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                    })
+                    ->orWhereHas('records', function ($q) {
+                        $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+                        ->where('address_city', auth()->user()->brgy->city->cityName)
+                        ->where('address_brgy', auth()->user()->brgy->brgyName);
+                    });
+                })
+                ->first();
             }
             else {
                 $check = Records::with('user')
