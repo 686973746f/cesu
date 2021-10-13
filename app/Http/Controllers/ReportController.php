@@ -493,38 +493,44 @@ class ReportController extends Controller
             }
 
             if($form->dispoType == 1) {
+                //HOSPITAL
                 $dispo = 'ADMITTED';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 2) {
+                //OTHER ISOLATION FACILITY
                 $dispo = 'ADMITTED';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 3) {
+                //HOME QUARANTINE
                 $dispo = 'HOME QUARANTINE';
                 $dispoName = "N/A";
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 4) {
+                //DISCHARGED TO HOME
                 $dispo = 'DISCHARGED';
                 $dispoName = "N/A";
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 5) {
+                //OTHERS
                 $dispo = 'ADMITTED';
                 $dispoName = ($form->dispoName) ? mb_strtoupper($form->dispoName) : 'N/A';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
             else if($form->dispoType == 6) {
+                //GENTRI ISOLATION FACILITY #1 (SANTIAGO OVAL)
                 $dispo = 'ADMITTED';
                 $dispoName = 'GENERAL TRIAS ISOLATION FACILITY';
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
 
             return [
-                'CIF Patient ID' => $form->id,
+                'CIF Patient ID' => $form->records->id,
                 'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->morbidityMonth)),
                 'MW (Morbidity Week' => Carbon::parse($form->morbidityMonth)->format('W'),
                 'DATE REPORTED' => date('m/d/Y', strtotime($form->dateReported)),
