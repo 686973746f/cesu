@@ -529,6 +529,15 @@ class ReportController extends Controller
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
 
+            if($form->outcomeCondition == 'Recovered') {
+                if($form->dispoType == 3) {
+                    $dispo = 'CLEARED';
+                }
+                else {
+                    $dispo = 'DISCHARGED';
+                }
+            }
+
             return [
                 'CIF Patient ID' => $form->records->id,
                 'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->morbidityMonth)),
