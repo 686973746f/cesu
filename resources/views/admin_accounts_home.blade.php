@@ -39,7 +39,7 @@
                                 <td style="vertical-align: middle;" class="text-center {{($list->isValidator == 1) ? 'text-success' : 'text-danger'}}">{{($list->isValidator == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center {{($list->canByPassValidation == 1) ? 'text-success' : 'text-danger'}}">{{($list->canByPassValidation == 1) ? 'YES' : 'NO'}}</td>
                                 <td class="text-center">
-                                    <form action="/admin/accounts/{{$list->id}}/options" method="POST">
+                                    <form action="{{route('adminpanel.account.options', ['id' => $list->id])}}" method="POST">
                                         @csrf
                                         @if($list->enabled == 1)
                                             <button type="submit" name="submit" value="accountInit" class="btn btn-warning btn-block" {{($list->isAdmin == 1) ? 'disabled' : ''}}>Disable Account</button>
