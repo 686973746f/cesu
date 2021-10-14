@@ -1068,8 +1068,8 @@ class FormsController extends Controller
      */
     public function edit($id)
     {
-        $currentForm = Forms::findOrFail($id);
-        if(Records::eligibleToUpdate($currentForm->records_id)) {
+        $records = Forms::findOrFail($id);
+        if(Records::eligibleToUpdate($records->records_id)) {
             $interviewers = Interviewers::where('enabled', 1)
             ->orderBy('lname', 'asc')
             ->get();
