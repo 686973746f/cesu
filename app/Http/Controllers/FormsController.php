@@ -565,6 +565,10 @@ class FormsController extends Controller
             if(Forms::where('records_id', $id)->exists()) {
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->orderby('created_at', 'DESC')->first();
+
+                return redirect()->route('forms.existing', ['id' => $ex_id->id]);
+                /*
+                Old Redirect Method
                 return redirect()->back()
                 ->with('modalmsg', 'CIF Record already exists for ')
                 ->with('eName', $check->lname.", ".$check->fname." ".$check->mname)
@@ -579,6 +583,7 @@ class FormsController extends Controller
                 ->with('encodedDate', date('m/d/Y h:i A (D)', strtotime($ex_id->created_at)))
                 ->with('editedDate', (!is_null($ex_id->updated_by)) ? date('m/d/Y h:i A (D)', strtotime($ex_id->updated_at)) : NULL)
                 ->with('dateCollected', (!is_null($ex_id->testDateCollected2)) ? date('m/d/Y (D)', strtotime($ex_id->testDateCollected2)) : date('m/d/Y (D)', strtotime($ex_id->testDateCollected1)));
+                */
             }
             else {
                 $interviewers = Interviewers::where('enabled', 1)
@@ -1632,5 +1637,11 @@ class FormsController extends Controller
         else {
             return 'Not allowed';
         }
+    }
+
+    public function viewExistingForm($id) {
+        $form = Forms::findOrFail($id);
+
+        return view('forms_existing', ['form' => $form]);
     }
 }

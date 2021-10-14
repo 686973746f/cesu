@@ -313,7 +313,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New/Search CIF</h5>
+                <h5 class="modal-title"><i class="fas fa-search mr-2"></i>New/Search CIF</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -345,8 +345,8 @@
                 <hr>
                 @endif
                 @if(auth()->user()->isCesuAccount())
-                <div class="alert alert-info" role="alert">
-                    Notice: Pa-swab list can now be also searched here (Pending cases only).
+                <div class="alert alert-info text-center" role="alert">
+                    <strong class="text-danger">Notice:</strong> Pending Pa-swab list can now be also searched here.
                 </div>
                 @endif
                 <div class="form-group">

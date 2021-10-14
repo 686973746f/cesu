@@ -46,6 +46,47 @@ class Forms extends Model
         }
     }
 
+    public function getLatestTestDate() {
+        if(!is_null($this->testDateCollected2)) {
+            return date('m/d/Y', strtotime($this->testDateCollected2));
+        }
+        else {
+            return date('m/d/Y', strtotime($this->testDateCollected1));
+        }
+    }
+
+    public function getLatestTestType() {
+        if(!is_null($this->testDateCollected2)) {
+            return $this->testType2;
+        }
+        else {
+            return $this->testType1;
+        }
+    }
+
+    public function getLatestTestResult() {
+        if(!is_null($this->testDateCollected2)) {
+            return $this->testResult2;
+        }
+        else {
+            return $this->testResult1;
+        }
+    }
+
+    public function getAttendedOnSwab() {
+        if(!is_null($this->isPresentOnSwabDay)) {
+            if($this->isPresentOnSwabDay == 1) {
+                return 'YES';
+            }
+            else {
+                return 'NO';
+            }
+        }
+        else {
+            return 'NO';
+        }
+    }
+
     public function getReferralCode() {
         if(!is_null($this->majikCode)) {
             $check = PaSwabDetails::where('majikCode', $this->majikCode)->first();

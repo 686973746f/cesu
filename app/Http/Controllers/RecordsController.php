@@ -140,7 +140,8 @@ class RecordsController extends Controller
 					->with('eligibleToEdit', Records::eligibleToUpdate($check1->id))
 					->with('statustype', 'danger')
 					->with('link', route('records.edit', ['record' => $check1->id]))
-					->with('ciflink', route('forms.edit', ['form' => $check3->id]));
+					->with('ciflink', route('forms.edit', ['form' => $check3->id]))
+					->with('cifdetails', $check3);
 				}
 				else {
 					return back()

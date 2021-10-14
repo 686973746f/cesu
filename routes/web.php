@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/forms/selfreport/', [SelfReportController::class, 'view'])->name('selfreport.view');
     Route::post('/forms/reswab/{id}', [FormsController::class, 'reswab'])->name('forms.reswab');
     Route::resource('/forms', FormsController::class);
+    Route::get('/forms/{id}/existing', [FormsController::class, 'viewExistingForm'])->name('forms.existing');
     Route::get('/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
     Route::post('/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
