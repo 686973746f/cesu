@@ -560,6 +560,7 @@ class FormsController extends Controller
 
     public function new($id) {
         if(Records::eligibleToUpdate($id)) {
+            $check = Records::findOrFail($id);
             if(Forms::where('records_id', $id)->exists()) {
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->orderby('created_at', 'DESC')->first();
