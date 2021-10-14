@@ -9,7 +9,7 @@
                     <thead class="thead-light text-center">
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
+                            <th>Name / ID</th>
                             <th>Age/Gender</th>
                             <th>Address</th>
                             <th>Occupation</th>
@@ -33,9 +33,9 @@
                         @endphp
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
-                            <td>{{$item->records->getName()}}</td>
+                            <td>{{$item->records->getName()}} <small>(#{{$item->records->id}})</small></td>
                             <td class="text-center">{{$item->records->getAge().' / '.substr($item->records->gender,0,1)}}</td>
-                            <td class="text-center">BRGY. {{$item->records->address_brgy}}</td>
+                            <td class="text-center">{{$item->records->address_brgy}}</td>
                             <td class="text-center">{{(!is_null($item->records->occupation)) ? $item->records->occupation : 'N/A'}}</td>
                             <td class="text-center">{{$item->healthStatus}}</td>
                             <td class="text-center">{{$testResult}}</td>

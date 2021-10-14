@@ -17,7 +17,7 @@ class CreateFormsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->tinyInt('isPriority')->default(0);
+            $table->tinyInteger('isPriority')->default(0);
             $table->tinyInteger('reinfected')->default(0);
             $table->date('morbidityMonth');
             $table->string('majikCode')->nullable();
@@ -227,6 +227,7 @@ class CreateFormsTable extends Migration
             $table->text('contact4No', 11)->nullable();
 
             $table->string('remarks')->nullable();
+            $table->text('facility_remarks')->nullable();
         });
     }
 
