@@ -28,6 +28,7 @@ class ReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $recoveredCount = Forms::with('records')
@@ -38,6 +39,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             //Bilangin pati current reinfection sa total ng recovered
@@ -48,6 +50,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('reinfected', 1)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $deathCount = Forms::with('records')
@@ -57,6 +60,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Died')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $newActiveCount = Forms::with('records')
@@ -91,7 +95,7 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
-            ->whereDate('morbidityMonth', '>=', date('Y-m-d', strtotime('-10 Days')))
+            ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
             ->where('reinfected', 0)
@@ -131,6 +135,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $facilityCount = Forms::with('records')
@@ -142,6 +147,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $hqCount = Forms::with('records')
@@ -154,6 +160,7 @@ class ReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $hospitalCount = Forms::with('records')
@@ -166,6 +173,7 @@ class ReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             //Barangay Counter
@@ -185,6 +193,7 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
                 $brgyActiveCount = Forms::with('records')
@@ -197,6 +206,7 @@ class ReportController extends Controller
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
                 $brgyDeathCount = Forms::with('records')
@@ -207,6 +217,7 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
                 $brgyRecoveryCount = Forms::with('records')
@@ -218,6 +229,7 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
                 ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
                 //Reinfection Count
@@ -229,6 +241,7 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('reinfected', 1)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
                 $brgySuspectedCount = Forms::with('records')
@@ -242,9 +255,12 @@ class ReportController extends Controller
                     $q->where('isPresentOnSwabDay', 0)
                     ->orwhereNull('isPresentOnSwabDay');
                 })
-                ->whereIn('caseClassification', ['Suspect'])
+                ->where('caseClassification', 'Suspect')
                 ->where('outcomeCondition', 'Active')
-                ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+                ->where(function ($q) {
+                    $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                    ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+                })
                 ->count();
 
                 $brgyProbableCount = Forms::with('records')
@@ -256,7 +272,10 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Probable')
                 ->where('outcomeCondition', 'Active')
-                ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+                ->where(function ($q) {
+                    $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                    ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+                })
                 ->count();
 
                 $brgyArray->push([
@@ -411,7 +430,10 @@ class ReportController extends Controller
             })
             ->where('caseClassification', 'Suspect')
             ->where('outcomeCondition', 'Active')
-            ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+            ->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            })
             ->orderby('morbidityMonth', 'asc')
             ->cursor() as $user) {
                 yield $user;
@@ -427,7 +449,10 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
-            ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+            ->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            })
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
@@ -441,6 +466,7 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }
@@ -455,6 +481,7 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Non-COVID-19 Case')
             ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
                 yield $user;
             }

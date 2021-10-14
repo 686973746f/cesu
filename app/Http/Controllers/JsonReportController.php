@@ -22,6 +22,7 @@ class JsonReportController extends Controller
         ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Active')
         ->where('reinfected', 0)
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
         $totalRecovered = Forms::with('records')
@@ -32,6 +33,7 @@ class JsonReportController extends Controller
         ->where('status', 'approved')
         ->where('outcomeCondition', 'Recovered')
         ->where('reinfected', 0)
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
         //Bilangin pati current reinfection sa total ng recovered
@@ -42,6 +44,7 @@ class JsonReportController extends Controller
         })
         ->where('status', 'approved')
         ->where('reinfected', 1)
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
         
         $totalDeaths = Forms::with('records')
@@ -51,6 +54,7 @@ class JsonReportController extends Controller
         })
         ->where('status', 'approved')
         ->where('outcomeCondition', 'Died')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
         $newActive = Forms::with('records')
@@ -85,7 +89,7 @@ class JsonReportController extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '>=', date('Y-m-d', strtotime('-10 Days')))
+        ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
         ->whereDate('outcomeRecovDate', date('Y-m-d'))
         ->where('outcomeCondition', 'Recovered')
         ->where('reinfected', 0)
@@ -125,6 +129,7 @@ class JsonReportController extends Controller
         })
         ->where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
         array_push($arr, [
@@ -215,6 +220,7 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
             'hqCount' => Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -226,6 +232,7 @@ class JsonReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
             'hospitalCount' => Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -237,6 +244,7 @@ class JsonReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
         ]);
 
@@ -260,6 +268,7 @@ class JsonReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $brgyActiveCount = Forms::with('records')
@@ -272,6 +281,7 @@ class JsonReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $brgyDeathCount = Forms::with('records')
@@ -282,6 +292,7 @@ class JsonReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Died')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $brgyRecoveryCount = Forms::with('records')
@@ -293,6 +304,7 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             //Reinfection Count
@@ -304,6 +316,7 @@ class JsonReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('reinfected', 1)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $brgySuspectedCount = Forms::with('records')
@@ -319,7 +332,10 @@ class JsonReportController extends Controller
             })
             ->where('caseClassification', 'Suspect')
             ->where('outcomeCondition', 'Active')
-            ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+            ->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            })
             ->count();
 
             $brgyProbableCount = Forms::with('records')
@@ -331,7 +347,10 @@ class JsonReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Probable')
             ->where('outcomeCondition', 'Active')
-            ->whereDate('morbidityMonth', '>', date('Y-m-d', strtotime('-14 Days')))
+            ->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            })
             ->count();
 
             $brgyArray->push([
@@ -361,6 +380,7 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->where('reinfected', 0)
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
         $female = Forms::with('records')
@@ -372,6 +392,7 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->where('reinfected', 0)
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
         array_push($arr, [
@@ -402,6 +423,7 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
         ]);
         
@@ -417,6 +439,7 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
         ]);
 
@@ -432,6 +455,7 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
         ]);
         
@@ -447,6 +471,7 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
         ]);
 
@@ -462,6 +487,7 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
         ]);
 
@@ -482,6 +508,7 @@ class JsonReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->cursor() as $user) {
                 yield $user;
             }
@@ -562,6 +589,7 @@ class JsonReportController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
             
             if($count != 0) {
