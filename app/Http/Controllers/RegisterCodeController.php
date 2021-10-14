@@ -23,13 +23,7 @@ class RegisterCodeController extends Controller
         ->first();
         
         if($list) {
-            if($list->adminType == 2 || $list->adminType == 1) {
-                //encoder
-                return view('auth.register', ['item' => $list, 'aType' => 'enco']);
-            }
-            else {
-                return view('auth.register', ['item' => $list, 'aType' => 'brgy']);
-            }
+            return view('auth.register', ['item' => $list]);
         }
         else {
 

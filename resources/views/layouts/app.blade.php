@@ -30,7 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @if(auth()->check())
+                        @if(auth()->check() && auth()->user()->isLevel1())
                         <li class="nav-item">
                             <a class="nav-link {{Request::is('records*') ? 'active' : ''}}" href="{{route('records.index')}}">Patients</a>
                         </li>

@@ -15,6 +15,7 @@ use App\Http\Controllers\PaSwabController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\RecordsController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\ReportV2Controller;
 use App\Http\Controllers\CompaniesController;
@@ -83,8 +84,11 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAcc
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
-    // your routes
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
+
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1']], function() {
+    // your routes
     Route::get('/records/duplicatechecker', [RecordsController::class, 'duplicateCheckerDashboard'])->name('records.duplicatechecker');
     Route::post('/records/check', [RecordsController::class, 'check'])->name('records.check');
     Route::resource('records', RecordsController::class);
@@ -131,6 +135,15 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/options', [OptionsController::class, 'index'])->name('options.index');
 
     Route::post('/forms', [FormsController::class, 'options'])->name('forms.options'); //print to excel, for admin only (temporary)
+});
+
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
+
+});
+
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
+    //Facility Account Middleware
+    Route::get('facility/home', [FacilityController::class, 'index'])->name('facility.home');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()

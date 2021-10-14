@@ -29,7 +29,7 @@ class AdminPanelController extends Controller
 
     public function adminCodeStore(Request $request) {
         $request->validate([
-            'adminType' => 'required',
+            'adminType' => 'required|in:1,2,3,4',
             'pw' => 'required',
         ]);
         

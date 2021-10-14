@@ -86,6 +86,35 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function isLevel1() {
+        if($this->isAdmin == 1 || $this->isAdmin == 2 || !is_null($this->company_id) || !is_null($this->brgy_id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isLevel2() {
+        if($this->isAdmin == 3) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isLevel3() {
+        if($this->isAdmin == 4) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    
+
     public function canUseLinelist() {
         if($this->canAccessLinelist == 1) {
             return true;

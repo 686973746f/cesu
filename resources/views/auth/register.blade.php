@@ -17,7 +17,7 @@
                             <label for="refCode" class="col-md-4 col-form-label text-md-right">{{ __('Referral Code') }}</label>
 
                             <div class="col-md-6">
-                                <input id="refCode" type="text" class="form-control @error('refCode') is-invalid @enderror" name="refCode" value="{{($aType == 'brgy' || $aType == 'enco') ? $item->bCode : $item->refCode}}" required readonly>
+                                <input id="refCode" type="text" class="form-control @error('refCode') is-invalid @enderror" name="refCode" value="{{(in_array($item->adminType, [1,2,3,4])) ? $item->bCode : $item->refCode}}" required readonly>
 
                                 @error('refCode')
                                     <span class="invalid-feedback" role="alert">
@@ -26,40 +26,6 @@
                                 @enderror
                             </div>
                         </div>
-
-
-                        @if($aType == 'brgy')
-                        <div class="form-group row">
-                            <label for="brgy" class="col-md-4 col-form-label text-md-right">{{ __('Barangay') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="brgy" type="text" class="form-control @error('brgy') is-invalid @enderror" name="brgy" value="{{$item->brgy->brgyName}}" readonly>
-
-                                @error('brgy')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        @endif
-
-                        @if($aType == 'company')
-                        <div class="form-group row">
-                            <label for="brgy" class="col-md-4 col-form-label text-md-right">{{ __('Company') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="brgy" type="text" class="form-control @error('brgy') is-invalid @enderror" name="brgy" value="{{$item->company->companyName}}" readonly>
-
-                                @error('brgy')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        @endif
-
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
