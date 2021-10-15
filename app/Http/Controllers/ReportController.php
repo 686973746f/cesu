@@ -629,6 +629,11 @@ class ReportController extends Controller
                 'LOCAL/IMPORTED CASE' => "UNKNOWN",
                 'RETURNING OVERSEAS FILIPINO (Y/N)' => ($form->isOFW == 1 && $form->ofwType == 2) ? 'Y': 'N',
                 'REMARKS' => (!is_null($form->remarks)) ? $form->remarks : 'N/A',
+                'VACCINATED (Y/N)' => (!is_null($form->records->vaccinationDate1)) ? 'Y' : 'N',
+                'VACCINE' => (!is_null($form->records->vaccinationDate1)) ? $form->records->vaccinationName1 : 'N/A',
+                '1ST DOSE (ACTUAL DATE)' => (!is_null($form->records->vaccinationDate1)) ? date('m/d/Y', strtotime($form->records->vaccinationDate2)) : 'N/A',
+                '2ND DOSE (ACTUAL DATE)' => (!is_null($form->records->vaccinationDate2)) ? date('m/d/Y', strtotime($form->records->vaccinationDate2)) : 'N/A',
+                'YEAR' => date('Y', strtotime($form->dateReported)),
             ];
         });
     }
