@@ -5,6 +5,11 @@
         <div class="card">
             <div class="card-header font-weight-bold">List of Currently Admitted in Facility <span class="badge badge-danger">{{number_format($list->count())}}</span></div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <table class="table table-bordered" id="facilityTable">
                     <thead class="thead-light text-center">
                         <tr>
@@ -17,6 +22,8 @@
                             <th>Lab Status</th>
                             <th>Date Swabbed</th>
                             <th>Comorbidities</th>
+                            <th>Remarks</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +48,8 @@
                             <td class="text-center">{{$testResult}}</td>
                             <td class="text-center">{{$testDate}}</td>
                             <td class="text-center">{{(!is_null($item->COMO) && !in_array("None", explode(',', $item->COMO))) ? $item->COMO : 'N/A'}}</td>
+                            <td class="text-center">{{$item->facility_remarks}}</td>
+                            <td class="text-center"><a href="{{route('facility.viewdischarge', ['id' => $item->id])}}" class="btn btn-primary" role="button">Discharge</a></td>
                         </tr>
                         @endforeach
                     </tbody>

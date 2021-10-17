@@ -22,4 +22,38 @@ class FacilityController extends Controller
 
         return view('home_facility', ['currentWeek' => $currentWeek, 'list' => $list]);
     }
+
+    public function viewDischarge($id) {
+        $data = Forms::findOrFail($id);
+        if($data->status == 'approved' && $data->caseClassification == 'Confirmed' && $data->outcomeCondition == 'Active' && $data->dispoType == 6) {
+            return view('facility_viewdischarge', ['data' => $data]);
+        }
+        else {
+            return redirect()->route('facility.home')->with('msg', 'You are not allowed to do that.')->with('msgtype', 'warning');
+        }
+    }
+
+    public function initDischarge($id, Request $request) {
+        $data = Forms::findOrFail($id);
+        
+        if($data->status == 'approved' && $data->caseClassification == 'Confirmed' && $data->outcomeCondition == 'Active' && $data->dispoType == 6) {
+            $request->validate([
+                'dispoDate' => 'required|date|after_or_equal:'.date('Y-m-d', strtotime('-14 Days')).'|before_or_equal:today',
+                'remarks' => 'nullable',
+            ]);
+
+            $data->updated_by = auth()->user()->id;
+            $data->outcomeCondition = 'Recovered';
+            $data->outcomeRecovDate = $request->dispoDate;
+            $data->dispoType = 4;
+            $data->dispoDate = date('Y-m-d 08:00:00', strtotime($request->dispoDate));
+
+            $data->save();
+
+            return redirect()->route('facility.home')->with('msg', 'Patient '.$data->records->getName().' (#'.$data->records->id.') has been discharged successfully.')->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->route('facility.home')->with('msg', 'You are not allowed to do that.')->with('msgtype', 'warning');
+        }
+    }
 }

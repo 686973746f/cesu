@@ -145,6 +145,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
     //Facility Account Middleware
     Route::get('facility/home', [FacilityController::class, 'index'])->name('facility.home');
+    Route::get('facility/{id}/discharge', [FacilityController::class, 'viewDischarge'])->name('facility.viewdischarge');
+    Route::post('facility/{id}/discharge', [FacilityController::class, 'initDischarge'])->name('facility.initdischarge');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()
