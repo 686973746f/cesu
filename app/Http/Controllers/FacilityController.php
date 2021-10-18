@@ -37,6 +37,17 @@ class FacilityController extends Controller
         $data = Forms::findOrFail($id);
 
         if($data->status == 'approved' && $data->caseClassification == 'Confirmed' && $data->outcomeCondition == 'Active' && $data->dispoType == 6) {
+            $request->validate([
+                'dateOnsetOfIllness' => 'nullable|date|before_or_equal:today',
+                'symptoms' => 'nullable',
+                'SASFeverDeg' => (!is_null($request->symptoms) && in_array('Fever', $request->symptoms)) ? 'required|numeric' : 'nullable',
+                'SASOtherRemarks' => (!is_null($request->symptoms) && in_array('Others', $request->symptoms)) ? 'required' : 'nullable',
+                'comorbidities' => 'required',
+                'COMOOtherRemarks' => (!is_null($request->comorbidities) && in_array('Others', $request->comorbidities)) ? 'required' : 'nullable',
+                'facility_remarks' => 'nullable',
+            ]);
+            
+            $data->dateOnsetOfIllness = $request->dateOnsetOfIllness;
             $data->SAS = (!is_null($request->symptoms)) ? implode(',', $request->symptoms) : NULL;
             $data->SASFeverDeg = (!is_null($request->symptoms) && in_array('Fever', $request->symptoms)) ? $request->SASFeverDeg : NULL;
             $data->SASOtherRemarks = (!is_null($request->symptoms) && in_array('Others', $request->symptoms)) ? $request->SASOtherRemarks : NULL;

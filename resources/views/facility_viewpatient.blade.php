@@ -179,66 +179,75 @@
                             @endif
                         </div>
                     </div>
-                    <div class="form-group">
-                      <label for="symptoms"><span class="text-danger font-weight-bold">*</span>Signs and Symptoms <small>(Select all that apply)</small></label>
-                      <select class="form-control" name="symptoms[]" id="symptoms" multiple>
-                        <option value="Asymptomatic" {{(in_array('Asymptomatic', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Asymptomatic</option>
-                        <option value="Fever" {{(in_array('Fever', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Fever</option>
-                        <option value="Cough" {{(in_array('Cough', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Cough</option>
-                        <option value="General Weakness" {{(in_array('General Weakness', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>General Weakness</option>
-                        <option value="Fatigue" {{(in_array('Fatigue', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Fatigue</option>
-                        <option value="Headache" {{(in_array('Headache', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Headache</option>
-                        <option value="Myalgia" {{(in_array('Myalgia', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Myalgia</option>
-                        <option value="Sore throat" {{(in_array('Sore throat', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Sore throat</option>
-                        <option value="Coryza" {{(in_array('Coryza', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Coryza</option>
-                        <option value="Dyspnea" {{(in_array('Dyspnea', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Dyspnea</option>
-                        <option value="Anorexia" {{(in_array('Anorexia', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Anorexia</option>
-                        <option value="Nausea" {{(in_array('Nausea', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Nausea</option>
-                        <option value="Vomiting" {{(in_array('Vomiting', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Vomiting</option>
-                        <option value="Diarrhea" {{(in_array('Diarrhea', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Diarrhea</option>
-                        <option value="Altered Mental Status" {{(in_array('Altered Mental Status', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Altered Mental Status</option>
-                        <option value="Anosmia (Loss of Smell)" {{(in_array('Anosmia (Loss of Smell)', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Anosmia (Loss of Smell)</option>
-                        <option value="Ageusia (Loss of Taste)" {{(in_array('Ageusia (Loss of Taste)', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Ageusia (Loss of Taste)</option>
-                        <option value="Others" {{(in_array('Others', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Others (Specify)</option>
-                      </select>
-                    </div>
-                    <div id="divFeverChecked">
-                        <div class="form-group mt-2">
-                          <label for="SASFeverDeg"><span class="text-danger font-weight-bold">*</span>Degrees (in Celcius)</label>
-                          <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" max="90" value="{{old('SASFeverDeg', $data->SASFeverDeg)}}">
+                    <div class="card">
+                        <div class="card-header">Clinical Information</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="dateOnsetOfIllness">Date of Onset of Illness <small>(Optional)</small></label>
+                                <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{date('Y-m-d')}}" value="{{old('dateOnsetOfIllness', $data->dateOnsetOfIllness)}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="symptoms"><span class="text-danger font-weight-bold">*</span>Signs and Symptoms <small>(Select all that apply)</small></label>
+                                <select class="form-control" name="symptoms[]" id="symptoms" multiple>
+                                  <option value="Asymptomatic" {{(in_array('Asymptomatic', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Asymptomatic</option>
+                                  <option value="Fever" {{(in_array('Fever', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Fever</option>
+                                  <option value="Cough" {{(in_array('Cough', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Cough</option>
+                                  <option value="General Weakness" {{(in_array('General Weakness', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>General Weakness</option>
+                                  <option value="Fatigue" {{(in_array('Fatigue', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Fatigue</option>
+                                  <option value="Headache" {{(in_array('Headache', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Headache</option>
+                                  <option value="Myalgia" {{(in_array('Myalgia', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Myalgia</option>
+                                  <option value="Sore throat" {{(in_array('Sore throat', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Sore throat</option>
+                                  <option value="Coryza" {{(in_array('Coryza', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Coryza</option>
+                                  <option value="Dyspnea" {{(in_array('Dyspnea', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Dyspnea</option>
+                                  <option value="Anorexia" {{(in_array('Anorexia', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Anorexia</option>
+                                  <option value="Nausea" {{(in_array('Nausea', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Nausea</option>
+                                  <option value="Vomiting" {{(in_array('Vomiting', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Vomiting</option>
+                                  <option value="Diarrhea" {{(in_array('Diarrhea', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Diarrhea</option>
+                                  <option value="Altered Mental Status" {{(in_array('Altered Mental Status', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Altered Mental Status</option>
+                                  <option value="Anosmia (Loss of Smell)" {{(in_array('Anosmia (Loss of Smell)', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Anosmia (Loss of Smell)</option>
+                                  <option value="Ageusia (Loss of Taste)" {{(in_array('Ageusia (Loss of Taste)', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Ageusia (Loss of Taste)</option>
+                                  <option value="Others" {{(in_array('Others', old('symptoms', explode(',', $data->SAS)))) ? 'selected' : ''}}>Others (Specify)</option>
+                                </select>
+                            </div>
+                            <div id="divFeverChecked">
+                                <div class="form-group mt-2">
+                                <label for="SASFeverDeg"><span class="text-danger font-weight-bold">*</span>Degrees (in Celcius)</label>
+                                <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" max="90" value="{{old('SASFeverDeg', $data->SASFeverDeg)}}">
+                                </div>
+                            </div>
+                            <div id="divSASOtherChecked">
+                                <div class="form-group mt-2">
+                                <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings <small>(Separate with commas [,])</small></label>
+                                <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks', $data->SASOtherRemarks)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="comorbidities"><span class="text-danger font-weight-bold">*</span>Comorbidities <small>(Check all that apply if present)</small></label>
+                                <select class="form-control" name="comorbidities[]" id="comorbidities" multiple>
+                                    <option value="Hypertension" {{(in_array('Hypertension', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Hypertension</option>
+                                    <option value="Diabetes" {{(in_array('Diabetes', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Diabetes</option>
+                                    <option value="Heart Disease" {{(in_array('Heart Disease', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Heart Disease</option>
+                                    <option value="Lung Disease" {{(in_array('Lung Disease', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Lung Disease</option>
+                                    <option value="Gastrointestinal" {{(in_array('Gastrointestinal', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Gastrointestinal</option>
+                                    <option value="Genito-urinary" {{(in_array('Genito-urinary', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Genito-urinary</option>
+                                    <option value="Neurological Disease" {{(in_array('Neurological Disease', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Neurological Disease</option>
+                                    <option value="Cancer" {{(in_array('Cancer', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Cancer</option>
+                                    <option value="Others" {{(in_array('Others', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Others (Specify)</option>
+                                </select>
+                            </div>
+                            <div id="divComOthersChecked">
+                                <div class="form-group mt-2">
+                                <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
+                                <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks', $data->COMOOtherRemarks)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="facility_remarks">Remarks <small>(Optional)</small></label>
+                                <input type="text" name="facility_remarks" id="facility_remarks" class="form-control" value="{{old('facility_remarks', $data->facility_remarks)}}">
+                            </div>
                         </div>
-                    </div>
-                    <div id="divSASOtherChecked">
-                        <div class="form-group mt-2">
-                          <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings <small>(Separate with commas [,])</small></label>
-                          <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks', $data->SASOtherRemarks)}}" style="text-transform: uppercase;">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                      <label for="comorbidities"><span class="text-danger font-weight-bold">*</span>Comorbidities <small>(Check all that apply if present)</small></label>
-                      <select class="form-control" name="comorbidities[]" id="comorbidities" multiple>
-                        <option value="Hypertension" {{(in_array('Hypertension', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Hypertension</option>
-                        <option value="Diabetes" {{(in_array('Diabetes', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Diabetes</option>
-                        <option value="Heart Disease" {{(in_array('Heart Disease', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Heart Disease</option>
-                        <option value="Lung Disease" {{(in_array('Lung Disease', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Lung Disease</option>
-                        <option value="Gastrointestinal" {{(in_array('Gastrointestinal', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Gastrointestinal</option>
-                        <option value="Genito-urinary" {{(in_array('Genito-urinary', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Genito-urinary</option>
-                        <option value="Neurological Disease" {{(in_array('Neurological Disease', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Neurological Disease</option>
-                        <option value="Cancer" {{(in_array('Cancer', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Cancer</option>
-                        <option value="Others" {{(in_array('Others', old('comorbidities', explode(',', $data->COMO)))) ? 'selected' : ''}}>Others (Specify)</option>
-                      </select>
-                    </div>
-                    <div id="divComOthersChecked">
-                        <div class="form-group mt-2">
-                          <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
-                          <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks', $data->COMOOtherRemarks)}}" style="text-transform: uppercase;">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                      <label for="facility_remarks">Remarks <small>(Optional)</small></label>
-                      <input type="text" name="facility_remarks" id="facility_remarks" class="form-control" value="{{old('facility_remarks', $data->facility_remarks)}}">
                     </div>
                 </div>
                 <div class="card-footer text-right">
