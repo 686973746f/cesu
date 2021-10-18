@@ -42,7 +42,7 @@ class FacilityController extends Controller
                 'symptoms' => 'nullable',
                 'SASFeverDeg' => (!is_null($request->symptoms) && in_array('Fever', $request->symptoms)) ? 'required|numeric' : 'nullable',
                 'SASOtherRemarks' => (!is_null($request->symptoms) && in_array('Others', $request->symptoms)) ? 'required' : 'nullable',
-                'comorbidities' => 'required',
+                'comorbidities' => 'nullable',
                 'COMOOtherRemarks' => (!is_null($request->comorbidities) && in_array('Others', $request->comorbidities)) ? 'required' : 'nullable',
                 'facility_remarks' => 'nullable',
             ]);

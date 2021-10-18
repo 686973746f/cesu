@@ -238,7 +238,7 @@
                             </div>
                             <div id="divComOthersChecked">
                                 <div class="form-group mt-2">
-                                <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
+                                <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings <small>(Separate with commas [,])</small></label>
                                 <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks', $data->COMOOtherRemarks)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
@@ -257,8 +257,8 @@
         </form>
         <form action="{{route('facility.initdischarge', ['id' => $data->id])}}" method="POST">
             @csrf
-            <div class="card">
-                <div class="card-header font-weight-bold">Discharge Patient</div>
+            <div class="card border-success">
+                <div class="card-header font-weight-bold bg-success text-white">Discharge Patient</div>
                 <div class="card-body">
                     <div class="form-group">
                       <label for="dispoDate"><span class="text-danger font-weight-bold">*</span>Date of Discharge / Recovery</label>
