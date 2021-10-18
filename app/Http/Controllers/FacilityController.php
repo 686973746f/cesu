@@ -23,10 +23,27 @@ class FacilityController extends Controller
         return view('home_facility', ['currentWeek' => $currentWeek, 'list' => $list]);
     }
 
-    public function viewDischarge($id) {
+    public function viewPatient($id) {
         $data = Forms::findOrFail($id);
         if($data->status == 'approved' && $data->caseClassification == 'Confirmed' && $data->outcomeCondition == 'Active' && $data->dispoType == 6) {
-            return view('facility_viewdischarge', ['data' => $data]);
+            return view('facility_viewpatient', ['data' => $data]);
+        }
+        else {
+            return redirect()->route('facility.home')->with('msg', 'You are not allowed to do that.')->with('msgtype', 'warning');
+        }
+    }
+
+    public function update($id, Request $request) {
+        $data = Forms::findOrFail($id);
+
+        if($data->status == 'approved' && $data->caseClassification == 'Confirmed' && $data->outcomeCondition == 'Active' && $data->dispoType == 6) {
+            $data->facility_remarks = $request->facility_remarks;
+
+            if($data->isDirty('facility_remarks')) {
+                $data->save();
+            }
+
+            return redirect()->route('facility.home')->with('msg', 'Patient '.$data->records->getName().' (#'.$data->records->id.') has been updated successfully.')->with('msgtype', 'success');
         }
         else {
             return redirect()->route('facility.home')->with('msg', 'You are not allowed to do that.')->with('msgtype', 'warning');

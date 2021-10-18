@@ -23,7 +23,6 @@
                             <th>Date Swabbed</th>
                             <th>Comorbidities</th>
                             <th>Remarks</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +39,7 @@
                         @endphp
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
-                            <td>{{$item->records->getName()}} <small>(#{{$item->records->id}})</small></td>
+                            <td><a href="{{route('facility.viewdischarge', ['id' => $item->id])}}" class="btn btn-link">{{$item->records->getName()}} <small>(#{{$item->records->id}})</small></a></td>
                             <td class="text-center">{{$item->records->getAge().' / '.substr($item->records->gender,0,1)}}</td>
                             <td class="text-center">{{$item->records->address_brgy}}</td>
                             <td class="text-center">{{(!is_null($item->records->occupation)) ? $item->records->occupation : 'N/A'}}</td>
@@ -49,7 +48,6 @@
                             <td class="text-center">{{$testDate}}</td>
                             <td class="text-center">{{(!is_null($item->COMO) && !in_array("None", explode(',', $item->COMO))) ? $item->COMO : 'N/A'}}</td>
                             <td class="text-center">{{$item->facility_remarks}}</td>
-                            <td class="text-center"><a href="{{route('facility.viewdischarge', ['id' => $item->id])}}" class="btn btn-primary" role="button">Discharge</a></td>
                         </tr>
                         @endforeach
                     </tbody>
