@@ -37,9 +37,14 @@ class FacilityController extends Controller
         $data = Forms::findOrFail($id);
 
         if($data->status == 'approved' && $data->caseClassification == 'Confirmed' && $data->outcomeCondition == 'Active' && $data->dispoType == 6) {
+            $data->SAS = (!is_null($request->symptoms)) ? implode(',', $request->symptoms) : NULL;
+            $data->SASFeverDeg = (!is_null($request->symptoms) && in_array('Fever', $request->symptoms)) ? $request->SASFeverDeg : NULL;
+            $data->SASOtherRemarks = (!is_null($request->symptoms) && in_array('Others', $request->symptoms)) ? $request->SASOtherRemarks : NULL;
+            $data->COMO = (!is_null($request->comorbidities)) ? implode(",", $request->comorbidities) : 'None';
+            $data->COMOOtherRemarks = (!is_null($request->comorbidities) && in_array('Others', $request->comorbidities)) ? $request->COMOOtherRemarks : NULL;
             $data->facility_remarks = $request->facility_remarks;
 
-            if($data->isDirty('facility_remarks')) {
+            if($data->isDirty()) {
                 $data->save();
             }
 
