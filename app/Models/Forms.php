@@ -131,4 +131,25 @@ class Forms extends Model
             return false;
         }
     }
+
+    public function ifInFacilityOne() {
+        if($this->status == 'approved' && $this->caseClassification == 'Confirmed' && $this->outcomeCondition == 'Active' && $this->dispoType == 6) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function ifOldCif() {
+        //get latest cif
+        $form = Forms::where('records_id', $this->records_id)->orderBy('created_at', 'DESC')->first();
+
+        if($this->id == $form->id) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }
