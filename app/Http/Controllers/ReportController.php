@@ -307,7 +307,305 @@ class ReportController extends Controller
         }
         else {
             if(auth()->user()->isBrgyAccount()) {
+                $activeCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
 
+                $recoveredCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                //Bilangin pati current reinfection sa total ng recovered
+                $recoveredCount += Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('reinfected', 1)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $deathCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $newActiveCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->where('reinfected', 0)
+                ->count();
+
+                $lateActiveCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->where('reinfected', 0)
+                ->count();
+
+                $newRecoveredCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
+                ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->where('reinfected', 0)
+                ->count();
+
+                $lateRecoveredCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
+                ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->where('reinfected', 0)
+                ->count();
+
+                $newDeathCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where(function ($q) {
+                    $q->where('status', 'approved')
+                    ->whereDate('outcomeDeathDate', date('Y-m-d'))
+                    ->where('outcomeCondition', 'Died');
+                })->orWhere(function ($q) {
+                    $q->where('status', 'approved')
+                    ->whereDate('morbidityMonth', date('Y-m-d'))
+                    ->where('outcomeCondition', 'Died');
+                })->count();
+
+                $totalCasesCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $facilityCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('dispoType', 6)
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $hqCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('dispoType', 3)
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $hospitalCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->whereIn('dispoType', [1,2,5])
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                //Barangay Counter
+                $brgyArray = collect();
+
+                $brgyList = Brgy::where('displayInList', 1)
+                ->where('city_id', 1)
+                ->where('id', auth()->user()->brgy_id)
+                ->orderBy('brgyName', 'asc')
+                ->get();
+
+                foreach($brgyList as $brgy) {
+                    $brgyConfirmedCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                    ->count();
+
+                    $brgyActiveCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Confirmed')
+                    ->where('outcomeCondition', 'Active')
+                    ->where('reinfected', 0)
+                    ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                    ->count();
+
+                    $brgyDeathCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('outcomeCondition', 'Died')
+                    ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                    ->count();
+
+                    $brgyRecoveryCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('outcomeCondition', 'Recovered')
+                    ->where('reinfected', 0)
+                    ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                    ->count();
+
+                    //Reinfection Count
+                    $brgyRecoveryCount += Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('reinfected', 1)
+                    ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                    ->count();
+
+                    $brgySuspectedCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where(function ($q) {
+                        $q->where('isPresentOnSwabDay', 0)
+                        ->orwhereNull('isPresentOnSwabDay');
+                    })
+                    ->where('caseClassification', 'Suspect')
+                    ->where('outcomeCondition', 'Active')
+                    ->where(function ($q) {
+                        $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                        ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+                    })
+                    ->count();
+
+                    $brgyProbableCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Probable')
+                    ->where('outcomeCondition', 'Active')
+                    ->where(function ($q) {
+                        $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                        ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+                    })
+                    ->count();
+
+                    $brgyArray->push([
+                        'name' => $brgy->brgyName,
+                        'confirmed' => $brgyConfirmedCount,
+                        'active' => $brgyActiveCount,
+                        'deaths' => $brgyDeathCount,
+                        'recoveries' => $brgyRecoveryCount,
+                        'suspected' => $brgySuspectedCount,
+                        'probable' => $brgyProbableCount,
+                    ]);
+                }
+
+                return view('report_select', [
+                    'activeCount' => $activeCount,
+                    'recoveredCount' => $recoveredCount,
+                    'deathCount' => $deathCount,
+                    'newActiveCount' => $newActiveCount,
+                    'lateActiveCount' => $lateActiveCount,
+                    'newRecoveredCount' => $newRecoveredCount,
+                    'lateRecoveredCount' => $lateRecoveredCount,
+                    'newDeathCount' => $newDeathCount,
+                    'totalCasesCount' => $totalCasesCount,
+                    'facilityCount' => $facilityCount,
+                    'hqCount' => $hqCount,
+                    'hospitalCount' => $hospitalCount,
+                    'brgylist' => $brgyArray,
+                ]);
             }
             else if(auth()->user()->isCompanyAccount()) {
                 
