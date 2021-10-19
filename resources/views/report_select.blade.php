@@ -5,7 +5,17 @@
     <div class="card">
         <div class="card-header font-weight-bold text-center">Reports</div>
         <div class="card-body">
-            @if(auth()->user()->ifTopAdmin())
+            @if(auth()->user()->isBrgyAccount())
+            <div class="text-center">
+                <h3 class="font-weight-bold">BRGY. {{auth()->user()->brgy->brgyName}}</h3>
+            </div>
+            <div class="alert alert-info text-center" role="alert">
+                <strong>Note:</strong> Counting results from BRGY. {{auth()->user()->brgy->brgyName}} Data ONLY.
+            </div>
+            @endif
+            @if(auth()->user()->isBrgyAccount())
+            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block">Display List of All Cases</a>
+            @else
             <div class="row">
                 <div class="col-md-6">
                     <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block mb-2">Display List of All Cases</a>
@@ -15,16 +25,8 @@
                     <div class="text-center"><small class="text-muted" id="downloadNotice">Note: Downloading might take a while to finish. Please be patient.</small></div>
                 </div>
             </div>
+            @endif
             <hr>
-            @endif
-            @if(auth()->user()->isBrgyAccount())
-            <div class="text-center">
-                <h3 class="font-weight-bold">BRGY. {{auth()->user()->brgy->brgyName}}</h3>
-            </div>
-            <div class="alert alert-info text-center" role="alert">
-                Note: Counting results from BRGY. {{auth()->user()->brgy->brgyName}} Data ONLY.
-            </div>
-            @endif
             <div class="row mb-3">
                 <div class="col-md-4">
                     <div class="card text-white bg-danger">
