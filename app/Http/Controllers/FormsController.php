@@ -836,6 +836,23 @@ class FormsController extends Controller
             }
         }
 
+        //Auto Re-infect if Positive + Positive ang Old CIF
+        if($caseClassi == 'Confirmed') {
+            $oldcifcheck = Forms::where('id', '!=', $id)
+            ->where('records_id', $rec->records_id)
+            ->where('caseClassification' == 'Confirmed')
+            ->first();
+            if($oldcifcheck) {
+                $autoreinfect = 1;
+            }
+            else {
+                $autoreinfect = 0;
+            }
+        }
+        else {
+            $autoreinfect = 0;
+        }
+
         if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
             return back()
             ->withInput()
@@ -844,7 +861,7 @@ class FormsController extends Controller
         }
         else {
             $request->user()->form()->create([
-                'reinfected' => ($request->reinfected) ? 1 : 0,
+                'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
                 'morbidityMonth' => $request->morbidityMonth,
                 'dateReported' => $request->dateReported,
                 'status' => 'approved',
