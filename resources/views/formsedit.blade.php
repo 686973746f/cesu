@@ -19,7 +19,7 @@
                 @if($records->outcomeCondition == 'Recovered')
                 <hr>
                 <p>If <strong>REINFECTION</strong>, check the [Case of Re-infection] Checkbox below and UPDATE the Data.</p>
-                <p>If <strong>RESWAB</strong>, click the Create New CIF Button above.</p>
+                <p>If <strong>RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 @endif
             </div>
         @endif

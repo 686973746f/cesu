@@ -17,7 +17,7 @@
             <div class="card-body">
                 @if(session('status'))
                     <div class="alert alert-{{session('statustype')}}" role="alert">
-                        <strong class="text-danger">{{session('status')}}</strong>
+                        {{session('status')}}
                         @if(session('type') == 'recordExisting')
                             @if(session('eligibleToEdit') == true)
                             <hr>
