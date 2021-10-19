@@ -152,4 +152,16 @@ class Forms extends Model
             return true;
         }
     }
+
+    public function getOldCif() {
+        $form = Forms::where('id', '!=', $this->id)->where('records_id', $this->records_id)->orderBy('created_at', 'DESC')->get();
+
+        return $form;
+    }
+
+    public function getNewCif() {
+        $form = Forms::where('records_id', $this->records_id)->orderBy('created_at', 'DESC')->first();
+
+        return $form->id;
+    }
 }

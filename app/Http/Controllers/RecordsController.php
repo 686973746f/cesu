@@ -448,7 +448,7 @@ class RecordsController extends Controller
     {
 		if(Records::eligibleToUpdate($id)) {
 			$record = Records::findOrFail($id);
-			$cifcheck = Forms::where('records_id', $record->id)->first();
+			$cifcheck = Forms::where('records_id', $record->id)->orderBy('created_at', 'DESC')->first();
 
 			//Vaccination Details
             if(!is_null($record->vaccinationDate2) || !is_null($record->vaccinationDate1)) {

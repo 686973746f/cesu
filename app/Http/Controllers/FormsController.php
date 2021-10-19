@@ -1088,6 +1088,9 @@ class FormsController extends Controller
             $all = $countries->all()->pluck('name.common')->toArray();
 
             $oldRecords = Forms::where('records_id', $records->records_id)->onlyTrashed()->get();
+            $oldCif = Forms::where('id', '!=', $records->id)
+            ->where('records_id', $records->records_id)
+            ->get();
 
             //Vaccination Details
             if(!is_null($records->vaccinationDate2) || !is_null($records->vaccinationDate1)) {
@@ -1109,6 +1112,7 @@ class FormsController extends Controller
                 'docs' => $docs,
                 'oldRecords' => $oldRecords,
                 'vaccineDose' => $vaccineDose,
+                'oldCif' => $oldCif,
             ]);
         }
         else {

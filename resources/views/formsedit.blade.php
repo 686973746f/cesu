@@ -3,15 +3,15 @@
 
 @section('content')
     <div class="container">
-        @if($records->outcomeCondition == 'Recovered')
+        @if($records->outcomeCondition == 'Recovered' && $records->ifOldCif() == false)
             <form action="{{route('forms.reswab', ['id' => $records->records->id])}}" method="POST">
                 @csrf
                 <div class="text-right">
                     <button type="submit" class="btn btn-success mb-3"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</button>
                 </div>
             </form>
-            @endif
-            @if($records->ifCaseFinished())
+        @endif
+        @if($records->ifCaseFinished() && $records->ifOldCif() == false)
             <div class="alert alert-info" role="alert">
                 <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
                 <p>This CIF of Patient was already marked as <u><strong>{{$records->outcomeCondition}}</strong></u>.</p>
@@ -22,6 +22,51 @@
                 <p>If <strong>RESWAB</strong>, click the Create New CIF Button above.</p>
                 @endif
             </div>
+        @endif
+        @if($records->ifOldCif())
+        <div class="alert alert-info" role="alert">
+            <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
+            <p>This is an <strong>OLD CIF Data</strong> of the patient. Only an admin can edit the details of this Patient's Old CIF.</p>
+            <p>To view the latest CIF details associated with the patient, click <a href="{{route('forms.edit', ['form' => $records->getNewCif()])}}">HERE</a></p>
+        </div>
+        @else
+            @if($records->getOldCif())
+            <div class="card mb-3">
+                <div class="card-header">Old CIF List of Patient</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center thead-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date Encoded</th>
+                                    <th>Health Status</th>
+                                    <th>Classification</th>
+                                    <th>Outcome</th>
+                                    <th>Date Swabbed / Type</th>
+                                    <th>Result</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                @foreach($records->getOldCif() as $olditem)
+                                <tr>
+                                    <td scope="row">{{$loop->iteration}}</td>
+                                    <td>{{date('m/d/Y', strtotime($olditem->created_at))}}</td>
+                                    <td>{{$olditem->healthStatus}}</td>
+                                    <td>{{$olditem->caseClassification}}</td>
+                                    <td>{{$olditem->outcomeCondition}}</td>
+                                    <td>{{$olditem->getLatestTestDate()}} / {{$olditem->getLatestTestType()}}</td>
+                                    <td>{{$olditem->getLatestTestResult()}}</td>
+                                    <td><a href="{{route('forms.edit', ['form' => $olditem->id])}}">View</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> 
+            @endif
         @endif
         <form action="/forms/{{$records->id}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
             @csrf
@@ -2270,34 +2315,44 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    @if($records->outcomeCondition == 'Active')
-                        @if(auth()->user()->isCesuAccount())
-                        <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                    @if($records->ifOldCIf())
+                        @if(auth()->user()->ifTopAdmin())
+                        <button type="submit" class="btn btn-primary" id="formsubmit" onclick="return confirm('Warning: You are updating an OLD CIF of Patient. Please check the details before proceeding. After checking, Click OK to proceed.')"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                         @else
-                            @if($records->caseClassification == 'Confirmed')
-                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Confirmed Cases can only be updated by CESU Admin.">
-                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                            </span>
-                            @else
-                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                            @endif
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="OLD CIF of Patient can only be updated by an admin.">
+                            <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                        </span>
                         @endif
                     @else
-                        @if($records->outcomeCondition == 'Recovered')
+                        @if($records->outcomeCondition == 'Active')
                             @if(auth()->user()->isCesuAccount())
                             <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                             @else
-                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Recovered Cases can only be updated by CESU Admin.">
-                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                            </span>
+                                @if($records->caseClassification == 'Confirmed')
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Confirmed Cases can only be updated by CESU Admin.">
+                                    <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                                </span>
+                                @else
+                                <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                                @endif
                             @endif
                         @else
-                            @if(auth()->user()->ifTopAdmin())
-                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                            @if($records->outcomeCondition == 'Recovered')
+                                @if(auth()->user()->isCesuAccount())
+                                <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                                @else
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Recovered Cases can only be updated by CESU Admin.">
+                                    <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                                </span>
+                                @endif
                             @else
-                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
-                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                            </span>
+                                @if(auth()->user()->ifTopAdmin())
+                                <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                                @else
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
+                                    <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                                </span>
+                                @endif
                             @endif
                         @endif
                     @endif

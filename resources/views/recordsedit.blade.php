@@ -43,9 +43,7 @@
 					</div>
 				    @endif
                     @if($cifcheck)
-                    <div class="alert alert-success" role="alert">
-                        The patient has existing CIF details. To check it, click <a href="{{route('forms.edit', ['form' => $cifcheck->id])}}">HERE</a>
-                    </div>
+                    <a class="btn btn-primary btn-lg btn-block" href="{{route('forms.edit', ['form' => $cifcheck->id])}}" role="button"><i class="fa fa-file mr-2" aria-hidden="true"></i>View Existing CIF of Patient</a>
                     @endif
                     <hr>
                     <h5 class="font-weight-bold">Patient Information</h5>
