@@ -30,7 +30,7 @@
             <p>To view the latest CIF details associated with the patient, click <a href="{{route('forms.edit', ['form' => $records->getNewCif()])}}">HERE</a></p>
         </div>
         @else
-            @if($records->getOldCif())
+            @if($records->getOldCif()->count() > 0)
             <div class="card mb-3">
                 <div class="card-header">Old CIF List of Patient</div>
                 <div class="card-body">
