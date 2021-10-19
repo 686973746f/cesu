@@ -204,6 +204,7 @@
                                         {{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}
                                         @if($form->records->isPregnant == 1)<span class="badge badge-info">P</span>@endif
                                         @if($form->isForHospitalization == 1)<span class="badge badge-secondary">H</span>@endif
+                                        @if($form->getOldCif()->count() > 0)<span class="badge" style="background-color: orange;">RESWAB</span>@endif
                                     </a>
                                 </td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? 'YES' : 'N/A'}}</td>
