@@ -17,7 +17,7 @@
                             <label for="refCode" class="col-md-4 col-form-label text-md-right">{{ __('Referral Code') }}</label>
 
                             <div class="col-md-6">
-                                <input id="refCode" type="text" class="form-control @error('refCode') is-invalid @enderror" name="refCode" value="{{(in_array($item->adminType, [1,2,3,4])) ? $item->bCode : $item->refCode}}" required readonly>
+                                <input id="refCode" type="text" class="form-control @error('refCode') is-invalid @enderror" name="refCode" value="{{($aType == 'cesu') ? $item->bCode : $item->refCode}}" required readonly>
 
                                 @error('refCode')
                                     <span class="invalid-feedback" role="alert">

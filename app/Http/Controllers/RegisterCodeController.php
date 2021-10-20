@@ -23,7 +23,7 @@ class RegisterCodeController extends Controller
         ->first();
         
         if($list) {
-            return view('auth.register', ['item' => $list]);
+            return view('auth.register', ['item' => $list, 'aType' => 'cesu']);
         }
         else {
 
