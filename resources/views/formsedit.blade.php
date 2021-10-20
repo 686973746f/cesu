@@ -1465,6 +1465,109 @@
                                         </div>
                                     </div>
                                     <hr>
+                                    @if(!($records->ifOldCif()) && $records->getOldCif()->count() > 0)
+                                    <div id="accordianId" role="tablist" aria-multiselectable="true">
+                                        <div class="card mb-3">
+                                            <div class="card-header" role="tab" id="section1HeaderId">
+                                                <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+                                                    Date and Result of Swab Collection from Past CIF (Sorted by Old <i class="fa fa-arrow-up" aria-hidden="true"></i> to Newest <i class="fa fa-arrow-down" aria-hidden="true"></i>)
+                                                </a>
+                                            </div>
+                                            <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                                                <div class="card-body">
+                                                    @foreach($records->getOldCif()->sortBy('created_at') as $item)
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Date Collected</label>
+                                                                <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($item->testDateCollected1))}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Time Collected</label>
+                                                                <input type="text" class="form-control" value="{{($item->oniTimeCollected1) ? date('h:i A', strtotime($item->oniTimeCollected1)) : 'N/A'}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Date Released</label>
+                                                                <input type="text" class="form-control" value="{{($item->testDateReleased1) ? date('m/d/Y', strtotime($item->testDateReleased1)) : 'N/A'}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Laboratory</label>
+                                                                <input type="text" class="form-control" value="{{($item->testLaboratory1) ? $item->testLaboratory1 : 'N/A'}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Type of Test</label>
+                                                                <input type="text" class="form-control" value="{{$item->testType1}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Result</label>
+                                                                <input type="text" class="form-control" value="{{$item->testResult1}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @if(!is_null($item->testDateCollected2))
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Date Collected</label>
+                                                                <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($item->testDateCollected2))}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Time Collected</label>
+                                                                <input type="text" class="form-control" value="{{($item->oniTimeCollected2) ? date('h:i A', strtotime($item->oniTimeCollected2)) : 'N/A'}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Date Released</label>
+                                                                <input type="text" class="form-control" value="{{($item->testDateReleased2) ? date('m/d/Y', strtotime($item->testDateReleased2)) : 'N/A'}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Laboratory</label>
+                                                                <input type="text" class="form-control" value="{{($item->testLaboratory2) ? $item->testLaboratory2 : 'N/A'}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Type of Test</label>
+                                                                <input type="text" class="form-control" value="{{$item->testType2}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Result</label>
+                                                                <input type="text" class="form-control" value="{{$item->testResult2}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @if(!($loop->last))
+                                                    <hr>
+                                                    @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -1474,10 +1577,9 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="">Time Collected</label>
+                                                <label for="oniTimeCollected1">Time Collected</label>
                                                 <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control" value="{{old('oniTimeCollected1', $records->oniTimeCollected1)}}">
-                                              </div>
-                                            
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -2347,7 +2449,7 @@
                                 @endif
                             @else
                                 @if(auth()->user()->ifTopAdmin())
-                                <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                                <button type="submit" class="btn btn-primary" id="formsubmit" onclick="return confirm('Warning: You are updating details of a Dead Patient. Please check the details before proceeding. After checking, Click OK to proceed.')"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                                 @else
                                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
                                     <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
