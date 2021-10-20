@@ -121,10 +121,10 @@ class CreateSelfReportsTable extends Migration
             $table->string('imagingResult')->nullable();
             $table->string('imagingOtherFindings')->nullable();
 
-            $table->enum('expoitem1', [1,2,3]);
+            $table->enum('expoitem1', [1,2,3])->nullable();
             $table->date('expoDateLastCont')->nullable();
             
-            $table->enum('expoitem2', [0,1,2,3]);
+            $table->enum('expoitem2', [0,1,2,3])->nullable();
             $table->string('intCountry')->nullable();
             $table->date('intDateFrom')->nullable();
             $table->date('intDateTo')->nullable();
@@ -207,6 +207,8 @@ class CreateSelfReportsTable extends Migration
             $table->text('result_file');
 
             $table->ipAddress('senderIP');
+
+            $table->text('magicURL');
         });
     }
 

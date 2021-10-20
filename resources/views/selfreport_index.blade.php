@@ -60,6 +60,11 @@
             <div class="card mb-3">
                 <div class="card-header font-weight-bold">1. Patient Information</div>
                 <div class="card-body">
+                    <div class="alert alert-primary" role="alert">
+                        <h5 class="font-weight-bold text-danger">Notice:</h5>
+                        <hr>
+                        <span>All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required fields.</span>
+                    </div>
                     <div class="card mb-3">
                         <div class="card-header">Personal Information</div>
                         <div class="card-body">
@@ -165,6 +170,7 @@
                                     <div class="form-group">
                                         <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number <small>(Format: 09*********)</small></label>
                                         <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx" required>
+                                        <small class="text-muted">Note: Please type your CORRECT and ACTIVE Mobile Number as we will use this to contact you.</small>
                                         @error('mobile')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -1106,13 +1112,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
-                                <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}" required>
+                                <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-m-d')}}" value="{{old('testDateCollected1')}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="testDateReleased1"><span class="text-danger font-weight-bold">*</span>Date released</label>
-                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" min="{{date('Y-01-01')}}" value="{{old('testDateReleased1')}}">
+                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" min="{{date('Y-01-01')}}" max="{{date('Y-m-d')}}" value="{{old('testDateReleased1')}}" required>
                             </div>
                         </div>
                     </div>
@@ -1120,7 +1126,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="testLaboratory1"><span class="text-danger font-weight-bold">*</span>Laboratory</label>
-                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1')}}" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1')}}" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1151,7 +1157,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="result_file"><span class="text-danger font-weight-bold">*</span>Upload Positive Result</label>
+                      <label for="result_file"><span class="text-danger font-weight-bold">*</span>Upload Positive Result Document/Form</label>
                       <input type="file" class="form-control-file" name="result_file" id="result_file" required>
                       <small class="form-text text-muted">Accepted file formats: JPG, JPEG, PNG, PDF. Max file size: 5MB</small>
                     </div>
@@ -1210,9 +1216,7 @@
             <div class="card">
                 <div class="card-header font-weight-bold">Data Privacy Statement of General Trias</div>
                 <div class="card-body text-center">
-                    <p>Sa pamamagitan ng pagpili ng "Sumasang-ayon ako" at pag-click sa pindutang "Isumite" sa ibaba, kinikilala ko at napatunayan na maingat kong binasa at naintindihan ang Mga Tuntunin at Kundisyon ng Patakaran sa Data Privacy/Polisiya ng Pamahalaan ng Lunsod ng General Trias. Sa pamamagitan ng pagbibigay ng personal na impormasyon sa Pamahalaang Lungsod ng General Trias, kinukumpirma ko na ang data ay totoo at tama. Naiintindihan ko na ang Pamahalaang Lungsod ng General Trias ay may karapatang baguhin ang anumang desisyon na ginawa batay sa impormasyong ibinigay ko kung ang impormasyon ay mapatunayan na hindi totoo o hindi tama. Sumasang-ayon din ako na ang anumang isyu na maaaring lumabas na may kaugnayan sa pagproseso ng aking personal na impormasyon ay maaayos sa Pamahalaang Panlungsod ng General Trias bago gamitin ang naaangkop na arbitrasyon o paglilitis sa korte sa loob ng hurisdiksyon ng Pilipinas. Sa wakas, nagbibigay ako ng aking kusang-loob na pahintulot at permiso sa Pamahalaang Lungsod ng General Trias at ang mga kinatawan na pinahintulutan na ligal na maproseso ang aking data / impormasyon.</p>
-                    <hr>
-                    <p>By choosing "I Agree" and clicking the "Submit" button below, I hereby acknowledge and certify that I have carefully read and understood the Terms and Conditions of the Data Privacy Policy/Notice of the City Government of General Trias. By providing personal information to City Government of General Trias, I am confirming that the data is true and correct. I understand that City Government of General Trias reserves the right to revise any decision made on the basis of the information I provided should the information be found to be untrue or incorrect. I likewise agree that any issue that may arise in connection with the processing of my personal information will be settled amicably with City Government of General Trias before resorting to appropriate arbitration or court proceedings within the Philippine jurisdiction. Finally, I am providing my voluntary consent and authorization to City Government of General Trias and its authorized representatives to lawfully process my data/information.</p>
+                    <p>{{__('selfreport.dataPrivacy')}}</p>
                     <div class="form-check">
                         <label class="form-check-label">
                         <input type="checkbox" class="form-check-input" name="dpsagree" id="dpsagree" required>

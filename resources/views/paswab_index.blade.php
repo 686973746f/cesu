@@ -200,7 +200,7 @@
                                     <div class="form-group">
                                         <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number <small>(Format: 09*********)</small></label>
                                         <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="09*********" required>
-                                        <small class="text-muted">Please type your CORRECT Mobile Number as we will use this to contact you regarding on your swab test schedule.</small>
+                                        <small class="text-muted">Note: Please type your CORRECT and ACTIVE Mobile Number as we will use this to contact you regarding on your swab test schedule.</small>
                                         @error('mobile')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
