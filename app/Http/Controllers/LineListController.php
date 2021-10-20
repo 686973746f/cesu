@@ -82,7 +82,8 @@ class LineListController extends Controller
                 if(auth()->user()->isCesuAccount()) {
                     $query = Forms::whereHas('records', function ($q) use ($search) {
                         $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                        ->orWhere('id', $search);
                     })
                     ->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
                     ->orWhereBetween('testDateCollected2', [$request->sFrom, $request->sTo])
@@ -94,7 +95,8 @@ class LineListController extends Controller
                         $query = Forms::with('user')
                         ->whereHas('records', function ($q) use ($search) {
                             $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere('id', $search);
                         })
                         ->where(function ($q) use($request) {
                             $q->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
@@ -120,7 +122,8 @@ class LineListController extends Controller
                         $query = Forms::with('user')
                         ->whereHas('records', function ($q) use ($search) {
                             $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere('id', $search);
                         })
                         ->where(function ($q) use($request) {
                             $q->whereBetween('testDateCollected1', [$request->sFrom, $request->sTo])
@@ -143,7 +146,8 @@ class LineListController extends Controller
                 if(auth()->user()->isCesuAccount()) {
                     $query = Forms::whereHas('records', function ($q) use ($search) {
                         $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                        ->orWhere('id', $search);
                     })
                     ->where(function ($query) {
                         $query->where('testDateCollected1', date('Y-m-d'))
@@ -157,7 +161,8 @@ class LineListController extends Controller
                         $query = Forms::with('user')
                         ->whereHas('records', function ($q) use ($search) {
                             $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere('id', $search);
                         })
                         ->where(function ($query) {
                             $query->where('testDateCollected1', date('Y-m-d'))
@@ -183,7 +188,8 @@ class LineListController extends Controller
                         $query = Forms::with('user')
                         ->whereHas('records', function ($q) use ($search) {
                             $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                            ->orWhere('id', $search);
                         })
                         ->where(function ($query) {
                             $query->where('testDateCollected1', date('Y-m-d'))
