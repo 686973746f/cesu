@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <div class="card border-danger mb-3">
-            <div class="card-header text-center bg-danger text-white font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>CIF Already Existing for {{$form->records->getName()}} <small>(#{{$form->records->id}})</small></div>
+        <div class="card border-warning mb-3">
+            <div class="card-header text-center bg-warning text-danger font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>CIF Already Exists for {{$form->records->getName()}} <small>(#{{$form->records->id}})</small></div>
             <div class="card-body text-center">
                 <p><strong>Philhealth: </strong> {{$form->records->philhealth}} | 
                     <strong>Mobile: </strong> {{$form->records->mobile}}</p>

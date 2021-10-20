@@ -897,6 +897,11 @@
                                                     <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
                                                     @endif
                                                 </select>
+                                                <div class="alert alert-info mt-3" role="alert">
+                                                    <p><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Note:</p>
+                                                    <p>IF <strong>Suspected</strong> or <strong>Probable</strong> = Will <strong>APPEAR</strong> on For Swab List</p>
+                                                    <p>IF <strong class="text-danger">Confirmed</strong> or <strong class="text-success">Non-COVID-19 Case</strong> = Will <strong>NOT APPEAR</strong> on For Swab List</p>
+                                                </div>
                                             </div>
                                             <div id="askIfReinfected">
                                                 <div class="form-check">
