@@ -827,8 +827,8 @@ class FormsController extends Controller
         //Auto Re-infect if Positive + Positive ang Old CIF
         if($caseClassi == 'Confirmed') {
             $oldcifcheck = Forms::where('id', '!=', $id)
-            ->where('records_id', $rec->records_id)
-            ->where('caseClassification' == 'Confirmed')
+            ->where('records_id', $rec->id)
+            ->where('caseClassification', 'Confirmed')
             ->first();
             if($oldcifcheck) {
                 $autoreinfect = 1;
@@ -1028,7 +1028,7 @@ class FormsController extends Controller
                 'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
             ]);
             
-            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient was created successfully.')->with('statustype', 'success');
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient ('.$rec->getName().') was created successfully.')->with('statustype', 'success');
         }
     }
 
@@ -1152,7 +1152,7 @@ class FormsController extends Controller
                         $proceed2 = 1;
                     }
                     else {
-                        if($records->caseClassification == 'Confirmed') {
+                        if($rec->caseClassification == 'Confirmed') {
                             $proceed2 = 0;
                         }
                         else {
@@ -1161,7 +1161,7 @@ class FormsController extends Controller
                     }
                 }
                 else {
-                    if($records->outcomeCondition == 'Recovered') {
+                    if($rec->outcomeCondition == 'Recovered') {
                         if(auth()->user()->isCesuAccount()) {
                             $proceed2 = 1;
                         }
@@ -1189,9 +1189,9 @@ class FormsController extends Controller
                 $currentPhilhealth = $rec->records->philhealth;
                 $currentOutcome = $rec->outcomeCondition;
 
-                $rec = Records::findOrFail($rec->records->id);
+                //$rec = Records::findOrFail($rec->records->id);
 
-                if($rec->isPregnant == 0) {
+                if($rec->records->isPregnant == 0) {
                     $hrp = 0;
                 }
                 else {
@@ -1275,7 +1275,7 @@ class FormsController extends Controller
                 }
                 else {
                     if(Forms::where([
-                        ['records_id', $rec->id],
+                        ['records_id', $rec->records_id],
                         ['testDateCollected1', $request->testDateCollected1]
                     ])->exists()) {
                         $proceed = 0;
@@ -1394,13 +1394,13 @@ class FormsController extends Controller
                 if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
                     array_push($testCat, "C");
                 }
-                if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
+                if(!in_array("B", $testCat) && $rec->records->getAgeInt() >= 60) {
                     array_push($testCat, "B");
                 }
                 if(!in_array("D.1", $testCat) && $request->pType == 'CLOSE CONTACT') {
                     array_push($testCat, "D.1");
                 }
-                if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->isPregnant == 1) {
+                if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->records->isPregnant == 1) {
                     array_push($testCat, "F");
                 }
         
@@ -1415,7 +1415,7 @@ class FormsController extends Controller
                 if($caseClassi == 'Confirmed') {
                     $oldcifcheck = Forms::where('id', '!=', $id)
                     ->where('records_id', $rec->records_id)
-                    ->where('caseClassification' == 'Confirmed')
+                    ->where('caseClassification', 'Confirmed')
                     ->first();
                     if($oldcifcheck) {
                         $autoreinfect = 1;
@@ -1619,15 +1619,15 @@ class FormsController extends Controller
                         ]);
             
                         if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {
-                            return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")->with('status', 'CIF for '.$rec->lname.", ".$rec->fname." ".$rec->mname." has been updated successfully.")->with('statustype', 'success');
+                            return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")->with('status', 'CIF for '.$rec->records->getName()." has been updated successfully.")->with('statustype', 'success');
                         }
                         else {
-                            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF for '.$rec->lname.", ".$rec->fname." ".$rec->mname." has been updated successfully.")->with('statustype', 'success');
+                            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF for '.$rec->records->getName()." has been updated successfully.")->with('statustype', 'success');
                         }
                     }
                 }
                 else {
-                    return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Edit Error: CIF Record for '.$rec->lname.", ".$rec->fname." ".$rec->mname." already exists at ".date('m/d/Y', strtotime($request->testDateCollected1)))->with('statustype', 'danger');
+                    return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Edit Error: CIF Record for '.$rec->records->getName()." already exists at ".date('m/d/Y', strtotime($request->testDateCollected1)))->with('statustype', 'danger');
                 }
             }
             else {
