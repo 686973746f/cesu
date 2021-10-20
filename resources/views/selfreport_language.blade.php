@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card">
             <div class="card-header text-center">
                 <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 10rem;" class="mb-3">

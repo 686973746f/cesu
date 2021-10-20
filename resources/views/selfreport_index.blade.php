@@ -24,11 +24,11 @@
             </div>
             <hr>
             @endif
-            
+
             <div class="card mb-3">
                 <div class="card-header text-center font-weight-bold"><h4>COVID-19 Self-Reporting System</h4></div>
                 <div class="card-body">
-                    <div id="carouselId" class="carousel slide mb-3" data-ride="carousel">
+                    <div id="carouselId" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselId" data-slide-to="0" class="active"></li>
                             <li data-target="#carouselId" data-slide-to="1"></li>
@@ -36,25 +36,13 @@
                         </ol>
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item active">
-                                <img data-src="holder.js/1280x720/auto/#777:#555/text:First slide" alt="First slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h3>Title</h3>
-                                    <p>Description</p>
-                                </div>
+                                <img src="{{asset('assets/images/SR1.jpg')}}" alt="First slide" class="img-fluid img-thumbnail">
                             </div>
                             <div class="carousel-item">
-                                <img data-src="holder.js/1280x720/auto/#666:#444/text:Second slide" alt="Second slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h3>Title</h3>
-                                    <p>Description</p>
-                                </div>
+                                <img src="{{asset('assets/images/SR2.jpg')}}" alt="Second slide" class="img-fluid img-thumbnail">
                             </div>
                             <div class="carousel-item">
-                                <img data-src="holder.js/1280x720/auto/#666:#444/text:Third slide" alt="Third slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h3>Title</h3>
-                                    <p>Description</p>
-                                </div>
+                                <img src="{{asset('assets/images/SR3.jpg')}}" alt="Third slide" class="img-fluid img-thumbnail">
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselId" role="button" data-slide="prev">
