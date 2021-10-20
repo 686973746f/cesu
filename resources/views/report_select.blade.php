@@ -7,18 +7,24 @@
         <div class="card-body">
             @if(auth()->user()->isBrgyAccount())
             <div class="text-center">
-                <h3 class="font-weight-bold">BRGY. {{auth()->user()->brgy->brgyName}}</h3>
+                <h3 class="font-weight-bold text-primary">BRGY. {{auth()->user()->brgy->brgyName}}</h3>
             </div>
             <div class="alert alert-info text-center" role="alert">
                 <strong>Note:</strong> Counting results from BRGY. {{auth()->user()->brgy->brgyName}} Data ONLY.
             </div>
             @endif
             @if(auth()->user()->isBrgyAccount())
-            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block">Display List of All Cases</a>
+            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2" id="displayListLoading"></i></a>
+            <div id="displayListNotice" class="text-center">
+                <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
+            </div>
             @else
             <div class="row">
                 <div class="col-md-6">
-                    <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block mb-2">Display List of All Cases</a>
+                    <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block mb-2" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2" id="displayListLoading"></i></a>
+                    <div id="displayListNotice" class="text-center">
+                        <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)</button></a>
@@ -225,7 +231,15 @@
     </div>
 </div>
 <script>
+    $('#displayListNotice').hide();
+    $('#displayListLoading').hide();
     $('#downloadNotice').hide();
+
+    $('#displayList').click(function (e) { 
+        $(this).addClass('disabled');
+        $('#displayListNotice').show();
+        $('#displayListLoading').show();
+    });
 
     $('#generateExcel').click(function (e) { 
         $(this).prop('disabled', true);

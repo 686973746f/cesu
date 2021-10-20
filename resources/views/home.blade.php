@@ -37,10 +37,13 @@
                     <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block mt-2">View Self-Report List <i class="text-warning font-weight-bold">[Under Development]</i></a>
                     @endif
                     @if(auth()->user()->canUseLinelist())
-                    <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-archive mr-2"></i>Line List</a>
+                    <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block mt-2"><i class="fas fa-archive mr-2"></i>Line List</a>
                     @endif
                     <hr>
-                    <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-chart-bar mr-2"></i>Reports</a>
+                    <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block" id="reportsbtn"><i class="fas fa-chart-bar mr-2"></i>Reports<i class="fas fa-circle-notch fa-spin ml-2" id="reportLoading"></i></a>
+                    <div id="reportNotice" class="text-center">
+                        <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
+                    </div>
                     <hr>
                     <a href="{{route('options.index')}}" class="btn btn-secondary btn-lg btn-block"><i class="fa fa-cog mr-2" aria-hidden="true"></i>Options</i></a>
                     @if(auth()->user()->isAdmin == 1)
@@ -52,4 +55,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#reportNotice').hide();
+    $('#reportLoading').hide();
+
+    $('#reportsbtn').click(function (e) { 
+        $(this).addClass('disabled');
+        $('#reportNotice').show();
+        $('#reportLoading').show();
+    });
+</script>
 @endsection
