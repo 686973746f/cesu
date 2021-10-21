@@ -939,6 +939,7 @@ class PaSwabController extends Controller
                     }
                 }
 
+                /*
                 if($request->filled('philhealth')) {
                     if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
                         $philhealth_organized = $request->philhealth;
@@ -951,6 +952,7 @@ class PaSwabController extends Controller
                 else {
                     $philhealth_organized = null;
                 }
+                */
 
                 $check = PaSwabLinks::where('code', mb_strtoupper($request->linkcode))
                 ->where('secondary_code', mb_strtoupper($request->linkcode2nd))
@@ -1032,7 +1034,7 @@ class PaSwabController extends Controller
                             'mobile' => $request->mobile,
                             'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
                             'email' => $request->email,
-                            'philhealth' => $philhealth_organized,
+                            'philhealth' => $request->philhealth,
                             'address_houseno' => strtoupper($request->address_houseno),
                             'address_street' => strtoupper($request->address_street),
 
