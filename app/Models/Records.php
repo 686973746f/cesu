@@ -127,6 +127,10 @@ class Records extends Model
         return $this->hasMany(LinelistSubs::class);
     }
 
+    public function getPhilhealth() {
+        return substr($this->philhealth,0,2)."-".substr($this->philhealth,2,9)."-".substr($this->philhealth,11,1);
+    }
+
     public static function ifDuplicateFound($lname, $fname, $mname, $bdate) {
         if(!is_null($mname)) {
             $check = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
