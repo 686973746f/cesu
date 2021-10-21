@@ -40,7 +40,7 @@ class PaSwabValidationRequest extends FormRequest
             'cs' => 'required',
             'nationality' => 'required',
             'mobile' => 'required|numeric|digits:11|starts_with:09|not_in:09190664324',
-            'philhealth' => 'nullable|regex:/^([0-9-]+)$/',
+            'philhealth' => 'nullable|regex:/^[0-9]+$/',
             'phoneno' => 'nullable|numeric',
             'email' => 'nullable|email',
             'address_province' => 'required',

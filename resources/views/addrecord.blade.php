@@ -144,8 +144,8 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="philhealth">Philhealth No. <small><i>(Leave blank if N/A)</i></small></label>
-							<input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
-							<small class="form-text text-muted">Note: If your input has no dashes, the system will automatically do that for you.</small>
+							<input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
+							<small class="text-muted">Note: Please type the Complete Philhealth # (12 Digits, No Dashes)</small>
 							@error('philhealth')
 								<small class="text-danger">{{$message}}</small>
 							@enderror

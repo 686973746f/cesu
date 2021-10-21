@@ -251,6 +251,7 @@ class RecordsController extends Controller
 			$isPregnant = $request->pregnant;
 		}
 
+		/*
 		if($request->filled('philhealth')) {
 			if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
 				$philhealth_organized = $request->philhealth;
@@ -263,6 +264,7 @@ class RecordsController extends Controller
 		else {
 			$philhealth_organized = null;
 		}
+		*/
 
 		$check1 = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
 
@@ -361,7 +363,7 @@ class RecordsController extends Controller
 				'mobile' => $request->mobile,
 				'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
 				'email' => $request->email,
-				'philhealth' => $philhealth_organized,
+				'philhealth' => $request->philhealth,
 				'address_houseno' => mb_strtoupper($request->address_houseno),
 				'address_street' => mb_strtoupper($request->address_street),
 				'address_brgy' => mb_strtoupper($request->address_brgy),
@@ -526,6 +528,7 @@ class RecordsController extends Controller
 				$isPregnant = $request->pregnant;
 			}
 	
+			/*
 			//auto dashes in philhealth
 			if($request->filled('philhealth')) {
 				if(strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
@@ -539,6 +542,7 @@ class RecordsController extends Controller
 			else {
 				$philhealth_organized = null;
 			}
+			*/
 	
 			$old_philhealth = Records::where('id', $id)->pluck('philhealth')->first();
 
@@ -710,7 +714,7 @@ class RecordsController extends Controller
 					'mobile' => $request->mobile,
 					'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
 					'email' => $request->email,
-					'philhealth' => $philhealth_organized,
+					'philhealth' => $request->philhealth,
 					'address_houseno' => strtoupper($request->address_houseno),
 					'address_street' => strtoupper($request->address_street),
 					'address_brgy' => strtoupper($request->address_brgy),

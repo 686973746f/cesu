@@ -209,7 +209,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="philhealth">Philhealth Number <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
-                                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
+                                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
                                         <small class="form-text text-muted">{{__('paswab.philhealth.notice')}}</i></small>
                                         @error('philhealth')
                                             <small class="text-danger">{{$message}}</small>
