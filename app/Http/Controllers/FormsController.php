@@ -798,13 +798,15 @@ class FormsController extends Controller
 
         //Auto Change Testing Category/Subgroup Base on the patient data
         $testCat = $request->testingCat;
-        if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
+        if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
             array_push($testCat, "A");
         }
+        /*
         if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
             array_push($testCat, "D.1");
         }
-        if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
+        */
+        if(!in_array("C", $testCat) && !is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
             array_push($testCat, "C");
         }
         if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
@@ -1385,13 +1387,15 @@ class FormsController extends Controller
         
                 //Auto Change Testing Category/Subgroup Base on the patient data
                 $testCat = $request->testingCat;
-                if(!in_array("A", $testCat) && $request->healthStatus == 'Severe') {
+                if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
                     array_push($testCat, "A");
                 }
+                /*
                 if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
                     array_push($testCat, "D.1");
                 }
-                if(!in_array("C", $testCat) && !is_null($request->sasCheck)) {
+                */
+                if(!in_array("C", $testCat) && !is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
                     array_push($testCat, "C");
                 }
                 if(!in_array("B", $testCat) && $rec->records->getAgeInt() >= 60) {
