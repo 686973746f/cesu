@@ -46,8 +46,8 @@ class FormsController extends Controller
                             });
                         })
                         ->where(function ($query) {
-                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                            $query->whereDate('testDateCollected1', request()->input('getDate'))
+                            ->orWhereDate('testDateCollected2', request()->input('getDate'));
                         })
                         ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->orderBy('created_at', 'desc')
@@ -64,8 +64,8 @@ class FormsController extends Controller
                             });
                         })
                         ->where(function ($query) {
-                            $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                            ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                            $query->whereDate('testDateCollected1', request()->input('getDate'))
+                            ->orWhereDate('testDateCollected2', request()->input('getDate'));
                         })
                         ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->orderBy('created_at', 'desc')
@@ -74,8 +74,8 @@ class FormsController extends Controller
                 }
                 else {
                     $forms = Forms::where(function ($query) {
-                        $query->whereBetween('testDateCollected1', [request()->input('sdate'), request()->input('edate')])
-                        ->orWhereBetween('testDateCollected2', [request()->input('sdate'), request()->input('edate')]);
+                        $query->whereDate('testDateCollected1', request()->input('getDate'))
+                        ->orWhereDate('testDateCollected2', request()->input('getDate'));
                     })
                     ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();

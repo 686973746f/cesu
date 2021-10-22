@@ -66,25 +66,19 @@
                         </div>
                         <div id="section1ContentId" class="collapse in {{(request()->get('view')) ? 'show' : ''}}" role="tabpanel" aria-labelledby="section1HeaderId">
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label for="view">Filter Type</label>
-                                    <select class="form-control" name="view" id="view" required>
-                                      <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            <label for="sdate">Starting Date</label>
-                                            <input type="date" class="form-control" name="sdate" id="sdate" value="{{(request()->get('view')) ? request()->get('sdate') : date('Y-m-d')}}" required>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="view">Filter Type</label>
+                                            <select class="form-control" name="view" id="view" required>
+                                              <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
+                                            </select>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="edate">Ending Date</label>
-                                                <input type="date" class="form-control" name="edate" id="edate" value="{{(request()->get('view')) ? request()->get('edate') : date('Y-m-d')}}" required>
-                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="getDate">Date</label>
+                                            <input type="date" class="form-control" name="getDate" id="getDate" value="{{(request()->get('view')) ? request()->get('getDate') : date('Y-m-d')}}" required>
                                         </div>
                                     </div>
                                 </div>
