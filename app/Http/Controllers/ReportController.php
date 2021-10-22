@@ -978,7 +978,7 @@ class ReportController extends Controller
                     $remarks = $form->remarks;
                 }
                 else {
-                    $remarks = $form->remarks;
+                    $remarks = 'N/A';
                 }
             }
 
