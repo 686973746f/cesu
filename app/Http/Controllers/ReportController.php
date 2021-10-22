@@ -946,8 +946,43 @@ class ReportController extends Controller
                 }
             }
 
+            //Vaccination Facility
+            if(!is_null($form->records->vaccinationDate2)) {
+                if($form->records->vaccinationFacility2) {
+                    $vFacility = $form->records->vaccinationFacility2;
+                }
+                else {
+                    $vFacility = 'N/A';
+                }
+            }
+            else {
+                if($form->records->vaccinationFacility1) {
+                    $vFacility = $form->records->vaccinationFacility1;
+                }
+                else {
+                    $vFacility = 'N/A';
+                }
+            }
+
+            //Remarks
+            if($form->reinfected == 1) {
+                if(!is_null($form->remarks)) {
+                    $remarks = 'REINFECTED | '.$form->remarks;
+                }
+                else {
+                    $remarks = $form->remarks;
+                }
+            }
+            else {
+                if(!is_null($form->remarks)) {
+                    $remarks = $form->remarks;
+                }
+                else {
+                    $remarks = $form->remarks;
+                }
+            }
+
             return [
-                'CIF Patient ID' => $form->records->id,
                 'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->morbidityMonth)),
                 'MW (Morbidity Week' => Carbon::parse($form->morbidityMonth)->format('W'),
                 'DATE REPORTED' => date('m/d/Y', strtotime($form->dateReported)),
@@ -994,7 +1029,6 @@ class ReportController extends Controller
                 'DATE START OF QUARANTINE' => $dispoDate,
                 'DATE COMPLETED QUARANTINE (FOR HOME AND FACILITY QUARANTINE)' => ($form->dispoType == 4) ? $dispoDate : 'N/A',
                 'OUTCOME(ALIVE/RECOVERED/DIED)' => $form->outcomeCondition,
-                'REINFECTED' => ($form->reinfected == 1) ? 'Y' : 'N',
                 'DATE RECOVERED' => ($form->outcomeCondition == 'Recovered') ? date('m/d/Y', strtotime($form->outcomeRecovDate)) : 'N/A',
                 'DATE DIED' => ($form->outcomeCondition == 'Died') ? date('m/d/Y', strtotime($form->outcomeDeathDate)) : 'N/A',
                 'CAUSE OF DEATH' => ($form->outcomeCondition == 'Died') ? mb_strtoupper($form->deathImmeCause) : 'N/A',
@@ -1009,11 +1043,12 @@ class ReportController extends Controller
                 'AUTHORIZED PERSON OUTSIDE RESIDENCE (Y/N)' => ($form->isLSI == 1 && $form->lsiType == 0) ? 'Y' : 'N',
                 'LOCAL/IMPORTED CASE' => "UNKNOWN",
                 'RETURNING OVERSEAS FILIPINO (Y/N)' => ($form->isOFW == 1 && $form->ofwType == 2) ? 'Y': 'N',
-                'REMARKS' => (!is_null($form->remarks)) ? $form->remarks : 'N/A',
+                'REMARKS' => $remarks,
                 'VACCINATED (Y/N)' => (!is_null($form->records->vaccinationDate1)) ? 'Y' : 'N',
                 'VACCINE' => (!is_null($form->records->vaccinationDate1)) ? $form->records->vaccinationName1 : 'N/A',
-                '1ST DOSE (ACTUAL DATE)' => (!is_null($form->records->vaccinationDate1)) ? date('m/d/Y', strtotime($form->records->vaccinationDate2)) : 'N/A',
+                '1ST DOSE (ACTUAL DATE)' => (!is_null($form->records->vaccinationDate1)) ? date('m/d/Y', strtotime($form->records->vaccinationDate1)) : 'N/A',
                 '2ND DOSE (ACTUAL DATE)' => (!is_null($form->records->vaccinationDate2)) ? date('m/d/Y', strtotime($form->records->vaccinationDate2)) : 'N/A',
+                'VACCINATION FACILITY' => $vFacility,
                 'YEAR' => date('Y', strtotime($form->dateReported)),
             ];
         });
