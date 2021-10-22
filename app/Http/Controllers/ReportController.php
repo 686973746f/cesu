@@ -970,7 +970,7 @@ class ReportController extends Controller
                     $remarks = 'REINFECTED | '.$form->remarks;
                 }
                 else {
-                    $remarks = $form->remarks;
+                    $remarks = 'REINFECTED';
                 }
             }
             else {
