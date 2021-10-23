@@ -17,6 +17,11 @@
               
                   <div id="collapseOne" class="collapse {{(session('openform') == 'patient') ? '' : 'show'}}" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
+                        @if(session('msg'))
+                        <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                            {{session('msg')}}
+                        </div>
+                        @endif
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="form-group row">

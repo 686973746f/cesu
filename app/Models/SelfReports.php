@@ -172,5 +172,7 @@ class SelfReports extends Model
         'remarks',
         'req_file',
         'result_file',
+        'senderIP',
+        'magicURL',
     ];
 }

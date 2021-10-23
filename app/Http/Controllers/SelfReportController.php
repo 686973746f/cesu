@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SelfReports;
+use IlluminateAgnostic\Collection\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use PragmaRX\Countries\Package\Countries;
@@ -37,23 +38,10 @@ class SelfReportController extends Controller
     public function store(SelfReportValidationRequest $request) {
         $request->validated();
 
-        if($request->filled('philhealth')) {
-            if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
-                $philhealth_organized = $request->philhealth;
-            }
-            else {
-                $philhealth_organized = str_replace('-','', $request->philhealth);
-                $philhealth_organized = substr($philhealth_organized, 0, 2)."-".substr($philhealth_organized,2,9)."-".substr($philhealth_organized,11,1);
-            }
-        }
-        else {
-            $philhealth_organized = null;
-        }
-
-        $newFileName1 = time() . ' - ' . $request->req_file->getClientOriginalName();
+        //$newFileName1 = time() . ' - ' . $request->req_file->getClientOriginalName();
         $newFileName2 = time() . ' - ' . $request->result_file->getClientOriginalName();
 
-        $upload1 = $request->req_file->move(public_path('assets/self_reports'), $newFileName1);
+        //$upload1 = $request->req_file->move(public_path('assets/self_reports'), $newFileName1);
         $upload2 = $request->result_file->move(public_path('assets/self_reports'), $newFileName2);
 
         $new = SelfReports::create([
@@ -70,7 +58,7 @@ class SelfReportController extends Controller
             'mobile' => $request->mobile,
             'phoneno' => ($request->filled('phoneno')) ? $request->phoneno : NULL,
             'email' => $request->email,
-            'philhealth' => $philhealth_organized,
+            'philhealth' => $request->philhealth,
             'isPregnant' => ($request->gender == 'FEMALE') ? $request->isPregnant : 0,
             'ifPregnantLMP' => ($request->gender == 'FEMALE' && $request->isPregnant == 1) ? $request->lmp : NULL,
             'address_houseno' => strtoupper($request->address_houseno),
@@ -223,10 +211,30 @@ class SelfReportController extends Controller
             'contact4Name' => ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL,
             'contact4No' => $request->contact4No,
             'remarks' => NULL,
-            'req_file' => $newFileName1,
+            //'req_file' => $newFileName1,
             'result_file' => $newFileName2,
+            'senderIP' => request()->ip(),
+            'magicURL' => Str::random(10),
         ]);
 
-        return view('selfreport_completed', ['completed' => true]);
+        //return view('selfreport_completed', ['completed' => true]);
+        return redirect()->route('selfreport.storeComplete', ['locale' => app()->getLocale()])->with('completed', true);
+    }
+
+    public function storeComplete($locale) {
+        if (! in_array($locale, ['en', 'fil'])) {
+            abort(404);
+        }
+
+        App::setLocale($locale);
+
+        if(session('completed')) {
+            return view('selfreport_completed');
+        }
+        else {
+            return redirect()->route('main')
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
     }
 }

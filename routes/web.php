@@ -69,6 +69,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/selfreport/{locale}', [SelfReportController::class, 'index'])->name('selfreport.index');
     Route::get('/selfreport', [SelfReportController::class, 'selectLanguage'])->name('selfreport.language');
     Route::post('/selfreport', [SelfReportController::class, 'store'])->name('selfreport.store');
+    Route::get('/selfreport/{locale}/completed', [SelfReportController::class, 'storeComplete'])->name('selfreport.storeComplete');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {

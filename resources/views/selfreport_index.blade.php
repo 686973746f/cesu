@@ -5,7 +5,7 @@
     $proceed = 1;
     @endphp
     @if($proceed == 1)
-    <form action="{{route('selfreport.store')}}" method="POST" id="myForm" name="wholeForm" enctype="multipart/form-data">
+    <form action="{{route('selfreport.store', ['locale' => app()->getLocale()])}}" method="POST" id="myForm" name="wholeForm" enctype="multipart/form-data">
         @csrf
         <div class="container" style="font-family: Arial, Helvetica, sans-serif">
 
@@ -179,7 +179,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="philhealth">Philhealth Number <small><i>(Leave blank if N/A)</i></small></label>
-                                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" minlength="12" maxlength="14">
+                                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
+                                        <small class="text-muted">(12 Numbers, No Dashes)</small>
                                         @error('philhealth')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -566,11 +567,9 @@
                             <div class="form-group">
                                 <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
                                 <select class="form-control" name="dispositionType" id="dispositionType" required>
-                                    <option value="" {{(is_null(old('dispositionType'))) ? 'selected' : ''}}>N/A</option>
                                     <option value="1" {{(old('dispositionType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
                                     <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
-                                    <option value="3" {{(old('dispositionType') == 3) ? 'selected' : ''}}>In home isolation/quarantine</option>
-                                    <option value="4" {{(old('dispositionType') == 4) ? 'selected' : ''}}>Discharged to home</option>
+                                    <option value="3" {{(old('dispositionType') == 3 || is_null(old('dispositionType'))) ? 'selected' : ''}}>In home isolation/quarantine</option>
                                     <option value="5" {{(old('dispositionType') == 5) ? 'selected' : ''}}>Others</option>
                                 </select>
                             </div>
