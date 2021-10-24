@@ -39,7 +39,7 @@
                         </li>
                         @if(auth()->user()->isCesuAccount())
                         <li class="nav-item">
-                            <a class="nav-link {{Request::is('selfreport*') ? 'active' : ''}}" href="#">Self-Report</a>
+                            <a class="nav-link {{Request::is('selfreport*') ? 'active' : ''}}" href="{{route('selfreport.view')}}">Self-Report</a>
                         </li>
                         @endif
                         @if(auth()->user()->canUseLinelist())

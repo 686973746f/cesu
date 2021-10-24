@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SelfReports extends Model
 {
@@ -175,4 +176,42 @@ class SelfReports extends Model
         'senderIP',
         'magicURL',
     ];
+
+    public function getAddress() {
+        return $this->address_houseno.', '.$this->address_street.', BRGY.'.$this->address_brgy.', '.$this->address_city.', '.$this->address_province;
+    }
+
+    public function getName() {
+        return $this->lname.", ".$this->fname." ".$this->mname;
+    }
+    
+    public function getAge() {
+        if(Carbon::parse($this->attributes['bdate'])->age > 0) {
+            return Carbon::parse($this->attributes['bdate'])->age;
+        }
+        else {
+            if (Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+                return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%d DAYS');
+            }
+            else {
+                return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
+            }
+        }
+    }
+
+    public function getType() {
+        if($this->pType == 'PROBABLE') {
+            return 'SUSPECTED';
+        }
+        else if($this->pType == 'CLOSE CONTACT') {
+            return 'CLOSE CONTACT';
+        }
+        else if($this->pType == 'CLOSE CONTACT') {
+            return 'NON-COVID CASE';
+        }
+    }
+
+    public function diff4Humans($idate) {
+        return Carbon::createFromTimeStamp(strtotime($idate))->diffForHumans();
+    }
 }

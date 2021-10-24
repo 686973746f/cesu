@@ -15,7 +15,6 @@
                                   <input type="text" class="form-control" value="{{$data->getPatientType()}}" readonly>
                                 </div>
                             </div>
-                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="interviewDate">Date of Interview</label>

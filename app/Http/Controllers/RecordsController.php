@@ -354,7 +354,7 @@ class RecordsController extends Controller
 				'status' => 'approved',
 				'lname' => mb_strtoupper($request->lname),
 				'fname' => mb_strtoupper($request->fname),
-				'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : null,
+				'mname' => ($request->filled('mname') && mb_strtoupper($request->mname) != "N/A") ? mb_strtoupper($request->mname) : NULL,
 				'gender' => strtoupper($request->gender),
 				'isPregnant' => $isPregnant,
 				'cs' => strtoupper($request->cs),

@@ -72,7 +72,7 @@
                 </form>
                 @if(auth()->user()->isBrgyAccount())
                 <div class="alert alert-info" role="alert">
-                    Showing all results including patients addressed to BRGY. {{auth()->user()->brgy->brgyName}} that was encoded by other users.
+                    <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Showing all results including patients addressed to BRGY. {{auth()->user()->brgy->brgyName}} that was encoded by other users in the system.
                 </div>
                 @endif
                 <div class="table-responsive">
