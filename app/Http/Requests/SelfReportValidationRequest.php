@@ -23,23 +23,6 @@ class SelfReportValidationRequest extends FormRequest
      */
     public function rules()
     {
-        if($this->dispositionType == 1 || $this->dispositionType == 2) {
-            $dNameVal = 'required';
-            $dDateVal = 'required|date';
-        }
-        else if ($this->dispositionType == 3 || $this->dispositionType == 4){
-            $dNameVal = 'nullable';
-            $dDateVal = 'required|date';
-        }
-        else if ($this->dispositionType == 5) {
-            $dNameVal = 'required';
-            $dDateVal = 'nullable|date';
-        }
-        else {
-            $dNameVal = 'nullable';
-            $dDateVal = 'nullable|date';
-        }
-        
         return [
             'patientmsg' => 'nullable|string|max:250',
             'lname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
@@ -64,9 +47,21 @@ class SelfReportValidationRequest extends FormRequest
             'address_houseno' => 'required|not_in:N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE',
             'haveOccupation' => 'required|numeric',
             'occupation' => ($this->haveOccupation == 1) ? 'required' : 'nullable', 
-            'occupation_name' => 'nullable',
+            'occupation_name' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
             'natureOfWork' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
             'natureOfWorkIfOthers' => ($this->haveOccupation == 1 && $this->natureOfWork == 'OTHERS') ? 'required' : 'nullable',
+            'worksInClosedSetting' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
+
+            'occupation_province' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
+            'soccupation_province' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
+            'occupation_city' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
+            'soccupation_city' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
+            'occupation_brgy' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
+            'occupation_lotbldg' => ($this->haveOccupation == 1) ? 'required|not_in:N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE' : 'nullable',
+            'occupation_street' => ($this->haveOccupation == 1) ? 'required|not_in:N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE' : 'nullable',
+            'occupation_mobile' => 'nullable|numeric|digits:11|starts_with:09',
+			'occupation_email' => 'nullable|email',
+            
             'pType' => 'required',
             'isHealthCareWorker' => 'required',
             'healthCareCompanyName' => ($this->isHealthCareWorker == "1") ? 'required' : 'nullable',
@@ -88,9 +83,6 @@ class SelfReportValidationRequest extends FormRequest
             'havePreviousCovidConsultation' => 'required',
             'dateOfFirstConsult' => ($this->havePreviousCovidConsultation == "1") ? 'required|date' : 'nullable|date',
             'facilityNameOfFirstConsult' => ($this->havePreviousCovidConsultation == "1") ? 'required' : 'nullable',
-            'dispositionType' => 'nullable',
-            'dispositionName' => $dNameVal,
-            'dispositionDate' => $dDateVal,
             'testedPositiveUsingRTPCRBefore' => 'required',
             'testedPositiveNumOfSwab' => 'required',
             'testedPositiveLab' => ($this->testedPositiveUsingRTPCRBefore == "1") ? 'required' : 'nullable',

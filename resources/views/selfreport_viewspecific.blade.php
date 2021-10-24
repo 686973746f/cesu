@@ -138,6 +138,109 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card mb-3">
+                        <div class="card-header font-weight-bold">3. Occupation Details</div>
+                        <div class="card-body">
+                            <div id="occupationRow">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                          <label for="occupation">Occupation</label>
+                                          <input type="text" class="form-control" value="{{(!is_null($data->occupation)) ? $data->occupation : 'N/A'}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="occupation_name">Name of Workplace</label>
+                                            <input type="text" class="form-control" value="{{(!is_null($data->occupation_name)) ? $data->occupation_name : 'N/A'}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="natureOfWork">Nature of Work</label>
+                                            <input type="text" class="form-control" value="{{(!is_null($data->natureOfWork)) ? $data->natureOfWork : 'N/A'}}" readonly>
+                                        </div>
+                                        @if($data->natureOfWork == 'OTHERS')
+                                        <div class="form-group">
+                                            <label for="natureOfWorkIfOthers">Please specify</label>
+                                            <input type="text" class="form-control" value="{{(!is_null($data->natureOfWorkIfOthers)) ? $data->natureOfWorkIfOthers : 'N/A'}}" readonly>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header font-weight-bold">4. COVID-19 Vaccination Information</div>
+                        <div class="card-body">
+                            @if(!is_null($data->vaccinationDate1))
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Name of Vaccine</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{$data->vaccinationName1}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="">1.) First Dose Date</label>
+                                      <input type="date" class="form-control" name="" id="" value="{{$data->vaccinationDate1}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Vaccination Center/Facility</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationFacility1)) ? $data->vaccinationFacility1 : 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Region of Health Facility</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationRegion1)) ? $data->vaccinationRegion1 : 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Adverse Event/s</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{($data->haveAdverseEvents1 == 1) ? 'YES' : 'NO'}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(!is_null($data->vaccinationDate2))
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="">2.) Second Dose Date</label>
+                                      <input type="date" class="form-control" name="" id="" value="{{$data->vaccinationDate2}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Vaccination Center/Facility</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationFacility2)) ? $data->vaccinationFacility2 : 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Region of Health Facility</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationRegion2)) ? $data->vaccinationRegion2 : 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Adverse Event/s</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{($data->haveAdverseEvents2 == 1) ? 'YES' : 'NO'}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            @else
+                            <p class="text-center">Not Yet Vaccinated</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-success">Complete Assessment</button>

@@ -297,68 +297,187 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header">Work Information</div>
+                        <div class="card-header font-weight-bold">{{__('paswab.occupationDetails')}}</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>Are you currently employed?</label>
+                                <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>{{__('paswab.haveOccupation')}}</label>
                                 <select class="form-control" name="haveOccupation" id="haveOccupation" required>
-                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>Yes</option>
-                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>No</option>
+                                    <option value="" disabled {{(is_null(old('haveOccupation'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                    <option value="1" {{(old('haveOccupation') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
+                                    <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                 </select>
                             </div>
                             <div id="occupationRow">
+                                <div class="alert alert-info" role="alert">
+                                    <strong class="text-danger">Notice:</strong> starting October 06, 2021. <strong>Name of Company/Workplace and Complete Company/Workplace Address are now required fields to be filled up.</strong> This is to comply with the requirements of the Molecular Laboratory.
+                                </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
-                                            <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
+                                          <label for="occupation"><span class="text-danger font-weight-bold">*</span>{{__('paswab.occupation')}}</label>
+                                          <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="occupation_name">Name of Workplace</label>
+                                            <label for="occupation_name"><span class="text-danger font-weight-bold">*</span>{{__('paswab.occupation_name')}}</label>
                                             <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
-                                    <div class="col-md-4"> 
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>Nature of Work</label>
+                                            <label for="natureOfWork"><span class="text-danger font-weight-bold">*</span>{{__('paswab.natureOfWork')}}</label>
                                             <select class="form-control" name="natureOfWork" id="natureOfWork">
-                                                <option value="" disabled {{(is_null(old('natureOfWork'))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="AGRICULTURE" {{(old('natureOfWork') == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
-                                                <option value="BPO" {{(old('natureOfWork') == 'BPO') ? 'selected' : ''}}>BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
-                                                <option value="COMMUNICATIONS" {{(old('natureOfWork') == 'COMMUNICATIONS') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
-                                                <option value="CONSTRUCTION" {{(old('natureOfWork') == 'CONSTRUCTION') ? 'selected' : ''}}>Construction (E.G. Makati Dev Corp)</option>
-                                                <option value="EDUCATION" {{(old('natureOfWork') == 'EDUCATION') ? 'selected' : ''}}>Education (E.G. DLSU)</option>
-                                                <option value="ELECTRICITY" {{(old('natureOfWork') == 'ELECTRICITY') ? 'selected' : ''}}>Electricity</option>
-                                                <option value="FINANCIAL" {{(old('natureOfWork') == 'FINANCIAL') ? 'selected' : ''}}>Financial (E.G. Banks)</option>
-                                                <option value="GOVERNMENT UNITS/ORGANIZATIONS" {{(old('natureOfWork') == 'GOVERNMENT UNITS/ORGANIZATIONS') ? 'selected' : ''}}>Government Units/Organizations (E.G. GSIS)</option>
-                                                <option value="HOTEL AND RESTAURANT" {{(old('natureOfWork') == 'HOTEL AND RESTAURANT') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
-                                                <option value="MANNING/SHIPPING AGENCY" {{(old('natureOfWork') == 'MANNING/SHIPPING AGENCY') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
-                                                <option value="MANUFACTURING" {{(old('natureOfWork') == 'MANUFACTURING') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
-                                                <option value="MEDICAL AND HEALTH SERVICES" {{(old('natureOfWork') == 'MEDICAL AND HEALTH SERVICES') ? 'selected' : ''}}>Medical and Health Services</option>
-                                                <option value="MICROFINANCE" {{(old('natureOfWork') == 'MICROFINANCE') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
-                                                <option value="MINING AND QUARRYING" {{(old('natureOfWork') == 'MINING AND QUARRYING') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
-                                                <option value="NON PROFIT ORGANIZATIONS" {{(old('natureOfWork') == 'NON PROFIT ORGANIZATIONS') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
-                                                <option value="REAL ESTATE" {{(old('natureOfWork') == 'REAL ESTATE') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
-                                                <option value="STORAGE" {{(old('natureOfWork') == 'STORAGE') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
-                                                <option value="TRANSPORTATION" {{(old('natureOfWork') == 'TRANSPORTATION') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
-                                                <option value="WHOLESALE AND RETAIL TRADE" {{(old('natureOfWork') == 'WHOLESALE AND RETAIL TRADE') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
-                                                <option value="OTHERS" {{(old('natureOfWork') == 'OTHERS') ? 'selected' : ''}}>Others (Specify)</option>
+                                              <option value="" disabled {{(is_null(old('natureOfWork'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                              <option value="AGRICULTURE" {{(old('natureOfWork') == 'AGRICULTURE') ? 'selected' : ''}}>Agriculture</option>
+                                              <option value="BPO" {{(old('natureOfWork') == 'BPO') ? 'selected' : ''}}>BPO (Outsourcing E.G. eTelecare Global Sol. Inc)</option>
+                                              <option value="COMMUNICATIONS" {{(old('natureOfWork') == 'COMMUNICATIONS') ? 'selected' : ''}}>Communications (E.G. PLDT)</option>
+                                              <option value="CONSTRUCTION" {{(old('natureOfWork') == 'CONSTRUCTION') ? 'selected' : ''}}>Construction (E.G. Makati Dev Corp)</option>
+                                              <option value="EDUCATION" {{(old('natureOfWork') == 'EDUCATION') ? 'selected' : ''}}>Education (E.G. DLSU)</option>
+                                              <option value="ELECTRICITY" {{(old('natureOfWork') == 'ELECTRICITY') ? 'selected' : ''}}>Electricity</option>
+                                              <option value="FINANCIAL" {{(old('natureOfWork') == 'FINANCIAL') ? 'selected' : ''}}>Financial (E.G. Banks)</option>
+                                              <option value="GOVERNMENT UNITS/ORGANIZATIONS" {{(old('natureOfWork') == 'GOVERNMENT UNITS/ORGANIZATIONS') ? 'selected' : ''}}>Government Units/Organizations (E.G. GSIS)</option>
+                                              <option value="HOTEL AND RESTAURANT" {{(old('natureOfWork') == 'HOTEL AND RESTAURANT') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
+                                              <option value="MANNING/SHIPPING AGENCY" {{(old('natureOfWork') == 'MANNING/SHIPPING AGENCY') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
+                                              <option value="MANUFACTURING" {{(old('natureOfWork') == 'MANUFACTURING') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
+                                              <option value="MEDICAL AND HEALTH SERVICES" {{(old('natureOfWork') == 'MEDICAL AND HEALTH SERVICES') ? 'selected' : ''}}>Medical and Health Services</option>
+                                              <option value="MICROFINANCE" {{(old('natureOfWork') == 'MICROFINANCE') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
+                                              <option value="MINING AND QUARRYING" {{(old('natureOfWork') == 'MINING AND QUARRYING') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
+                                              <option value="NON PROFIT ORGANIZATIONS" {{(old('natureOfWork') == 'NON PROFIT ORGANIZATIONS') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
+                                              <option value="REAL ESTATE" {{(old('natureOfWork') == 'REAL ESTATE') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
+                                              <option value="STORAGE" {{(old('natureOfWork') == 'STORAGE') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
+                                              <option value="TRANSPORTATION" {{(old('natureOfWork') == 'TRANSPORTATION') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
+                                              <option value="WHOLESALE AND RETAIL TRADE" {{(old('natureOfWork') == 'WHOLESALE AND RETAIL TRADE') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
+                                              <option value="OTHERS" {{(old('natureOfWork') == 'OTHERS') ? 'selected' : ''}}>{{__('paswab.select.ChooseOthers')}}</option>
                                             </select>
-                                                @error('natureOfWork')
-                                                <small class="text-danger">{{$message}}</small>
-                                                @enderror
+                                              @error('natureOfWork')
+                                              <small class="text-danger">{{$message}}</small>
+                                              @enderror
                                         </div>
                                         <div id="specifyWorkNatureDiv">
                                             <div class="form-group">
-                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>Please specify</label>
+                                                <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>{{__('paswab.specify')}}</label>
                                                 <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}" style="text-transform: uppercase;">
                                                 @error('natureOfWorkIfOthers')
                                                 <small class="text-danger">{{$message}}</small>
                                                 @enderror
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
+                                            <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
+                                                <option value="" disabled {{(is_null(old('worksInClosedSetting'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                                <option value="YES" {{(old('worksInClosedSetting') == "YES") ? 'selected' : ''}}>Yes</option>
+                                                <option value="NO" {{(old('worksInClosedSetting') == "NO") ? 'selected' : ''}}>No</option>
+                                                <option value="UNKNOWN" {{(old('worksInClosedSetting') == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
+                                            </select>
+                                            @error('worksInClosedSetting')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div id="occupationaddresstext" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <input type="text" class="form-control" name="occupation_province" id="occupation_province" value="{{old('occupation_province')}}">
                                             </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="occupation_city" id="occupation_city" value="{{old('occupation_city')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <input type="text" class="form-control" name="occupation_provincejson" id="occupation_provincejson" value="{{old('occupation_provincejson')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="occupation_cityjson" id="occupation_cityjson" value="{{old('occupation_cityjson')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="soccupation_province"><span class="text-danger font-weight-bold">*</span>Workplace Province</label>
+                                            <select class="form-control" name="soccupation_province" id="soccupation_province">
+                                              <option value="" selected disabled>Choose...</option>
+                                            </select>
+                                                @error('soccupation_province')
+                                                  <small class="text-danger">{{$message}}</small>
+                                              @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="soccupation_city"><span class="text-danger font-weight-bold">*</span>Workplace City</label>
+                                            <select class="form-control" name="soccupation_city" id="soccupation_city">
+                                              <option value="" selected disabled>Choose...</option>
+                                            </select>
+                                              @error('soccupation_city')
+                                                  <small class="text-danger">{{$message}}</small>
+                                              @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="occupation_brgy"><span class="text-danger font-weight-bold">*</span>Workplace Barangay</label>
+                                            <select class="form-control" name="occupation_brgy" id="occupation_brgy">
+                                              <option value="" selected disabled>Choose...</option>
+                                            </select>
+                                                @error('occupation_brgy')
+                                                  <small class="text-danger">{{$message}}</small>
+                                              @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Workplace Lot/Building</label>
+                                            <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" style="text-transform: uppercase;">
+                                            @error('occupation_lotbldg')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Workplace Street/Avenue</label>
+                                            <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" style="text-transform: uppercase;">
+                                            @error('occupation_street')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_mobile">Workplace Phone/Mobile No. <small>(Optional)</small></label>
+                                            <input type="text" class="form-control" id="occupation_mobile" name="occupation_mobile" pattern="[0-9]{11}" placeholder="0917xxxxxxx" value="{{old('occupation_mobile')}}">
+                                            @error('occupation_mobile')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="occupation_email">Workplace Email <small>(Optional)</small></label>
+                                            <input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{old('occupation_email')}}">
+                                            @error('occupation_email')
+                                                  <small class="text-danger">{{$message}}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -557,32 +676,6 @@
                                             <input type="date" class="form-control" name="dateOfFirstConsult" id="dateOfFirstConsult" value="{{old('dateOfFirstConsult')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">Disposition at Time of Report</div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
-                                <select class="form-control" name="dispositionType" id="dispositionType" required>
-                                    <option value="1" {{(old('dispositionType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
-                                    <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}}>Admitted in isolation/quarantine facility</option>
-                                    <option value="3" {{(old('dispositionType') == 3 || is_null(old('dispositionType'))) ? 'selected' : ''}}>In home isolation/quarantine</option>
-                                    <option value="5" {{(old('dispositionType') == 5) ? 'selected' : ''}}>Others</option>
-                                </select>
-                            </div>
-                            <div id="divYes5">
-                                <div class="form-group">
-                                    <label for="dispositionName" id="dispositionlabel"></label>
-                                    <input type="text" class="form-control" name="dispositionName" id="dispositionName" value="{{old('dispositionName')}}" style="text-transform: uppercase;">
-                                </div>
-                            </div>
-                            <div id="divYes6">
-                                <div class="form-group">
-                                    <label for="dispositionDate" id="dispositiondatelabel"></label>
-                                    <input type="datetime-local" class="form-control" name="dispositionDate" id="dispositionDate" value="{{old('dispositionDate')}}">
                                 </div>
                             </div>
                         </div>
@@ -1270,6 +1363,16 @@
         </div>
     </form>  
     <script>
+        //Patient Location Select2 Init
+        $('#saddress_province, #saddress_city, #address_brgy').select2({
+            theme: "bootstrap",
+        });
+
+        //Occupation Location Select2 Init
+        $('#soccupation_province, #soccupation_city, #occupation_brgy, #natureOfWork').select2({
+            theme: "bootstrap",
+        });
+
         $('#dispositionType').change(function (e) {
                 e.preventDefault();
                 $('#dispositionDate').prop("type", "datetime-local");
@@ -1572,17 +1675,112 @@
 		$("#address_city").val('GENERAL TRIAS');
 		$('#address_cityjson').val('042108');
 
+        //Occupation Province JSON Init
+        $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
+			var sorted = data.sort(function(a, b) {
+				if (a.provDesc > b.provDesc) {
+				return 1;
+				}
+				if (a.provDesc < b.provDesc) {
+				return -1;
+				}
+				return 0;
+			});
+
+			$.each(sorted, function(key, val) {
+                $('#soccupation_province').append($('<option>', {
+					value: val.provCode,
+					text: val.provDesc,
+				}));
+			});
+        });
+
+        $('#soccupation_city').prop('disabled', true);
+		$('#occupation_brgy').prop('disabled', true);
+
+        $('#soccupation_province').change(function (e) {
+			e.preventDefault();
+			$('#soccupation_city').prop('disabled', false);
+			$('#occupation_brgy').prop('disabled', true);
+			$('#soccupation_city').prop('required', true);
+			$('#occupation_brgy').prop('required', false);
+			$('#soccupation_city').empty();
+			$("#soccupation_city").append('<option value="" selected disabled>Choose...</option>');
+			$('#occupation_brgy').empty();
+			$("#occupation_brgy").append('<option value="" selected disabled>Choose...</option>');
+			$("#occupation_province").val($('#soccupation_province option:selected').text());
+			$("#occupation_provincejson").val($('#soccupation_province').val());
+			
+			$.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
+				var sorted = data.sort(function(a, b) {
+					if (a.citymunDesc > b.citymunDesc) {
+					return 1;
+					}
+					if (a.citymunDesc < b.citymunDesc) {
+					return -1;
+					}
+					return 0;
+				});
+				$.each(sorted, function(key, val) {
+					if($('#soccupation_province').val() == val.provCode) {
+						$("#soccupation_city").append('<option value="'+val.citymunCode+'">'+val.citymunDesc+'</option>');
+					}
+				});
+			});
+		});
+
+        $('#soccupation_city').change(function (e) { 
+			e.preventDefault();
+			$('#occupation_brgy').prop('disabled', false);
+			$('#occupation_brgy').prop('required', true);
+			$('#occupation_brgy').empty();
+			$("#occupation_brgy").append('<option value="" selected disabled>Choose...</option>');
+			$("#occupation_city").val($('#soccupation_city option:selected').text());
+			$('#occupation_cityjson').val($('#soccupation_city').val());
+
+			$.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
+				var sorted = data.sort(function(a, b) {
+					if (a.brgyDesc > b.brgyDesc) {
+					return 1;
+					}
+					if (a.brgyDesc < b.brgyDesc) {
+					return -1;
+					}
+					return 0;
+				});
+				$.each(sorted, function(key, val) {
+					if($('#soccupation_city').val() == val.citymunCode) {
+						$("#occupation_brgy").append('<option value="'+val.brgyDesc.toUpperCase()+'">'+val.brgyDesc.toUpperCase()+'</option>');
+					}
+				});
+			});
+		});
+        
         $('#haveOccupation').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '1') {
                 $('#occupationRow').show();
                 $('#occupation').prop('required', true);
+                $('#occupation_name').prop('required', true);
                 $('#natureOfWork').prop('required', true);
+                $('#worksInClosedSetting').prop('required', true);
+                $('#soccupation_province').prop('required', true);
+                $('#soccupation_city').prop('required', true);
+                $('#occupation_brgy').prop('required', true);
+                $('#occupation_lotbldg').prop('required', true);
+                $('#occupation_street').prop('required', true);
             }
             else {
                 $('#occupationRow').hide();
                 $('#occupation').prop('required', false);
+                $('#occupation_name').prop('required', false);
                 $('#natureOfWork').prop('required', false);
+                $('#worksInClosedSetting').prop('required', false);
+                $('#soccupation_province').prop('required', false);
+                $('#soccupation_city').prop('required', false);
+                $('#occupation_brgy').prop('required', false);
+                $('#occupation_lotbldg').prop('required', false);
+                $('#occupation_street').prop('required', false);
             }
         }).trigger('change');
         

@@ -51,7 +51,7 @@ class SelfReportController extends Controller
         $request->validated();
 
         //$newFileName1 = time() . ' - ' . $request->req_file->getClientOriginalName();
-        $newFileName2 = 'srfile'.time().Str::random(20);
+        $newFileName2 = 'srfile'.time().Str::random(20).'.'.$request->req_file->getClientOriginalExtension();
         //$newFileName2 = time() . ' - ' . $request->result_file->getClientOriginalName();
 
         //$upload1 = $request->req_file->move(public_path('assets/self_reports'), $newFileName1);
@@ -85,10 +85,23 @@ class SelfReportController extends Controller
                 'address_cityjson' => $request->saddress_city,
                 'address_province' => strtoupper($request->address_province),
                 'address_provincejson' => $request->saddress_province,
+
                 'occupation' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation) : NULL,
                 'occupation_name' => ($request->filled('occupation_name')) ? mb_strtoupper($request->occupation_name) : NULL,
                 'natureOfWork' => ($request->haveOccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
                 'natureOfWorkIfOthers' => ($request->haveOccupation == 1 && $request->natureOfWork == "OTHERS") ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                'worksInClosedSetting' => ($request->haveOccupation == 1) ? $request->worksInClosedSetting : 'UNKNOWN',
+
+                'occupation_lotbldg' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation_lotbldg) : NULL,
+                'occupation_street' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation_street) : NULL,
+                'occupation_brgy' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation_brgy) : NULL,
+                'occupation_city' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation_city) : NULL,
+                'occupation_cityjson' => ($request->haveOccupation == 1) ? mb_strtoupper($request->soccupation_city) : NULL,
+                'occupation_province' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation_province) : NULL,
+                'occupation_provincejson' => ($request->haveOccupation == 1) ? mb_strtoupper($request->soccupation_province) : NULL,
+                'occupation_mobile' => $request->occupation_mobile,
+                'occupation_email' => $request->occupation_email,
+                
                 'pType' => $request->pType,
                 'isHealthCareWorker' => $request->isHealthCareWorker,
                 'healthCareCompanyName' => $request->healthCareCompanyName,
@@ -250,10 +263,9 @@ class SelfReportController extends Controller
         }
 
         App::setLocale($locale);
-        return view('selfreport_completed');
 
         if(session('completed')) {
-            
+            return view('selfreport_completed');
         }
         else {
             return redirect()->route('main')

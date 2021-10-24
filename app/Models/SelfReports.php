@@ -40,6 +40,18 @@ class SelfReports extends Model
         'occupation_name',
         'natureOfWork',
         'natureOfWorkIfOthers',
+        'worksInClosedSetting',
+
+        'occupation_lotbldg',
+        'occupation_street',
+        'occupation_brgy',
+        'occupation_city',
+        'occupation_cityjson',
+        'occupation_province',
+        'occupation_provincejson',
+        'occupation_mobile',
+        'occupation_email',
+        
         'pType',
         'isHealthCareWorker',
         'healthCareCompanyName',
