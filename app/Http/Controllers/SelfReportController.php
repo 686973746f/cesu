@@ -40,7 +40,11 @@ class SelfReportController extends Controller
     public function edit($id) {
         $data = SelfReports::findOrFail($id);
 
-        return view('selfreport_viewspecific', ['data' => $data]);
+        $countries = new Countries();
+        $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
+        $all = $countries->all()->pluck('name.common')->toArray();
+
+        return view('selfreport_viewspecific', ['data' => $data, 'countries' => $all]);
     }
 
     public function finishAssessment($id) {
@@ -51,7 +55,7 @@ class SelfReportController extends Controller
         $request->validated();
 
         //$newFileName1 = time() . ' - ' . $request->req_file->getClientOriginalName();
-        $newFileName2 = 'srfile'.time().Str::random(20).'.'.$request->req_file->getClientOriginalExtension();
+        $newFileName2 = 'srfile'.time().Str::random(20).'.'.$request->result_file->getClientOriginalExtension();
         //$newFileName2 = time() . ' - ' . $request->result_file->getClientOriginalName();
 
         //$upload1 = $request->req_file->move(public_path('assets/self_reports'), $newFileName1);
