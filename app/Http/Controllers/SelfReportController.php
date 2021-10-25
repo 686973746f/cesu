@@ -47,8 +47,139 @@ class SelfReportController extends Controller
         return view('selfreport_viewspecific', ['data' => $data, 'countries' => $all]);
     }
 
-    public function finishAssessment($id) {
-        dd($id);
+    public function finishAssessment(Request $request, $id) {
+        $data = SelfReports::findOrFail($id);
+
+        if($request->dispositionType == 1 || $request->dispositionType == 2) {
+            $dNameVal = 'required';
+            $dDateVal = 'required|date';
+        }
+        else if ($request->dispositionType == 3 || $request->dispositionType == 4){
+            $dNameVal = 'nullable';
+            $dDateVal = 'required|date';
+        }
+        else if ($request->dispositionType == 5) {
+            $dNameVal = 'required';
+            $dDateVal = 'nullable|date';
+        }
+        else if ($request->dispositionType == 6) {
+            $dNameVal = 'nullable';
+            $dDateVal = 'required|date';
+        }
+        else {
+            $dNameVal = 'nullable';
+            $dDateVal = 'nullable|date';
+        }
+
+        $request->validate([
+            'dispositionType' => 'nullable',
+            'dispositionName' => $dNameVal,
+            'dispositionDate' => $dDateVal,
+        ]);
+
+        $data->dispoType = $request->dispositionType;
+        $data->dispoName = $request->dispositionName;
+        $data->dispoDate = $request->dispositionDate;
+
+        $data->expoitem1 = $request->expoitem1;
+        $data->expoDateLastCont = $request->expoDateLastCont;
+
+        $data->expoitem2 = $request->expoitem2;
+        $data->intCountry = $request->intCountry;
+        $data->intDateFrom = $request->intDateFrom;
+        $data->intDateTo = $request->intDateTo;
+        $data->intWithOngoingCovid = ($request->expoitem2 == 2) ? $request->intWithOngoingCovid : 'N/A';
+        $data->intVessel = $request->intVessel;
+        $data->intVesselNo = $request->intVesselNo;
+        $data->intDateDepart = $request->intDateDepart;
+        $data->intDateArrive = $request->intDateArrive;
+
+        $data->placevisited = (!is_null($request->placevisited)) ? implode(",", $request->placevisited) : NULL;
+
+        $data->locName1 = $request->locName1;
+        $data->locAddress1 = $request->locAddress1;
+        $data->locDateFrom1 = $request->locDateFrom1;
+        $data->locDateTo1 = $request->locDateTo1;
+        $data->locWithOngoingCovid1 = (!is_null($request->placevisited) && in_array('Health Facility', $request->placevisited)) ? $request->locWithOngoingCovid1 : 'N/A';
+
+        $data->locName2 = $request->locName2;
+        $data->locAddress2 = $request->locAddress2;
+        $data->locDateFrom2 = $request->locDateFrom2;
+        $data->locDateTo2 = $request->locDateTo2;
+        $data->locWithOngoingCovid2 = (!is_null($request->placevisited) && in_array('Closed Settings', $request->placevisited)) ? $request->locWithOngoingCovid2 : 'N/A';
+        
+        $data->locName3 = $request->locName3;
+        $data->locAddress3 = $request->locAddress3;
+        $data->locDateFrom3 = $request->locDateFrom3;
+        $data->locDateTo3 = $request->locDateTo3;
+        $data->locWithOngoingCovid3 = (!is_null($request->placevisited) && in_array('School', $request->placevisited)) ? $request->locWithOngoingCovid3 : 'N/A';
+        
+        $data->locName4 = $request->locName4;
+        $data->locAddress4 = $request->locAddress4;
+        $data->locDateFrom4 = $request->locDateFrom4;
+        $data->locDateTo4 = $request->locDateTo4;
+        $data->locWithOngoingCovid4 = (!is_null($request->placevisited) && in_array('Workplace', $request->placevisited)) ? $request->locWithOngoingCovid4 : 'N/A';
+
+        $data->locName5 = $request->locName5;
+        $data->locAddress5 = $request->locAddress5;
+        $data->locDateFrom5 = $request->locDateFrom5;
+        $data->locDateTo5 = $request->locDateTo5;
+        $data->locWithOngoingCovid5 = (!is_null($request->placevisited) && in_array('Market', $request->placevisited)) ? $request->locWithOngoingCovid5 : 'N/A';
+
+        $data->locName6 = $request->locName6;
+        $data->locAddress6 = $request->locAddress6;
+        $data->locDateFrom6 = $request->locDateFrom6;
+        $data->locDateTo6 = $request->locDateTo6;
+        $data->locWithOngoingCovid6 = (!is_null($request->placevisited) && in_array('Social Gathering', $request->placevisited)) ? $request->locWithOngoingCovid6 : 'N/A';
+
+        $data->locName7 = $request->locName7;
+        $data->locAddress7 = $request->locAddress7;
+        $data->locDateFrom7 = $request->locDateFrom7;
+        $data->locDateTo7 = $request->locDateTo7;
+        $data->locWithOngoingCovid7 = (!is_null($request->placevisited) && in_array('Others', $request->placevisited)) ? $request->locWithOngoingCovid7 : 'N/A';
+
+        $data->localVessel1 = $request->localVessel1;
+        $data->localVesselNo1 = $request->localVesselNo1;
+        $data->localOrigin1 = $request->localOrigin1;
+        $data->localDateDepart1 = $request->localDateDepart1;
+        $data->localDest1 = $request->localDest1;
+        $data->localDateArrive1 = $request->localDateArrive1;
+
+        $data->localVessel2 = $request->localVessel2;
+        $data->localVesselNo2 = $request->localVesselNo2;
+        $data->localOrigin2 = $request->localOrigin2;
+        $data->localDateDepart2 = $request->localDateDepart2;
+        $data->localDest2 = $request->localDest2;
+        $data->localDateArrive2 = $request->localDateArrive2;
+
+        $data->contact1Name = ($request->filled('contact1Name')) ? mb_strtoupper($request->contact1Name) : NULL;
+        $data->contact1No = $request->contact1No;
+        $data->contact2Name = ($request->filled('contact2Name')) ? mb_strtoupper($request->contact2Name) : NULL;
+        $data->contact2No = $request->contact2No;
+        $data->contact3Name = ($request->filled('contact3Name')) ? mb_strtoupper($request->contact3Name) : NULL;
+        $data->contact3No = $request->contact3No;
+        $data->contact4Name = ($request->filled('contact4Name')) ? mb_strtoupper($request->contact4Name) : NULL;
+        $data->contact4No = $request->contact4No;
+
+        if($data->isDirty()) {
+            $data->save();
+        }
+
+        $record_array = array(
+
+        );
+
+        $form_array = array(
+
+        );
+
+        //Ipasok na sa Records and Forms
+        if($data->isNewRecord == 1) {
+            $record = $request->user()->records()->create($record_array);
+        }
+        else {
+            
+        }
     }
     
     public function store(SelfReportValidationRequest $request) {
