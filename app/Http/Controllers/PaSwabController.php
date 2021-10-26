@@ -130,7 +130,7 @@ class PaSwabController extends Controller
                             'occupation_email' => $data->occupation_email,
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                             'vaccinationDate1' => $data->vaccinationDate1,
                             'vaccinationName1' => $data->vaccinationName1,
@@ -194,7 +194,7 @@ class PaSwabController extends Controller
                             'occupation_email' => $data->occupation_email,
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                             'vaccinationDate1' => $data->vaccinationDate1,
                             'vaccinationName1' => $data->vaccinationName1,
@@ -552,7 +552,7 @@ class PaSwabController extends Controller
                             'occupation_email' => $data->occupation_email,
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                             'vaccinationDate1' => $data->vaccinationDate1,
                             'vaccinationName1' => $data->vaccinationName1,
@@ -616,7 +616,7 @@ class PaSwabController extends Controller
                             'occupation_email' => $data->occupation_email,
             
                             'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                            'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                             'vaccinationDate1' => $data->vaccinationDate1,
                             'vaccinationName1' => $data->vaccinationName1,
@@ -1261,7 +1261,7 @@ class PaSwabController extends Controller
                     'occupation_email' => $data->occupation_email,
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                     'vaccinationDate1' => $data->vaccinationDate1,
                     'vaccinationName1' => $data->vaccinationName1,
@@ -1325,7 +1325,7 @@ class PaSwabController extends Controller
                     'occupation_email' => $data->occupation_email,
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                     'vaccinationDate1' => $data->vaccinationDate1,
                     'vaccinationName1' => $data->vaccinationName1,
@@ -1707,7 +1707,7 @@ class PaSwabController extends Controller
                     'occupation_email' => $data->occupation_email,
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                     'vaccinationDate1' => $data->vaccinationDate1,
                     'vaccinationName1' => $data->vaccinationName1,
@@ -1771,7 +1771,7 @@ class PaSwabController extends Controller
                     'occupation_email' => $data->occupation_email,
     
                     'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
-                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
+                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
 
                     'vaccinationDate1' => $data->vaccinationDate1,
                     'vaccinationName1' => $data->vaccinationName1,
