@@ -903,6 +903,18 @@
                                                     <p>IF <strong class="text-danger">Confirmed</strong> or <strong class="text-success">Non-COVID-19 Case</strong> = Will <strong>NOT APPEAR</strong> on For Swab List</p>
                                                 </div>
                                             </div>
+                                            <div id="confirmedVariant">
+                                                <div class="form-group">
+                                                  <label for="confirmedVariantName"><span class="text-danger font-weight-bold">*</span>COVID-19 Variant</label>
+                                                  <select class="form-control" name="confirmedVariantName" id="confirmedVariantName">
+                                                    <option value="" {{(is_null(old('confirmedVariantName', $records->confirmedVariantName))) ? 'selected' : ''}}>Unspecified</option>
+                                                    <option value="ALPHA" {{(old('confirmedVariantName', $records->confirmedVariantName) == 'ALPHA') ? 'selected' : ''}}>ALPHA (B.1.1.7) - GB</option>
+                                                    <option value="BETA" {{(old('confirmedVariantName', $records->confirmedVariantName) == 'BETA') ? 'selected' : ''}}>BETA (B.1.351) - ZA</option>
+                                                    <option value="DELTA" {{(old('confirmedVariantName', $records->confirmedVariantName) == 'DELTA') ? 'selected' : ''}}>DELTA (B.1.617.2) - IN</option>
+                                                    <option value="GAMMA" {{(old('confirmedVariantName', $records->confirmedVariantName) == 'GAMMA') ? 'selected' : ''}}>GAMMA (P.1) - BR</option>
+                                                  </select>
+                                                </div>
+                                            </div>
                                             <div id="askIfReinfected">
                                                 <div class="form-check">
                                                     <label class="form-check-label">
@@ -2895,9 +2907,11 @@
                 e.preventDefault();
                 if($(this).val() == 'Confirmed') {
                     $('#askIfReinfected').show();
+                    $('#confirmedVariant').show();
                 }
                 else {
                     $('#askIfReinfected').hide();
+                    $('#confirmedVariant').hide();
                 }
             }).trigger('change');
 

@@ -798,6 +798,18 @@
                                                     <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
                                                 </select>
                                             </div>
+                                            <div id="confirmedVariant">
+                                                <div class="form-group">
+                                                    <label for="confirmedVariantName"><span class="text-danger font-weight-bold">*</span>COVID-19 Variant</label>
+                                                    <select class="form-control" name="confirmedVariantName" id="confirmedVariantName">
+                                                        <option value="" {{(is_null(old('confirmedVariantName'))) ? 'selected' : ''}}>Unspecified</option>
+                                                        <option value="ALPHA" {{(old('confirmedVariantName') == 'ALPHA') ? 'selected' : ''}}>ALPHA (B.1.1.7) - GB</option>
+                                                        <option value="BETA" {{(old('confirmedVariantName') == 'BETA') ? 'selected' : ''}}>BETA (B.1.351) - ZA</option>
+                                                        <option value="DELTA" {{(old('confirmedVariantName') == 'DELTA') ? 'selected' : ''}}>DELTA (B.1.617.2) - IN</option>
+                                                        <option value="GAMMA" {{(old('confirmedVariantName') == 'GAMMA') ? 'selected' : ''}}>GAMMA (P.1) - BR</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div id="askIfReinfected">
                                                 <div class="form-check">
                                                     <label class="form-check-label">
@@ -2550,9 +2562,11 @@
                 e.preventDefault();
                 if($(this).val() == 'Confirmed') {
                     $('#askIfReinfected').show();
+                    $('#confirmedVariant').show();
                 }
                 else {
                     $('#askIfReinfected').hide();
+                    $('#confirmedVariant').hide();
                 }
             }).trigger('change');
 

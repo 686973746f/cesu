@@ -98,6 +98,7 @@ class FormValidationRequest extends FormRequest
             'healthStatus' => 'required',
             //2.4 Case Classification
             'caseClassification' => 'required',
+            'confirmedVariantName' => 'nullable',
             
             //2.6 Clinical Information
             'dateOnsetOfIllness' => 'nullable|date|before_or_equal:today',
