@@ -22,6 +22,10 @@ class CreateSelfReportsTable extends Migration
             $table->foreignId('records_id')->nullable()->constrained()->onDelete('cascade');
             $table->text('patientmsg')->nullable();
 
+            $table->string('drunit');
+            $table->string('drregion');
+            $table->string('drprovince');
+
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();

@@ -51,6 +51,10 @@ class SelfReports extends Model
         'occupation_provincejson',
         'occupation_mobile',
         'occupation_email',
+
+        'drunit',
+        'drregion',
+        'drprovince',
         
         'pType',
         'isHealthCareWorker',
@@ -209,6 +213,10 @@ class SelfReports extends Model
                 return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
             }
         }
+    }
+
+    public function getAgeInt() {
+        return Carbon::parse($this->attributes['bdate'])->age;
     }
 
     public function getType() {

@@ -1311,9 +1311,11 @@
                         </div>
                     </div>
                 </div>
+                @if($editable)
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-success"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>Complete Assessment</button>
                 </div>
+                @endif
             </div>
         </form>
     </div>

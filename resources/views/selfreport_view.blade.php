@@ -7,6 +7,11 @@
                 Self-Report List<a href="{{route('selfreport.view')}}" class="btn btn-link {{(request()->get('viewCompleted') == 'true') ? '' : 'disabled'}}">View Pending</a><a href="{{route('selfreport.view')}}?viewCompleted=true" class="btn btn-link {{(request()->get('viewCompleted') == 'true') ? 'disabled' : ''}}">View Completed</a>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="alert alert-info" role="alert">
                     <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>{{(request()->get('viewCompleted') == 'true') ? 'Viewing COMPLETED Records only. ' : 'Viewing PENDING Records only. '}}Sorted by first come first serve basis (Oldest to Newest).
                 </div>
