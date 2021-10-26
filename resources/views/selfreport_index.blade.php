@@ -1190,26 +1190,26 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
-                                    <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit')}}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region</label>
-                                    <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion')}}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="drprovince"><span class="text-danger font-weight-bold">*</span>DRU Province</label>
-                                    <input type="text" class="form-control" name="drprovince" id="drprovince" value="{{old('drprovince')}}" required>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
+                                <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit')}}" required>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region</label>
+                                <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="drprovince"><span class="text-danger font-weight-bold">*</span>DRU Province</label>
+                                <input type="text" class="form-control" name="drprovince" id="drprovince" value="{{old('drprovince')}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
