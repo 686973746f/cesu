@@ -584,7 +584,7 @@
                                   <select class="form-control" name="howManyDose" id="howManyDose">
                                     <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose</option>
-                                    <option value="2" {{(old('howManyDose') == '2') ? 'selected' : ''}}>2nd Dose</option>
+                                    <option value="2" id="2ndDoseOption" {{(old('howManyDose') == '2') ? 'selected' : ''}}>2nd Dose</option>
                                   </select>
                                 </div>
                                 <div class="form-group">
@@ -1788,6 +1788,17 @@
                 $('#haveAdverseEvents1').prop('required', false);
                 $('#vaccinationDate2').prop('required', false);
                 $('#haveAdverseEvents2').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#vaccineName').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'JANSSEN') {
+                $('#howManyDose').val(1).trigger('change');
+                $('#2ndDoseOption').hide();
+            }
+            else {
+                $('#2ndDoseOption').show();
             }
         }).trigger('change');
 

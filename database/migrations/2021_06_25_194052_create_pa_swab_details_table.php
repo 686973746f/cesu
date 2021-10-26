@@ -84,7 +84,7 @@ class CreatePaSwabDetailsTable extends Migration
               
             $table->date('dateOnsetOfIllness')->nullable();
             $table->text('SAS')->nullable();
-            $table->mediumInteger('SASFeverDeg')->nullable();
+            $table->double('SASFeverDeg')->nullable();
             $table->text('SASOtherRemarks')->nullable();
 
             $table->text('COMO');

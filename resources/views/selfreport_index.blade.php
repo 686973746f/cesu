@@ -66,7 +66,7 @@
                         <span>All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required fields.</span>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header">Personal Information</div>
+                        <div class="card-header font-weight-bold">Personal Information</div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
@@ -297,7 +297,7 @@
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-header font-weight-bold">{{__('paswab.occupationDetails')}}</div>
+                        <div class="card-header font-weight-bold">Occupation Details</div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="haveOccupation"><span class="text-danger font-weight-bold">*</span>{{__('paswab.haveOccupation')}}</label>
@@ -485,7 +485,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header">Special Population</div>
+                        <div class="card-header font-weight-bold">Special Population</div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="isHealthCareWorker"><span class="text-danger font-weight-bold">*</span>Health Care Worker</label>
@@ -699,21 +699,23 @@
                             <label for="howManyDose"><span class="text-danger font-weight-bold">*</span>Ilang Dose na ang nakumpleto? / How many Dose have you completed?</label>
                             <select class="form-control" name="howManyDose" id="howManyDose">
                             <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>Choose...</option>
-                            <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose</option>
-                            <option value="2" {{(old('howManyDose') == '2') ? 'selected' : ''}}>2nd Dose</option>
+                            <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose only</option>
+							<option value="2" id="2ndDoseOption" {{(old('howManyDose') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="nameOfVaccine"><span class="text-danger font-weight-bold">*</span>Pangalan ng Bakuna / Name of Vaccine</label>
-                            <select class="form-control" name="nameOfVaccine" id="nameOfVaccine">
-                            <option value="" disabled {{is_null(old('nameOfVaccine')) ? 'selected' : ''}}>Choose...</option>
-                            <option value="ASTRAZENECA" {{(old('nameOfVaccine') == 'ASTRAZENECA') ? 'selected' : ''}}>Astrazeneca</option>
-                            <option value="JOHNSON & JOHNSON'S" {{(old('nameOfVaccine') == "JOHNSON & JOHNSON'S") ? 'selected' : ''}}>Johnson & Johnson's</option>
-                            <option value="MODERNA" {{(old('nameOfVaccine') == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
-                            <option value="PFIZER" {{(old('nameOfVaccine') == 'PFIZER') ? 'selected' : ''}}>Pfizer</option>
-                            <option value="SINOFARM" {{(old('nameOfVaccine') == 'SINOFARM') ? 'selected' : ''}}>Sinofarm</option>
-                            <option value="SINOVAC" {{(old('nameOfVaccine') == 'SINOVAC') ? 'selected' : ''}}>Sinovac</option>
-                            <option value="SPUTNIK V" {{(old('nameOfVaccine') == 'SPUTNIK V') ? 'selected' : ''}}>Sputnik V</option>
+                            <label for="vaccineName"><span class="text-danger font-weight-bold">*</span>Name of Vaccine</label>
+                            <select class="form-control" name="vaccineName" id="vaccineName">
+                              <option value="" disabled {{is_null(old('vaccineName')) ? 'selected' : ''}}>Choose...</option>
+                              <option value="BHARAT BIOTECH" {{(old('vaccineName') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
+                              <option value="GAMALEYA SPUTNIK V" {{(old('vaccineName') == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
+                              <option value="JANSSEN" {{(old('vaccineName') == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
+                              <option value="MODERNA" {{(old('vaccineName') == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+                              <option value="NOVARAX" {{(old('vaccineName') == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
+                              <option value="OXFORD ASTRAZENECA" {{(old('vaccineName') == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
+                              <option value="PFIZER BIONTECH" {{(old('vaccineName') == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
+                              <option value="SINOPHARM" {{(old('vaccineName') == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
+                              <option value="SINOVAC CORONAVAC" {{(old('vaccineName') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
                             </select>
                         </div>
                         <div id="VaccineDose1">
@@ -799,7 +801,7 @@
                     <div id="ifHaveSymptoms">
                         <div class="form-group">
                             <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>Kailan nagsimula ang Sintomas / Date of Onset of Illness</label>
-                            <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" min="1999-01-01" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" min="1999-01-01" max="{{date('Y-m-d')}}" value="{{old('dateOnsetOfIllness')}}">
                         </div>
                         <div class="card">
                             <div class="card-header">Senyales at Sintomas (Lagyan ng Check ang mayroon) / Signs and Symptoms (Check all that apply)</div>
@@ -820,7 +822,7 @@
                                         <div id="divFeverChecked">
                                             <div class="form-group mt-2">
                                                 <label for="SASFeverDeg"><span class="text-danger font-weight-bold">*</span>Degrees (in Celcius)</label>
-                                                <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" value="{{old('SASFeverDeg')}}">
+                                                <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" max="90" value="{{old('SASFeverDeg', '38')}}" step=".1">
                                             </div>
                                         </div>
                                         <div class="form-check">
@@ -1189,26 +1191,6 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
-                                <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit')}}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region</label>
-                                <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion')}}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="drprovince"><span class="text-danger font-weight-bold">*</span>DRU Province</label>
-                                <input type="text" class="form-control" name="drprovince" id="drprovince" value="{{old('drprovince')}}" required>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -2146,6 +2128,17 @@
                 $('#haveAdverseEvents1').prop('required', false);
                 $('#vaccinationDate2').prop('required', false);
                 $('#haveAdverseEvents2').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#vaccineName').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'JANSSEN') {
+                $('#howManyDose').val(1).trigger('change');
+                $('#2ndDoseOption').hide();
+            }
+            else {
+                $('#2ndDoseOption').show();
             }
         }).trigger('change');
 

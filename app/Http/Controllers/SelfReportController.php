@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forms;
 use App\Models\Records;
 use App\Models\SelfReports;
 use Illuminate\Http\Request;
@@ -482,6 +483,9 @@ class SelfReportController extends Controller
         
         if(is_null($check2)) {
             $new = SelfReports::create([
+                'drunit' => 'CHO GENERAL TRIAS',
+                'drregion' => '4A',
+                'drprovince' => 'CAVITE',
                 'isNewRecord' => (!is_null($check1)) ? 0 : 1, //0 = OLD, 1 = NEW
                 'records_id' => (!is_null($check1)) ? $check1->id : NULL,
                 'patientmsg' => $request->patientmsg,

@@ -22,9 +22,9 @@ class CreateSelfReportsTable extends Migration
             $table->foreignId('records_id')->nullable()->constrained()->onDelete('cascade');
             $table->text('patientmsg')->nullable();
 
-            $table->string('drunit');
-            $table->string('drregion');
-            $table->string('drprovince');
+            $table->text('drunit');
+            $table->text('drregion');
+            $table->text('drprovince');
 
             $table->string('lname');
             $table->string('fname');
@@ -104,11 +104,11 @@ class CreateSelfReportsTable extends Migration
             $table->date('testDateCollected1');
             $table->date('testDateReleased1')->nullable();
             $table->time('oniTimeCollected1')->nullable();
-            $table->string('testLaboratory1')->nullable();
-            $table->string('testType1');
-            $table->string('testTypeAntigenRemarks1')->nullable();
-            $table->string('antigenKit1')->nullable();
-            $table->string('testTypeOtherRemarks1')->nullable();
+            $table->text('testLaboratory1')->nullable();
+            $table->text('testType1');
+            $table->text('testTypeAntigenRemarks1')->nullable();
+            $table->text('antigenKit1')->nullable();
+            $table->text('testTypeOtherRemarks1')->nullable();
 
             $table->date('vaccinationDate1')->nullable();
             $table->string('vaccinationName1')->nullable();
@@ -126,7 +126,7 @@ class CreateSelfReportsTable extends Migration
 
             $table->date('dateOnsetOfIllness')->nullable();
             $table->text('SAS')->nullable();
-            $table->mediumInteger('SASFeverDeg')->nullable();
+            $table->double('SASFeverDeg')->nullable();
             $table->text('SASOtherRemarks')->nullable();
             $table->text('COMO');
             $table->text('COMOOtherRemarks')->nullable();

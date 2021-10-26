@@ -286,7 +286,7 @@
                               <select class="form-control" name="howManyDoseVaccine" id="howManyDoseVaccine">
                                 <option value="" {{(is_null(old('howManyDoseVaccine', $vaccineDose))) ? 'selected' : ''}}>N/A</option>
                                 <option value="1" {{(old('howManyDoseVaccine', $vaccineDose) == '1') ? 'selected' : ''}}>1st Dose only</option>
-                                <option value="2" {{(old('howManyDoseVaccine', $vaccineDose) == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
+                                <option value="2" id="2ndDoseOption" {{(old('howManyDoseVaccine', $vaccineDose) == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
                               </select>
                             </div>
                             <div id="ifVaccinated">
@@ -1310,6 +1310,17 @@
                     $('#haveAdverseEvents1').prop('required', true);
                     $('#vaccinationDate2').prop('required', true);
                     $('#haveAdverseEvents2').prop('required', true);
+                }
+            }).trigger('change');
+
+            $('#vaccineName').change(function (e) { 
+                e.preventDefault();
+                if($(this).val() == 'JANSSEN') {
+                    $('#howManyDoseVaccine').val(1).trigger('change');
+                    $('#2ndDoseOption').hide();
+                }
+                else {
+                    $('#2ndDoseOption').show();
                 }
             }).trigger('change');
         });
