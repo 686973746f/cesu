@@ -82,7 +82,7 @@
                                             <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                         </select>
                                         <small class="text-muted">{{__('paswab.forAntigenNotice')}}</small>
-                                        <small class="text-warning">Selecting "YES" for antigen will be temporarily disabled.</small>
+                                        <small class="text-danger">Selecting "YES" for antigen is temporarily disabled. All Patients are suggested to take RT-PCR Test.</small>
                                     </div>
                                 </div>
                             </div>
