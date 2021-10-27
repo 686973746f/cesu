@@ -47,9 +47,11 @@
                             <a class="nav-link {{Request::is('linelist*') ? 'active' : ''}}" href="{{route('linelist.index')}}">Line Lists</a>
                         </li>
                         @endif
+                        @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
                         <li class="nav-item">
                             <a class="nav-link {{Request::is('report*') ? 'active' : ''}}" href="{{route('report.index')}}">Reports</a>
                         </li>
+                        @endif
                         @if(auth()->user()->isAdmin == 1)
                         <li class="nav-item">
                             <a class="nav-link {{Request::is('admin*') ? 'active' : ''}}" href="{{route('adminpanel.index')}}">Admin Panel</a>
