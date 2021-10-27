@@ -13,9 +13,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if (session('status'))
+                    @if(session('status'))
                         <div class="text-center alert alert-{{session('statustype')}}" role="alert">
-                            {{ session('status') }}
+                            {{session('status')}}
                         </div>
                     @endif
 

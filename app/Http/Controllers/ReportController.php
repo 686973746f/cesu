@@ -306,7 +306,7 @@ class ReportController extends Controller
             ]);
         }
         else {
-            if(auth()->user()->isBrgyAccount()) {
+            if(auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1) {
                 $activeCount = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
@@ -608,7 +608,14 @@ class ReportController extends Controller
                 ]);
             }
             else if(auth()->user()->isCompanyAccount()) {
-                
+                return redirect()->route('home')
+                ->with('status', 'You are not allowed to do that.')
+                ->with('statustype', 'warning');
+            }
+            else {
+                return redirect()->route('home')
+                ->with('status', 'You are not allowed to do that.')
+                ->with('statustype', 'warning');
             }
         }
     }
