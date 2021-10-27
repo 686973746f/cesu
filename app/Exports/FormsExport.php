@@ -152,7 +152,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("H.1", $arr_testingcat) || in_array("H.2", $arr_testingcat)) ? "YES" : "NO",
             (in_array("I", $arr_testingcat)) ? "YES" : "NO",
             (in_array("J.1", $arr_testingcat) || in_array("J.2", $arr_testingcat)) ? "YES" : "NO",
-            $form->testingCat,
+            head(explode(',', $form->testingCat)),
             
             $form->records->lname,
             $form->records->fname,

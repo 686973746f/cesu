@@ -119,9 +119,13 @@
                 <div>
                     <button type="button" class="btn btn-primary my-3" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
                     <button type="button" class="btn btn-primary my-3" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
+                    @if(auth()->user()->isCesuAccount())
                     <button type="submit" class="btn btn-primary my-3" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
+                    @endif
                     <button type="submit" class="btn btn-primary my-3" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>Print as Sticker Text</button>
+                    @if(auth()->user()->isCesuAccount())
                     <button type="submit" class="btn btn-primary my-3" id="exportBtnExp" name="submit" value="export_type1"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Experimental Mode)</button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm" id="table_id">
