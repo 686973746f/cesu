@@ -415,9 +415,9 @@
                                             <select class="form-control" name="soccupation_province" id="soccupation_province">
                                               <option value="" selected disabled>Choose...</option>
                                             </select>
-                                                @error('soccupation_province')
-                                                  <small class="text-danger">{{$message}}</small>
-                                              @enderror
+                                            @error('soccupation_province')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">

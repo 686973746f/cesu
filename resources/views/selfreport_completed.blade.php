@@ -29,7 +29,7 @@
                         </tr>
                         <tr>
                             <td scope="row"><i class="fas fa-at mr-2"></i>Email Address</td>
-                            <td>cesu.gentrias@gmail.com</td>
+                            <td><a href = "mailto: cesu.gentrias.covid19positive@gmail.com">cesu.gentrias.covid19positive@gmail.com</a></td>
                         </tr>
                     </tbody>
                 </table>
