@@ -26,6 +26,7 @@ use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
+use App\Http\Controllers\ChangePasswordController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -86,6 +87,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAcc
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/account/changepw', [ChangePasswordController::class, 'index'])->name('changepw.index');
+    Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1']], function() {

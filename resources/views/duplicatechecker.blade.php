@@ -2,23 +2,25 @@
 
 @section('content')
     <div class="container">
-        <table class="table">
-            <thead>
+        <table class="table table-bordered table-hover table-striped" id="list1">
+            <thead class="thead-light text-center">
                 <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Name</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($records as $record)
+                @foreach($records1->sortBy('Grp1') as $record)
                 <tr>
-                    <td scope="row">{{$record['id']}}</td>
-                    <td>{{$record['lname'].', '.$record['fname'].' '.$record['mname']}}</td>
-                    <td></td>
+                    <td class="text-center">{{$loop->iteration}}</td>
+                    <td><a href="{{route('records.index')}}?q={{$record->Grp1}}&fdc=1">{{$record->Grp1}}</a></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+        $('#list1').dataTable();
+    </script>
 @endsection

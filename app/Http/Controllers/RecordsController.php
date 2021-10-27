@@ -183,6 +183,13 @@ class RecordsController extends Controller
 	}
 
 	public function duplicateCheckerDashboard() {
+		$checker1 = DB::table('records')
+		->selectRaw("CONCAT(lname,', ',fname) AS Grp1, COUNT(*)")
+		->groupBy('Grp1')
+		->havingRaw('COUNT(*) > 1')
+		->get();
+
+		return view('duplicatechecker', ['records1' => $checker1]);
 	}
 
     /**
