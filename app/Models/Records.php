@@ -292,7 +292,7 @@ class Records extends Model
             else {
                 if(auth()->user()->isBrgyAccount()) {
                     //Barangay Account
-                    if($record->province == auth()->user()->brgy->city->province->provinceName && $record->address_city == auth()->user()->brgy->city->cityName && $record->address_brgy == auth()->user()->brgy->brgyName) {
+                    if($record->address_province == auth()->user()->brgy->city->province->provinceName && $record->address_city == auth()->user()->brgy->city->cityName && $record->address_brgy == auth()->user()->brgy->brgyName) {
                         return true;
                     }
                     else if($record->user->brgy_id == auth()->user()->brgy_id) {
