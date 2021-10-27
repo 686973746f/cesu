@@ -695,17 +695,6 @@
                                                     <input
                                                       class="form-check-input"
                                                       type="checkbox"
-                                                      value="Asymptomatic"
-                                                      name="sasCheck[]"
-                                                      id="signsCheck1"
-                                                      {{(is_array(old('sasCheck')) && in_array("Asymptomatic", old('sasCheck'))) ? 'checked' : ''}}
-                                                    />
-                                                    <label class="form-check-label" for="signsCheck1">Asymptomatic</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input
-                                                      class="form-check-input"
-                                                      type="checkbox"
                                                       value="Fever"
                                                       name="sasCheck[]"
                                                       id="signsCheck2"
