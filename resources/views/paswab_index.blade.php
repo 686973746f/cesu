@@ -79,11 +79,10 @@
                                     <div class="form-group">
                                         <label for="forAntigen"><span class="text-danger font-weight-bold">*</span>{{__('paswab.forAntigen')}}</label>
                                         <select class="form-control" name="forAntigen" id="forAntigen" required>
-                                            <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                             <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
-                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
                                         </select>
                                         <small class="text-muted">{{__('paswab.forAntigenNotice')}}</small>
+                                        <small class="text-warning">Selecting "YES" for antigen will be temporarily disabled.</small>
                                     </div>
                                 </div>
                             </div>
