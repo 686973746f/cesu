@@ -819,6 +819,16 @@ class FormsController extends Controller
             array_push($testCat, "F");
         }
 
+        if(!in_array('D.2', $testCat) && $rec->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+            array_push($testCat, "D.2");
+        }
+        if(!in_array('I', $testCat) && $rec->natureOfWork == 'MANUFACTURING') {
+            array_push($testCat, "I");
+        }
+        if(!in_array('E.2', $testCat) && $rec->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+            array_push($testCat, "E.2");
+        }
+
         //Auto Change Case Classification based on symptoms
         if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
             if(in_array('Anosmia (Loss of Smell)', $request->sasCheck) || in_array('Ageusia (Loss of Taste)', $request->sasCheck)) {
@@ -1407,6 +1417,16 @@ class FormsController extends Controller
                 }
                 if(!in_array("F", $testCat) && $request->isForHospitalization == 1 || !in_array("F", $testCat) && $rec->records->isPregnant == 1) {
                     array_push($testCat, "F");
+                }
+
+                if(!in_array('D.2', $testCat) && $rec->records->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                    array_push($testCat, "D.2");
+                }
+                if(!in_array('I', $testCat) && $rec->records->natureOfWork == 'MANUFACTURING') {
+                    array_push($testCat, "I");
+                }
+                if(!in_array('E.2', $testCat) && $rec->records->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                    array_push($testCat, "E.2");
                 }
         
                 //Auto Change Case Classification based on symptoms
