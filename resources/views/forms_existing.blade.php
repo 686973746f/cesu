@@ -5,6 +5,13 @@
         <div class="card border-warning mb-3">
             <div class="card-header text-center bg-warning text-danger font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>CIF Already Exists for {{$form->records->getName()}} <small>(#{{$form->records->id}})</small></div>
             <div class="card-body text-center">
+                <form action="{{route('forms.soloprint.cif', ['id' => $form->id])}}" method="POST" class="mb-3">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-file-csv mr-2"></i>Export to .CSV</button>
+                    @if($form->getLatestTestType() == 'ANTIGEN')
+                    <a href="{{route('forms.soloprint.antigen', ['id' => $form->id, 'testType' => $form->getTestNum()])}}" class="btn btn-sm btn-primary"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
+                    @endif
+                </form>
                 <p><strong>Philhealth: </strong> {{$form->records->philhealth}} | 
                     <strong>Mobile: </strong> {{$form->records->mobile}}</p>
                     <p><strong>Date Encoded / By:</strong> {{date('m/d/Y h:i A', strtotime($form->created_at))}} ({{$form->user->name}}) 

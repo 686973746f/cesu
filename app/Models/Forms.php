@@ -46,6 +46,15 @@ class Forms extends Model
         }
     }
 
+    public function getTestNum() {
+        if(!is_null($this->testDateCollected2)) {
+            return 2;
+        }
+        else {
+            return 1;
+        }
+    }
+
     public function getLatestTestDate() {
         if(!is_null($this->testDateCollected2)) {
             return date('m/d/Y', strtotime($this->testDateCollected2));
