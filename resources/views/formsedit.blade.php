@@ -81,6 +81,11 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if($msheet)
+                    <a href="{{route('msheet.view', ['id' => $msheet->id])}}" class="btn btn-primary btn-block mb-3">View Monitoring Sheet</a>
+                    @else
+                    <button type="button" onclick="event.preventDefault(); document.getElementById('msheetform').submit();" class="btn btn-success btn-block mb-3"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Create Monitoring Sheet</button>
+                    @endif
                     <div class="alert alert-info" role="alert">
                         <p>1.) The Case Investigation Form (CIF) is meant to be administered as an interview by a health care worker or any personnel of the DRU. <b>This is not a self-administered questionnaire.</b></p>
                         <p>2.) Please be advised that DRUs are only allowed to obtain <b>1 copy of accomplished CIF</b> from a patient.</p>
@@ -2523,6 +2528,10 @@
                 @endif
             </div>
         </div>
+
+        <form action="{{route('msheet.create', ['forms_id' => $records->id])}}" method="POST" id="msheetform">
+            @csrf
+        </form>
 
         <form action="/forms/{{$records->id}}/edit" method="POST" enctype="multipart/form-data">
             @csrf

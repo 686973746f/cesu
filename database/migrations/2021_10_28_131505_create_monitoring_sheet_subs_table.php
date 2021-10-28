@@ -17,18 +17,17 @@ class CreateMonitoringSheetSubsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('monitoring_sheet_masters_id')->constrained()->onDelete('cascade');
-            $table-date('forDate');
+            $table->date('forDate');
             $table->text('forMeridian');
-            $table->double('fever');
-            $table->tinyInt('cough');
-            $table->tinyInt('sorethroat');
-            $table->tinyInt('dob');
-            $table->tinyInt('colds');
-            $table->tinyInt('diarrhea');
+            $table->double('fever')->nullable();
+            $table->tinyInteger('cough');
+            $table->tinyInteger('sorethroat');
+            $table->tinyInteger('dob');
+            $table->tinyInteger('colds');
+            $table->tinyInteger('diarrhea');
             $table->text('os1')->nullable();
             $table->text('os2')->nullable();
             $table->text('os3')->nullable();
-            $table->text('magicURL');
         });
     }
 

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use PragmaRX\Countries\Package\Countries;
 use App\Http\Requests\FormValidationRequest;
+use App\Models\MonitoringSheetMaster;
 
 class FormsController extends Controller
 {
@@ -1110,6 +1111,8 @@ class FormsController extends Controller
             ->where('records_id', $records->records_id)
             ->get();
 
+            $msheet = MonitoringSheetMaster::where('forms_id', $records->id)->first();
+
             //Vaccination Details
             if(!is_null($records->vaccinationDate2) || !is_null($records->vaccinationDate1)) {
                 if(!is_null($records->vaccinationDate2)) {
@@ -1131,6 +1134,7 @@ class FormsController extends Controller
                 'oldRecords' => $oldRecords,
                 'vaccineDose' => $vaccineDose,
                 'oldCif' => $oldCif,
+                'msheet' => $msheet,
             ]);
         }
         else {

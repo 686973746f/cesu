@@ -21,6 +21,7 @@ class CreateMonitoringSheetMastersTable extends Migration
             $table->text('ccname')->nullable();
             $table->date('date_lastexposure')->nullable();
             $table->date('date_endquarantine');
+            $table->text('magicURL');
         });
     }
 

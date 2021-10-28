@@ -27,6 +27,7 @@ use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\MonitoringSheetController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -71,6 +72,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/selfreport', [SelfReportController::class, 'selectLanguage'])->name('selfreport.language');
     Route::post('/selfreport', [SelfReportController::class, 'store'])->name('selfreport.store');
     Route::get('/selfreport/{locale}/completed', [SelfReportController::class, 'storeComplete'])->name('selfreport.storeComplete');
+
+    Route::get('/msheet/guest/{magicurl}', [MonitoringSheetController::class, 'viewguest'])->name('msheet.guest.view');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
@@ -142,6 +145,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/options', [OptionsController::class, 'index'])->name('options.index');
 
     Route::post('/forms', [FormsController::class, 'options'])->name('forms.options'); //print to excel, for admin only (temporary)
+
+    Route::post('/msheet/{forms_id}/create', [MonitoringSheetController::class, 'create'])->name('msheet.create');
+    Route::get('/msheet/{id}/view', [MonitoringSheetController::class, 'view'])->name('msheet.view');
+    Route::post('/msheet/{id}/{date}/{mer}/update', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.updatemonitoring');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
