@@ -79,7 +79,15 @@
                             <tr>
                                 @foreach($period as $date)
                                 <th><button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#dd{{$date->format('mdY')}}_AM">AM</button></th>
+                                @if($date->format('Y-m-d') == date('Y-m-d'))
+                                @if($currentmer == 'AM')
+                                <th>PM</th>
+                                @else
                                 <th><button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#dd{{$date->format('mdY')}}_PM">PM</button></th>
+                                @endif
+                                @else
+                                <th><button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#dd{{$date->format('mdY')}}_PM">PM</button></th>
+                                @endif
                                 @endforeach
                             </tr>
                         </thead>
@@ -207,6 +215,9 @@
             </div>
         </div>
     </form>
+    @if($date->format('Y-m-d') == date('Y-m-d'))
+    @if($currentmer == 'AM')
+    @else
     <form action="{{route('msheet.updatemonitoring', ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" method="POST">
         @csrf
         <div class="modal fade" id="dd{{$date->format('mdY')}}_PM" tabindex="-1" role="dialog" aria-hidden="true">
@@ -279,5 +290,80 @@
             </div>
         </div>
     </form>
+    @endif
+    @else
+    <form action="{{route('msheet.updatemonitoring', ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" method="POST">
+        @csrf
+        <div class="modal fade" id="dd{{$date->format('mdY')}}_PM" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update {{$date->format('m/d/Y')}} - <strong>PM</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="fever" id="fever" value="1">
+                            Fever
+                          </label>
+                        </div>
+                        <div class="form-group mt-3">
+                          <label for="fevertemp">Temperature (in Celcius)</label>
+                          <input type="number" class="form-control" name="fevertemp" id="fevertemp" step=".1" min="37.5" max="50">
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="cough" id="cough" value="1">
+                                Cough
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="sorethroat" id="sorethroat" value="1">
+                                Sore Throat
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="dob" id="dob" value="1">
+                                Difficulty of Breathing
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="colds" id="colds" value="1">
+                                Colds
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="diarrhea" id="diarrhea" value="1">
+                                Diarrhea
+                            </label>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="">Other Symptoms #1</label>
+                            <input type="text" class="form-control" name="os1" id="os1">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="">Other Symptoms #2</label>
+                            <input type="text" class="form-control" name="os2" id="os2">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="">Other Symptoms #3</label>
+                            <input type="text" class="form-control" name="os3" id="os3">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    @endif
     @endforeach
 @endsection

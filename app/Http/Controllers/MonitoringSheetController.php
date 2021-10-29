@@ -52,9 +52,26 @@ class MonitoringSheetController extends Controller
         $data = MonitoringSheetMaster::findOrFail($id);
         $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $data->id)->get();
 
-        $period = CarbonPeriod::create(date('Y-m-d', strtotime($data->date_endquarantine.' -13 Days')), $data->date_endquarantine);
+        $date1 = Carbon::now();
+        $date2 = Carbon::parse($data->date_endquarantine);
 
-        return view('msheet_view', ['data' => $data, 'period' => $period, 'subdata' => $subdata]);
+        if($date1->lt($date2)) {
+            $end_date = date('Y-m-d');
+        }
+        else {
+            $end_date = date('Y-m-d', strtotime($data->date_endquarantine));
+        }
+
+        if(date('A') == 'AM') {
+            $currentmer = 'AM';
+        }
+        else {
+            $currentmer = 'PM';
+        }
+
+        $period = CarbonPeriod::create(date('Y-m-d', strtotime($data->date_endquarantine.' -13 Days')), $end_date);
+
+        return view('msheet_view', ['data' => $data, 'period' => $period, 'subdata' => $subdata, 'currentmer' => $currentmer]);
     }
 
     public function viewguest($magicurl) {
