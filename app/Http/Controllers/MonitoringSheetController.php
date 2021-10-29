@@ -18,13 +18,24 @@ class MonitoringSheetController extends Controller
         $search = MonitoringSheetMaster::where('forms_id', $data->id)->first();
 
         if(!$search) {
+            $foundunique = false;
+
+            while(!$foundunique) {
+                $majik = Str::random(30);
+                
+                $search = MonitoringSheetMaster::where('magicURL', $majik);
+                if($search->count() == 0) {
+                    $foundunique = true;
+                }
+            }
+
             $create = new MonitoringSheetMaster;
 
             $create->forms_id = $data->id;
             $create->region = '4A';
             $create->date_lastexposure = (!is_null($data->expoDateLastCont)) ? $data->expoDateLastCont : NULL;
             $create->date_endquarantine = Carbon::parse($data->getLatestTestDate())->addDays(13)->format('Y-m-d');
-            $create->magicURL = Str::random(30);
+            $create->magicURL = $majik;
 
             $create->save();
 
