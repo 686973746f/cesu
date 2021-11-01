@@ -20,6 +20,8 @@ class CreateBrgy extends Migration
             $table->foreignId('city_id')->constrained('city')->onDelete('cascade');
             $table->string('brgyName');
             $table->tinyInteger('displayInList')->default(1);
+            $table->integer('estimatedPopulation')->nullable();
+            $table->text('dilgCustCode')->nullable();
         });
     }
 

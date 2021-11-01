@@ -1061,6 +1061,83 @@ class ReportController extends Controller
         });
     }
 
+    public function dilgExportAll() {
+        $sheets = new SheetCollection([
+            'General Trias City' => Brgy::where('displayInList', 1)->orderBy('brgyName', 'ASC')->get(),
+        ]);
+
+        $header_style = (new StyleBuilder())->setFontBold()->build();
+        $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
+
+        return (new FastExcel($sheets))
+        ->headerStyle($header_style)
+        ->rowsStyle($rows_style)
+        ->download('DILG_'.date('Ymd').'.xlsx', function ($form) {
+            $brgySuspectedCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($form) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $form->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where(function ($q) {
+                $q->where('isPresentOnSwabDay', 0)
+                ->orwhereNull('isPresentOnSwabDay');
+            })
+            ->where('caseClassification', 'Suspect')
+            ->where('outcomeCondition', 'Active')
+            ->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            })
+            ->count();
+
+            $brgyProbableCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($form) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $form->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Probable')
+            ->where('outcomeCondition', 'Active')
+            ->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            })
+            ->count();
+
+            $brgyActiveCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($form) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $form->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+
+            return [
+                '' => '',
+                'Province' => 'Cavite',
+                'City/Municipality' => 'General Trias City',
+                'Barangay' => $form->brgyName,
+                '' => '',
+                'Estimated Population' => '1',
+                'Suspected' => number_format($brgySuspectedCount),
+                'Probable' => number_format($brgyProbableCount),
+                'Confirmed' => number_format($brgyActiveCount),
+                '' => '',
+                'Name of Respondent' => 'RONALD A. MOJICA',
+                'Office/Designation' => 'DILG GEN.TRI, CAVITE / CLGOO',
+            ];
+        });
+    }
+
     public function reportExport(Request $request) {
         $request->validate([
             'eStartDate' => 'required|date|before:tomorrow',

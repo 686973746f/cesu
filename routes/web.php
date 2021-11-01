@@ -134,6 +134,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/report/situational/excel', [ReportController::class, 'printSituationalv2'])->name('report.situationalv2.print');
     Route::get('/report/clustering/{city}/{brgy}', [ReportController::class, 'viewClustering']);
     Route::get('/report/dohExportAll/', [ReportController::class, 'dohExportAll'])->name('report.DOHExportAll');
+    Route::get('/report/dilgExportAll/', [ReportController::class, 'dilgExportAll'])->name('report.dilgExportAll');
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
     Route::get('/report/v2/dashboard', [ReportV2Controller::class, 'viewDashboard'])->name('reportv2.dashboard');
 
@@ -148,7 +149,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 
     Route::post('/msheet/{forms_id}/create', [MonitoringSheetController::class, 'create'])->name('msheet.create');
     Route::get('/msheet/{id}/view', [MonitoringSheetController::class, 'view'])->name('msheet.view');
-    Route::post('/msheet/{id}/{date}/{mer}/update', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.updatemonitoring');
+    Route::get('/msheet/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.print');
+    Route::get('/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.viewdate');
+    Route::post('/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.updatemonitoring');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

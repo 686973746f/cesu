@@ -60,7 +60,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>{{__('paswab.interviewDate')}}</label>
-                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-14 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate')}}" required>
+                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-7 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate')}}" required>
+                                        <small class="text-muted">Note: This would be also used as the first day of your monitoring.</small>
                                     </div>
                                 </div>
                             </div>

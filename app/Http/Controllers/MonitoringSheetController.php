@@ -33,8 +33,8 @@ class MonitoringSheetController extends Controller
 
             $create->forms_id = $data->id;
             $create->region = '4A';
-            $create->date_lastexposure = (!is_null($data->expoDateLastCont)) ? $data->expoDateLastCont : NULL;
-            $create->date_endquarantine = Carbon::parse($data->getLatestTestDate())->addDays(13)->format('Y-m-d');
+            $create->date_lastexposure = (!is_null($data->expoDateLastCont)) ? $data->expoDateLastCont : $data->interviewDate;
+            $create->date_endquarantine = Carbon::parse($data->interviewDate)->addDays(13)->format('Y-m-d');
             $create->magicURL = $majik;
 
             $create->save();
@@ -44,7 +44,9 @@ class MonitoringSheetController extends Controller
             ->with('msgtype', 'success');
         }
         else {
-            return 'You are not allowed to do that';
+            return redirect()->route('forms.index')
+            ->with('status', 'You are not allowed to do that.')
+            ->with('statustype', 'warning');
         }
     }
     
@@ -74,6 +76,52 @@ class MonitoringSheetController extends Controller
         return view('msheet_view', ['data' => $data, 'period' => $period, 'subdata' => $subdata, 'currentmer' => $currentmer]);
     }
 
+    public function print($id) {
+        $data = MonitoringSheetMaster::findOrFail($id);
+
+        $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $data->id)->get();
+
+        $date1 = Carbon::now();
+        $date2 = Carbon::parse($data->date_endquarantine);
+
+        $end_date = date('Y-m-d', strtotime($data->date_endquarantine));
+
+        if(date('A') == 'AM') {
+            $currentmer = 'AM';
+        }
+        else {
+            $currentmer = 'PM';
+        }
+
+        $period = CarbonPeriod::create(date('Y-m-d', strtotime($data->date_endquarantine.' -13 Days')), $end_date);
+
+        return view('msheet_print', ['data' => $data, 'period' => $period, 'subdata' => $subdata, 'currentmer' => $currentmer]);
+    }
+
+    public function viewdate($msheet_master_id, $date, $mer) {
+        $master = MonitoringSheetMaster::findOrFail($msheet_master_id);
+
+        $period = CarbonPeriod::create(date('Y-m-d', strtotime($master->date_endquarantine.' -13 Days')), $master->date_endquarantine)->toArray();
+        $dateArr = [];
+        foreach($period as $ind) {
+            array_push($dateArr, $ind->format('Y-m-d'));
+        }
+
+        if(in_array($date, $dateArr)) {
+            $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $msheet_master_id)
+            ->whereDate('forDate', $date)
+            ->where('forMeridian', $mer)
+            ->first();
+
+            return view('msheet_view_date', ['data' => $master, 'date' => $date, 'mer' => $mer, 'subdata' => $subdata]);
+        }
+        else {
+            return redirect()->route('msheet.view', ['id' => $master->id])
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
+    }
+
     public function viewguest($magicurl) {
         
     }
@@ -90,7 +138,7 @@ class MonitoringSheetController extends Controller
         if(in_array($date, $dateArr)) {
             $sub = MonitoringSheetSub::updateOrCreate(['monitoring_sheet_masters_id' => $master->id, 'forDate' => $date, 'forMeridian' => $mer],
         [
-            'fever' => !is_null($request->fevertemp) ? $request->fevertemp : NULL,
+            'fever' => ($request->fever) ? $request->fevertemp : NULL,
             'cough' => ($request->cough) ? 1 : 0,
             'sorethroat' => ($request->sorethroat) ? 1 : 0,
             'dob' => ($request->dob) ? 1 : 0,
@@ -104,6 +152,11 @@ class MonitoringSheetController extends Controller
         return redirect()->route('msheet.view', ['id' => $master->id])
             ->with('msg', 'Status for ('.$date.' - '.$mer.') has been updated successfully.')
             ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->route('msheet.view', ['id' => $master->id])
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgtype', 'warning');
         }
     }
 }

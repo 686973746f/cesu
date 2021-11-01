@@ -33,6 +33,8 @@ class CreateSiteSettingsTable extends Migration
             $table->text('listMobiles')->nullable();
             $table->text('listTelephone')->nullable();
             $table->text('listEmail')->nullable();
+            $table->text('dilgCustomRespondentName')->nullable();
+            $table->text('dilgCustomOfficeName')->nullable();
         });
     }
 
