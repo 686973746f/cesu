@@ -1122,12 +1122,12 @@ class ReportController extends Controller
 
 
             return [
-                '' => '',
+                'Code' => $form->dilgCustCode,
                 'Province' => 'Cavite',
                 'City/Municipality' => 'General Trias City',
                 'Barangay' => $form->brgyName,
                 '' => '',
-                'Estimated Population' => '1',
+                'Estimated Population' => number_format($form->estimatedPopulation),
                 'Suspected' => number_format($brgySuspectedCount),
                 'Probable' => number_format($brgyProbableCount),
                 'Confirmed' => number_format($brgyActiveCount),
