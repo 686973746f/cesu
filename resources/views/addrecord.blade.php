@@ -12,6 +12,15 @@
 					{{session('msg')}} {{session('where')}}
 				</div>
 				@endif
+				@if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        @foreach ($errors->all() as $error)
+                            <p>{{$error}}</p>
+                            <hr>
+                        @endforeach
+                    </div>
+                    <hr>
+                    @endif
 				<div class="alert alert-success" role="alert">
 					The record is not yet existing in the database. You can now proceed filling other required details.
 				</div>
