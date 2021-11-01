@@ -74,6 +74,9 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/selfreport/{locale}/completed', [SelfReportController::class, 'storeComplete'])->name('selfreport.storeComplete');
 
     Route::get('/msheet/guest/{magicurl}', [MonitoringSheetController::class, 'viewguest'])->name('msheet.guest.view');
+    Route::get('/msheet/guest/{magicurl}/{date}/{mer}', [MonitoringSheetController::class, 'viewdateguest'])->name('msheet.guest.viewdate');
+    Route::post('/msheet/guest/{magicurl}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.guest.updatemonitoring');
+    Route::get('/msheet/guest/{magicurl}/print', [MonitoringSheetController::class, 'print_guest'])->name('msheet.guest.print');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {

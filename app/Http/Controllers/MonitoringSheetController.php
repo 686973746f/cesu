@@ -123,7 +123,31 @@ class MonitoringSheetController extends Controller
     }
 
     public function viewguest($magicurl) {
-        
+        $data = MonitoringSheetMaster::where('magicURL', $magicurl)->first();
+        $data = MonitoringSheetMaster::findOrFail($data->id);
+
+        $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $data->id)->get();
+
+        $date1 = Carbon::now();
+        $date2 = Carbon::parse($data->date_endquarantine);
+
+        if($date1->lt($date2)) {
+            $end_date = date('Y-m-d');
+        }
+        else {
+            $end_date = date('Y-m-d', strtotime($data->date_endquarantine));
+        }
+
+        if(date('A') == 'AM') {
+            $currentmer = 'AM';
+        }
+        else {
+            $currentmer = 'PM';
+        }
+
+        $period = CarbonPeriod::create(date('Y-m-d', strtotime($data->date_endquarantine.' -13 Days')), $end_date);
+
+        return view('msheet_view', ['data' => $data, 'period' => $period, 'subdata' => $subdata, 'currentmer' => $currentmer]);
     }
 
     public function updatemonitoring(Request $request, $id, $date, $mer) {

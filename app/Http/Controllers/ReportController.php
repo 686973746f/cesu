@@ -1119,8 +1119,7 @@ class ReportController extends Controller
             ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
-
-
+            
             return [
                 'Code' => $form->dilgCustCode,
                 'Province' => 'Cavite',
