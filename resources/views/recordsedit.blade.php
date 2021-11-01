@@ -20,6 +20,15 @@
                     Edit Patient Information
                 </div>
                 <div class="card-body">
+                    @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        @foreach ($errors->all() as $error)
+                            <p>{{$error}}</p>
+                            <hr>
+                        @endforeach
+                    </div>
+                    <hr>
+                    @endif
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
