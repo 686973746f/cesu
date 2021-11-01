@@ -22,12 +22,12 @@
                 <div class="card-body">
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
+                        <p>{{Str::plural('Error', $errors->count())}} detected in updating the patient record:</p>
+                        <hr>
                         @foreach ($errors->all() as $error)
-                            <p>{{$error}}</p>
-                            <hr>
+                            <li>{{$error}}</li>
                         @endforeach
                     </div>
-                    <hr>
                     @endif
                     <div class="table-responsive">
                         <table class="table table-bordered">

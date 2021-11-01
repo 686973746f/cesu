@@ -22,12 +22,12 @@
                     <hr>
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
+                        <p>{{Str::plural('Error', $errors->count())}} detected while creating the CIF of the Patient:</p>
+                        <hr>
                         @foreach ($errors->all() as $error)
-                            <p>{{$error}}</p>
-                            <hr>
+                            <li>{{$error}}</li>
                         @endforeach
                     </div>
-                    <hr>
                     @endif
                     <div class="form-group">
                         <label for=""><span class="text-danger font-weight-bold">*</span>Currently Creating CIF record for</label>
