@@ -73,10 +73,10 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/selfreport', [SelfReportController::class, 'store'])->name('selfreport.store');
     Route::get('/selfreport/{locale}/completed', [SelfReportController::class, 'storeComplete'])->name('selfreport.storeComplete');
 
-    Route::get('/msheet/guest/{magicurl}', [MonitoringSheetController::class, 'viewguest'])->name('msheet.guest.view');
-    Route::get('/msheet/guest/{magicurl}/{date}/{mer}', [MonitoringSheetController::class, 'viewdateguest'])->name('msheet.guest.viewdate');
-    Route::post('/msheet/guest/{magicurl}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.guest.updatemonitoring');
-    Route::get('/msheet/guest/{magicurl}/print', [MonitoringSheetController::class, 'print_guest'])->name('msheet.guest.print');
+    Route::get('/msheet/guest/{id}', [MonitoringSheetController::class, 'view'])->name('msheet.guest.view');
+    Route::get('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.guest.viewdate');
+    Route::post('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.guest.updatemonitoring');
+    Route::get('/msheet/guest/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.guest.print');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form action="{{route('msheet.updatemonitoring', ['id' => $data->id, 'date' => $date, 'mer' => $mer])}}" method="POST">
+            <form action="{{route($postRoute, ['id' => $data->id, 'date' => $date, 'mer' => $mer])}}" method="POST">
                 @csrf
                 <div class="card">
                     <div class="card-header">Update Monitoring Sheet</div>

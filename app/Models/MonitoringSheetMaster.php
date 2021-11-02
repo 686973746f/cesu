@@ -50,6 +50,24 @@ class MonitoringSheetMaster extends Model
         }
     }
 
+    public function ifStatExist($date, $mer) {
+        $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $this->id)
+        ->whereDate('forDate', $date)
+        ->where('forMeridian', $mer)
+        ->first();
+
+        if($subdata) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function ifCompletedDays() {
+        
+    }
+
     public function getos($date, $mer) {
         $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $this->id)
         ->whereDate('forDate', $date)

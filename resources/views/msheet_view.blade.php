@@ -6,7 +6,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div class="font-weight-bold">COVID-19 Online Contact Tracing Sign and Symptom Log Form</div>
-                    <div><a href="{{route('msheet.print', ['id' => $data->id])}}" class="btn btn-primary"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></div>
+                    <div><a href="{{route($printRouteString, ['id' => $data->id])}}" class="btn btn-primary"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></div>
                 </div>
             </div>
             <div class="card-body">
@@ -58,11 +58,12 @@
                         </div>
                     </div>
                 </div>
-
+                @auth
                 <div class="form-group">
-                  <label for="">Share to Patient URL</label>
-                  <input type="text" class="form-control" value="{{route('msheet.guest.view', ['magicurl' => $data->magicURL])}}" readonly>
+                    <label for="">Share to Patient URL</label>
+                    <input type="text" class="form-control" value="{{route('msheet.guest.view', ['id' => $data->magicURL])}}" readonly>
                 </div>
+                @endauth
                 <div class="alert alert-info" role="alert">
                     <strong><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>INSTRUCTIONS</strong>
                     <hr>
@@ -79,15 +80,15 @@
                             </tr>
                             <tr>
                                 @foreach($period as $date)
-                                <th><a href="{{route('msheet.viewdate', ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'AM'])}}">AM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'AM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'AM')) ? 'disabled' : ''}}">AM</a></th>
                                 @if($date->format('Y-m-d') == date('Y-m-d'))
                                 @if($currentmer == 'AM')
-                                <th>PM</th>
+                                <th style="vertical-align: middle;">PM</th>
                                 @else
-                                <th><a href="{{route('msheet.viewdate', ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}">PM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM')) ? 'disabled' : ''}}">PM</a></th>
                                 @endif
                                 @else
-                                <th><a href="{{route('msheet.viewdate', ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}">PM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM')) ? 'disabled' : ''}}">PM</a></th>
                                 @endif
                                 @endforeach
                             </tr>

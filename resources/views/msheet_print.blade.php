@@ -1,13 +1,37 @@
 @extends('layouts.app_pdf')
-
+<style>
+    @page { margin: 0; }
+    body { margin: 0; }
+</style>
 @section('content')
-<div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
+<div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif;page-break-after: avoid;">
     <div class="text-right">
         <h4 class="text-white font-weight-bold mx-3"><span style="background-color: black">COVID-19 Contact Tracing Sign and Symptom Log Form</span></h4>
     </div>
+    <p class="mx-5"><strong>Name:</strong> <u>{{$data->forms->records->getName()}}</u></p>
+    <div class="row">
+        <div class="col-md-4">
+            <p class="mx-5"><strong>Confirmed Case ID:</strong> ____________________________________________</p>
+        </div>
+        <div class="col-md-4">
+            <p class="mx-5"><strong>Date:</strong> <u>{{date('m/d/Y', strtotime($data->created_at))}}</u></p>
+        </div>
+        <div class="col-md-4">
+            <p class="mx-5"><strong>Region:</strong> <u>{{$data->region}}</u></p>
+        </div>
+    </div>
+    <p class="mx-5"><strong>Close Contact Name:</strong> __________________________________________________________________________________________________________________________________________________________</p>
+    <div class="row">
+        <div class="col-md-4">
+            <p class="mx-5"><strong>Date of Last Exposure:</strong> <u>{{date('m/d/Y', strtotime($data->date_lastexposure))}}</u></p>
+        </div>
+        <div class="col-md-4">
+            <p class="mx-5"><strong>Date of Voluntary Quarantine Period Ends*:</strong> <u>{{date('m/d/Y', strtotime($data->date_endquarantine))}}</u></p>
+        </div>
+    </div>
     <p class="mx-5"><strong>INSTRUCTIONS:</strong> Monitoring shall be done twice a day. Indicate the date. Go through each condition for monitoring. Put a check if the close contact met the condition being asked under the corresponding time of the day (AM/PM) monitoring was done. Provide the temperature taken (e.g., 38.3).</p>
     <div class="table-responsive">
-        <table class="table table-bordered text-center">
+        <table class="table table-bordered text-center" style="font-size: 60%">
             <thead>
                 <tr>
                     <th rowspan="2">Conditions for Monitoring</th>
