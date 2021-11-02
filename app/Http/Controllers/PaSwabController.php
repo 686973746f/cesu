@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Forms;
 use App\Models\Records;
 use App\Models\PaSwabLinks;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use App\Models\MonitoringSheetMaster;
 use App\Http\Requests\PaSwabValidationRequest;
 use IlluminateAgnostic\Collection\Support\Str;
 
@@ -285,7 +287,7 @@ class PaSwabController extends Controller
                         $caseClassi = 'Suspect';
                     }
 
-                    $request->user()->form()->create([
+                    $createform = $request->user()->form()->create([
                         'morbidityMonth' => date('Y-m-d'),
                         'dateReported' => date('Y-m-d'),
                         'majikCode' => $data->majikCode,
@@ -462,6 +464,27 @@ class PaSwabController extends Controller
 
                         'remarks' => $data->patientmsg,
                     ]);
+
+                    //Create Monitoring Sheet
+                    $foundunique = false;
+                    while(!$foundunique) {
+                        $majik = Str::random(30);
+                        
+                        $search = MonitoringSheetMaster::where('magicURL', $majik);
+                        if($search->count() == 0) {
+                            $foundunique = true;
+                        }
+                    }
+
+                    $newmsheet = new MonitoringSheetMaster;
+
+                    $newmsheet->forms_id = $createform->id;
+                    $newmsheet->region = '4A';
+                    $newmsheet->date_lastexposure = (!is_null($createform->expoDateLastCont)) ? $createform->expoDateLastCont : $createform->interviewDate;
+                    $newmsheet->date_endquarantine = Carbon::parse($createform->interviewDate)->addDays(13)->format('Y-m-d');
+                    $newmsheet->magicURL = $majik;
+
+                    $newmsheet->save();
 
                     $upd = PaSwabDetails::where('id', $data->id)->update([
                         'status' => 'approved'
@@ -1416,7 +1439,7 @@ class PaSwabController extends Controller
                 $caseClassi = 'Suspect';
             }
 
-            $request->user()->form()->create([
+            $createform = $request->user()->form()->create([
                 'morbidityMonth' => date('Y-m-d'),
                 'dateReported' => date('Y-m-d'),
                 'majikCode' => $data->majikCode,
@@ -1592,6 +1615,27 @@ class PaSwabController extends Controller
 
                 'remarks' => $data->patientmsg,
             ]);
+
+            //Create Monitoring Sheet
+            $foundunique = false;
+            while(!$foundunique) {
+                $majik = Str::random(30);
+                
+                $search = MonitoringSheetMaster::where('magicURL', $majik);
+                if($search->count() == 0) {
+                    $foundunique = true;
+                }
+            }
+
+            $newmsheet = new MonitoringSheetMaster;
+
+            $newmsheet->forms_id = $createform->id;
+            $newmsheet->region = '4A';
+            $newmsheet->date_lastexposure = (!is_null($createform->expoDateLastCont)) ? $createform->expoDateLastCont : $createform->interviewDate;
+            $newmsheet->date_endquarantine = Carbon::parse($createform->interviewDate)->addDays(13)->format('Y-m-d');
+            $newmsheet->magicURL = $majik;
+
+            $newmsheet->save();
 
             $upd = PaSwabDetails::where('id', $id)->update([
                 'status' => 'approved'

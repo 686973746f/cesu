@@ -47,7 +47,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Date of Last Exposure</label>
-                            <input type="text" class="form-control" value="{{$data->date_lastexposure}}" readonly>
+                            <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($data->date_lastexposure))}}" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">

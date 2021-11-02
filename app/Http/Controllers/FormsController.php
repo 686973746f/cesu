@@ -18,6 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PragmaRX\Countries\Package\Countries;
 use App\Http\Requests\FormValidationRequest;
 use App\Models\MonitoringSheetMaster;
+use IlluminateAgnostic\Collection\Support\Str;
 
 class FormsController extends Controller
 {
@@ -861,7 +862,7 @@ class FormsController extends Controller
             ->with('msgType', 'warning');
         }
         else {
-            $request->user()->form()->create([
+            $createform = $request->user()->form()->create([
                 'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
                 'morbidityMonth' => $request->morbidityMonth,
                 'dateReported' => $request->dateReported,
@@ -1041,6 +1042,27 @@ class FormsController extends Controller
 
                 'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
             ]);
+
+            //Create Monitoring Sheet
+            $foundunique = false;
+            while(!$foundunique) {
+                $majik = Str::random(30);
+                
+                $search = MonitoringSheetMaster::where('magicURL', $majik);
+                if($search->count() == 0) {
+                    $foundunique = true;
+                }
+            }
+
+            $newmsheet = new MonitoringSheetMaster;
+            
+            $newmsheet->forms_id = $createform->id;
+            $newmsheet->region = '4A';
+            $newmsheet->date_lastexposure = (!is_null($createform->expoDateLastCont)) ? $createform->expoDateLastCont : $createform->interviewDate;
+            $newmsheet->date_endquarantine = Carbon::parse($createform->interviewDate)->addDays(13)->format('Y-m-d');
+            $newmsheet->magicURL = $majik;
+
+            $newmsheet->save();
             
             return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient ('.$rec->getName().') was created successfully.')->with('statustype', 'success');
         }
