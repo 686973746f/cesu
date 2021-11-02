@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\CarbonPeriod;
 use App\Models\MonitoringSheetSub;
+use App\Models\MonitoringSheetMaster;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -65,7 +67,42 @@ class MonitoringSheetMaster extends Model
     }
 
     public function ifCompletedDays() {
-        
+        $data = MonitoringSheetMaster::findOrFail($this->id);
+
+        $period = CarbonPeriod::create(date('Y-m-d', strtotime($data->date_endquarantine.' -13 Days')), $data->date_endquarantine)->toArray();
+        $dChecker = [];
+        foreach($period as $date) {
+            $subdata1 = MonitoringSheetSub::where('monitoring_sheet_masters_id', $this->id)
+            ->whereDate('forDate', $date->format('Y-m-d'))
+            ->where('forMeridian', 'AM')
+            ->first();
+
+            if($subdata1) {
+                array_push($dChecker, 1);
+            }
+            else {
+                array_push($dChecker, 0);
+            }
+
+            $subdata2 = MonitoringSheetSub::where('monitoring_sheet_masters_id', $this->id)
+            ->whereDate('forDate', $date->format('Y-m-d'))
+            ->where('forMeridian', 'PM')
+            ->first();
+
+            if($subdata2) {
+                array_push($dChecker, 1);
+            }
+            else {
+                array_push($dChecker, 0);
+            }
+        }
+
+        if(in_array(0, $dChecker)) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public function getos($date, $mer) {
