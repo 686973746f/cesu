@@ -77,12 +77,16 @@ class MonitoringSheetController extends Controller
         $date1 = Carbon::now();
         $date2 = Carbon::parse($data->date_endquarantine);
 
+        /*
         if($date1->lt($date2)) {
             $end_date = date('Y-m-d');
         }
         else {
             $end_date = date('Y-m-d', strtotime($data->date_endquarantine));
         }
+        */
+
+        $end_date = date('Y-m-d', strtotime($data->date_endquarantine));
 
         if(date('A') == 'AM') {
             $currentmer = 'AM';
@@ -116,6 +120,13 @@ class MonitoringSheetController extends Controller
                 else {
                     $proceed = true;
                 }
+                
+                if(strtotime($date) > time()) {
+                    $proceed2 = false;
+                }
+                else {
+                    $proceed2 = true;
+                }
 
                 $viewRouteString = 'msheet.guest.view';
                 $redirectId = $master->magicURL;
@@ -123,12 +134,13 @@ class MonitoringSheetController extends Controller
             else {
                 $postRoute = 'msheet.updatemonitoring';
                 $proceed = true;
+                $proceed2 = true;
 
                 $viewRouteString = 'msheet.view';
                 $redirectId = $master->id;
             }
 
-            if($proceed) {
+            if($proceed && $proceed2) {
                 $period = CarbonPeriod::create(date('Y-m-d', strtotime($master->date_endquarantine.' -13 Days')), $master->date_endquarantine)->toArray();
                 $dateArr = [];
                 foreach($period as $ind) {

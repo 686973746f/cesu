@@ -70,7 +70,7 @@
                 <div class="form-group">
                     <label for="">Share to Patient URL <small>(Patient can use this link to fill up his/her own monitoring sheet)</small></label>
                     <input type="text" class="form-control" value="{{route('msheet.guest.view', ['id' => $data->magicURL])}}" readonly>
-                    <small class="text-muted">Warning: ONLY Share the URL to the Patient or Representative.</small>
+                    <small class="text-muted"><strong class="text-danger">WARNING:</strong> ONLY Share the URL to the Patient or Representative.</small>
                 </div>
                 @endauth
                 <div class="alert alert-info" role="alert">
@@ -89,15 +89,15 @@
                             </tr>
                             <tr>
                                 @foreach($period as $date)
-                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'AM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'AM') && Auth::guest()) ? 'disabled' : ''}}">AM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'AM'])}}" class="btn btn-link btn-sm {{($data->ifStatExist($date->format('Y-m-d'), 'AM') && Auth::guest() || strtotime($date->format('Y-m-d')) > time()) ? 'disabled' : ''}}">AM</a></th>
                                 @if($date->format('Y-m-d') == date('Y-m-d'))
                                 @if($currentmer == 'AM')
                                 <th style="vertical-align: middle;">PM</th>
                                 @else
-                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM') && Auth::guest()) ? 'disabled' : ''}}">PM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link btn-sm {{($data->ifStatExist($date->format('Y-m-d'), 'PM') && Auth::guest() || strtotime($date->format('Y-m-d')) > time()) ? 'disabled' : ''}}">PM</a></th>
                                 @endif
                                 @else
-                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM') && Auth::guest()) ? 'disabled' : ''}}">PM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link btn-sm {{($data->ifStatExist($date->format('Y-m-d'), 'PM') && Auth::guest() || strtotime($date->format('Y-m-d')) > time()) ? 'disabled' : ''}}">PM</a></th>
                                 @endif
                                 @endforeach
                             </tr>
