@@ -215,6 +215,7 @@ class Records extends Model
             ->first();
 
             if($check) {
+                /*
                 $checkwbdate = Records::where('id', '!=', $id)
                 ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
                 ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
@@ -228,6 +229,8 @@ class Records extends Model
                 else {
                     return $check;
                 }
+                */
+                return $check;
             }
             else {
                 $check1 = Records::where('id', '!=', $id)
