@@ -61,7 +61,7 @@ class MonitoringSheetController extends Controller
                 $printRouteString = 'msheet.guest.print';
             }
             else {
-                return abort(401);
+                return abort(404);
             }
         }
         else {
@@ -103,48 +103,56 @@ class MonitoringSheetController extends Controller
     }
 
     public function viewdate($msheet_master_id, $date, $mer) {
-        $master = MonitoringSheetMaster::findOrFail($msheet_master_id);
+        $master = MonitoringSheetMaster::where('magicURL', $msheet_master_id)->first();
+        if($master) {
+            $master = MonitoringSheetMaster::findOrFail($master->id);
 
-        if(Auth::guest()) {
-            $postRoute = 'msheet.guest.updatemonitoring';
-            if($master->ifStatExist($date, $mer)) {
-                $proceed = false;
+            if(Auth::guest()) {
+                $postRoute = 'msheet.guest.updatemonitoring';
+                if($master->ifStatExist($date, $mer)) {
+                    $proceed = false;
+                }
+                else {
+                    $proceed = true;
+                }
+
+                $viewRouteString = 'msheet.guest.view';
+                $redirectId = $master->magicURL;
             }
             else {
+                $postRoute = 'msheet.updatemonitoring';
                 $proceed = true;
+
+                $viewRouteString = 'msheet.view';
+                $redirectId = $master->id;
             }
 
-            $viewRouteString = 'msheet.guest.view';
-            $redirectId = $master->magicURL;
-        }
-        else {
-            $postRoute = 'msheet.updatemonitoring';
-            $proceed = true;
+            if($proceed) {
+                $period = CarbonPeriod::create(date('Y-m-d', strtotime($master->date_endquarantine.' -13 Days')), $master->date_endquarantine)->toArray();
+                $dateArr = [];
+                foreach($period as $ind) {
+                    array_push($dateArr, $ind->format('Y-m-d'));
+                }
 
-            $viewRouteString = 'msheet.view';
-            $redirectId = $master->id;
-        }
+                if(in_array($date, $dateArr)) {
+                    $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $msheet_master_id)
+                    ->whereDate('forDate', $date)
+                    ->where('forMeridian', $mer)
+                    ->first();
 
-        if($proceed) {
-            $period = CarbonPeriod::create(date('Y-m-d', strtotime($master->date_endquarantine.' -13 Days')), $master->date_endquarantine)->toArray();
-            $dateArr = [];
-            foreach($period as $ind) {
-                array_push($dateArr, $ind->format('Y-m-d'));
-            }
-
-            if(in_array($date, $dateArr)) {
-                $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $msheet_master_id)
-                ->whereDate('forDate', $date)
-                ->where('forMeridian', $mer)
-                ->first();
-
-                return view('msheet_view_date', [
-                    'data' => $master,
-                    'date' => $date,
-                    'mer' => $mer,
-                    'subdata' => $subdata,
-                    'postRoute' => $postRoute,
-                ]);
+                    return view('msheet_view_date', [
+                        'data' => $master,
+                        'date' => $date,
+                        'mer' => $mer,
+                        'subdata' => $subdata,
+                        'postRoute' => $postRoute,
+                    ]);
+                }
+                else {
+                    return redirect()->route($viewRouteString, ['id' => $redirectId])
+                    ->with('msg', 'You are not allowed to do that.')
+                    ->with('msgtype', 'warning');
+                }
             }
             else {
                 return redirect()->route($viewRouteString, ['id' => $redirectId])
@@ -153,80 +161,92 @@ class MonitoringSheetController extends Controller
             }
         }
         else {
-            return redirect()->route($viewRouteString, ['id' => $redirectId])
-            ->with('msg', 'You are not allowed to do that.')
-            ->with('msgtype', 'warning');
+            return abort(404);
         }
     }
 
     public function print($id) {
-        $data = MonitoringSheetMaster::findOrFail($id);
-        $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $data->id)->get();
+        $data = MonitoringSheetMaster::where('magicURL', $id)->first();
+        if($data) {
+            $data = MonitoringSheetMaster::findOrFail($data->id);
+            $subdata = MonitoringSheetSub::where('monitoring_sheet_masters_id', $data->id)->get();
 
-        $date1 = Carbon::now();
-        $date2 = Carbon::parse($data->date_endquarantine);
+            $date1 = Carbon::now();
+            $date2 = Carbon::parse($data->date_endquarantine);
 
-        $end_date = date('Y-m-d', strtotime($data->date_endquarantine));
+            $end_date = date('Y-m-d', strtotime($data->date_endquarantine));
 
-        if(date('A') == 'AM') {
-            $currentmer = 'AM';
+            if(date('A') == 'AM') {
+                $currentmer = 'AM';
+            }
+            else {
+                $currentmer = 'PM';
+            }
+
+            $period = CarbonPeriod::create(date('Y-m-d', strtotime($data->date_endquarantine.' -13 Days')), $end_date);
+
+            return view('msheet_print', ['data' => $data, 'period' => $period, 'subdata' => $subdata, 'currentmer' => $currentmer]);
         }
         else {
-            $currentmer = 'PM';
+            return abort(404);
         }
-
-        $period = CarbonPeriod::create(date('Y-m-d', strtotime($data->date_endquarantine.' -13 Days')), $end_date);
-
-        return view('msheet_print', ['data' => $data, 'period' => $period, 'subdata' => $subdata, 'currentmer' => $currentmer]);
     }
 
     public function updatemonitoring(Request $request, $id, $date, $mer) {
-        $master = MonitoringSheetMaster::findOrFail($id);
+        $data = MonitoringSheetMaster::where('magicURL', $id)->first();
+        if($data) {
+            $master = MonitoringSheetMaster::findOrFail($data->id);
 
-        if(Auth::guest()) {
-            $postRoute = 'msheet.guest.updatemonitoring';
-            if($master->ifStatExist($date, $mer)) {
-                $proceed = false;
+            if(Auth::guest()) {
+                $postRoute = 'msheet.guest.updatemonitoring';
+                if($master->ifStatExist($date, $mer)) {
+                    $proceed = false;
+                }
+                else {
+                    $proceed = true;
+                }
+
+                $viewRouteString = 'msheet.guest.view';
+                $redirectId = $master->magicURL;
             }
             else {
+                $postRoute = 'msheet.updatemonitoring';
                 $proceed = true;
+
+                $viewRouteString = 'msheet.view';
+                $redirectId = $master->id;
             }
 
-            $viewRouteString = 'msheet.guest.view';
-            $redirectId = $master->magicURL;
-        }
-        else {
-            $postRoute = 'msheet.updatemonitoring';
-            $proceed = true;
+            if($proceed) {
+                $period = CarbonPeriod::create(date('Y-m-d', strtotime($master->date_endquarantine.' -13 Days')), $master->date_endquarantine)->toArray();
+                $dateArr = [];
+                foreach($period as $ind) {
+                    array_push($dateArr, $ind->format('Y-m-d'));
+                }
 
-            $viewRouteString = 'msheet.view';
-            $redirectId = $master->id;
-        }
+                if(in_array($date, $dateArr)) {
+                    $sub = MonitoringSheetSub::updateOrCreate(['monitoring_sheet_masters_id' => $master->id, 'forDate' => $date, 'forMeridian' => $mer],
+                    [
+                        'fever' => ($request->fever) ? $request->fevertemp : NULL,
+                        'cough' => ($request->cough) ? 1 : 0,
+                        'sorethroat' => ($request->sorethroat) ? 1 : 0,
+                        'dob' => ($request->dob) ? 1 : 0,
+                        'colds' => ($request->colds) ? 1 : 0,
+                        'diarrhea' => ($request->diarrhea) ? 1 : 0,
+                        'os1' => !is_null($request->os1) ? mb_strtoupper($request->os1) : NULL,
+                        'os2' => !is_null($request->os2) ? mb_strtoupper($request->os2) : NULL,
+                        'os3' => !is_null($request->os3) ? mb_strtoupper($request->os3) : NULL,
+                    ]);
 
-        if($proceed) {
-            $period = CarbonPeriod::create(date('Y-m-d', strtotime($master->date_endquarantine.' -13 Days')), $master->date_endquarantine)->toArray();
-            $dateArr = [];
-            foreach($period as $ind) {
-                array_push($dateArr, $ind->format('Y-m-d'));
-            }
-
-            if(in_array($date, $dateArr)) {
-                $sub = MonitoringSheetSub::updateOrCreate(['monitoring_sheet_masters_id' => $master->id, 'forDate' => $date, 'forMeridian' => $mer],
-                [
-                    'fever' => ($request->fever) ? $request->fevertemp : NULL,
-                    'cough' => ($request->cough) ? 1 : 0,
-                    'sorethroat' => ($request->sorethroat) ? 1 : 0,
-                    'dob' => ($request->dob) ? 1 : 0,
-                    'colds' => ($request->colds) ? 1 : 0,
-                    'diarrhea' => ($request->diarrhea) ? 1 : 0,
-                    'os1' => !is_null($request->os1) ? mb_strtoupper($request->os1) : NULL,
-                    'os2' => !is_null($request->os2) ? mb_strtoupper($request->os2) : NULL,
-                    'os3' => !is_null($request->os3) ? mb_strtoupper($request->os3) : NULL,
-                ]);
-
-                return redirect()->route($viewRouteString, ['id' => $redirectId])
-                ->with('msg', 'Status for ('.$date.' - '.$mer.') has been updated successfully.')
-                ->with('msgtype', 'success');
+                    return redirect()->route($viewRouteString, ['id' => $redirectId])
+                    ->with('msg', 'Status for ('.$date.' - '.$mer.') has been updated successfully.')
+                    ->with('msgtype', 'success');
+                }
+                else {
+                    return redirect()->route($viewRouteString, ['id' => $redirectId])
+                    ->with('msg', 'You are not allowed to do that.')
+                    ->with('msgtype', 'warning');
+                }
             }
             else {
                 return redirect()->route($viewRouteString, ['id' => $redirectId])
@@ -235,9 +255,7 @@ class MonitoringSheetController extends Controller
             }
         }
         else {
-            return redirect()->route($viewRouteString, ['id' => $redirectId])
-            ->with('msg', 'You are not allowed to do that.')
-            ->with('msgtype', 'warning');
+            return abort(404);
         }
     }
 }

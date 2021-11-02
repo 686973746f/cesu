@@ -6,7 +6,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div class="font-weight-bold">COVID-19 Online Contact Tracing Sign and Symptom Log Form</div>
-                    <div><a href="{{route($printRouteString, ['id' => $data->id])}}" class="btn btn-primary"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></div>
+                    <div><a href="{{route($printRouteString, ['id' => $data->magicURL])}}" class="btn btn-primary"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></div>
                 </div>
             </div>
             <div class="card-body">
@@ -80,15 +80,15 @@
                             </tr>
                             <tr>
                                 @foreach($period as $date)
-                                <th><a href="{{route($viewDateRouteString, ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'AM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'AM')) ? 'disabled' : ''}}">AM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'AM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'AM')) ? 'disabled' : ''}}">AM</a></th>
                                 @if($date->format('Y-m-d') == date('Y-m-d'))
                                 @if($currentmer == 'AM')
                                 <th style="vertical-align: middle;">PM</th>
                                 @else
-                                <th><a href="{{route($viewDateRouteString, ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM')) ? 'disabled' : ''}}">PM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM')) ? 'disabled' : ''}}">PM</a></th>
                                 @endif
                                 @else
-                                <th><a href="{{route($viewDateRouteString, ['id' => $data->id, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM')) ? 'disabled' : ''}}">PM</a></th>
+                                <th><a href="{{route($viewDateRouteString, ['id' => $data->magicURL, 'date' => $date->format('Y-m-d'), 'mer' => 'PM'])}}" class="btn btn-link {{($data->ifStatExist($date->format('Y-m-d'), 'PM')) ? 'disabled' : ''}}">PM</a></th>
                                 @endif
                                 @endforeach
                             </tr>
