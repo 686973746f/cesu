@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Carbon\CarbonPeriod;
 use App\Models\MonitoringSheetSub;
-use App\Models\MonitoringSheetMaster;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -17,6 +16,7 @@ class MonitoringSheetMaster extends Model
         'region',
         'ccname',
         'date_lastexposure',
+        'date_startquarantine',
         'date_endquarantine',
         'magicURL',
     ];

@@ -20,6 +20,7 @@ class CreateMonitoringSheetMastersTable extends Migration
             $table->text('region');
             $table->text('ccname')->nullable();
             $table->date('date_lastexposure')->nullable();
+            $table->date('date_startquarantine');
             $table->date('date_endquarantine');
             $table->text('magicURL');
         });

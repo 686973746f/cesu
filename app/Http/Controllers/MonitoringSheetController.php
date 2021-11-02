@@ -35,6 +35,7 @@ class MonitoringSheetController extends Controller
             $create->forms_id = $data->id;
             $create->region = '4A';
             $create->date_lastexposure = (!is_null($data->expoDateLastCont)) ? $data->expoDateLastCont : $data->interviewDate;
+            $create->date_startquarantine = $data->interviewDate;
             $create->date_endquarantine = Carbon::parse($data->interviewDate)->addDays(13)->format('Y-m-d');
             $create->magicURL = $majik;
 
