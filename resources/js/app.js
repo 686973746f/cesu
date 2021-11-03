@@ -23,6 +23,7 @@ import 'holderjs';
 import 'select2';
 
 window.JSZip = jsZip;
+window.ClipboardJS = require('clipboard');
 
 // Register the plugin to all charts:
 Chart.plugins.register(ChartDataLabels);

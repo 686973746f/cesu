@@ -125,7 +125,17 @@ class MonitoringSheetController extends Controller
                     $proceed2 = false;
                 }
                 else {
-                    $proceed2 = true;
+                    if($mer == 'PM') {
+                        if(date('A') == 'PM') {
+                            $proceed2 = true;
+                        }
+                        else {
+                            $proceed2 = false;
+                        }
+                    }
+                    else {
+                        $proceed2 = true;
+                    }
                 }
 
                 $viewRouteString = 'msheet.guest.view';

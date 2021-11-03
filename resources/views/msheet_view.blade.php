@@ -62,14 +62,14 @@
                         <div class="form-group">
                             <label for="">Date of Voluntary Quarantine Period Ends</label>
                             <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($data->date_endquarantine))}}" readonly>
-                            <small class="text-muted">Date based on Date Interviewed.</small>
+                            <small class="text-muted">Date Based on the Date Interviewed + 14 Days. May subject to change depending on your swab test result.</small>
                         </div>
                     </div>
                 </div>
                 @auth
                 <div class="form-group">
-                    <label for="">Share to Patient URL <small>(Patient can use this link to fill up his/her own monitoring sheet)</small></label>
-                    <input type="text" class="form-control" value="{{route('msheet.guest.view', ['id' => $data->magicURL])}}" readonly>
+                    <label for="">Share to Patient URL <button type="button" class="btn btn-primary" id="copyBtn" data-toggle="tooltip" data-clipboard-target="#patientURL"><i class="fa fa-clipboard mr-2" aria-hidden="true"></i>Copy</button> <small>(Patient can use this link to fill up his/her own monitoring sheet)</small></label>
+                    <input type="text" class="form-control" value="{{route('msheet.guest.view', ['id' => $data->magicURL])}}" id="patientURL" readonly>
                     <small class="text-muted"><strong class="text-danger">WARNING:</strong> ONLY Share the URL to the Patient or Representative.</small>
                 </div>
                 @endauth
@@ -171,5 +171,33 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
+
+        @auth
+        window.onload=function() {
+            var clipboard = new ClipboardJS('.btn');
+
+            clipboard.on('success', function(e) {
+                setTooltip('Copied!');
+                hideTooltip();
+            });
+        }
+
+        $('#copyBtn').tooltip({
+            trigger: 'click',
+            placement: 'top',
+        });
+
+        function setTooltip(message) {
+            $('#copyBtn').tooltip('hide')
+            .attr('data-original-title', message)
+            .tooltip('show');
+        }
+
+        function hideTooltip() {
+            setTimeout(function() {
+                $('#copyBtn').tooltip('hide');
+            }, 1000);
+        }
+        @endauth
     </script>
 @endsection
