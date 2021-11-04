@@ -55,7 +55,6 @@
                     {{session('status')}}
                 </div>
             @endif
-
             <form action="{{route('forms.index')}}" method="GET">
                 <div id="accordianId" role="tablist" aria-multiselectable="true">
                     <div class="card mb-3">
@@ -90,30 +89,88 @@
                     </div>
                 </div>
             </form>
-
-            <div class="alert alert-info" role="alert">
-                @if(request()->input('view') != null)
-                    @if(request()->input('sdate') != request()->input('edate'))
-                        <span>Swab List from {{date('m/d/Y', strtotime(request()->input('sdate')))}} to {{date('m/d/Y', strtotime(request()->input('edate')))}}. Total count = <b>{{count($forms)}}</b> (With Philhealth: {{$formsctr->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->whereNull('records.philhealth')->count()}})</span>
-                    @else
-                    <span>Swab List for {{date('m/d/Y', strtotime(request()->input('sdate')))}}. Total count = <b>{{count($forms)}}</b> (With Philhealth: {{$formsctr->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->whereNull('records.philhealth')->count()}})</span>
-                    @endif
-                @else
-                <span>Swab List for Today ({{date('m/d/Y')}}). Total count = <b>{{count($forms)}}</b> (With Philhealth: {{$formsctr->whereNotNull('records.philhealth')->count()}} | Without Philhealth: {{$formsctr->whereNull('records.philhealth')->count()}})</span>
+            <div class="row justify-content-center text-center" style="font-family: Arial, Helvetica, sans-serif">
+                <div class="col-md-2">
+                    <div class="card border-success bg-success text-white mb-3">
+                        <div class="card-body">
+                            <h5>TOTAL</h5>
+                            <h3 class="font-weight-bold">{{count($forms)}}</h3>
+                            <hr>
+                            <p>Hospitalization: <strong>{{$formsctr->where('isForHospitalization', 1)->count()}}</strong> | Pregnant: <strong>{{$formsctr->where('records.isPregnant', 1)->count()}}</strong></p>
+                            <p>Printed: <strong>{{$formsctr->where('isExported', 1)->count()}}</strong> | Not Printed: <strong>{{$formsctr->where('isExported', 0)->count()}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                @if($formsctr->where('testType1','OPS')->merge($formsctr->where('testType2', 'OPS'))->count() > 0)
+                <div class="col-md-2">
+                    <div class="card border-info bg-info text-white mb-3">
+                        <div class="card-body">
+                            <h5>OPS</h5>
+                            <h3 class="font-weight-bold">{{$formsctr->where('testType1','OPS')->merge($formsctr->where('testType2', 'OPS'))->count()}}</h3>
+                            <hr>
+                            <p>With Philhealth: <strong>{{$formsctr->where('testType1', 'OPS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS')->whereNotNull('records.philhealth'))->count()}}</strong></p>
+                            <p>Without Philhealth: <strong>{{$formsctr->where('testType1', 'OPS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS')->whereNull('records.philhealth'))->count()}}</strong></p>
+                        </div>
+                    </div>
+                </div>
                 @endif
-                <hr>
-                <span>For Hospitalization: {{$formsctr->where('isForHospitalization', 1)->count()}} | Pregnant: {{$formsctr->where('records.isPregnant', 1)->count()}} | Printed: {{$formsctr->where('isExported', 1)->count()}} | Not Printed: {{$formsctr->where('isExported', 0)->count()}}</span>
-                <hr>
-                <span>
-                    <b>OPS</b>: {{$formsctr->where('testType1','OPS')->merge($formsctr->where('testType2', 'OPS'))->count()}} (W/PH: {{$formsctr->where('testType1', 'OPS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS')->whereNotNull('records.philhealth'))->count()}} - W/O PH: {{$formsctr->where('testType1', 'OPS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS')->whereNull('records.philhealth'))->count()}}) | 
-                    <b>NPS</b>: {{$formsctr->where('testType1','NPS')->merge($formsctr->where('testType2', 'NPS'))->count()}} (W/PH: {{$formsctr->where('testType1', 'NPS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'NPS')->whereNotNull('records.philhealth'))->count()}} - W/O PH: {{$formsctr->where('testType1', 'NPS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'NPS')->whereNull('records.philhealth'))->count()}}) | 
-                    <b>OPS & NPS</b>: {{$formsctr->where('testType1','OPS AND NPS')->merge($formsctr->where('testType2', 'OPS AND NPS'))->count()}} (W/PH: {{$formsctr->where('testType1', 'OPS AND NPS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS AND NPS')->whereNotNull('records.philhealth'))->count()}} - W/O PH: {{$formsctr->where('testType1', 'OPS AND NPS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS AND NPS')->whereNull('records.philhealth'))->count()}}) | 
-                    <b>Antigen</b>: {{$formsctr->where('testType1','ANTIGEN')->merge($formsctr->where('testType2', 'ANTIGEN'))->count()}} (W/PH: {{$formsctr->where('testType1', 'ANTIGEN')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'ANTIGEN')->whereNotNull('records.philhealth'))->count()}} - W/O PH: {{$formsctr->where('testType1', 'ANTIGEN')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'ANTIGEN')->whereNull('records.philhealth'))->count()}}) | 
-                    <b>Antibody</b>: {{$formsctr->where('testType1','ANTIBODY')->merge($formsctr->where('testType2', 'ANTIBODY'))->count()}} (W/PH: {{$formsctr->where('testType1', 'ANTIBODY')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'ANTIBODY')->whereNotNull('records.philhealth'))->count()}} - W/O PH: {{$formsctr->where('testType1', 'ANTIBODY')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'ANTIBODY')->whereNull('records.philhealth'))->count()}}) | 
-                    <b>Others</b>: {{$formsctr->where('testType1','OTHERS')->merge($formsctr->where('testType2', 'OTHERS'))->count()}} (W/PH: {{$formsctr->where('testType1', 'OTHERS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'OTHERS')->whereNotNull('records.philhealth'))->count()}} - W/O PH: {{$formsctr->where('testType1', 'OTHERS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'OTHERS')->whereNull('records.philhealth'))->count()}})
-                </span>
+                @if($formsctr->where('testType1','NPS')->merge($formsctr->where('testType2', 'NPS'))->count() > 0)
+                <div class="col-md-2">
+                    <div class="card border-info bg-info text-white mb-3">
+                        <div class="card-body">
+                            <h5>NPS</h5>
+                            <h3 class="font-weight-bold">{{$formsctr->where('testType1','NPS')->merge($formsctr->where('testType2', 'NPS'))->count()}}</h3>
+                            <hr>
+                            <p>With Philhealth: <strong>{{$formsctr->where('testType1', 'NPS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'NPS')->whereNotNull('records.philhealth'))->count()}}</strong></p>
+                            <p>Without Philhealth: <strong>{{$formsctr->where('testType1', 'NPS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'NPS')->whereNull('records.philhealth'))->count()}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($formsctr->where('testType1','OPS AND NPS')->merge($formsctr->where('testType2', 'OPS AND NPS'))->count() > 0)
+                <div class="col-md-2">
+                    <div class="card border-info bg-info text-white mb-3">
+                        <div class="card-body">
+                            <h5>OPS & NPS</h5>
+                            <h3 class="font-weight-bold">{{$formsctr->where('testType1','OPS AND NPS')->merge($formsctr->where('testType2', 'OPS AND NPS'))->count()}}</h3>
+                            <hr>
+                            <p>With Philhealth: <strong> {{$formsctr->where('testType1', 'OPS AND NPS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS AND NPS')->whereNotNull('records.philhealth'))->count()}}</strong></p>
+                            <p>Without Philhealth: <strong>{{$formsctr->where('testType1', 'OPS AND NPS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS AND NPS')->whereNull('records.philhealth'))->count()}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($formsctr->where('testType1','ANTIGEN')->merge($formsctr->where('testType2', 'ANTIGEN'))->count() > 0)
+                <div class="col-md-2">
+                    <div class="card border-info bg-info text-white mb-3">
+                        <div class="card-body">
+                            <h5>ANTIGEN</h5>
+                            <h3 class="font-weight-bold">{{$formsctr->where('testType1','ANTIGEN')->merge($formsctr->where('testType2', 'ANTIGEN'))->count()}}</h3>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($formsctr->where('testType1','ANTIBODY')->merge($formsctr->where('testType2', 'ANTIBODY'))->count() > 0)
+                <div class="col-md-2">
+                    <div class="card border-info bg-info text-white mb-3">
+                        <div class="card-body">
+                            <h5>ANTIBODY</h5>
+                            <h3 class="font-weight-bold">{{$formsctr->where('testType1','ANTIBODY')->merge($formsctr->where('testType2', 'ANTIBODY'))->count()}}</h3>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($formsctr->where('testType1','OTHERS')->merge($formsctr->where('testType2', 'OTHERS'))->count() > 0)
+                <div class="col-md-2">
+                    <div class="card border-info bg-info text-white mb-3">
+                        <div class="card-body">
+                            <h5>OTHERS</h5>
+                            <h3 class="font-weight-bold">{{$formsctr->where('testType1','OTHERS')->merge($formsctr->where('testType2', 'OTHERS'))->count()}}</h3>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
-
             <form action="{{route('forms.options')}}" method="POST">
                 @csrf
                 <div>
