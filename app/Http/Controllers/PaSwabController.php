@@ -58,7 +58,7 @@ class PaSwabController extends Controller
     public function options(Request $request) {
         if($request->submit == 'bulkApprove') {
             $request->validate([
-                'testDateCollected1' => 'required|date',
+                'testDateCollected1' => 'required|date|after_or_equal:today',
                 'testType1' => 'required|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
                 'testTypeOtherRemarks1' => ($request->testType1 == "ANTIGEN" || $request->testType1 == "OTHERS") ? 'required' : 'nullable',
                 'antigenKit1' => ($request->testType1 == "ANTIGEN") ? 'required' : 'nullable',
@@ -1230,7 +1230,7 @@ class PaSwabController extends Controller
 
         $request->validate([
             'interviewerName' => 'required',
-            'testDateCollected1' => 'required|date',
+            'testDateCollected1' => 'required|date|after_or_equal:today',
             'testType1' => 'required|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
             'testTypeOtherRemarks1' => ($ttype == "ANTIGEN" || $ttype == "OTHERS") ? 'required' : 'nullable',
             'antigenKit1' => ($ttype == "ANTIGEN") ? 'required' : 'nullable',

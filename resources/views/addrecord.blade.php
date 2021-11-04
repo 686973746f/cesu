@@ -168,12 +168,12 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
-							  <input type="text" class="form-control" name="address_province" id="address_province">
+							  <input type="text" class="form-control" name="address_province" id="address_province" value="{{old('address_province')}}">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<input type="text" class="form-control" name="address_city" id="address_city">
+								<input type="text" class="form-control" name="address_city" id="address_city" value="{{old('address_city')}}">
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -182,12 +182,12 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
-							  <input type="text" class="form-control" name="address_provincejson" id="address_provincejson">
+							  <input type="text" class="form-control" name="address_provincejson" id="address_provincejson" value="{{old('address_provincejson')}}">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<input type="text" class="form-control" name="address_cityjson" id="address_cityjson">
+								<input type="text" class="form-control" name="address_cityjson" id="address_cityjson" value="{{old('address_cityjson')}}">
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -732,24 +732,24 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-								  <input type="text" class="form-control" name="occupation_province" id="occupation_province">
+								  <input type="text" class="form-control" name="occupation_province" id="occupation_province" value="{{old('occupation_province')}}">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<input type="text" class="form-control" name="occupation_city" id="occupation_city">
+									<input type="text" class="form-control" name="occupation_city" id="occupation_city" value="{{old('occupation_city')}}">
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-								  <input type="text" class="form-control" name="occupation_provincejson" id="occupation_provincejson">
+								  <input type="text" class="form-control" name="occupation_provincejson" id="occupation_provincejson" value="{{old('occupation_provincejson')}}">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<input type="text" class="form-control" name="occupation_cityjson" id="occupation_cityjson">
+									<input type="text" class="form-control" name="occupation_cityjson" id="occupation_cityjson" value="{{old('occupation_cityjson')}}">
 								</div>
 							</div>
 						</div>
