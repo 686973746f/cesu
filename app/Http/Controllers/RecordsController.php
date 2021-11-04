@@ -258,6 +258,18 @@ class RecordsController extends Controller
 			$isPregnant = $request->pregnant;
 		}
 
+		//Auto Address for Brgy Accounts
+		if(auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1) {
+			$current_province = auth()->user()->brgy->city->province->provinceName;
+			$current_city = auth()->user()->brgy->city->cityName;
+			$current_brgy = auth()->user()->brgy->brgyName;
+		}
+		else {
+			$current_province = mb_strtoupper($request->address_province);
+			$current_city = mb_strtoupper($request->address_city);
+			$current_brgy = mb_strtoupper($request->address_brgy);
+		}
+
 		/*
 		if($request->filled('philhealth')) {
 			if (strpos($request->philhealth, '-') !== false && substr($request->philhealth, -2, 1) == "-" && substr($request->philhealth, -12, 1) == "-") {
@@ -373,10 +385,10 @@ class RecordsController extends Controller
 				'philhealth' => $request->philhealth,
 				'address_houseno' => mb_strtoupper($request->address_houseno),
 				'address_street' => mb_strtoupper($request->address_street),
-				'address_brgy' => mb_strtoupper($request->address_brgy),
-				'address_city' => mb_strtoupper($request->address_city),
+				'address_brgy' => $current_brgy,
+				'address_city' => $current_city,
 				'address_cityjson' => $request->address_cityjson,
-				'address_province' => mb_strtoupper($request->address_province),
+				'address_province' => $current_province,
 				'address_provincejson' => $request->address_provincejson,
 	
 				'permaaddressDifferent' => $request->paddressdifferent,
@@ -472,6 +484,29 @@ class RecordsController extends Controller
                 $vaccineDose = NULL;
             }
 
+			//Barangay Account Address Checking if Same
+			if(auth()->user()->isBrgyAccount()) {
+				if($record->address_province == auth()->user()->brgy->city->province->provinceName) {
+					if($record->address_city == auth()->user()->brgy->city->cityName) {
+						if($record->address_brgy == auth()->user()->brgy->brgyName) {
+							$sameaddress = true;
+						}
+						else {
+							$sameaddress = false;
+						}
+					}
+					else {
+						$sameaddress = false;
+					}
+				}
+				else {
+					$sameaddress = false;
+				}
+			}
+			else {
+				$sameaddress = false;
+			}
+
 			$sharedAccessList = User::where('enabled', 1)
 			->where('isAdmin', 0)
 			->where('id', '!=', auth()->user()->id)
@@ -482,6 +517,7 @@ class RecordsController extends Controller
 				'cifcheck' =>$cifcheck,
 				'vaccineDose' => $vaccineDose,
 				'sharedAccessList' => $sharedAccessList,
+				'sameaddress' => $sameaddress,
 			]);
 		}
 		else {
@@ -533,6 +569,41 @@ class RecordsController extends Controller
 			}
 			else {
 				$isPregnant = $request->pregnant;
+			}
+
+			//Barangay Account Address Checking if Same
+			if(auth()->user()->isBrgyAccount()) {
+				if($current->address_province == auth()->user()->brgy->city->province->provinceName) {
+					if($current->address_city == auth()->user()->brgy->city->cityName) {
+						if($current->address_brgy == auth()->user()->brgy->brgyName) {
+							$sameaddress = true;
+						}
+						else {
+							$sameaddress = false;
+						}
+					}
+					else {
+						$sameaddress = false;
+					}
+				}
+				else {
+					$sameaddress = false;
+				}
+			}
+			else {
+				$sameaddress = false;
+			}
+
+			//Auto Address for Brgy Accounts
+			if(auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1 && $sameaddress) {
+				$current_province = auth()->user()->brgy->city->province->provinceName;
+				$current_city = auth()->user()->brgy->city->cityName;
+				$current_brgy = auth()->user()->brgy->brgyName;
+			}
+			else {
+				$current_province = mb_strtoupper($request->address_province);
+				$current_city = mb_strtoupper($request->address_city);
+				$current_brgy = mb_strtoupper($request->address_brgy);
 			}
 	
 			/*
@@ -707,6 +778,14 @@ class RecordsController extends Controller
 					$occupation_mobile = ($request->hasoccupation == 1) ? $request->occupation_mobile : NULL;
 					$occupation_email = ($request->hasoccupation == 1) ? $request->occupation_email : NULL;
 				}
+
+				//Share on ID Checking
+				if(auth()->user()->isCesuAccount()) {
+					$shareAccountList = (!is_null($request->sharedOnId)) ? implode(",", $request->sharedOnId) : NULL;
+				}
+				else {
+					$shareAccountList = $current->sharedOnId;
+				}
 				
 				$record = Records::where('id', $id)->update([
 					'updated_by' => auth()->user()->id,
@@ -773,7 +852,7 @@ class RecordsController extends Controller
 					'vaccinationFacility2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
 					'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 	
-					'sharedOnId' => (!is_null($request->sharedOnId)) ? implode(",", $request->sharedOnId) : NULL,
+					'sharedOnId' => $shareAccountList,
 				]);
 	
 				$record = Records::findOrFail($id);

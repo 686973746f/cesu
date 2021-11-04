@@ -232,6 +232,31 @@
                             </div>
                         </div>
                     </div>
+                    @if(auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
+                    <div class="alert alert-info" role="alert">
+                        <strong class="text-danger">Note:</strong> For encoding Patients residing from other Barangay, please transfer it with the respective Barangay properly for proper monitoring.
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="saddress_province"><span class="text-danger font-weight-bold">*</span>Province</label>
+                                <input type="text" class="form-control" name="saddress_province" id="saddress_province" value="{{($sameaddress) ? auth()->user()->brgy->city->province->provinceName : $record->address_province}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>City</label>
+                                <input type="text" class="form-control" name="saddress_city" id="saddress_city" value="{{($sameaddress) ? auth()->user()->brgy->city->cityName : $record->address_city}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="address_brgy"><span class="text-danger font-weight-bold">*</span>Barangay</label>
+                                <input type="text" class="form-control" name="address_brgy" id="address_brgy" value="{{($sameaddress) ? auth()->user()->brgy->brgyName : $record->address_brgy}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -267,6 +292,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -855,7 +881,7 @@
                         </div>
                     </div>
                     @endif
-                    @if($record->user_id == auth()->user()->id || auth()->user()->isCesuAccount())
+                    @if(auth()->user()->isCesuAccount())
                     <hr>
                     <div class="card">
                         <div class="card-header">Other Settings</div>
@@ -890,6 +916,7 @@
         });
 
         $(document).ready(function () {
+            @if(!(auth()->user()->isBrgyAccount()) || auth()->user()->brgy->displayInList == 0)
             $('#saddress_province').select2({
                 theme: "bootstrap",
             });
@@ -899,6 +926,7 @@
             $('#address_brgy').select2({
                 theme: "bootstrap",
             });
+            @endif
             $('#natureOfWork').select2({
                 theme: "bootstrap",
             });

@@ -127,6 +127,9 @@
                     <button type="submit" class="btn btn-primary my-3" id="exportBtnExp" name="submit" value="export_type1"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Experimental Mode)</button>
                     @endif
                 </div>
+                <div class="alert alert-primary" role="alert">
+                    <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Showing <strong>SUSPECTED</strong> and <strong>PROBABLE</strong> cases Only. CONFIRMED and NEGATIVE Cases will not be displayed on the list.
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>
