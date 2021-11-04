@@ -1,7 +1,4 @@
 require('./bootstrap');
-import { Chartisan, ChartisanHooks } from '@chartisan/chartjs';
-import {Chart, ChartOptions } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import 'selectize';
 import 'datatables.net';
 import 'datatables.net-bs4';
@@ -24,6 +21,3 @@ import 'select2';
 
 window.JSZip = jsZip;
 window.ClipboardJS = require('clipboard');
-
-// Register the plugin to all charts:
-Chart.plugins.register(ChartDataLabels);

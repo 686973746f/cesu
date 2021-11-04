@@ -48,13 +48,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
   */
 
 /*!
- * Chart.js v2.9.4
- * https://www.chartjs.org
- * (c) 2020 Chart.js Contributors
- * Released under the MIT License
- */
-
-/*!
  * Select2 4.1.0-rc.0
  * https://select2.github.io
  *
@@ -78,13 +71,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  *
  * @author   Feross Aboukhadijeh <http://feross.org>
  * @license  MIT
- */
-
-/*!
- * chartjs-plugin-datalabels v1.0.0
- * https://chartjs-plugin-datalabels.netlify.app
- * (c) 2017-2021 chartjs-plugin-datalabels contributors
- * Released under the MIT license
  */
 
 /*!
@@ -229,7 +215,3 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 // @license http://opensource.org/licenses/MIT
-
-//! moment.js
-
-//! moment.js locale configuration
