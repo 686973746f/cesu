@@ -90,19 +90,18 @@
                 </div>
             </form>
             <div class="row justify-content-center text-center">
-                @if(count($forms) > 0)
                 <div class="col-md-2">
                     <div class="card border-success bg-success text-white mb-3">
                         <div class="card-body">
                             <h5>TOTAL</h5>
+                            <small>(for {{(!(request()->get('getDate'))) ? date('m/d/Y - l') : date('m/d/Y - l', strtotime(request()->get('getDate')))}})</small>
                             <h3 class="font-weight-bold">{{$count_ops->count() + $count_nps->count() + $count_opsandnps->count() + $count_antigen + $count_antibody + $count_others}}</h3>
                             <hr>
                             <p>Hospitalization: <strong>{{$formsctr->where('isForHospitalization', 1)->count()}}</strong> | Pregnant: <strong>{{$formsctr->where('records.isPregnant', 1)->count()}}</strong></p>
-                            <p>Printed: <strong>{{$formsctr->where('isExported', 1)->count()}}</strong> | Not Printed: <strong>{{$formsctr->where('isExported', 0)->count()}}</strong></p>
+                            <p class="mb-0">Printed: <strong>{{$formsctr->where('isExported', 1)->count()}}</strong> | Not Printed: <strong>{{$formsctr->where('isExported', 0)->count()}}</strong></p>
                         </div>
                     </div>
                 </div>
-                @endif
                 @if($count_ops->count() > 0)
                 <div class="col-md-2">
                     <div class="card border-info bg-info text-white mb-3">
@@ -111,7 +110,7 @@
                             <h3 class="font-weight-bold">{{$count_ops->count()}}</h3>
                             <hr>
                             <p>With Philhealth: <strong>{{$count_ops->get()->whereNotNull('records.philhealth')->count()}}</strong></p>
-                            <p>Without Philhealth: <strong>{{$count_ops->get()->whereNull('records.philhealth')->count()}}</strong></p>
+                            <p class="mb-0">Without Philhealth: <strong>{{$count_ops->get()->whereNull('records.philhealth')->count()}}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -124,7 +123,7 @@
                             <h3 class="font-weight-bold">{{$count_nps->count()}}</h3>
                             <hr>
                             <p>With Philhealth: <strong>{{$count_nps->get()->whereNotNull('records.philhealth')->count()}}</strong></p>
-                            <p>Without Philhealth: <strong>{{$count_nps->get()->whereNull('records.philhealth')->count()}}</strong></p>
+                            <p class="mb-0">Without Philhealth: <strong>{{$count_nps->get()->whereNull('records.philhealth')->count()}}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -137,7 +136,7 @@
                             <h3 class="font-weight-bold">{{$count_opsandnps->count()}}</h3>
                             <hr>
                             <p>With Philhealth: <strong>{{$count_opsandnps->get()->whereNotNull('records.philhealth')->count()}}</strong></p>
-                            <p>Without Philhealth: <strong>{{$count_opsandnps->get()->whereNull('records.philhealth')->count()}}</strong></p>
+                            <p class="mb-0">Without Philhealth: <strong>{{$count_opsandnps->get()->whereNull('records.philhealth')->count()}}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -189,7 +188,7 @@
                 </div>
                 @endif
                 <div class="alert alert-primary" role="alert">
-                    <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Showing <strong>SUSPECTED</strong> and <strong>PROBABLE</strong> cases Only. CONFIRMED and NEGATIVE Cases will not be displayed on the list.
+                    <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Showing <strong>SUSPECTED and PROBABLE cases ONLY</strong>. CONFIRMED and NEGATIVE Cases will not be displayed on the list.
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm" id="table_id">
