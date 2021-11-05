@@ -656,6 +656,14 @@ class FormsController extends Controller
     {
         $rec = Records::findOrFail($id);
 
+        $checkform = Forms::where('records_id', $rec->id)
+        ->whereDate('created_at', date('Y-m-d'))
+        ->first();
+
+        if($checkform) {
+            return redirect()->route('forms.index')->with('status', 'Error: '.$rec->getName()." CIF Data was already existed and your request was blocked to prevent double entry.")->with('statustype', 'danger');
+        }
+
         if($rec->isPregnant == 0) {
             $hrp = 0;
         }
@@ -1068,7 +1076,7 @@ class FormsController extends Controller
                 $newmsheet->save();
             }
             
-            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient ('.$rec->getName().') was created successfully.')->with('statustype', 'success');
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient ('.$rec->getName().' #'.$rec->id.') was created successfully.')->with('statustype', 'success');
         }
     }
 
