@@ -142,32 +142,32 @@
                     </div>
                 </div>
                 @endif
-                @if($count_antigen->count() > 0)
+                @if($count_antigen > 0)
                 <div class="col-md-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>ANTIGEN</h5>
-                            <h3 class="font-weight-bold">{{$count_antigen->count()}}</h3>
+                            <h3 class="font-weight-bold">{{$count_antigen}}</h3>
                         </div>
                     </div>
                 </div>
                 @endif
-                @if($count_antibody->count() > 0)
+                @if($count_antibody > 0)
                 <div class="col-md-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>ANTIBODY</h5>
-                            <h3 class="font-weight-bold">{{$count_antibody->count()}}</h3>
+                            <h3 class="font-weight-bold">{{$count_antibody}}</h3>
                         </div>
                     </div>
                 </div>
                 @endif
-                @if($count_others->count() > 0)
+                @if($count_others > 0)
                 <div class="col-md-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>OTHERS</h5>
-                            <h3 class="font-weight-bold">{{$count_others->count()}}</h3>
+                            <h3 class="font-weight-bold">{{$count_others}}</h3>
                         </div>
                     </div>
                 </div>
