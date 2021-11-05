@@ -248,18 +248,34 @@ class MonitoringSheetController extends Controller
                 }
 
                 if(in_array($date, $dateArr)) {
-                    $sub = MonitoringSheetSub::updateOrCreate(['monitoring_sheet_masters_id' => $master->id, 'forDate' => $date, 'forMeridian' => $mer],
-                    [
-                        'fever' => ($request->fever) ? $request->fevertemp : NULL,
-                        'cough' => ($request->cough) ? 1 : 0,
-                        'sorethroat' => ($request->sorethroat) ? 1 : 0,
-                        'dob' => ($request->dob) ? 1 : 0,
-                        'colds' => ($request->colds) ? 1 : 0,
-                        'diarrhea' => ($request->diarrhea) ? 1 : 0,
-                        'os1' => !is_null($request->os1) ? mb_strtoupper($request->os1) : NULL,
-                        'os2' => !is_null($request->os2) ? mb_strtoupper($request->os2) : NULL,
-                        'os3' => !is_null($request->os3) ? mb_strtoupper($request->os3) : NULL,
-                    ]);
+                    if($request->haveSymptoms == 1) {
+                        $sub = MonitoringSheetSub::updateOrCreate(['monitoring_sheet_masters_id' => $master->id, 'forDate' => $date, 'forMeridian' => $mer],
+                        [
+                            'fever' => ($request->fever) ? $request->fevertemp : NULL,
+                            'cough' => ($request->cough) ? 1 : 0,
+                            'sorethroat' => ($request->sorethroat) ? 1 : 0,
+                            'dob' => ($request->dob) ? 1 : 0,
+                            'colds' => ($request->colds) ? 1 : 0,
+                            'diarrhea' => ($request->diarrhea) ? 1 : 0,
+                            'os1' => !is_null($request->os1) ? mb_strtoupper($request->os1) : NULL,
+                            'os2' => !is_null($request->os2) ? mb_strtoupper($request->os2) : NULL,
+                            'os3' => !is_null($request->os3) ? mb_strtoupper($request->os3) : NULL,
+                        ]);
+                    }
+                    else {
+                        $sub = MonitoringSheetSub::updateOrCreate(['monitoring_sheet_masters_id' => $master->id, 'forDate' => $date, 'forMeridian' => $mer],
+                        [
+                            'fever' => NULL,
+                            'cough' => 0,
+                            'sorethroat' => 0,
+                            'dob' => 0,
+                            'colds' => 0,
+                            'diarrhea' => 0,
+                            'os1' => NULL,
+                            'os2' => NULL,
+                            'os3' => NULL,
+                        ]);
+                    }
 
                     return redirect()->route($viewRouteString, ['id' => $redirectId])
                     ->with('msg', 'Status for ('.$date.' - '.$mer.') has been updated successfully.')

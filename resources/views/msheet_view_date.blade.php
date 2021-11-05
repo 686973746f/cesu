@@ -16,59 +16,69 @@
                             <li>Monitoring Date: {{date('m/d/Y', strtotime($date))}}</li>
                             <li>Day: {{$mer}}</li>
                         </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="fever" id="feverBox" value="1" {{($subdata && $subdata->fever) ? 'checked' : ''}}>
-                                Fever
-                            </label>
+                        <div class="form-group">
+                          <label for="haveSymptoms"><span class="text-danger font-weight-bold">*</span>Have Symptoms</label>
+                          <select class="form-control" name="haveSymptoms" id="haveSymptoms" required>
+                                <option value="" disabled {{(is_null(old('haveSymptoms')) && $subdata) ? 'selected' : ''}}>Choose...</option>
+                                <option value="1" {{(old('haveSymptoms') == '1' || !($data->ifnosx($date, $mer))) ? 'selected' : ''}}>Yes</option>
+                                <option value="0" {{(old('haveSymptoms') == '0' || $data->ifnosx($date, $mer)) ? 'selected' : ''}}>No</option>
+                          </select>
                         </div>
-                        <div id="fBox">
-                            <div class="form-group mt-3">
-                                <label for="fevertemp"><span class="text-danger font-weight-bold">*</span>Temperature (in Celcius)</label>
-                                <input type="number" class="form-control" name="fevertemp" id="fevertemp" step=".1" min="37.5" max="50" value="{{old('fevertemp', ($subdata && $subdata->fever) ? $subdata->fever : '')}}">
+                        <div id="sympdib">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="fever" id="feverBox" value="1" {{($subdata && $subdata->fever) ? 'checked' : ''}}>
+                                    Fever
+                                </label>
                             </div>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="cough" id="cough" value="1" {{($subdata && $subdata->cough == 1) ? 'checked' : ''}}>
-                                Cough
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="sorethroat" id="sorethroat" value="1" {{($subdata && $subdata->sorethroat == 1) ? 'checked' : ''}}>
-                                Sore Throat
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="dob" id="dob" value="1" {{($subdata && $subdata->dob == 1) ? 'checked' : ''}}>
-                                Difficulty of Breathing
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="colds" id="colds" value="1" {{($subdata && $subdata->colds == 1) ? 'checked' : ''}}>
-                                Colds
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="diarrhea" id="diarrhea" value="1" {{($subdata && $subdata->diarrhea == 1) ? 'checked' : ''}}>
-                                Diarrhea
-                            </label>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="">Other Symptoms #1 <small><i>(Leave Blank if Not Applicable)</i></small></label>
-                            <input type="text" class="form-control" name="os1" id="os1" value="{{old('os1', ($subdata && $subdata->os1) ? $subdata->os1 : '')}}">
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="">Other Symptoms #2 <small><i>(Leave Blank if Not Applicable)</i></small></label>
-                            <input type="text" class="form-control" name="os2" id="os2" value="{{old('os2', ($subdata && $subdata->os2) ? $subdata->os2 : '')}}">
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="">Other Symptoms #3 <small><i>(Leave Blank if Not Applicable)</i></small></label>
-                            <input type="text" class="form-control" name="os3" id="os3" value="{{old('os3', ($subdata && $subdata->os3) ? $subdata->os3 : '')}}">
+                            <div id="fBox">
+                                <div class="form-group mt-3">
+                                    <label for="fevertemp"><span class="text-danger font-weight-bold">*</span>Temperature (in Celcius)</label>
+                                    <input type="number" class="form-control" name="fevertemp" id="fevertemp" step=".1" min="37.5" max="50" value="{{old('fevertemp', ($subdata && $subdata->fever) ? $subdata->fever : '')}}">
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="cough" id="cough" value="1" {{($subdata && $subdata->cough == 1) ? 'checked' : ''}}>
+                                    Cough
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="sorethroat" id="sorethroat" value="1" {{($subdata && $subdata->sorethroat == 1) ? 'checked' : ''}}>
+                                    Sore Throat
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="dob" id="dob" value="1" {{($subdata && $subdata->dob == 1) ? 'checked' : ''}}>
+                                    Difficulty of Breathing
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="colds" id="colds" value="1" {{($subdata && $subdata->colds == 1) ? 'checked' : ''}}>
+                                    Colds
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="diarrhea" id="diarrhea" value="1" {{($subdata && $subdata->diarrhea == 1) ? 'checked' : ''}}>
+                                    Diarrhea
+                                </label>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="">Other Symptoms #1 <small><i>(Leave Blank if Not Applicable)</i></small></label>
+                                <input type="text" class="form-control" name="os1" id="os1" value="{{old('os1', ($subdata && $subdata->os1) ? $subdata->os1 : '')}}">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="">Other Symptoms #2 <small><i>(Leave Blank if Not Applicable)</i></small></label>
+                                <input type="text" class="form-control" name="os2" id="os2" value="{{old('os2', ($subdata && $subdata->os2) ? $subdata->os2 : '')}}">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="">Other Symptoms #3 <small><i>(Leave Blank if Not Applicable)</i></small></label>
+                                <input type="text" class="form-control" name="os3" id="os3" value="{{old('os3', ($subdata && $subdata->os3) ? $subdata->os3 : '')}}">
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer text-right">
@@ -83,6 +93,17 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#fBox').hide();
+        $('#sympdib').hide();
+
+        $('#haveSymptoms').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 1) {
+                $('#sympdib').show();
+            }
+            else {
+                $('#sympdib').hide();
+            }
+        }).trigger('change');
 
         $('#feverBox').change(function (e) { 
             e.preventDefault();
