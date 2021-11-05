@@ -20,7 +20,7 @@
         <h3>Loading Data. Please Wait...</h3>
     </div>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -29,23 +29,23 @@
                 </div>
                 <div>
                     @if(($forms->where('testDateCollected1', date('Y-m-d'))->merge($forms->where('testDateCollected2', date('Y-m-d')))->count()) > 0)
-                    <a href="{{route('forms.ciflist.print')}}" class="btn btn-primary">Print CIF List</a>
+                    <a href="{{route('forms.ciflist.print')}}" class="btn btn-primary mb-2">Print CIF List</a>
                     @else
                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="There is no existing CIF Data scheduled for today.">
-                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>Print CIF List</button>
+                        <button class="btn btn-primary mb-2" style="pointer-events: none;" type="button" disabled>Print CIF List</button>
                     </span>
                     @endif
                     @if(($forms->where('testType1', 'ANTIGEN')->merge($forms->where('testType2', 'ANTIGEN'))->count()) > 0)
-                    <a href="{{route('forms.antigenlinelist.print')}}" class="btn btn-primary">Print Antigen Linelist</a>
+                    <a href="{{route('forms.antigenlinelist.print')}}" class="btn btn-primary mb-2">Print Antigen Linelist</a>
                     @else
                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="There is no existing Antigen CIF Scheduled for today.">
-                        <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>Print Antigen Linelist</button>
+                        <button class="btn btn-primary mb-2" style="pointer-events: none;" type="button" disabled>Print Antigen Linelist</button>
                     </span>
                     @endif
                     @if(auth()->user()->isCesuAccount())
-                    <a href="{{route('paswab.view')}}" class="btn btn-primary">Pa-Swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
+                    <a href="{{route('paswab.view')}}" class="btn btn-primary mb-2">Pa-Swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
                     @endif
-                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
+                    <button class="btn btn-success mb-2" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>
                 </div>
             </div>
         </div>
@@ -89,7 +89,8 @@
                     </div>
                 </div>
             </form>
-            <div class="row justify-content-center text-center" style="font-family: Arial, Helvetica, sans-serif">
+            <div class="row justify-content-center text-center">
+                @if(count($forms) > 0)
                 <div class="col-md-2">
                     <div class="card border-success bg-success text-white mb-3">
                         <div class="card-body">
@@ -101,6 +102,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 @if($formsctr->where('testType1','OPS')->merge($formsctr->where('testType2', 'OPS'))->count() > 0)
                 <div class="col-md-2">
                     <div class="card border-info bg-info text-white mb-3">
@@ -173,6 +175,7 @@
             </div>
             <form action="{{route('forms.options')}}" method="POST">
                 @csrf
+                @if(count($forms) > 0)
                 <div>
                     <button type="button" class="btn btn-primary my-3" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
                     <button type="button" class="btn btn-primary my-3" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
@@ -184,6 +187,7 @@
                     <button type="submit" class="btn btn-primary my-3" id="exportBtnExp" name="submit" value="export_type1"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Experimental Mode)</button>
                     @endif
                 </div>
+                @endif
                 <div class="alert alert-primary" role="alert">
                     <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Showing <strong>SUSPECTED</strong> and <strong>PROBABLE</strong> cases Only. CONFIRMED and NEGATIVE Cases will not be displayed on the list.
                 </div>
