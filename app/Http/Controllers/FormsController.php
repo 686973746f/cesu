@@ -48,18 +48,8 @@ class FormsController extends Controller
                             });
                         })
                         ->where(function ($query) {
-                            /*
                             $query->whereDate('testDateCollected1', request()->input('getDate'))
                             ->orWhereDate('testDateCollected2', request()->input('getDate'));
-                            */
-                            $query->where(function ($sq) {
-                                $sq->whereNull('testDateCollected2')
-                                ->whereDate('testDateCollected1', request()->input('getDate'));
-                            })
-                            ->orWhere(function ($sq) {
-                                $sq->whereNotNull('testDateCollected2')
-                                ->whereDate('testDateCollected2', request()->input('getDate'));
-                            });
                         })
                         ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->orderBy('created_at', 'desc')
@@ -76,18 +66,8 @@ class FormsController extends Controller
                             });
                         })
                         ->where(function ($query) {
-                            /*
                             $query->whereDate('testDateCollected1', request()->input('getDate'))
                             ->orWhereDate('testDateCollected2', request()->input('getDate'));
-                            */
-                            $query->where(function ($sq) {
-                                $sq->whereNull('testDateCollected2')
-                                ->whereDate('testDateCollected1', request()->input('getDate'));
-                            })
-                            ->orWhere(function ($sq) {
-                                $sq->whereNotNull('testDateCollected2')
-                                ->whereDate('testDateCollected2', request()->input('getDate'));
-                            });
                         })
                         ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->orderBy('created_at', 'desc')
@@ -96,18 +76,8 @@ class FormsController extends Controller
                 }
                 else {
                     $forms = Forms::where(function ($query) {
-                        /*
                         $query->whereDate('testDateCollected1', request()->input('getDate'))
                         ->orWhereDate('testDateCollected2', request()->input('getDate'));
-                        */
-                        $query->where(function ($sq) {
-                            $sq->whereNull('testDateCollected2')
-                            ->whereDate('testDateCollected1', request()->input('getDate'));
-                        })
-                        ->orWhere(function ($sq) {
-                            $sq->whereNotNull('testDateCollected2')
-                            ->whereDate('testDateCollected2', request()->input('getDate'));
-                        });
                     })
                     ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
@@ -132,18 +102,8 @@ class FormsController extends Controller
                         });
                     })
                     ->where(function ($query) {
-                        /*
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
-                        */
-                        $query->where(function ($sq) {
-                            $sq->whereNull('testDateCollected2')
-                            ->whereDate('testDateCollected1', date('Y-m-d'));
-                        })
-                        ->orWhere(function ($sq) {
-                            $sq->whereNotNull('testDateCollected2')
-                            ->whereDate('testDateCollected2', date('Y-m-d'));
-                        });
                     })
                     ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
@@ -159,37 +119,17 @@ class FormsController extends Controller
                         });
                     })
                     ->where(function ($query) {
-                        /*
                         $query->where('testDateCollected1', date('Y-m-d'))
                         ->orWhere('testDateCollected2', date('Y-m-d'));
-                        */
-                        $query->where(function ($sq) {
-                            $sq->whereNull('testDateCollected2')
-                            ->whereDate('testDateCollected1', date('Y-m-d'));
-                        })
-                        ->orWhere(function ($sq) {
-                            $sq->whereNotNull('testDateCollected2')
-                            ->whereDate('testDateCollected2', date('Y-m-d'));
-                        });
                     })
                     ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
                 }
             }
             else {
-                $forms = Forms::where(function ($query) {
-                    /*
+                $forms = Forms::where(function ($q) {
                     $q->where('testDateCollected1', date('Y-m-d'))
                     ->orWhere('testDateCollected2', date('Y-m-d'));
-                    */
-                    $query->where(function ($sq) {
-                        $sq->whereNull('testDateCollected2')
-                        ->whereDate('testDateCollected1', date('Y-m-d'));
-                    })
-                    ->orWhere(function ($sq) {
-                        $sq->whereNotNull('testDateCollected2')
-                        ->whereDate('testDateCollected2', date('Y-m-d'));
-                    });
                 })
                 ->whereIn('caseClassification', ['Suspect', 'Probable'])
                 ->orderBy('created_at', 'desc')->get();
@@ -198,12 +138,107 @@ class FormsController extends Controller
 
         //Forms Counter
         $formsctr = $forms;
+
+        if(request()->input('view')) {
+            $searchOnDate = request()->input('getDate');
+        }
+        else {
+            $searchOnDate = date('Y-m-d');
+        }
+
+        $count_ops = Forms::where(function ($q) use ($searchOnDate) {
+            $q->whereNull('testDateCollected2')
+            ->whereDate('testDateCollected1', $searchOnDate)
+            ->where('testType1', 'OPS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->orWhere(function ($q) use ($searchOnDate) {
+            $q->whereNotNull('testDateCollected2')
+            ->whereDate('testDateCollected2', $searchOnDate)
+            ->where('testType2', 'OPS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        });
+
+        $count_nps = Forms::where(function ($q) use ($searchOnDate) {
+            $q->whereNull('testDateCollected2')
+            ->whereDate('testDateCollected1', $searchOnDate)
+            ->where('testType1', 'NPS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->orWhere(function ($q) use ($searchOnDate) {
+            $q->whereNotNull('testDateCollected2')
+            ->whereDate('testDateCollected2', $searchOnDate)
+            ->where('testType2', 'NPS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        });
+
+        $count_opsandnps = Forms::where(function ($q) use ($searchOnDate) {
+            $q->whereNull('testDateCollected2')
+            ->whereDate('testDateCollected1', $searchOnDate)
+            ->where('testType1', 'OPS AND NPS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->orWhere(function ($q) use ($searchOnDate) {
+            $q->whereNotNull('testDateCollected2')
+            ->whereDate('testDateCollected2', $searchOnDate)
+            ->where('testType2', 'OPS AND NPS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        });
+        
+        $count_antigen = Forms::where(function ($q) use ($searchOnDate) {
+            $q->whereNull('testDateCollected2')
+            ->whereDate('testDateCollected1', $searchOnDate)
+            ->where('testType1', 'ANTIGEN')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->orWhere(function ($q) use ($searchOnDate) {
+            $q->whereNotNull('testDateCollected2')
+            ->whereDate('testDateCollected2', $searchOnDate)
+            ->where('testType2', 'ANTIGEN')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->count();
+
+        $count_antibody = Forms::where(function ($q) use ($searchOnDate) {
+            $q->whereNull('testDateCollected2')
+            ->whereDate('testDateCollected1', $searchOnDate)
+            ->where('testType1', 'ANTIBODY')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->orWhere(function ($q) use ($searchOnDate) {
+            $q->whereNotNull('testDateCollected2')
+            ->whereDate('testDateCollected2', $searchOnDate)
+            ->where('testType2', 'ANTIBODY')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->count();
+
+        $count_others = Forms::where(function ($q) use ($searchOnDate) {
+            $q->whereNull('testDateCollected2')
+            ->whereDate('testDateCollected1', $searchOnDate)
+            ->where('testType1', 'OTHERS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->orWhere(function ($q) use ($searchOnDate) {
+            $q->whereNotNull('testDateCollected2')
+            ->whereDate('testDateCollected2', $searchOnDate)
+            ->where('testType2', 'OTHERS')
+            ->whereIn('caseClassification', ['Suspect', 'Probable']);
+        })
+        ->count();
+
         $paswabctr = PaSwabDetails::where('status', 'pending')->count();
 
         return view('forms', [
             'forms' => $forms,
             'formsctr' => $formsctr,
             'paswabctr' => $paswabctr,
+            'count_ops' => $count_ops,
+            'count_nps' => $count_nps,
+            'count_opsandnps' => $count_opsandnps,
+            'count_antigen' => $count_antigen,
+            'count_antibody' => $count_antibody,
+            'count_others' => $count_others,
         ]);
     }
 

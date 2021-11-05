@@ -95,7 +95,7 @@
                     <div class="card border-success bg-success text-white mb-3">
                         <div class="card-body">
                             <h5>TOTAL</h5>
-                            <h3 class="font-weight-bold">{{count($forms)}}</h3>
+                            <h3 class="font-weight-bold">{{$count_ops->count() + $count_nps->count() + $count_opsandnps->count() + $count_antigen + $count_antibody + $count_others}}</h3>
                             <hr>
                             <p>Hospitalization: <strong>{{$formsctr->where('isForHospitalization', 1)->count()}}</strong> | Pregnant: <strong>{{$formsctr->where('records.isPregnant', 1)->count()}}</strong></p>
                             <p>Printed: <strong>{{$formsctr->where('isExported', 1)->count()}}</strong> | Not Printed: <strong>{{$formsctr->where('isExported', 0)->count()}}</strong></p>
@@ -108,10 +108,10 @@
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>OPS</h5>
-                            <h3 class="font-weight-bold">{{$formsctr->where('testType1','OPS')->merge($formsctr->where('testType2', 'OPS'))->count()}}</h3>
+                            <h3 class="font-weight-bold">{{$count_ops->count()}}</h3>
                             <hr>
-                            <p>With Philhealth: <strong>{{$formsctr->where('testType1', 'OPS')->whereNotNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS')->whereNotNull('records.philhealth'))->count()}}</strong></p>
-                            <p>Without Philhealth: <strong>{{$formsctr->where('testType1', 'OPS')->whereNull('records.philhealth')->merge($formsctr->where('testType2', 'OPS')->whereNull('records.philhealth'))->count()}}</strong></p>
+                            <p>With Philhealth: <strong>{{$count_ops->get()->whereNotNull('records.philhealth')->count()}}</strong></p>
+                            <p>Without Philhealth: <strong>{{$count_ops->get()->whereNull('records.philhealth')->count()}}</strong></p>
                         </div>
                     </div>
                 </div>
