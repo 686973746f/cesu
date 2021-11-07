@@ -42,6 +42,9 @@
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold">{{number_format($activeCount)}} <small>({{round(($activeCount/$totalCasesCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Active Cases</p>
+                            <hr>
+                            <p>Partial Vaccinated: </p>
+                            <p class="mb-0">Fully Vaccinated: </p>
                         </div>
                     </div>
                 </div>
@@ -50,6 +53,9 @@
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold">{{number_format($recoveredCount)}} <small>({{round(($recoveredCount/$totalCasesCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Recoveries</p>
+                            <hr>
+                            <p>Partial Vaccinated: </p>
+                            <p class="mb-0">Fully Vaccinated: </p>
                         </div>
                     </div>
                 </div>
@@ -58,6 +64,9 @@
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold">{{number_format($deathCount)}} <small>({{round(($deathCount/$totalCasesCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Deaths</p>
+                            <hr>
+                            <p>Partial Vaccinated: </p>
+                            <p class="mb-0">Fully Vaccinated: </p>
                         </div>
                     </div>
                 </div>

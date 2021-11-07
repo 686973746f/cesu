@@ -202,7 +202,7 @@ Route::get('/json/brgy', [JsonReportController::class, 'brgyCases']);
 Route::get('/json/totalCases', [JsonReportController::class, 'totalCases']);
 Route::get('/json/genderBreakdown', [JsonReportController::class, 'genderBreakdown']);
 Route::get('json/conditionBreakdown', [JsonReportController::class, 'conditionBreakdown']);
-Route::get('json/casesDistribution', [JsonReportController::class, 'casesDistribution']);
+Route::get('json/currentYearCasesDist', [JsonReportController::class, 'currentYearCasesDist']);
 Route::get('json/facilityCount', [JsonReportController::class, 'facilityCount']);
 Route::get('json/ageDistribution', [JsonReportController::class, 'ageDistribution']);
 Route::get('json/workDistribution', [JsonReportController::class, 'workDistribution']);
