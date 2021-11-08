@@ -559,14 +559,9 @@ class JsonReportController extends Controller
         $arr = [];
 
         $period = CarbonPeriod::create(date('Y-01-01'), date('Y-m-d')); 
-
-
-
-
-        
         
         foreach($period as $date) {
-            $totalActiveCases = Forms::with('records')
+            $dailyCasesCount = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
@@ -577,6 +572,7 @@ class JsonReportController extends Controller
             ->whereDate('morbidityMonth', $date->format('Y-m-d'))
             ->count();
     
+            /*
             $totalRecovered = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
@@ -608,12 +604,13 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Died')
             ->whereDate('morbidityMonth', $date->format('Y-m-d'))
             ->count();
+            */
 
             array_push($arr, [
                 'fDate' => $date->format('m/d/Y'),
-                'activeCount' => $totalActiveCases,
-                'recoveredCount' => $totalRecovered,
-                'deathCount' => $totalDeaths,
+                'dailyCasesCount' => $dailyCasesCount,
+                /*'recoveredCount' => $totalRecovered,
+                'deathCount' => $totalDeaths,*/
             ]);
         }
 
