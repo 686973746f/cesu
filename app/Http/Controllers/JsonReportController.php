@@ -1077,4 +1077,72 @@ class JsonReportController extends Controller
 
         return response()->json($arr);
     }
+
+    public function activeVaccineList() {
+        $arr = collect();
+
+        $group = Records::select('vaccinationName1')->distinct('vaccinationName1')->get();
+        $group = $group->pluck('vaccinationName1');
+
+        foreach($group as $data) {
+            if($data != 'JANSSEN') {
+                $partialCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($data) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', $data);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $fullCount = Forms::with('records')
+                ->whereHas('records', function ($q) use ($data) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', $data);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+            }
+            else {
+                $partialCount = 0;
+
+                $fullCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+            }
+
+            if($partialCount != 0 || $fullCount != 0) {
+                $arr->push([
+                    'vaccineName' => $data,
+                    'partialCount' => $partialCount,
+                    'fullCount' => $fullCount,
+                ]);
+            }
+        }
+        
+        return response()->json($arr);
+    }
 }
