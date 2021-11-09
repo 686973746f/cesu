@@ -7,11 +7,14 @@ use App\Models\Forms;
 use App\Models\Records;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JsonReportController extends Controller
 {
     public function totalCases() {
         $arr = [];
+
+        DB::setDefaultConnection('mysqlforjson');
 
         $totalActiveCases = Forms::with('records')
         ->whereHas('records', function ($q) {
