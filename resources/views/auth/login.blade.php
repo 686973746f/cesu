@@ -4,7 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
+            <div class="text-center">
+                <img src="{{asset('assets/images/cesu_icon.png')}}" class="mb-3" style="width: 12rem;">
+            </div>
             <div class="accordion" id="accordionExample">
                 <div class="card">
                   <div class="card-header" id="headingOne">
