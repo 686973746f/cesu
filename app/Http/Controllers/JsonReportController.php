@@ -558,6 +558,7 @@ class JsonReportController extends Controller
 
     public function currentYearCasesDist() {
         ini_set('max_execution_time', 600);
+        DB::setDefaultConnection('mysqlforjson');
         
         $arr = [];
 
@@ -684,6 +685,7 @@ class JsonReportController extends Controller
 
     public function facilityCount() {
         $arr = [];
+        DB::setDefaultConnection('mysqlforjson');
 
         array_push($arr, [
             'facilityCount' => Forms::with('records')
@@ -728,6 +730,7 @@ class JsonReportController extends Controller
 
     public function brgyCases() {
         $brgyArray = collect();
+        DB::setDefaultConnection('mysqlforjson');
 
         $brgyList = Brgy::where('displayInList', 1)
         ->where('city_id', 1)
@@ -843,8 +846,8 @@ class JsonReportController extends Controller
     }
 
     public function genderBreakdown() {
-
         $arr = [];
+        DB::setDefaultConnection('mysqlforjson');
 
         $male = Forms::with('records')
         ->whereHas('records', function($q) {
@@ -885,6 +888,7 @@ class JsonReportController extends Controller
 
     public function conditionBreakdown() {
         $arr = [];
+        DB::setDefaultConnection('mysqlforjson');
 
         array_push($arr, [
             'status' => 'ASYMPTOMATIC',
@@ -971,6 +975,7 @@ class JsonReportController extends Controller
 
     public function ageDistribution() {
         $arr = collect();
+        DB::setDefaultConnection('mysqlforjson');
 
         //Fetch Current Active Cases Only
         function recordsGenerator() {
@@ -1049,6 +1054,7 @@ class JsonReportController extends Controller
 
     public function workDistribution() {
         $arr = collect();
+        DB::setDefaultConnection('mysqlforjson');
 
         $group = Records::select('natureOfWork')->distinct('natureOfWork')->get();
         $group = $group->pluck('natureOfWork');
@@ -1080,6 +1086,7 @@ class JsonReportController extends Controller
 
     public function activeVaccineList() {
         $arr = collect();
+        DB::setDefaultConnection('mysqlforjson');
 
         $group = Records::select('vaccinationName1')->distinct('vaccinationName1')->get();
         $group = $group->pluck('vaccinationName1');
