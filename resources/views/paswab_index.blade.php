@@ -100,7 +100,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="lname"><span class="text-danger font-weight-bold">*</span>{{__('paswab.lname')}}</label>
-                                        <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                                        <input type="text" class="form-control @error('lname') border-danger @enderror" id="lname" name="lname" value="{{old('lname')}}" placeholder="DELA CRUZ" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                                         @error('lname')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -109,7 +109,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="fname"><span class="text-danger font-weight-bold">*</span>{{__('paswab.fname')}}</label>
-                                        <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                                        <input type="text" class="form-control @error('fname') border-danger @enderror" id="fname" name="fname" value="{{old('fname')}}" placeholder="JUAN JR" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                                         <small class="text-muted">{{__('paswab.fNameNotice')}}</small>
                                         @error('fname')
                                             <small class="text-danger">{{$message}}</small>
@@ -119,7 +119,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="mname">{{__('paswab.mname')}} <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
-                                        <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" style="text-transform: uppercase;" minlength="2" maxlength="50">
+                                        <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" placeholder="SANTOS" minlength="2" maxlength="50" style="text-transform: uppercase;">
                                         <small class="form-text text-muted">{{__('paswab.mnameNotice')}}</small>
                                         @error('mname')
                                             <small class="text-danger">{{$message}}</small>

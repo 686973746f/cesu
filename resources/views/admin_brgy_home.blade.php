@@ -188,10 +188,15 @@
 
     <script>
         $(document).ready(function () {
-            $('#showCode').modal('show');
+            $('#showCode').modal('show');  
         });
     </script>
 @endif
-
-
+<script>
+    $(document).ready(function () {
+        $('#brgyId').select2({
+            theme: "bootstrap",
+        });
+    });
+</script>
 @endsection
