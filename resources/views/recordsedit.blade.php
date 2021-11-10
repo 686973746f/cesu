@@ -1264,7 +1264,7 @@
                     $('#worksInClosedSetting').prop('required', true);
                     $('#natureOfWork').prop('required', true);
                 }
-		    });
+		    }).trigger('change');
 
             $('#natureOfWork').change(function (e) { 
                 e.preventDefault();
