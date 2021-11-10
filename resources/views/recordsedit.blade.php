@@ -1201,6 +1201,13 @@
                 $("#occupation_city").val('{{$record->occupation_city}}');
 			    $('#occupation_cityjson').val('{{$record->occupation_cityjson}}');
             }
+
+            if($('#hasoccupation_yes').is(':checked')) {
+                $('#occupation_div').show();
+            }
+            if($('#hasoccupation_no').is(':checked')) {
+                $('#occupation_div').hide();
+            }
             
             $('#addresscheck').change(function() {
                 if($("input[name='paddressdifferent']:checked").val() == 0) {

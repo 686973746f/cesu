@@ -1089,6 +1089,13 @@
 			});
 		});
 
+		if($('#hasoccupation_yes').is(':checked')) {
+			$('#occupation_div').show();
+		}
+		if($('#hasoccupation_no').is(':checked')) {
+			$('#occupation_div').hide();
+		}
+
 		$('#addresscheck').change(function() {
 			if($("input[name='paddressdifferent']:checked").val() == 0) {
 				$('#permaaddress_div').addClass('d-none');
