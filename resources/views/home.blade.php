@@ -41,8 +41,8 @@
                     @endif
                     @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
                     <hr>
-                    <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block" id="reportsbtn"><i class="fas fa-chart-bar mr-2"></i>Reports<i class="fas fa-circle-notch fa-spin ml-2" id="reportLoading"></i></a>
-                    <div id="reportNotice" class="text-center">
+                    <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block" id="reportsbtn"><i class="fas fa-chart-bar mr-2"></i>Reports<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="reportLoading"></i></a>
+                    <div id="reportNotice" class="text-center d-none">
                         <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
                     </div>
                     @endif
@@ -59,13 +59,10 @@
 </div>
 
 <script>
-    $('#reportNotice').hide();
-    $('#reportLoading').hide();
-
     $('#reportsbtn').click(function (e) { 
         $(this).addClass('disabled');
-        $('#reportNotice').show();
-        $('#reportLoading').show();
+        $('#reportNotice').removeClass('d-none');
+        $('#reportLoading').removeClass('d-none');
     });
 </script>
 @endsection
