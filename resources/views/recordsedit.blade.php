@@ -145,7 +145,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="pdiv" class="mb-3">
+                    <div id="pdiv" class="mb-3 d-none">
                         <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
@@ -202,7 +202,7 @@
                     <hr>
                     <h5 class="font-weight-bold">Current Address</h5>
                     <hr>
-                    <div id="addresstext">
+                    <div id="addresstext" class="d-none">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -324,7 +324,7 @@
                                 <option value="2" id="2ndDoseOption" {{(old('howManyDoseVaccine', $vaccineDose) == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
                               </select>
                             </div>
-                            <div id="ifVaccinated">
+                            <div id="ifVaccinated" class="d-none">
                                 <div class="form-group">
                                   <label for="vaccineName"><span class="text-danger font-weight-bold">*</span>Name of Vaccine</label>
                                   <select class="form-control" name="vaccineName" id="vaccineName">
@@ -341,7 +341,7 @@
                                   </select>
                                 </div>
                                 <hr>
-                                <div id="ifFirstDoseVaccine">
+                                <div id="ifFirstDoseVaccine" class="d-none">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -372,7 +372,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="ifSecondDoseVaccine">
+                                <div id="ifSecondDoseVaccine" class="d-none">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -417,11 +417,11 @@
                             </label>
                         </div>
                     </div>
-                    <div id="permaaddress_div">
+                    <div id="permaaddress_div" class="d-none">
                         <hr>
                         <h5 class="font-weight-bold">Permanent Address and Contact Information</h5>
                         <hr>
-                        <div id="permaaddresstext">
+                        <div id="permaaddresstext" class="d-none">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -544,7 +544,7 @@
                             <input class="form-check-input" type="radio" name="hasoccupation" id="hasoccupation_yes" value="1" checked> Yes
                         </label>
                     </div>
-                    <div id="occupation_div">
+                    <div id="occupation_div" class="d-none">
                         <hr>
                         <h5 class="font-weight-bold">Current Workplace Information and Address</h5>
                         <hr>
@@ -587,7 +587,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="specifyWorkNatureDiv">
+                        <div id="specifyWorkNatureDiv" class="d-none">
                             <div class="row">
                                 <div class="col-md-6">
                                 </div>
@@ -701,7 +701,7 @@
                             <input class="form-check-input ml-3" type="radio" name="hasoccupation" id="hasoccupation_no" value="0" {{(old('hasoccupation', $record->hasOccupation) == 0) ? 'checked' : ''}}> No
                         </label>
                     </div>
-                    <div id="occupation_div">
+                    <div id="occupation_div" class="d-none">
                         <hr>
                         <h5 class="font-weight-bold">Current Workplace Information and Address</h5>
                         <hr>
@@ -744,7 +744,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="specifyWorkNatureDiv">
+                        <div id="specifyWorkNatureDiv" class="d-none">
                             <div class="row">
                                 <div class="col-md-6">
                                 </div>
@@ -780,7 +780,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="occupationaddresstext">
+                        <div id="occupationaddresstext" class="d-none">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -917,35 +917,14 @@
 
         $(document).ready(function () {
             @if(!(auth()->user()->isBrgyAccount()) || auth()->user()->brgy->displayInList == 0)
-            $('#saddress_province').select2({
-                theme: "bootstrap",
-            });
-            $('#saddress_city').select2({
-                theme: "bootstrap",
-            });
-            $('#address_brgy').select2({
+            $('#saddress_province, #saddress_city, #address_brgy').select2({
                 theme: "bootstrap",
             });
             @endif
-            $('#natureOfWork').select2({
-                theme: "bootstrap",
-            });
-            $('#spermaaddress_province').select2({
-                theme: "bootstrap",
-            });
-            $('#spermaaddress_city').select2({
-                theme: "bootstrap",
-            });
-            $('#permaaddress_brgy').select2({
-                theme: "bootstrap",
-            });
-            $('#sharedOnId').select2({
+            $('#natureOfWork, #spermaaddress_province, #spermaaddress_city, #permaaddress_brgy, #sharedOnId').select2({
                 theme: "bootstrap",
             });
 
-            $('#addresstext').hide();
-            $('#permaaddresstext').hide();
-            $('#occupationaddresstext').hide();
             $('#saddress_city').prop('disabled', true);
             $('#address_brgy').prop('disabled', true);
             $('#spermaaddress_city').prop('disabled', true);
@@ -992,7 +971,6 @@
                 });
             });
 
-    
             $('#saddress_province').change(function (e) {
                 e.preventDefault();
                 $('#saddress_city').prop('disabled', false);
@@ -1223,20 +1201,10 @@
                 $("#occupation_city").val('{{$record->occupation_city}}');
 			    $('#occupation_cityjson').val('{{$record->occupation_cityjson}}');
             }
-    
-            $('#pdiv').hide();
-            $('#occupation_div').hide();
-            if($('#hasoccupation_yes').is(':checked')) {
-                $('#occupation_div').show();
-            }
-    
-            if($('#hasoccupation_no').is(':checked')) {
-                $('#occupation_div').hide();
-            }
             
             $('#addresscheck').change(function() {
                 if($("input[name='paddressdifferent']:checked").val() == 0) {
-                    $('#permaaddress_div').hide();
+                    $('#permaaddress_div').addClass('d-none');
     
                     $('#spermaaddress_province').prop('required', false);
                     $('#spermaaddress_city').prop('required', false);
@@ -1246,7 +1214,7 @@
                     $('#permamobile').prop('required', false);
                 }
                 else {
-                    $('#permaaddress_div').show();
+                    $('#permaaddress_div').removeClass('d-none');
     
                     $('#spermaaddress_province').prop('required', true);
                     $('#spermaaddress_city').prop('required', true);
@@ -1260,16 +1228,16 @@
             $('#gender').change(function (e) {
                 e.preventDefault();
                 if($('#gender').val() == 'FEMALE') {
-                    $('#pdiv').show();
+                    $('#pdiv').removeClass('d-none');
                 }
                 else {
-                    $('#pdiv').hide();
+                    $('#pdiv').addClass('d-none');
                 }
             }).trigger('change');
     
             $('input[type=radio][name=hasoccupation]').change(function() {
                 if(this.value == "0") {
-                    $('#occupation_div').hide();
+                    $('#occupation_div').addClass('d-none');
 
                     $('#occupation_name').prop('required', false);
                     $('#natureOfWork').prop('required', false);
@@ -1283,7 +1251,7 @@
                     $('#natureOfWork').prop('required', false);
                 }
                 else {
-                    $('#occupation_div').show();
+                    $('#occupation_div').removeClass('d-none');
 
                     $('#occupation_name').prop('required', false);
                     $('#natureOfWork').prop('required', true);
@@ -1301,11 +1269,11 @@
             $('#natureOfWork').change(function (e) { 
                 e.preventDefault();
                 if($(this).val() == 'OTHERS') {
-                    $('#specifyWorkNatureDiv').show();
+                    $('#specifyWorkNatureDiv').removeClass('d-none');
                     $('#natureOfWorkIfOthers').prop('required', true);
                 }
                 else {
-                    $('#specifyWorkNatureDiv').hide();
+                    $('#specifyWorkNatureDiv').addClass('d-none');
                     $('#natureOfWorkIfOthers').prop('required', false);
                 }
 		    }).trigger('change');
@@ -1315,9 +1283,9 @@
                 if($(this).val() == '') {
                     $('#vaccineName').prop('required', false);
 
-                    $('#ifVaccinated').hide();
-                    $('#ifFirstDoseVaccine').hide();
-                    $('#ifSecondDoseVaccine').hide();
+                    $('#ifVaccinated').addClass('d-none');
+                    $('#ifFirstDoseVaccine').addClass('d-none');
+                    $('#ifSecondDoseVaccine').addClass('d-none');
 
                     $('#vaccinationDate1').prop('required', false);
                     $('#haveAdverseEvents1').prop('required', false);
@@ -1327,9 +1295,9 @@
                 else if($(this).val() == '1') {
                     $('#vaccineName').prop('required', true);
 
-                    $('#ifVaccinated').show();
-                    $('#ifFirstDoseVaccine').show();
-                    $('#ifSecondDoseVaccine').hide();
+                    $('#ifVaccinated').removeClass('d-none');
+                    $('#ifFirstDoseVaccine').removeClass('d-none');
+                    $('#ifSecondDoseVaccine').addClass('d-none');
 
                     $('#vaccinationDate1').prop('required', true);
                     $('#haveAdverseEvents1').prop('required', true);
@@ -1339,9 +1307,9 @@
                 else if($(this).val() == '2') {
                     $('#vaccineName').prop('required', true);
 
-                    $('#ifVaccinated').show();
-                    $('#ifFirstDoseVaccine').show();
-                    $('#ifSecondDoseVaccine').show();
+                    $('#ifVaccinated').removeClass('d-none');
+                    $('#ifFirstDoseVaccine').removeClass('d-none');
+                    $('#ifSecondDoseVaccine').removeClass('d-none');
 
                     $('#vaccinationDate1').prop('required', true);
                     $('#haveAdverseEvents1').prop('required', true);
