@@ -232,7 +232,13 @@
                                             <label for="philhealth" id="label_ownphilhealth" class="d-none"><span class="text-danger font-weight-bold">*</span>Write your Philhealth Number</label>
                                             <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
                                             <small class="text-muted">(12 Numbers, No Dashes)</small>
-                                            <div><small id="parentBringMDR" class="d-none"><strong class="text-danger">Note:</strong> Kindly Bring a Hardcopy of Philhealth Member Data Record (MDR) of your Parent as your proof of dependent.</small></div>
+                                            <div id="parentBringMDR" class="d-none">
+                                                <hr>
+                                                <p><strong class="text-danger">NOTE:</strong> In order to process your swab test, you must <strong>1.)</strong> Bring a Hardcopy of Philhealth Member Data Record (MDR) of your Parent as proof of dependent, <strong>2.)</strong> Fill up the required details for your Philhealth Member Registration Form (PMRF) and <strong>3.)</strong> Authorization Letter signed by your Parents.</p>
+                                                <li><a href="{{asset('assets/docs/philhealth_pmrf.pdf')}}" target="_blank"><i class="fa fa-download mr-2" aria-hidden="true"></i>Download PMRF</a></li>
+                                                <li><a href="{{asset('assets/docs/philhealth_authletter.pdf')}}" target="_blank"><i class="fa fa-download mr-2" aria-hidden="true"></i>Download Authorization Letter</a></li>
+                                                <p>Please fill up <mark>ALL HIGHLIGHTED FIELDS</mark>. Please be guided accordingly.</p>
+                                            </div>
                                             @error('philhealth')
                                                 <small class="text-danger">{{$message}}</small>
                                             @enderror
