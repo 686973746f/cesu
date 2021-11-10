@@ -208,16 +208,48 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="philhealth">Philhealth Number <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
-                                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
-                                        <small class="text-muted">(12 Numbers, No Dashes)</small>
-                                        <small class="form-text text-muted">{{__('paswab.philhealth.notice')}}</i></small>
-                                        @error('philhealth')
-                                            <small class="text-danger">{{$message}}</small>
-                                        @enderror
+                                      <label for="havePhilhealth"><span class="text-danger font-weight-bold">*</span>Do you have Philhealth Account?</label>
+                                      <select class="form-control" name="havePhilhealth" id="havePhilhealth">
+                                        <option value="" disabled {{(is_null(old('havePhilhealth'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                        <option value="YES">{{__('paswab.select.ChooseYes')}}</option>
+                                        <option value="NO">{{__('paswab.select.ChooseNo')}}</option>
+                                      </select>
+                                      <small class="form-text text-muted">{{__('paswab.philhealth.notice')}}</i></small>
+                                    </div>
+                                    <div id="ask2" class="d-none">
+                                        <div class="form-group">
+                                          <label for="declaredDependent"><span class="text-danger font-weight-bold">*</span>Are you declared as dependent from your Parents Philhealth Number?</label>
+                                          <select class="form-control" name="declaredDependent" id="declaredDependent">
+                                            <option value="" disabled {{(is_null(old('declaredDependent'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                            <option value="YES">{{__('paswab.select.ChooseYes')}}</option>
+                                            <option value="NO">{{__('paswab.select.ChooseNo')}}</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div id="philhealthbox" class="d-none">
+                                        <div class="form-group">
+                                            <label for="parentphilhealth" id="label_parentphilhealth" class="d-none"><span class="text-danger font-weight-bold">*</span>Write the Philhealth Number of your Parent</label>
+                                            <label for="philhealth" id="label_ownphilhealth" class="d-none"><span class="text-danger font-weight-bold">*</span>Write your Philhealth Number</label>
+                                            <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
+                                            <small class="text-muted">(12 Numbers, No Dashes)</small>
+                                            <div><small id="parentBringMDR" class="d-none"><strong class="text-danger">Note:</strong> Kindly Bring a Hardcopy of Philhealth Member Data Record (MDR) of your Parent as your proof of dependent.</small></div>
+                                            @error('philhealth')
+                                                <small class="text-danger">{{$message}}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div id="nophilhealthbox" class="d-none">
+                                        <p><strong class="text-danger">NOTE:</strong> In order to process your swab test, please bring other requirements such as:</p>
+                                        <li>Birth Certificate</li>
+                                        <li>Valid ID of Parents <i>(IF Minor)</i></li>
+                                        <li>Valid Goverment Issued Primary ID <i>(SSS ID/UMID, Postal ID, PRC ID, Passport, Drivers License, NBI Clearance, Senior Citizen ID)</i></li>
+                                        <li>IF NO Valid ID, kindly request Certificate of Indigency to your Respective Barangay.</li>
+                                        <hr>
+                                        <p><span class="font-weight-bold text-danger">Barangay ID, TIN ID, School ID and Company ID are not accepted.</span> Please be guided accordingly.</p>
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -1793,6 +1825,52 @@
 
         $('#myForm').on('submit', function() {
             $('#expoitem1').prop('disabled', false);
+        });
+
+        $('#havePhilhealth').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'YES') {
+                $('#philhealthbox').removeClass('d-none');
+                $('#nophilhealthbox').addClass('d-none');
+                $('#ask2').addClass('d-none');
+                $('#label_parentphilhealth').addClass('d-none');
+                $('#label_ownphilhealth').removeClass('d-none');
+                $('#philhealth').prop('required', true);
+                $('#parentBringMDR').addClass('d-none');
+            }
+            else if($(this).val() == 'NO') {
+                $('#philhealthbox').addClass('d-none');
+                $('#ask2').removeClass('d-none');
+                $('#declaredDependent').val('');
+                $('#philhealth').prop('required', false);
+            }
+            else {
+                $('#philhealthbox').addClass('d-none');
+                $('#ask2').addClass('d-none');
+                $('#philhealth').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#declaredDependent').change(function (e) {
+            e.preventDefault();
+            if($(this).val() == 'YES') {
+                $('#philhealthbox').removeClass('d-none');
+                $('#label_parentphilhealth').removeClass('d-none');
+                $('#label_ownphilhealth').addClass('d-none');
+                $('#nophilhealthbox').addClass('d-none');
+                $('#philhealth').prop('required', true);
+                $('#parentBringMDR').removeClass('d-none');
+            }
+            else if($(this).val() == 'NO') {
+                $('#philhealthbox').addClass('d-none');
+                $('#nophilhealthbox').removeClass('d-none');
+                $('#philhealth').prop('required', false);
+            }
+            else {
+                $('#philhealthbox').addClass('d-none');
+                $('#nophilhealthbox').addClass('d-none');
+                $('#philhealth').prop('required', false);
+            }
         });
     </script>
     @else
