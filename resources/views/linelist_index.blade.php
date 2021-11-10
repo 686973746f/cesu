@@ -18,7 +18,7 @@
                             Override Mode <i>(Only check IF for processing late/reject records)</i>
                           </label>
                         </div>
-                        <div id="showOverride">
+                        <div id="showOverride" class="d-none">
                             <hr>
                             <div class="row">
                                 <div class="col-md-6">
@@ -149,10 +149,10 @@
     $('#isOverride').change(function (e) { 
         e.preventDefault();
         if($(this).prop('checked') == true) {
-            $('#showOverride').show();
+            $('#showOverride').removeClass('d-none');
         }
         else {
-            $('#showOverride').hide();
+            $('#showOverride').addClass('d-none');
         }
     }).trigger('change');
 </script>

@@ -23,16 +23,18 @@
             <table class="table table-bordered">
                 <thead class="text-center bg-light">
                     <tr>
-                        <th>Barangay</th>
+                        <th>#</th>
+                        <th>Barangay ({{number_format($lists->count())}})</th>
                         <th>Number of Users</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($lists as $list)
+                    @foreach($lists as $key => $list)
                     <tr>
-                        <td scope="row" style="vertical-align: middle;">{{$list->brgyName}}</td>
-                        <td class="text-center" style="vertical-align: middle;">{{$users->where('brgy_id', $list->id)->count()}}</td>
+                        <td class="text-center" style="vertical-align: middle;">{{$lists->firstItem() + $key}}</td>
+                        <td style="vertical-align: middle;">{{$list->brgyName}}</td>
+                        <td class="text-center" style="vertical-align: middle;">{{number_format($users->where('brgy_id', $list->id)->count())}}</td>
                         <td class="text-center">
                             @if($users->where('brgy_id', $list->id)->count())
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_{{$list->id}}"><i class="fa fa-eye mr-2" aria-hidden="true"></i>View</button>
@@ -44,6 +46,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="pagination justify-content-center mt-3">
+                {{$lists->appends(request()->input())->links()}}
+            </div>
         </div>
     </div>
 </div>
