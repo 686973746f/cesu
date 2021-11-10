@@ -1849,11 +1849,13 @@
                 $('#ask2').removeClass('d-none');
                 $('#declaredDependent').val('');
                 $('#philhealth').prop('required', false);
+                $('#philhealth').val('');
             }
             else {
                 $('#philhealthbox').addClass('d-none');
                 $('#ask2').addClass('d-none');
                 $('#philhealth').prop('required', false);
+                $('#philhealth').val('');
             }
         }).trigger('change');
 
@@ -1871,11 +1873,13 @@
                 $('#philhealthbox').addClass('d-none');
                 $('#nophilhealthbox').removeClass('d-none');
                 $('#philhealth').prop('required', false);
+                $('#philhealth').val('');
             }
             else {
                 $('#philhealthbox').addClass('d-none');
                 $('#nophilhealthbox').addClass('d-none');
                 $('#philhealth').prop('required', false);
+                $('#philhealth').val('');
             }
         });
     </script>
