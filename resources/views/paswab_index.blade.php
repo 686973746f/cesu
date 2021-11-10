@@ -149,7 +149,7 @@
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
                                     </div>
-                                    <div id="ifGenderFemale">
+                                    <div id="ifGenderFemale" class="d-none">
                                         <div class="form-group">
                                             <label for="isPregnant"><span class="text-danger font-weight-bold">*</span>{{__('paswab.isPregnant')}}</label>
                                             <select class="form-control" name="isPregnant" id="isPregnant">
@@ -158,7 +158,7 @@
                                                 <option value="1" {{(old('isPregnant') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
                                             </select>
                                         </div>
-                                        <div id="ifPregnant">
+                                        <div id="ifPregnant" class="d-none">
                                             <div class="form-group">
                                               <label for="lmp"><span class="text-danger font-weight-bold">*</span>{{__('paswab.lmp')}}</label>
                                               <input type="date" class="form-control" name="lmp" id="lmp" value="{{old('lmp')}}" max="{{date('Y-m-d', strtotime('yesterday'))}}">
@@ -429,7 +429,7 @@
                                     <option value="0" {{(old('haveOccupation') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                 </select>
                             </div>
-                            <div id="occupationRow">
+                            <div id="occupationRow" class="d-none">
                                 <div class="alert alert-info" role="alert">
                                     <strong class="text-danger">Notice:</strong> starting October 06, 2021. <strong>Name of Company/Workplace and Complete Company/Workplace Address are now required fields to be filled up.</strong> This is to comply with the requirements of the Molecular Laboratory.
                                 </div>
@@ -478,7 +478,7 @@
                                               <small class="text-danger">{{$message}}</small>
                                               @enderror
                                         </div>
-                                        <div id="specifyWorkNatureDiv">
+                                        <div id="specifyWorkNatureDiv" class="d-none">
                                             <div class="form-group">
                                                 <label for="natureOfWorkIfOthers"><span class="text-danger font-weight-bold">*</span>{{__('paswab.specify')}}</label>
                                                 <input type="text" class="form-control" name="natureOfWorkIfOthers" id="natureOfWorkIfOthers" value="{{old('natureOfWorkIfOthers')}}" style="text-transform: uppercase;">
@@ -616,13 +616,13 @@
                                 <option value="0" {{(old('vaccineq1') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                               </select>
                             </div>
-                            <div id="ifVaccinated">
+                            <div id="ifVaccinated" class="d-none">
                                 <div class="form-group">
                                   <label for="howManyDose"><span class="text-danger font-weight-bold">*</span>{{__('paswab.howManyDose')}}</label>
                                   <select class="form-control" name="howManyDose" id="howManyDose">
                                     <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
-                                    <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose</option>
-                                    <option value="2" id="2ndDoseOption" {{(old('howManyDose') == '2') ? 'selected' : ''}}>2nd Dose</option>
+                                    <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose Only</option>
+                                    <option value="2" id="2ndDoseOption" {{(old('howManyDose') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
                                   </select>
                                 </div>
                                 <div class="form-group">
@@ -640,7 +640,7 @@
                                     <option value="SINOVAC CORONAVAC" {{(old('nameOfVaccine') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
                                   </select>
                                 </div>
-                                <div id="VaccineDose1">
+                                <div id="VaccineDose1" class="d-none">
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -673,7 +673,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div id="VaccineDose2">
+                                    <div id="VaccineDose2" class="d-none">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -720,7 +720,7 @@
                                 <option value="0" {{(old('haveSymptoms') == '0') ? 'selected' : ''}}>Hindi / No</option>
                               </select>
                             </div>
-                            <div id="ifHaveSymptoms">
+                            <div id="ifHaveSymptoms" class="d-none">
                                 <div class="form-group">
                                     <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold">*</span>{{__('paswab.dateOnsetOfIllness')}}</label>
                                     <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" min="1999-01-01" max="{{date('Y-m-d')}}">
@@ -741,7 +741,7 @@
                                                     />
                                                     <label class="form-check-label" for="signsCheck2">Lagnat / Fever</label>
                                                 </div>
-                                                <div id="divFeverChecked">
+                                                <div id="divFeverChecked" class="d-none">
                                                     <div class="form-group mt-2">
                                                       <label for="SASFeverDeg"><span class="text-danger font-weight-bold">*</span>Degrees (in Celcius)</label>
                                                       <input type="number" class="form-control" name="SASFeverDeg" id="SASFeverDeg" min="1" max="90" step=".1" value="{{old('SASFeverDeg')}}">
@@ -925,7 +925,7 @@
                                                     />
                                                     <label class="form-check-label" for="signsCheck18">Iba pa / Others</label>
                                                 </div>
-                                                <div id="divSASOtherChecked">
+                                                <div id="divSASOtherChecked" class="d-none">
                                                     <div class="form-group mt-2">
                                                       <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Tukuyin / Specify Findings</label>
                                                       <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks')}}">
@@ -1064,7 +1064,7 @@
                                                 />
                                                 <label class="form-check-label" for="comCheck10">Iba pa / Others</label>
                                             </div>
-                                            <div id="divComOthersChecked">
+                                            <div id="divComOthersChecked" class="d-none">
                                                 <div class="form-group mt-2">
                                                   <label for="COMOOtherRemarks"><span class="text-danger font-weight-bold">*</span>Tukuyin / Specify Findings</label>
                                                   <input type="text" class="form-control" name="COMOOtherRemarks" id="COMOOtherRemarks" value="{{old('COMOOtherRemarks')}}">
@@ -1109,7 +1109,7 @@
                                 <div class="col-md-8">
                                 </div>
                                 <div class="col-md-4">
-                                    <div id="divImagingOthers">
+                                    <div id="divImagingOthers" class="d-none">
                                         <div class="form-group">
                                           <label for="imagingOtherFindings"><span class="text-danger font-weight-bold">*</span>Tukuyin / Specify findings</label>
                                           <input type="text" class="form-control" name="imagingOtherFindings" id="imagingOtherFindings" value="{{old('imagingOtherFindings')}}">
@@ -1131,7 +1131,7 @@
                                     <option value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Hindi sigurado / Unknown</option>
                                 </select>
                             </div>
-                            <div id="divExpoitem1">
+                            <div id="divExpoitem1" class="d-none">
                                 <div class="form-group">
                                     <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose / Date of Exposure</label>
                                     <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
@@ -1536,7 +1536,7 @@
         $('#haveOccupation').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '1') {
-                $('#occupationRow').show();
+                $('#occupationRow').removeClass('d-none');
                 $('#occupation').prop('required', true);
                 $('#occupation_name').prop('required', true);
                 $('#natureOfWork').prop('required', true);
@@ -1548,7 +1548,7 @@
                 $('#occupation_street').prop('required', true);
             }
             else {
-                $('#occupationRow').hide();
+                $('#occupationRow').addClass('d-none');
                 $('#occupation').prop('required', false);
                 $('#occupation_name').prop('required', false);
                 $('#natureOfWork').prop('required', false);
@@ -1564,11 +1564,11 @@
         $('#gender').change(function (e) { 
             e.preventDefault();
             if($(this).val() == "MALE" || $(this).val() == null) {
-                $('#ifGenderFemale').hide();
+                $('#ifGenderFemale').addClass('d-none');
                 $('#isPregnant').prop('required', false);
             }
             else {
-                $('#ifGenderFemale').show();
+                $('#ifGenderFemale').removeClass('d-none');
                 $('#isPregnant').prop('required', true);
             }
         }).trigger('change');
@@ -1576,11 +1576,11 @@
         $('#isPregnant').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '0' || $(this).val() == null) {
-                $('#ifPregnant').hide();
+                $('#ifPregnant').addClass('d-none');
                 $('#lmp').prop('required', false);
             }
             else {
-                $('#ifPregnant').show();
+                $('#ifPregnant').removeClass('d-none');
                 $('#lmp').prop('required', true);
             }
         }).trigger('change');
@@ -1588,11 +1588,11 @@
         $('#natureOfWork').change(function (e) { 
 			e.preventDefault();
 			if($(this).val() == 'OTHERS') {
-				$('#specifyWorkNatureDiv').show();
+				$('#specifyWorkNatureDiv').removeClass('d-none');
 				$('#natureOfWorkIfOthers').prop('required', true);
 			}
 			else {
-				$('#specifyWorkNatureDiv').hide();
+				$('#specifyWorkNatureDiv').addClass('d-none');
 				$('#natureOfWorkIfOthers').prop('required', false);
 			}
 		}).trigger('change');
@@ -1600,11 +1600,11 @@
         $('#expoitem1').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 1) {
-                $('#divExpoitem1').show();
+                $('#divExpoitem1').removeClass('d-none');
                 $('#expoDateLastCont').prop('required', true);
             }
             else {
-                $('#divExpoitem1').hide();
+                $('#divExpoitem1').addClass('d-none');
                 $('#expoDateLastCont').prop('required', false);
             }
         }).trigger('change');
@@ -1612,11 +1612,11 @@
         $('#signsCheck2').change(function (e) { 
             e.preventDefault();
             if($(this).prop('checked') == true) {
-                $('#divFeverChecked').show();
+                $('#divFeverChecked').removeClass('d-none');
                 $('#SASFeverDeg').prop('required', true);
             }
             else {
-                $('#divFeverChecked').hide();
+                $('#divFeverChecked').addClass('d-none');
                 $('#SASFeverDeg').prop('required', false);
             }
         }).trigger('change');
@@ -1624,11 +1624,11 @@
         $('#signsCheck18').change(function (e) { 
             e.preventDefault();
             if($(this).prop('checked') == true) {
-                $('#divSASOtherChecked').show();
+                $('#divSASOtherChecked').removeClass('d-none');
                 $('#SASOtherRemarks').prop('required', true);
             }
             else {
-                $('#divSASOtherChecked').hide();
+                $('#divSASOtherChecked').addClass('d-none');
                 $('#SASOtherRemarks').prop('required', false);
             }
         }).trigger('change');
@@ -1636,11 +1636,11 @@
         $('#haveSymptoms').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '0' || $(this).val() == null) {
-                $('#ifHaveSymptoms').hide();
+                $('#ifHaveSymptoms').removeClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', false);
             }
             else {
-                $('#ifHaveSymptoms').show();
+                $('#ifHaveSymptoms').addClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', true);
             }
         }).trigger('change');
@@ -1648,11 +1648,11 @@
         $('#comCheck10').change(function (e) { 
             e.preventDefault();
             if($(this).prop('checked') == true) {
-                $('#divComOthersChecked').show();
+                $('#divComOthersChecked').removeClass('d-none');
                 $('#COMOOtherRemarks').prop('required', true);
             }
             else {
-                $('#divComOthersChecked').hide();
+                $('#divComOthersChecked').addClass('d-none');
                 $('#COMOOtherRemarks').prop('required', false);
             }
         }).trigger('change');
@@ -1689,7 +1689,7 @@
 
         $('#imagingDone').change(function (e) { 
             e.preventDefault();
-            $('#divImagingOthers').hide();
+            $('#divImagingOthers').addClass('d-none');
             $('#imagingOtherFindings').val("");
             if($(this).val() == "None") {
                 $('#imagingDoneDate').prop({disabled: true, required: false});
@@ -1703,7 +1703,7 @@
                 $("#imagingResult").append(new Option("Normal", "NORMAL"));
                 $("#imagingResult").append(new Option("Pending", "PENDING"));
 
-                $('#divImagingOthers').hide();
+                $('#divImagingOthers').addClass('d-none');
 
                 if($(this).val() == "Chest Radiography") {
                     $("#imagingResult").append(new Option("Hazy opacities, often rounded in morphology, with peripheral and lower lung dist.", "HAZY"));
@@ -1725,11 +1725,11 @@
             e.preventDefault();
             $('#imagingOtherFindings').val("");
             if($(this).val() == "OTHERS") {
-                $('#divImagingOthers').show();
+                $('#divImagingOthers').removeClass('d-none');
                 $('imagingOtherFindings').prop({disabled: false, required: true});
             }
             else {
-                $('#divImagingOthers').hide();
+                $('#divImagingOthers').addClass('d-none');
                 $('imagingOtherFindings').prop({disabled: true, required: false});
             }
         }).trigger('change');
@@ -1779,12 +1779,12 @@
         $('#vaccineq1').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '1') {
-                $('#ifVaccinated').show();
+                $('#ifVaccinated').removeClass('d-none');
                 $('#howManyDose').prop('required', true);
                 $('#nameOfVaccine').prop('required', true);
             }
             else {
-                $('#ifVaccinated').hide();
+                $('#ifVaccinated').addClass('d-none');
                 $('#howManyDose').prop('required', false);
                 $('#nameOfVaccine').prop('required', false);
             }
@@ -1793,24 +1793,24 @@
         $('#howManyDose').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '1') {
-                $('#VaccineDose1').show();
-                $('#VaccineDose2').hide();
+                $('#VaccineDose1').removeClass('d-none');
+                $('#VaccineDose2').addClass('d-none');
                 $('#vaccinationDate1').prop('required', true);
                 $('#haveAdverseEvents1').prop('required', true);
                 $('#vaccinationDate2').prop('required', false);
                 $('#haveAdverseEvents2').prop('required', false);
             }
             else if($(this).val() == '2') {
-                $('#VaccineDose1').show();
-                $('#VaccineDose2').show();
+                $('#VaccineDose1').removeClass('d-none');
+                $('#VaccineDose2').removeClass('d-none');
                 $('#vaccinationDate1').prop('required', true);
                 $('#haveAdverseEvents1').prop('required', true);
                 $('#vaccinationDate2').prop('required', true);
                 $('#haveAdverseEvents2').prop('required', true);
             }
             else {
-                $('#VaccineDose1').hide();
-                $('#VaccineDose2').hide();
+                $('#VaccineDose1').addClass('d-none');
+                $('#VaccineDose2').addClass('d-none');
                 $('#vaccinationDate1').prop('required', false);
                 $('#haveAdverseEvents1').prop('required', false);
                 $('#vaccinationDate2').prop('required', false);
@@ -1818,7 +1818,7 @@
             }
         }).trigger('change');
 
-        $('#vaccineName').change(function (e) { 
+        $('#nameOfVaccine').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'JANSSEN') {
                 $('#howManyDose').val(1).trigger('change');
