@@ -319,7 +319,7 @@
     <script>
         $(document).ready(function () {
             $('.table').DataTable({
-                dom: 'fBrtip',
+                dom: 'fQBrtip',
                 buttons: [
                     'excel', 'pdf', 'print'
                 ]
