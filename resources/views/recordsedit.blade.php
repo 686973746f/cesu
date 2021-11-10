@@ -538,11 +538,13 @@
                     </div>
                     <hr>
                     @if(auth()->user()->isCompanyAccount())
-                    <div class="form-check form-check-inline">
-                        <label for="" class="mr-3 mt-1">Patient has Occupation?</label>
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="hasoccupation" id="hasoccupation_yes" value="1" checked> Yes
-                        </label>
+                    <div id="hasOccSelect">
+                        <div class="form-check form-check-inline">
+                            <label for="" class="mr-3 mt-1">Patient has Occupation?</label>
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="hasoccupation" id="hasoccupation" value="1" checked> Yes
+                            </label>
+                        </div>
                     </div>
                     <div id="occupation_div" class="d-none">
                         <hr>
@@ -692,14 +694,16 @@
                         </div>
                     </div>
                     @else
-                    <div class="form-check form-check-inline">
-                        <label for="" class="mr-3 mt-1">Patient has Occupation?</label>
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="hasoccupation" id="hasoccupation_yes" value="1" {{(old('hasoccupation', $record->hasOccupation) == 1) ? 'checked' : ''}}> Yes
-                        </label>
-                        <label class="form-check-label">
-                            <input class="form-check-input ml-3" type="radio" name="hasoccupation" id="hasoccupation_no" value="0" {{(old('hasoccupation', $record->hasOccupation) == 0) ? 'checked' : ''}}> No
-                        </label>
+                    <div id="hasOccSelect">
+                        <div class="form-check form-check-inline">
+                            <label for="" class="mr-3 mt-1">Patient has Occupation?</label>
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="hasoccupation" id="hasoccupation" value="1" {{(old('hasoccupation', $record->hasOccupation) == 1) ? 'checked' : ''}}> Yes
+                            </label>
+                            <label class="form-check-label">
+                                <input class="form-check-input ml-3" type="radio" name="hasoccupation" id="hasoccupation" value="0" {{(old('hasoccupation', $record->hasOccupation) == 0) ? 'checked' : ''}}> No
+                            </label>
+                        </div>
                     </div>
                     <div id="occupation_div" class="d-none">
                         <hr>
@@ -1201,13 +1205,6 @@
                 $("#occupation_city").val('{{$record->occupation_city}}');
 			    $('#occupation_cityjson').val('{{$record->occupation_cityjson}}');
             }
-
-            if($('#hasoccupation_yes').is(':checked')) {
-                $('#occupation_div').show();
-            }
-            if($('#hasoccupation_no').is(':checked')) {
-                $('#occupation_div').hide();
-            }
             
             $('#addresscheck').change(function() {
                 if($("input[name='paddressdifferent']:checked").val() == 0) {
@@ -1241,9 +1238,9 @@
                     $('#pdiv').addClass('d-none');
                 }
             }).trigger('change');
-    
-            $('input[type=radio][name=hasoccupation]').change(function() {
-                if(this.value == "0") {
+
+            $('#hasOccSelect').change(function () { 
+                if($("input[name='hasoccupation']:checked").val() == 0) {
                     $('#occupation_div').addClass('d-none');
 
                     $('#occupation_name').prop('required', false);
@@ -1271,7 +1268,7 @@
                     $('#worksInClosedSetting').prop('required', true);
                     $('#natureOfWork').prop('required', true);
                 }
-		    }).trigger('change');
+            }).trigger('change');
 
             $('#natureOfWork').change(function (e) { 
                 e.preventDefault();
