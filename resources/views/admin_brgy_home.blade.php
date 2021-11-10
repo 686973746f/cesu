@@ -20,11 +20,29 @@
             </div>
         </div>
         <div class="card-body">
+            <form action="{{route('adminpanel.brgy.index')}}" method="GET">
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search Barangay / ID" required>
+                            <div class="input-group-append">
+                              <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            @if(request()->input('q'))
+            <div class="alert alert-info" role="alert">
+                <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>The search returned {{$lists->count()}} {{Str::plural('result', $lists->count())}}.
+            </div>
+            @endif
             <table class="table table-bordered">
                 <thead class="text-center bg-light">
                     <tr>
                         <th>#</th>
-                        <th>Barangay ({{number_format($lists->count())}})</th>
+                        <th>Barangay</th>
                         <th>Number of Users</th>
                         <th>Action</th>
                     </tr>

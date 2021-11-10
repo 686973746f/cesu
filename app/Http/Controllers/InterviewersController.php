@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brgy;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\InterviewerValidationRequest;
 
 class InterviewersController extends Controller
@@ -16,7 +17,18 @@ class InterviewersController extends Controller
      */
     public function index()
     { 
-        $list = Interviewers::orderBy('lname', 'asc')->get();
+        if(request()->input('q')) {
+            $search = request()->input('q');
+
+            $list = Interviewers::where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',$search)."%")
+            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',$search)."%")
+            ->orWhere('id', request()->input('q'))
+            ->paginate(10);
+        }
+        else {
+            $list = Interviewers::orderBy('lname', 'asc')
+            ->paginate(10);
+        }
 
         return view('interviewers_home', ['list' => $list]);
     }
@@ -28,7 +40,9 @@ class InterviewersController extends Controller
      */
     public function create()
     {
-        $list = Brgy::orderBy('brgyName', 'asc')->get();
+        $list = Brgy::where('displayInList', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
         return view('interviewers_create', ['list' => $list]);
     }
 

@@ -245,7 +245,7 @@ class FormsController extends Controller
     public function ajaxList(Request $request) {
         $list = [];
 
-        if($request->has('q') && strlen($request->input('q')) != 0) {
+        if($request->has('q') && strlen($request->input('q')) > 1) {
             $search = mb_strtoupper($request->q);
 
             if(auth()->user()->isCesuAccount()) {

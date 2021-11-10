@@ -15,14 +15,21 @@ class AdminPanelController extends Controller
     }
 
     public function brgyIndex() {
-        $lists = Brgy::orderBy('brgyName', 'asc')->paginate(10);
+        if(request()->input('q')) {
+            $search = request()->input('q');
+
+            $lists = Brgy::where('brgyName', 'LIKE', '%'.$search.'%')->orWhere('id', $search)->paginate(10);
+        }
+        else {
+            $lists = Brgy::orderBy('brgyName', 'asc')->paginate(10);
+        }
+        
         $users = User::whereNotNull('brgy_id');
         return view('admin_brgy_home', ['lists' => $lists, 'users' => $users]);
     }
 
     public function accountIndex() {
-
-        $lists = User::whereIn('isAdmin', [1,2])->orderBy('isAdmin', 'asc')->get();
+        $lists = User::whereIn('isAdmin', [1,2])->orderBy('isAdmin', 'asc')->paginate(10);
 
         return view('admin_accounts_home', ['lists' => $lists]);
     }

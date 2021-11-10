@@ -10,10 +10,18 @@ use IlluminateAgnostic\Collection\Support\Str;
 class PaSwabLinksController extends Controller
 {
     public function index() {
+        if(request()->input('q')) {
+            $search = request()->input('q');
+
+            $data = PaSwabLinks::where('code', 'LIKE', '%'.$search.'%')
+            ->orWhere('id', $search)
+            ->paginate(10);
+        }
+        else {
+            $data = PaSwabLinks::orderBy('created_at', 'desc')->paginate(10);
+        }
+        
         $interviewers = Interviewers::orderBy('lname', 'asc')->get();
-
-        $data = PaSwabLinks::orderBy('created_at', 'desc')->paginate(10);
-
         return view('paswablinks_index', ['data' => $data, 'interviewers' => $interviewers]);
     }
 

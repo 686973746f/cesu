@@ -75,7 +75,7 @@ class LineListController extends Controller
     public function ajaxLineList(Request $request) {
         $list = [];
 
-        if($request->has('q') && strlen($request->input('q')) != 0) {
+        if($request->has('q') && strlen($request->input('q')) > 1) {
             $search = $request->q;
             
             if($request->isOverride == 1) {

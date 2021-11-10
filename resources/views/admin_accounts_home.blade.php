@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div class="font-weight-bold">Admin Accounts</div>
+                    <div class="font-weight-bold">Admin Accounts ({{number_format($lists->total())}})</div>
                     <div>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createadmin">Add Admin Account</button>
                     </div>
@@ -20,6 +20,7 @@
                 <table class="table table-bordered">
                     <thead class="text-center bg-light">
                         <tr>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Type</th>
@@ -30,9 +31,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($lists as $list)
+                        @foreach($lists as $key => $list)
                             <tr>
-                                <td scope="row" style="vertical-align: middle;">{{$list->name}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$lists->firstItem() + $key}}</td>
+                                <td style="vertical-align: middle;">{{$list->name}}</td>
                                 <td style="vertical-align: middle;">{{$list->email}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{($list->isAdmin == 1) ? 'Admin' : 'Encoder'}}</td>
                                 <td class="text-center {{($list->enabled == 1) ? 'text-success' : 'text-danger'}} font-weight-bold" style="vertical-align: middle;">{{($list->enabled == 1) ? 'Enabled': 'Disabled'}}</td>
@@ -62,6 +64,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="pagination justify-content-center mt-3">
+                    {{$lists->appends(request()->input())->links()}}
+                </div>
             </div>
         </div>
     </div>
