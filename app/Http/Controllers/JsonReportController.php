@@ -16,6 +16,7 @@ class JsonReportController extends Controller
     }
 
     public function totalCases() {
+        sleep(10);
         $arr = [];
 
         $totalActiveCases = Forms::with('records')
@@ -686,7 +687,6 @@ class JsonReportController extends Controller
     }
 
     public function facilityCount() {
-        sleep(10);
         $arr = [];
 
         array_push($arr, [
