@@ -686,6 +686,7 @@ class JsonReportController extends Controller
     }
 
     public function facilityCount() {
+        sleep(10);
         $arr = [];
 
         array_push($arr, [
@@ -1082,6 +1083,7 @@ class JsonReportController extends Controller
     }
 
     public function activeVaccineList() {
+        sleep(10);
         $arr = collect();
 
         $group = Records::select('vaccinationName1')->distinct('vaccinationName1')->get();
