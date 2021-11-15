@@ -730,6 +730,7 @@ class JsonReportController extends Controller
     }
 
     public function brgyCases() {
+        sleep(10);
         $brgyArray = collect();
 
         $brgyList = Brgy::where('displayInList', 1)
