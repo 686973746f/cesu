@@ -560,6 +560,7 @@ class JsonReportController extends Controller
 
     public function currentYearCasesDist() {
         ini_set('max_execution_time', 600);
+        sleep(10);
         
         $arr = [];
 
