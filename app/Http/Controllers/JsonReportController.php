@@ -16,6 +16,7 @@ class JsonReportController extends Controller
     }
 
     public function totalCases() {
+        sleep(10);
         $arr = [];
 
         $totalActiveCases = Forms::with('records')
@@ -560,11 +561,12 @@ class JsonReportController extends Controller
 
     public function currentYearCasesDist() {
         ini_set('max_execution_time', 600);
+        sleep(10);
         
         $arr = [];
 
-        $period = CarbonPeriod::create(date('Y-01-01'), date('Y-m-d')); 
-        
+        //$period = CarbonPeriod::create(date('Y-01-01'), date('Y-m-d')) WHOLE YEAR; 
+        $period = CarbonPeriod::create(date('Y-m-d', strtotime('-6 Months')), date('Y-m-d')); //6 MONTHS
         foreach($period as $date) {
             $dailyCasesCount = Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -729,6 +731,7 @@ class JsonReportController extends Controller
     }
 
     public function brgyCases() {
+        sleep(10);
         $brgyArray = collect();
 
         $brgyList = Brgy::where('displayInList', 1)
@@ -1080,6 +1083,7 @@ class JsonReportController extends Controller
     }
 
     public function activeVaccineList() {
+        sleep(10);
         $arr = collect();
 
         $group = Records::select('vaccinationName1')->distinct('vaccinationName1')->get();
