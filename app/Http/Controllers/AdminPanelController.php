@@ -26,8 +26,8 @@ class AdminPanelController extends Controller
 
         $allBrgy = Brgy::orderBy('brgyName', 'asc')->get();
         $users = User::whereNotNull('brgy_id');
-        
-        return view('admin_brgy_home', ['lists' => $lists, 'users' => $users]);
+
+        return view('admin_brgy_home', ['lists' => $lists, 'users' => $users, 'allBrgy' => $allBrgy]);
     }
 
     public function accountIndex() {
