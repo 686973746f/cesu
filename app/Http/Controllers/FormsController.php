@@ -1823,7 +1823,7 @@ class FormsController extends Controller
         
         $recentcif = Forms::where('records_id', $record->id)->orderBy('created_at', 'DESC')->first();
 
-        if($recentcif->outcomeCondition == 'Recovered') {
+        if($recentcif->outcomeCondition == 'Recovered' || $recentcif->caseClassification == 'Non-COVID-19 Case') {
             $interviewers = Interviewers::where('enabled', 1)->orderBy('lname', 'asc')->get();
                 
             $countries = new Countries();
