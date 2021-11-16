@@ -1820,7 +1820,6 @@ class FormsController extends Controller
 
     public function reswab($id) {
         $record = Records::findOrFail($id);
-        
         $recentcif = Forms::where('records_id', $record->id)->orderBy('created_at', 'DESC')->first();
 
         if($recentcif->outcomeCondition == 'Recovered' || $recentcif->caseClassification == 'Non-COVID-19 Case') {

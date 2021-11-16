@@ -14,12 +14,17 @@
         @if($records->ifCaseFinished() && $records->ifOldCif() == false)
             <div class="alert alert-info" role="alert">
                 <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
-                <p>This CIF of Patient was already marked as <u><strong>{{$records->outcomeCondition}}</strong></u>.</p>
-                <p>Therefore, only an admin can edit the details of this particular CIF.</p>
-                @if($records->outcomeCondition == 'Recovered' || $records->caseClassification == 'Non-COVID-19 Case')
+                @if($records->outcomeCondition == 'Recovered')
+                <p>This CIF of Patient was already marked as <u><strong>RECOVERED</strong></u>.</p>
+                <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>REINFECTION</strong>, check the [Case of Re-infection] Checkbox below and UPDATE the Data.</p>
-                <p>If <strong>RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
+                <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
+                @elseif($records->caseClassification == 'Non-COVID-19 Case')
+                <p>This CIF of Patient was already marked as <u><strong>NEGATIVE RESULT</strong></u></p>
+                <p>Only an admin can update the details of this record to preserve the details of the case.</p>
+                <hr>
+                <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 @endif
             </div>
         @endif
