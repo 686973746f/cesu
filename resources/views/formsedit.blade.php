@@ -16,7 +16,7 @@
                 <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
                 <p>This CIF of Patient was already marked as <u><strong>{{$records->outcomeCondition}}</strong></u>.</p>
                 <p>Therefore, only an admin can edit the details of this particular CIF.</p>
-                @if($records->outcomeCondition == 'Recovered')
+                @if($records->outcomeCondition == 'Recovered' || $records->caseClassification == 'Non-COVID-19 Case')
                 <hr>
                 <p>If <strong>REINFECTION</strong>, check the [Case of Re-infection] Checkbox below and UPDATE the Data.</p>
                 <p>If <strong>RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
