@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container">
-        @if($records->outcomeCondition == 'Recovered' && $records->ifOldCif() == false)
+        @if($records->outcomeCondition == 'Recovered' && $records->ifOldCif() == false || $records->caseClassification == 'Non-COVID-19 Case' && $records->ifOldCif() == false)
             <form action="{{route('forms.reswab', ['id' => $records->records->id])}}" method="POST">
                 @csrf
                 <div class="text-right">
