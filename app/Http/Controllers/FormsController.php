@@ -1821,6 +1821,12 @@ class FormsController extends Controller
     public function reswab($id) {
         $record = Records::findOrFail($id);
         $recentcif = Forms::where('records_id', $record->id)->orderBy('created_at', 'DESC')->first();
+        
+        if(!$recentcif) {
+            return redirect()->route('forms.index')
+            ->with('status', 'You are not allowed to do that.')
+            ->with('statustype', 'warning');
+        }
 
         if($recentcif->outcomeCondition == 'Recovered' || $recentcif->caseClassification == 'Non-COVID-19 Case') {
             $interviewers = Interviewers::where('enabled', 1)->orderBy('lname', 'asc')->get();
@@ -1832,7 +1838,9 @@ class FormsController extends Controller
             return view('formscreate', ['countries' => $all, 'records' => $record, 'interviewers' => $interviewers, 'id' => $id]);
         }
         else {
-            return 'Not allowed';
+            return redirect()->route('forms.index')
+            ->with('status', 'You are not allowed to do that.')
+            ->with('statustype', 'warning');
         }
     }
 
