@@ -133,7 +133,7 @@ class Forms extends Model
     }
 
     public function ifCaseFinished() {
-        if($this->outcomeCondition == 'Recovered' || $this->outcomeCondition == 'Died') {
+        if($this->outcomeCondition == 'Recovered' || $this->outcomeCondition == 'Died' || $this->caseClassification == 'Non-COVID-19 Case') {
             return true;
         }
         else {
