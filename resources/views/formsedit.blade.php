@@ -18,8 +18,7 @@
                 <p>This CIF of Patient was already marked as <u><strong>RECOVERED</strong></u>.</p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
-                <p>If <strong>REINFECTION</strong>, check the [Case of Re-infection] Checkbox below and UPDATE the Data.</p>
-                <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
+                <p>If <strong>FOR RESWAB OR REINFECTION</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 @elseif($records->caseClassification == 'Non-COVID-19 Case')
                 <p>This CIF of Patient was already marked as <u><strong>NEGATIVE RESULT</strong></u></p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
@@ -2450,36 +2449,12 @@
                         </span>
                         @endif
                     @else
-                        @if($records->outcomeCondition == 'Active')
-                            @if(auth()->user()->isCesuAccount())
-                            <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                            @else
-                                @if($records->caseClassification == 'Confirmed')
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Confirmed Cases can only be updated by CESU Admin.">
-                                    <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                                </span>
-                                @else
-                                <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                                @endif
-                            @endif
+                        @if($records->ifEligibleToUpdate())
+                        <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                         @else
-                            @if($records->outcomeCondition == 'Recovered')
-                                @if(auth()->user()->isCesuAccount())
-                                <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                                @else
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Recovered Cases can only be updated by CESU Admin.">
-                                    <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                                </span>
-                                @endif
-                            @else
-                                @if(auth()->user()->ifTopAdmin())
-                                <button type="submit" class="btn btn-primary" id="formsubmit" onclick="return confirm('Warning: You are updating details of a Dead Patient. Please check the details before proceeding. After checking, Click OK to proceed.')"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                                @else
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Death cases can only be updated by the admin.">
-                                    <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
-                                </span>
-                                @endif
-                            @endif
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cannot Update this CIF of Patient. This CIF was already finished.">
+                            <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                        </span>
                         @endif
                     @endif
                 </div>

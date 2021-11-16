@@ -141,6 +141,30 @@ class Forms extends Model
         }
     }
 
+    public function ifEligibleToUpdate() {
+        if($this->ifCaseFinished()) {
+            if(auth()->user()->ifTopAdmin()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            if($this->caseClassification == 'Confirmed') {
+                if(auth()->user()->ifTopAdmin()) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return true;
+            }
+        }
+    }
+
     public function ifInFacilityOne() {
         if($this->status == 'approved' && $this->caseClassification == 'Confirmed' && $this->outcomeCondition == 'Active' && $this->dispoType == 6) {
             return true;
