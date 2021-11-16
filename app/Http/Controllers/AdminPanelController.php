@@ -23,8 +23,10 @@ class AdminPanelController extends Controller
         else {
             $lists = Brgy::orderBy('brgyName', 'asc')->paginate(10);
         }
-        
+
+        $allBrgy = Brgy::orderBy('brgyName', 'asc')->get();
         $users = User::whereNotNull('brgy_id');
+        
         return view('admin_brgy_home', ['lists' => $lists, 'users' => $users]);
     }
 

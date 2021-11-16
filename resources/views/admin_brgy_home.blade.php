@@ -153,7 +153,7 @@
                       <label for="brgyId">Add User in Barangay</label>
                       <select class="form-control" name="brgyId" id="brgyId" required>
                           <option value="" disabled selected>Choose...</option>
-                          @foreach($lists as $list)
+                          @foreach($allBrgy as $list)
                             <option value="{{$list->id}}">{{$list->brgyName}}</option>
                           @endforeach
                       </select>
