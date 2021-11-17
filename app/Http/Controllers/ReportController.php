@@ -1597,6 +1597,8 @@ class ReportController extends Controller
     }
 
     public function dohExportAll() {
+        ini_set('max_execution_time', 900);
+
         if(auth()->user()->isCesuAccount()) {
             function suspectedGenerator() {
                 foreach (Forms::with('records')
