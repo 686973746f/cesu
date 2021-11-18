@@ -1596,9 +1596,10 @@ class ReportController extends Controller
         return redirect()->action([ReportController::class, 'index'])->with('status', 'All patients who were absent for today were moved in SUSPECTED Case.')->with('statustype', 'success');
     }
 
-    public function dohExportAll() {
+    public function dohExportAll(Request $request) {
         ini_set('max_execution_time', 900);
-
+        $year = $request->yearSelected;
+        
         if(auth()->user()->isCesuAccount()) {
             function suspectedGenerator() {
                 foreach (Forms::with('records')

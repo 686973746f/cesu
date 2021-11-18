@@ -27,8 +27,20 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{route('report.DOHExportAll')}}"><button type="button" name="" id="generateExcel" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)</button></a>
-                    <div class="text-center"><small class="text-muted" id="downloadNotice">Note: Downloading might take a while to finish. Please be patient.</small></div>
+                    <form action="{{route('report.DOHExportAll')}}" method="POST">
+                        <div class="form-group">
+                            <label for="yearSelected">Select Year to Export</label>
+                            <select class="form-control" name="yearSelected" id="yearSelected">
+                                @foreach(range(date('Y'), 2019) as $y)
+                                <option value="{{$y}}">{{$y}}</option>
+                                @endforeach
+                                <option value="">All</option>
+                            </select>
+                          </div>
+                          <button type="submit" id="generateExcel" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)</button>
+                          <hr>
+                          <div class="text-center"><small class="text-muted" id="downloadNotice">Note: Downloading might take a while to finish. Please be patient.</small></div>
+                    </form>
                     @if(auth()->user()->ifTopAdmin())
                     <a href="{{route('report.dilgExportAll')}}"><button type="button" name="" id="" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>DILG</button></a>
                     @endif
