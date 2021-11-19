@@ -1636,11 +1636,11 @@
         $('#haveSymptoms').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '0' || $(this).val() == null) {
-                $('#ifHaveSymptoms').removeClass('d-none');
+                $('#ifHaveSymptoms').addClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', false);
             }
             else {
-                $('#ifHaveSymptoms').addClass('d-none');
+                $('#ifHaveSymptoms').removeClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', true);
             }
         }).trigger('change');
