@@ -28,6 +28,7 @@
                 </div>
                 <div class="col-md-6">
                     <form action="{{route('report.DOHExportAll')}}" method="POST">
+                        @csrf
                         <div class="form-group">
                             <label for="yearSelected">Select Year to Export</label>
                             <select class="form-control" name="yearSelected" id="yearSelected">
@@ -281,7 +282,6 @@
     });
 
     $('#generateExcel').click(function (e) { 
-        $(this).prop('disabled', true);
         $('#downloadNotice').show();
     });
 </script>

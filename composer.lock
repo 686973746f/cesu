@@ -4335,16 +4335,16 @@
         },
         {
             "name": "rap2hpoutre/fast-excel",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rap2hpoutre/fast-excel.git",
-                "reference": "9f04153ace6d92305a0a4c237b3efb474a37495c"
+                "reference": "01e309600b2ead458ce0d4399c70746677b08cca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rap2hpoutre/fast-excel/zipball/9f04153ace6d92305a0a4c237b3efb474a37495c",
-                "reference": "9f04153ace6d92305a0a4c237b3efb474a37495c",
+                "url": "https://api.github.com/repos/rap2hpoutre/fast-excel/zipball/01e309600b2ead458ce0d4399c70746677b08cca",
+                "reference": "01e309600b2ead458ce0d4399c70746677b08cca",
                 "shasum": ""
             },
             "require": {
@@ -4392,9 +4392,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rap2hpoutre/fast-excel/issues",
-                "source": "https://github.com/rap2hpoutre/fast-excel/tree/v3.0.1"
+                "source": "https://github.com/rap2hpoutre/fast-excel/tree/v3.1.0"
             },
-            "time": "2021-09-29T08:37:55+00:00"
+            "time": "2021-10-13T20:12:19+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",

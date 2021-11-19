@@ -1599,159 +1599,129 @@ class ReportController extends Controller
     public function dohExportAll(Request $request) {
         ini_set('max_execution_time', 900);
         $year = $request->yearSelected;
-        
+
+        $suspectedQuery = Forms::with('records')
+        ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
+        ->where('caseClassification', 'Suspect')
+        ->where('outcomeCondition', 'Active')
+        ->where(function ($q) {
+            $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+            ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+        });
+
+        $probableQuery = Forms::with('records')
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Probable')
+        ->where('outcomeCondition', 'Active')
+        ->where(function ($q) {
+            $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+            ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+        });
+
+        $confirmedQuery = Forms::with('records')
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
+        $negativeQuery = Forms::with('records')
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Non-COVID-19 Case')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
         if(auth()->user()->isCesuAccount()) {
-            function suspectedGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
-                ->where(function ($q) {
-                    $q->where('isPresentOnSwabDay', 0)
-                    ->orwhereNull('isPresentOnSwabDay');
-                })
-                ->where('caseClassification', 'Suspect')
-                ->where('outcomeCondition', 'Active')
-                ->where(function ($q) {
-                    $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
-                    ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
-                })
-                ->orderby('morbidityMonth', 'asc')
-                ->cursor() as $user) {
-                    yield $user;
-                }
-            }
-    
-            function probableGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Probable')
-                ->where('outcomeCondition', 'Active')
-                ->where(function ($q) {
-                    $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
-                    ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
-                })
-                ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
-                    yield $user;
-                }
-            }
-    
-            function confirmedGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Confirmed')
-                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
-                ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
-                    yield $user;
-                }
-            }
-    
-            function negativeGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Non-COVID-19 Case')
-                ->where('outcomeCondition', 'Active')
-                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
-                ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
-                    yield $user;
-                }
-            }
+            $suspectedQuery = $suspectedQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            });
+
+            $probableQuery = $probableQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            });
+
+            $confirmedQuery = $confirmedQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            });
+
+            $negativeQuery = $negativeQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            });
         }
         else if(auth()->user()->isBrgyAccount()) {
-            function suspectedGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('status', 'approved')
-                ->where(function ($q) {
-                    $q->where('isPresentOnSwabDay', 0)
-                    ->orwhereNull('isPresentOnSwabDay');
-                })
-                ->where('caseClassification', 'Suspect')
-                ->where('outcomeCondition', 'Active')
-                ->where(function ($q) {
-                    $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
-                    ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
-                })
-                ->orderby('morbidityMonth', 'asc')
-                ->cursor() as $user) {
-                    yield $user;
-                }
-            }
-    
-            function probableGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Probable')
-                ->where('outcomeCondition', 'Active')
-                ->where(function ($q) {
-                    $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
-                    ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
-                })
-                ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
-                    yield $user;
-                }
-            }
-    
-            function confirmedGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Confirmed')
-                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
-                ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
-                    yield $user;
-                }
-            }
-    
-            function negativeGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Non-COVID-19 Case')
-                ->where('outcomeCondition', 'Active')
-                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
-                ->orderby('morbidityMonth', 'asc')->cursor() as $user) {
-                    yield $user;
-                }
+            $suspectedQuery = $suspectedQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+            });
+
+            $probableQuery = $probableQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+            });
+
+            $confirmedQuery = $confirmedQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+            });
+
+            $negativeQuery = $negativeQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+            });
+        }
+
+        if($year) {
+            $suspectedQuery = $suspectedQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
+            $probableQuery = $probableQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
+            $confirmedQuery = $confirmedQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
+            $negativeQuery = $negativeQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
+        }
+        else {
+            $suspectedQuery = $suspectedQuery->orderby('morbidityMonth', 'asc');
+            $probableQuery = $probableQuery->orderby('morbidityMonth', 'asc');
+            $confirmedQuery = $confirmedQuery->orderby('morbidityMonth', 'asc');
+            $negativeQuery = $negativeQuery->orderby('morbidityMonth', 'asc');
+        }
+        
+        function suspectedGenerator($suspectedQuery) {
+            foreach ($suspectedQuery->cursor() as $user) {
+                yield $user;
             }
         }
 
+        function probableGenerator($probableQuery) {
+            foreach ($probableQuery->cursor() as $user) {
+                yield $user;
+            }
+        }
+
+        function confirmedGenerator($confirmedQuery) {
+            foreach ($confirmedQuery->cursor() as $user) {
+                yield $user;
+            }
+        }
+
+        function negativeGenerator($negativeQuery) {
+            foreach ($negativeQuery->cursor() as $user) {
+                yield $user;
+            }
+        }
+        
         $sheets = new SheetCollection([
-            'Suspected' => suspectedGenerator(),
-            'Probable' => probableGenerator(),
-            'Confirmed' => confirmedGenerator(),
-            'Negative' => negativeGenerator(),
+            'Suspected' => suspectedGenerator($suspectedQuery),
+            'Probable' => probableGenerator($probableQuery),
+            'Confirmed' => confirmedGenerator($confirmedQuery),
+            'Negative' => negativeGenerator($negativeQuery),
         ]);
 
         $header_style = (new StyleBuilder())->setFontBold()->build();
