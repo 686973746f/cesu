@@ -1607,20 +1607,24 @@ class ReportController extends Controller
             ->orwhereNull('isPresentOnSwabDay');
         })
         ->where('caseClassification', 'Suspect')
-        ->where('outcomeCondition', 'Active')
-        ->where(function ($q) {
-            $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
-            ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
-        });
+        ->where('outcomeCondition', 'Active');
 
         $probableQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where('caseClassification', 'Probable')
-        ->where('outcomeCondition', 'Active')
-        ->where(function ($q) {
-            $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
-            ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
-        });
+        ->where('outcomeCondition', 'Active');
+
+        if($year && $year == date('Y')) {
+            $suspectedQuery = $suspectedQuery->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            });
+
+            $probableQuery = $probableQuery->where(function ($q) {
+                $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+                ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
+            });
+        }
 
         $confirmedQuery = Forms::with('records')
         ->where('status', 'approved')
@@ -1685,12 +1689,21 @@ class ReportController extends Controller
             $probableQuery = $probableQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
             $confirmedQuery = $confirmedQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
             $negativeQuery = $negativeQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
+
+            if($year == date('Y')) {
+                $fName = 'GENTRI_COVID19_DATABASE_'.date('Y_m_d').'.xlsx';
+            }
+            else {
+                $fName = 'GENTRI_COVID19_DATABASE_'.$year.'.xlsx';
+            }
         }
         else {
             $suspectedQuery = $suspectedQuery->orderby('morbidityMonth', 'asc');
             $probableQuery = $probableQuery->orderby('morbidityMonth', 'asc');
             $confirmedQuery = $confirmedQuery->orderby('morbidityMonth', 'asc');
             $negativeQuery = $negativeQuery->orderby('morbidityMonth', 'asc');
+
+            $fName = 'GENTRI_COVID19_DATABASE_'.date('Y_m_d').'.xlsx';
         }
         
         function suspectedGenerator($suspectedQuery) {
@@ -1730,7 +1743,7 @@ class ReportController extends Controller
         return (new FastExcel($sheets))
         ->headerStyle($header_style)
         ->rowsStyle($rows_style)
-        ->download('GENTRI_COVID19_DATABASE_'.date('Ymd').'.xlsx', function ($form) {
+        ->download($fName, function ($form) {
             $arr_sas = explode(",", $form->SAS);
             $arr_othersas = explode(",", $form->SASOtherRemarks);
             $arr_como = explode(",", $form->COMO);

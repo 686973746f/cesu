@@ -284,5 +284,12 @@
         document.getElementById('reportForm').submit();
         $('#generateExcel').prop('disabled', true);
     });
+
+    $('#yearSelected').change(function (e) { 
+        e.preventDefault();
+        $('#generateExcel').prop('disabled', false);
+        $('#downloadDohLoading').addClass('d-none');
+        $('#downloadNotice').addClass('d-none');
+    });
 </script>
 @endsection
