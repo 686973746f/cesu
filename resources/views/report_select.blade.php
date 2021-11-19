@@ -14,20 +14,20 @@
             </div>
             @endif
             @if(auth()->user()->isBrgyAccount())
-            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2" id="displayListLoading"></i></a>
-            <div id="displayListNotice" class="text-center">
+            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="displayListLoading"></i></a>
+            <div id="displayListNotice" class="text-center d-none">
                 <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
             </div>
             @else
             <div class="row">
                 <div class="col-md-6">
-                    <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block mb-2" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2" id="displayListLoading"></i></a>
-                    <div id="displayListNotice" class="text-center">
+                    <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block mb-2" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="displayListLoading"></i></a>
+                    <div id="displayListNotice" class="text-center d-none">
                         <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form action="{{route('report.DOHExportAll')}}" method="POST">
+                    <form action="{{route('report.DOHExportAll')}}" method="POST" id="reportForm">
                         @csrf
                         <div class="form-group">
                             <label for="yearSelected">Select Year to Export</label>
@@ -37,11 +37,11 @@
                                 @endforeach
                                 <option value="">All</option>
                             </select>
-                          </div>
-                          <button type="submit" id="generateExcel" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)</button>
-                          <hr>
-                          <div class="text-center"><small class="text-muted" id="downloadNotice">Note: Downloading might take a while to finish. Please be patient.</small></div>
+                        </div>
+                        <button type="button" id="generateExcel" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="downloadDohLoading"></i></button>
+                        <div class="text-center d-none" id="downloadNotice"><small class="text-muted">Note: Downloading might take a while to finish. Please be patient.</small></div>
                     </form>
+                    <hr>
                     @if(auth()->user()->ifTopAdmin())
                     <a href="{{route('report.dilgExportAll')}}"><button type="button" name="" id="" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>DILG</button></a>
                     @endif
@@ -271,18 +271,18 @@
     </div>
 </div>
 <script>
-    $('#displayListNotice').hide();
-    $('#displayListLoading').hide();
-    $('#downloadNotice').hide();
-
     $('#displayList').click(function (e) { 
         $(this).addClass('disabled');
-        $('#displayListNotice').show();
-        $('#displayListLoading').show();
+        $('#displayListNotice').removeClass('d-none');
+        $('#displayListLoading').removeClass('d-none');
     });
 
     $('#generateExcel').click(function (e) { 
-        $('#downloadNotice').show();
+        e.preventDefault();
+        $('#downloadDohLoading').removeClass('d-none');
+        $('#downloadNotice').removeClass('d-none');
+        document.getElementById('reportForm').submit();
+        $('#generateExcel').prop('disabled', true);
     });
 </script>
 @endsection
