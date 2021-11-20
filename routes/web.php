@@ -126,9 +126,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/linelist/lasalle/create', [LineListController::class, 'lasalleStore'])->name('linelist.lasalle.store');
 
     Route::get('/linelist/ajaxList', [LineListController::class, 'ajaxLineList'])->name('linelist.ajax');
-
-    Route::get('/linelist/oni/print/{id}', [LineListController::class, 'printoni'])->name('linelist.oni.print');
-    Route::get('/linelist/lasalle/print/{id}', [LineListController::class, 'printlasalle'])->name('linelist.lasalle.print');
+    Route::get('/linelist/{link}/print/{id}', [LineListController::class, 'print'])->name('linelist.print');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/daily', [ReportController::class, 'viewDaily'])->name('report.daily');

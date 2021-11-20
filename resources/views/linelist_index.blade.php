@@ -130,7 +130,7 @@
                             <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->oniSpecType)) ? 'ONI' : 'LASALLE'}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->created_at))}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->dateAndTimeCollected))}}</td>
-                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->linelist_masters_id}}?s=a4"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></td>
+                            <td class="text-center" style="vertical-align: middle;"><a class="btn btn-primary" href="{{route('linelist.print', ['link' => $link, 'id' => $item->id])}}?s=a4"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</a></td>
                         </tr>
                         @endforeach
                     </tbody>
