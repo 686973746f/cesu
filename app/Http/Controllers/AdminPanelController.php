@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brgy;
+use App\Models\City;
 use App\Models\User;
+use App\Models\BrgyCodes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
@@ -28,6 +30,51 @@ class AdminPanelController extends Controller
         $users = User::whereNotNull('brgy_id');
 
         return view('admin_brgy_home', ['lists' => $lists, 'users' => $users, 'allBrgy' => $allBrgy]);
+    }
+
+    public function brgyView($id) {
+        $data = Brgy::findOrFail($id);
+
+        $city_list = City::all();
+        $account_list = User::where('brgy_id', $data->id)->get();
+
+        return view('admin_brgy_view_single', ['data' => $data, 'city_list' => $city_list, 'account_list' => $account_list]);
+    }
+
+    public function brgyViewCode() {
+        $data = BrgyCodes::orderBy('created_at', 'DESC')->paginate(10);
+
+        return view('admin_brgy_view_code', ['data' => $data]);
+    }
+
+    public function brgyViewUser($brgy_id, $user_id) {
+
+    }
+
+    public function brgyUpdate($id, Request $request) {
+        $data = Brgy::findOrFail($id);
+
+        $request->validate([
+            'brgyName' => 'required',
+            'displayInList' => 'required',
+            'city_id' => 'required',
+            'estimatedPopulation' => 'nullable|numeric',
+            'dilgCustCode' => 'nullable',
+        ]);
+
+        $data->brgyName = mb_strtoupper($request->brgyName);
+        $data->displayInList = $request->displayInList;
+        $data->city_id = $request->city_id;
+        $data->estimatedPopulation = $request->estimatedPopulation;
+        $data->dilgCustCode = $request->dilgCustCode;
+
+        if($data->isDirty()) {
+            $data->save();   
+        }
+
+        return redirect()->route('adminpanel.brgy.index')
+        ->with('msg', 'Barangay Data has been updated successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function accountIndex() {
@@ -147,15 +194,17 @@ class AdminPanelController extends Controller
         return redirect()->action([AdminPanelController::class, 'brgyIndex'])->with('status', 'Barangay Data has been created successfully.')->with('statustype', 'success');
     }
 
-    public function brgyCodeStore(Request $request) {
-
+    public function brgyCodeStore($brgy_id, Request $request) {
+        $data = Brgy::findOrFail($brgy_id);
         $bCode = strtoupper(Str::random(6));
 
         $request->user()->brgyCode()->create([
-            'brgy_id' => $request->brgyId,
-            'bCode' => $bCode
+            'brgy_id' => $data->id,
+            'bCode' => $bCode,
         ]);
         
-        return redirect()->action([AdminPanelController::class, 'brgyIndex'])->with('process', 'createCode')->with('bCode', $bCode);
+        return redirect()->route('adminpanel.brgy.view', ['id' => $data->id])
+        ->with('process', 'createCode')
+        ->with('bCode', $bCode);
     }
 }

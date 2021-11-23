@@ -7,7 +7,8 @@
                 <div class="d-flex justify-content-between">
                     <div class="font-weight-bold">Admin Accounts ({{number_format($lists->total())}})</div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createadmin">Add Admin Account</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createadmin"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Admin Account</button>
+                        <a href="{{route('adminpanel.brgy.view.code')}}" class="btn btn-primary">View Referral Codes</a>
                     </div>
                 </div>
             </div>
