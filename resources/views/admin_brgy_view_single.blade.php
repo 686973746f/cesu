@@ -77,7 +77,7 @@
                         <td scope="row" class="text-center">{{$loop->iteration}}</td>
                         <td>{{$account->name}}</td>
                         <td>{{$account->email}}</td>
-                        <td><a href="" class="btn btn-primary btn-small"><i class="fas fa-file-alt mr-2"></i>Details</a></td>
+                        <td><a href="{{route('adminpanel.brgy.view.user', ['brgy_id' => $data->id, 'user_id' => $account->id])}}" class="btn btn-primary btn-small"><i class="fas fa-file-alt mr-2"></i>Details</a></td>
                     </tr>
                     @endforeach
                 </tbody>

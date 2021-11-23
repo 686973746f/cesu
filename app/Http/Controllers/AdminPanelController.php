@@ -6,6 +6,7 @@ use App\Models\Brgy;
 use App\Models\City;
 use App\Models\User;
 use App\Models\BrgyCodes;
+use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
@@ -48,7 +49,55 @@ class AdminPanelController extends Controller
     }
 
     public function brgyViewUser($brgy_id, $user_id) {
+        $brgy = Brgy::findOrFail($brgy_id);
+        $user = User::findOrFail($user_id);
 
+        $interviewers = Interviewers::all();
+
+        if($user->brgy_id == $brgy->id) {
+            return view('admin_brgy_view_user', ['brgy' => $brgy, 'user' => $user, 'interviewers' => $interviewers]);
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function brgyUpdateUser($brgy_id, $user_id, Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'enabled' => 'required|in:0,1',
+            'interviewer_id' => 'nullable',
+            'canAccessLinelist' => 'required|in:0,1',
+            'canByPassValidation' => 'required|in:0,1',
+            'isValidator' => 'required|in:0,1',
+            'isPositiveEncoder' => 'required|in:0,1',
+        ]);
+
+        $brgy = Brgy::findOrFail($brgy_id);
+        $user = User::findOrFail($user_id);
+
+        if($user->brgy_id == $brgy->id) {
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->enabled = $request->enabled;
+            $user->interviewer_id = $request->interviewer_id;
+            $user->canAccessLinelist = $request->canAccessLinelist;
+            $user->canByPassValidation = $request->canByPassValidation;
+            $user->isValidator = $request->isValidator;
+            $user->isPositiveEncoder = $request->isPositiveEncoder;
+
+            if($user->isDirty()) {
+                $user->save();
+            }
+
+            return redirect()->route('adminpanel.brgy.view.user', ['brgy_id' => $brgy->id, 'user_id' => $user->id])
+            ->with('msg', 'User information has been updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function brgyUpdate($id, Request $request) {
