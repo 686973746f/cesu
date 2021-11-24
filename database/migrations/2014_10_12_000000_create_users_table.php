@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('interviewer_id')->nullable()->constrained()->onDelete('cascade');
             $table->tinyInteger('canAccessLinelist')->default(0);
             $table->tinyInteger('canByPassValidation')->default(0);
+            $table->tinyInteger('canByPassCutoff')->default(0);
             $table->tinyInteger('isValidator')->default(0);
             $table->tinyInteger('isPositiveEncoder')->default(0);
             $table->string('name');

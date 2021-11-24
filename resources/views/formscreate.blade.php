@@ -1386,7 +1386,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
-                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}" required>
+                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1412,13 +1412,14 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
-                                                <select class="form-control" name="testType1" id="testType1" required>
-                                                  <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                  <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                  <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                  <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
-                                                  <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                  <option value="OTHERS" {{(old('testType1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                                <select class="form-control" name="testType1" id="testType1">
+                                                    <option value="" {{(is_null(old('testType1'))) ? 'selected' : ''}}>N/A</option>
+                                                    <option value="OPS" {{(old('testType1') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                    <option value="NPS" {{(old('testType1') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                    <option value="OPS AND NPS" {{(old('testType1') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                    <option value="ANTIGEN" {{(old('testType1') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                    <option value="ANTIBODY" {{(old('testType1') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="OTHERS" {{(old('testType1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                                 </select>
                                             </div>
                                             <div id="divTypeOthers1">

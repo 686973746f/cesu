@@ -1595,7 +1595,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
-                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1', $records->testDateCollected1)}}" required>
+                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1', $records->testDateCollected1)}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1621,7 +1621,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
-                                                <select class="form-control" name="testType1" id="testType1" required>
+                                                <select class="form-control" name="testType1" id="testType1">
+                                                    <option value="" {{(is_null(old('testType1', $records->testType1))) ? 'selected' : ''}}>N/A</option>
                                                     <option value="OPS" {{(old('testType1', $records->testType1) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
                                                     <option value="NPS" {{(old('testType1', $records->testType1) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
                                                     <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>

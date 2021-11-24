@@ -771,6 +771,25 @@ class FormsController extends Controller
 
         $request->validated();
 
+        if(!is_null($request->testDateCollected2) || !is_null($request->testDateCollected1)) {
+            if($request->testDateCollected1 == date('Y-m-d') || $request->testDateCollected2 == date('Y-m-d')) {
+                $sameDateEncode = true;
+            }
+            else {
+                $sameDateEncode = false;
+            }
+        }
+        else {
+            $sameDateEncode = false;
+        }
+
+        if(auth()->user()->isBrgyAccount() && auth()->user()->canByPassCutoff == 0 && time() >= strtotime('09:00') && $sameDateEncode) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Warning: Cannot Encode the CIF Scheduled for Swab Today. Cut-off time reached (9AM Onwards) Daily.')
+            ->with('msgType', 'warning');
+        }
+
         if(!is_null($rec->philhealth)) {
             if($request->filled('oniTimeCollected1')) {
                 $oniTimeFinal = $request->oniTimeCollected1;

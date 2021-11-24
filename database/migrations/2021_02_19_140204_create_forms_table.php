@@ -116,15 +116,15 @@ class CreateFormsTable extends Migration
             $table->string('testedPositiveLab')->nullable();
             $table->mediumInteger('testedPositiveNumOfSwab');
 
-            $table->date('testDateCollected1');
+            $table->date('testDateCollected1')->nullable();
             $table->date('testDateReleased1')->nullable();
             $table->time('oniTimeCollected1')->nullable();
             $table->string('testLaboratory1')->nullable();
-            $table->string('testType1');
+            $table->string('testType1')->nullable();
             $table->string('testTypeAntigenRemarks1')->nullable();
             $table->string('antigenKit1')->nullable();
             $table->string('testTypeOtherRemarks1')->nullable();
-            $table->string('testResult1');
+            $table->string('testResult1')->nullable();
             $table->string('testResultOtherRemarks1')->nullable();
 
             $table->date('testDateCollected2')->nullable();

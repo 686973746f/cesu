@@ -120,11 +120,11 @@ class FormValidationRequest extends FormRequest
             'testedPositiveLab' => ($this->testedPositiveUsingRTPCRBefore == "1") ? 'required' : 'nullable',
             'testedPositiveSpecCollectedDate' => ($this->testedPositiveUsingRTPCRBefore == "1") ? 'required|date' : 'nullable|date',
 
-            'testDateCollected1' => 'required|date',
+            'testDateCollected1' => 'nullable|date',
             'oniTimeCollected1' => 'nullable',
             'testDateReleased1' => 'nullable|date',
             'testLaboratory1' => 'nullable',
-            'testType1' => 'required',
+            'testType1' => 'nullable',
             'testTypeOtherRemarks1' => ($this->testType1 == "OTHERS") ? 'required' : 'nullable',
             'antigenKit1' => ($this->testType1 == "ANTIGEN") ? 'required' : 'nullable',
             'testResult1' => 'required',
