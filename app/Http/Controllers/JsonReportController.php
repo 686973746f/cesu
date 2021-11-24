@@ -16,6 +16,7 @@ class JsonReportController extends Controller
     }
 
     public function totalCases() {
+        sleep(20);
         $arr = [];
 
         $totalActiveCases = Forms::with('records')
