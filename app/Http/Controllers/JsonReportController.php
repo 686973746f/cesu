@@ -16,7 +16,6 @@ class JsonReportController extends Controller
     }
 
     public function totalCases() {
-        sleep(10);
         $arr = [];
 
         $totalActiveCases = Forms::with('records')
@@ -561,7 +560,7 @@ class JsonReportController extends Controller
 
     public function currentYearCasesDist() {
         ini_set('max_execution_time', 600);
-        sleep(30); //try to make this 20 next time
+        sleep(40); //try to make this 20 next time
         
         $arr = [];
 
@@ -687,6 +686,7 @@ class JsonReportController extends Controller
     }
 
     public function facilityCount() {
+        sleep(10);
         $arr = [];
 
         array_push($arr, [
@@ -731,7 +731,7 @@ class JsonReportController extends Controller
     }
 
     public function brgyCases() {
-        sleep(10);
+        sleep(20);
         $brgyArray = collect();
 
         $brgyList = Brgy::where('displayInList', 1)
@@ -848,6 +848,7 @@ class JsonReportController extends Controller
     }
 
     public function genderBreakdown() {
+        sleep(10);
         $arr = [];
 
         $male = Forms::with('records')
