@@ -245,15 +245,29 @@ class AdminPanelController extends Controller
 
     public function brgyCodeStore($brgy_id, Request $request) {
         $data = Brgy::findOrFail($brgy_id);
-        $bCode = strtoupper(Str::random(6));
 
-        $request->user()->brgyCode()->create([
-            'brgy_id' => $data->id,
-            'bCode' => $bCode,
+        $request->validate([
+            'pw' => 'required',
         ]);
-        
-        return redirect()->route('adminpanel.brgy.view', ['id' => $data->id])
-        ->with('process', 'createCode')
-        ->with('bCode', $bCode);
+
+        $hashedPassword = User::find(auth()->user()->id)->password;
+
+        if (Hash::check($request->pw, $hashedPassword)) {
+            $bCode = strtoupper(Str::random(6));
+
+            $request->user()->brgyCode()->create([
+                'brgy_id' => $data->id,
+                'bCode' => $bCode,
+            ]);
+            
+            return redirect()->route('adminpanel.brgy.view', ['id' => $data->id])
+            ->with('process', 'createCode')
+            ->with('bCode', $bCode);
+        }
+        else {
+            return redirect()->route('adminpanel.brgy.view', ['id' => $data->id])
+            ->with('msg', 'Password is incorrect. Please try again.')
+            ->with('msgtype', 'danger');
+        }
     }
 }
