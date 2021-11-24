@@ -687,7 +687,6 @@ class JsonReportController extends Controller
     }
 
     public function facilityCount() {
-        sleep(10);
         $arr = [];
 
         array_push($arr, [
@@ -849,7 +848,6 @@ class JsonReportController extends Controller
     }
 
     public function genderBreakdown() {
-        sleep(10);
         $arr = [];
 
         $male = Forms::with('records')
@@ -976,6 +974,7 @@ class JsonReportController extends Controller
     }
 
     public function ageDistribution() {
+        sleep(10);
         $arr = collect();
 
         //Fetch Current Active Cases Only
