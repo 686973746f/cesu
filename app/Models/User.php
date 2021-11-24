@@ -174,4 +174,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function paSwabLink() {
         return $this->hasMany(PaSwabLinks::class);
     }
+
+    public function getAccountType() {
+        if($this->isAdmin == 1) {
+            return 'admin';
+        }
+        else if($this->isAdmin == 2) {
+            return 'encoder';
+        }
+    }
 }

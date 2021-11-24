@@ -1586,16 +1586,6 @@ class ReportController extends Controller
         return (new SitReportExport)->download('invoices.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function makeAllSuspected() {
-        $query = Forms::where(function($query) {
-            $query->where('testDateCollected1', date('Y-m-d'))
-            ->orWhere('testDateCollected2', date('Y-m-d'));
-        })->where('isPresentOnSwabDay', 0)
-        ->update(['caseClassification' => 'Suspect']);
-
-        return redirect()->action([ReportController::class, 'index'])->with('status', 'All patients who were absent for today were moved in SUSPECTED Case.')->with('statustype', 'success');
-    }
-
     public function dohExportAll(Request $request) {
         ini_set('max_execution_time', 900);
         $year = $request->yearSelected;

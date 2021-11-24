@@ -14,7 +14,7 @@
             <div class="d-flex justify-content-between">
                 <div class="font-weight-bold">Barangay Accounts</div>
                 <div>
-                    <a href="{{route('adminpanel.brgy.view.code')}}" class="btn btn-primary">View Referral Codes</a>
+                    <a href="{{route('adminpanel.code.view')}}" class="btn btn-primary">View Referral Codes</a>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addBrgyModal"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Barangay</button>
                 </div>
             </div>

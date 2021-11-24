@@ -169,38 +169,43 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()
 {
+    //Admin Page
     Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
+
+    //Barangay
     Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
     Route::get('/admin/brgy/view/{id}', [AdminPanelController::class, 'brgyView'])->name('adminpanel.brgy.view');
+    Route::post('/admin/brgy/view/{id}', [AdminPanelController::class, 'brgyUpdate'])->name('adminpanel.brgy.update');
     Route::get('/admin/brgy/view/{brgy_id}/user/{user_id}', [AdminPanelController::class, 'brgyViewUser'])->name('adminpanel.brgy.view.user');
     Route::post('/admin/brgy/view/{brgy_id}/user/{user_id}', [AdminPanelController::class, 'brgyUpdateUser'])->name('adminpanel.brgy.update.user');
-    Route::post('/admin/brgy/view/{id}', [AdminPanelController::class, 'brgyUpdate'])->name('adminpanel.brgy.update');
-    Route::get('/admin/brgy/code/', [AdminPanelController::class, 'brgyViewCode'])->name('adminpanel.brgy.view.code');
+
+    //Referral Code
+    Route::get('/admin/referral_code/', [AdminPanelController::class, 'referralCodeView'])->name('adminpanel.code.view');
     Route::post('/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
     Route::post('/admin/brgy/create/code/{brgy_id}/', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
-    
-    Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
-    Route::get('/admin/accounts/view/{id}', [AdminPanelController::class, 'viewAccount'])->name('adminpanel.account.view');
-    Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
 
+    //Admin Accounts
+    Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
+    Route::get('/admin/accounts/view/{id}', [AdminPanelController::class, 'accountView'])->name('adminpanel.account.view');
+    Route::post('/admin/accounts/view/{id}', [AdminPanelController::class, 'accountUpdate'])->name('adminpanel.account.update');
+    Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
     Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('adminpanel.account.options');
 
+    //Interviewers
     Route::post('/admin/interviewers/options/{id}', [InterviewersController::class, 'options'])->name('adminpanel.interviewers.options');
     Route::resource('/admin/interviewers', InterviewersController::class);
 
-    Route::post('/report', [ReportController::class, 'makeAllSuspected'])->name('report.makeAllSuspected');
-
+    //Companies
     Route::resource('/companies', CompaniesController::class);
     Route::post('/companies/code/create', [CompaniesController::class, 'makeCode'])->name('companies.makecode');
 
+    //Paswablinks
     Route::get('/admin/paswablinks', [PaSwabLinksController::class, 'index'])->name('paswablinks.index');
     Route::post('/admin/paswablinks', [PaSwabLinksController::class, 'store'])->name('paswablinks.store');
     Route::post('/admin/paswablinks/{id}/options', [PaSwabLinksController::class, 'linkInit']);
-
-    Route::get('/viewphp', [HomeController::class, 'viewphp']);
 });
 
-//Reports
+//JSON Reports
 Route::get('/json/brgy', [JsonReportController::class, 'brgyCases']);
 Route::get('/json/totalCases', [JsonReportController::class, 'totalCases']);
 Route::get('/json/genderBreakdown', [JsonReportController::class, 'genderBreakdown']);

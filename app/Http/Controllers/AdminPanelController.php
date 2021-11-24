@@ -42,7 +42,7 @@ class AdminPanelController extends Controller
         return view('admin_brgy_view_single', ['data' => $data, 'city_list' => $city_list, 'account_list' => $account_list]);
     }
 
-    public function brgyViewCode() {
+    public function referralCodeView() {
         $data = BrgyCodes::orderBy('created_at', 'DESC')->paginate(10);
 
         return view('admin_brgy_view_code', ['data' => $data]);
@@ -130,6 +130,16 @@ class AdminPanelController extends Controller
         $lists = User::whereIn('isAdmin', [1,2])->orderBy('isAdmin', 'asc')->paginate(10);
 
         return view('admin_accounts_home', ['lists' => $lists]);
+    }
+
+    public function accountView($id) {
+        $data = User::findOrFail($id);
+
+        return view('admin_accounts_view', ['data' => $data]);
+    }
+
+    public function accountUpdate($id) {
+        
     }
 
     public function adminCodeStore(Request $request) {

@@ -8,7 +8,7 @@
                     <div class="font-weight-bold">Admin Accounts ({{number_format($lists->total())}})</div>
                     <div>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createadmin"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Admin Account</button>
-                        <a href="{{route('adminpanel.brgy.view.code')}}" class="btn btn-primary">View Referral Codes</a>
+                        <a href="{{route('adminpanel.code.view')}}" class="btn btn-primary">View Referral Codes</a>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         @foreach($lists as $key => $list)
                             <tr>
                                 <td class="text-center" style="vertical-align: middle;">{{$lists->firstItem() + $key}}</td>
-                                <td style="vertical-align: middle;">{{$list->name}}</td>
+                                <td style="vertical-align: middle;"><a href="{{route('adminpanel.account.view', ['id' => $list->id])}}">{{$list->name}}</a></td>
                                 <td style="vertical-align: middle;">{{$list->email}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{($list->isAdmin == 1) ? 'Admin' : 'Encoder'}}</td>
                                 <td class="text-center {{($list->enabled == 1) ? 'text-success' : 'text-danger'}} font-weight-bold" style="vertical-align: middle;">{{($list->enabled == 1) ? 'Enabled': 'Disabled'}}</td>
