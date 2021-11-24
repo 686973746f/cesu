@@ -6,6 +6,11 @@
         @csrf
         <div class="row justify-content-center">
             <div class="col-md-8">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="card mb-3">
                     <div class="card-header font-weight-bold">Edit Barangay Data</div>
                     <div class="card-body">
@@ -99,7 +104,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Note: A Referral Code URL will be given to you after clicking [Proceed] button. You will need to share it to the auhtorized personnel in order to register using the Referral Code. Click [Proceed] to continue.</p>
+                    <p>Note: A Referral Code URL will be given to you after clicking [Proceed] button. You will need to share it to the auhtorized personnel in order to register using the Referral Code. Type your password and click [Proceed] to continue.</p>
+                    <hr>
+                    <div class="form-group">
+                      <label for="pw">Input your Password</label>
+                      <input type="password" class="form-control" name="pw" id="pw" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Proceed</button>

@@ -27,7 +27,7 @@
                                 <td><small>{{$item->getType()}}</small></td>
                                 <td><small>{{date('m/d/Y h:i A', strtotime($item->created_at))}}</small></td>
                                 <td>{{$item->user->name}}</td>
-                                <td class="text-{{($item->ifEnabled()) ? 'success' : 'danger'}} font-weight-bold">{{($item->ifEnabled()) ? 'ACTIVE' : 'ALREADY USED'}}</td>
+                                <td class="text-{{($item->ifEnabled()) ? 'success' : 'danger'}} font-weight-bold">{{($item->ifEnabled()) ? 'ACTIVE' : 'EXPIRED'}}</td>
                             </tr>
                             @endforeach
                         </tbody>

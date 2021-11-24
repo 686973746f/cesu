@@ -19,6 +19,7 @@ class CreateAntigensTable extends Migration
             $table->softDeletes();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('antigenKitName');
+            $table->string('antigenKitShortName');
             $table->string('lotNo');
             $table->tinyInteger('isDOHAccredited');
         });
