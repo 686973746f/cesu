@@ -55,6 +55,15 @@ class Forms extends Model
         }
     }
 
+    public function ifScheduled() {
+        if(!is_null($this->testDateCollected2) || !is_null($this->testDateCollected1)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function getLatestTestDate() {
         if(!is_null($this->testDateCollected2)) {
             return date('m/d/Y', strtotime($this->testDateCollected2));

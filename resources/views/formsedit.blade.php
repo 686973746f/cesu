@@ -1594,7 +1594,33 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>1. Date Collected</label>
+                                                <label for="testType1"><span class="text-danger font-weight-bold">*</span>#1 - Type of test</label>
+                                                <select class="form-control" name="testType1" id="testType1">
+                                                    <option value="" {{(is_null(old('testType1', $records->testType1))) ? 'selected' : ''}}>N/A</option>
+                                                    <option value="OPS" {{(old('testType1', $records->testType1) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                    <option value="NPS" {{(old('testType1', $records->testType1) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                    <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                    <option value="ANTIGEN" {{(old('testType1', $records->testType1) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                    <option value="ANTIBODY" {{(old('testType1', $records->testType1) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="OTHERS" {{(old('testType1', $records->testType1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                                </select>
+                                              </div>
+                                              <div id="divTypeOthers1" class="d-none">
+                                                  <div class="form-group">
+                                                    <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason:</label>
+                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}" style="text-transform: uppercase;">
+                                                  </div>
+                                              </div>
+                                              <div id="ifAntigen1" class="d-none">
+                                                <div class="form-group">
+                                                    <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                                    <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1', $records->antigenKit1)}}" style="text-transform: uppercase;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
                                               <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" value="{{old('testDateCollected1', $records->testDateCollected1)}}">
                                             </div>
                                         </div>
@@ -1602,12 +1628,6 @@
                                             <div class="form-group">
                                                 <label for="oniTimeCollected1">Time Collected</label>
                                                 <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control" value="{{old('oniTimeCollected1', $records->oniTimeCollected1)}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="testDateReleased1">Date released</label>
-                                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
                                             </div>
                                         </div>
                                     </div>
@@ -1620,28 +1640,8 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testType1"><span class="text-danger font-weight-bold">*</span>Type of test</label>
-                                                <select class="form-control" name="testType1" id="testType1">
-                                                    <option value="" {{(is_null(old('testType1', $records->testType1))) ? 'selected' : ''}}>N/A</option>
-                                                    <option value="OPS" {{(old('testType1', $records->testType1) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                    <option value="NPS" {{(old('testType1', $records->testType1) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                    <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                    <option value="ANTIGEN" {{(old('testType1', $records->testType1) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
-                                                    <option value="ANTIBODY" {{(old('testType1', $records->testType1) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                    <option value="OTHERS" {{(old('testType1', $records->testType1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
-                                                </select>
-                                              </div>
-                                              <div id="divTypeOthers1">
-                                                  <div class="form-group">
-                                                    <label for="testTypeOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason:</label>
-                                                    <input type="text" class="form-control" name="testTypeOtherRemarks1" id="testTypeOtherRemarks1" value="{{old('testTypeOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}" style="text-transform: uppercase;">
-                                                  </div>
-                                              </div>
-                                              <div id="ifAntigen1">
-                                                <div class="form-group">
-                                                    <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
-                                                    <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1', $records->antigenKit1)}}" style="text-transform: uppercase;">
-                                                </div>
+                                                <label for="testDateReleased1">Date released</label>
+                                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1655,14 +1655,14 @@
                                                     <option value="OTHERS" {{(old('testResult1', $records->testResult1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                                 </select>
                                               </div>
-                                              <div id="divResultOthers1">
+                                              <div id="divResultOthers1" class="d-none">
                                                   <div class="form-group">
-                                                      <label for="testResultOtherRemarks1">Specify</label>
+                                                      <label for="testResultOtherRemarks1"><span class="text-danger font-weight-bold">*</span>Specify</label>
                                                       <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}" style="text-transform: uppercase;">
                                                   </div>
                                               </div>
                                               @if($records->testType1 == "ANTIGEN")
-                                                <div id="antigenExport1">
+                                                <div id="antigenExport1" class="d-none">
                                                     <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/1"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                                 </div>
                                               @endif
@@ -1672,7 +1672,33 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testDateCollected2">2. Date Collected</label>
+                                              <label for="testType2"><span class="text-danger font-weight-bold">*</span>#2 - Type of test</label>
+                                              <select class="form-control" name="testType2" id="testType2">
+                                                    <option value="" {{(is_null(old('testType2', $records->testType2)) == 'OPS') ? 'selected' : ''}}>N/A</option>
+                                                    <option value="OPS" {{(old('testType2', $records->testType2) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                                    <option value="NPS" {{(old('testType2', $records->testType2) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                                    <option value="OPS AND NPS" {{(old('testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                                    <option value="ANTIGEN" {{(old('testType2', $records->testType2) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                                    <option value="ANTIBODY" {{(old('testType2', $records->testType2) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="OTHERS" {{(old('testType2', $records->testType2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                              </select>
+                                            </div>
+                                            <div id="divTypeOthers2" class="d-none">
+                                                <div class="form-group">
+                                                  <label for="testTypeOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
+                                                  <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2', ($records->testType2 == "ANTIGEN") ? $records->testTypeAntigenRemarks2 : $records->testResultOtherRemarks2)}}" style="text-transform: uppercase;">
+                                                </div>
+                                            </div>
+                                            <div id="ifAntigen2" class="d-none">
+                                                <div class="form-group">
+                                                    <label for="antigenKit2"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                                    <input type="text" class="form-control" name="antigenKit2" id="antigenKit2" value="{{old('antigenKit2', $records->antigenKit2)}}" style="text-transform: uppercase;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
                                               <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" value="{{old('testDateCollected2', $records->testDateCollected2)}}">
                                             </div>
                                         </div>
@@ -1680,12 +1706,6 @@
                                             <div class="form-group">
                                                 <label for="oniTimeCollected2">Time Collected</label>
                                                 <input type="time" name="oniTimeCollected2" id="oniTimeCollected2" class="form-control" value="{{old('oniTimeCollected2', $records->oniTimeCollected2)}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="testDateReleased2">Date released</label>
-                                                <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2', $records->testDateReleased2)}}">
                                             </div>
                                         </div>
                                     </div>
@@ -1698,28 +1718,8 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="testType2"><span class="text-danger font-weight-bold">*</span>Type of test</label>
-                                              <select class="form-control" name="testType2" id="testType2">
-                                                    <option value="" {{(is_null(old('testType2', $records->testType2)) == 'OPS') ? 'selected' : ''}}>N/A</option>
-                                                    <option value="OPS" {{(old('testType2', $records->testType2) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
-                                                    <option value="NPS" {{(old('testType2', $records->testType2) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                                    <option value="OPS AND NPS" {{(old('testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
-                                                    <option value="ANTIGEN" {{(old('testType2', $records->testType2) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
-                                                    <option value="ANTIBODY" {{(old('testType2', $records->testType2) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
-                                                    <option value="OTHERS" {{(old('testType2', $records->testType2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
-                                              </select>
-                                            </div>
-                                            <div id="divTypeOthers2">
-                                                <div class="form-group">
-                                                  <label for="testTypeOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
-                                                  <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2', ($records->testType2 == "ANTIGEN") ? $records->testTypeAntigenRemarks2 : $records->testResultOtherRemarks2)}}" style="text-transform: uppercase;">
-                                                </div>
-                                            </div>
-                                            <div id="ifAntigen2">
-                                                <div class="form-group">
-                                                    <label for="antigenKit2"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
-                                                    <input type="text" class="form-control" name="antigenKit2" id="antigenKit2" value="{{old('antigenKit2', $records->antigenKit2)}}" style="text-transform: uppercase;">
-                                                </div>
+                                                <label for="testDateReleased2">Date released</label>
+                                                <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2', $records->testDateReleased2)}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1733,14 +1733,14 @@
                                                 <option value="OTHERS" {{(old('testResult2', $records->testResult2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
-                                            <div id="divResultOthers2">
+                                            <div id="divResultOthers2" class="d-none">
                                                 <div class="form-group">
                                                     <label for="testResultOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify</label>
                                                     <input type="text" class="form-control" name="testResultOtherRemarks2" id="testResultOtherRemarks2" value="{{old('testResultOtherRemarks2', $records->testResultOtherRemarks2)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             @if($records->testType2 == "ANTIGEN")
-                                                <div id="antigenExport2">
+                                                <div id="antigenExport2" class="d-none">
                                                     <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/2"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                                 </div>
                                             @endif
@@ -1758,7 +1758,7 @@
                                         <option value="Recovered" {{(old('outcomeCondition', $records->outcomeCondition) == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition', $records->outcomeCondition) == 'Died') ? 'selected' : ''}}>Died</option>
                                       </select>
-                                      <small class="text-danger">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case" and this CIF will be locked for editing.</small>
+                                      <small class="text-danger d-none" id="outcomeWarningText">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case" and this CIF will be locked for editing.</small>
                                     </div>
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">
@@ -3333,40 +3333,69 @@
 
             $('#testType1').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
-                    $('#divTypeOthers1').show();
-                    $('#testTypeOtherRemarks1').prop('required', true);
-                    
-                    if($(this).val() == 'ANTIGEN') {
-                        $('#antigenExport1').show();
-                        $('#ifAntigen1').show();
-                        $('#antigenKit1').prop('required', true);
-                    }
-                    else {
-                        $('#antigenExport1').hide();
-                        $('#ifAntigen1').hide();
-                        $('#antigenKit1').prop('required', false);
-                    }
-                }
-                else {
-                    $('#divTypeOthers1').hide();
+                if($(this).val() === "") {
+                    $('#testDateCollected1').prop('required', false);
+                    $('#testResult1').prop('required', false);
+
+                    $('#divTypeOthers1').addClass('d-none');
                     $('#testTypeOtherRemarks1').empty();
                     $('#testTypeOtherRemarks1').prop('required', false);
 
-                    $('#antigenExport1').hide();
-                    $('#ifAntigen1').hide();
+                    $('#antigenExport1').addClass('d-none');
+                    $('#ifAntigen1').addClass('d-none');
                     $('#antigenKit1').prop('required', false);
+
+                    $('#testResult1').prop('disabled', true);
+                    $('#testDateCollected1').prop('disabled', true);
+                    $('#oniTimeCollected1').prop('disabled', true);
+                    $('#testLaboratory1').prop('disabled', true);
+                    $('#testDateReleased1').prop('disabled', true);
+                }
+                else {
+                    $('#testDateCollected1').prop('required', true);
+                    $('#testResult1').prop('required', true);
+
+                    $('#testResult1').prop('disabled', false);
+                    $('#testDateCollected1').prop('disabled', false);
+                    $('#oniTimeCollected1').prop('disabled', false);
+                    $('#testLaboratory1').prop('disabled', false);
+                    $('#testDateReleased1').prop('disabled', false);
+
+                    if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
+                        $('#divTypeOthers1').removeClass('d-none');
+                        $('#testTypeOtherRemarks1').prop('required', true);
+                        
+                        if($(this).val() == 'ANTIGEN') {
+                            $('#antigenExport1').removeClass('d-none');
+                            $('#ifAntigen1').removeClass('d-none');
+                            $('#antigenKit1').prop('required', true);
+                        }
+                        else {
+                            $('#antigenExport1').addClass('d-none');
+                            $('#ifAntigen1').addClass('d-none');
+                            $('#antigenKit1').prop('required', false);
+                        }
+                    }
+                    else {
+                        $('#divTypeOthers1').addClass('d-none');
+                        $('#testTypeOtherRemarks1').empty();
+                        $('#testTypeOtherRemarks1').prop('required', false);
+
+                        $('#antigenExport1').addClass('d-none');
+                        $('#ifAntigen1').addClass('d-none');
+                        $('#antigenKit1').prop('required', false);
+                    }
                 }
             }).trigger('change');
 
             $('#testResult1').change(function (e) { 
                 e.preventDefault();
                 if($(this).val() == "OTHERS") {
-                    $('#divResultOthers1').show();
+                    $('#divResultOthers1').removeClass('d-none');
                     $('#testResultOtherRemarks1').prop('required', true);
                 }
                 else {
-                    $('#divResultOthers1').hide();
+                    $('#divResultOthers1').addClass('d-none');
                     $('#testResultOtherRemarks1').empty();
                     $('#testResultOtherRemarks1').prop('required', false);
 
@@ -3381,52 +3410,70 @@
 
             $('#testType2').change(function (e) { 
                 e.preventDefault();
-                if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
-                    $('#divTypeOthers2').show();
-                    $('#testTypeOtherRemarks2').prop('required', true);
-                    $('#testDateCollected2').prop('required', true);
+                if($(this).val() === "") {
+                    $('#testDateCollected2').prop('required', false);
+                    $('#testResult2').prop('required', false);
 
-                    if($(this).val() == 'ANTIGEN') {
-                        $('#antigenExport2').show();
-                        $('#ifAntigen2').show();
-                        $('#antigenKit2').prop('required', true);
-                    }
-                    else {
-                        $('#antigenExport2').hide();
-                        $('#ifAntigen2').hide();
-                        $('#antigenKit2').prop('required', false);
-                    }
-                }
-                else {
-                    $('#divTypeOthers2').hide();
+                    $('#divTypeOthers2').addClass('d-none');
                     $('#testTypeOtherRemarks2').empty();
                     $('#testTypeOtherRemarks2').prop('required', false);
+                    
+                    $('#antigenExport2').addClass('d-none');
+                    $('#ifAntigen2').addClass('d-none');
+                    $('#antigenKit2').prop('required', false);
 
-                    if($(this).val() == "") {
-                        $('#testDateCollected2').prop('required', false);
-                        $('#testType2').prop('required', false);
-                        $('#testResult2').prop('required', false);
+                    $('#testResult2').prop('disabled', true);
+                    $('#testDateCollected2').prop('disabled', true);
+                    $('#oniTimeCollected2').prop('disabled', true);
+                    $('#testLaboratory2').prop('disabled', true);
+                    $('#testDateReleased2').prop('disabled', true);
+                }
+                else {
+                    $('#testDateCollected2').prop('required', true);
+                    $('#testResult2').prop('required', true);
+
+                    $('#testResult2').prop('disabled', false);
+                    $('#testDateCollected2').prop('disabled', false);
+                    $('#oniTimeCollected2').prop('disabled', false);
+                    $('#testLaboratory2').prop('disabled', false);
+                    $('#testDateReleased2').prop('disabled', false);
+
+                    if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
+                        $('#divTypeOthers2').removeClass('d-none');
+                        $('#testTypeOtherRemarks2').prop('required', true);
+                        $('#testDateCollected2').prop('required', true);
+
+                        if($(this).val() == 'ANTIGEN') {
+                            $('#antigenExport2').removeClass('d-none');
+                            $('#ifAntigen2').removeClass('d-none');
+                            $('#antigenKit2').prop('required', true);
+                        }
+                        else {
+                            $('#antigenExport2').addClass('d-none');
+                            $('#ifAntigen2').addClass('d-none');
+                            $('#antigenKit2').prop('required', false);
+                        }
                     }
                     else {
-                        $('#testDateCollected2').prop('required', true);
-                        $('#testType2').prop('required', true);
-                        $('#testResult2').prop('required', true);
+                        $('#divTypeOthers2').addClass('d-none');
+                        $('#testTypeOtherRemarks2').empty();
+                        $('#testTypeOtherRemarks2').prop('required', false);
+                        
+                        $('#antigenExport2').addClass('d-none');
+                        $('#ifAntigen2').addClass('d-none');
+                        $('#antigenKit2').prop('required', false);
                     }
-
-                    $('#antigenExport2').hide();
-                    $('#ifAntigen2').hide();
-                    $('#antigenKit2').prop('required', false);
                 }
             }).trigger('change');
 
             $('#testResult2').change(function (e) { 
                 e.preventDefault();
                 if($(this).val() == "OTHERS") {
-                    $('#divResultOthers2').show();
+                    $('#divResultOthers2').removeClass('d-none');
                     $('#testResultOtherRemarks2').prop('required', true);
                 }
                 else {
-                    $('#divResultOthers2').hide();
+                    $('#divResultOthers2').addClass('d-none');
                     $('#testResultOtherRemarks2').empty();
                     $('#testResultOtherRemarks2').prop('required', false);
 
@@ -3455,6 +3502,14 @@
 
             $('#outcomeCondition').change(function (e) { 
                 e.preventDefault();
+                //Outcome Warning Text
+                if($(this).val() == 'Recovered' || $(this).val() == 'Died') {
+                    $('#outcomeWarningText').removeClass('d-none');
+                }
+                else {
+                    $('#outcomeWarningText').addClass('d-none');
+                }
+
                 if($(this).val() == 'Recovered') {
                     $('#ifOutcomeRecovered').show();
                     $('#outcomeRecovDate').prop('required', true);

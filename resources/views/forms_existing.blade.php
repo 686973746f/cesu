@@ -24,11 +24,15 @@
                         <strong>Outcome:</strong> {{$form->outcomeCondition}}
                     </p>
                     <hr>
+                    @if($form->ifScheduled)
                     <p><strong>Latest Date of Swab Collection:</strong> {{$form->getLatestTestDate()}} | 
                         <strong>Test Type:</strong> {{$form->getLatestTestType()}} | 
                         <strong>Result:</strong> {{$form->getLatestTestResult()}}
                     </p>
                     <p><strong>Attended: </strong>{{$form->getAttendedOnSwab()}}</p>
+                    @else
+                    <p>No Swab Schedule Date found.</p>
+                    @endif
             </div>
             <div class="card-footer text-center">
                 For more details regarding the CIF of the patient, click <strong><a href="{{route('forms.edit', ['form' => $form->id])}}">HERE</a></strong>
