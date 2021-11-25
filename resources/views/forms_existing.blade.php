@@ -24,7 +24,7 @@
                         <strong>Outcome:</strong> {{$form->outcomeCondition}}
                     </p>
                     <hr>
-                    @if($form->ifScheduled)
+                    @if($form->ifScheduled())
                     <p><strong>Latest Date of Swab Collection:</strong> {{$form->getLatestTestDate()}} | 
                         <strong>Test Type:</strong> {{$form->getLatestTestType()}} | 
                         <strong>Result:</strong> {{$form->getLatestTestResult()}}
