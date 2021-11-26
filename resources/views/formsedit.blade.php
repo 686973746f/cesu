@@ -1596,7 +1596,9 @@
                                             <div class="form-group">
                                                 <label for="testType1"><span class="text-danger font-weight-bold">*</span>#1 - Type of test</label>
                                                 <select class="form-control" name="testType1" id="testType1">
+                                                    @if(auth()->user()->isCesuAccount())
                                                     <option value="" {{(is_null(old('testType1', $records->testType1))) ? 'selected' : ''}}>N/A</option>
+                                                    @endif
                                                     <option value="OPS" {{(old('testType1', $records->testType1) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
                                                     <option value="NPS" {{(old('testType1', $records->testType1) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
                                                     <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
