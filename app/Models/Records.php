@@ -321,4 +321,18 @@ class Records extends Model
             }
         }
     }
+
+    public function ifCompleteWorkplaceInfo() {
+        if(!is_null($this->occupation)) {
+            if(!is_null($this->occupation_province) && !is_null($this->occupation_city) && !is_null($this->occupation_brgy)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

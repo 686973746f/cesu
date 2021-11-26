@@ -163,7 +163,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             substr($form->records->gender,0,1),
             $form->records->cs,
             $form->records->nationality,
-            (!is_null($form->records->occupation)) ? $form->records->occupation : 'N/A',
+            ($form->records->ifCompleteWorkplaceInfo()) ? $form->records->occupation : 'N/A',
             $form->records->worksInClosedSetting,
 
             //current address
