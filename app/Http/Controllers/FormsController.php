@@ -437,20 +437,41 @@ class FormsController extends Controller
     {
         $list = $request->listToPrint;
 
-        asort($list);
-        
         if($request->submit == 'export') {
+            //Export by Laboratory (ONI first, LaSalle second)
             $request->validate([
                 'listToPrint' => 'required',
             ]);
 
             $models = Forms::whereIn('id', $list)
-            ->update(['isExported'=>'1', 'exportedDate'=>NOW()]);
+            ->update([
+                'isExported' => '1',
+                'exportedDate' => NOW(),
+            ]);
             
             return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.csv');
         }
         else if($request->submit == 'export_type1') {
             
+        }
+        else if ($request->submit == 'export_alphabetic') {
+            //Export Alphabetically
+            $request->validate([
+                'listToPrint' => 'required',
+            ]);
+
+            $data = Forms::with('records')
+            ->whereIn('id', $list)->get();
+
+            $data = $data->sortBy('records.lname')->pluck('id')->toArray();
+
+            $update = Forms::whereIn('id', $list)
+            ->update([
+                'isExported' => '1',
+                'exportedDate' => NOW(),
+            ]);
+
+            return Excel::download(new FormsExport($data), 'CIF_'.date("m_d_Y").'.csv');
         }
         else if($request->submit == 'printsticker') {
             $models = Forms::with('records')->whereIn('id', $list)->get();

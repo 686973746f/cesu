@@ -28,6 +28,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             return Forms::all();
         }
         else {
+            /*
             $list_lasalle = Forms::with('records')
             ->whereIn('id', $this->id)
             ->whereHas('records', function ($query) {
@@ -45,6 +46,11 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $list_oni = $list_oni->sortBy('records.lname');
 
             return $list_lasalle->merge($list_oni);
+            */
+
+            $list = Forms::whereIn('id', $this->id)->get();
+
+            return $list;
         }
     }
 
