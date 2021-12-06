@@ -2,7 +2,7 @@
 
 return [
     'notice.readcarefully' => 'Pakibasang maigi:',
-    'notice.asterisk' => 'Lahat ng detalye na may markang asterisk (*) ay kailangang sagutan. Kung hindi kailangang sagutan ang walang asterisk, maaaring iwanan lang na blanko kung N/A.',
+    'notice.asterisk' => 'Lahat ng detalye na may markang asterisk (*) ay kailangang sagutan. Kung hindi kailangang sagutan ang walang asterisk, maaaring iwanan lang na blanko kung N/A. Ibigay lamang ang totoo at tamang impormasyon upang maiwasan ang mga parusang ayon sa batas.',
     'consultationDetails' => '1. Detalye sa Konsultasyon',
     'pType' => 'Uri ng Kliyente',
     'interviewDate' => 'Kailan na-interview sa Barangay',

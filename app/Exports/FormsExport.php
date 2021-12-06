@@ -51,6 +51,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
     public function map($form): array {
         $arr_existingCase = explode(",", $form->existingCaseList);
         $arr_testingcat = explode(",", $form->testingCat);
+        $first_testingcat = head(explode(',', $form->testingCat));
         $arr_sas = explode(",", $form->SAS);
         $arr_como = explode(",", $form->COMO);
         $arr_placeVisited = explode(",", $form->placevisited);
@@ -142,6 +143,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             
             $form->pType,
             $form->caseClassification,
+            /*
             (in_array("A", $arr_testingcat)) ? "YES" : "NO",
             (in_array("B", $arr_testingcat)) ? "YES" : "NO",
             (in_array("C", $arr_testingcat)) ? "YES" : "NO",
@@ -152,7 +154,18 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("H.1", $arr_testingcat) || in_array("H.2", $arr_testingcat)) ? "YES" : "NO",
             (in_array("I", $arr_testingcat)) ? "YES" : "NO",
             (in_array("J.1", $arr_testingcat) || in_array("J.2", $arr_testingcat)) ? "YES" : "NO",
-            head(explode(',', $form->testingCat)),
+            */
+            ($first_testingcat == "A") ? "YES" : "NO",
+            ($first_testingcat == "B") ? "YES" : "NO",
+            ($first_testingcat == "C") ? "YES" : "NO",
+            ($first_testingcat == "D.1" || $first_testingcat == "D.2" || $first_testingcat == "D.3" || $first_testingcat == "D.4") ? "YES" : "NO",
+            ($first_testingcat == "E.1" || $first_testingcat == "E.2") ? "YES" : "NO",
+            ($first_testingcat == "F") ? "YES" : "NO",
+            ($first_testingcat == "G") ? "YES" : "NO",
+            ($first_testingcat == "H.1" || $first_testingcat == "H.2") ? "YES" : "NO",
+            ($first_testingcat == "I") ? "YES" : "NO",
+            ($first_testingcat == "J.1" || $first_testingcat == "J.2") ? "YES" : "NO",
+            $first_testingcat,
             
             $form->records->lname,
             $form->records->fname,

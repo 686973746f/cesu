@@ -2,7 +2,7 @@
 
 return [
     'notice.readcarefully' => 'Please read carefully:',
-    'notice.asterisk' => 'All fields marked with an asterisk (*) are required. If the field is not required, you may leave it blank if N/A.',
+    'notice.asterisk' => 'All fields marked with an asterisk (*) are required. If the field is not required, you may leave it blank if N/A. We enjoin you to provide only true and accurate information to avoid the penalties as provided in the law.',
     'consultationDetails' => '1. Consultation Details',
     'pType' => 'Type of Client',
     'interviewDate' => 'Date Interviewed in Barangay',

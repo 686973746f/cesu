@@ -399,7 +399,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Section, Block and Lot/Building</label>
-                                        <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" required>
+                                        <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" maxlength="30" required>
                                         @error('address_houseno')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -408,7 +408,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio/Subdivision</label>
-                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" required>
+                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" maxlength="50" required>
                                         <small class="text-muted">{{__('paswab.street.notice')}}</small>
                                         @error('address_street')
                                             <small class="text-danger">{{$message}}</small>
@@ -431,7 +431,7 @@
                             </div>
                             <div id="occupationRow" class="d-none">
                                 <div class="alert alert-info" role="alert">
-                                    <strong class="text-danger">Notice:</strong> starting October 06, 2021. <strong>Name of Company/Workplace and Complete Company/Workplace Address are now required fields to be filled up.</strong> This is to comply with the requirements of the Molecular Laboratory.
+                                    <strong class="text-danger">Notice:</strong> starting October 06, 2021. <strong>Workplace/Company Details should be COMPLETED and CORRECT.</strong> This is to comply with the requirements of the Molecular Laboratory.
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -532,7 +532,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="soccupation_province"><span class="text-danger font-weight-bold">*</span>Province</label>
+                                            <label for="soccupation_province"><span class="text-danger font-weight-bold">*</span>Province of Workplace</label>
                                             <select class="form-control" name="soccupation_province" id="soccupation_province">
                                               <option value="" selected disabled>Choose...</option>
                                             </select>
@@ -543,7 +543,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="soccupation_city"><span class="text-danger font-weight-bold">*</span>City</label>
+                                            <label for="soccupation_city"><span class="text-danger font-weight-bold">*</span>City of Workplace</label>
                                             <select class="form-control" name="soccupation_city" id="soccupation_city">
                                               <option value="" selected disabled>Choose...</option>
                                             </select>
@@ -554,7 +554,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="occupation_brgy"><span class="text-danger font-weight-bold">*</span>Barangay</label>
+                                            <label for="occupation_brgy"><span class="text-danger font-weight-bold">*</span>Barangay of Workplace</label>
                                             <select class="form-control" name="occupation_brgy" id="occupation_brgy">
                                               <option value="" selected disabled>Choose...</option>
                                             </select>
@@ -567,8 +567,8 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Lot/Building</label>
-                                            <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" style="text-transform: uppercase;">
+                                            <label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Lot/Building of Workplace</label>
+                                            <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" maxlength="30" style="text-transform: uppercase;">
                                             @error('occupation_lotbldg')
                                                 <small class="text-danger">{{$message}}</small>
                                             @enderror
@@ -576,8 +576,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Street</label>
-                                            <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" style="text-transform: uppercase;">
+                                            <label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Street of Workplace</label>
+                                            <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" maxlength="50" style="text-transform: uppercase;">
                                             @error('occupation_street')
                                                 <small class="text-danger">{{$message}}</small>
                                             @enderror
@@ -652,13 +652,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}" maxlength="100" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}" maxlength="100" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -684,13 +684,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
-                                                    <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}" style="text-transform: uppercase;">
+                                                    <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}" maxlength="100" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
-                                                    <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}" style="text-transform: uppercase;">
+                                                    <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}" maxlength="100" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

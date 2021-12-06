@@ -63,8 +63,8 @@ class PaSwabValidationRequest extends FormRequest
             'occupation_city' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
             'soccupation_city' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
             'occupation_brgy' => ($this->haveOccupation == 1) ? 'required' : 'nullable',
-            'occupation_lotbldg' => ($this->haveOccupation == 1) ? 'required|not_in:N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE' : 'nullable',
-            'occupation_street' => ($this->haveOccupation == 1) ? 'required|not_in:N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE' : 'nullable',
+            'occupation_lotbldg' => ($this->haveOccupation == 1) ? 'required|not_in:0,00,000,0000,N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE' : 'nullable',
+            'occupation_street' => ($this->haveOccupation == 1) ? 'required|not_in:0,00,000,0000,N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE' : 'nullable',
             'occupation_mobile' => 'nullable|numeric|digits:11|starts_with:09',
 			'occupation_email' => 'nullable|email',
 
