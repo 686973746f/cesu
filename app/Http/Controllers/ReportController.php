@@ -619,6 +619,8 @@ class ReportController extends Controller
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
+            $allCasesCount = Forms::where('isPresentOnSwabDay', 1)->count();
+
             //Barangay Counter
             $brgyArray = collect();
 
@@ -762,6 +764,7 @@ class ReportController extends Controller
                 'hqCount' => $hqCount,
                 'hospitalCount' => $hospitalCount,
                 'brgylist' => $brgyArray,
+                'allCasesCount' => $allCasesCount,
             ]);
         }
         else {

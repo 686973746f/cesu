@@ -1025,27 +1025,27 @@ class JsonReportController extends Controller
         }
 
         $arr->push([
-            'bracket' => '0 YR - 17 YRS',
+            'bracket' => '0 - 17 YO',
             'count' => $ageBracket1,
         ]);
         $arr->push([
-            'bracket' => '18 YRS - 25 YRS',
+            'bracket' => '18 - 25 YO',
             'count' => $ageBracket2,
         ]);
         $arr->push([
-            'bracket' => '26 YRS - 35 YRS',
+            'bracket' => '26 - 35 YO',
             'count' => $ageBracket3,
         ]);
         $arr->push([
-            'bracket' => '36 YRS - 45 YRS',
+            'bracket' => '36 - 45 YO',
             'count' => $ageBracket4,
         ]);
         $arr->push([
-            'bracket' => '46 YRS - 59 YRS',
+            'bracket' => '46 - 59 YO',
             'count' => $ageBracket5,
         ]);
         $arr->push([
-            'bracket' => '60 YRS - UP',
+            'bracket' => '60 YO & UP',
             'count' => $ageBracket6,
         ]);
 

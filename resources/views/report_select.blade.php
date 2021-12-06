@@ -174,6 +174,35 @@
                     </div>
                 </div>
             </div>
+            @if(auth()->user()->isCesuAccount())
+            <hr>
+            <table class="table table-bordered text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Infection Rate</th>
+                        <th>Recovery Rate</th>
+                        <th>Case Fatality Rate</th>
+                        <th>Positivity Rate</th>
+                        <th>Home Quarantine</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2" style="vertical-align: middle;">1 per 1,000 pop.</td>
+                        <td>{{number_format($recoveredCount)}} / {{number_format($totalCasesCount)}}</td>
+                        <td>{{number_format($deathCount)}} / {{number_format($totalCasesCount)}}</td>
+                        <td>{{number_format($totalCasesCount)}} / {{number_format($allCasesCount)}}</td>
+                        <td>{{number_format($hqCount)}} / {{number_format($activeCount)}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{round(($recoveredCount/$totalCasesCount) * 100, 1)}}%</td>
+                        <td>{{round(($deathCount/$totalCasesCount) * 100, 1)}}%</td>
+                        <td>{{round(($totalCasesCount/$allCasesCount) * 100, 1)}}%</td>
+                        <td>{{round(($hqCount/$activeCount) * 100, 1)}}%</td>
+                    </tr>
+                </tbody>
+            </table>
+            @endif
             <hr>
             <div class="row">
                 <div class="col-md-6">
