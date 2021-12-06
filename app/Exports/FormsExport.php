@@ -14,9 +14,10 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
 
     //use Exportable;
     
-    public function __construct(array $id)
+    public function __construct(array $id, $type)
     {
         $this->id = $id;
+        $this->type = $type;
     }
 
     /**
@@ -24,33 +25,41 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
+        $list = $this->id;
+        
         if(in_array(0, $this->id)) {
             return Forms::all();
         }
         else {
-            /*
-            $list_lasalle = Forms::with('records')
-            ->whereIn('id', $this->id)
-            ->whereHas('records', function ($query) {
-                $query->whereNull('philhealth');
-            })->get();
+            if($this->type == 'export') {
+                //Normal Export, Hiwalay Lasalle and ONI
+                $list_lasalle = Forms::with('records')
+                ->whereIn('id', $list)
+                ->whereHas('records', function ($query) {
+                    $query->whereNull('philhealth');
+                })->get();
 
-            $list_lasalle = $list_lasalle->sortBy('records.lname');
+                $list_lasalle = $list_lasalle->sortBy('records.lname');
 
-            $list_oni = Forms::with('records')
-            ->whereIn('id', $this->id)
-            ->whereHas('records', function ($query) {
-                $query->whereNotNull('philhealth');
-            })->get();
+                $list_oni = Forms::with('records')
+                ->whereIn('id', $list)
+                ->whereHas('records', function ($query) {
+                    $query->whereNotNull('philhealth');
+                })->get();
 
-            $list_oni = $list_oni->sortBy('records.lname');
+                $list_oni = $list_oni->sortBy('records.lname');
 
-            return $list_lasalle->merge($list_oni);
-            */
+                $data = $list_lasalle->merge($list_oni);
+            }
+            else if($this->type == 'export_alphabetic') {
+                //Alphabetic Sort
+                $data = Forms::with('records')
+                ->whereIn('id', $list)->get();
+    
+                $data = $data->sortBy('records.lname');
+            }
 
-            $list = Forms::whereIn('id', $this->id)->get();
-
-            return $list;
+            return $data;
         }
     }
 

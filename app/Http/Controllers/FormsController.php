@@ -437,43 +437,29 @@ class FormsController extends Controller
     {
         $list = $request->listToPrint;
 
-        if($request->submit == 'export') {
+        if($request->submit == 'export' || $request->submit == 'export_alphabetic') {
             //Export by Laboratory (ONI first, LaSalle second)
             $request->validate([
                 'listToPrint' => 'required',
             ]);
-
+            
             $models = Forms::whereIn('id', $list)
             ->update([
                 'isExported' => '1',
                 'exportedDate' => NOW(),
             ]);
-            
-            return Excel::download(new FormsExport($request->listToPrint), 'CIF_'.date("m_d_Y").'.csv');
+
+            if($request->submit == 'export') {
+                return Excel::download(new FormsExport($list, 'export'), 'CIF_'.date("m_d_Y").'.csv');
+            }
+            else {
+                return Excel::download(new FormsExport($list, 'export_alphabetic'), 'CIF_'.date("m_d_Y").'.csv');
+            }
         }
         else if($request->submit == 'export_type1') {
             
         }
-        else if ($request->submit == 'export_alphabetic') {
-            //Export Alphabetically
-            $request->validate([
-                'listToPrint' => 'required',
-            ]);
-
-            $data = Forms::with('records')
-            ->whereIn('id', $list)->get();
-
-            $data = $data->sortBy('records.lname')->pluck('id')->toArray();
-
-            $update = Forms::whereIn('id', $list)
-            ->update([
-                'isExported' => '1',
-                'exportedDate' => NOW(),
-            ]);
-
-            return Excel::download(new FormsExport($data), 'CIF_'.date("m_d_Y").'.csv');
-        }
-        else if($request->submit == 'printsticker') {
+        else if($request->submit == 'printsticker' || $request->submit == 'printsticker_alllasalle') {
             $models = Forms::with('records')->whereIn('id', $list)->get();
 
             $models = $models->sortBy('records.lname');
@@ -489,14 +475,28 @@ class FormsController extends Controller
                     $swabdate = Carbon::parse($item->testDateCollected1)->format('m/d/Y');
                     $swabtime = Carbon::parse($item->oniTimeCollected1)->format('h:i A');
                 }
-
-                if(!is_null($item->records->philhealth)) {
-                    echo $item->records->getName().'<br>'.
-                    $item->records->getAge().'/'.substr($item->records->gender,0,1).' '.date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
-                    $swabtype.' '.$swabdate.' '.$swabtime.'<br><br>'.
-                    $item->records->getName().'<br>'.
-                    $item->records->getAge().'/'.substr($item->records->gender,0,1).' '.date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
-                    $swabtype.' '.$swabdate.' '.$swabtime.'<br><br>';
+                
+                if($request->submit == 'printsticker') {
+                    if(!is_null($item->records->philhealth)) {
+                        echo $item->records->getName().'<br>'.
+                        $item->records->getAge().'/'.substr($item->records->gender,0,1).' '.date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                        $swabtype.' '.$swabdate.' '.$swabtime.'<br><br>'.
+                        $item->records->getName().'<br>'.
+                        $item->records->getAge().'/'.substr($item->records->gender,0,1).' '.date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                        $swabtype.' '.$swabdate.' '.$swabtime.'<br><br>';
+                    }
+                    else {
+                        echo $item->records->lname.',<br>'.
+                        $item->records->fname.' '.$item->records->mname.'<br>'.
+                        date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                        $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
+                        $swabtype.'<br><br>'.
+                        $item->records->lname.',<br>'.
+                        $item->records->fname.' '.$item->records->mname.'<br>'.
+                        date('m/d/Y', strtotime($item->records->bdate)).'<br>'.
+                        $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
+                        $swabtype.'<br><br>';
+                    }
                 }
                 else {
                     echo $item->records->lname.',<br>'.
@@ -510,7 +510,6 @@ class FormsController extends Controller
                     $item->records->getAge().'/'.substr($item->records->gender,0,1).'<br>'.
                     $swabtype.'<br><br>';
                 }
-                
             }
         }
         else if($request->submit == 'resched') {

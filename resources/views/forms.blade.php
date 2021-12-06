@@ -188,7 +188,8 @@
                             <button type="submit" class="dropdown-item" id="exportBtnExp" name="submit" value="export_type1"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Experimental Mode)</button>
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical)</button>
                             <div class="dropdown-divider"></div>
-                            <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>Print as Sticker Text</button>
+                            <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>VTM Sticker (ONI & LaSalle Format)</button>
+                            <button type="submit" class="dropdown-item" id="exportBtnStk2" name="submit" value="printsticker_alllasalle"><i class="fas fa-print mr-2"></i>VTM Sticker (LaSalle Format)</button>
                         </div>
                     </div>
                     @endif
@@ -437,6 +438,8 @@
     $('#exportBtn').prop('disabled', true);
     $('#exportBtnStk').prop('disabled', true);
     $('#exportBtnExp').prop('disabled', true);
+    $('#exportBtnAlp').prop('disabled', true);
+    $('#exportBtnStk2').prop('disabled', true);
 
     @if(session('modalmsg'))
         $('#selectPatient').modal('show');
@@ -512,6 +515,8 @@
             $('#exportBtn').prop("disabled", false);
             $('#exportBtnStk').prop("disabled", false);
             $('#exportBtnExp').prop('disabled', false);
+            $('#exportBtnAlp').prop("disabled", false);
+            $('#exportBtnStk2').prop("disabled", false);
         } else {        
             if ($('.checks').filter(':checked').length < 1 || $('#select_all').prop('checked') == false) {
                 $('#changeTypeBtn').prop('disabled', true);
@@ -519,6 +524,8 @@
                 $('#exportBtn').attr('disabled',true);
                 $('#exportBtnStk').prop("disabled", true);
                 $('#exportBtnExp').prop('disabled', true);
+                $('#exportBtnAlp').prop("disabled", true);
+                $('#exportBtnStk2').prop("disabled", true);
             }
         }
     });
