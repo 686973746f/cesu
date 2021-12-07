@@ -181,7 +181,7 @@
                     @if(auth()->user()->isCesuAccount())
                     <div class="btn-group">
                         <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="exportDropdown">
                           <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
@@ -440,6 +440,7 @@
     $('#exportBtnExp').prop('disabled', true);
     $('#exportBtnAlp').prop('disabled', true);
     $('#exportBtnStk2').prop('disabled', true);
+    $('#exportDropdown').prop('disabled', true);
 
     @if(session('modalmsg'))
         $('#selectPatient').modal('show');
@@ -517,6 +518,7 @@
             $('#exportBtnExp').prop('disabled', false);
             $('#exportBtnAlp').prop("disabled", false);
             $('#exportBtnStk2').prop("disabled", false);
+            $('#exportDropdown').prop('disabled', false);
         } else {        
             if ($('.checks').filter(':checked').length < 1 || $('#select_all').prop('checked') == false) {
                 $('#changeTypeBtn').prop('disabled', true);
@@ -526,6 +528,7 @@
                 $('#exportBtnExp').prop('disabled', true);
                 $('#exportBtnAlp').prop("disabled", true);
                 $('#exportBtnStk2').prop("disabled", true);
+                $('#exportDropdown').prop('disabled', true);
             }
         }
     });
