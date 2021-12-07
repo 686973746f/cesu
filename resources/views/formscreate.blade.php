@@ -812,6 +812,7 @@
                                                         <option value="BETA" {{(old('confirmedVariantName') == 'BETA') ? 'selected' : ''}}>BETA (B.1.351) - ZA</option>
                                                         <option value="DELTA" {{(old('confirmedVariantName') == 'DELTA') ? 'selected' : ''}}>DELTA (B.1.617.2) - IN</option>
                                                         <option value="GAMMA" {{(old('confirmedVariantName') == 'GAMMA') ? 'selected' : ''}}>GAMMA (P.1) - BR</option>
+                                                        <option value="OMICRON" {{(old('confirmedVariantName') == 'OMICRON') ? 'selected' : ''}}>OMICRON (B.1.1.529)</option>
                                                     </select>
                                                 </div>
                                             </div>
