@@ -69,7 +69,26 @@
 							@enderror
 						</div>
 					</div>
-					<div class="col-md-3">
+					@php
+					if(\Carbon\Carbon::parse(old('bdate', $bdate))->age > 0) {
+						$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->age.' Y';
+					}
+					else {
+						if (\Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+							$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%d D');
+						}
+						else {
+							$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%m M');
+						}
+					}
+					@endphp
+					<div class="col-md-2">
+						<div class="form-group">
+						  <label><span class="text-danger font-weight-bold">*</span>Age</label>
+						  <input type="text" class="form-control" value="{{$getAge}}" disabled>
+						</div>
+					</div>
+					<div class="col-md-2">
 						<div class="form-group">
 							<label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
 						  	<select class="form-control" name="gender" id="gender">
@@ -94,7 +113,7 @@
 							@enderror
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<div class="form-group">
 							<label for="nationality"><span class="text-danger font-weight-bold">*</span>Nationality</label>
 							<select class="form-control" id="nationality" name="nationality" required>
