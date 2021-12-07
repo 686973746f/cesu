@@ -437,7 +437,7 @@ class FormsController extends Controller
     {
         $list = $request->listToPrint;
 
-        if($request->submit == 'export' || $request->submit == 'export_alphabetic') {
+        if($request->submit == 'export' || $request->submit == 'export_alphabetic' || $request->submit == 'export_alphabetic_withp') {
             //Export by Laboratory (ONI first, LaSalle second)
             $request->validate([
                 'listToPrint' => 'required',
@@ -450,11 +450,16 @@ class FormsController extends Controller
             ]);
 
             if($request->submit == 'export') {
-                return Excel::download(new FormsExport($list, 'export'), 'CIF_'.date("m_d_Y").'.csv');
+                $type = 'export';
             }
-            else {
-                return Excel::download(new FormsExport($list, 'export_alphabetic'), 'CIF_'.date("m_d_Y").'.csv');
+            else if($request->submit == 'export_alphabetic') {
+                $type = 'export_alphabetic';
             }
+            else if($request->submit == 'export_alphabetic_withp') {
+                $type = 'export_alphabetic_withp';
+            }
+
+            return Excel::download(new FormsExport($list, $type), 'CIF_'.date("m_d_Y").'.csv');
         }
         else if($request->submit == 'export_type1') {
             

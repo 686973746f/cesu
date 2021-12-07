@@ -58,6 +58,42 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
     
                 $data = $data->sortBy('records.lname');
             }
+            else if($this->type == 'export_alphabetic_withp') {
+                //Get Pregnant
+                $pregnant = Forms::with('records')
+                ->whereIn('id', $list)
+                ->whereHas('records', function ($q) {
+                    $q->where('isPregnant', 1);
+                });
+
+                $pregnant_col = $pregnant->get()->sortBy('records.lname');
+
+                $list = array_diff($list, $pregnant->pluck('id')->toArray());
+
+                //Get Senior
+                $senior = Forms::with('records')
+                ->whereIn('id', $list)
+                ->whereHas('records', function ($q) {
+                    $q->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 60');
+                });
+
+                $senior_col = $senior->get()->sortBy('records.lname');
+
+                $list = array_diff($list, $senior->pluck('id')->toArray());
+
+                //Get Hospitalization
+                $hospitalization = Forms::whereIn('id', $list)
+                ->where('isForHospitalization', 1);
+
+                $hospitalization_col = $hospitalization->get()->sortBy('records.lname');
+
+                $list = array_diff($list, $hospitalization->pluck('id')->toArray());
+
+                $normal_col = Forms::whereIn('id', $list)
+                ->get()->sortBy('records.lname');
+
+                $data = $pregnant_col->merge($senior_col)->merge($hospitalization_col)->merge($normal_col);
+            }
 
             return $data;
         }
