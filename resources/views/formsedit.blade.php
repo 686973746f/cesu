@@ -353,9 +353,9 @@
                                 <div class="form-group">
                                   <label for="ccType"><span class="text-danger font-weight-bold">*</span>Close Contact Type</label>
                                   <select class="form-control" name="ccType" id="ccType">
-                                    <option value="1" {{(old('ccType', $records->ccType) == 1) ? 'selected' : ''}}>Primary</option>
-                                    <option value="2" {{(old('ccType', $records->ccType) == 2) ? 'selected' : ''}}>Secondary</option>
-                                    <option value="3" {{(old('ccType', $records->ccType) == 3) ? 'selected' : ''}}>Tertiary</option>
+                                    <option value="1" {{(old('ccType', $records->ccType) == 1) ? 'selected' : ''}}>Primary (1st Generation)</option>
+                                    <option value="2" {{(old('ccType', $records->ccType) == 2) ? 'selected' : ''}}>Secondary (2nd Generation)</option>
+                                    <option value="3" {{(old('ccType', $records->ccType) == 3) ? 'selected' : ''}}>Tertiary (3rd Generation)</option>
                                   </select>
                                 </div>
                             </div>
