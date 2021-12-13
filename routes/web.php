@@ -89,6 +89,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAcc
     Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
     Route::post('/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);
     Route::post('/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
+
+    Route::get('/report/ct', [ReportV2Controller::class, 'viewCtReport'])->name('report.ct.index');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {

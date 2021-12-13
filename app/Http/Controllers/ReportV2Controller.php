@@ -270,4 +270,8 @@ class ReportV2Controller extends Controller
             'otherfacility_list' => $otherfacility,
         ]);
     }
+
+    public function viewCtReport() {
+        dd('bilat');
+    }
 }
