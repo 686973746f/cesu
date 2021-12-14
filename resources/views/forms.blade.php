@@ -90,12 +90,14 @@
                 </div>
             </form>
             <div class="row justify-content-center text-center">
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <div class="card border-success bg-success text-white mb-3">
                         <div class="card-body">
                             <h5>TOTAL</h5>
                             <small>(for {{(!(request()->get('getDate'))) ? date('m/d/Y - l') : date('m/d/Y - l', strtotime(request()->get('getDate')))}})</small>
                             <h3 class="font-weight-bold">{{$count_ops->count() + $count_nps->count() + $count_opsandnps->count() + $count_antigen + $count_antibody + $count_others}}</h3>
+                            <hr>
+                            <p>Suspected/Probable: {{$formsctr->where('pType', 'PROBABLE')->count()}} | Close Contact: {{$formsctr->where('pType', 'CLOSE CONTACT')->count()}} | Testing: {{$formsctr->where('pType', 'TESTING')->count()}}</p>
                             <hr>
                             <p>Hospitalization: <strong>{{$formsctr->where('isForHospitalization', 1)->count()}}</strong> | Pregnant: <strong>{{$formsctr->where('records.isPregnant', 1)->count()}}</strong></p>
                             <p class="mb-0">Printed: <strong>{{$formsctr->where('isExported', 1)->count()}}</strong> | Not Printed: <strong>{{$formsctr->where('isExported', 0)->count()}}</strong></p>
@@ -103,7 +105,7 @@
                     </div>
                 </div>
                 @if($count_ops->count() > 0)
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>OPS</h5>
@@ -116,7 +118,7 @@
                 </div>
                 @endif
                 @if($count_nps->count() > 0)
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>NPS</h5>
@@ -129,7 +131,7 @@
                 </div>
                 @endif
                 @if($count_opsandnps->count() > 0)
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>OPS & NPS</h5>
@@ -142,7 +144,7 @@
                 </div>
                 @endif
                 @if($count_antigen > 0)
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>ANTIGEN</h5>
@@ -152,7 +154,7 @@
                 </div>
                 @endif
                 @if($count_antibody > 0)
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>ANTIBODY</h5>
@@ -162,7 +164,7 @@
                 </div>
                 @endif
                 @if($count_others > 0)
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <div class="card border-info bg-info text-white mb-3">
                         <div class="card-body">
                             <h5>OTHERS</h5>
