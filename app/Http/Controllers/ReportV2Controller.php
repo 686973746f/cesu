@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brgy;
 use App\Models\Forms;
+use Carbon\CarbonPeriod;
 
 class ReportV2Controller extends Controller
 {
@@ -403,6 +404,39 @@ class ReportV2Controller extends Controller
             ]);
         }
 
+        $period = CarbonPeriod::create(date('Y-m-01'), date('Y-m-d'));
+        $arr_summary = [];
+
+        foreach($period as $date) {
+            $currentActiveCount = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereDate('morbidityMonth', $date->format('Y-m-d'))
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->count();
+
+            $currentCTCount = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereDate('morbidityMonth', $date->format('Y-m-d'))
+            ->where('outcomeCondition', 'Active')
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
+            ->where('reinfected', 0)
+            ->count();
+
+            array_push($arr_summary, [
+                'date' => $date->format('Y-m-d'),
+                'numActive' => $currentActiveCount,
+                'numCT' => $currentCTCount,
+            ]);
+        }
+
         return view('report_ct', [
             'list' => $arr,
             'totalPrimary' => 0,
@@ -411,7 +445,8 @@ class ReportV2Controller extends Controller
             'totalSuspected' => 0,
             'totalProbable' => 0,
             'activeCasesCount' => $activeCasesCount,
-            'grandTotalContactTraced' => $grandTotalContactTraced, 
+            'grandTotalContactTraced' => $grandTotalContactTraced,
+            'arr_summary' => $arr_summary,
         ]);
     }
 

@@ -5,13 +5,55 @@
         <div class="card">
             <div class="card-header">Contact Tracing Report</div>
             <div class="card-body">
+                <table class="table table-bordered text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th colspan="3">SUMMARY</th>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <th>Active</th>
+                            <th>Total Contact Traced</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($arr_summary as $arr)
+                        <tr>
+                            <td>{{date('m/d/Y', strtotime($arr['date']))}}</td>
+                            <td>{{$arr['numActive']}}</td>
+                            <td>{{$arr['numCT']}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @if(!request()->input('getDate'))
+                <table class="table table-bordered text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Total Contact Traced as of {{date('m/d/Y')}}</th>
+                            <th>Total Active Case as of {{date('m/d/Y')}}</th>
+                            <th>Ratio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{$grandTotalContactTraced}}</td>
+                            <td>{{$activeCasesCount}}</td>
+                            <td>1:{{ceil($grandTotalContactTraced / $activeCasesCount)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                @endif
+                <hr>
                 <div class="form-group">
                   <label for="">Generate Report on Date</label>
                   <input type="date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
                 </div>
-                <hr>
                 <table class="table table-bordered text-center">
                     <thead class="thead-light">
+                        <tr>
+                            <th colspan="7">{{(!request()->input('getDate')) ? date('m/d/Y') : date('m/d/Y', strtotime(request()->input('getDate')))}}</th>
+                        </tr>
                         <tr>
                             <th>BARANGAY</th>
                             <th>PRIMARY</th>
@@ -51,22 +93,6 @@
                             <td>{{$totalSuspected}}</td>
                             <td>{{$totalProbable}}</td>
                             <td>{{$grandTotal}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-bordered text-center">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Total Contact Traced as of {{date('m/d/Y')}}</th>
-                            <th>Total Active Case as of {{date('m/d/Y')}}</th>
-                            <th>Ratio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{$grandTotalContactTraced}}</td>
-                            <td>{{$activeCasesCount}}</td>
-                            <td>1:{{ceil($grandTotalContactTraced / $activeCasesCount)}}</td>
                         </tr>
                     </tbody>
                 </table>
