@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <div>Welcome: {{strtoupper(auth()->user()->name)}}</div>
-                        <div>Week: {{$currentWeek}}</div>
+                        <div>Morbidity Week: {{$currentWeek}}</div>
                     </div>
                 </div>
                 <div class="card-body">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brgy;
 use App\Models\Forms;
 
 class ReportV2Controller extends Controller
@@ -272,6 +273,155 @@ class ReportV2Controller extends Controller
     }
 
     public function viewCtReport() {
-        dd('bilat');
+        $arr = [];
+
+        $brgy = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->orderBy('brgyName', 'ASC')
+        ->get();
+
+        $primaryCount = Forms::where('status', 'approved')
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('ccType', 1);
+
+        $secondaryCount = Forms::where('status', 'approved')
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('ccType', 2);
+
+        $tertiaryCount = Forms::where('status', 'approved')
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('ccType', 3);
+
+        $suspectedCount = Forms::where('status', 'approved')
+        ->where('caseClassification', 'Suspect');
+
+        $probableCount = Forms::where('status', 'approved')
+        ->where('caseClassification', 'Probable');
+
+        $grandTotalContactTraced =
+        ((clone $primaryCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $secondaryCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $tertiaryCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $suspectedCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $probableCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count());
+
+        $activeCasesCount = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->where('reinfected', 0)
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
+
+        foreach($brgy as $b) {
+            $primaryCount = Forms::whereHas('records', function ($q) use ($b) {
+                $q->where('address_province', $b->city->province->provinceName)
+                ->where('address_city', $b->city->cityName)
+                ->where('address_brgy', $b->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('pType', 'CLOSE CONTACT')
+            ->where('ccType', 1);
+
+            $secondaryCount = Forms::whereHas('records', function ($q) use ($b) {
+                $q->where('address_province', $b->city->province->provinceName)
+                ->where('address_city', $b->city->cityName)
+                ->where('address_brgy', $b->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('pType', 'CLOSE CONTACT')
+            ->where('ccType', 2);;
+
+            $tertiaryCount = Forms::whereHas('records', function ($q) use ($b) {
+                $q->where('address_province', $b->city->province->provinceName)
+                ->where('address_city', $b->city->cityName)
+                ->where('address_brgy', $b->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('pType', 'CLOSE CONTACT')
+            ->where('ccType', 3);;
+
+            $suspectedCount = Forms::whereHas('records', function ($q) use ($b) {
+                $q->where('address_province', $b->city->province->provinceName)
+                ->where('address_city', $b->city->cityName)
+                ->where('address_brgy', $b->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Suspect');;
+
+            $probableCount = Forms::whereHas('records', function ($q) use ($b) {
+                $q->where('address_province', $b->city->province->provinceName)
+                ->where('address_city', $b->city->cityName)
+                ->where('address_brgy', $b->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Probable');
+
+            if(request()->input('getDate')) {
+                $primaryCount = $primaryCount->whereDate('morbidityMonth', request()->input('getDate'))
+                ->count();
+
+                $secondaryCount = $secondaryCount->whereDate('morbidityMonth', request()->input('getDate'))
+                ->count();
+
+                $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', request()->input('getDate'))
+                ->count();
+
+                $suspectedCount = $suspectedCount->whereDate('morbidityMonth', request()->input('getDate'))
+                ->count();
+
+                $probableCount = $probableCount->whereDate('morbidityMonth', request()->input('getDate'))
+                ->count();
+            }
+            else {
+                $primaryCount = $primaryCount->whereDate('morbidityMonth', date('Y-m-d'))
+                ->count();
+
+                $secondaryCount = $secondaryCount->whereDate('morbidityMonth', date('Y-m-d'))
+                ->count();
+
+                $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', date('Y-m-d'))
+                ->count();
+
+                $suspectedCount = $suspectedCount->whereDate('morbidityMonth', date('Y-m-d'))
+                ->count();
+
+                $probableCount = $probableCount->whereDate('morbidityMonth', date('Y-m-d'))
+                ->count();
+            }
+
+            array_push ($arr, [
+                'brgyName' => $b->brgyName,
+                'primaryCount' => $primaryCount,
+                'secondaryCount' => $secondaryCount,
+                'tertiaryCount' => $tertiaryCount,
+                'suspectedCount' => $suspectedCount,
+                'probableCount' => $probableCount,
+            ]);
+        }
+
+        return view('report_ct', [
+            'list' => $arr,
+            'totalPrimary' => 0,
+            'totalSecondary' => 0,
+            'totalTertiary' => 0,
+            'totalSuspected' => 0,
+            'totalProbable' => 0,
+            'activeCasesCount' => $activeCasesCount,
+            'grandTotalContactTraced' => $grandTotalContactTraced, 
+        ]);
+    }
+
+    public static function getRatio($num1, $num2){
+        for($i = $num2; $i > 1; $i--) {
+            if(($num1 % $i) == 0 && ($num2 % $i) == 0) {
+                $num1 = $num1 / $i;
+                $num2 = $num2 / $i;
+            }
+        }
+        return "$num1:$num2";
     }
 }
