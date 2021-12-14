@@ -281,30 +281,70 @@ class ReportV2Controller extends Controller
         ->orderBy('brgyName', 'ASC')
         ->get();
 
+        /*
+        $currentCTCount = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereDate('morbidityMonth', $date->format('Y-m-d'))
+            ->where('outcomeCondition', 'Active')
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
+            ->where('reinfected', 0)
+            ->count();
+        */
+
         $primaryCount = Forms::where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
+        ->where('reinfected', 0)
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 1);
 
         $secondaryCount = Forms::where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
+        ->where('reinfected', 0)
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 2);
 
         $tertiaryCount = Forms::where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
+        ->where('reinfected', 0)
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 3);
 
         $suspectedCount = Forms::where('status', 'approved')
+        ->where('ptype', '!=', 'CLOSE CONTACT')
+        ->where('outcomeCondition', 'Active')
+        ->where('reinfected', 0)
         ->where('caseClassification', 'Suspect');
 
         $probableCount = Forms::where('status', 'approved')
+        ->where('ptype', '!=', 'CLOSE CONTACT')
+        ->where('outcomeCondition', 'Active')
+        ->where('reinfected', 0)
         ->where('caseClassification', 'Probable');
 
         $grandTotalContactTraced =
-        ((clone $primaryCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
-        (clone $secondaryCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
-        (clone $tertiaryCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
-        (clone $suspectedCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
-        (clone $probableCount)->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count());
+        ((clone $primaryCount)->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $secondaryCount)->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $tertiaryCount)->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $suspectedCount)->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count() +
+        (clone $probableCount)->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count());
 
         $activeCasesCount = Forms::whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
