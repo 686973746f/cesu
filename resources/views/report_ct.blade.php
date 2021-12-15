@@ -47,7 +47,7 @@
                 <hr>
                 <div class="form-group">
                   <label for="">Generate Report on Date</label>
-                  <input type="date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                  <input type="date" class="form-control" name="getDate" id="getDate" value="{{(!request()->input('getDate')) ? date('Y-m-d') : request()->input('getDate')}}" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}">
                 </div>
                 <table class="table table-bordered text-center">
                     <thead class="thead-light">

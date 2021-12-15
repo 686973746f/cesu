@@ -27,6 +27,7 @@
                         <div class="card card-body">
                             <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block">View/Create CIFs</a>
                             @if(auth()->user()->isCesuAccount())
+                            <a href="{{route('pendingshedchecker.index')}}" class="btn btn-primary btn-lg btn-block">Pending Swab Counter</a>
                             <a href="{{route('paswab.view')}}" class="btn btn-primary btn-lg btn-block">Pa-swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
                             @endif
                             <a href="{{route('bulkupdate.index')}}" class="btn btn-primary btn-lg btn-block">Bulk Update CIF Status</a>

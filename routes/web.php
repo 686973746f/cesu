@@ -91,6 +91,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAcc
     Route::post('/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
 
     Route::get('/report/ct', [ReportV2Controller::class, 'viewCtReport'])->name('report.ct.index');
+
+    Route::get('/check_pending', [HomeController::class, 'pendingSchedChecker'])->name('pendingshedchecker.index');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {

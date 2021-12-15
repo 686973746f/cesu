@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Forms;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 
@@ -39,5 +40,32 @@ class HomeController extends Controller
         else if(auth()->user()->isLevel3()) {
             return redirect()->route('facility.home');
         }
+    }
+
+    public function pendingSchedChecker() {
+        $arr = [];
+
+        $getLastDayOfMonth = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))
+        ->endOfMonth()
+        ->format('Y-m-d');
+
+        $period = CarbonPeriod::create(date('Y-m-d'), $getLastDayOfMonth);
+        $total = 0;
+
+        $paswabctr = PaSwabDetails::where('status', 'pending')->count();
+
+        foreach($period as $date) {
+            $num = Forms::whereDate('testDateCollected1', $date->format('Y-m-d'))
+            ->orWhereDate('testDateCollected2', $date->format('Y-m-d'))->count();
+
+            array_push($arr, [
+                'date' => $date->format('Y-m-d'),
+                'count' => $num,
+            ]);
+
+            $total += $num;
+        }
+
+        return view('pendingschedchecker', ['arr' => $arr, 'total' => $total, 'paswabctr' => $paswabctr]);
     }
 }
