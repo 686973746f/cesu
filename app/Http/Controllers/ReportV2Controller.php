@@ -9,6 +9,15 @@ use Carbon\CarbonPeriod;
 class ReportV2Controller extends Controller
 {
     public function viewDashboard() {
+        $load = sys_getloadavg();
+
+        if($load[0] >= 0.20) {
+            return redirect()
+            ->route('home')
+            ->with('status', 'Server too busy. Please try again after a few minutes.')
+            ->with('statustype', 'warning');
+        }
+
         if(auth()->user()->isCesuAccount()) {
             function activeConfirmedGenerator() {
                 foreach (Forms::with('records')
