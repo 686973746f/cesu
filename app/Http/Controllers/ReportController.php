@@ -20,13 +20,13 @@ class ReportController extends Controller
     public function index() {
         $load = sys_getloadavg();
 
-        if($load[0] >= 0.20) {
+        if($load[0] >= 0.80) {
             return redirect()
             ->route('home')
             ->with('status', 'Server too busy. Please try again after a few minutes.')
             ->with('statustype', 'warning');
         }
-        
+
         if(auth()->user()->isCesuAccount()) {
             $activeCount = Forms::with('records')
             ->whereHas('records', function ($q) {
