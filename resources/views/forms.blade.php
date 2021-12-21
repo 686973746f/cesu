@@ -99,7 +99,7 @@
                             <hr>
                             <p>Suspected/Probable: <strong>{{$formsctr->where('pType', 'PROBABLE')->count()}}</strong> | Close Contact: <strong>{{$formsctr->where('pType', 'CLOSE CONTACT')->count()}}</strong> | Testing: <strong>{{$formsctr->where('pType', 'TESTING')->count()}}</strong></p>
                             <hr>
-                            <p>Hospitalization: <strong>{{$formsctr->where('isForHospitalization', 1)->count()}}</strong> | Pregnant: <strong>{{$formsctr->where('records.isPregnant', 1)->count()}}</strong></p>
+                            <p>Hospitalization: <strong>{{$formsctr->where('isForHospitalization', 1)->where('records.isPregnant', 0)->count()}}</strong> | Pregnant: <strong>{{$formsctr->where('records.isPregnant', 1)->count()}}</strong></p>
                             <p class="mb-0">Printed: <strong>{{$formsctr->where('isExported', 1)->count()}}</strong> | Not Printed: <strong>{{$formsctr->where('isExported', 0)->count()}}</strong></p>
                         </div>
                     </div>
