@@ -16,6 +16,7 @@ class CreateRecordsTable extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->tinyInteger('is_confidential')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status');
             $table->foreignId('status_by')->nullable()->constrained('users')->onDelete('cascade');

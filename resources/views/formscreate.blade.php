@@ -256,6 +256,11 @@
                                     <option value="3" {{(old('ccType') == 3) ? 'selected' : ''}}>Tertiary (3rd Generation)</option>
                                   </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="ccid_list">This patient is exposed to patient/s</label>
+                                    <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -797,11 +802,20 @@
                                                     <option value="Confirmed" {{(old('caseClassification') == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
                                                     <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
                                                 </select>
-                                                <div class="alert alert-info mt-3" role="alert">
-                                                    <p><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Note:</p>
-                                                    <p>IF <strong>Suspected</strong> or <strong>Probable</strong> = Will <strong>APPEAR</strong> on For Swab List</p>
-                                                    <p>IF <strong class="text-danger">Confirmed</strong> or <strong class="text-success">Non-COVID-19 Case</strong> = Will <strong>NOT APPEAR</strong> on For Swab List</p>
+                                            </div>
+                                            @if($is_cutoff && $records->id == $records->getNewCif() && $records->caseClassification != 'Confirmed')
+                                                <div id="cutoffwarning" class="d-none">
+                                                    <div class="alert alert-warning" role="alert">
+                                                        <i class="fa fa-exclamation-triangle mr-2" aria-hidden="true"></i>Warning: Encoding Confirmed Patients for today is over.
+                                                        <hr>
+                                                        You can pre-encode the data by changing the Date of Morbidity Month to the Tomorrow's Date (which is {{date('m/d/Y', strtotime('+1 Day'))}})
+                                                    </div>
                                                 </div>
+                                            @endif
+                                            <div class="alert alert-info mt-3" role="alert">
+                                                <p><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Note:</p>
+                                                <p>IF <strong>Suspected</strong> or <strong>Probable</strong> = Will <strong>APPEAR</strong> on For Swab List</p>
+                                                <p>IF <strong class="text-danger">Confirmed</strong> or <strong class="text-success">Non-COVID-19 Case</strong> = Will <strong>NOT APPEAR</strong> on For Swab List</p>
                                             </div>
                                             <div id="confirmedVariant">
                                                 <div class="form-group">
@@ -3478,6 +3492,27 @@
                     $('#ccType').prop('required', false);
                 }
             }).trigger('change');
+
+            $('#ccid_list').select2({
+                theme: "bootstrap",
+                placeholder: 'Search by Name / Patient ID ...',
+                ajax: {
+                    url: "{{route('forms.ajaxcclist')}}?self_id={{$records->records->id}}",
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id,
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
         });
     </script>
 @endsection

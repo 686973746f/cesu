@@ -311,6 +311,34 @@ class FormsController extends Controller
         return response()->json($list);
     }
 
+    public function ajaxcclist(Request $request) {
+        $list = [];
+        $self_id = request()->input('self_id');
+
+        if($request->has('q') && strlen($request->input('q')) > 1) {
+            $search = mb_strtoupper($request->q);
+
+            $data = Forms::whereHas('records', function ($q) use ($search) {
+                $q->where(DB::raw('CONCAT(records.lname," ",records.fname," ", records.mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                ->orWhere(DB::raw('CONCAT(records.lname," ",records.fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                ->orWhere('records.id', $search);
+            })
+            ->whereHas('records', function ($q) use ($self_id) {
+                $q->where('records.id', '!=', $self_id);
+            })
+            ->get();
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->getNewCif(),
+                    'text' => '#'.$item->records->id.' - '.$item->records->getName().' | '.$item->records->getAge().'/'.substr($item->records->gender,0,1).' | '.date('m/d/Y', strtotime($item->records->bdate)),
+                ]);
+            }
+        }
+
+        return response()->json($list);
+    }
+
     public function importIndex() {
         return view('forms_import');
     }
@@ -1032,6 +1060,7 @@ class FormsController extends Controller
                 'ecOthersRemarks' => $request->ecOthersRemarks,
                 'pType' => $request->pType,
                 'ccType' => ($request->pType == 'CLOSE CONTACT') ? $request->ccType : NULL,
+                'ccid_list' => (!is_null($request->ccid_list)) ? implode(",", $request->ccid_list) : NULL,
                 'isForHospitalization' => $request->isForHospitalization,
                 'testingCat' => implode(",", $testCat),
                 'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
@@ -1302,6 +1331,14 @@ class FormsController extends Controller
                 $vaccineDose = NULL;
             }
 
+            //Positive Encoding Cutoff indicator
+            if(time() >= strtotime('16:00:00')) {
+                $is_cutoff = true;
+            }
+            else {
+                $is_cutoff = false;
+            }
+
             return view('formsedit', [
                 'countries' => $all,
                 'records' => $records,
@@ -1311,6 +1348,7 @@ class FormsController extends Controller
                 'vaccineDose' => $vaccineDose,
                 'oldCif' => $oldCif,
                 'msheet' => $msheet,
+                'is_cutoff' => $is_cutoff,
             ]);
         }
         else {
@@ -1663,6 +1701,7 @@ class FormsController extends Controller
                             'ecOthersRemarks' => $request->ecOthersRemarks,
                             'pType' => $request->pType,
                             'ccType' => ($request->pType == 'CLOSE CONTACT') ? $request->ccType : NULL,
+                            'ccid_list' => (!is_null($request->ccid_list)) ? implode(",", $request->ccid_list) : NULL,
                             'isForHospitalization' => $request->isForHospitalization,
                             'testingCat' => implode(",", $testCat),
                             'havePreviousCovidConsultation' => $request->havePreviousCovidConsultation,
