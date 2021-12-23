@@ -27,6 +27,7 @@ use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ContactTracingController;
 use App\Http\Controllers\MonitoringSheetController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -158,6 +159,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/msheet/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.print');
     Route::get('/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.viewdate');
     Route::post('/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.updatemonitoring');
+
+    Route::get('/ct/index', [ContactTracingController::class, 'dashboard_index'])->name('ct.dashboard.index');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
