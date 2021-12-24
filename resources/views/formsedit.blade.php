@@ -125,8 +125,8 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td class="bg-light">Encoded By / Date</td>
-                                    <td class="text-center">{{$records->user->name}} ({{date("m/d/Y h:i A - l", strtotime($records->created_at))}})</td>
+                                    <td class="bg-light">CIF ID</td>
+                                    <td class="text-center">{{$records->id}}</td>
                                 </tr>
                                 <tr>
                                     <td class="bg-light">Encoded By / Date</td>
