@@ -20,10 +20,10 @@
                     @endif
 
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Information</a>
-                    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
                         <i class="fa fa-file mr-2" aria-hidden="true"></i>Case Investigation Forms
                     </button>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapse1">
                         <div class="card card-body">
                             <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block">View/Create CIFs</a>
                             @if(auth()->user()->isCesuAccount())
@@ -33,8 +33,16 @@
                             <a href="{{route('bulkupdate.index')}}" class="btn btn-primary btn-lg btn-block">Bulk Update CIF Status</a>
                         </div>
                     </div>
-                    
                     @if(auth()->user()->isCesuAccount())
+                    <button class="btn btn-primary btn-lg btn-block mt-2" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        Contact Tracing
+                    </button>
+                    <div class="collapse" id="collapse2">
+                        <div class="card card-body">
+                            <a href="{{route('ct.dashboard.index')}}" class="btn btn-primary btn-lg btn-block">Contact Tracing Search</a>
+                            <a href="{{route('report.ct.index')}}" class="btn btn-primary btn-lg btn-block">Contact Tracing Report</a>
+                        </div>
+                    </div>
                     <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block mt-2">Self-Report</a>
                     @endif
                     @if(auth()->user()->canUseLinelist())

@@ -128,6 +128,10 @@
                                     <td class="bg-light">Encoded By / Date</td>
                                     <td class="text-center">{{$records->user->name}} ({{date("m/d/Y h:i A - l", strtotime($records->created_at))}})</td>
                                 </tr>
+                                <tr>
+                                    <td class="bg-light">Encoded By / Date</td>
+                                    <td class="text-center">{{$records->user->name}} ({{date("m/d/Y h:i A - l", strtotime($records->created_at))}})</td>
+                                </tr>
                                 @if(!is_null($records->updated_by))
                                 <tr>
                                     <td class="bg-light">Edited By / Date</td>
@@ -358,11 +362,6 @@
                                     <option value="3" {{(old('ccType', $records->ccType) == 3) ? 'selected' : ''}}>Tertiary (3rd Generation)</option>
                                   </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="ccid_list">This patient is exposed to patient/s</label>
-                                    <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -374,6 +373,11 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->records->id}} for this CIF</label>
+                        <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
+                        </select>
                     </div>
                     <div class="form-group">
                       <label for="testingCat"><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup <i>(Select all that apply)</i></label>

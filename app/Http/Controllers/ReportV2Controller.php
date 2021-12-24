@@ -400,7 +400,8 @@ class ReportV2Controller extends Controller
                 ->where('address_brgy', $b->brgyName);
             })
             ->where('status', 'approved')
-            ->where('caseClassification', 'Suspect');;
+            ->where('ptype', '!=', 'CLOSE CONTACT')
+            ->where('caseClassification', 'Suspect');
 
             $probableCount = Forms::whereHas('records', function ($q) use ($b) {
                 $q->where('address_province', $b->city->province->provinceName)
@@ -408,6 +409,7 @@ class ReportV2Controller extends Controller
                 ->where('address_brgy', $b->brgyName);
             })
             ->where('status', 'approved')
+            ->where('ptype', '!=', 'CLOSE CONTACT')
             ->where('caseClassification', 'Probable');
 
             if(request()->input('getDate')) {
@@ -497,15 +499,5 @@ class ReportV2Controller extends Controller
             'grandTotalContactTraced' => $grandTotalContactTraced,
             'arr_summary' => $arr_summary,
         ]);
-    }
-
-    public static function getRatio($num1, $num2){
-        for($i = $num2; $i > 1; $i--) {
-            if(($num1 % $i) == 0 && ($num2 % $i) == 0) {
-                $num1 = $num1 / $i;
-                $num2 = $num2 / $i;
-            }
-        }
-        return "$num1:$num2";
     }
 }

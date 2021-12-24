@@ -206,4 +206,15 @@ class Forms extends Model
 
         return $form->id;
     }
+
+    public function getContactTracingList() {
+        if(!is_null($this->ccid_list)) {
+            $exploded = explode(",", $this->ccid_list);
+
+            return Forms::whereIn('id', $exploded)->get();
+        }
+        else {
+            return false;
+        }
+    }
 }

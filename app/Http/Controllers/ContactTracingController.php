@@ -8,29 +8,29 @@ use Illuminate\Http\Request;
 class ContactTracingController extends Controller
 {
     public function dashboard_index() {
-        $list_arr = [];
-        $main_arr = [];
 
-        $get_ct = Forms::whereNotNull('ccid_list')->pluck('ccid_list')->toArray();
+        if(request()->input('pid')) {
+            $pid = request()->input('pid');
 
-        foreach($get_ct as $i) {
-            $exploded = explode(",", $i);
+            $check = Forms::where('id', $pid)
+            ->whereNotNull('ccid_list')
+            ->first();
+
+            if($check) {
+                $siv = true;
+            }
+            else {
+                $siv = false;
+            }
         }
-
-        foreach($get_ct as $p) {
-            $get_primary = Forms::whereIn('id', [explode(",", $p->ccid_list)])->get();
-
-            array_push($main_arr, $get_primary);
-        }
-
-        foreach($get_primary as $q) {
-            $get_cc = Forms::whereNot('id', $q)
-            ->where('ccid_list', 'LIKE', '%'.$q)
-            ->get();
+        else {
+            $check = NULL;
+            $siv = false;
         }
 
         return view('ct_dashboard_index', [
-
+            'search_is_valid' => $siv,
+            'form' => $check,
         ]);
     }
 }
