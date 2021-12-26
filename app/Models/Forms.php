@@ -204,7 +204,12 @@ class Forms extends Model
     public function getNewCif() {
         $form = Forms::where('records_id', $this->records_id)->orderBy('created_at', 'DESC')->first();
 
-        return $form->id;
+        if($form) {
+            return $form->id;
+        }
+        else {
+            return false;
+        }
     }
 
     public function getContactTracingList() {
