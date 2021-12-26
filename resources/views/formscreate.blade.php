@@ -269,7 +269,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->records->id}} for this CIF</label>
+                        <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->id}} for this CIF</label>
                         <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
                         </select>
                     </div>
