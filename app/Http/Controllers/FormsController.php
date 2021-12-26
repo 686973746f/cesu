@@ -742,11 +742,19 @@ class FormsController extends Controller
                 $interviewers = Interviewers::where('enabled', 1)
                 ->orderBy('lname', 'asc')
                 ->get();
+
+                //Positive Encoding Cutoff indicator
+                if(time() >= strtotime('16:00:00')) {
+                    $is_cutoff = true;
+                }
+                else {
+                    $is_cutoff = false;
+                }
                 
                 $countries = new Countries();
                 $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
                 $all = $countries->all()->pluck('name.common')->toArray();
-                return view('formscreate', ['countries' => $all, 'records' => $check, 'interviewers' => $interviewers, 'id' => $id]);
+                return view('formscreate', ['countries' => $all, 'records' => $check, 'interviewers' => $interviewers, 'id' => $id, 'is_cutoff' => $is_cutoff]);
             }
         }
         else {
