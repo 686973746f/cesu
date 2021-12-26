@@ -335,4 +335,15 @@ class Records extends Model
             return false;
         }
     }
+
+    public function getNewCif() {
+        $form = Forms::where('records_id', $this->records_id)->orderBy('created_at', 'DESC')->first();
+
+        if($form) {
+            return $form->id;
+        }
+        else {
+            return false;
+        }
+    }
 }
