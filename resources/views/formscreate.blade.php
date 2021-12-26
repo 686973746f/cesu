@@ -3497,7 +3497,7 @@
                 theme: "bootstrap",
                 placeholder: 'Search by Name / Patient ID ...',
                 ajax: {
-                    url: "{{route('forms.ajaxcclist')}}?self_id={{$records->records->id}}",
+                    url: "{{route('forms.ajaxcclist')}}?self_id={{$records->id}}",
                     dataType: 'json',
                     delay: 250,
                     processResults: function (data) {
