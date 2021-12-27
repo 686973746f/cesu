@@ -314,4 +314,13 @@ class PaSwabDetails extends Model
             }
         }
     }
+
+    public function checkPaswabBrgyData() {
+        if($this->address_province == auth()->user()->brgy->city->province->provinceName && $this->address_city == auth()->user()->brgy->city->cityName && $this->address_brgy == auth()->user()->brgy->brgyName) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

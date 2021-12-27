@@ -103,6 +103,7 @@ class CreateFormsTable extends Migration
             $table->text('COMO');
             $table->text('COMOOtherRemarks')->nullable();
             $table->date('PregnantLMP')->nullable();
+            $table->date('PregnantEDC')->nullable();
             $table->tinyInteger('PregnantHighRisk');
 
             $table->enum('diagWithSARI', [0,1]);

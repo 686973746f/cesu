@@ -42,7 +42,7 @@
                         <button class="btn btn-primary mb-2" style="pointer-events: none;" type="button" disabled>Print Antigen Linelist</button>
                     </span>
                     @endif
-                    @if(auth()->user()->isCesuAccount())
+                    @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount())
                     <a href="{{route('paswab.view')}}" class="btn btn-primary mb-2">Pa-Swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
                     @endif
                     <button class="btn btn-success mb-2" type="button" data-toggle="modal" data-target="#selectPatient"><i class="fa fa-plus mr-2" aria-hidden="true"></i>New/Search CIF</button>

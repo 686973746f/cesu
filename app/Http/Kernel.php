@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'isAccountEnabled' => \App\Http\Middleware\isAccountEnabledMiddleware::class,
         'isCesuAccount' => \App\Http\Middleware\isCesuAccount::class,
+        'isCesuOrBrgyAccount' => \App\Http\Middleware\isCesuOrBrgyAccount::class,
         'isLevel1' => \App\Http\Middleware\isLevel1::class,
         'isLevel2' => \App\Http\Middleware\isLevel2::class,
         'isLevel3' => \App\Http\Middleware\isLevel3::class,

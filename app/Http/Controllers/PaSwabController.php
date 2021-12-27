@@ -67,6 +67,10 @@ class PaSwabController extends Controller
             $list = PaSwabDetails::whereIn('id', $request->bulkIDList)->where('status', 'pending')->get();
 
             foreach($list as $data) {
+                if(!($data->checkPaswabBrgyData())) {
+                    return abort(401);
+                }
+                
                 //Test Type final validator forAntigen
                 if($data->forAntigen == 1) {
                     $ttype = 'ANTIGEN';
@@ -1197,14 +1201,21 @@ class PaSwabController extends Controller
                 ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
                 ->orWhere('majikCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%")
                 ->orWhere('linkCode', 'LIKE', "%".mb_strtoupper(request()->input('q'))."%");
-            })->where('status', 'pending')
-            ->paginate(10);
+            })->where('status', 'pending');
 		}
         else {
-            $list = PaSwabDetails::where('status', 'pending')
-            ->orderBy('created_at', 'asc')
-            ->paginate(10);
+            $list = PaSwabDetails::where('status', 'pending');
         }
+
+        if(auth()->user()->isBrgyAccount()) {
+            $list = $list->where('address_province', auth()->user()->brgy->city->province->provinceName)
+            ->where('address_city', auth()->user()->brgy->city->cityName)
+            ->where('address_brgy', auth()->user()->brgy->brgyName);
+        }
+
+        $list = $list
+        ->orderBy('created_at', 'asc')
+        ->paginate(10);
         
         return view('paswab_view', ['list' => $list]);
     }
@@ -1214,11 +1225,20 @@ class PaSwabController extends Controller
 
         $interviewers = Interviewers::orderBy('lname', 'asc')->get();
 
-        return view('paswab_view_specific', ['data' => $data, 'interviewers' => $interviewers]);
+        if($data->checkPaswabBrgyData()) {
+            return view('paswab_view_specific', ['data' => $data, 'interviewers' => $interviewers]);
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function approve($id, Request $request) {
         $data = PaSwabDetails::findOrFail($id);
+
+        if(!($data->checkPaswabBrgyData())) {
+            return abort(401);
+        }
 
         //Test Type final validator forAntigen
         if($data->forAntigen == 1) {
@@ -1694,6 +1714,10 @@ class PaSwabController extends Controller
         ]);
 
         $data = PaSwabDetails::where('id', $id)->where('status', 'pending')->get();
+
+        if(!($data->checkPaswabBrgyData())) {
+            return abort(401);
+        }
 
         if($data->status == 'pending') {
             //Test Type final validator forAntigen

@@ -102,6 +102,15 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
 });
 
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount']], function() {
+    //Pa-swab
+    Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
+    Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
+    Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
+    Route::post('/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);
+    Route::post('/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
+});
+
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1']], function() {
     // your routes
     Route::get('/records/duplicatechecker', [RecordsController::class, 'duplicateCheckerDashboard'])->name('records.duplicatechecker');
