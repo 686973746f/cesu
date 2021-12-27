@@ -1926,7 +1926,15 @@ class FormsController extends Controller
             $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
             $all = $countries->all()->pluck('name.common')->toArray();
 
-            return view('formscreate', ['countries' => $all, 'records' => $record, 'interviewers' => $interviewers, 'id' => $id]);
+            //Positive Encoding Cutoff indicator
+            if(time() >= strtotime('16:00:00')) {
+                $is_cutoff = true;
+            }
+            else {
+                $is_cutoff = false;
+            }
+
+            return view('formscreate', ['countries' => $all, 'records' => $record, 'interviewers' => $interviewers, 'id' => $id, 'is_cutoff' => $is_cutoff]);
         }
         else {
             return redirect()->route('forms.index')
