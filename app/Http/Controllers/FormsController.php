@@ -1883,10 +1883,10 @@ class FormsController extends Controller
                         ]);
             
                         if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {
-                            return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")->with('status', 'CIF for '.$rec->records->getName()." has been updated successfully.")->with('statustype', 'success');
+                            return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")->with('status', "CIF for ".$rec->records->getName()." (#".$rec->records->id.") has been updated successfully.")->with('statustype', 'success');
                         }
                         else {
-                            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF for '.$rec->records->getName()." has been updated successfully.")->with('statustype', 'success');
+                            return redirect()->action([FormsController::class, 'index'])->with('status', "CIF for ".$rec->records->getName()." (#".$rec->records->id.") has been updated successfully.")->with('statustype', 'success');
                         }
                     }
                 }
