@@ -27,6 +27,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
+                    @if(auth()->user()->isCesuAccount())
                     <form action="{{route('report.DOHExportAll')}}" method="POST" id="reportForm">
                         @csrf
                         <div class="form-group">
@@ -44,6 +45,7 @@
                     <hr>
                     @if(auth()->user()->ifTopAdmin())
                     <a href="{{route('report.dilgExportAll')}}"><button type="button" name="" id="" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>DILG</button></a>
+                    @endif
                     @endif
                 </div>
             </div>
