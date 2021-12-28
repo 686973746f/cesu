@@ -878,7 +878,22 @@
 					</div>
 				</div>
 				@endif
+				@if(auth()->user()->isAdmin == 1)
+				<hr>
+				<div class="card">
+					<div class="card-header">Other Record Settings</div>
+					<div class="card-body">
+						<div class="form-check">
+						  <label class="form-check-label">
+							<input type="checkbox" class="form-check-input" name="is_confidential" id="is_confidential" value="1">
+							Is the record confidential? <i>(Details can only be seen by Admins)</i>
+						  </label>
+						</div>
+					</div>
+				</div>
+				@endif
 			</div>
+			
 			<div class="card-footer text-right">
 				<button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-save mr-2"></i>Save (CTRL + S)</button>
 			</div>

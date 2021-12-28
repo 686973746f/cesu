@@ -24,6 +24,7 @@ class RecordValidationRequest extends FormRequest
     public function rules()
     {
         return [
+			'is_confidential' => 'nullable',
 			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',

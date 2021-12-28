@@ -433,6 +433,8 @@ class RecordsController extends Controller
 				'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
 				'vaccinationFacility2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
 				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
+
+				'is_confidential' => ($request->is_confidential) ? 1 : 0,
 			]);
 			
 			if(auth()->user()->option_enableAutoRedirectToCif == 1) {
@@ -470,6 +472,11 @@ class RecordsController extends Controller
 		if(Records::eligibleToUpdate($id)) {
 			$record = Records::findOrFail($id);
 			$cifcheck = Forms::where('records_id', $record->id)->orderBy('created_at', 'DESC')->first();
+
+			//Check if Confidential
+			if(!($record->ifAllowedToViewConfidential())) {
+				return view('confidential_index', ['record' => $record]);
+			}
 
 			//Vaccination Details
             if(!is_null($record->vaccinationDate2) || !is_null($record->vaccinationDate1)) {
@@ -786,6 +793,19 @@ class RecordsController extends Controller
 				else {
 					$shareAccountList = $current->sharedOnId;
 				}
+
+				//is_confidential
+				if(auth()->user()->isAdmin == 1) {
+					if($request->is_confidential) {
+						$is_confidential = 1;
+					}
+					else {
+						$is_confidential = 0;
+					}
+				}
+				else {
+					$is_confidential = $current->is_confidential;
+				}
 				
 				$record = Records::where('id', $id)->update([
 					'updated_by' => auth()->user()->id,
@@ -853,6 +873,7 @@ class RecordsController extends Controller
 					'vaccinationRegion2' => ($request->howManyDoseVaccine == 2) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 	
 					'sharedOnId' => $shareAccountList,
+					'is_confidential' => $is_confidential,
 				]);
 	
 				$record = Records::findOrFail($id);

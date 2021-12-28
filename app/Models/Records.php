@@ -14,6 +14,7 @@ class Records extends Model
     use HasFactory;
 
     protected $fillable = [
+        'is_confidential',
         'user_id',
         'status',
         'lname',
@@ -344,6 +345,20 @@ class Records extends Model
         }
         else {
             return false;
+        }
+    }
+
+    public function ifAllowedToViewConfidential() {
+        if(auth()->user()->isAdmin == 1) {
+            return true;
+        }
+        else {
+            if($this->is_confidential == 1) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
     }
 }

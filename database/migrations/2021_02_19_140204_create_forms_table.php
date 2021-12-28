@@ -230,7 +230,7 @@ class CreateFormsTable extends Migration
             $table->string('remarks')->nullable();
             $table->text('facility_remarks')->nullable();
 
-            $table->foreignId('exposedto_id')->nullable()->constrained('forms')->onDelete('cascade');
+            $table->foreignId('ccid_list')->nullable()->constrained('forms')->onDelete('cascade');
         });
     }
 
