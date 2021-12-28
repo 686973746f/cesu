@@ -885,7 +885,7 @@
 					<div class="card-body">
 						<div class="form-check">
 						  <label class="form-check-label">
-							<input type="checkbox" class="form-check-input" name="is_confidential" id="is_confidential" value="1">
+							<input type="checkbox" class="form-check-input" name="is_confidential" id="is_confidential" value="1" {{(old('is_confidential') == 1) ? 'checked' : ''}}>
 							Is the record confidential? <i>(Details can only be seen by Admins)</i>
 						  </label>
 						</div>

@@ -10,7 +10,7 @@
             <p>Patient record of <u>{{$record->getName()}} (#{{$record->id}})</u> was marked as <strong>Confidential</strong></p>
             <p>Only authorized users are allowed to view and edit the record.</p>
             <hr>
-            <p>If you think this was a mistake, please contact CESU Staff.</p>
+            <p>If you think this was a mistake, you may contact CESU Staff.</p>
         </div>
         <div class="card-footer text-center">
             <a href="{{url()->previous()}}"><i class="fa fa-arrow-left mr-2" aria-hidden="true"></i>Go Back</a>

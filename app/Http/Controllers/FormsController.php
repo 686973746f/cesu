@@ -714,6 +714,11 @@ class FormsController extends Controller
     public function new($id) {
         if(Records::eligibleToUpdate($id)) {
             $check = Records::where('id', $id)->first();
+
+            //is_confidential
+            if(!($check->ifAllowedToViewConfidential())) {
+                return view('confidential_index', ['record' => $check]);
+            }
             
             if(Forms::where('records_id', $id)->exists()) {
                 //existing na
@@ -1308,6 +1313,12 @@ class FormsController extends Controller
     public function edit($id)
     {
         $records = Forms::findOrFail($id);
+        
+        //is_confidential
+        if(!($records->records->ifAllowedToViewConfidential())) {
+            return view('confidential_index', ['record' => $records->records]);
+        }
+
         if(Records::eligibleToUpdate($records->records_id)) {
             $interviewers = Interviewers::where('enabled', 1)
             ->orderBy('lname', 'asc')
