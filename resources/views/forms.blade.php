@@ -89,6 +89,7 @@
                     </div>
                 </div>
             </form>
+            @if(auth()->user()->isCesuAccount())
             <div class="row justify-content-center text-center">
                 <div class="col-sm-2">
                     <div class="card border-success bg-success text-white mb-3">
@@ -174,6 +175,7 @@
                 </div>
                 @endif
             </div>
+            @endif
             <form action="{{route('forms.options')}}" method="POST">
                 @csrf
                 @if(count($forms) > 0)
@@ -268,6 +270,7 @@
                                     $attendedText = '';
                                 }
                             @endphp
+                            @if($form->records->ifAllowedToViewConfidential())
                             <tr class="bg-{{$textcolor}}">
                                 <td class="text-center" style="vertical-align: middle;"></td>
                                 <td class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks" name="listToPrint[]" id="" value="{{$form->id}}"></td>
@@ -297,6 +300,37 @@
                                 <td style="vertical-align: middle;" class="text-center"><small>{{($form->isExported == 1) ? 'YES ('.date("m/d/Y h:i A", strtotime($form->updated_at)).')' : 'NO'}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center">{{$attendedText}}</td>
                             </tr>
+                            @else
+                            <tr class="bg-{{$textcolor}}">
+                                <td class="text-center" style="vertical-align: middle;"></td>
+                                <td class="text-center" style="vertical-align: middle;"><input type="checkbox" class="checks" name="listToPrint[]" id="" value="{{$form->id}}"></td>
+                                <td style="vertical-align: middle;">
+                                    <a href="forms/{{$form->id}}/edit{{(request()->get('view') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('view')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" class="text-dark font-weight-bold">
+                                        {{$form->records->lname}}, {{$form->records->fname}} {{$form->records->mname}}
+                                        @if($form->records->isPregnant == 1)<span class="badge badge-info">P</span>@endif
+                                        @if($form->isForHospitalization == 1)<span class="badge badge-secondary">H</span>@endif
+                                        @if($form->getOldCif()->count() > 0)<span class="badge" style="background-color: orange;">RESWAB</span>@endif
+                                    </a>
+                                </td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                                <td style="vertical-align: middle;" class="text-center">*****</td>
+                            </tr>
+                            @endif
                             @empty
                             
                             @endforelse
