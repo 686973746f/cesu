@@ -101,7 +101,7 @@ class Forms extends Model
             }
         }
         else {
-            return 'NO';
+            return 'PENDING';
         }
     }
 

@@ -31,7 +31,18 @@
                         <strong>Test Type:</strong> {{$form->getLatestTestType()}} | 
                         <strong>Result:</strong> {{$form->getLatestTestResult()}}
                     </p>
-                    <p><strong>Attended: </strong>{{$form->getAttendedOnSwab()}}</p>
+                    @php
+                    if($form->getAttendedOnSwab() == 'PENDING') {
+                        $atext = 'text-warning';
+                    }
+                    else if($form->getAttendedOnSwab() == 'YES') {
+                        $atext = 'text-success';
+                    }
+                    else if($form->getAttendedOnSwab() == 'NO') {
+                        $atext = 'text-danger';
+                    }
+                    @endphp
+                    <p><strong>Attended: <span class="{{$atext}}">{{$form->getAttendedOnSwab()}}</span></p>
                     @else
                     <p>No Swab Schedule Date found.</p>
                     @endif
