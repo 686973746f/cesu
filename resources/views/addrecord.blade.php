@@ -303,6 +303,7 @@
 							<option value="" {{(is_null(old('howManyDoseVaccine'))) ? 'selected' : ''}}>N/A</option>
 							<option value="1" {{(old('howManyDoseVaccine') == '1') ? 'selected' : ''}}>1st Dose only</option>
 							<option value="2" id="2ndDoseOption" {{(old('howManyDoseVaccine') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
+							<option value="3" id="BoosterOption" {{(old('howManyDoseVaccine') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed (With Booster)</option>
 						  </select>
 						</div>
 						<div id="ifVaccinated" class="d-none">

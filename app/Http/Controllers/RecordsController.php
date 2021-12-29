@@ -479,17 +479,18 @@ class RecordsController extends Controller
 			}
 
 			//Vaccination Details
-            if(!is_null($record->vaccinationDate2) || !is_null($record->vaccinationDate1)) {
-                if(!is_null($record->vaccinationDate2)) {
-                    $vaccineDose = 2;
-                }
-                else {
-                    $vaccineDose = 1;
-                }
-            }
-            else {
-                $vaccineDose = NULL;
-            }
+			if(!is_null($record->vaccinationDate3) && !is_null($record->vaccinationDate2) && !is_null($record->vaccinationDate1)) {
+				$vaccineDose = 3;
+			}
+			else if(!is_null($record->vaccinationDate2) && !is_null($record->vaccinationDate1)) {
+				$vaccineDose = 2;
+			}
+			else if(!is_null($record->vaccinationDate1)) {
+				$vaccineDose = 1;
+			}
+			else {
+				$vaccineDose = NULL;
+			}
 
 			//Barangay Account Address Checking if Same
 			if(auth()->user()->isBrgyAccount()) {
