@@ -231,6 +231,9 @@ class CreateFormsTable extends Migration
             $table->text('facility_remarks')->nullable();
 
             $table->text('ccid_list')->nullable();
+
+            $table->tinyInteger('is_disobedient')->default(0);
+            $table->text('disobedient_remarks')->nullable();
         });
     }
 
