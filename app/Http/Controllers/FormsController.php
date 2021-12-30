@@ -1358,6 +1358,10 @@ class FormsController extends Controller
                 $is_cutoff = false;
             }
 
+            //Get Current CC List
+            $cc_list_array = explode(',', $records->ccid_list);
+            $get_current_ccid_data = Forms::whereIn('id', $cc_list_array)->get();
+
             return view('formsedit', [
                 'countries' => $all,
                 'records' => $records,
@@ -1368,6 +1372,7 @@ class FormsController extends Controller
                 'oldCif' => $oldCif,
                 'msheet' => $msheet,
                 'is_cutoff' => $is_cutoff,
+                'current_ccid_data' => $get_current_ccid_data,
             ]);
         }
         else {

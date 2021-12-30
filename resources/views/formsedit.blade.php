@@ -375,8 +375,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->records->id}} for this CIF</label>
+                        <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->records->id}} for this current CIF</label>
                         <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
+                            @foreach($current_ccid_data as $i)
+                                <option value="{{$i->id}}" {{(collect(old('ccid_list', $i->id))->contains($i->id)) ? 'selected' : ''}}>{{'#'.$i->records->id.' - '.$i->records->getName().' | '.$i->records->getAge().'/'.substr($i->records->gender,0,1).' | '.date('m/d/Y', strtotime($i->records->bdate))}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
