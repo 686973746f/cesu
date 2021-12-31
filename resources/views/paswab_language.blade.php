@@ -4,6 +4,7 @@
     <div class="container" style="font-family: Arial, Helvetica, sans-serif">
         <div class="card">
             <div class="card-header text-center">
+                <img src="{{asset('assets/images/cesu_icon.png')}}" class="mb-3" style="width: 10rem;">
                 <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 10rem;" class="mb-3">
                 <img src="{{asset('assets/images/gentri_icon_large.png')}}" style="width: 10rem;" class="mb-3">
                 <hr>

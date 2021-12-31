@@ -623,6 +623,7 @@
                                     <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose Only</option>
                                     <option value="2" id="2ndDoseOption" {{(old('howManyDose') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
+                                    <option value="3" id="BoosterOption" {{(old('howManyDose') == '3') ? 'selected' : ''}}>1st and 2nd Dose Completed (With Booster)</option>
                                   </select>
                                 </div>
                                 <div class="form-group">
@@ -639,6 +640,7 @@
                                     <option value="SINOPHARM" {{(old('nameOfVaccine') == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
                                     <option value="SINOVAC CORONAVAC" {{(old('nameOfVaccine') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
                                   </select>
+                                  <small class="text-muted">Vaccine Name not Included in the List? You may contact CESU Staff.</small>
                                 </div>
                                 <div id="VaccineDose1" class="d-none">
                                     <hr>
@@ -701,6 +703,54 @@
                                                       <option value="1" {{(old('haveAdverseEvents2') == '1') ? 'selected' : ''}}>Yes</option>
                                                       <option value="0" {{(old('haveAdverseEvents2') == '0') ? 'selected' : ''}}>No</option>
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="ifBoosterVaccine" class="d-none">
+                                        <hr>
+                                        <div class="form-group">
+                                            <label for="vaccinationName3"><span class="text-danger font-weight-bold">*</span>Booster Vaccine Name</label>
+                                            <select class="form-control" name="vaccinationName3" id="vaccinationName3">
+                                              <option value="" disabled {{is_null(old('vaccinationName3')) ? 'selected' : ''}}>Choose...</option>
+                                              <option value="BHARAT BIOTECH" {{(old('vaccinationName3') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
+                                              <option value="GAMALEYA SPUTNIK V" {{(old('vaccinationName3') == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
+                                              <option value="JANSSEN" {{(old('vaccinationName3') == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
+                                              <option value="MODERNA" {{(old('vaccinationName3') == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+                                              <option value="NOVARAX" {{(old('vaccinationName3') == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
+                                              <option value="OXFORD ASTRAZENECA" {{(old('vaccinationName3') == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
+                                              <option value="PFIZER BIONTECH" {{(old('vaccinationName3') == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
+                                              <option value="SINOPHARM" {{(old('vaccinationName3') == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
+                                              <option value="SINOVAC CORONAVAC" {{(old('vaccinationName3') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
+                                            </select>
+                                            <small class="text-muted">Vaccine Name not Included in the List? You may contact CESU Staff.</small>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationDate3"><span class="text-danger font-weight-bold">*</span>Booster Date Vaccinated</label>
+                                                    <input type="date" class="form-control" name="vaccinationDate3" id="vaccinationDate3" value="{{old('vaccinationDate3')}}" max="{{date('Y-m-d')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="haveAdverseEvents3"><span class="text-danger font-weight-bold">*</span>Booster Adverse Event/s</label>
+                                                    <select class="form-control" name="haveAdverseEvents3" id="haveAdverseEvents3">
+                                                        <option value="0" {{(old('haveAdverseEvents3') == '0') ? 'selected' : ''}}>No</option>
+                                                        <option value="1" {{(old('haveAdverseEvents3') == '1') ? 'selected' : ''}}>Yes</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationFacility3">Booster Vaccination Center/Facility <small>(Optional)</small></label>
+                                                    <input type="text" class="form-control" name="vaccinationFacility3" id="vaccinationFacility3" value="{{old('vaccinationFacility3')}}" style="text-transform: uppercase;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationRegion3">Booster Region of Health Facility <small>(Optional)</small></label>
+                                                    <input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3')}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -1799,6 +1849,11 @@
                 $('#haveAdverseEvents1').prop('required', true);
                 $('#vaccinationDate2').prop('required', false);
                 $('#haveAdverseEvents2').prop('required', false);
+
+                $('#ifBoosterVaccine').addClass('d-none');
+                $('#vaccinationName3').prop('required', false);
+                $('#vaccinationDate3').prop('required', false);
+                $('#haveAdverseEvents3').prop('required', false);
             }
             else if($(this).val() == '2') {
                 $('#VaccineDose1').removeClass('d-none');
@@ -1807,6 +1862,24 @@
                 $('#haveAdverseEvents1').prop('required', true);
                 $('#vaccinationDate2').prop('required', true);
                 $('#haveAdverseEvents2').prop('required', true);
+
+                $('#ifBoosterVaccine').addClass('d-none');
+                $('#vaccinationName3').prop('required', false);
+				$('#vaccinationDate3').prop('required', false);
+				$('#haveAdverseEvents3').prop('required', false);
+            }
+            else if($(this).val() == '3') {
+                $('#VaccineDose1').removeClass('d-none');
+                $('#VaccineDose2').removeClass('d-none');
+                $('#vaccinationDate1').prop('required', true);
+                $('#haveAdverseEvents1').prop('required', true);
+                $('#vaccinationDate2').prop('required', true);
+                $('#haveAdverseEvents2').prop('required', true);
+
+                $('#ifBoosterVaccine').removeClass('d-none');
+                $('#vaccinationName3').prop('required', true);
+				$('#vaccinationDate3').prop('required', true);
+				$('#haveAdverseEvents3').prop('required', true);
             }
             else {
                 $('#VaccineDose1').addClass('d-none');
@@ -1815,6 +1888,11 @@
                 $('#haveAdverseEvents1').prop('required', false);
                 $('#vaccinationDate2').prop('required', false);
                 $('#haveAdverseEvents2').prop('required', false);
+
+                $('#ifBoosterVaccine').addClass('d-none');
+                $('#vaccinationName3').prop('required', false);
+				$('#vaccinationDate3').prop('required', false);
+				$('#haveAdverseEvents3').prop('required', false);
             }
         }).trigger('change');
 
@@ -1823,9 +1901,11 @@
             if($(this).val() == 'JANSSEN') {
                 $('#howManyDose').val(1).trigger('change');
                 $('#2ndDoseOption').hide();
+                $('#BoosterOption').hide();
             }
             else {
                 $('#2ndDoseOption').show();
+                $('#BoosterOption').show();
             }
         }).trigger('change');
 
