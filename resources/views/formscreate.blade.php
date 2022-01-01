@@ -1429,7 +1429,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
-                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
+                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1449,7 +1449,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testDateReleased1">Date released</label>
-                                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" min="{{date('Y-01-01')}}" value="{{old('testDateReleased1')}}">
+                                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('testDateReleased1')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1502,7 +1502,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
-                                                <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{date('Y-01-01')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected2')}}">
+                                                <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected2')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1522,7 +1522,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testDateReleased2">Date released</label>
-                                                <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2')}}">
+                                                <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-m-d', strtotime('-1 Year'))}}" value="{{old('testDateReleased2')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
