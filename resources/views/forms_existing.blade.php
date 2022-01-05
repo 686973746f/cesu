@@ -42,9 +42,14 @@
                         $atext = 'text-danger';
                     }
                     @endphp
-                    <p><strong>Attended: <span class="{{$atext}}">{{$form->getAttendedOnSwab()}}</span></p>
+                    <p><strong>Attended: <span class="{{$atext}}">{{$form->getAttendedOnSwab()}}</span></strong></p>
                     @else
                     <p>No Swab Schedule Date found.</p>
+                    @endif
+                    @if($form->is_disobedient == 1)
+                    <hr>
+                    <p>This patient was marked as <strong class="text-danger">Disobedient</strong> on this Case.</p>
+                    <p><strong>Reason: </strong>{{$form->disobedient_remarks}}</p>
                     @endif
             </div>
             <div class="card-footer text-center">

@@ -231,6 +231,9 @@ class FormValidationRequest extends FormRequest
             'contact4No' => 'nullable|numeric|digits:11|starts_with:09',
 
             'remarks' => 'nullable',
+
+            'is_disobedient' => 'sometimes',
+            'disobedient_remarks' => 'required_if:is_disobedient,1',
 		];
     }
 }

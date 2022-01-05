@@ -117,10 +117,6 @@
                             <a class="btn btn-outline-primary" id="quickreclink" href="/records/{{$records->records_id}}/edit?fromFormsPage=true">Edit Record</a>
                         </div>
                     </div>
-                    <div class="form-group">
-                      <label for="remarks">Remarks</label>
-                      <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $records->remarks)}}</textarea>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
@@ -151,6 +147,21 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="form-group">
+                        <label for="remarks">Remarks</label>
+                        <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $records->remarks)}}</textarea>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="is_disobedient" id="is_disobedient" value="1" {{($records->is_disobedient == 1) ? 'checked' : ''}}>
+                        Is Patient Disobedient?
+                        </label>
+                    </div>
+                    <div class="form-group mt-2 d-none" id="disobedient_div">
+                      <label for="disobedient_remarks"><span class="text-danger font-weight-bold">*</span>Disobedient Remarks</label>
+                      <textarea class="form-control" name="disobedient_remarks" id="disobedient_remarks" rows="3">{{$records->disobedient_remarks}}</textarea>
+                    </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -3865,6 +3876,18 @@
                     cache: true
                 }
             });
+
+            $('#is_disobedient').change(function (e) {
+                if(this.checked) {
+                    $('#disobedient_div').removeClass('d-none');
+                    $('#disobedient_remarks').prop('required', true);
+                }
+                else {
+                    $('#disobedient_div').addClass('d-none');
+                    $('#disobedient_remarks').prop('required', false);
+                    $('#disobedient_remarks').val('');
+                }
+            }).trigger('change');
         });
     </script>
 @endsection

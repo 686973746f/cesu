@@ -1891,6 +1891,9 @@ class FormsController extends Controller
                             'contact4No' => $request->contact4No,
             
                             'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
+
+                            'is_disobedient' => ($request->is_disobedient) ? 1 : 0,
+                            'disobedient_remarks' => ($request->is_disobedient) ? $request->disobedient_remarks : NULL,
                         ]);
             
                         if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {
