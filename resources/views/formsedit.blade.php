@@ -2913,6 +2913,8 @@
                 }
             }).trigger('keydown');
 
+            var getCurrentClassification = '{{$records->caseClassification}}';
+
             //For Reinfection
             $('#caseClassification').change(function (e) { 
                 e.preventDefault();
@@ -2920,11 +2922,18 @@
                     $('#cutoffwarning').removeClass('d-none');
                     $('#askIfReinfected').show();
                     $('#confirmedVariant').show();
+
+                    //Change MM if Positive
+                    if(getCurrentClassification != 'Confirmed' && $('#caseClassification').val() == 'Confirmed') {
+                        $('#morbidityMonth').prop('min', "{{date('Y-m-d')}}");
+                    }
                 }
                 else {
                     $('#cutoffwarning').addClass('d-none');
                     $('#askIfReinfected').hide();
                     $('#confirmedVariant').hide();
+
+                    $('#morbidityMonth').prop('min', "2020-01-01");
                 }
             }).trigger('change');
 
