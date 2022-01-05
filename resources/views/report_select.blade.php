@@ -13,43 +13,37 @@
                 <strong>Note:</strong> Counting results from BRGY. {{auth()->user()->brgy->brgyName}} Data ONLY.
             </div>
             @endif
-            @if(auth()->user()->isBrgyAccount())
-            <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="displayListLoading"></i></a>
-            <div id="displayListNotice" class="text-center d-none">
-                <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
-            </div>
-            @else
-            <div class="row">
-                <div class="col-md-6">
-                    <a href="{{route('reportv2.dashboard')}}" class="btn btn-primary btn-lg btn-block mb-2" id="displayList">Display List of All Cases<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="displayListLoading"></i></a>
-                    <div id="displayListNotice" class="text-center d-none">
-                        <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
+            <div id="accordianId" role="tablist" aria-multiselectable="true">
+                <div class="card">
+                    <div class="card-header text-center" role="tab" id="exportHeader">
+                        <a data-toggle="collapse" data-parent="#accordianId" href="#exportContent" aria-expanded="true" aria-controls="exportContent"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</a>
+                    </div>
+                    <div id="exportContent" class="collapse in" role="tabpanel" aria-labelledby="exportHeader">
+                        <div class="card-body">
+                            @if(auth()->user()->isCesuAccount())
+                            <form action="{{route('report.DOHExportAll')}}" method="POST" id="reportForm">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="yearSelected">Select Year to Export</label>
+                                    <select class="form-control" name="yearSelected" id="yearSelected">
+                                        @foreach(range(date('Y'), 2019) as $y)
+                                        <option value="{{$y}}">{{$y}}</option>
+                                        @endforeach
+                                        <option value="">All</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="generateExcel" class="btn btn-primary btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="downloadDohLoading"></i></button>
+                                <div class="text-center d-none" id="downloadNotice"><small class="text-muted">Note: Downloading might take a while to finish. Please be patient.</small></div>
+                            </form>
+                            <hr>
+                            @if(auth()->user()->ifTopAdmin())
+                            <a href="{{route('report.dilgExportAll')}}"><button type="button" name="" id="" class="btn btn-primary btn-block"><i class="fas fa-download mr-2"></i>DILG</button></a>
+                            @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    @if(auth()->user()->isCesuAccount())
-                    <form action="{{route('report.DOHExportAll')}}" method="POST" id="reportForm">
-                        @csrf
-                        <div class="form-group">
-                            <label for="yearSelected">Select Year to Export</label>
-                            <select class="form-control" name="yearSelected" id="yearSelected">
-                                @foreach(range(date('Y'), 2019) as $y)
-                                <option value="{{$y}}">{{$y}}</option>
-                                @endforeach
-                                <option value="">All</option>
-                            </select>
-                        </div>
-                        <button type="button" id="generateExcel" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="downloadDohLoading"></i></button>
-                        <div class="text-center d-none" id="downloadNotice"><small class="text-muted">Note: Downloading might take a while to finish. Please be patient.</small></div>
-                    </form>
-                    <hr>
-                    @if(auth()->user()->ifTopAdmin())
-                    <a href="{{route('report.dilgExportAll')}}"><button type="button" name="" id="" class="btn btn-primary btn-lg btn-block"><i class="fas fa-download mr-2"></i>DILG</button></a>
-                    @endif
-                    @endif
-                </div>
             </div>
-            @endif
             <hr>
             <div class="row mb-3">
                 <div class="col-md-4">

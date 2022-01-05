@@ -9,277 +9,176 @@ use Carbon\CarbonPeriod;
 class ReportV2Controller extends Controller
 {
     public function viewDashboard() {
-        $load = sys_getloadavg();
+        if(request()->input('getOption')) {
+            $opt = request()->input('getOption');
 
-        if($load[0] >= 20) {
-            return redirect()
-            ->route('home')
-            ->with('status', 'Server too busy. Please try again after a few minutes.')
-            ->with('statustype', 'warning');
-        }
-
-        if(auth()->user()->isCesuAccount()) {
-            function activeConfirmedGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
+            if(auth()->user()->isCesuAccount()) {
+                $initial_query = Forms::whereHas('records', function ($q) {
                     $q->where('records.address_province', 'CAVITE')
                     ->where('records.address_city', 'GENERAL TRIAS');
-                })
+                });
+            }
+            else {
+                $initial_query = Forms::whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                });
+            }
+            
+            if($opt == 1) {
+                $opt_final_query = $initial_query
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->where('reinfected', 0);
+
+                $getListName = 'List of Newly Reported Active Cases';
+            }
+            else if($opt == 2) {
+                $opt_final_query = $initial_query
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->where('reinfected', 0);
+
+                $getListName = 'List of Late Reported Active Cases';
+            }
+            else if($opt == 3) {
+                $opt_final_query = $initial_query
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->where('reinfected', 0)
+                ->where(function ($q) {
+                    $q->where(function ($r) {
+                        $r->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
+                        ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                        ->where('dispoType', '!=', 6);
+                    })
+                    ->orWhere(function ($s) {
+                        $s->whereDate('outcomeRecovDate', date('Y-m-d'))
+                        ->where('outcomeCondition', 'Recovered')
+                        ->where('dispoType', 6);
+                    });
+                });
+
+                $getListName = 'List of Newly Reported Recovered Cases';
+            }
+            else if($opt == 4) {
+                $opt_final_query = $initial_query
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
+                ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->where('reinfected', 0)
+                ->where('dispoType', '!=', 6);
+
+                $getListName = 'List of Late Reported Recovered Cases';
+            }
+            else if($opt == 5) {
+                $opt_final_query = $initial_query
+                ->where(function ($q) {
+                    $q->where('status', 'approved')
+                    ->whereDate('outcomeDeathDate', date('Y-m-d'))
+                    ->where('outcomeCondition', 'Died');
+                })->orWhere(function ($q) {
+                    $q->where('status', 'approved')
+                    ->whereDate('morbidityMonth', date('Y-m-d'))
+                    ->where('outcomeCondition', 'Died');
+                });
+
+                $getListName = 'List of Newly Reported Death Cases';
+            }
+            else if($opt == 6) {
+                $opt_final_query = $initial_query
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
+                ->where('reinfected', 0)
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
+                $getListName = 'List of Total Active Cases';
             }
-    
-            function recoveredGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
+            else if ($opt == 7) {
+                $opt_final_query = $initial_query
                 ->where('status', 'approved')
-                ->where('outcomeCondition', 'Recovered')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->where(function ($q) {
+                    $q->where(function ($r) {
+                        $r->where('outcomeCondition', 'Recovered')
+                        ->where('reinfected', 0);
+                    })
+                    ->orWhere(function ($s) {
+                        $s->where('reinfected', 1);
+                    });
+                });
+
+                $getListName = 'List of Total Recoveries';
             }
-    
-            function deathGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
+            else if($opt == 8) {
+                $opt_final_query = $initial_query
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
+                $getListName = 'List of Total Deaths';
             }
-    
-            function facilityGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
+            else if($opt == 9) {
+                $opt_final_query = $initial_query
                 ->where('dispoType', 6)
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
+                $getListName = 'List of Patients Admitted in General Trias Ligtas COVID-19 Facility #1';
             }
-    
-            function hqGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
+            else if($opt == 10) {
+                $opt_final_query = $initial_query
                 ->where('dispoType', 3)
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->where('reinfected', 0)
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
+                $getListName = 'List of Patients On Strict Home Quarantine';
             }
-    
-            function otherFacilityGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
+            else if($opt == 11) {
+                $opt_final_query = $initial_query
                 ->whereIn('dispoType', [1,2,5])
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->where('reinfected', 0)
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
+                $getListName = 'List of Patients Admitted in the Hospital/Other Isolation Facility';
+            }
+            else {
+                return abort(401);
+            }
+
+            function yielder($q) {
+                foreach($q->cursor() as $data) {
                     yield $data;
                 }
             }
 
-            //Counters
-            $activeconfirmed_count = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
-            ->where('status', 'approved')
-            ->where('caseClassification', 'Confirmed')
-            ->where('outcomeCondition', 'Active')
-            ->count();
+            $getList = yielder($opt_final_query);
 
-            $recovered_count = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
-            ->where('status', 'approved')
-            ->where('outcomeCondition', 'Recovered')
-            ->count();
-
-            $death_count = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
-            ->where('status', 'approved')
-            ->where('outcomeCondition', 'Died')
-            ->count();
+            return view('reportv2_dashboard', [
+                'list' => $getList,
+                'list_name' => $getListName,
+            ]);
         }
-        else if(auth()->user()->isBrgyAccount()) {
-            function activeConfirmedGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Confirmed')
-                ->where('outcomeCondition', 'Active')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
-            }
-    
-            function recoveredGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('status', 'approved')
-                ->where('outcomeCondition', 'Recovered')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
-            }
-    
-            function deathGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('status', 'approved')
-                ->where('outcomeCondition', 'Died')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
-            }
-    
-            function facilityGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('dispoType', 6)
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Confirmed')
-                ->where('outcomeCondition', 'Active')
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
-            }
-    
-            function hqGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->where('dispoType', 3)
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Confirmed')
-                ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
-            }
-    
-            function otherFacilityGenerator() {
-                foreach (Forms::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-                })
-                ->whereIn('dispoType', [1,2,5])
-                ->where('status', 'approved')
-                ->where('caseClassification', 'Confirmed')
-                ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
-                ->orderby('morbidityMonth', 'asc')->cursor() as $data) {
-                    yield $data;
-                }
-            }
-
-            //Counters
-            $activeconfirmed_count = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-            })
-            ->where('status', 'approved')
-            ->where('caseClassification', 'Confirmed')
-            ->where('outcomeCondition', 'Active')
-            ->count();
-
-            $recovered_count = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-            })
-            ->where('status', 'approved')
-            ->where('outcomeCondition', 'Recovered')
-            ->count();
-
-            $death_count = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
-                ->where('records.address_city', auth()->user()->brgy->city->cityName)
-                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
-            })
-            ->where('status', 'approved')
-            ->where('outcomeCondition', 'Died')
-            ->count();
+        else {
+            return abort(401);
         }
-
-        $activeconfirmed = activeConfirmedGenerator();
-        $recovered = recoveredGenerator();
-        $death = deathGenerator();
-        $facility = facilityGenerator();
-        $hq = hqGenerator();
-        $otherfacility = otherFacilityGenerator();
-
-        return view('reportv2_dashboard', [
-            'activeconfirmed_list' => $activeconfirmed,
-            'activeconfirmed_count' => $activeconfirmed_count,
-            'recovered_list' => $recovered,
-            'recovered_count' => $recovered_count,
-            'death_list' => $death,
-            'death_count' => $death_count,
-            'facility_list' => $facility,
-            'hq_list' => $hq,
-            'otherfacility_list' => $otherfacility,
-        ]);
     }
 
     public function viewCtReport() {

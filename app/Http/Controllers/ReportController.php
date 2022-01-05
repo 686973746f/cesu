@@ -18,15 +18,6 @@ use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 class ReportController extends Controller
 {
     public function index() {
-        $load = sys_getloadavg();
-
-        if($load[0] >= 20) {
-            return redirect()
-            ->route('home')
-            ->with('status', 'Server too busy. Please try again after a few minutes.')
-            ->with('statustype', 'warning');
-        }
-
         if(auth()->user()->isCesuAccount()) {
             $activeCount = Forms::with('records')
             ->whereHas('records', function ($q) {
