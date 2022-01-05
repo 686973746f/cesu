@@ -821,7 +821,13 @@ class FormsController extends Controller
         $rec = Records::findOrFail($id);
 
         $checkform = Forms::where('records_id', $rec->id)
-        ->whereDate('created_at', date('Y-m-d'))
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->whereDate('testDateCollected1', date('Y-m-d'))
+                ->orWhereDate('testDateCollected2', date('Y-m-d'));
+            })
+            ->orWhereDate('created_at', date('Y-m-d'));
+        })
         ->first();
 
         if($checkform) {
