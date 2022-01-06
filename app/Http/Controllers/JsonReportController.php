@@ -90,15 +90,18 @@ class JsonReportController extends Controller
         ->count();
 
         //Bilangin pati current reinfection sa total ng recovered
-        $totalRecovered += Forms::with('records')
+        $reinfect_hidden_count = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
         ->where('reinfected', 1)
+        ->where('outcomeCondition', '!=', 'Died')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+
+        $totalRecovered += $reinfect_hidden_count;
 
         $totalRecovered_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -520,6 +523,31 @@ class JsonReportController extends Controller
 
         $totalCasesCount_fullyVaccinated += $totalCasesCount_fullyVaccinated_janssen;
 
+        //Reinfection
+        $totalActiveReinfection = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('reinfected', 1)
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
+
+        $totalRecoveredReinfection = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('reinfected', 1)
+        ->where('outcomeCondition', 'Recovered')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
+
+        $grand_total_reinfection = $reinfect_hidden_count;
+
         array_push($arr, [
             'totalActiveCases' => $totalActiveCases,
             'totalActive_partialVaccinated' => $totalActive_partialVaccinated,
@@ -546,6 +574,9 @@ class JsonReportController extends Controller
             'lateRecoveredCount_partialVaccinated' => $lateRecoveredCount_partialVaccinated,
             'lateRecoveredCount_fullyVaccinated' => $lateRecoveredCount_fullyVaccinated,
             'newDeaths' => $newDeaths,
+            'totalActiveReinfection' => $totalActiveReinfection,
+            'totalRecoveredReinfection' => $totalRecoveredReinfection,
+            'grand_total_reinfection' => $grand_total_reinfection,
         ]);
 
         return response()->json($arr);
