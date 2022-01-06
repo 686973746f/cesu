@@ -602,14 +602,37 @@ class JsonReportController extends Controller
 
     }
 
+    public function lastYearCasesDist() {
+        $arr = [];
+
+        $period = CarbonPeriod::create(date('Y-01-01', strtotime('-1 Year')), date('Y-12-31', strtotime('-1 Year')));
+        foreach($period as $date) {
+            $dailyCasesCount = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('reinfected', 0)
+            ->whereDate('morbidityMonth', $date->format('Y-m-d'))
+            ->count();
+
+            array_push($arr, [
+                'fDate' => $date->format('m/d/Y'),
+                'dailyCasesCount' => $dailyCasesCount,
+            ]);
+        }
+
+        return response()->json($arr);
+    }
+
     public function currentYearCasesDist() {
         ini_set('max_execution_time', 600);
-        sleep(40); //try to make this 20 next time
         
         $arr = [];
 
         //$period = CarbonPeriod::create(date('Y-01-01'), date('Y-m-d')) WHOLE YEAR; 
-        $period = CarbonPeriod::create(date('Y-m-d', strtotime('-6 Months')), date('Y-m-d')); //6 MONTHS
+        $period = CarbonPeriod::create(date('Y-01-01'), date('Y-m-d'));
         foreach($period as $date) {
             $dailyCasesCount = Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -665,10 +688,6 @@ class JsonReportController extends Controller
         }
 
         return response()->json($arr);
-    }
-
-    public function lastYearCasesDist() {
-
     }
 
     public function casesDistribution() {
