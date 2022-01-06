@@ -546,6 +546,17 @@ class JsonReportController extends Controller
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
+        $totalDeathReinfection = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('reinfected', 1)
+        ->where('outcomeCondition', 'Died')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
+
         $grand_total_reinfection = $reinfect_hidden_count;
 
         array_push($arr, [
@@ -576,6 +587,7 @@ class JsonReportController extends Controller
             'newDeaths' => $newDeaths,
             'totalActiveReinfection' => $totalActiveReinfection,
             'totalRecoveredReinfection' => $totalRecoveredReinfection,
+            'totalDeathReinfection' => $totalDeathReinfection,
             'grand_total_reinfection' => $grand_total_reinfection,
         ]);
 
