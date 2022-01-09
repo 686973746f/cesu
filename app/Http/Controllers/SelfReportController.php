@@ -707,6 +707,6 @@ class SelfReportController extends Controller
 
         $file_name = $data->result_file;
 
-        return response()->file(public_path("assets\self_reports\\").$file_name);
+        return response()->file(public_path("assets/self_reports/").$file_name);
     }
 }
