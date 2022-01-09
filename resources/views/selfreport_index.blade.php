@@ -717,6 +717,7 @@
                               <option value="SINOPHARM" {{(old('vaccineName') == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
                               <option value="SINOVAC CORONAVAC" {{(old('vaccineName') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
                             </select>
+                            <small class="text-muted">Vaccine Name not Included in the List? You may contact CESU Staff.</small>
                         </div>
                         <div id="VaccineDose1">
                             <hr>

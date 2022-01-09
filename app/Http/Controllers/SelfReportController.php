@@ -701,4 +701,12 @@ class SelfReportController extends Controller
             ->with('msgtype', 'warning');
         }
     }
+
+    public function viewDocument($id) {
+        $data = SelfReports::findOrFail($id);
+
+        $file_name = $data->result_file;
+
+        return response()->file(public_path("assets\self_reports\\").$file_name);
+    }
 }

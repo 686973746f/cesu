@@ -608,6 +608,94 @@
                         </div>
                     </div>
                     <div class="card mb-3">
+                        <div class="card-header font-weight-bold">5. Laboratory Information (Swab Details and Result)</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Have you ever tested positive using RT-PCR before?</label>
+                                        <input type="text" class="form-control" value="{{($data->testedPositiveUsingRTPCRBefore == 1) ? 'YES' : 'NO'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Number of previous RT-PCR swabs done</label>
+                                        <input type="text" class="form-control" value="{{$data->testedPositiveNumOfSwab}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divIfTestedPositiveUsingRTPCR">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Date of Specimen Collection</label>
+                                            <input type="date" class="form-control" value="{{$data->testedPositiveSpecCollectedDate}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Laboratory</label>
+                                            <input type="text" class="form-control" value="{{$data->testedPositiveLab}}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Collected</label>
+                                        <input type="date" class="form-control" value="{{$data->testDateCollected1}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date released</label>
+                                        <input type="date" class="form-control" value="{{$data->testDateReleased1}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Laboratory</label>
+                                        <input type="text" class="form-control" value="{{$data->testLaboratory1}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Type of test</label>
+                                        <select class="form-control" id="testType1" disabled>
+                                            <option value="OPS" {{($data->testType1 == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                            <option value="NPS" {{($data->testType1 == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                            <option value="OPS AND NPS" {{($data->testType1 == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                            <option value="ANTIGEN" {{($data->testType1 == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                            <option value="ANTIBODY" {{($data->testType1 == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                            <option value="OTHERS" {{($data->testType1 == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                        </select>
+                                    </div>
+                                    <div id="divTypeOthers1">
+                                        <div class="form-group">
+                                            <label>Specify Reason</label>
+                                            <input type="text" class="form-control" value="{{!is_null($data->testTypeAntigenRemarks1) ? $data->testTypeAntigenRemarks1 : ($data->testTypeOtherRemarks1 ? $data->testTypeOtherRemarks1 : 'N/A')}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div id="ifAntigen1">
+                                        <div class="form-group">
+                                            <label>Antigen Kit</label>
+                                            <input type="text" class="form-control" value="{{(!is_null($data->antigenKit1)) ? $data->antigenKit1 : 'N/A'}}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <label>Submitted Positive Swab Test Result:</label>
+                                <a href="{{route('selfreport.viewdocument', ['id' => $data->id])}}" class="btn btn-primary">View Document</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
                         <div class="card-header font-weight-bold">5. Chest X-ray Details</div>
                         <div class="card-body">
                             <div class="row">
@@ -647,7 +735,7 @@
                         </div>
                     </div>
                     <div class="card border-primary">
-                        <div class="card-header font-weight-bold text-white bg-primary">6. Assessment for Patient</div>
+                        <div class="card-header font-weight-bold text-white bg-primary">7. Assessment for Patient</div>
                         <div class="card-body">
                             <div class="alert alert-info" role="alert">
                                 <strong class="text-danger">Note:</strong> All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
@@ -1644,6 +1732,25 @@
                 $('localDateDepart2').val("");
                 $('localDest2').val("");
                 $('localDateArrive2').val("");
+            }
+        }).trigger('change');
+
+        $('#testType1').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
+                $('#divTypeOthers1').show();
+                if($(this).val() == 'ANTIGEN') {
+                    $('#ifAntigen1').show();
+                }
+                else {
+                    $('#ifAntigen1').hide();
+                }
+            }
+            else {
+                $('#divTypeOthers1').hide();
+                $('#testTypeOtherRemarks1').empty();
+
+                $('#ifAntigen1').hide();
             }
         }).trigger('change');
     </script>
