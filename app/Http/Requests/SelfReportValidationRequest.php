@@ -23,6 +23,18 @@ class SelfReportValidationRequest extends FormRequest
      */
     public function rules()
     {
+        if($this->howManyDose == 2) {
+            $allow_booster_question = true;
+        }
+        else {
+            if($this->vaccineName == 'JANSSEN') {
+                $allow_booster_question = true;
+            }
+            else {
+                $allow_booster_question = false;
+            }
+        }
+
         return [
             'patientmsg' => 'nullable|string|max:250',
             'lname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
@@ -93,6 +105,7 @@ class SelfReportValidationRequest extends FormRequest
             'testType1' => 'required',
             'testTypeOtherRemarks1' => ($this->testType1 == "OTHERS") ? 'required' : 'nullable',
             'antigenKit1' => ($this->testType1 == "ANTIGEN") ? 'required' : 'nullable',
+
             'vaccineq1' => 'required|numeric',
             'howManyDose' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
             'vaccineName' => ($this->vaccineq1 == 1) ? 'required' : 'nullable',
@@ -104,6 +117,9 @@ class SelfReportValidationRequest extends FormRequest
             'vaccinationFacility2' => 'nullable',
             'vaccinationRegion2' => 'nullable',
             'haveAdverseEvents2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|numeric' : 'nullable',
+            'haveBooster' => ($allow_booster_question) ? 'required' : 'nullable',
+            'vaccinationName3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
+            
             'haveSymptoms' => 'required|numeric',
             'dateOnsetOfIllness' => ($this->haveSymptoms == 1) ? 'required|date' : 'nullable|date',
             'sasCheck' => 'nullable',

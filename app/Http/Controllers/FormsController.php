@@ -1932,7 +1932,14 @@ class FormsController extends Controller
      */
     public function destroy(Forms $form)
     {
-        
+        if(auth()->user()->ifTopAdmin()) {
+            $form->delete();
+
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient ['.$form->records->getName().' #'.$form->records->id.'] has been deleted successfully.')->with('statustype', 'success');
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function reswab($id) {
