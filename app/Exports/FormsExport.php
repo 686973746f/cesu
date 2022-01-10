@@ -58,7 +58,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
     
                 $data = $data->sortBy('records.lname');
             }
-            else if($this->type == 'export_alphabetic_withp') {
+            else if($this->type == 'export_alphabetic_withp' || $this->type == 'export_alphabetic_withp2') {
                 //Get Pregnant
                 $pregnant = Forms::with('records')
                 ->whereIn('id', $list)
@@ -89,10 +89,25 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
 
                 $list = array_diff($list, $hospitalization->pluck('id')->toArray());
 
-                $normal_col = Forms::whereIn('id', $list)
-                ->get()->sortBy('records.lname');
+                if($this->type == 'export_alphabetic_withp') {
+                    $normal_col = Forms::whereIn('id', $list)
+                    ->get()->sortBy('records.lname');
 
-                $data = $pregnant_col->merge($senior_col)->merge($hospitalization_col)->merge($normal_col);
+                    $data = $pregnant_col->merge($senior_col)->merge($hospitalization_col)->merge($normal_col);
+                }
+                else {
+                    $phfirst_col = Forms::whereIn('id', $list)
+                    ->whereHas('records', function ($q) {
+                        $q->whereNotNull('philhealth');
+                    })->get()->sortBy('records.lname');
+
+                    $list = array_diff($list, $phfirst_col->pluck('id')->toArray());
+
+                    $normal_col = Forms::whereIn('id', $list)
+                    ->get()->sortBy('records.lname');
+
+                    $data = $pregnant_col->merge($senior_col)->merge($hospitalization_col)->merge($phfirst_col)->merge($normal_col);
+                }
             }
 
             return $data;
