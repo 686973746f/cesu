@@ -710,11 +710,15 @@ class FormsController extends Controller
                 return view('confidential_index', ['record' => $check]);
             }
 
-            $check2 = Forms::where('records_id', $check->id)->count();
+            $check2 = Forms::whereHas('records', function ($q) use ($check) {
+                $q->where('records.id', $check->id);
+            })->count();
 
             if($check2 >= 1) {
                 //existing na
-                $ex_id = Forms::where('records_id', $id)->orderby('created_at', 'DESC')->first();
+                $ex_id = Forms::whereHas('records', function ($q) use ($check) {
+                    $q->where('records.id', $check->id);
+                })->latest();
 
                 return redirect()->route('forms.existing', ['id' => $ex_id->id]);
                 /*
