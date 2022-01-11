@@ -703,15 +703,16 @@ class FormsController extends Controller
 
     public function new($id) {
         if(Records::eligibleToUpdate($id)) {
-            $check = Records::where('id', $id)->first();
+            $check = Records::findOrFail($id);
 
             //is_confidential
             if(!($check->ifAllowedToViewConfidential())) {
                 return view('confidential_index', ['record' => $check]);
             }
-            $check2 = Forms::where('records_id', $id)->first();
 
-            if($check2) {
+            $check2 = Forms::where('records_id', $check->id)->count();
+
+            if($check2 >= 1) {
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->orderby('created_at', 'DESC')->first();
 
