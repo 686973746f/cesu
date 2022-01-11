@@ -719,8 +719,9 @@ class FormsController extends Controller
             if(!($check->ifAllowedToViewConfidential())) {
                 return view('confidential_index', ['record' => $check]);
             }
-            
-            if(Forms::where('records_id', $id)->exists()) {
+            $check2 = Forms::where('records_id', $id)->first();
+
+            if($check2) {
                 //existing na
                 $ex_id = Forms::where('records_id', $id)->orderby('created_at', 'DESC')->first();
 
