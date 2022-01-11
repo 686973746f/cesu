@@ -72,6 +72,15 @@
             </div> 
             @endif
         @endif
+        @if(auth()->user()->ifTopAdmin())
+        <form action="/forms/{{$records->id}}/edit" method="POST">
+            @csrf
+            @method('delete')
+            <div class="text-right mb-3">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('You will delete this CIF Associated with the Patient. Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
+            </div>
+        </form>
+        @endif
         <form action="/forms/{{$records->id}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
             @csrf
             @method('PUT')
@@ -117,15 +126,6 @@
                             <a class="btn btn-outline-primary" id="quickreclink" href="/records/{{$records->records_id}}/edit?fromFormsPage=true">Edit Record</a>
                         </div>
                     </div>
-                    @if(auth()->user()->ifTopAdmin())
-                    <form action="/forms/{{$records->id}}/edit" method="POST">
-                        @csrf
-                        @method('delete')
-                        <div class="text-right mb-3">
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('You will delete this CIF Associated with the Patient. Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
-                        </div>
-                    </form>
-                    @endif
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
