@@ -352,7 +352,7 @@ class FormsController extends Controller
     }
 
     public function soloExport($id) {
-        return Excel::download(new FormsExport([$id]), 'CIF_'.date("m_d_Y").'.csv');
+        return Excel::download(new FormsExport([$id], 'export_alphabetic'), 'CIF_'.date("m_d_Y").'.csv');
     }
 
     public function printAntigenLinelist() {
@@ -465,7 +465,7 @@ class FormsController extends Controller
     {
         $list = $request->listToPrint;
 
-        if($request->submit == 'export' || $request->submit == 'export_alphabetic' || $request->submit == 'export_alphabetic_withp') {
+        if($request->submit == 'export' || $request->submit == 'export_alphabetic' || $request->submit == 'export_alphabetic_withp' || $request->submit == 'export_alphabetic_withp2') {
             //Export by Laboratory (ONI first, LaSalle second)
             $request->validate([
                 'listToPrint' => 'required',
@@ -477,17 +477,7 @@ class FormsController extends Controller
                 'exportedDate' => NOW(),
             ]);
 
-            if($request->submit == 'export') {
-                $type = 'export';
-            }
-            else if($request->submit == 'export_alphabetic') {
-                $type = 'export_alphabetic';
-            }
-            else if($request->submit == 'export_alphabetic_withp') {
-                $type = 'export_alphabetic_withp';
-            }
-
-            return Excel::download(new FormsExport($list, $type), 'CIF_'.date("m_d_Y").'.csv');
+            return Excel::download(new FormsExport($list, $request->submit), 'CIF_'.date("m_d_Y").'.csv');
         }
         else if($request->submit == 'export_type1') {
             
@@ -856,10 +846,10 @@ class FormsController extends Controller
                 $sameDateEncode = false;
             }
     
-            if(auth()->user()->isBrgyAccount() && auth()->user()->canByPassCutoff == 0 && time() >= strtotime('09:00') && $sameDateEncode) {
+            if(auth()->user()->isBrgyAccount() && auth()->user()->canByPassCutoff == 0 && time() >= strtotime('08:30') && $sameDateEncode) {
                 return back()
                 ->withInput()
-                ->with('msg', 'Warning: Cannot Encode the CIF Scheduled for Swab Today. Cut-off time reached (9AM Onwards) Daily.')
+                ->with('msg', 'Warning: Cannot Encode the CIF Scheduled for Swab Today. Cut-off time reached (08:30 AM Onwards) Daily.')
                 ->with('msgType', 'warning');
             }
     
