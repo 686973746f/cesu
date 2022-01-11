@@ -1045,6 +1045,19 @@ class FormsController extends Controller
             else {
                 $autoreinfect = 0;
             }
+
+            //Auto MM if reached cutoff
+            if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
+                if(time() >= strtotime('13:00:00')) {
+                    $set_mm = date('Y-m-d', strtotime('+1 Day'));
+                }
+                else {
+                    $set_mm = $request->morbidityMonth;
+                }
+            }
+            else {
+                $set_mm = $request->morbidityMonth;
+            }
     
             if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -1055,7 +1068,7 @@ class FormsController extends Controller
             else {
                 $createform = $request->user()->form()->create([
                     'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
-                    'morbidityMonth' => $request->morbidityMonth,
+                    'morbidityMonth' => $set_mm,
                     'dateReported' => $request->dateReported,
                     'status' => 'approved',
                     'isPresentOnSwabDay' => $attended,
@@ -1696,6 +1709,29 @@ class FormsController extends Controller
                     $autoreinfect = 0;
                 }
 
+                //Auto MM if reached cutoff
+                if($rec->morbidityMonth != $request->morbidityMonth) {
+                    if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
+                        if(time() >= strtotime('13:00:00')) {
+                            if(date('Y-m-d') == $request->morbidityMonth) {
+                                $set_mm = date('Y-m-d', strtotime('+1 Day'));
+                            }
+                            else {
+                                $set_mm = $request->morbidityMonth;
+                            }
+                        }
+                        else {
+                            $set_mm = $request->morbidityMonth;
+                        }
+                    }
+                    else {
+                        $set_mm = $request->morbidityMonth;
+                    }
+                }
+                else {
+                    $set_mm = $request->morbidityMonth;
+                }
+
                 if($proceed == 1) {
                     if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                         return back()
@@ -1706,7 +1742,7 @@ class FormsController extends Controller
                     else {
                         $form = Forms::where('id', $id)->update([
                             'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
-                            'morbidityMonth' => $request->morbidityMonth,
+                            'morbidityMonth' => $set_mm,
                             'dateReported' => $request->dateReported,
                             'status' => 'approved',
                             'isExported' => '0',
