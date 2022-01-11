@@ -716,11 +716,9 @@ class FormsController extends Controller
 
             if($check2 >= 1) {
                 //existing na
-                $ex_id = Forms::whereHas('records', function ($q) use ($check) {
-                    $q->where('records.id', $check->id);
-                })->latest();
+                $ex_id = Forms::where('records_id', $check->id)->orderBy('created_at', 'DESC')->first();
 
-                return redirect()->route('forms.existing', ['id' => $ex_id->id]);
+                return view('forms_existing', ['form' => $ex_id]);
                 /*
                 Old Redirect Method
                 return redirect()->back()
