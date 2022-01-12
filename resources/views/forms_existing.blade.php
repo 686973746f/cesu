@@ -22,7 +22,7 @@
                         <strong>Date Reported:</strong> {{date('m/d/Y', strtotime($form->dateReported))}}</p>
                     <p><strong>Patient Type:</strong> {{$form->getType()}} | 
                         <strong>Health Status: </strong> {{$form->healthStatus}} | 
-                        <strong>Classification:</strong> {{$form->caseClassification}} | 
+                        <strong>Classification:</strong> <span class="{{($form->caseClassification == 'Confirmed') ? 'text-danger font-weight-bold' : ''}}">{{$form->caseClassification}}</span> | 
                         <strong>Outcome:</strong> {{$form->outcomeCondition}}
                     </p>
                     <hr>
