@@ -369,21 +369,25 @@ class ReportV2Controller extends Controller
             ->where('reinfected', 0)
             ->count();
 
-            $currentCTCount = Forms::whereHas('records', function ($q) {
+            $currentCT_query = Forms::whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved')
             ->whereDate('morbidityMonth', $date->format('Y-m-d'))
             ->where('outcomeCondition', 'Active')
-            ->whereIn('caseClassification', ['Suspect', 'Probable'])
-            ->where('reinfected', 0)
-            ->count();
+            ->whereIn('caseClassification', ['Suspect', 'Probable', 'Non-COVID-19 Case'])
+            ->where('reinfected', 0);
+
+            
+            foreach($currentCT_query->get() as $data) {
+
+            }
 
             array_push($arr_summary, [
                 'date' => $date->format('Y-m-d'),
                 'numActive' => $currentActiveCount,
-                'numCT' => $currentCTCount,
+                'numCT' => $currentCT_query->count(),
             ]);
         }
 
