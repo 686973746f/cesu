@@ -213,8 +213,8 @@
                                 <th style="vertical-align: middle;">Name</th>
                                 <th style="vertical-align: middle;">Philhealth</th>
                                 <th style="vertical-align: middle;">Mobile</th>
-                                <th style="vertical-align: middle;">Birthdate</th>
                                 <th style="vertical-align: middle;">Age/Sex</th>
+                                <th style="vertical-align: middle;">Vax Info</th>
                                 <th style="vertical-align: middle;">Street</th>
                                 <th style="vertical-align: middle;">Brgy</th>
                                 <th style="vertical-align: middle;">City/Province</th>
@@ -285,8 +285,8 @@
                                 </td>
                                 <td style="vertical-align: middle;" class="text-center">{{(!is_null($form->records->philhealth)) ? 'YES' : 'N/A'}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->mobile}}</td>
-                                <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y', strtotime($form->records->bdate))}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{substr($form->records->gender,0,1)}}</td>
+                                <td style="vertical-align: middle;" class="text-center"><small>{{$form->records->showVaxInfo()}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->records->address_street}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->address_brgy}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->address_city}}, {{$form->records->address_province}}</td>
