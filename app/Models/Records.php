@@ -369,4 +369,37 @@ class Records extends Model
             }
         }
     }
+
+    public function showVaxInfo() {
+        if(!is_null($this->vaccinationDate2)) {
+            $date1 = Carbon::parse($this->vaccinationDate2);
+            $days_diff = $date1->diffInDays(Carbon::now());
+
+            if($days_diff >= 14) {
+                return 'FULL VAX ('.$this->vaccinationName1.')';
+            }
+            else {
+                return 'HALF VAX ('.$this->vaccinationName1.')';
+            }
+        }
+        else if(!is_null($this->vaccinationDate1)) {
+            $date1 = Carbon::parse($this->vaccinationDate1);
+            $days_diff = $date1->diffInDays(Carbon::now());
+
+            if($this->vaccinationName1 == 'JANSSEN') {
+                if($days_diff >= 14) {
+                    return 'FULL VAX ('.$this->vaccinationName1.')';
+                }
+                else {
+                    return 'HALF VAX ('.$this->vaccinationName1.')';
+                }
+            }
+            else {
+                return 'HALF VAX ('.$this->vaccinationName1.')';
+            }
+        }
+        else {
+            return 'N/A';
+        }
+    }
 }
