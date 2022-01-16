@@ -379,15 +379,18 @@ class ReportV2Controller extends Controller
             ->whereIn('caseClassification', ['Suspect', 'Probable', 'Non-COVID-19 Case'])
             ->where('reinfected', 0);
 
-            
-            foreach($currentCT_query->get() as $data) {
+            $additional_counter = 0;
 
+            if((clone $currentCT_query)->whereNotNull('ccid_list')->count() != 0) {
+                foreach((clone $currentCT_query)->whereNotNull('ccid_list')->pluck('ccid_list') as $data) {
+                    $additional_counter += count(explode(",", $data));
+                }
             }
 
             array_push($arr_summary, [
                 'date' => $date->format('Y-m-d'),
                 'numActive' => $currentActiveCount,
-                'numCT' => $currentCT_query->count(),
+                'numCT' => $currentCT_query->count() + $additional_counter,
             ]);
         }
 
