@@ -64,7 +64,20 @@ class AutoRecoveredActiveCases extends Command
                     $daysToRecover = 21;
                 }
                 else {
-                    $daysToRecover = 10;
+                    if(!is_null($item->records->vaccinationDate2)) {
+                        $date1 = Carbon::parse($item->records->vaccinationDate2);
+                        $days_diff = $date1->diffInDays(Carbon::now());
+
+                        if($days_diff >= 14) {
+                            $daysToRecover = 7;
+                        }
+                        else {
+                            $daysToRecover = 10;
+                        }
+                    }
+                    else {
+                        $daysToRecover = 10;
+                    }
                 }
     
                 /*

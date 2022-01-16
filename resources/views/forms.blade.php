@@ -181,7 +181,19 @@
                 @if(count($forms) > 0)
                 <div>
                     <button type="button" class="btn btn-primary my-3" id="changeTypeBtn" data-toggle="modal" data-target="#changeTypeModal"><i class="fas fa-vials mr-2"></i>Change Test Type</button>
+                    @if(auth()->user()->isCesuAccount())
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" id="exportBtn" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-file-csv mr-2"></i>Re-schedule</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="exportDropdown1">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button type="submit" class="dropdown-item" id="cancelBtn" name="submit" value="cancelsched" onclick="return confirm('Warning: You are removing the selected patients for the particular swab schedule. This process cannot be undone. Click OK to proceed.')"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i>Cancel Schedule</button>
+                        </div>
+                    </div>
+                    @else
                     <button type="button" class="btn btn-primary my-3" id="reschedBtn" data-toggle="modal" data-target="#reschedModal"><i class="fas fa-user-clock mr-2"></i>Re-schedule</button>
+                    @endif
                     @if(auth()->user()->isCesuAccount())
                     <div class="btn-group">
                         <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
@@ -189,7 +201,6 @@
                           <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
-                            <!--<button type="submit" class="dropdown-item" id="exportBtnExp" name="submit" value="export_type1"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Experimental Mode)</button>-->
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical)</button>
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical w/ Priority)</button>
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp2"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical w/ Priority & Philhealth First)</button>

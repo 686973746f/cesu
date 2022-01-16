@@ -693,6 +693,44 @@ class FormsController extends Controller
 
             return redirect()->action([FormsController::class, 'index'])->with('status', 'Change Test Type was successful.')->with('statustype', 'success');
         }
+        else if ($request->submit == 'cancelsched') {
+            $models = Forms::whereIn('id', $list)->get();
+
+            foreach ($models as $item) {
+                $f = Forms::find($item->id);
+
+                if(!is_null($item->testDateCollected2)) {
+                    $f->testDateCollected2 = NULL;
+                    $f->oniTimeCollected2 = NULL;
+                    $f->testDateReleased2 = NULL;
+                    $f->testLaboratory2 = NULL;
+                    $f->testType2 = NULL;
+                    $f->testTypeAntigenRemarks2 = NULL;
+                    $f->antigenKit2 = NULL;
+                    $f->testTypeOtherRemarks2 = NULL;
+                    $f->testResult2 = NULL;
+                    $f->testResultOtherRemarks2 = NULL;
+                }
+                else {
+                    $f->testDateCollected1 = NULL;
+                    $f->testDateReleased1 = NULL;
+                    $f->oniTimeCollected1 = NULL;
+                    $f->testLaboratory1 = NULL;
+                    $f->testType1 = NULL;
+                    $f->testTypeAntigenRemarks1 = NULL;
+                    $f->antigenKit1 = NULL;
+                    $f->testTypeOtherRemarks1 = NULL;
+                    $f->testResult1 = NULL;
+                    $f->testResultOtherRemarks1 = NULL;
+                }
+                
+                if($f->isDirty()) {
+                    $f->save();
+                }
+                
+                return redirect()->action([FormsController::class, 'index'])->with('status', 'All Selected CIF Schedule Data has been cancelled.')->with('statustype', 'success');
+            }
+        }
     }
 
     /**
