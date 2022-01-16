@@ -1036,7 +1036,12 @@ class FormsController extends Controller
                 ->where('caseClassification', 'Confirmed')
                 ->first();
                 if($oldcifcheck) {
-                    $autoreinfect = 1;
+                    if($request->dispositionType == 6) {
+                        $autoreinfect = 0;
+                    }
+                    else {
+                        $autoreinfect = 1;
+                    }   
                 }
                 else {
                     $autoreinfect = 0;
@@ -1699,7 +1704,12 @@ class FormsController extends Controller
                     ->where('caseClassification', 'Confirmed')
                     ->first();
                     if($oldcifcheck) {
-                        $autoreinfect = 1;
+                        if($rec->dispoType != 6 && $request->dispositionType == 6) {
+                            $autoreinfect = 0;
+                        }
+                        else {
+                            $autoreinfect = 1;
+                        }
                     }
                     else {
                         $autoreinfect = 0;
