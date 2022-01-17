@@ -695,41 +695,40 @@ class FormsController extends Controller
         }
         else if ($request->submit == 'cancelsched') {
             $models = Forms::whereIn('id', $list)->get();
-
             foreach ($models as $item) {
-                $f = Forms::find($item->id);
-
                 if(!is_null($item->testDateCollected2)) {
-                    $f->testDateCollected2 = NULL;
-                    $f->oniTimeCollected2 = NULL;
-                    $f->testDateReleased2 = NULL;
-                    $f->testLaboratory2 = NULL;
-                    $f->testType2 = NULL;
-                    $f->testTypeAntigenRemarks2 = NULL;
-                    $f->antigenKit2 = NULL;
-                    $f->testTypeOtherRemarks2 = NULL;
-                    $f->testResult2 = NULL;
-                    $f->testResultOtherRemarks2 = NULL;
+                    $query = Forms::where('id', $item->id)
+                    ->update([
+                        'testDateCollected2' => NULL,
+                        'oniTimeCollected2' => NULL,
+                        'testDateReleased2' => NULL,
+                        'testLaboratory2' => NULL,
+                        'testType2' => NULL,
+                        'testTypeAntigenRemarks2' => NULL,
+                        'antigenKit2' => NULL,
+                        'testTypeOtherRemarks2' => NULL,
+                        'testResult2' => NULL,
+                        'testResultOtherRemarks2' => NULL,
+                    ]);
                 }
                 else {
-                    $f->testDateCollected1 = NULL;
-                    $f->testDateReleased1 = NULL;
-                    $f->oniTimeCollected1 = NULL;
-                    $f->testLaboratory1 = NULL;
-                    $f->testType1 = NULL;
-                    $f->testTypeAntigenRemarks1 = NULL;
-                    $f->antigenKit1 = NULL;
-                    $f->testTypeOtherRemarks1 = NULL;
-                    $f->testResult1 = NULL;
-                    $f->testResultOtherRemarks1 = NULL;
+                    $query = Forms::where('id', $item->id)
+                    ->update([
+                        'testDateCollected1' => NULL,
+                        'testDateReleased1' => NULL,
+                        'oniTimeCollected1' => NULL,
+                        'testLaboratory1' => NULL,
+                        'testType1' => NULL,
+                        'testTypeAntigenRemarks1' => NULL,
+                        'antigenKit1' => NULL,
+                        'testTypeOtherRemarks1' => NULL,
+                        'testResult1' => NULL,
+                        'testResultOtherRemarks1' => NULL,
+                    ]);
                 }
-                
-                if($f->isDirty()) {
-                    $f->save();
-                }
-                
-                return redirect()->action([FormsController::class, 'index'])->with('status', 'All Selected CIF Schedule Data has been cancelled.')->with('statustype', 'success');
             }
+
+            return redirect()->action([FormsController::class, 'index'])->with('status', 'All Selected CIF Schedule Data has been cancelled.')->with('statustype', 'success');
         }
     }
 
