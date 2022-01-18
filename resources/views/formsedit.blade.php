@@ -73,7 +73,7 @@
             @endif
         @endif
         @if(auth()->user()->ifTopAdmin())
-        <form action="/forms/{{$records->id}}/edit" method="POST">
+        <form action="/forms/{{$records->id}}" method="POST">
             @csrf
             @method('delete')
             <div class="text-right mb-3">

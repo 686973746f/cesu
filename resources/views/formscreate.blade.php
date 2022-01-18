@@ -1456,11 +1456,11 @@
                                             <div class="form-group">
                                                 <label for="testResult1"><span class="text-danger font-weight-bold">*</span>Results</label>
                                                 <select class="form-control" name="testResult1" id="testResult1" required>
-                                                  <option value="PENDING" {{(old('testResult1') == 'PENDING') ? 'selected' : ''}}>Pending</option>
-                                                  <option value="POSITIVE" {{(old('testResult1') == 'POSITIVE') ? 'selected' : ''}}>Positive (will change the Case Classification to 'Confirmed')</option>
-                                                  <option value="NEGATIVE" {{(old('testResult1') == 'NEGATIVE') ? 'selected' : ''}}>Negative (will change the Case Classification to 'Non-COVID Case')</option>
-                                                  <option value="EQUIVOCAL" {{(old('testResult1') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
-                                                  <option value="OTHERS" {{(old('testResult1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                                  <option value="PENDING" id="tro1_pending" {{(old('testResult1') == 'PENDING') ? 'selected' : ''}}>Pending</option>
+                                                  <option value="POSITIVE" id="tro1_positive" {{(old('testResult1') == 'POSITIVE') ? 'selected' : ''}}>Positive (will change the Case Classification to 'Confirmed')</option>
+                                                  <option value="NEGATIVE" id="tro1_negative" {{(old('testResult1') == 'NEGATIVE') ? 'selected' : ''}}>Negative (will change the Case Classification to 'Non-COVID Case')</option>
+                                                  <option value="EQUIVOCAL" id="tro1_equivocal" {{(old('testResult1') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
+                                                  <option value="OTHERS" id="tro1_others" {{(old('testResult1') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                                 </select>
                                               </div>
                                               <div id="divResultOthers1">
@@ -2586,10 +2586,25 @@
                 if($(this).val() == 'Confirmed') {
                     $('#askIfReinfected').show();
                     $('#confirmedVariant').show();
+
+                    //First Type of Swab Test Will be Required and Set to Positive
+                    $('#testType1').prop('required', true);
+                    $('#testResult1').val("POSITIVE");
+                    $('#tro1_pending').addClass('d-none');
+                    $('#tro1_negative').addClass('d-none');
+                    $('#tro1_equivocal').addClass('d-none');
+                    $('#tro1_others').addClass('d-none');
                 }
                 else {
                     $('#askIfReinfected').hide();
                     $('#confirmedVariant').hide();
+
+                    $('#testType1').prop('required', false);
+                    $('#testResult1').val("PENDING");
+                    $('#tro1_pending').removeClass('d-none');
+                    $('#tro1_negative').removeClass('d-none');
+                    $('#tro1_equivocal').removeClass('d-none');
+                    $('#tro1_others').removeClass('d-none');
                 }
             }).trigger('change');
 
