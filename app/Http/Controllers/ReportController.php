@@ -27,7 +27,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
             
@@ -42,7 +41,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -57,7 +55,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -72,7 +69,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -85,11 +81,11 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             //Bilangin pati current reinfection sa total ng recovered
+            /*
             $recoveredCount += Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
@@ -99,6 +95,7 @@ class ReportController extends Controller
             ->where('reinfected', 1)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
+            */
 
             $totalRecovered_partialVaccinated = Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -110,7 +107,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -124,7 +120,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -138,7 +133,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -221,7 +215,6 @@ class ReportController extends Controller
             ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $newActiveCount_fullyVaccinated = Forms::with('records')
@@ -237,7 +230,6 @@ class ReportController extends Controller
             ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $newActiveCount_fullyVaccinated_janssen = Forms::with('records')
@@ -253,7 +245,6 @@ class ReportController extends Controller
             ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $newActiveCount_fullyVaccinated += $newActiveCount_fullyVaccinated_janssen;
@@ -268,7 +259,6 @@ class ReportController extends Controller
             ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $lateActiveCount_partialVaccinated = Forms::with('records')
@@ -284,7 +274,6 @@ class ReportController extends Controller
             ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $lateActiveCount_fullyVaccinated = Forms::with('records')
@@ -300,7 +289,6 @@ class ReportController extends Controller
             ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $lateActiveCount_fullyVaccinated_janssen = Forms::with('records')
@@ -316,7 +304,6 @@ class ReportController extends Controller
             ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $lateActiveCount_fullyVaccinated += $lateActiveCount_fullyVaccinated_janssen;
@@ -330,7 +317,6 @@ class ReportController extends Controller
             ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
             
@@ -342,7 +328,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', 6)
             ->count();
 
@@ -360,7 +345,6 @@ class ReportController extends Controller
             ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
 
@@ -375,7 +359,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', 6)
             ->count();
 
@@ -393,7 +376,6 @@ class ReportController extends Controller
             ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
 
@@ -408,7 +390,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', 6)
             ->count();
 
@@ -426,7 +407,6 @@ class ReportController extends Controller
             ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
 
@@ -441,7 +421,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', 6)
             ->count();
 
@@ -458,7 +437,6 @@ class ReportController extends Controller
             ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
 
@@ -474,7 +452,6 @@ class ReportController extends Controller
             ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
 
@@ -490,7 +467,6 @@ class ReportController extends Controller
             ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
 
@@ -506,7 +482,6 @@ class ReportController extends Controller
             ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
             ->whereDate('outcomeRecovDate', date('Y-m-d'))
             ->where('outcomeCondition', 'Recovered')
-            ->where('reinfected', 0)
             ->where('dispoType', '!=', 6)
             ->count();
 
@@ -547,7 +522,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -561,7 +535,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
             
@@ -575,7 +548,6 @@ class ReportController extends Controller
             })
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -602,7 +574,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -615,7 +586,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
@@ -650,7 +620,6 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -673,11 +642,11 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
                 //Reinfection Count
+                /*
                 $brgyRecoveryCount += Forms::with('records')
                 ->whereHas('records', function ($q) use ($brgy) {
                     $q->where('records.address_province', 'CAVITE')
@@ -688,6 +657,7 @@ class ReportController extends Controller
                 ->where('reinfected', 1)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
+                */
 
                 $brgySuspectedCount = Forms::with('records')
                 ->whereHas('records', function ($q) use ($brgy) {
@@ -778,7 +748,6 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -794,7 +763,6 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -810,7 +778,6 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -826,7 +793,6 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -840,7 +806,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -852,7 +817,6 @@ class ReportController extends Controller
                     ->where('records.address_brgy', auth()->user()->brgy->brgyName);
                 })
                 ->where('status', 'approved')
-                ->where('reinfected', 1)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -867,7 +831,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -882,7 +845,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -897,7 +859,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -969,7 +930,6 @@ class ReportController extends Controller
                 ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newActiveCount_partialVaccinated = Forms::with('records')
@@ -986,7 +946,6 @@ class ReportController extends Controller
                 ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newActiveCount_fullyVaccinated = Forms::with('records')
@@ -1003,7 +962,6 @@ class ReportController extends Controller
                 ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newActiveCount_fullyVaccinated_janssen = Forms::with('records')
@@ -1020,7 +978,6 @@ class ReportController extends Controller
                 ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newActiveCount_fullyVaccinated += $newActiveCount_fullyVaccinated_janssen;
@@ -1036,7 +993,6 @@ class ReportController extends Controller
                 ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateActiveCount_partialVaccinated = Forms::with('records')
@@ -1053,7 +1009,6 @@ class ReportController extends Controller
                 ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateActiveCount_fullyVaccinated = Forms::with('records')
@@ -1070,7 +1025,6 @@ class ReportController extends Controller
                 ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateActiveCount_fullyVaccinated_janssen = Forms::with('records')
@@ -1087,7 +1041,6 @@ class ReportController extends Controller
                 ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
                 ->where('outcomeCondition', 'Active')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateActiveCount_fullyVaccinated += $lateActiveCount_fullyVaccinated_janssen;
@@ -1102,7 +1055,6 @@ class ReportController extends Controller
                 ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newRecoveredCount_partialVaccinated = Forms::with('records')
@@ -1118,7 +1070,6 @@ class ReportController extends Controller
                 ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newRecoveredCount_fullyVaccinated = Forms::with('records')
@@ -1134,7 +1085,6 @@ class ReportController extends Controller
                 ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newRecoveredCount_fullyVaccinated_janssen = Forms::with('records')
@@ -1150,7 +1100,6 @@ class ReportController extends Controller
                 ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $newRecoveredCount_fullyVaccinated += $newRecoveredCount_fullyVaccinated_janssen;
@@ -1165,7 +1114,6 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateRecoveredCount_partialVaccinated = Forms::with('records')
@@ -1181,7 +1129,6 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateRecoveredCount_fullyVaccinated = Forms::with('records')
@@ -1197,7 +1144,6 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateRecoveredCount_fullyVaccinated_janssen = Forms::with('records')
@@ -1213,7 +1159,6 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->count();
 
                 $lateRecoveredCount_fullyVaccinated += $lateRecoveredCount_fullyVaccinated_janssen;
@@ -1256,7 +1201,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -1271,7 +1215,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
                 
@@ -1286,7 +1229,6 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -1315,7 +1257,6 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -1329,7 +1270,6 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -1363,7 +1303,6 @@ class ReportController extends Controller
                     ->where('status', 'approved')
                     ->where('caseClassification', 'Confirmed')
                     ->where('outcomeCondition', 'Active')
-                    ->where('reinfected', 0)
                     ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                     ->count();
 
@@ -1386,11 +1325,11 @@ class ReportController extends Controller
                     })
                     ->where('status', 'approved')
                     ->where('outcomeCondition', 'Recovered')
-                    ->where('reinfected', 0)
                     ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                     ->count();
 
                     //Reinfection Count
+                    /*
                     $brgyRecoveryCount += Forms::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
                         $q->where('records.address_province', 'CAVITE')
@@ -1401,6 +1340,7 @@ class ReportController extends Controller
                     ->where('reinfected', 1)
                     ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                     ->count();
+                    */
 
                     $brgySuspectedCount = Forms::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
