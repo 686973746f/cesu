@@ -74,6 +74,13 @@ class PaSwabDetails extends Model
         'vaccinationRegion2',
         'haveAdverseEvents2',
 
+        'vaccinationDate3',
+        'vaccinationName3',
+        'vaccinationNoOfDose3',
+        'vaccinationFacility3',
+        'vaccinationRegion3',
+        'haveAdverseEvents3',
+
         'dateOnsetOfIllness',
         'SAS',
         'SASFeverDeg',
