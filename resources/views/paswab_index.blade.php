@@ -42,7 +42,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Name of Interviewer</label>
-                                <input type="text" class="form-control" value="{{$interviewerName}}" disabled>
+                                <input type="text" class="form-control" value="{{$interviewerName}} {{(!is_null($lock_brgy)) ? '(BRGY.'.$lock_brgy.')' : ''}}" disabled>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -713,9 +713,9 @@
                                         <div class="form-group">
                                           <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
                                           <select class="form-control" name="haveBooster" id="haveBooster" required>
-                                            <option value="" selected disabled>Choose...</option>
-                                            <option value="1">Yes</option>
-                                            <option value="0">No</option>
+                                            <option value="" {{(is_null(old('haveBooster'))) ? 'selected' : ''}} disabled>Choose...</option>
+                                            <option value="1" {{(old('haveBooster') == '1') ? 'selected' : ''}}>Yes</option>
+                                            <option value="0" {{(old('haveBooster') == '0') ? 'selected' : ''}}>No</option>
                                           </select>
                                         </div>
                                     </div>
