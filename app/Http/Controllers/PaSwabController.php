@@ -151,6 +151,13 @@ class PaSwabController extends Controller
                             'vaccinationFacility2' => $data->vaccinationFacility2,
                             'vaccinationRegion2' => $data->vaccinationRegion2,
                             'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                            'vaccinationDate3' => $data->vaccinationDate3,
+                            'vaccinationName3' => $data->vaccinationName3,
+                            'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                            'vaccinationFacility3' => $data->vaccinationFacility3,
+                            'vaccinationRegion3' => $data->vaccinationRegion3,
+                            'haveAdverseEvents3' => $data->haveAdverseEvents3,
                         ]);
                     }
                     else {
@@ -215,6 +222,13 @@ class PaSwabController extends Controller
                             'vaccinationFacility2' => $data->vaccinationFacility2,
                             'vaccinationRegion2' => $data->vaccinationRegion2,
                             'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                            'vaccinationDate3' => $data->vaccinationDate3,
+                            'vaccinationName3' => $data->vaccinationName3,
+                            'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                            'vaccinationFacility3' => $data->vaccinationFacility3,
+                            'vaccinationRegion3' => $data->vaccinationRegion3,
+                            'haveAdverseEvents3' => $data->haveAdverseEvents3,
                         ]);
 
                         $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
@@ -598,6 +612,13 @@ class PaSwabController extends Controller
                             'vaccinationFacility2' => $data->vaccinationFacility2,
                             'vaccinationRegion2' => $data->vaccinationRegion2,
                             'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                            'vaccinationDate3' => $data->vaccinationDate3,
+                            'vaccinationName3' => $data->vaccinationName3,
+                            'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                            'vaccinationFacility3' => $data->vaccinationFacility3,
+                            'vaccinationRegion3' => $data->vaccinationRegion3,
+                            'haveAdverseEvents3' => $data->haveAdverseEvents3,
                         ]);
                     }
                     else {
@@ -662,6 +683,13 @@ class PaSwabController extends Controller
                             'vaccinationFacility2' => $data->vaccinationFacility2,
                             'vaccinationRegion2' => $data->vaccinationRegion2,
                             'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                            'vaccinationDate3' => $data->vaccinationDate3,
+                            'vaccinationName3' => $data->vaccinationName3,
+                            'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                            'vaccinationFacility3' => $data->vaccinationFacility3,
+                            'vaccinationRegion3' => $data->vaccinationRegion3,
+                            'haveAdverseEvents3' => $data->haveAdverseEvents3,
                         ]);
 
                         $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
@@ -1078,16 +1106,23 @@ class PaSwabController extends Controller
                             'vaccinationDate1' => ($request->vaccineq1 == 1) ? $request->vaccinationDate1 : NULL,
                             'vaccinationName1'=> ($request->vaccineq1 == 1) ? $request->nameOfVaccine : NULL,
                             'vaccinationNoOfDose1'=> ($request->vaccineq1 == 1) ? 1 : NULL,
-                            'vaccinationFacility1'=> ($request->vaccineq1 == 1) ? $request->vaccinationFacility1 : NULL,
-                            'vaccinationRegion1'=> ($request->vaccineq1 == 1) ? $request->vaccinationRegion1 : NULL,
+                            'vaccinationFacility1'=> ($request->vaccineq1 == 1 && $request->filled('vaccinationFacility1')) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+                            'vaccinationRegion1'=> ($request->vaccineq1 == 1 && $request->filled('vaccinationRegion1')) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
                             'haveAdverseEvents1'=> ($request->vaccineq1 == 1) ? $request->haveAdverseEvents1 : NULL,
     
                             'vaccinationDate2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationDate2 : NULL,
                             'vaccinationName2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->nameOfVaccine : NULL,
                             'vaccinationNoOfDose2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? 2 : NULL,
-                            'vaccinationFacility2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationFacility2 : NULL,
-                            'vaccinationRegion2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->vaccinationRegion2 : NULL,
+                            'vaccinationFacility2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2 && $request->filled('vaccinationFacility2')) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+                            'vaccinationRegion2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2 && $request->filled('vaccinationRegion2')) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
                             'haveAdverseEvents2' => ($request->vaccineq1 == 1 && $request->howManyDose == 2) ? $request->haveAdverseEvents2 : NULL,
+
+                            'vaccinationDate3' => ($request->haveBooster == 1) ? $request->vaccinationDate3 : NULL,
+                            'haveAdverseEvents3' => ($request->haveBooster == 1) ? $request->haveAdverseEvents3 : NULL,
+                            'vaccinationName3' =>  ($request->haveBooster == 1) ? $request->vaccinationName3 : NULL,
+                            'vaccinationNoOfDose3' =>  ($request->haveBooster == 1) ? 3 : NULL,
+                            'vaccinationFacility3' =>  ($request->haveBooster == 1 && $request->filled('vaccinationFacility3')) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
+                            'vaccinationRegion3' =>  ($request->haveBooster == 1 && $request->filled('vaccinationRegion3')) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
             
                             'occupation' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation) : NULL,
                             'occupation_name' => ($request->filled('occupation_name')) ? mb_strtoupper($request->occupation_name) : NULL,
@@ -1323,6 +1358,13 @@ class PaSwabController extends Controller
                     'vaccinationFacility2' => $data->vaccinationFacility2,
                     'vaccinationRegion2' => $data->vaccinationRegion2,
                     'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                    'vaccinationDate3' => $data->vaccinationDate3,
+                    'vaccinationName3' => $data->vaccinationName3,
+                    'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                    'vaccinationFacility3' => $data->vaccinationFacility3,
+                    'vaccinationRegion3' => $data->vaccinationRegion3,
+                    'haveAdverseEvents3' => $data->haveAdverseEvents3,
                 ]);
             }
             else {
@@ -1387,6 +1429,13 @@ class PaSwabController extends Controller
                     'vaccinationFacility2' => $data->vaccinationFacility2,
                     'vaccinationRegion2' => $data->vaccinationRegion2,
                     'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                    'vaccinationDate3' => $data->vaccinationDate3,
+                    'vaccinationName3' => $data->vaccinationName3,
+                    'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                    'vaccinationFacility3' => $data->vaccinationFacility3,
+                    'vaccinationRegion3' => $data->vaccinationRegion3,
+                    'haveAdverseEvents3' => $data->haveAdverseEvents3,
                 ]);
 
                 $oldform = Forms::where('records_id', $rec->id)->first();
@@ -1798,6 +1847,13 @@ class PaSwabController extends Controller
                     'vaccinationFacility2' => $data->vaccinationFacility2,
                     'vaccinationRegion2' => $data->vaccinationRegion2,
                     'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                    'vaccinationDate3' => $data->vaccinationDate3,
+                    'vaccinationName3' => $data->vaccinationName3,
+                    'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                    'vaccinationFacility3' => $data->vaccinationFacility3,
+                    'vaccinationRegion3' => $data->vaccinationRegion3,
+                    'haveAdverseEvents3' => $data->haveAdverseEvents3,
                 ]);
             }
             else {
@@ -1862,6 +1918,13 @@ class PaSwabController extends Controller
                     'vaccinationFacility2' => $data->vaccinationFacility2,
                     'vaccinationRegion2' => $data->vaccinationRegion2,
                     'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+                    'vaccinationDate3' => $data->vaccinationDate3,
+                    'vaccinationName3' => $data->vaccinationName3,
+                    'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                    'vaccinationFacility3' => $data->vaccinationFacility3,
+                    'vaccinationRegion3' => $data->vaccinationRegion3,
+                    'haveAdverseEvents3' => $data->haveAdverseEvents3,
                 ]);
 
                 $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();

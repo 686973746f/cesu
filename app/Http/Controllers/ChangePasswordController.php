@@ -19,10 +19,8 @@ class ChangePasswordController extends Controller
             'newpw1' => 'required|min:8',
             'newpw2' => 'required|min:8',
         ]);
-        
-        $hashedPassword = User::find(auth()->user()->id)->password;
 
-        if(Hash::check($request->oldpw, $hashedPassword)) {
+        if(Hash::check($request->oldpw, User::find(auth()->user()->id)->password)) {
             if($request->newpw1 == $request->newpw2) {
                 $usr = User::findOrFail(auth()->user()->id);
 

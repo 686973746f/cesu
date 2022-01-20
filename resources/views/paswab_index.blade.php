@@ -625,7 +625,6 @@
                                     <option value="" disabled {{is_null(old('howManyDose')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="1" {{(old('howManyDose') == '1') ? 'selected' : ''}}>1st Dose Only</option>
                                     <option value="2" id="2ndDoseOption" {{(old('howManyDose') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
-                                    <option value="3" id="BoosterOption" {{(old('howManyDose') == '3') ? 'selected' : ''}}>1st and 2nd Dose Completed (With Booster)</option>
                                   </select>
                                 </div>
                                 <div class="form-group">
@@ -676,8 +675,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
                                     <div id="VaccineDose2" class="d-none">
+                                        <hr>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -709,8 +708,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="ifBoosterVaccine" class="d-none">
+                                    <div id="booster_question" class="d-none">
                                         <hr>
+                                        <div class="form-group">
+                                          <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
+                                          <select class="form-control" name="haveBooster" id="haveBooster" required>
+                                            <option value="" selected disabled>Choose...</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div id="ifBoosterVaccine" class="d-none">
                                         <div class="form-group">
                                             <label for="vaccinationName3"><span class="text-danger font-weight-bold">*</span>Booster Vaccine Name</label>
                                             <select class="form-control" name="vaccinationName3" id="vaccinationName3">
@@ -1852,10 +1861,9 @@
                 $('#vaccinationDate2').prop('required', false);
                 $('#haveAdverseEvents2').prop('required', false);
 
-                $('#ifBoosterVaccine').addClass('d-none');
-                $('#vaccinationName3').prop('required', false);
-                $('#vaccinationDate3').prop('required', false);
-                $('#haveAdverseEvents3').prop('required', false);
+                $('#booster_question').addClass('d-none');
+                $('#haveBooster').val("");
+                $('#haveBooster').trigger('change');
             }
             else if($(this).val() == '2') {
                 $('#VaccineDose1').removeClass('d-none');
@@ -1865,23 +1873,9 @@
                 $('#vaccinationDate2').prop('required', true);
                 $('#haveAdverseEvents2').prop('required', true);
 
-                $('#ifBoosterVaccine').addClass('d-none');
-                $('#vaccinationName3').prop('required', false);
-				$('#vaccinationDate3').prop('required', false);
-				$('#haveAdverseEvents3').prop('required', false);
-            }
-            else if($(this).val() == '3') {
-                $('#VaccineDose1').removeClass('d-none');
-                $('#VaccineDose2').removeClass('d-none');
-                $('#vaccinationDate1').prop('required', true);
-                $('#haveAdverseEvents1').prop('required', true);
-                $('#vaccinationDate2').prop('required', true);
-                $('#haveAdverseEvents2').prop('required', true);
-
-                $('#ifBoosterVaccine').removeClass('d-none');
-                $('#vaccinationName3').prop('required', true);
-				$('#vaccinationDate3').prop('required', true);
-				$('#haveAdverseEvents3').prop('required', true);
+                $('#booster_question').removeClass('d-none');
+                $('#haveBooster').val("");
+                $('#haveBooster').trigger('change');
             }
             else {
                 $('#VaccineDose1').addClass('d-none');
@@ -1891,6 +1885,21 @@
                 $('#vaccinationDate2').prop('required', false);
                 $('#haveAdverseEvents2').prop('required', false);
 
+                $('#booster_question').addClass('d-none');
+                $('#haveBooster').val("");
+                $('#haveBooster').trigger('change');
+            }
+        }).trigger('change');
+
+        $('#haveBooster').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 1) {
+                $('#ifBoosterVaccine').removeClass('d-none');
+                $('#vaccinationName3').prop('required', true);
+				$('#vaccinationDate3').prop('required', true);
+				$('#haveAdverseEvents3').prop('required', true);
+            }
+            else {
                 $('#ifBoosterVaccine').addClass('d-none');
                 $('#vaccinationName3').prop('required', false);
 				$('#vaccinationDate3').prop('required', false);
@@ -1903,11 +1912,16 @@
             if($(this).val() == 'JANSSEN') {
                 $('#howManyDose').val(1).trigger('change');
                 $('#2ndDoseOption').hide();
-                $('#BoosterOption').hide();
+                $('#booster_question').removeClass('d-none');
             }
             else {
                 $('#2ndDoseOption').show();
-                $('#BoosterOption').show();
+                if($('#howManyDose').val() == 2) {
+                    $('#booster_question').removeClass('d-none');
+                }
+                else {
+                    $('#booster_question').addClass('d-none');
+                }
             }
         }).trigger('change');
 

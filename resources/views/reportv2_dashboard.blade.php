@@ -25,48 +25,50 @@
         <div class="card">
             <div class="card-header font-weight-bold">{{$list_name}}</div>
             <div class="card-body">
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                        <tr class="text-center">
-                            <th>MM</th>
-                            <th>MW</th>
-                            <th>Date Reported</th>
-                            <th>DRU</th>
-                            <th>DRU Region</th>
-                            <th>DRU Mun/City</th>
-                            <th>Name / ID</th>
-                            <th>Age / Sex</th>
-                            <th>Birthdate</th>
-                            <th>Street</th>
-                            <th>Brgy</th>
-                            <th>Case Severity</th>
-                            <th>Date of Specimen Collection</th>
-                            <th>Classification</th>
-                            <th>Quarantine Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($list as $item)
-                        <tr>
-                            <td class="text-center">{{date('m/d/Y', strtotime($item->morbidityMonth))}}</td>
-                            <td class="text-center">{{date('W', strtotime($item->morbidityMonth))}}</td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
-                            <td class="text-center">{{$item->drunit}}</td>
-                            <td class="text-center">{{$item->drregion}}</td>
-                            <td class="text-center">{{$item->drprovince}}</td>
-                            <td><a href="/forms/{{$item->id}}/edit">{{$item->records->getName()}} (#{{$item->id}})</a></td>
-                            <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
-                            <td class="text-center"><small>{{$item->records->address_street}}</small></td>
-                            <td class="text-center">{{$item->records->address_brgy}}</td>
-                            <td class="text-center">{{$item->healthStatus}}</td>
-                            <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
-                            <td class="text-center">{{$item->caseClassification}}</td>
-                            <td class="text-center">{{$item->getQuarantineStatus()}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr class="text-center">
+                                <th>MM</th>
+                                <th>MW</th>
+                                <th>Date Reported</th>
+                                <th>DRU</th>
+                                <th>DRU Region</th>
+                                <th>DRU Mun/City</th>
+                                <th>Name / ID</th>
+                                <th>Age / Sex</th>
+                                <th>Birthdate</th>
+                                <th>Street</th>
+                                <th>Brgy</th>
+                                <th>Case Severity</th>
+                                <th>Date of Specimen Collection</th>
+                                <th>Classification</th>
+                                <th>Quarantine Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list as $item)
+                            <tr>
+                                <td class="text-center">{{date('m/d/Y', strtotime($item->morbidityMonth))}}</td>
+                                <td class="text-center">{{date('W', strtotime($item->morbidityMonth))}}</td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
+                                <td class="text-center">{{$item->drunit}}</td>
+                                <td class="text-center">{{$item->drregion}}</td>
+                                <td class="text-center">{{$item->drprovince}}</td>
+                                <td><a href="/forms/{{$item->id}}/edit">{{$item->records->getName()}} (#{{$item->id}})</a></td>
+                                <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                                <td class="text-center"><small>{{$item->records->address_street}}</small></td>
+                                <td class="text-center">{{$item->records->address_brgy}}</td>
+                                <td class="text-center">{{$item->healthStatus}}</td>
+                                <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
+                                <td class="text-center">{{$item->caseClassification}}</td>
+                                <td class="text-center">{{$item->getQuarantineStatus()}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

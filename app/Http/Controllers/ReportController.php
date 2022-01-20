@@ -565,6 +565,18 @@ class ReportController extends Controller
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
+            $facilityTwoCount = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 7)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
             $hqCount = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
@@ -731,6 +743,7 @@ class ReportController extends Controller
                 'totalCases_partialVaccinated' => $totalCasesCount_partialVaccinated,
                 'totalCases_fullyVaccinated' => $totalCasesCount_fullyVaccinated,
                 'facilityCount' => $facilityCount,
+                'facilityTwoCount' => $facilityTwoCount,
                 'hqCount' => $hqCount,
                 'hospitalCount' => $hospitalCount,
                 'brgylist' => $brgyArray,

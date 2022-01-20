@@ -2159,7 +2159,6 @@
                 $('#ifVaccinated').hide();
                 $('#howManyDose').prop('required', false);
                 $('#nameOfVaccine').prop('required', false);
-                
             }
         }).trigger('change');
 

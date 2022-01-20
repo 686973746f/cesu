@@ -135,7 +135,7 @@ class ReportV2Controller extends Controller
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
 
-                $getListName = 'List of Patients Admitted in General Trias Ligtas COVID-19 Facility #1';
+                $getListName = 'List of Patients Admitted in General Trias Ligtas COVID-19 Facility #2 (Gen. Trias Sports Park, Brgy. Santiago)';
             }
             else if($opt == 10) {
                 $opt_final_query = $initial_query
@@ -158,6 +158,16 @@ class ReportV2Controller extends Controller
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
 
                 $getListName = 'List of Patients Admitted in the Hospital/Other Isolation Facility';
+            }
+            else if($opt == 12) {
+                $opt_final_query = $initial_query
+                ->where('dispoType', 7)
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+
+                $getListName = 'List of Patients Admitted in General Trias Ligtas COVID-19 Facility #2 (Eagle Ridge, Brgy. Javalera)';
             }
             else {
                 return abort(401);

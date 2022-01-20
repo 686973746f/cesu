@@ -149,7 +149,15 @@
                     <div class="card text-white bg-secondary">
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold"><i class="fas fa-hotel mr-2"></i>{{number_format($facilityCount)}}</h4>
-                            <p class="card-text">Admitted in the City of General Trias Ligtas COVID-19 Facility</p>
+                            <p class="card-text">Admitted in the City of General Trias Ligtas COVID-19 Facility #1</p>
+                            <p class="card-text">(Gen. Trias Sports Park, Brgy. Santiago)</p>
+                        </div>
+                    </div>
+                    <div class="card text-white bg-secondary mt-3">
+                        <div class="card-body">
+                            <h4 class="card-title font-weight-bold"><i class="fas fa-hotel mr-2"></i>{{number_format($facilityTwoCount)}}</h4>
+                            <p class="card-text">Admitted in the City of General Trias Ligtas COVID-19 Facility #2</p>
+                            <p class="card-text">(Eagle Ridge, Brgy. Javalera)</p>
                         </div>
                     </div>
                 </div>
@@ -172,32 +180,34 @@
             </div>
             @if(auth()->user()->isCesuAccount())
             <hr>
-            <table class="table table-bordered text-center">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Infection Rate</th>
-                        <th>Recovery Rate</th>
-                        <th>Case Fatality Rate</th>
-                        <th>Positivity Rate</th>
-                        <th>Home Quarantine</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="2" style="vertical-align: middle;">1 per 1,000 pop.</td>
-                        <td>{{number_format($recoveredCount)}} / {{number_format($totalCasesCount)}}</td>
-                        <td>{{number_format($deathCount)}} / {{number_format($totalCasesCount)}}</td>
-                        <td>{{number_format($totalCasesCount)}} / {{number_format($allCasesCount)}}</td>
-                        <td>{{number_format($hqCount)}} / {{number_format($activeCount)}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{round(($recoveredCount/$totalCasesCount) * 100, 1)}}%</td>
-                        <td>{{round(($deathCount/$totalCasesCount) * 100, 1)}}%</td>
-                        <td>{{round(($totalCasesCount/$allCasesCount) * 100, 1)}}%</td>
-                        <td>{{round(($hqCount/$activeCount) * 100, 1)}}%</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Infection Rate</th>
+                            <th>Recovery Rate</th>
+                            <th>Case Fatality Rate</th>
+                            <th>Positivity Rate</th>
+                            <th>Home Quarantine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="2" style="vertical-align: middle;">1 per 1,000 pop.</td>
+                            <td>{{number_format($recoveredCount)}} / {{number_format($totalCasesCount)}}</td>
+                            <td>{{number_format($deathCount)}} / {{number_format($totalCasesCount)}}</td>
+                            <td>{{number_format($totalCasesCount)}} / {{number_format($allCasesCount)}}</td>
+                            <td>{{number_format($hqCount)}} / {{number_format($activeCount)}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{round(($recoveredCount/$totalCasesCount) * 100, 1)}}%</td>
+                            <td>{{round(($deathCount/$totalCasesCount) * 100, 1)}}%</td>
+                            <td>{{round(($totalCasesCount/$allCasesCount) * 100, 1)}}%</td>
+                            <td>{{round(($hqCount/$activeCount) * 100, 1)}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             @endif
             <hr>
             <div class="row">

@@ -76,6 +76,7 @@
                                     <option value="8">List of Total Deaths</option>
                                     <option disabled>-----</option>
                                     <option value="9">List of Patients Admitted in General Trias Ligtas COVID-19 Facility #1</option>
+                                    <option value="12">List of Patients Admitted in General Trias Ligtas COVID-19 Facility #2 (Eagle Ridge, Brgy. Javalera)</option>
                                     <option value="10">List of Patients On Strict Home Quarantine</option>
                                     <option value="11">List of Patients Admitted in the Hospital/Other Isolation Facility</option>
                                     </select>

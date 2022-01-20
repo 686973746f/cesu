@@ -23,6 +23,18 @@ class PaSwabValidationRequest extends FormRequest
      */
     public function rules()
     {
+        if($this->howManyDose == 2) {
+            $allow_booster_question = true;
+        }
+        else {
+            if($this->nameOfVaccine == 'JANSSEN') {
+                $allow_booster_question = true;
+            }
+            else {
+                $allow_booster_question = false;
+            }
+        }
+
         return [
             'linkcode' => 'required|string',
             'linkcode2nd' => 'required|string',
@@ -71,15 +83,22 @@ class PaSwabValidationRequest extends FormRequest
             'vaccineq1' => 'required|numeric',
             'howManyDose' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
             'nameOfVaccine' => ($this->vaccineq1 == 1) ? 'required' : 'nullable',
-            'vaccinationDate1' => ($this->vaccineq1 == 1) ? 'required|date' : 'nullable|date',
+            'vaccinationDate1' => ($this->vaccineq1 == 1) ? 'required|date|before_or_equal:today' : 'nullable|date',
             'vaccinationFacility1' => 'nullable',
             'vaccinationRegion1' => 'nullable',
             'haveAdverseEvents1' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
-            'vaccinationDate2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|date' : 'nullable|date',
+            'vaccinationDate2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|date|after:vaccinationDate1|before_or_equal:today' : 'nullable|date',
             'vaccinationFacility2' => 'nullable',
             'vaccinationRegion2' => 'nullable',
             'haveAdverseEvents2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|numeric' : 'nullable',
 
+            'haveBooster' => ($allow_booster_question) ? 'required' : 'nullable',
+            'vaccinationName3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
+            'vaccinationDate3' => ($this->haveBooster == 1) ? 'required|date|after:vaccinationDate2|before_or_equal:today' : 'nullable',
+            'haveAdverseEvents3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
+            'vaccinationFacility3' => 'nullable',
+            'vaccinationRegion3' => 'nullable',
+            
             'haveSymptoms' => 'required|numeric',
             'dateOnsetOfIllness' => ($this->haveSymptoms == 1) ? 'required|date' : 'nullable|date',
             'sasCheck' => 'nullable',
