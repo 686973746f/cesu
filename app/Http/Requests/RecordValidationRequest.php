@@ -23,6 +23,18 @@ class RecordValidationRequest extends FormRequest
      */
     public function rules()
     {
+		if($this->howManyDoseVaccine == 2) {
+            $allow_booster_question = true;
+        }
+        else {
+            if($this->vaccineName == 'JANSSEN') {
+                $allow_booster_question = true;
+            }
+            else {
+                $allow_booster_question = false;
+            }
+        }
+
         return [
 			'is_confidential' => 'nullable',
 			'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
@@ -65,7 +77,7 @@ class RecordValidationRequest extends FormRequest
 			'natureOfWorkIfOthers' => ($this->hasoccupation == 1 && $this->natureOfWork == 'Others') ? 'required' : 'nullable',
 
 			//2.5 Vaccination
-            'howManyDoseVaccine' => 'nullable',
+            'howManyDoseVaccine' => 'nullable|numeric',
             'vaccineName' => (!is_null($this->howManyDoseVaccine)) ? 'required' : 'nullable',
 
             'vaccinationDate1' => (!is_null($this->howManyDoseVaccine)) ? 'required|date|before_or_equal:today' : 'nullable|date',
@@ -73,16 +85,17 @@ class RecordValidationRequest extends FormRequest
             'vaccinationFacility1' => 'nullable|string',
             'vaccinationRegion1' => 'nullable|string',
         
-            'vaccinationDate2' => (!is_null($this->howManyDoseVaccine) && in_array($this->howManyDoseVaccine, [2,3])) ? 'required|date|before_or_equal:today' : 'nullable|date',
-            'haveAdverseEvents2' => (!is_null($this->howManyDoseVaccine) && in_array($this->howManyDoseVaccine, [2,3])) ? 'required|numeric' : 'nullable|numeric',
+            'vaccinationDate2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|date|after:vaccinationDate1|before_or_equal:today' : 'nullable|date',
+            'haveAdverseEvents2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|numeric' : 'nullable|numeric',
             'vaccinationFacility2' => 'nullable|string',
             'vaccinationRegion2' => 'nullable|string',
 
-			'vaccinationName3' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 3) ? 'required' : 'nullable',
-			'vaccinationDate3' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 3) ? 'required|date|before_or_equal:today' : 'nullable|date',
-            'haveAdverseEvents3' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 3) ? 'required|numeric' : 'nullable|numeric',
-            'vaccinationFacility3' => 'nullable|string',
-            'vaccinationRegion3' => 'nullable|string',
+			'haveBooster' => ($allow_booster_question) ? 'required' : 'nullable',
+            'vaccinationName3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
+            'vaccinationDate3' => ($this->haveBooster == 1) ? 'required|date|after:vaccinationDate2|before_or_equal:today' : 'nullable',
+            'haveAdverseEvents3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
+            'vaccinationFacility3' => 'nullable',
+            'vaccinationRegion3' => 'nullable',
         ];
     }
 }

@@ -420,26 +420,26 @@ class RecordsController extends Controller
 				'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 				'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
 
-				'vaccinationDate1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? $request->vaccinationDate1 : NULL,
-				'haveAdverseEvents1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? $request->haveAdverseEvents1 : NULL,
-				'vaccinationName1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? $request->vaccineName : NULL,
-				'vaccinationNoOfDose1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? 1 : NULL,
-				'vaccinationFacility1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
-				'vaccinationRegion1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
+				'vaccinationDate1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccinationDate1 : NULL,
+				'haveAdverseEvents1' => (!is_null($request->howManyDoseVaccine)) ? $request->haveAdverseEvents1 : NULL,
+				'vaccinationName1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose1' => (!is_null($request->howManyDoseVaccine)) ? 1 : NULL,
+				'vaccinationFacility1' => (!is_null($request->howManyDoseVaccine) && $request->filled('vaccinationFacility1')) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+				'vaccinationRegion1' => (!is_null($request->howManyDoseVaccine) && $request->filled('vaccinationRegion1')) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
 
-				'vaccinationDate2' => (in_array($request->howManyDoseVaccine, [2,3])) ? $request->vaccinationDate2 : NULL,
-				'haveAdverseEvents2' => (in_array($request->howManyDoseVaccine, [2,3])) ? $request->haveAdverseEvents2 : NULL,
-				'vaccinationName2' => (in_array($request->howManyDoseVaccine, [2,3])) ? $request->vaccineName : NULL,
-				'vaccinationNoOfDose2' => (in_array($request->howManyDoseVaccine, [2,3])) ? 2 : NULL,
-				'vaccinationFacility2' => (in_array($request->howManyDoseVaccine, [2,3])) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
-				'vaccinationRegion2' => (in_array($request->howManyDoseVaccine, [2,3])) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
+				'vaccinationDate2' => ($request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+				'haveAdverseEvents2' => ($request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+				'vaccinationName2' => ($request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+				'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
+				'vaccinationFacility2' => ($request->howManyDoseVaccine == 2 && $request->filled('vaccinationFacility2')) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+				'vaccinationRegion2' => ($request->howManyDoseVaccine == 2 && $request->filled('vaccinationRegion2')) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 
-				'vaccinationDate3' => ($request->howManyDoseVaccine == 3) ? $request->vaccinationDate3 : NULL,
-				'haveAdverseEvents3' => ($request->howManyDoseVaccine == 3) ? $request->haveAdverseEvents3 : NULL,
-				'vaccinationName3' => ($request->howManyDoseVaccine == 3) ? $request->vaccinationName3 : NULL,
-				'vaccinationNoOfDose3' => ($request->howManyDoseVaccine == 3) ? 3 : NULL,
-				'vaccinationFacility3' => ($request->howManyDoseVaccine == 3) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
-				'vaccinationRegion3' => ($request->howManyDoseVaccine == 3) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
+				'vaccinationDate3' => ($request->haveBooster == 1) ? $request->vaccinationDate3 : NULL,
+				'haveAdverseEvents3' => ($request->haveBooster == 1) ? $request->haveAdverseEvents3 : NULL,
+				'vaccinationName3' => ($request->haveBooster == 1) ? $request->vaccinationName3 : NULL,
+				'vaccinationNoOfDose3' => ($request->haveBooster == 1) ? 3 : NULL,
+				'vaccinationFacility3' => ($request->haveBooster == 1 && $request->filled('vaccinationFacility3')) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
+				'vaccinationRegion3' => ($request->haveBooster == 1 && $request->filled('vaccinationRegion3')) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
 
 				'is_confidential' => ($request->is_confidential) ? 1 : 0,
 			]);
@@ -486,16 +486,25 @@ class RecordsController extends Controller
 			}
 
 			//Vaccination Details
-			if(!is_null($record->vaccinationDate3) && !is_null($record->vaccinationDate2) && !is_null($record->vaccinationDate1)) {
-				$vaccineDose = 3;
+			if(!is_null($record->vaccinationDate3)) {
+				$haveBooster = 1;
+				if($record->vaccinationName1 == 'JANSSEN') {
+					$vaccineDose = 1;
+				}
+				else {
+					$vaccineDose = 2;
+				}
 			}
 			else if(!is_null($record->vaccinationDate2) && !is_null($record->vaccinationDate1)) {
+				$haveBooster = 0;
 				$vaccineDose = 2;
 			}
 			else if(!is_null($record->vaccinationDate1)) {
+				$haveBooster = 0;
 				$vaccineDose = 1;
 			}
 			else {
+				$haveBooster = NULL;
 				$vaccineDose = NULL;
 			}
 
@@ -531,6 +540,7 @@ class RecordsController extends Controller
 				'record' => $record,
 				'cifcheck' =>$cifcheck,
 				'vaccineDose' => $vaccineDose,
+				'haveBooster' => $haveBooster,
 				'sharedAccessList' => $sharedAccessList,
 				'sameaddress' => $sameaddress,
 			]);
@@ -865,27 +875,27 @@ class RecordsController extends Controller
 	
 					'natureOfWork' => ($request->hasoccupation == 1) ? mb_strtoupper($request->natureOfWork) : NULL,
 					'natureOfWorkIfOthers' => ($request->hasoccupation == 1 && $request->natureOfWork == 'OTHERS') ? mb_strtoupper($request->natureOfWorkIfOthers) : NULL,
-	
-					'vaccinationDate1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? $request->vaccinationDate1 : NULL,
-					'haveAdverseEvents1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? $request->haveAdverseEvents1 : NULL,
-					'vaccinationName1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? $request->vaccineName : NULL,
-					'vaccinationNoOfDose1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? 1 : NULL,
-					'vaccinationFacility1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
-					'vaccinationRegion1' => (in_array($request->howManyDoseVaccine, [1,2,3])) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
-	
-					'vaccinationDate2' => (in_array($request->howManyDoseVaccine, [2,3])) ? $request->vaccinationDate2 : NULL,
-					'haveAdverseEvents2' => (in_array($request->howManyDoseVaccine, [2,3])) ? $request->haveAdverseEvents2 : NULL,
-					'vaccinationName2' => (in_array($request->howManyDoseVaccine, [2,3])) ? $request->vaccineName : NULL,
-					'vaccinationNoOfDose2' => (in_array($request->howManyDoseVaccine, [2,3])) ? 2 : NULL,
-					'vaccinationFacility2' => (in_array($request->howManyDoseVaccine, [2,3])) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
-					'vaccinationRegion2' => (in_array($request->howManyDoseVaccine, [2,3])) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
 
-					'vaccinationDate3' => ($request->howManyDoseVaccine == 3) ? $request->vaccinationDate3 : NULL,
-					'haveAdverseEvents3' => ($request->howManyDoseVaccine == 3) ? $request->haveAdverseEvents3 : NULL,
-					'vaccinationName3' => ($request->howManyDoseVaccine == 3) ? $request->vaccinationName3 : NULL,
-					'vaccinationNoOfDose3' => ($request->howManyDoseVaccine == 3) ? 3 : NULL,
-					'vaccinationFacility3' => ($request->howManyDoseVaccine == 3) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
-					'vaccinationRegion3' => ($request->howManyDoseVaccine == 3) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
+					'vaccinationDate1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccinationDate1 : NULL,
+					'haveAdverseEvents1' => (!is_null($request->howManyDoseVaccine)) ? $request->haveAdverseEvents1 : NULL,
+					'vaccinationName1' => (!is_null($request->howManyDoseVaccine)) ? $request->vaccineName : NULL,
+					'vaccinationNoOfDose1' => (!is_null($request->howManyDoseVaccine)) ? 1 : NULL,
+					'vaccinationFacility1' => (!is_null($request->howManyDoseVaccine) && $request->filled('vaccinationFacility1')) ? mb_strtoupper($request->vaccinationFacility1) : NULL,
+					'vaccinationRegion1' => (!is_null($request->howManyDoseVaccine) && $request->filled('vaccinationRegion1')) ? mb_strtoupper($request->vaccinationRegion1) : NULL,
+
+					'vaccinationDate2' => ($request->howManyDoseVaccine == 2) ? $request->vaccinationDate2 : NULL,
+					'haveAdverseEvents2' => ($request->howManyDoseVaccine == 2) ? $request->haveAdverseEvents2 : NULL,
+					'vaccinationName2' => ($request->howManyDoseVaccine == 2) ? $request->vaccineName : NULL,
+					'vaccinationNoOfDose2' => ($request->howManyDoseVaccine == 2) ? 2 : NULL,
+					'vaccinationFacility2' => ($request->howManyDoseVaccine == 2 && $request->filled('vaccinationFacility2')) ? mb_strtoupper($request->vaccinationFacility2) : NULL,
+					'vaccinationRegion2' => ($request->howManyDoseVaccine == 2 && $request->filled('vaccinationRegion2')) ? mb_strtoupper($request->vaccinationRegion2) : NULL,
+
+					'vaccinationDate3' => ($request->haveBooster == 1) ? $request->vaccinationDate3 : NULL,
+					'haveAdverseEvents3' => ($request->haveBooster == 1) ? $request->haveAdverseEvents3 : NULL,
+					'vaccinationName3' => ($request->haveBooster == 1) ? $request->vaccinationName3 : NULL,
+					'vaccinationNoOfDose3' => ($request->haveBooster == 1) ? 3 : NULL,
+					'vaccinationFacility3' => ($request->haveBooster == 1 && $request->filled('vaccinationFacility3')) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
+					'vaccinationRegion3' => ($request->haveBooster == 1 && $request->filled('vaccinationRegion3')) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
 	
 					'sharedOnId' => $shareAccountList,
 					'is_confidential' => $is_confidential,

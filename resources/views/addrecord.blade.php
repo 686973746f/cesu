@@ -303,7 +303,6 @@
 							<option value="" {{(is_null(old('howManyDoseVaccine'))) ? 'selected' : ''}}>N/A</option>
 							<option value="1" {{(old('howManyDoseVaccine') == '1') ? 'selected' : ''}}>1st Dose only</option>
 							<option value="2" id="2ndDoseOption" {{(old('howManyDoseVaccine') == '2') ? 'selected' : ''}}>1st and 2nd Dose Completed</option>
-							<option value="3" id="BoosterOption" {{(old('howManyDoseVaccine') == '3') ? 'selected' : ''}}>1st and 2nd Dose Completed (With Booster)</option>
 						  </select>
 						</div>
 						<div id="ifVaccinated" class="d-none">
@@ -386,8 +385,18 @@
 									</div>
 								</div>
 							</div>
-							<div id="ifBoosterVaccine" class="d-none">
+							<div id="booster_question" class="d-none">
 								<hr>
+								<div class="form-group">
+								  <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
+								  <select class="form-control" name="haveBooster" id="haveBooster" required>
+									<option value="" {{(is_null(old('haveBooster'))) ? 'selected' : ''}} disabled>Choose...</option>
+									<option value="1" {{(old('haveBooster') == '1') ? 'selected' : ''}}>Yes</option>
+									<option value="0" {{(old('haveBooster') == '0') ? 'selected' : ''}}>No</option>
+								  </select>
+								</div>
+							</div>
+							<div id="ifBoosterVaccine" class="d-none">
 								<div class="form-group">
 									<label for="vaccinationName3"><span class="text-danger font-weight-bold">*</span>Booster Vaccine Name</label>
 									<select class="form-control" name="vaccinationName3" id="vaccinationName3">
@@ -1261,16 +1270,15 @@
 				$('#ifVaccinated').addClass('d-none');
 				$('#ifFirstDoseVaccine').addClass('d-none');
 				$('#ifSecondDoseVaccine').addClass('d-none');
-				$('#ifBoosterVaccine').addClass('d-none');
 
 				$('#vaccinationDate1').prop('required', false);
 				$('#haveAdverseEvents1').prop('required', false);
 				$('#vaccinationDate2').prop('required', false);
 				$('#haveAdverseEvents2').prop('required', false);
 
-				$('#vaccinationName3').prop('required', false);
-				$('#vaccinationDate3').prop('required', false);
-				$('#haveAdverseEvents3').prop('required', false);
+				$('#booster_question').addClass('d-none');
+                $('#haveBooster').val("");
+                $('#haveBooster').trigger('change');
 			}
 			else if($(this).val() == '1') {
 				$('#vaccineName').prop('required', true);
@@ -1278,16 +1286,15 @@
 				$('#ifVaccinated').removeClass('d-none');
 				$('#ifFirstDoseVaccine').removeClass('d-none');
 				$('#ifSecondDoseVaccine').addClass('d-none');
-				$('#ifBoosterVaccine').addClass('d-none');
 
 				$('#vaccinationDate1').prop('required', true);
 				$('#haveAdverseEvents1').prop('required', true);
 				$('#vaccinationDate2').prop('required', false);
 				$('#haveAdverseEvents2').prop('required', false);
 
-				$('#vaccinationName3').prop('required', false);
-                $('#vaccinationDate3').prop('required', false);
-                $('#haveAdverseEvents3').prop('required', false);
+				$('#booster_question').addClass('d-none');
+                $('#haveBooster').val("");
+                $('#haveBooster').trigger('change');
 			}
 			else if($(this).val() == '2') {
 				$('#vaccineName').prop('required', true);
@@ -1295,46 +1302,49 @@
 				$('#ifVaccinated').removeClass('d-none');
 				$('#ifFirstDoseVaccine').removeClass('d-none');
 				$('#ifSecondDoseVaccine').removeClass('d-none');
-				$('#ifBoosterVaccine').addClass('d-none');
 
 				$('#vaccinationDate1').prop('required', true);
 				$('#haveAdverseEvents1').prop('required', true);
 				$('#vaccinationDate2').prop('required', true);
 				$('#haveAdverseEvents2').prop('required', true);
 
-				$('#vaccinationName3').prop('required', false);
-				$('#vaccinationDate3').prop('required', false);
-				$('#haveAdverseEvents3').prop('required', false);
-			}
-			else if($(this).val() == '3') {
-				$('#vaccineName').prop('required', true);
-
-				$('#ifVaccinated').removeClass('d-none');
-				$('#ifFirstDoseVaccine').removeClass('d-none');
-				$('#ifSecondDoseVaccine').removeClass('d-none');
-				$('#ifBoosterVaccine').removeClass('d-none');
-
-				$('#vaccinationDate1').prop('required', true);
-				$('#haveAdverseEvents1').prop('required', true);
-				$('#vaccinationDate2').prop('required', true);
-				$('#haveAdverseEvents2').prop('required', true);
-
-				$('#vaccinationName3').prop('required', true);
-				$('#vaccinationDate3').prop('required', true);
-				$('#haveAdverseEvents3').prop('required', true);
+				$('#booster_question').removeClass('d-none');
+                $('#haveBooster').val("");
+                $('#haveBooster').trigger('change');
 			}
 		}).trigger('change');
+
+		$('#haveBooster').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 1) {
+                $('#ifBoosterVaccine').removeClass('d-none');
+                $('#vaccinationName3').prop('required', true);
+				$('#vaccinationDate3').prop('required', true);
+				$('#haveAdverseEvents3').prop('required', true);
+            }
+            else {
+                $('#ifBoosterVaccine').addClass('d-none');
+                $('#vaccinationName3').prop('required', false);
+				$('#vaccinationDate3').prop('required', false);
+				$('#haveAdverseEvents3').prop('required', false);
+            }
+        }).trigger('change');
 
 		$('#vaccineName').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'JANSSEN') {
                 $('#howManyDoseVaccine').val(1).trigger('change');
                 $('#2ndDoseOption').hide();
-				$('#BoosterOption').hide();
+				$('#booster_question').removeClass('d-none');
             }
             else {
                 $('#2ndDoseOption').show();
-				$('#BoosterOption').show();
+				if($('#howManyDoseVaccine').val() == 2) {
+                    $('#booster_question').removeClass('d-none');
+                }
+                else {
+                    $('#booster_question').addClass('d-none');
+                }
             }
         }).trigger('change');
 	});
