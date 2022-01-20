@@ -427,10 +427,9 @@
                                     <hr>
                                     <div class="form-group">
                                       <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
-                                      <select class="form-control" name="haveBooster" id="haveBooster" required>
-                                        <option value="" {{(is_null(old('haveBooster', $haveBooster))) ? 'selected' : ''}} disabled>Choose...</option>
-                                        <option value="1" {{(old('haveBooster', $haveBooster) == '1') ? 'selected' : ''}}>Yes</option>
+                                      <select class="form-control" name="haveBooster" id="haveBooster">
                                         <option value="0" {{(old('haveBooster', $haveBooster) == '0') ? 'selected' : ''}}>No</option>
+                                        <option value="1" {{(old('haveBooster', $haveBooster) == '1') ? 'selected' : ''}}>Yes</option>
                                       </select>
                                     </div>
                                 </div>
