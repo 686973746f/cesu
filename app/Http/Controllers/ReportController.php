@@ -199,7 +199,6 @@ class ReportController extends Controller
             ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $newActiveCount_partialVaccinated = Forms::with('records')
@@ -1917,7 +1916,6 @@ class ReportController extends Controller
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->where('reinfected', 0)
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
             

@@ -44,7 +44,44 @@
                     </div>
                 </div>
             </div>
+            @if(auth()->user()->ifTopAdmin())
+            <div id="accordianId1" role="tablist" aria-multiselectable="true">
+                <div class="card mt-3">
+                    <div class="card-header text-center" role="tab" id="section1HeaderId1">
+                        <a data-toggle="collapse" data-parent="#accordianId1" href="#dateFilter" aria-expanded="true" aria-controls="dateFilter"><i class="fas fa-calendar-alt mr-2"></i>Filter by Date</a>
+                    </div>
+                    <div id="dateFilter" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId1">
+                        <form action="{{route('report.index')}}" method="GET">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label for="start_date">From Start Date</label>
+                                          <input type="date" class="form-control" name="start_date" id="start_date" min="2020-01-01" max="{{date('Y-m-d')}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="end_date">To End Date</label>
+                                            <input type="date" class="form-control" name="end_date" id="end_date" min="2020-01-01" max="{{date('Y-m-d')}}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @endif
             <hr>
+            @if(request()->input('start_date') && request()->input('end_date'))
+            <div class="alert alert-info" role="alert">
+                <strong>Note:</strong> Viewing Report Count from {{date('m/d/Y', strtotime(request()->input('start_date')))}} to {{date('m/d/Y', strtotime(request()->input('end_date')))}} only.
+            </div>
+            @endif
             <div class="row mb-3">
                 <div class="col-md-4">
                     <div class="card text-white bg-danger">
