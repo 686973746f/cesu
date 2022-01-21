@@ -1383,7 +1383,7 @@
                     $('#haveAdverseEvents2').prop('required', false);
 
                     $('#booster_question').addClass('d-none');
-                    $('#haveBooster').val("");
+                    $('#haveBooster').val('0');
                     $('#haveBooster').trigger('change');
                 }
                 else if($(this).val() == '1') {
