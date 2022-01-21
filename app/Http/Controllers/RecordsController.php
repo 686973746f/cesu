@@ -504,7 +504,7 @@ class RecordsController extends Controller
 				$vaccineDose = 1;
 			}
 			else {
-				$haveBooster = NULL;
+				$haveBooster = 0;
 				$vaccineDose = NULL;
 			}
 
