@@ -280,4 +280,8 @@ class AdminPanelController extends Controller
             ->with('msgtype', 'danger');
         }
     }
+
+    public function encoderStatsIndex() {
+        return view('admin_encoder_stats_index');
+    }
 }

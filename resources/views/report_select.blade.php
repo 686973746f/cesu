@@ -57,13 +57,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                           <label for="start_date">From Start Date</label>
-                                          <input type="date" class="form-control" name="start_date" id="start_date" min="2020-01-01" max="{{date('Y-m-d')}}" required>
+                                          <input type="date" class="form-control" name="start_date" id="start_date" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{request()->input('start_date')}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="end_date">To End Date</label>
-                                            <input type="date" class="form-control" name="end_date" id="end_date" min="2020-01-01" max="{{date('Y-m-d')}}" required>
+                                            <input type="date" class="form-control" name="end_date" id="end_date" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{request()->input('end_date')}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
             @endif
             <hr>
             @if(request()->input('start_date') && request()->input('end_date'))
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-info text-center" role="alert">
                 <strong>Note:</strong> Viewing Report Count from {{date('m/d/Y', strtotime(request()->input('start_date')))}} to {{date('m/d/Y', strtotime(request()->input('end_date')))}} only.
             </div>
             @endif
@@ -215,7 +215,7 @@
                     </div>
                 </div>
             </div>
-            @if(auth()->user()->isCesuAccount())
+            @if(auth()->user()->isCesuAccount() && $toggleFilterReport == 0)
             <hr>
             <div class="table-responsive">
                 <table class="table table-bordered text-center">
@@ -258,9 +258,13 @@
                                 <tr class="thead-light">
                                     <th>Barangay</th>
                                     <th class="text-danger">Confirmed</th>
+                                    @if($toggleFilterReport == 0)
                                     <th>Active</th>
+                                    @endif
                                     <th>Deaths</th>
+                                    @if($toggleFilterReport == 0)
                                     <th class="text-success">Recoveries</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -274,9 +278,13 @@
                                 <tr>
                                     <td class="font-weight-bold">{{$brgy['name']}}</td>
                                     <td class="text-danger text-center">{{number_format($brgy['confirmed'])}}</td>
+                                    @if($toggleFilterReport == 0)
                                     <td class="text-center">{{number_format($brgy['active'])}}</td>
+                                    @endif
                                     <td class="text-center">{{number_format($brgy['deaths'])}}</td>
+                                    @if($toggleFilterReport == 0)
                                     <td class="text-success text-center">{{number_format($brgy['recoveries'])}}</td>
+                                    @endif
                                 </tr>
                                 @php
                                 $totalConfirmed += $brgy['confirmed'];
@@ -290,9 +298,13 @@
                                 <tr>
                                     <td>TOTAL</td>
                                     <td class="text-danger">{{number_format($totalConfirmed)}}</td>
+                                    @if($toggleFilterReport == 0)
                                     <td>{{number_format($totalActive)}}</td>
+                                    @endif
                                     <td>{{number_format($totalDeaths)}}</td>
+                                    @if($toggleFilterReport == 0)
                                     <td class="text-success">{{number_format($totalRecoveries)}}</td>
+                                    @endif
                                 </tr>
                             </tfoot>
                         </table>
