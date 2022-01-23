@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brgy;
 use App\Models\City;
 use App\Models\User;
+use App\Models\Forms;
 use App\Models\BrgyCodes;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
@@ -282,6 +283,55 @@ class AdminPanelController extends Controller
     }
 
     public function encoderStatsIndex() {
-        return view('admin_encoder_stats_index');
+        $list = User::where('isAdmin', 2)
+        ->where('enabled', 1)
+        ->get();
+
+        $arr = [];
+        foreach($list as $item) {
+            $suspected_count = Forms::where(function ($q) use ($item) {
+                $q->where('user_id', $item->id)
+                ->orWhere('updated_by', $item->id);
+            })
+            ->where(function ($q) {
+                $q->whereDate('created_at', date('Y-m-d'))
+                ->orWhereDate('updated_at', date('Y-m-d'));
+            })
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
+            ->count();
+
+            $confirmed_count = Forms::where(function ($q) use ($item) {
+                $q->where('user_id', $item->id)
+                ->orWhere('updated_by', $item->id);
+            })
+            ->where(function ($q) {
+                $q->whereDate('created_at', date('Y-m-d'))
+                ->orWhereDate('updated_at', date('Y-m-d'));
+            })
+            ->where('caseClassification', 'Confirmed')
+            ->count();
+
+            $negative_count = Forms::where(function ($q) use ($item) {
+                $q->where('user_id', $item->id)
+                ->orWhere('updated_by', $item->id);
+            })
+            ->where(function ($q) {
+                $q->whereDate('created_at', date('Y-m-d'))
+                ->orWhereDate('updated_at', date('Y-m-d'));
+            })
+            ->where('caseClassification', 'Non-COVID-19 Case')
+            ->count();
+
+            array_push($arr, [
+                'name' => $item->name,
+                'suspected_count' => $suspected_count,
+                'confirmed_count' => $confirmed_count,
+                'negative_count' => $negative_count,
+            ]);
+        }
+
+        return view('admin_encoder_stats_index', [
+            'arr' => $arr,
+        ]);
     }
 }
