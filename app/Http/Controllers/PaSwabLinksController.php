@@ -29,6 +29,15 @@ class PaSwabLinksController extends Controller
         $request->validate([
             'code' => 'required|string|max:20',
             'interviewer_id' => 'required|numeric',
+            'is_lock_code' => 'required|in:Yes,No',
+            'address_cityjson' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'address_provincejson' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'address_province' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'address_city' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'saddress_province' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'saddress_city' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'address_brgy' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'taddress_brgy' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
         ]);
 
         $check = PaSwabLinks::where('code', mb_strtoupper($request->code))->first();
@@ -38,6 +47,12 @@ class PaSwabLinksController extends Controller
                 'code' => mb_strtoupper($request->code),
                 'secondary_code' => mb_strtoupper(Str::random(6)),
                 'interviewer_id' => $request->interviewer_id,
+                'enableLockAddress' => ($request->is_lock_code == 'Yes') ? 1 : 0,
+                'lock_brgy' => ($request->is_lock_code == 'Yes') ? mb_strtoupper($request->taddress_brgy) : NULL,
+                'lock_city' => ($request->is_lock_code == 'Yes') ? $request->address_cityjson : NULL,
+                'lock_city_text' => ($request->is_lock_code == 'Yes') ? mb_strtoupper($request->address_city) : NULL,
+                'lock_province' => ($request->is_lock_code == 'Yes') ? $request->address_provincejson : NULL,
+                'lock_province_text' => ($request->is_lock_code == 'Yes') ? mb_strtoupper($request->address_province) : NULL,
             ]);
 
             return redirect()->action([PaSwabLinksController::class, 'index'])

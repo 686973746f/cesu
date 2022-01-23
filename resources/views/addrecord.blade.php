@@ -1100,7 +1100,7 @@
 			});
 		});
 
-		$('#saddress_city').change(function (e) { 
+		$('#saddress_city').change(function (e) {
 			e.preventDefault();
 			$('#address_brgy').prop('disabled', false);
 			$('#address_brgy').empty();

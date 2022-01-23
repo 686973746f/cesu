@@ -108,6 +108,51 @@
                             @endforeach
                           </select>
                         </div>
+                        <hr>
+                        <div class="form-group">
+                          <label for="is_lock_code">Lock the Pa-swab Code to Specific Brgy?</label>
+                          <select class="form-control" name="is_lock_code" id="is_lock_code" required>
+                            <option value="No" {{(old('is_lock_code') == "No") ? 'selected' : ''}}>No</option>
+                            <option value="Yes" {{(old('is_lock_code') == "Yes") ? 'selected' : ''}}>Yes</option>
+                          </select>
+                        </div>
+                        <div id="lockBrgyDiv" class="d-none">
+                            <div class="d-none">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address_cityjson" id="address_cityjson" value="{{old('address_cityjson')}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address_provincejson" id="address_provincejson" value="{{old('address_provincejson')}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address_province" id="address_province" value="{{old('address_province')}}">
+                                  </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address_city" id="address_city" value="{{old('address_city')}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="taddress_brgy" id="taddress_brgy" value="{{old('taddress_brgy')}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="saddress_province">Select Province</label>
+                              <select class="form-control" name="saddress_province" id="saddress_province">
+                                <option value="" selected disabled>Choose...</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="saddress_city">Select City/Municipality</label>
+                              <select class="form-control" name="saddress_city" id="saddress_city">
+                                <option value="" selected disabled>Choose...</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="address_brgy">Select Barangay</label>
+                              <select class="form-control" name="address_brgy" id="address_brgy">
+                                <option value="" selected disabled>Choose...</option>
+                              </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
@@ -116,4 +161,123 @@
             </div>
         </div>
     </form>
+
+    <script>
+        $('#saddress_province, #saddress_city, #address_brgy').select2({
+			theme: "bootstrap",
+		});
+
+        $('#saddress_city').prop('disabled', true);
+		$('#address_brgy').prop('disabled', true);
+
+        $('#is_lock_code').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Yes') {
+                $('#lockBrgyDiv').removeClass('d-none');
+                $('#address_cityjson').prop('required', true);
+                $('#address_provincejson').prop('required', true);
+                $('#saddress_province').prop('required', true);
+                $('#saddress_city').prop('required', true);
+                $('#address_brgy').prop('required', true);
+            }
+            else {
+                $('#lockBrgyDiv').addClass('d-none');
+                $('#address_cityjson').prop('required', false);
+                $('#address_provincejson').prop('required', false);
+                $('#saddress_province').prop('required', false);
+                $('#saddress_city').prop('required', false);
+                $('#address_brgy').prop('required', false);
+            }
+        }).trigger('change');
+
+        $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
+			var sorted = data.sort(function(a, b) {
+				if (a.provDesc > b.provDesc) {
+				return 1;
+				}
+				if (a.provDesc < b.provDesc) {
+				return -1;
+				}
+				return 0;
+			});
+
+			$.each(sorted, function(key, val) {
+				$('#saddress_province').append($('<option>', {
+					value: val.provCode,
+					text: val.provDesc,
+					selected: (val.provCode == '0421') ? true : false, //default for Cavite
+				}));
+				$("#spermaaddress_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
+				$("#soccupation_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
+			});
+        });
+
+        $('#saddress_province').change(function (e) {
+			e.preventDefault();
+			$('#saddress_city').prop('disabled', false);
+			$('#address_brgy').prop('disabled', true);
+			$('#saddress_city').empty();
+			$("#saddress_city").append('<option value="" selected disabled>Choose...</option>');
+			$('#address_brgy').empty();
+			$("#address_brgy").append('<option value="" selected disabled>Choose...</option>');
+			$("#address_province").val($('#saddress_province option:selected').text());
+			$("#address_provincejson").val($('#saddress_province').val());
+			
+			$.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
+				var sorted = data.sort(function(a, b) {
+					if (a.citymunDesc > b.citymunDesc) {
+					return 1;
+					}
+					if (a.citymunDesc < b.citymunDesc) {
+					return -1;
+					}
+					return 0;
+				});
+				$.each(sorted, function(key, val) {
+					if($('#saddress_province').val() == val.provCode) {
+						$('#saddress_city').append($('<option>', {
+							value: val.citymunCode,
+							text: val.citymunDesc,
+							selected: (val.citymunCode == '042108') ? true : false, //default for General Trias
+						})); 
+					}
+				});
+			});
+		}).trigger('change');
+
+        $('#saddress_city').change(function (e) {
+			e.preventDefault();
+			$('#address_brgy').prop('disabled', false);
+			$('#address_brgy').empty();
+			$("#address_brgy").append('<option value="" selected disabled>Choose...</option>');
+			$("#address_city").val($('#saddress_city option:selected').text());
+			$('#address_cityjson').val($('#saddress_city').val());
+
+			$.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
+				var sorted = data.sort(function(a, b) {
+					if (a.brgyDesc > b.brgyDesc) {
+					return 1;
+					}
+					if (a.brgyDesc < b.brgyDesc) {
+					return -1;
+					}
+					return 0;
+				});
+				$.each(sorted, function(key, val) {
+					if($('#saddress_city').val() == val.citymunCode) {
+						$("#address_brgy").append('<option value="'+val.brgyDesc.toUpperCase()+'">'+val.brgyDesc.toUpperCase()+'</option>');
+					}
+				});
+			});
+		}).trigger('change');
+
+        $('#address_brgy').change(function (e) {
+            $('#taddress_brgy').val($('#address_brgy option:selected').text());
+        });
+
+        $("#address_province").val('CAVITE');
+		$("#address_provincejson").val('0421');
+		$("#address_city").val('GENERAL TRIAS');
+		$('#address_cityjson').val('042108');
+    </script>
 @endsection

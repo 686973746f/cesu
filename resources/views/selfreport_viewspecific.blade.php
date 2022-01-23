@@ -236,6 +236,41 @@
                                 </div>
                             </div>
                             @endif
+                            @if(!is_null($data->vaccinationDate3))
+                            <hr>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Booster Name</label>
+                                    <input type="text" class="form-control" name="" id="" value="{{$data->vaccinationName3}}" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="">3.) Booster Date</label>
+                                      <input type="date" class="form-control" name="" id="" value="{{$data->vaccinationDate3}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Booster Vaccination Center/Facility</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationFacility3)) ? $data->vaccinationFacility3 : 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Booster Region of Health Facility</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{(!is_null($data->vaccinationRegion3)) ? $data->vaccinationRegion3 : 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Booster Adverse Event/s</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{($data->haveAdverseEvents3 == 1) ? 'YES' : 'NO'}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             @else
                             <p class="text-center">Not Yet Vaccinated</p>
                             @endif

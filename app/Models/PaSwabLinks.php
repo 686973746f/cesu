@@ -14,6 +14,12 @@ class PaSwabLinks extends Model
         'code',
         'secondary_code',
         'interviewer_id',
+        'enableLockAddress',
+        'lock_brgy',
+        'lock_city',
+        'lock_city_text',
+        'lock_province',
+        'lock_province_text',
     ];
 
     public function user() {
