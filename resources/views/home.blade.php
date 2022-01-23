@@ -45,7 +45,7 @@
                             <a href="{{route('report.ct.index')}}" class="btn btn-primary btn-lg btn-block">Contact Tracing Report</a>
                         </div>
                     </div>
-                    <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block mt-2">Self-Report</a>
+                    <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block mt-2">Self-Report <span class="badge badge-light ml-1">{{number_format($selfreport_count)}}</span></a>
                     @endif
                     @if(auth()->user()->canUseLinelist())
                     <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block mt-2"><i class="fas fa-archive mr-2"></i>Line List</a>

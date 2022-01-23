@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Forms;
 use Carbon\CarbonPeriod;
+use App\Models\SelfReports;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 
@@ -32,7 +33,13 @@ class HomeController extends Controller
             $currentWeek = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('W');
 
             $paswabctr = PaSwabDetails::where('status', 'pending')->count();
-            return view('home', ['currentWeek' => $currentWeek, 'paswabctr' => $paswabctr]);
+            $selfreport_count = SelfReports::where('status', 'pending')->count();
+            
+            return view('home', [
+                'currentWeek' => $currentWeek,
+                'paswabctr' => $paswabctr,
+                'selfreport_count' => $selfreport_count,
+            ]);
         }
         else if(auth()->user()->isLevel2()) {
 
@@ -54,6 +61,8 @@ class HomeController extends Controller
 
         $paswabctr = PaSwabDetails::where('status', 'pending')->count();
 
+        
+
         foreach($period as $date) {
             $num = Forms::whereDate('testDateCollected1', $date->format('Y-m-d'))
             ->orWhereDate('testDateCollected2', $date->format('Y-m-d'))->count();
@@ -66,6 +75,10 @@ class HomeController extends Controller
             $total += $num;
         }
 
-        return view('pendingschedchecker', ['arr' => $arr, 'total' => $total, 'paswabctr' => $paswabctr]);
+        return view('pendingschedchecker', [
+            'arr' => $arr,
+            'total' => $total,
+            'paswabctr' => $paswabctr,
+        ]);
     }
 }
