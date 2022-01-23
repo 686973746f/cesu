@@ -108,7 +108,7 @@ class SelfReportValidationRequest extends FormRequest
 
             'vaccineq1' => 'required|numeric',
             'howManyDose' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
-            'vaccineName' => ($this->vaccineq1 == 1) ? 'required' : 'nullable',
+            'nameOfVaccine' => ($this->vaccineq1 == 1) ? 'required' : 'nullable',
             'vaccinationDate1' => ($this->vaccineq1 == 1) ? 'required|date' : 'nullable|date',
             'vaccinationFacility1' => 'nullable',
             'vaccinationRegion1' => 'nullable',

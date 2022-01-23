@@ -288,12 +288,19 @@ class SelfReportController extends Controller
             array_push($testCat, "F");
         }
 
+        if(time() >= strtotime('16:00:00')) {
+            $mm = date('Y-m-d', strtotime('+1 Day'));
+        }
+        else {
+            $mm = date('Y-m-d');
+        }
+
         $form_array = array(
             'reinfected' => ($autoreinfect == 1) ? 1 : 0,
-            'morbidityMonth' => date('Y-m-d'),
-            'dateReported' => date('Y-m-d'),
+            'morbidityMonth' => $mm,
+            'dateReported' => $data->testDateReleased1,
             'status' => 'approved',
-            'isPresentOnSwabDay' => 0,
+            'isPresentOnSwabDay' => 1,
             'records_id' => $thisRecordId,
             'drunit' => $data->drunit,
             'drregion' => $data->drregion,
