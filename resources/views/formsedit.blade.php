@@ -1687,7 +1687,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testDateReleased1"><span class="text-danger font-weight-bold d-none" id="asterisk_date_released1">*</span>Date Released</label>
+                                                <label for="testDateReleased1"><span id="asterisk_date_released1" class="d-none"><span class="text-danger font-weight-bold">*</span></span>Date Released</label>
                                                 <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
                                             </div>
                                         </div>

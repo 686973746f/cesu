@@ -1451,7 +1451,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testDateReleased1"><span class="text-danger font-weight-bold d-none" id="asterisk_date_released1">*</span>Date released</label>
+                                                <label for="testDateReleased1"><span id="asterisk_date_released1" class="d-none"><span class="text-danger font-weight-bold">*</span></span>Date released</label>
                                                 <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('testDateReleased1')}}">
                                             </div>
                                         </div>

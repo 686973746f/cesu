@@ -17,6 +17,7 @@ class CreateSecondaryTertiaryRecordsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->date('morbidityMonth');
+            $table->date('dateReported');
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
