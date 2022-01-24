@@ -1104,6 +1104,19 @@ class FormsController extends Controller
             else {
                 $set_mm = $request->morbidityMonth;
             }
+
+            //Auto Change Date Reported Based on Date Released
+            if($caseClassi == 'Confirmed') {
+                if(!is_null($request->testDateCollected2)) {
+                    $set_dr = $request->testDateReleased2;
+                }
+                else {
+                    $set_dr = $request->testDateReleased1;
+                }
+            }
+            else {
+                $set_dr = $request->dateReported;
+            }
     
             if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -1115,7 +1128,7 @@ class FormsController extends Controller
                 $createform = $request->user()->form()->create([
                     'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
                     'morbidityMonth' => $set_mm,
-                    'dateReported' => $request->dateReported,
+                    'dateReported' => $set_dr,
                     'status' => 'approved',
                     'isPresentOnSwabDay' => $attended,
                     'records_id' => $id,
@@ -1503,6 +1516,7 @@ class FormsController extends Controller
                 $oldTestType2 = $rec->testType2;
                 $currentPhilhealth = $rec->records->philhealth;
                 $currentOutcome = $rec->outcomeCondition;
+                $currentClassi = $rec->caseClassification;
 
                 //$rec = Records::findOrFail($rec->records->id);
 
@@ -1787,6 +1801,29 @@ class FormsController extends Controller
                     $set_mm = $request->morbidityMonth;
                 }
 
+                //Auto Change Date Reported Based on Date Released
+                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
+                    if(!is_null($request->testDateCollected2)) {
+                        if(!is_null($request->testDateReleased2)) {
+                            $set_dr = $request->testDateReleased2;
+                        }
+                        else {
+                            $set_dr = $request->dateReported;
+                        }
+                    }
+                    else {
+                        if(!is_null($request->testDateReleased1)) {
+                            $set_dr = $request->testDateReleased1;
+                        }
+                        else {
+                            $set_dr = $request->dateReported;
+                        }   
+                    }
+                }
+                else {
+                    $set_dr = $request->dateReported;
+                }
+
                 if($proceed == 1) {
                     if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                         return back()
@@ -1798,7 +1835,7 @@ class FormsController extends Controller
                         $form = Forms::where('id', $id)->update([
                             'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
                             'morbidityMonth' => $set_mm,
-                            'dateReported' => $request->dateReported,
+                            'dateReported' => $set_dr,
                             'status' => 'approved',
                             'isExported' => '0',
                             'exportedDate' => null,

@@ -180,13 +180,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for=""><span class="text-danger font-weight-bold">*</span>Morbidity Week [MW] <i>(Kung kailan lumabas ang Swab Test Result)</i></label>
+                              <label for=""><span class="text-danger font-weight-bold">*</span>Morbidity Week [MW]</label>
                               <input type="text" class="form-control" value="{{!is_null(old('morbidityMonth')) ? date('W', strtotime(old('morbidityMonth'))) : date('W', strtotime($records->morbidityMonth))}}" readonly>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
+                        <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported <i>(Kung kailan lumabas ang Swab Test Result)</i></label>
                         <input type="date" class="form-control" name="dateReported" id="dateReported" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d', strtotime($records->dateReported)))}}" required>
                     </div>
                     <div class="row">
