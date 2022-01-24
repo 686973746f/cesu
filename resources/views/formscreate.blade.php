@@ -54,6 +54,7 @@
                     <div class="form-group">
                       <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported <i>(Kung kailan lumabas ang Swab Test Result)</i></label>
                       <input type="date" class="form-control" name="dateReported" id="dateReported" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d'))}}" required>
+                      <small class="text-muted">Note: For Positive/Negative Result, it will be automatically changed based on Date Released of Swab Result <i>(Under 2.7 Laboratory Information)</i>.</small>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -1431,6 +1432,7 @@
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
                                               <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
+                                              <small class="text-muted">Note: This also considered the first day of Quarantine Period.</small>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -1449,7 +1451,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testDateReleased1">Date released</label>
+                                                <label for="testDateReleased1"><span class="text-danger font-weight-bold d-none" id="asterisk_date_released1">*</span>Date released</label>
                                                 <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('testDateReleased1')}}">
                                             </div>
                                         </div>
@@ -1504,6 +1506,7 @@
                                             <div class="form-group">
                                                 <label for="testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
                                                 <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected2')}}">
+                                                <small class="text-muted">Note: This also considered the first day of Quarantine Period.</small>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -3103,9 +3106,11 @@
 
                     if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
                         $('#testDateReleased1').prop('required', true);
+                        $('#asterisk_date_released1').removeClass('d-none');
                     }
                     else {
                         $('#testDateReleased1').prop('required', false);
+                        $('#asterisk_date_released1').addClass('d-none');
                     }
                 }
             }).trigger('change');

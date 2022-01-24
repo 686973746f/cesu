@@ -308,6 +308,7 @@ class AdminPanelController extends Controller
                 $q->whereDate('created_at', date('Y-m-d'))
                 ->orWhereDate('updated_at', date('Y-m-d'));
             })
+            ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('caseClassification', 'Confirmed')
             ->count();
 
