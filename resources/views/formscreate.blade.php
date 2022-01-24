@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="morbidityMonth"><span class="text-danger font-weight-bold">*</span>Morbidity Month (MM)</label>
+                              <label for="morbidityMonth"><span class="text-danger font-weight-bold">*</span>Morbidity Month [MM] <i>(Kung kailan na-encode)</i></label>
                               <input type="date" class="form-control" id="morbidityMonth" name="morbidityMonth" min="{{date('Y-m-d')}}" max="{{(time() >= strtotime('16:00:00')) ? date('Y-m-d', strtotime('+1 Day')) : date('Y-m-d')}}" value="{{old('morbidityMonth', (time() >= strtotime('16:00:00')) ? date('Y-m-d', strtotime('+1 Day')) : date('Y-m-d'))}}" required>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
+                      <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported <i>(Kung kailan lumabas ang Swab Test Result)</i></label>
                       <input type="date" class="form-control" name="dateReported" id="dateReported" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d'))}}" required>
                     </div>
                     <div class="row">

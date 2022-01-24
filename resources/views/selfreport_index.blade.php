@@ -61,9 +61,9 @@
                 <div class="card-header font-weight-bold">1. Patient Information</div>
                 <div class="card-body">
                     <div class="alert alert-primary" role="alert">
-                        <h5 class="font-weight-bold text-danger">Notice:</h5>
+                        <h5 class="font-weight-bold text-danger">{{__('selfreport.notice.readcarefully')}}</h5>
                         <hr>
-                        <span>All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required fields.</span>
+                        <span>{{__('selfreport.notice.asterisk')}}</span>
                     </div>
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">Personal Information</div>
