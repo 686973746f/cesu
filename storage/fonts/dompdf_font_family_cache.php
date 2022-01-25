@@ -78,7 +78,7 @@
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'nunito' => array(
-    'normal' => $fontDir . '/nunito_normal_7173294b894229c46ad1835001660d90',
+    'normal' => $fontDir . '/nunito_normal_3fa7fc9c8b0a3e0826b3af956a1a7179',
   ),
   'font awesome 5 brands' => array(
     'normal' => $fontDir . '/font_awesome__5_brands_normal_7c6eefdd1bdb469f25db9033970de9a5',

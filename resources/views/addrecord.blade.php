@@ -91,7 +91,7 @@
 					<div class="col-md-2">
 						<div class="form-group">
 							<label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
-						  	<select class="form-control" name="gender" id="gender">
+						  	<select class="form-control" name="gender" id="gender" required>
 								  <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
 								  <option value="MALE">Male</option>
 								  <option value="FEMALE">Female</option>

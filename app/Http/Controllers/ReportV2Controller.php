@@ -180,9 +180,11 @@ class ReportV2Controller extends Controller
             }
 
             $getList = yielder($opt_final_query);
+            $getList_count = $opt_final_query->count();
 
             return view('reportv2_dashboard', [
                 'list' => $getList,
+                'list_count' => $getList_count,
                 'list_name' => $getListName,
             ]);
         }

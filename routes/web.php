@@ -30,6 +30,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ContactTracingController;
 use App\Http\Controllers\MonitoringSheetController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\SecondaryTertiaryRecordsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,6 +172,11 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.updatemonitoring');
 
     Route::get('/ct/index', [ContactTracingController::class, 'dashboard_index'])->name('ct.dashboard.index');
+    Route::get('/ct/sp/index', [SecondaryTertiaryRecordsController::class, 'index'])->name('sc_index');
+    Route::get('/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'create'])->name('sc_create');
+    Route::post('/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'store'])->name('sc_store');
+    Route::get('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'edit'])->name('sc_edit');
+    Route::post('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'update'])->name('sc_update');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
