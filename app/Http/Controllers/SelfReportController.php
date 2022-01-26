@@ -37,7 +37,7 @@ class SelfReportController extends Controller
             $list = SelfReports::where('status', 'completed')->paginate(10);
         }
         else {
-            $list = SelfReports::where('status', 'pending')->paginate(10);
+            $list = SelfReports::where('status', 'pending');
         }
         
         return view('selfreport_view', ['list' => $list]);
