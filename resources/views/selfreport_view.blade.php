@@ -52,6 +52,9 @@
     </div>
 
     <script>
-        $('#sr_table').DataTable();
+        $('#sr_table').DataTable({
+            fixedHeader: true,
+            dom: 'Qlfrtip',
+        });
     </script>
 @endsection
