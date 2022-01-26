@@ -5,7 +5,7 @@
         <form action="{{route('sc_store')}}" method="POST">
             @csrf
             <div class="card">
-                <div class="card-header">Add Health Declaration Record</div>
+                <div class="card-header font-weight-bold">Edit Health Declaration Record</div>
                 <div class="card-body">
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
@@ -14,6 +14,11 @@
                         @foreach ($errors->all() as $error)
                             <li>{{$error}}</li>
                         @endforeach
+                    </div>
+                    @endif
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}}" role="alert">
+                        {{session('msg')}}
                     </div>
                     @endif
                     <div class="alert alert-info" role="alert">
@@ -146,13 +151,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="morbidityMonth"><span class="text-danger font-weight-bold">*</span>Morbidity Month</label>
-                              <input type="date" class="form-control" name="morbidityMonth" id="morbidityMonth" min="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}" required>
+                              <input type="date" class="form-control" name="morbidityMonth" id="morbidityMonth" min="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" value="{{old('morbidityMonth', date('Y-m-d'))}}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dateReported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
-                                <input type="date" class="form-control" name="dateReported" id="dateReported" min="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}" required>
+                                <input type="date" class="form-control" name="dateReported" id="dateReported" min="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d'))}}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -164,7 +169,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </form>

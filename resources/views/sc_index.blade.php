@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="card text-left">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
@@ -35,9 +35,14 @@
                         <tbody>
                             @foreach($list as $item)
                             <tr>
-                                <td><a href="">{{$item->getName()}}</a></td>
-                                <td></td>
-                                <td></td>
+                                <td><a href="{{route('sc_edit', ['id' => $item->id])}}">{{$item->getName()}} <small>(#{{$item->id}})</small></a></td>
+                                <td class="text-center">{{(!is_null($item->bdate) && !is_null($item->gender)) ? $item->getAge().' '.substr($item->gender,0,1) : 'N/A'}}</td>
+                                <td class="text-center">{{(!is_null($item->bdate)) ? date('m/d/Y', strtotime($item->bdate)) : 'N/A'}}</td>
+                                <td class="text-center">{{(!is_null($item->email)) ? $item->email : 'N/A'}}</td>
+                                <td class="text-center">{{(!is_null($item->mobile)) ? $item->mobile : 'N/A'}}</td>
+                                <td class="text-center">{{(!is_null($item->address_street)) ? $item->address_street : 'N/A'}}</td>
+                                <td class="text-center">{{(!is_null($item->address_brgy)) ? $item->address_brgy : 'N/A'}}</td>
+                                <td class="text-center">{{(!is_null($item->address_city)) ? $item->address_city : 'N/A'}}</td>
                             </tr>
                             @endforeach
                         </tbody>
