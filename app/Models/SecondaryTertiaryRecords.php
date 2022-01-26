@@ -28,4 +28,12 @@ class SecondaryTertiaryRecords extends Model
         'address_provincejson',
         'temperature',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getName() {
+        return $this->lname.', '.$this->fname.' '.$this->mname;
+    }
 }

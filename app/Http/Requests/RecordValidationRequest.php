@@ -43,7 +43,7 @@ class RecordValidationRequest extends FormRequest
 			'gender' => 'required',
 			'cs' => 'required',
 			'nationality' => 'required',
-			'bdate' => "required|date|before:tomorrow",
+			'bdate' => 'required|date|before:tomorrow',
 			'mobile' => 'required|numeric|digits:11|starts_with:09',
 			'phoneno' => 'nullable|numeric',
 			'email' => 'nullable|email',

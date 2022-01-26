@@ -3,9 +3,19 @@
 @section('content')
     <div class="container">
         <form action="{{route('sc_store')}}" method="POST">
+            @csrf
             <div class="card">
                 <div class="card-header">Add Health Declaration Record</div>
                 <div class="card-body">
+                    @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <p>{{Str::plural('Error', $errors->count())}} detected in creating new record:</p>
+                        <hr>
+                        @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </div>
+                    @endif
                     <div class="alert alert-info" role="alert">
                         Note: All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.
                     </div>
@@ -35,8 +45,8 @@
                                 <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
                                 <select class="form-control" name="gender" id="gender" required>
                                     <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="MALE">Male</option>
-                                    <option value="FEMALE">Female</option>
+                                    <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
+                                    <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
                                 </select>
                             </div>
                         </div>
@@ -57,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="mobile">Cellphone No. <small>(Optional)</small></label>
-                                <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx">
+                                <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile', '09')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx">
                             </div>
                         </div>
                     </div>

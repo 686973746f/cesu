@@ -93,8 +93,8 @@
 							<label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
 						  	<select class="form-control" name="gender" id="gender" required>
 								  <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-								  <option value="MALE">Male</option>
-								  <option value="FEMALE">Female</option>
+								  <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
+								  <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
 						  	</select>
 						</div>
 					</div>
@@ -145,7 +145,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="mobile"><span class="text-danger font-weight-bold">*</span>Cellphone No.</label>
-							<input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx" required>
+							<input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile', '09')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx" required>
 							@error('mobile')
 								<small class="text-danger">{{$message}}</small>
 							@enderror

@@ -731,4 +731,8 @@ class SelfReportController extends Controller
 
         return response()->file(public_path("assets/self_reports/").$file_name);
     }
+
+    public function convertToSuspected($id) {
+        
+    }
 }

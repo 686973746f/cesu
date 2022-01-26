@@ -7,6 +7,7 @@ use App\Models\Records;
 use App\Models\CifUploads;
 use App\Models\PaSwabLinks;
 use App\Models\LinelistMaster;
+use App\Models\SecondaryTertiaryRecords;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -182,5 +183,9 @@ class User extends Authenticatable implements MustVerifyEmail
         else if($this->isAdmin == 2) {
             return 'encoder';
         }
+    }
+
+    public function secondaryTertiaryRecords() {
+        return $this->hasMany(SecondaryTertiaryRecords::class);
     }
 }

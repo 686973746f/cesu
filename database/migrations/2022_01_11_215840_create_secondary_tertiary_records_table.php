@@ -33,6 +33,8 @@ class CreateSecondaryTertiaryRecordsTable extends Migration
             $table->string('address_province')->nullable();
             $table->string('address_provincejson')->nullable();
             $table->double('temperature')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
         });
     }
 
