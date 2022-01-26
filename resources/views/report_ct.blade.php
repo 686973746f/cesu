@@ -45,10 +45,15 @@
                 </table>
                 @endif
                 <hr>
-                <div class="form-group">
-                  <label for="">Generate Report on Date</label>
-                  <input type="date" class="form-control" name="getDate" id="getDate" value="{{(!request()->input('getDate')) ? date('Y-m-d') : request()->input('getDate')}}" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}">
-                </div>
+                <form action="{{route('report.ct.index')}}" method="GET">
+                    <label for="">Generate Report on Date</label>
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" name="getDate" id="getDate" value="{{(!request()->input('getDate')) ? date('Y-m-d') : request()->input('getDate')}}" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-success" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-bordered text-center">
                     <thead class="thead-light">
                         <tr>
