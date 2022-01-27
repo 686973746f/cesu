@@ -1276,6 +1276,8 @@
                 </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary btn-block" id="verifyButton" data-toggle="modal" data-target="#verifyDetails">Isumite / Submit</button>
+                    <hr>
+                    <p class="text-center">Note: If error or site not working, please contact CESU Staff Immediately.</p>
                 </div>
             </div>
         </div>
