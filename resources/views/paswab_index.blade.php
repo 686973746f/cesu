@@ -713,9 +713,8 @@
                                         <div class="form-group">
                                           <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
                                           <select class="form-control" name="haveBooster" id="haveBooster" required>
-                                            <option value="" {{(is_null(old('haveBooster'))) ? 'selected' : ''}} disabled>Choose...</option>
-                                            <option value="1" {{(old('haveBooster') == '1') ? 'selected' : ''}}>Yes</option>
                                             <option value="0" {{(old('haveBooster') == '0') ? 'selected' : ''}}>No</option>
+                                            <option value="1" {{(old('haveBooster') == '1') ? 'selected' : ''}}>Yes</option>
                                           </select>
                                         </div>
                                     </div>
@@ -1862,7 +1861,7 @@
                 $('#haveAdverseEvents2').prop('required', false);
 
                 $('#booster_question').addClass('d-none');
-                $('#haveBooster').val("");
+                $('#haveBooster').val('0');
                 $('#haveBooster').trigger('change');
             }
             else if($(this).val() == '2') {
@@ -1874,7 +1873,7 @@
                 $('#haveAdverseEvents2').prop('required', true);
 
                 $('#booster_question').removeClass('d-none');
-                $('#haveBooster').val("");
+                $('#haveBooster').val('0');
                 $('#haveBooster').trigger('change');
             }
             else {
@@ -1886,7 +1885,7 @@
                 $('#haveAdverseEvents2').prop('required', false);
 
                 $('#booster_question').addClass('d-none');
-                $('#haveBooster').val("");
+                $('#haveBooster').val('0');
                 $('#haveBooster').trigger('change');
             }
         }).trigger('change');
