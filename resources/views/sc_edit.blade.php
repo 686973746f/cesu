@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('sc_store')}}" method="POST">
+        <form action="{{route('sc_edit', ['id' => $item->id])}}" method="POST">
             @csrf
+            @method('PUT')
             <div class="card">
                 <div class="card-header font-weight-bold">Add Health Declaration Record</div>
                 <div class="card-body">

@@ -169,7 +169,7 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
     public function headings(): array {
         return [
             'MM (Morbidity Month)',
-            'MW (Morbidity Week',
+            'MW (Morbidity Week)',
             'DATE REPORTED',
             'DRU',
             'REGION OF DRU',
@@ -371,7 +371,7 @@ class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, Wi
     public function headings(): array {
         return [
             'MM (Morbidity Month)',
-            'MW (Morbidity Week',
+            'MW (Morbidity Week)',
             'DATE REPORTED',
             'DRU',
             'REGION OF DRU',
@@ -572,7 +572,7 @@ class ConfirmedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
     public function headings(): array {
         return [
             'MM (Morbidity Month)',
-            'MW (Morbidity Week',
+            'MW (Morbidity Week)',
             'DATE REPORTED',
             'DRU',
             'REGION OF DRU',

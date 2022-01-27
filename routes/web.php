@@ -156,6 +156,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
     Route::get('/report/v2/dashboard', [ReportV2Controller::class, 'viewDashboard'])->name('reportv2.dashboard');
 
+    Route::get('/report/cm', [ReportV2Controller::class, 'cmIndex'])->name('report_cm_index');
+
     //ajax
     Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
     //Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
@@ -176,7 +178,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'create'])->name('sc_create');
     Route::post('/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'store'])->name('sc_store');
     Route::get('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'edit'])->name('sc_edit');
-    Route::post('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'update'])->name('sc_update');
+    Route::put('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'update'])->name('sc_update');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

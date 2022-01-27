@@ -91,11 +91,40 @@ class SecondaryTertiaryRecordsController extends Controller
         ]);
     }
 
-    public function update(Request $request) {
-        
+    public function update(SecondaryTertiaryRecordsValidationRequest $request, $id) {
+        $data = SecondaryTertiaryRecords::findOrFail($id);
+
+        $request->validated();
+
+        $data->updated_by = auth()->user()->id;
+        $data->morbidityMonth = $request->morbidityMonth;
+        $data->dateReported = $request->dateReported;
+        $data->lname = mb_strtoupper($request->lname);
+        $data->fname = mb_strtoupper($request->fname);
+        $data->mname = ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL;
+        $data->gender = $request->gender;
+        $data->bdate = $request->bdate;
+        $data->email = $request->email;
+        $data->mobile = $request->mobile;
+        $data->address_houseno = $request->address_houseno;
+        $data->address_street = $request->address_street;
+        $data->address_brgy = $request->address_brgy;
+        $data->address_city = $request->address_city;
+        $data->address_cityjson = $request->address_cityjson;
+        $data->address_province = $request->address_province;
+        $data->address_provincejson = $request->address_provincejson;
+        $data->temperature = $request->temperature;
+
+        if($data->isDirty()) {
+            
+        }
     }
 
     public function delete($id) {
+
+    }
+
+    public function moveToForSwab($id) {
 
     }
 }

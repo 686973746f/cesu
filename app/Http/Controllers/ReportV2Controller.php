@@ -418,4 +418,8 @@ class ReportV2Controller extends Controller
             'arr_summary' => $arr_summary,
         ]);
     }
+
+    public function cmIndex() {
+        
+    }
 }
