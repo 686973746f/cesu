@@ -420,6 +420,39 @@ class ReportV2Controller extends Controller
     }
 
     public function cmIndex() {
-        
+        $cc_count_total = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->WhereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
+        ->where('pType', 'CLOSE CONTACT');
+
+        $cc_count_hq = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->WhereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('dispoType', 3);
+
+        $cc_count_ttmf = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->WhereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
+        ->where('pType', 'CLOSE CONTACT')
+        ->whereIn('dispoType', [6,7,2,5]);
+
+        $cc_count_hospital = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->WhereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('dispoType', 1);   
     }
 }

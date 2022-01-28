@@ -17,6 +17,7 @@ class CreateSelfReportsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('status')->default('pending');
             $table->tinyInteger('isNewRecord')->default(1);
             $table->foreignId('records_id')->nullable()->constrained()->onDelete('cascade');

@@ -28,6 +28,9 @@
                                 <th>City/Province</th>
                                 <th>Patient Type</th>
                                 <th>Date Swabbed</th>
+                                @if(request()->get('viewCompleted') == true)
+                                <th>Assessed At</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -42,6 +45,9 @@
                                 <td class="text-center">{{$item->address_city.', '.$item->address_province}}</td>
                                 <td class="text-center">{{$item->getType()}}</td>
                                 <td class="text-center">{{date('m/d/Y', strtotime($item->testDateCollected1))}} <small>({{$item->diff4Humans($item->testDateCollected1)}})</small></td>
+                                @if(request()->get('viewCompleted') == true)
+                                <td class="text-center">{{date('m/d/Y h:i A', strtotime($item->updated_at))}}</small></td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
