@@ -35,6 +35,18 @@ class SelfReportValidationRequest extends FormRequest
             }
         }
 
+        if($this->haveBooster == 1) {
+            if($this->nameOfVaccine == 'JANSSEN') {
+                $vparam = 'required|date|after_or_equal:vaccinationDate1|before_or_equal:today';
+            }
+            else {
+                $vparam = 'required|date|after_or_equal:vaccinationDate2|before_or_equal:today';
+            }
+        }
+        else {
+            $vparam = 'nullable|date';
+        }
+
         return [
             'patientmsg' => 'nullable|string|max:250',
             'lname' => 'required|regex:/^[\pL\s\-]+$/u|min:2|max:50|not_in:NA,NONE,TEST',
@@ -99,8 +111,8 @@ class SelfReportValidationRequest extends FormRequest
             'testedPositiveNumOfSwab' => 'required',
             'testedPositiveLab' => ($this->testedPositiveUsingRTPCRBefore == "1") ? 'required' : 'nullable',
             'testedPositiveSpecCollectedDate' => ($this->testedPositiveUsingRTPCRBefore == "1") ? 'required|date' : 'nullable|date',
-            'testDateCollected1' => 'required|date',
-            'testDateReleased1' => 'nullable|date',
+            'testDateCollected1' => 'required|date|before_or_equal:today',
+            'testDateReleased1' => 'required|date|after_or_equal:testDateCollected1|before_or_equal:today',
             'testLaboratory1' => 'nullable',
             'testType1' => 'required',
             'testTypeOtherRemarks1' => ($this->testType1 == "OTHERS") ? 'required' : 'nullable',
@@ -109,17 +121,21 @@ class SelfReportValidationRequest extends FormRequest
             'vaccineq1' => 'required|numeric',
             'howManyDose' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
             'nameOfVaccine' => ($this->vaccineq1 == 1) ? 'required' : 'nullable',
-            'vaccinationDate1' => ($this->vaccineq1 == 1) ? 'required|date' : 'nullable|date',
+            'vaccinationDate1' => ($this->vaccineq1 == 1) ? 'required|date|after_or_equal:2020-01-01|before_or_equal:today' : 'nullable|date',
             'vaccinationFacility1' => 'nullable',
             'vaccinationRegion1' => 'nullable',
             'haveAdverseEvents1' => ($this->vaccineq1 == 1) ? 'required|numeric' : 'nullable',
-            'vaccinationDate2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|date' : 'nullable|date',
+            'vaccinationDate2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|date|after_or_equal:vaccinationDate2|before_or_equal:today' : 'nullable|date',
             'vaccinationFacility2' => 'nullable',
             'vaccinationRegion2' => 'nullable',
             'haveAdverseEvents2' => ($this->vaccineq1 == 1 && $this->howManyDose == 2) ? 'required|numeric' : 'nullable',
             'haveBooster' => ($allow_booster_question) ? 'required' : 'nullable',
             'vaccinationName3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
-            
+            'vaccinationDate3' => $vparam,
+            'haveAdverseEvents3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
+            'vaccinationFacility3' => 'nullable',
+            'vaccinationRegion3' => 'nullable',
+
             'haveSymptoms' => 'required|numeric',
             'dateOnsetOfIllness' => ($this->haveSymptoms == 1) ? 'required|date' : 'nullable|date',
             'sasCheck' => 'nullable',

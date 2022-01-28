@@ -725,7 +725,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="vaccinationDate1"><span class="text-danger font-weight-bold">*</span>1.) First (1st) Dose - Date of Vaccination</label>
-                                        <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" value="{{old('vaccinationDate1')}}">
+                                        <input type="date" class="form-control" name="vaccinationDate1" id="vaccinationDate1" min="{{date('2020-01-01')}}" max="{{date('Y-m-d')}}" value="{{old('vaccinationDate1')}}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -757,7 +757,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="vaccinationDate2"><span class="text-danger font-weight-bold">*</span>2.) Second (2nd) Dose - Date of Vaccination</label>
-                                            <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" value="{{old('vaccinationDate2')}}">
+                                            <input type="date" class="form-control" name="vaccinationDate2" id="vaccinationDate2" min="{{date('2020-01-01')}}" max="{{date('Y-m-d')}}" value="{{old('vaccinationDate2')}}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
