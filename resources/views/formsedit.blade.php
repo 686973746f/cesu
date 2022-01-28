@@ -43,6 +43,8 @@
                             <thead class="text-center thead-light">
                                 <tr>
                                     <th>#</th>
+                                    <th>MM</th>
+                                    <th>Date Reported</th>
                                     <th>Date Encoded</th>
                                     <th>Health Status</th>
                                     <th>Classification</th>
@@ -56,6 +58,8 @@
                                 @foreach($records->getOldCif() as $olditem)
                                 <tr>
                                     <td scope="row">{{$loop->iteration}}</td>
+                                    <td>{{date('m/d/Y', strtotime($olditem->morbidityMonth))}}</td>
+                                    <td>{{date('m/d/Y', strtotime($olditem->dateReported))}}</td>
                                     <td>{{date('m/d/Y', strtotime($olditem->created_at))}}</td>
                                     <td>{{$olditem->healthStatus}}</td>
                                     <td>{{$olditem->caseClassification}}</td>
