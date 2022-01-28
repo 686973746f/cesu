@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                Self-Report List<a href="{{route('selfreport.view')}}" class="btn btn-link {{(request()->get('viewCompleted') == 'true') ? '' : 'disabled'}}">View Pending</a><a href="{{route('selfreport.view')}}?viewCompleted=true" class="btn btn-link {{(request()->get('viewCompleted') == 'true') ? 'disabled' : ''}}">View Completed</a>
+                <span class="font-weight-bold">{{$header}}</span><a href="{{route('selfreport.view')}}" class="btn btn-link {{(request()->get('viewCompleted') == 'true') ? '' : 'disabled'}}">View Pending</a><a href="{{route('selfreport.view')}}?viewCompleted=true" class="btn btn-link {{(request()->get('viewCompleted') == 'true') ? 'disabled' : ''}}">View Completed</a>
             </div>
             <div class="card-body">
                 @if(session('msg'))
@@ -47,6 +47,11 @@
                         </tbody>
                     </table>
                 </div>
+                @if(request()->get('viewCompleted') == true)
+                <div class="pagination justify-content-center mt-3">
+                    {{$list->appends(request()->input())->links()}}
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -54,7 +59,7 @@
     <script>
         $('#sr_table').DataTable({
             fixedHeader: true,
-            dom: 'Qlfrtip',
+            dom: '{{$dom}}',
         });
     </script>
 @endsection

@@ -34,13 +34,21 @@ class SelfReportController extends Controller
 
     public function view() {
         if(request()->get('viewCompleted') == 'true') {
-            $list = SelfReports::where('status', 'completed')->paginate(10);
+            $list = SelfReports::where('status', 'completed')->orderBy('created_at', 'DESC')->paginate(10);
+            $dom = 'rt';
+            $header = 'Self Report Completed List | Total: '.$list->total();
         }
         else {
             $list = SelfReports::where('status', 'pending')->get();
+            $dom = 'Qlfrtip';
+            $header = 'Self Report Pending List | Total: '.$list->count();
         }
         
-        return view('selfreport_view', ['list' => $list]);
+        return view('selfreport_view', [
+            'list' => $list,
+            'dom' => $dom,
+            'header' => $header,
+        ]);
     }
 
     public function edit($id) {
