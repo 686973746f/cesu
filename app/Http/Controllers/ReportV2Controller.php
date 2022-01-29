@@ -425,7 +425,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '2022-01-15')
+        ->whereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
         ->where('pType', 'CLOSE CONTACT')
         ->count();
 
@@ -434,7 +434,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '2022-01-15')
+        ->whereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
         ->where('pType', 'CLOSE CONTACT')
         ->where('dispoType', 3)
         ->count();
@@ -444,7 +444,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '2022-01-15')
+        ->whereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
         ->where('pType', 'CLOSE CONTACT')
         ->whereIn('dispoType', [6,7,2,5])
         ->count();
@@ -454,7 +454,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '2022-01-15')
+        ->whereBetween('morbidityMonth', ['2022-01-01', '2022-01-15'])
         ->where('pType', 'CLOSE CONTACT')
         ->where('dispoType', 1)
         ->count();
