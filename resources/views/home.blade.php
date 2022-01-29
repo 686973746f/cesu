@@ -61,6 +61,7 @@
                             <div id="reportNotice" class="text-center d-none">
                                 <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
                             </div>
+                            <a href="{{route('report_cm_index')}}" class="btn btn-primary btn-lg btn-block mt-3">Composite Measure</a>
                             <hr>
                             <form action="{{route('reportv2.dashboard')}}" method="GET">
                                 <label for="">Or View Report per List</label>
