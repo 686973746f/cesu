@@ -740,7 +740,331 @@ class SelfReportController extends Controller
         return response()->file(public_path("assets/self_reports/").$file_name);
     }
 
-    public function convertToSuspected($id) {
-        
+    public function convertToSuspected(Request $request, $id) {
+        $data = SelfReports::findOrFail($id);
+
+        $request->validate([
+            'reason' => 'nullable',
+            'testDateCollected2' => 'required|date|after_or_equal:today|before_or_equal:'.date('Y-12-31'),
+            'testType2' => 'required|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
+            'testTypeOtherRemarks2' => ($request->testType2 == 'ANTIGEN' || $request->testType2 == 'OTHERS') ? 'required' : 'nullable',
+            'antigenKit2' => ($request->testType2 == 'ANTIGEN') ? 'required' : 'nullable',
+        ]);
+
+        $data->status = 'completed';
+
+        if($data->isDirty() && $data->getOriginal('status') == 'pending') {
+            $data->save();
+        }
+
+        $record_array = array(
+            'status' => 'approved',
+            'lname' => $data->lname,
+            'fname' => $data->fname,
+            'mname' => $data->mname,
+            'gender' => $data->gender,
+            'isPregnant' => $data->isPregnant,
+            'cs' => $data->cs,
+            'nationality' => $data->nationality,
+            'bdate' => $data->bdate,
+            'mobile' => $data->mobile,
+            'phoneno' => $data->phoneno,
+            'email' => $data->email,
+            'philhealth' => $data->philhealth,
+            'address_houseno' => $data->address_houseno,
+            'address_street' => $data->address_street,
+            'address_brgy' => $data->address_brgy,
+            'address_city' => $data->address_city,
+            'address_cityjson' => $data->address_cityjson,
+            'address_province' => $data->address_province,
+            'address_provincejson' => $data->address_provincejson,
+
+            'permaaddressDifferent' => 0,
+            'permaaddress_houseno' => $data->address_houseno,
+            'permaaddress_street' => $data->address_street,
+            'permaaddress_brgy' => $data->address_brgy,
+            'permaaddress_city' => $data->address_city,
+            'permaaddress_cityjson' => $data->address_cityjson,
+            'permaaddress_province' => $data->address_province,
+            'permaaddress_provincejson' => $data->address_provincejson,
+            'permamobile' => $data->mobile,
+            'permaphoneno' => $data->phoneno,
+            'permaemail' => $data->email,
+
+            'hasOccupation' => (!is_null($data->occupation)) ? 1 : 0,
+            'occupation' => $data->occupation,
+            'worksInClosedSetting' => $data->worksInClosedSetting,
+            'occupation_lotbldg' => $data->occupation_lotbldg,
+            'occupation_street' => $data->occupation_street,
+            'occupation_brgy' => $data->occupation_brgy,
+            'occupation_city' => $data->occupation_city,
+            'occupation_cityjson' => $data->occupation_cityjson,
+            'occupation_province' => $data->occupation_province,
+            'occupation_provincejson' => $data->occupation_provincejson,
+            'occupation_name' => $data->occupation_name,
+            'occupation_mobile' => $data->occupation_mobile,
+            'occupation_email' => $data->occupation_email,
+
+            'natureOfWork' => $data->natureOfWork,
+            'natureOfWorkIfOthers' => $data->natureOfWorkIfOthers,
+
+            'vaccinationDate1' => $data->vaccinationDate1,
+            'vaccinationName1' => $data->vaccinationName1,
+            'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+            'vaccinationFacility1' => $data->vaccinationFacility1,
+            'vaccinationRegion1' => $data->vaccinationRegion1,
+            'haveAdverseEvents1' => $data->haveAdverseEvents1,
+
+            'vaccinationDate2' => $data->vaccinationDate2,
+            'vaccinationName2' => $data->vaccinationName2,
+            'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+            'vaccinationFacility2' => $data->vaccinationFacility2,
+            'vaccinationRegion2' => $data->vaccinationRegion2,
+            'haveAdverseEvents2' => $data->haveAdverseEvents2,
+
+            'vaccinationDate3' => $data->vaccinationDate3,
+            'vaccinationName3' => $data->vaccinationName3,
+            'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+            'vaccinationFacility3' => $data->vaccinationFacility3,
+            'vaccinationRegion3' => $data->vaccinationRegion3,
+            'haveAdverseEvents3' => $data->haveAdverseEvents3,
+        );
+
+        if($data->isNewRecord == 1) {
+            $record_create = $request->user()->records()->create($record_array);
+            $thisRecordId = $record_create->id;
+            
+            //Auto Re-infect if Positive + Positive ang Old CIF
+            $autoreinfect = 0;
+        }
+        else {
+            $thisRecordId = $data->records_id;
+
+            //Auto Re-infect if Positive + Positive ang Old CIF
+            $oldcifcheck = Forms::where('records_id', $thisRecordId)
+            ->where('caseClassification', 'Confirmed')
+            ->first();
+
+            if($oldcifcheck) {
+                $autoreinfect = 1;
+            }
+            else {
+                $autoreinfect = 0;
+            }
+        }
+
+        //Auto Change Testing Category/Subgroup Base on the patient data
+        $testCat = [];
+        if(!is_null($data->SAS)) {
+            array_push($testCat, "C");
+        }
+        else {
+            array_push($testCat, "D.1");
+        }
+
+        if($data->getAgeInt() >= 60) {
+            array_push($testCat, "B");
+        }
+        if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
+            array_push($testCat, "D.1");
+        }
+        if($data->isPregnant == 1) {
+            array_push($testCat, "F");
+        }
+
+        if(time() >= strtotime('16:00:00')) {
+            $mm = date('Y-m-d', strtotime('+1 Day'));
+        }
+        else {
+            $mm = date('Y-m-d');
+        }
+
+        $form_array = array(
+            'reinfected' => ($autoreinfect == 1) ? 1 : 0,
+            'morbidityMonth' => $mm,
+            'dateReported' => date('Y-m-d'),
+            'status' => 'approved',
+            'isPresentOnSwabDay' => 0,
+            'records_id' => $thisRecordId,
+            'drunit' => 'CHO GENERAL TRIAS',
+            'drregion' => '4A',
+            'drprovince' => 'CAVITE',
+            'interviewerName' => 'BROAS, LUIS',
+            'interviewerMobile' => '09190664324',
+            'interviewDate' => date('Y-m-d'),
+            'informantName' => NULL,
+            'informantRelationship' => NULL,
+            'informantMobile' => NULL,
+            'existingCaseList' => 1,
+            'ecOthersRemarks' => NULL,
+            'pType' => $data->pType,
+            'ccType' => NULL,
+            'isForHospitalization' => 0,
+            'testingCat' => implode(",", $testCat),
+            'havePreviousCovidConsultation' => $data->havePreviousCovidConsultation,
+            'dateOfFirstConsult' => $data->dateOfFirstConsult,
+            'facilityNameOfFirstConsult' => $data->facilityNameOfFirstConsult,
+            
+            'dispoType' => $data->dispoType,
+            'dispoName' => $data->dispoName,
+            'dispoDate' => $data->dispoDate,
+            'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
+            'caseClassification' => (!is_null($data->SAS)) ? 'Probable' : 'Suspect',
+            'confirmedVariantName' => NULL,
+            'isHealthCareWorker' => $data->isHealthCareWorker,
+            'healthCareCompanyName' => $data->healthCareCompanyName,
+            'healthCareCompanyLocation' => $data->healthCareCompanyLocation,
+            'isOFW' => $data->isOFW,
+            'OFWCountyOfOrigin' => $data->OFWCountyOfOrigin,
+            'OFWPassportNo' => $data->OFWPassportNo,
+            'ofwType' => $data->ofwType,
+            'isFNT' => $data->isFNT,
+            'FNTCountryOfOrigin' => $data->FNTCountryOfOrigin,
+            'FNTPassportNo' => $data->FNTPassportNo,
+            'isLSI' => $data->isLSI,
+            'lsiType' => $data->lsiType,
+            'LSICity' => $data->LSICity,
+            'LSIProvince' => $data->LSIProvince,
+            'isLivesOnClosedSettings' => $data->isLivesOnClosedSettings,
+            'institutionType' => $data->institutionType,
+            'institutionName' => $data->institutionName,
+            'dateOnsetOfIllness' => $data->dateOnsetOfIllness,
+            'SAS' => $data->SAS,
+            'SASFeverDeg' => $data->SASFeverDeg,
+            'SASOtherRemarks' => $data->SASOtherRemarks,
+            'COMO' => $data->COMO,
+            'COMOOtherRemarks' => $data->COMOOtherRemarks,
+            'PregnantLMP' => $data->ifPregnantLMP,
+            'PregnantHighRisk' => ($data->isPregnant == 1) ? 1 : 0,
+            'diagWithSARI' => $data->diagWithSARI,
+            'imagingDoneDate' => $data->imagingDoneDate,
+            'imagingDone' => $data->imagingDone,
+            'imagingResult' => $data->imagingResult,
+            'imagingOtherFindings' => $data->imagingOtherFindings,
+
+            'testedPositiveUsingRTPCRBefore' => $data->testedPositiveUsingRTPCRBefore,
+            'testedPositiveNumOfSwab' => $data->testedPositiveNumOfSwab,
+            'testedPositiveLab' => $data->testedPositiveLab,
+            'testedPositiveSpecCollectedDate' => $data->testedPositiveSpecCollectedDate,
+
+            'testDateCollected1' => $request->testDateCollected2,
+            'oniTimeCollected1' => NULL,
+            'testDateReleased1' => NULL,
+            'testLaboratory1' => NULL,
+            'testType1' => $request->testType2,
+            'testTypeAntigenRemarks1' => ($request->testType2 == 'ANTIGEN') ? $request->testTypeOtherRemarks2 : NULL,
+            'antigenKit1' => ($request->testType2 == 'ANTIGEN') ? $request->antigenKit2 : NULL,
+            'testTypeOtherRemarks1' => ($request->testType2 == 'OTHERS') ? $request->testTypeOtherRemarks2 : NULL,
+            'testResult1' => 'PENDING',
+            'testResultOtherRemarks1' => NULL,
+
+            'testDateCollected2' => NULL,
+            'oniTimeCollected2' => NULL,
+            'testDateReleased2' => NULL,
+            'testLaboratory2' => NULL,
+            'testType2' => NULL,
+            'testTypeAntigenRemarks2' => NULL,
+            'antigenKit2' => NULL,
+            'testTypeOtherRemarks2' => NULL,
+            'testResult2' => NULL,
+            'testResultOtherRemarks2' => NULL,
+
+            'outcomeCondition' => 'Active',
+            'outcomeRecovDate' => NULL,
+            'outcomeDeathDate' => NULL,
+            'deathImmeCause' => NULL,
+            'deathAnteCause' => NULL,
+            'deathUndeCause' => NULL,
+            'contriCondi' => NULL,
+
+            'expoitem1' => 3,
+            'expoDateLastCont' => NULL,
+
+            'expoitem2' => 3,
+            /*
+            'intCountry' => $data->intCountry,
+            'intDateFrom' => $data->intDateFrom,
+            'intDateTo' => $data->intDateTo,
+            'intWithOngoingCovid' => $data->intWithOngoingCovid,
+            'intVessel' => $data->intVessel,
+            'intVesselNo' => $data->intVesselNo,
+            'intDateDepart' => $data->intDateDepart,
+            'intDateArrive' => $data->intDateArrive,
+
+            'placevisited' => $data->placevisited,
+
+            'locName1' => $data->locName1,
+            'locAddress1' => $data->locAddress1,
+            'locDateFrom1' => $data->locDateFrom1,
+            'locDateTo1' => $data->locDateTo1,
+            'locWithOngoingCovid1' => $data->locWithOngoingCovid1,
+
+            'locName2' => $data->locName2,
+            'locAddress2' => $data->locAddress2,
+            'locDateFrom2' => $data->locDateFrom2,
+            'locDateTo2' => $data->locDateTo2,
+            'locWithOngoingCovid2' => $data->locWithOngoingCovid2,
+            
+            'locName3' => $data->locName3,
+            'locAddress3' => $data->locAddress3,
+            'locDateFrom3' => $data->locDateFrom3,
+            'locDateTo3' => $data->locDateTo3,
+            'locWithOngoingCovid3' => $data->locWithOngoingCovid3,
+            
+            'locName4' => $data->locName4,
+            'locAddress4' => $data->locAddress4,
+            'locDateFrom4' => $data->locDateFrom4,
+            'locDateTo4' => $data->locDateTo4,
+            'locWithOngoingCovid4' => $data->locWithOngoingCovid4,
+
+            'locName5' => $data->locName5,
+            'locAddress5' => $data->locAddress5,
+            'locDateFrom5' => $data->locDateFrom5,
+            'locDateTo5' => $data->locDateTo5,
+            'locWithOngoingCovid5' => $data->locWithOngoingCovid5,
+
+            'locName6' => $data->locName6,
+            'locAddress6' => $data->locAddress6,
+            'locDateFrom6' => $data->locDateFrom6,
+            'locDateTo6' => $data->locDateTo6,
+            'locWithOngoingCovid6' => $data->locWithOngoingCovid6,
+
+            'locName7' => $data->locName7,
+            'locAddress7' => $data->locAddress7,
+            'locDateFrom7' => $data->locDateFrom7,
+            'locDateTo7' => $data->locDateTo7,
+            'locWithOngoingCovid7' => $data->locWithOngoingCovid7,
+
+            'localVessel1' => $data->localVessel1,
+            'localVesselNo1' => $data->localVesselNo1,
+            'localOrigin1' => $data->localOrigin1,
+            'localDateDepart1' => $data->localDateDepart1,
+            'localDest1' => $data->localDest1,
+            'localDateArrive1' => $data->localDateArrive1,
+
+            'localVessel2' => $data->localVessel2,
+            'localVesselNo2' => $data->localVesselNo2,
+            'localOrigin2' => $data->localOrigin2,
+            'localDateDepart2' => $data->localDateDepart2,
+            'localDest2' => $data->localDest2,
+            'localDateArrive2' => $data->localDateArrive2,
+
+            'contact1Name' => $data->contact1Name,
+            'contact1No' => $data->contact1No,
+            'contact2Name' => $data->contact2Name,
+            'contact2No' => $data->contact2No,
+            'contact3Name' => $data->contact3Name,
+            'contact3No' => $data->contact3No,
+            'contact4Name' => $data->contact4ame,
+            'contact4No' => $data->contact4No,
+            */
+
+            'remarks' => $request->reason,
+        );
+
+        //Ipasok na sa Records and Forms
+        $form_create = $request->user()->form()->create($form_array);
+
+        return redirect()->route('selfreport.view')->with('msg', 'Patient #'.$data->id.' ('.$data->getName().') has been scheduled for swab successfully.')->with('msgtype', 'success');
     }
 }

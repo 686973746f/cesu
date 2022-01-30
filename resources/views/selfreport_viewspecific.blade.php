@@ -7,6 +7,15 @@
             <div class="card border-info">
                 <div class="card-header bg-info text-white font-weight-bold">Assess Positive Patient ({{$data->getName()}} <small>#{{$data->id}}</small>)</div>
                 <div class="card-body">
+                    @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <p>{{Str::plural('Error', $errors->count())}} detected in adding new patient record:</p>
+                        <hr>
+                        @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </div>
+                    @endif
                     <div class="alert alert-info" role="alert">
                         <p><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Assess the patient by using the Contact Information Provided by Patient (Mobile Number or Email) at the bottom.</p>
                         <p>After completing the assessment, the patient record will be counted in the official list of Active Cases and will be added in the official patient records.</p>
@@ -1436,9 +1445,63 @@
                 </div>
                 @if($editable)
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>Complete Assessment</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#moveToSuspectedModal">Move to For Swab</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>Complete Assessment / Mark as Confirmed Case</button>
                 </div>
                 @endif
+            </div>
+        </form>
+
+        <form action="{{route('selfreport_convertToSuspected', ['id' => $data->id])}}" method="POST">
+            @csrf
+            <div class="modal fade" id="moveToSuspectedModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Move Patient for Swab</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="reason">Input Reason <small>(Optional)</small></label>
+                                <textarea class="form-control" name="reason" id="reason" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date of Swab Collection</label>
+                                <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{date('Y-m-d')}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="testType2"><span class="text-danger font-weight-bold">*</span>Type of Test</label>
+                                <select class="form-control" name="testType2" id="testType2" required>
+                                    <option value="" disabled {{(is_null(old('testType2'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="OPS" {{(old('testType2') == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                    <option value="NPS" {{(old('testType2') == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                    <option value="OPS AND NPS" {{(old('testType2') == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                    <option value="ANTIGEN" {{(old('testType2') == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                    <option value="ANTIBODY" {{(old('testType2') == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                    <option value="OTHERS" {{(old('testType2') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                </select>
+                            </div>
+                            <div id="divTypeOthers2">
+                                <div class="form-group">
+                                    <label for="testTypeOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
+                                    <input type="text" class="form-control" name="testTypeOtherRemarks2" id="testTypeOtherRemarks2" value="{{old('testTypeOtherRemarks2')}}">
+                                </div>
+                                <div id="ifAntigen2">
+                                    <div class="form-group">
+                                        <label for="antigenKit2"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
+                                        <input type="text" class="form-control" name="antigenKit2" id="antigenKit2" value="{{old('antigenKit2')}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -1786,6 +1849,30 @@
                 $('#testTypeOtherRemarks1').empty();
 
                 $('#ifAntigen1').hide();
+            }
+        }).trigger('change');
+
+        $('#testType2').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
+                $('#divTypeOthers2').show();
+                $('#testTypeOtherRemarks2').prop('required', true);
+                if($(this).val() == 'ANTIGEN') {
+                    $('#ifAntigen2').show();
+                    $('#antigenKit2').prop('required', true);
+                }
+                else {
+                    $('#ifAntigen2').hide();
+                    $('#antigenKit2').prop('required', false);
+                }
+            }
+            else {
+                $('#divTypeOthers2').hide();
+                $('#testTypeOtherRemarks2').empty();
+                $('#testTypeOtherRemarks2').prop('required', false);
+
+                $('#ifAntigen2').hide();
+                $('#antigenKit2').prop('required', false);
             }
         }).trigger('change');
     </script>

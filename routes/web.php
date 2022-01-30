@@ -126,6 +126,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/forms/selfreport/', [SelfReportController::class, 'view'])->name('selfreport.view');
     Route::get('/forms/selfreport/assess/{id}', [SelfReportController::class, 'edit'])->name('selfreport.edit');
     Route::post('/forms/selfreport/assess/{id}', [SelfReportController::class, 'finishAssessment'])->name('selfreport.finishAssessment');
+    Route::post('/forms/selfreport/convert_to_suspected/{id}', [SelfReportController::class, 'convertToSuspected'])->name('selfreport_convertToSuspected');
     Route::get('/forms/selfreport/viewdoc/{id}', [SelfReportController::class, 'viewDocument'])->name('selfreport.viewdocument');
     Route::post('/forms/reswab/{id}', [FormsController::class, 'reswab'])->name('forms.reswab');
     Route::resource('/forms', FormsController::class);
