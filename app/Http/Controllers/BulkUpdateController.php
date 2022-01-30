@@ -31,6 +31,7 @@ class BulkUpdateController extends Controller
                 ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
             })
             ->where('outcomeCondition', 'Active')
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
             ->get();
 
             foreach($data as $item) {
@@ -69,6 +70,9 @@ class BulkUpdateController extends Controller
                 }
                 else if($item->dispoType == 6) {
                     $adm = 'ADM. AT GENTRI ISOLATION FACILITY';
+                }
+                else if($item->dispoType == 7) {
+                    $adm = 'ADM. AT GENTRI ISOLATION FACILITY #2';
                 }
     
                 array_push($list, [
