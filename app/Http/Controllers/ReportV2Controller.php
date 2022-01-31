@@ -550,9 +550,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $activecases_count_hq = Forms::whereHas('records', function ($q) {
@@ -560,9 +560,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('dispoType', 3)
         ->count();
 
@@ -571,9 +571,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->whereIn('dispoType', [6,7,2,5])
         ->count();
 
@@ -582,9 +582,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('dispoType', 1)
         ->count();
 
@@ -593,9 +593,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Asymptomatic')
         ->count();
         
@@ -604,9 +604,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Asymptomatic')
         ->where('dispoType', 3)
         ->count();
@@ -616,9 +616,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Asymptomatic')
         ->whereIn('dispoType', [6,7,2,5])
         ->count();
@@ -628,9 +628,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Asymptomatic')
         ->where('dispoType', 1)
         ->count();
@@ -640,9 +640,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', 'None')
         ->count();
@@ -652,9 +652,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', 'None')
         ->where('dispoType', 3)
@@ -665,9 +665,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', 'None')
         ->whereIn('dispoType', [6,7,2,5])
@@ -678,9 +678,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', '!=', 'None')
         ->where('dispoType', 1)
@@ -691,9 +691,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', '!=', 'None')
         ->count();
@@ -703,9 +703,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', '!=', 'None')
         ->where('dispoType', 3)
@@ -716,9 +716,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', '!=', 'None')
         ->whereIn('dispoType', [6,7,2,5])
@@ -729,9 +729,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
         ->where('COMO', '!=', 'None')
         ->where('dispoType', 1)
@@ -742,9 +742,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Moderate')
         ->count();
 
@@ -753,9 +753,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Moderate')
         ->where('dispoType', 3)
         ->count();
@@ -765,9 +765,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Moderate')
         ->whereIn('dispoType', [6,7,2,5])
         ->count();
@@ -777,9 +777,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Moderate')
         ->where('dispoType', 1)
         ->count();
@@ -789,9 +789,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Severe')
         ->count();
 
@@ -800,9 +800,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Severe')
         ->where('dispoType', 3)
         ->count();
@@ -812,9 +812,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Severe')
         ->whereIn('dispoType', [6,7,2,5])
         ->count();
@@ -824,9 +824,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Severe')
         ->where('dispoType', 1)
         ->count();
@@ -836,9 +836,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Critical')
         ->count();
 
@@ -847,9 +847,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Critical')
         ->where('dispoType', 3)
         ->count();
@@ -859,9 +859,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Critical')
         ->whereIn('dispoType', [6,7,2,5])
         ->count();
@@ -871,9 +871,9 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereDate('morbidityMonth', '<=','2022-01-15')
-        ->whereBetween('dateReported', ['2022-01-01', '2022-01-15'])
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Critical')
         ->where('dispoType', 1)
         ->count();
