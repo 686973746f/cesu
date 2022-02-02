@@ -273,7 +273,6 @@ class ReportV2Controller extends Controller
         ->where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Active')
-        ->where('reinfected', 0)
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
