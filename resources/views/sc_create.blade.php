@@ -40,7 +40,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="mname">Middle Name <small>(Optional)</small></label>
-                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" max="50" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
