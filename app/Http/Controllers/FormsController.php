@@ -1778,7 +1778,7 @@ class FormsController extends Controller
                 //Auto Re-infect if Positive + Positive ang Old CIF
                 if($caseClassi == 'Confirmed') {
                     $oldcifcheck = Forms::where('id', '!=', $id)
-                    ->where('records_id', $rec->records_id)
+                    ->where('records_id', $rec->records->id)
                     ->where('caseClassification', 'Confirmed')
                     ->first();
                     if($oldcifcheck) {
