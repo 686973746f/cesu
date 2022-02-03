@@ -1120,7 +1120,8 @@ class FormsController extends Controller
 
             //Block Re-infection if di pa lagpas ng 90 Days
             if($caseClassi == 'Confirmed') {
-                $confirmed_search = Forms::where('records_id', $rec->id)
+                $confirmed_search = Forms::where('status', 'approved')
+                ->where('records_id', $rec->id)
                 ->where('caseClassification', 'Confirmed')
                 ->orderBy('created_at', 'DESC')
                 ->first();
@@ -1844,6 +1845,29 @@ class FormsController extends Controller
                 }
                 else {
                     $set_dr = $request->dateReported;
+                }
+
+                //Block Re-infection if di pa lagpas ng 90 Days
+                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
+                    $confirmed_search = Forms::where('status', 'approved')
+                    ->where('id', '!=', $id)
+                    ->where('records_id', $rec->id)
+                    ->where('caseClassification', 'Confirmed')
+                    ->orderBy('created_at', 'DESC')
+                    ->first();
+                    if($confirmed_search) {
+                        $sDate = Carbon::parse($confirmed_search->dateReported);
+                        $now = Carbon::parse(date('Y-m-d'));
+
+                        $diffInDays = $sDate->diffInDays($now);
+
+                        if($diffInDays <= 90) {
+                            return back()
+                            ->withInput()
+                            ->with('msg', 'The patient (#'.$rec->id.' - '.$rec->getName().') has existing Confirmed Case that is still not 90 days old. Therefore, your submission is blocked.')
+                            ->with('msgType', 'warning');
+                        }
+                    }
                 }
 
                 if($proceed == 1) {
