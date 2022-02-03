@@ -1134,7 +1134,7 @@ class FormsController extends Controller
                     if($diffInDays <= 90) {
                         return back()
                         ->withInput()
-                        ->with('msg', 'The patient (#'.$rec->id.' - '.$rec->getName().') has existing Confirmed Case that is still not 90 days old. Therefore, your submission is blocked.')
+                        ->with('msg', 'Warning: The patient (#'.$rec->id.' - '.$rec->getName().') has existing Confirmed Case that is still not 90 days old. Therefore, your submission is blocked.')
                         ->with('msgType', 'warning');
                     }
                 }
@@ -1851,7 +1851,7 @@ class FormsController extends Controller
                 if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
                     $confirmed_search = Forms::where('status', 'approved')
                     ->where('id', '!=', $id)
-                    ->where('records_id', $rec->id)
+                    ->where('records_id', $rec->records->id)
                     ->where('caseClassification', 'Confirmed')
                     ->orderBy('created_at', 'DESC')
                     ->first();
@@ -1864,7 +1864,7 @@ class FormsController extends Controller
                         if($diffInDays <= 90) {
                             return back()
                             ->withInput()
-                            ->with('msg', 'The patient (#'.$rec->id.' - '.$rec->getName().') has existing Confirmed Case that is still not 90 days old. Therefore, your submission is blocked.')
+                            ->with('msg', 'Warning: The patient (#'.$rec->records->id.' - '.$rec->records->getName().') has existing Confirmed Case that is still not 90 days old. Therefore, your submission is blocked.')
                             ->with('msgType', 'warning');
                         }
                     }
