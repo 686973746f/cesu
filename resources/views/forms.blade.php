@@ -53,6 +53,10 @@
             @if(session('status'))
                 <div class="alert alert-{{session('statustype')}}" role="alert">
                     {{session('status')}}
+                    @if(session('add_note') && !is_null(session('add_note')))
+                    <hr>
+                    {{session('add_note')}}
+                    @endif
                 </div>
             @endif
             <form action="{{route('forms.index')}}" method="GET">
