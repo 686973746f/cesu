@@ -300,7 +300,6 @@ class AdminPanelController extends Controller
             ->whereIn('caseClassification', ['Suspect', 'Probable'])
             ->count();
 
-            /*
             $confirmed_count = Forms::where(function ($q) use ($item) {
                 $q->where(function ($r) use ($item) {
                     $r->where('user_id', $item->id)
@@ -314,8 +313,8 @@ class AdminPanelController extends Controller
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('caseClassification', 'Confirmed')
             ->count();
-            */
 
+            /*
             $confirmed_count = Forms::where(function ($q) use ($item) {
                 $q->where('user_id', $item->id)
                 ->orWhere('updated_by', $item->id);
@@ -327,6 +326,7 @@ class AdminPanelController extends Controller
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('caseClassification', 'Confirmed')
             ->count();
+            */
             
             $negative_count = Forms::where(function ($q) use ($item) {
                 $q->where('user_id', $item->id)
