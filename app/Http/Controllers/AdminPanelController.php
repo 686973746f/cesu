@@ -308,6 +308,10 @@ class AdminPanelController extends Controller
                 ->orWhere(function ($s) use ($item) {
                     $s->where('user_id', '!=', $item->id)
                     ->where('updated_by', $item->id);
+                })
+                ->orWhere(function ($t) use ($item) {
+                    $s->where('user_id', $item->id)
+                    ->where('updated_by', $item->id);
                 });
             })
             ->whereDate('morbidityMonth', date('Y-m-d'))
