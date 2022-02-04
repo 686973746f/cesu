@@ -18,6 +18,7 @@ $gt_negative = 0;
                             <th>Name</th>
                             <th>No. of Suspected/Probable Patient Encoded</th>
                             <th>No. of Confirmed Patient Encoded</th>
+                            <th>Encoded Recovered Cases</th>
                             <th>No. of Negative Patient Encoded</th>
                             <th>Total</th>
                         </tr>
@@ -29,8 +30,9 @@ $gt_negative = 0;
                             <td>{{$i['name']}}</td>
                             <td class="text-center">{{$i['suspected_count']}}</td>
                             <td class="text-center">{{$i['confirmed_count']}}</td>
+                            <td class="text-center">{{$i['recovered_count']}}</td>
                             <td class="text-center">{{$i['negative_count']}}</td>
-                            <td class="text-center font-weight-bold">{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count']}}</td>
+                            <td class="text-center font-weight-bold">{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count']}}</td>
                         </tr>
                         @php
                         $gt_suspected += $i['suspected_count'];
