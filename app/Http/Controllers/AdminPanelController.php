@@ -310,7 +310,7 @@ class AdminPanelController extends Controller
                     ->where('updated_by', $item->id);
                 })
                 ->orWhere(function ($t) use ($item) {
-                    $s->where('user_id', $item->id)
+                    $t->where('user_id', $item->id)
                     ->where('updated_by', $item->id);
                 });
             })
