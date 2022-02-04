@@ -5,6 +5,7 @@
 $gt_suspected = 0;
 $gt_confirmed = 0;
 $gt_negative = 0;
+$gt_recovered = 0;
 @endphp
 <div class="container">
     <div class="card">
@@ -18,7 +19,7 @@ $gt_negative = 0;
                             <th>Name</th>
                             <th>No. of Suspected/Probable Patient Encoded</th>
                             <th>No. of Confirmed Patient Encoded</th>
-                            <th>Encoded Recovered Cases</th>
+                            <th>No. of Recovered Patient Encoded</th>
                             <th>No. of Negative Patient Encoded</th>
                             <th>Total</th>
                         </tr>
@@ -38,6 +39,7 @@ $gt_negative = 0;
                         $gt_suspected += $i['suspected_count'];
                         $gt_confirmed += $i['confirmed_count'];
                         $gt_negative += $i['negative_count'];
+                        $gt_recovered += $i['recovered_count'];
                         @endphp
                         @endforeach
                     </tbody>
@@ -46,8 +48,9 @@ $gt_negative = 0;
                             <td colspan="2">TOTAL</td>
                             <td>{{$gt_suspected}}</td>
                             <td>{{$gt_confirmed}}</td>
+                            <td>{{$gt_recovered}}</td>
                             <td>{{$gt_negative}}</td>
-                            <td>{{$gt_suspected + $gt_confirmed + $gt_negative}}</td>
+                            <td>{{$gt_suspected + $gt_confirmed + $gt_negative + $gt_recovered}}</td>
                         </tr>
                     </tfoot>
                 </table>
