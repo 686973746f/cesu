@@ -1740,10 +1740,6 @@ class ReportController extends Controller
         ini_set('max_execution_time', 900);
         $year = $request->yearSelected;
 
-        if($year != date('Y')) {
-            return response()->download(storage_path('docs/GENTRI_COVID19_DATABASE_2021_below.xlsx'));
-        }
-
         $suspectedQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where(function ($q) {
@@ -1876,16 +1872,16 @@ class ReportController extends Controller
         
         $sheets = new SheetCollection([
             'Suspected' => suspectedGenerator($suspectedQuery),
-            'Probable' => probableGenerator($probableQuery),
-            'Confirmed' => confirmedGenerator($confirmedQuery),
-            'Negative' => negativeGenerator($negativeQuery),
+            //'Probable' => probableGenerator($probableQuery),
+            //'Confirmed' => confirmedGenerator($confirmedQuery),
+            //'Negative' => negativeGenerator($negativeQuery),
         ]);
 
         $header_style = (new StyleBuilder())->setFontBold()->build();
         $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
 
         return (new FastExcel($sheets))
-        ->download($fName, function ($form) {
+        ->export($fName, function ($form) {
             $arr_sas = explode(",", $form->SAS);
             $arr_othersas = explode(",", $form->SASOtherRemarks);
             $arr_como = explode(",", $form->COMO);
@@ -2055,7 +2051,7 @@ class ReportController extends Controller
                 'VACCINATION FACILITY' => $vFacility,
                 'YEAR' => date('Y', strtotime($form->dateReported)),
             ];
-        });
+        })." <a href=".public_path($fName).">Click Here to Download</a>";
     }
 
     public function dilgExportAll() {

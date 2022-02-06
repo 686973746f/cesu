@@ -121,9 +121,9 @@
                 </div>
                 <div class="modal-body">
                     <label for="yearSelected">Select Year to Export</label>
-                    <select class="form-control" name="yearSelected" id="yearSelected" required>
+                    <select class="form-control" name="yearSelected" id="yearSelected">
                         <option value="{{date('Y')}}">{{date('Y')}}</option>
-                        <option value="All">2021 Below</option>
+                        <option value="">2021 Below</option>
                     </select>
                     <div id="oldcases_div" class="d-none">
                     </div>
