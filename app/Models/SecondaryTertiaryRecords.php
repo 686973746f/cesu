@@ -28,6 +28,15 @@ class SecondaryTertiaryRecords extends Model
         'address_province',
         'address_provincejson',
         'temperature',
+        'is_primarycc',
+        'is_secondarycc',
+        'is_tertiarycc',
+        'is_primarycc_date',
+        'is_secondarycc_date',
+        'is_tertiarycc_date',
+        'is_primarycc_date_set',
+        'is_secondarycc_date_set',
+        'is_tertiarycc_date_set',
     ];
 
     public function user() {

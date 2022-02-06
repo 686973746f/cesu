@@ -41,7 +41,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="mname">Middle Name <small>(Optional)</small></label>
-                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $item->fname)}}" max="50" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $item->fname)}}" max="50" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
@@ -168,6 +168,31 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="is_secondarycc" id="is_secondarycc" value="1" {{(old('is_secondarycc', $item->is_secondarycc) == 1) ? 'checked' : ''}}>
+                            Is Secondary Close Contact <small>(Check if Yes)</small>
+                        </label>
+                    </div>
+                    <div id="secondarycc_div" class="d-none">
+                        <div class="form-group">
+                            <label for="is_secondarycc_date"><span class="text-danger font-weight-bold">*</span>Secondary Close Contact Exposure Date?</label>
+                            <input type="date" class="form-control" name="is_secondarycc_date" id="is_secondarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_secondarycc_date', $item->is_secondarycc_date)}}">
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" name="is_tertiarycc" id="is_tertiarycc" value="1" {{(old('is_tertiarycc', $item->is_tertiarycc) == 1) ? 'checked' : ''}}>
+                          Is Tertiary Close Contact <small>(Check if Yes)</small>
+                        </label>
+                    </div>
+                    <div id="tertiarycc_div">
+                        <div class="form-group">
+                            <label for="is_tertiarycc_date"><span class="text-danger font-weight-bold">*</span>Tertiary Close Contact Exposure Date?</label>
+                            <input type="date" class="form-control" name="is_tertiarycc_date" id="is_tertiarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_tertiarycc_date', $item->is_tertiarycc_date)}}">
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -263,5 +288,29 @@
 				});
 			});
 		}).trigger('change');
+
+        $('#is_secondarycc').change(function (e) { 
+            e.preventDefault();
+            if($(this).prop('checked')) {
+                $('#secondarycc_div').removeClass('d-none');
+                $('#is_secondarycc_date').prop('required', true);
+            }
+            else {
+                $('#secondarycc_div').addClass('d-none');
+                $('#is_secondarycc_date').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#is_tertiarycc').change(function (e) { 
+            e.preventDefault();
+            if($(this).prop('checked')) {
+                $('#tertiarycc_div').removeClass('d-none');
+                $('#is_tertiarycc_date').prop('required', true);
+            }
+            else {
+                $('#tertiarycc_div').addClass('d-none');
+                $('#is_tertiarycc_date').prop('required', false);
+            }
+        }).trigger('change');
     </script>
 @endsection

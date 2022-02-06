@@ -39,6 +39,12 @@ class SecondaryTertiaryRecordsValidationRequest extends FormRequest
 			'address_city' => 'nullable',
 			'address_province' => 'nullable',
             'temperature' => 'nullable',
+            'is_primarycc' => 'sometimes',
+            'is_secondarycc' => 'sometimes',
+            'is_tertiarycc' => 'sometimes',
+            'is_primarycc_date' => 'required_if:is_primarycc,1',
+            'is_secondarycc_date' => 'required_if:is_secondarycc,1',
+            'is_tertiarycc_date' => 'required_if:is_tertiarycc,1',
         ];
     }
 }

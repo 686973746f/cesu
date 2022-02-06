@@ -86,6 +86,16 @@ class SecondaryTertiaryRecordsController extends Controller
                 'address_province' => $request->address_province,
                 'address_provincejson' => $request->address_provincejson,
                 'temperature' => $request->temperature,
+                'is_primarycc' => ($request->is_primarycc) ? 1 : 0,
+                'is_secondarycc' => ($request->is_secondarycc) ? 1 : 0,
+                'is_tertiarycc' => ($request->is_tertiarycc) ? 1 : 0,
+                'is_primarycc_date' => ($request->is_primarycc) ? $request->is_primarycc_date : NULL,
+                'is_secondarycc_date' => ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL,
+                'is_tertiarycc_date' => ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL,
+
+                'is_primarycc_date_set' => ($request->is_primarycc) ? date('Y-m-d') : NULL,
+                'is_secondarycc_date_set' => ($request->is_secondarycc) ? date('Y-m-d') : NULL,
+                'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? date('Y-m-d') : NULL,
             ]);
     
             return redirect()->route('sc_index')->with('msg', 'The record has been successfully added.')->with('msgtype', 'success');
@@ -124,9 +134,22 @@ class SecondaryTertiaryRecordsController extends Controller
         $data->address_provincejson = $request->address_provincejson;
         $data->temperature = $request->temperature;
 
+        $data->is_primarycc = ($request->is_primarycc) ? 1 : 0;
+        $data->is_secondarycc = ($request->is_secondarycc) ? 1 : 0;
+        $data->is_tertiarycc = ($request->is_tertiarycc) ? 1 : 0;
+        $data->is_primarycc_date = ($request->is_primarycc) ? $request->is_primarycc_date : NULL;
+        $data->is_secondarycc_date = ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL;
+        $data->is_tertiarycc_date = ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL;
+
+        $data->is_primarycc_date_set = ($request->is_primarycc && $request->is_primarycc_date != $data->is_primarycc_date_set) ? date('Y-m-d') : $data->is_primarycc_date_set;
+        $data->is_secondarycc_date_set = ($request->is_secondarycc && $request->is_secondarycc_date != $data->is_secondarycc_date_set) ? date('Y-m-d') : $data->is_secondarycc_date_set;
+        $data->is_tertiarycc_date_set = ($request->is_tertiarycc && $request->is_tertiarycc_date != $data->is_tertiarycc_date_set) ? date('Y-m-d') : $data->is_tertiarycc_date_set;
+
         if($data->isDirty()) {
             $data->save();
         }
+        
+        return redirect()->route('sc_index')->with('msg', 'The record of '.$data->getName().' (#'.$data->id.') has been updated sucessfully.')->with('msgtype', 'success');
     }
 
     public function delete($id) {
