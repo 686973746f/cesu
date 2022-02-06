@@ -921,4 +921,16 @@ class ReportV2Controller extends Controller
             'activecases_count_critical_hospital' => $activecases_count_critical_hospital,
         ]);
     }
+
+    public function clustering_index() {
+        //get Brgy List
+        $brgy = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->orderBy('brgyName', 'ASC')
+        ->get();
+
+        return view('report_clustering_index', [
+            'list' => $brgy,
+        ]);
+    }
 }

@@ -10,7 +10,6 @@
                 <tr>
                     <th>Street Name</th>
                     <th>Number of Cases Inside</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,7 +20,6 @@
                 <tr>
                     <td scope="row" class="{{($clusterctr >= 2) ? 'bg-danger font-weight-bold text-warning' : ''}}">{{$item->records->address_street}}</td>
                     <td class="text-center {{($clusterctr >= 2) ? 'bg-danger font-weight-bold text-warning' : ''}}">{{$clusterctr}}</td>
-                    <td></td>
                 </tr>
                 @endforeach
             </tbody>

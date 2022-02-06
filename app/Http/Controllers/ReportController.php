@@ -1677,7 +1677,7 @@ class ReportController extends Controller
             ->where('records.address_city', $city_data->cityName);
         })->get();
 
-        return view('report_clustering', [
+        return view('report_clustering_view', [
             'clustered_forms' => $clustered_forms,
             'brgy_name' => $brgy_data->brgyName,
         ]);
