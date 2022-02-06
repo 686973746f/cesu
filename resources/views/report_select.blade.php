@@ -341,20 +341,5 @@
         $('#displayListNotice').removeClass('d-none');
         $('#displayListLoading').removeClass('d-none');
     });
-
-    $('#generateExcel').click(function (e) { 
-        e.preventDefault();
-        $('#downloadDohLoading').removeClass('d-none');
-        $('#downloadNotice').removeClass('d-none');
-        document.getElementById('reportForm').submit();
-        $('#generateExcel').prop('disabled', true);
-    });
-
-    $('#yearSelected').change(function (e) { 
-        e.preventDefault();
-        $('#generateExcel').prop('disabled', false);
-        $('#downloadDohLoading').addClass('d-none');
-        $('#downloadNotice').addClass('d-none');
-    });
 </script>
 @endsection

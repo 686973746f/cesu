@@ -1881,7 +1881,7 @@ class ReportController extends Controller
         $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
 
         return (new FastExcel($sheets))
-        ->export($fName, function ($form) {
+        ->download($fName, function ($form) {
             $arr_sas = explode(",", $form->SAS);
             $arr_othersas = explode(",", $form->SASOtherRemarks);
             $arr_como = explode(",", $form->COMO);
@@ -1934,6 +1934,16 @@ class ReportController extends Controller
                 //GENTRI ISOLATION FACILITY #1 (SANTIAGO OVAL)
                 $dispo = 'ADMITTED';
                 $dispoName = 'GENERAL TRIAS ISOLATION FACILITY';
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+            else if ($form->dispoType == 7) {
+                $dispo = 'ADMITTED';
+                $dispoName = 'GENERAL TRIAS ISOLATION FACILITY #2';
+                $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
+            }
+            else {
+                $dispo = 'UNKNOWN';
+                $dispoName = "N/A";
                 $dispoDate = date('m/d/Y', strtotime($form->dispoDate));
             }
 
@@ -2051,7 +2061,7 @@ class ReportController extends Controller
                 'VACCINATION FACILITY' => $vFacility,
                 'YEAR' => date('Y', strtotime($form->dateReported)),
             ];
-        })." <a href=".public_path($fName).">Click Here to Download</a>";
+        });
     }
 
     public function dilgExportAll() {

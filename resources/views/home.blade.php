@@ -122,11 +122,11 @@
                 <div class="modal-body">
                     <label for="yearSelected">Select Year to Export</label>
                     <select class="form-control" name="yearSelected" id="yearSelected">
-                        <option value="{{date('Y')}}">{{date('Y')}}</option>
-                        <option value="">2021 Below</option>
+                        @foreach(range(date('Y'), 2019) as $y)
+                        <option value="{{$y}}">{{$y}}</option>
+                        @endforeach
+                        <option value="">All</option>
                     </select>
-                    <div id="oldcases_div" class="d-none">
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="generateExcel" class="btn btn-primary btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="downloadDohLoading"></i></button>
