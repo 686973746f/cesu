@@ -20,6 +20,7 @@ class CreateFormsTable extends Migration
             $table->tinyInteger('isPriority')->default(0);
             $table->tinyInteger('reinfected')->default(0);
             $table->date('morbidityMonth');
+            $table->date('morbidityTime')->useCurrent();
             $table->string('majikCode')->nullable();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('status');
@@ -52,6 +53,9 @@ class CreateFormsTable extends Migration
             $table->date('is_primarycc_date')->nullable();
             $table->date('is_secondarycc_date')->nullable();
             $table->date('is_tertiarycc_date')->nullable();
+            $table->date('is_primarycc_date_set')->nullable();
+            $table->date('is_secondarycc_date_set')->nullable();
+            $table->date('is_tertiarycc_date_set')->nullable();
             $table->text('testingCat');
 
             $table->enum('havePreviousCovidConsultation', [0,1]);
