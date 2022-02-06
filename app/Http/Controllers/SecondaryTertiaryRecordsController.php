@@ -59,8 +59,17 @@ class SecondaryTertiaryRecordsController extends Controller
             ->with('msgtype', 'danger');
 		}
         else {
+
+            //Set MM Based on Cutoff
+            if(time() >= strtotime('13:00:00')) {
+                $set_mm = date('Y-m-d', strtotime('+1 Day'));
+            }
+            else {
+                $set_mm = $request->morbidityMonth;
+            }
+
             $create = $request->user()->secondaryTertiaryRecords()->create([
-                'morbidityMonth' => $request->morbidityMonth,
+                'morbidityMonth' => $set_mm,
                 'dateReported' => $request->dateReported,
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
@@ -116,7 +125,7 @@ class SecondaryTertiaryRecordsController extends Controller
         $data->temperature = $request->temperature;
 
         if($data->isDirty()) {
-            
+            $data->save();
         }
     }
 

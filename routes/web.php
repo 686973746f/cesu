@@ -128,7 +128,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/forms/selfreport/assess/{id}', [SelfReportController::class, 'finishAssessment'])->name('selfreport.finishAssessment');
     Route::post('/forms/selfreport/convert_to_suspected/{id}', [SelfReportController::class, 'convertToSuspected'])->name('selfreport_convertToSuspected');
     Route::get('/forms/selfreport/viewdoc/{id}', [SelfReportController::class, 'viewDocument'])->name('selfreport.viewdocument');
-    Route::post('/forms/reswab/{id}', [FormsController::class, 'reswab'])->name('forms.reswab');
+    Route::match(array('GET','POST') ,'/forms/reswab/{id}', [FormsController::class, 'reswab'])->name('forms.reswab');
     Route::resource('/forms', FormsController::class);
     Route::get('/forms/{id}/existing', [FormsController::class, 'viewExistingForm'])->name('forms.existing');
     Route::get('/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');

@@ -1881,8 +1881,6 @@ class ReportController extends Controller
         $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
 
         return (new FastExcel($sheets))
-        ->headerStyle($header_style)
-        ->rowsStyle($rows_style)
         ->download($fName, function ($form) {
             $arr_sas = explode(",", $form->SAS);
             $arr_othersas = explode(",", $form->SASOtherRemarks);

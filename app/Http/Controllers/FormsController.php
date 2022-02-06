@@ -1117,6 +1117,97 @@ class FormsController extends Controller
             else {
                 $set_dr = $request->dateReported;
             }
+
+            //Block Re-infection if di pa lagpas ng 90 Days
+            if($caseClassi == 'Confirmed') {
+                $confirmed_search = Forms::where('status', 'approved')
+                ->where('records_id', $rec->id)
+                ->where('caseClassification', 'Confirmed')
+                ->orderBy('created_at', 'DESC')
+                ->first();
+                if($confirmed_search) {
+                    $sDate = Carbon::parse($confirmed_search->dateReported);
+                    $now = Carbon::parse(date('Y-m-d'));
+
+                    $diffInDays = $sDate->diffInDays($now);
+
+                    if($diffInDays <= 90) {
+                        return back()
+                        ->withInput()
+                        ->with('msg', 'Warning: The patient (#'.$rec->id.' - '.$rec->getName().') has existing Confirmed Case that is still not 90 days old. Therefore, your submission is blocked.')
+                        ->with('msgType', 'warning');
+                    }
+                }
+            }
+
+            //Auto Recovered if Lagpas na sa Quarantine Period
+            if($caseClassi == 'Confirmed') {
+                $dateToday = Carbon::parse(date('Y-m-d'));
+                
+                if($request->dispositionType != 6 || $request->dispositionType != 7) {
+                    if(!is_null($request->testType2)) {
+                        $swabDateCollected = $request->testDateCollected2;
+                    }
+                    else {
+                        $swabDateCollected = $request->testDateCollected1;
+                    }
+
+                    if($request->dispositionType == 1 || $request->healthStatus == 'Severe' || $request->healthStatus == 'Critical') {
+                        $daysToRecover = 21;
+                    }
+                    else {
+                        if(!is_null($rec->vaccinationDate2)) {
+                            $date1 = Carbon::parse($rec->vaccinationDate2);
+                            $days_diff = $date1->diffInDays($dateToday);
+    
+                            if($days_diff >= 14) {
+                                $daysToRecover = 7;
+                            }
+                            else {
+                                $daysToRecover = 10;
+                            }
+                        }
+                        else {
+                            if($rec->vaccinationName1 == 'JANSSEN') {
+                                $date1 = Carbon::parse($rec->vaccinationDate1);
+                                $days_diff = $date1->diffInDays($dateToday);
+
+                                if($days_diff >= 14) {
+                                    $daysToRecover = 7;
+                                }
+                                else {
+                                    $daysToRecover = 10;
+                                }
+                            }
+                            else {
+                                $daysToRecover = 10;
+                            }
+                        }
+                    }
+
+                    $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
+                    $diff = $startDate->diffInDays($dateToday);
+                    if($diff >= $daysToRecover) {
+                        $auto_outcome = 'Recovered';
+                        //$auto_outcome_recovered_date = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
+                        $auto_outcome_recovered_date = date('Y-m-d');
+
+                        $add_note = 'Note: The patient CIF was automatically moved to Recovered Cases because the Quarantine Period is already over.';
+                    }
+                    else {
+                        $auto_outcome = $request->outcomeCondition;
+                        $auto_outcome_recovered_date = $request->outcomeRecovDate;
+                    }
+                }
+                else {
+                    $auto_outcome = $request->outcomeCondition;
+                    $auto_outcome_recovered_date = $request->outcomeRecovDate;
+                }
+            }
+            else {
+                $auto_outcome = $request->outcomeCondition;
+                $auto_outcome_recovered_date = $request->outcomeRecovDate;
+            }
     
             if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -1217,8 +1308,8 @@ class FormsController extends Controller
                     'testResult2' => (!is_null($request->testType2)) ? $request->testResult2 : NULL,
                     'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
         
-                    'outcomeCondition' => $request->outcomeCondition,
-                    'outcomeRecovDate' => $request->outcomeRecovDate,
+                    'outcomeCondition' => $auto_outcome,
+                    'outcomeRecovDate' => $auto_outcome_recovered_date,
                     'outcomeDeathDate' => $request->outcomeDeathDate,
                     'deathImmeCause' => $request->deathImmeCause,
                     'deathAnteCause' => $request->deathAnteCause,
@@ -1333,7 +1424,10 @@ class FormsController extends Controller
                     $newmsheet->save();
                 }
                 
-                return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient ('.$rec->getName().' #'.$rec->id.') was created successfully.')->with('statustype', 'success');
+                return redirect()->action([FormsController::class, 'index'])
+                ->with('status', 'CIF of Patient ('.$rec->getName().' #'.$rec->id.') was created successfully.')
+                ->with('statustype', 'success')
+                ->with('add_note', (isset($add_note)) ? $add_note : NULL);
             }
         }
     }
@@ -1756,7 +1850,7 @@ class FormsController extends Controller
                 //Auto Re-infect if Positive + Positive ang Old CIF
                 if($caseClassi == 'Confirmed') {
                     $oldcifcheck = Forms::where('id', '!=', $id)
-                    ->where('records_id', $rec->records_id)
+                    ->where('records_id', $rec->records->id)
                     ->where('caseClassification', 'Confirmed')
                     ->first();
                     if($oldcifcheck) {
@@ -1823,6 +1917,98 @@ class FormsController extends Controller
                 }
                 else {
                     $set_dr = $request->dateReported;
+                }
+
+                //Block Re-infection if di pa lagpas ng 90 Days
+                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
+                    $confirmed_search = Forms::where('status', 'approved')
+                    ->where('id', '!=', $id)
+                    ->where('records_id', $rec->records->id)
+                    ->where('caseClassification', 'Confirmed')
+                    ->orderBy('created_at', 'DESC')
+                    ->first();
+                    if($confirmed_search) {
+                        $sDate = Carbon::parse($confirmed_search->dateReported);
+                        $now = Carbon::parse(date('Y-m-d'));
+
+                        $diffInDays = $sDate->diffInDays($now);
+
+                        if($diffInDays <= 90) {
+                            return back()
+                            ->withInput()
+                            ->with('msg', 'Warning: The patient (#'.$rec->records->id.' - '.$rec->records->getName().') has existing Confirmed Case that is still not 90 days old. Therefore, your submission is blocked.')
+                            ->with('msgType', 'warning');
+                        }
+                    }
+                }
+
+                //Auto Recovered if Lagpas na sa Quarantine Period
+                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
+                    $dateToday = Carbon::parse(date('Y-m-d'));
+                    
+                    if($request->dispositionType != 6 || $request->dispositionType != 7) {
+                        if(!is_null($request->testType2)) {
+                            $swabDateCollected = $request->testDateCollected2;
+                        }
+                        else {
+                            $swabDateCollected = $request->testDateCollected1;
+                        }
+
+                        if($request->dispositionType == 1 || $request->healthStatus == 'Severe' || $request->healthStatus == 'Critical') {
+                            $daysToRecover = 21;
+                        }
+                        else {
+                            if(!is_null($rec->records->vaccinationDate2)) {
+                                $date1 = Carbon::parse($rec->records->vaccinationDate2);
+                                $days_diff = $date1->diffInDays($dateToday);
+        
+                                if($days_diff >= 14) {
+                                    $daysToRecover = 7;
+                                }
+                                else {
+                                    $daysToRecover = 10;
+                                }
+                            }
+                            else {
+                                if($rec->records->vaccinationName1 == 'JANSSEN') {
+                                    $date1 = Carbon::parse($rec->records->vaccinationDate1);
+                                    $days_diff = $date1->diffInDays($dateToday);
+
+                                    if($days_diff >= 14) {
+                                        $daysToRecover = 7;
+                                    }
+                                    else {
+                                        $daysToRecover = 10;
+                                    }
+                                }
+                                else {
+                                    $daysToRecover = 10;
+                                }
+                            }
+                        }
+
+                        $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
+                        $diff = $startDate->diffInDays($dateToday);
+                        if($diff >= $daysToRecover) {
+                            $auto_outcome = 'Recovered';
+                            //$auto_outcome_recovered_date = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
+                            $auto_outcome_recovered_date = date('Y-m-d');
+
+                            $add_note = 'Note: The patient CIF was automatically moved to Recovered Cases because the Quarantine Period is already over.';
+                        }
+                        else {
+                            $auto_outcome = $request->outcomeCondition;
+                            $auto_outcome_recovered_date = $request->outcomeRecovDate;
+                        }
+                    }
+                    else {
+                        $auto_outcome = $request->outcomeCondition;
+                        $auto_outcome_recovered_date = $request->outcomeRecovDate;
+                    }
+                }
+                else {
+                    $auto_outcome = $request->outcomeCondition;
+                    $auto_outcome_recovered_date = $request->outcomeRecovDate;
                 }
 
                 if($proceed == 1) {
@@ -1927,8 +2113,8 @@ class FormsController extends Controller
                             'testResult2' => ($request->testType2 != "N/A") ? $request->testResult2 : NULL,
                             'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
                 
-                            'outcomeCondition' => $request->outcomeCondition,
-                            'outcomeRecovDate' => $request->outcomeRecovDate,
+                            'outcomeCondition' => $auto_outcome,
+                            'outcomeRecovDate' => $auto_outcome_recovered_date,
                             'outcomeDeathDate' => $request->outcomeDeathDate,
                             'deathImmeCause' => $request->deathImmeCause,
                             'deathAnteCause' => $request->deathAnteCause,
@@ -2022,15 +2208,23 @@ class FormsController extends Controller
                         ]);
             
                         if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {
-                            return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")->with('status', "CIF for ".$rec->records->getName()." (#".$rec->records->id.") has been updated successfully.")->with('statustype', 'success');
+                            return redirect(route('forms.index')."?view=".request()->input('fromView')."&sdate=".request()->input('sdate')."&edate=".request()->input('edate')."")
+                            ->with('status', "CIF for ".$rec->records->getName()." (#".$rec->records->id.") has been updated successfully.")
+                            ->with('statustype', 'success')
+                            ->with('add_note', (isset($add_note)) ? $add_note : NULL);
                         }
                         else {
-                            return redirect()->action([FormsController::class, 'index'])->with('status', "CIF for ".$rec->records->getName()." (#".$rec->records->id.") has been updated successfully.")->with('statustype', 'success');
+                            return redirect()->action([FormsController::class, 'index'])
+                            ->with('status', "CIF for ".$rec->records->getName()." (#".$rec->records->id.") has been updated successfully.")
+                            ->with('statustype', 'success')
+                            ->with('add_note', (isset($add_note)) ? $add_note : NULL);
                         }
                     }
                 }
                 else {
-                    return redirect()->action([FormsController::class, 'index'])->with('status', 'Double Entry Detected! Edit Error: CIF Record for '.$rec->records->getName()." already exists at ".date('m/d/Y', strtotime($request->testDateCollected1)))->with('statustype', 'danger');
+                    return redirect()->action([FormsController::class, 'index'])
+                    ->with('status', 'Double Entry Detected! Edit Error: CIF Record for '.$rec->records->getName()." already exists at ".date('m/d/Y', strtotime($request->testDateCollected1)))
+                    ->with('statustype', 'danger');
                 }
             }
             else {

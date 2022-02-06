@@ -301,6 +301,26 @@ class AdminPanelController extends Controller
             ->count();
 
             $confirmed_count = Forms::where(function ($q) use ($item) {
+                $q->where(function ($r) use ($item) {
+                    $r->where('user_id', $item->id)
+                    ->where('updated_by', '!=', $item->id);
+                })
+                ->orWhere(function ($s) use ($item) {
+                    $s->where('user_id', '!=', $item->id)
+                    ->where('updated_by', $item->id);
+                })
+                ->orWhere(function ($t) use ($item) {
+                    $t->where('user_id', $item->id)
+                    ->where('updated_by', $item->id);
+                });
+            })
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
+            /*
+            $confirmed_count = Forms::where(function ($q) use ($item) {
                 $q->where('user_id', $item->id)
                 ->orWhere('updated_by', $item->id);
             })
@@ -311,7 +331,27 @@ class AdminPanelController extends Controller
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('caseClassification', 'Confirmed')
             ->count();
+            */
 
+            $recovered_count = Forms::where(function ($q) use ($item) {
+                $q->where(function ($r) use ($item) {
+                    $r->where('user_id', $item->id)
+                    ->where('updated_by', '!=', $item->id);
+                })
+                ->orWhere(function ($s) use ($item) {
+                    $s->where('user_id', '!=', $item->id)
+                    ->where('updated_by', $item->id);
+                })
+                ->orWhere(function ($t) use ($item) {
+                    $t->where('user_id', $item->id)
+                    ->where('updated_by', $item->id);
+                });
+            })
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Recovered')
+            ->count();
+            
             $negative_count = Forms::where(function ($q) use ($item) {
                 $q->where('user_id', $item->id)
                 ->orWhere('updated_by', $item->id);
@@ -327,6 +367,7 @@ class AdminPanelController extends Controller
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
                 'confirmed_count' => $confirmed_count,
+                'recovered_count' => $recovered_count,
                 'negative_count' => $negative_count,
             ]);
         }

@@ -33,6 +33,15 @@ class CreateSecondaryTertiaryRecordsTable extends Migration
             $table->string('address_province')->nullable();
             $table->string('address_provincejson')->nullable();
             $table->double('temperature')->nullable();
+            $table->tinyInteger('is_primarycc')->default(0);
+            $table->tinyInteger('is_secondarycc')->default(0);
+            $table->tinyInteger('is_tertiarycc')->default(0);
+            $table->date('is_primarycc_date')->nullable();
+            $table->date('is_secondarycc_date')->nullable();
+            $table->date('is_tertiarycc_date')->nullable();
+            $table->date('is_primarycc_date_set')->nullable();
+            $table->date('is_secondarycc_date_set')->nullable();
+            $table->date('is_tertiarycc_date_set')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
         });
