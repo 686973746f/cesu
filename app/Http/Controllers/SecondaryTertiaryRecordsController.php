@@ -93,9 +93,9 @@ class SecondaryTertiaryRecordsController extends Controller
                 'is_secondarycc_date' => ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL,
                 'is_tertiarycc_date' => ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL,
 
-                'is_primarycc_date_set' => ($request->is_primarycc) ? date('Y-m-d') : NULL,
-                'is_secondarycc_date_set' => ($request->is_secondarycc) ? date('Y-m-d') : NULL,
-                'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? date('Y-m-d') : NULL,
+                'is_primarycc_date_set' => ($request->is_primarycc) ? date('Y-m-d H:i:s') : NULL,
+                'is_secondarycc_date_set' => ($request->is_secondarycc) ? date('Y-m-d H:i:s') : NULL,
+                'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? date('Y-m-d H:i:s') : NULL,
             ]);
     
             return redirect()->route('sc_index')->with('msg', 'The record has been successfully added.')->with('msgtype', 'success');
@@ -141,10 +141,27 @@ class SecondaryTertiaryRecordsController extends Controller
         $data->is_secondarycc_date = ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL;
         $data->is_tertiarycc_date = ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL;
 
-        $data->is_primarycc_date_set = ($request->is_primarycc && $request->is_primarycc_date != $data->is_primarycc_date_set) ? date('Y-m-d') : $data->is_primarycc_date_set;
-        $data->is_secondarycc_date_set = ($request->is_secondarycc && $request->is_secondarycc_date != $data->is_secondarycc_date_set) ? date('Y-m-d') : $data->is_secondarycc_date_set;
-        $data->is_tertiarycc_date_set = ($request->is_tertiarycc && $request->is_tertiarycc_date != $data->is_tertiarycc_date_set) ? date('Y-m-d') : $data->is_tertiarycc_date_set;
+        if($request->is_primarycc && $data->isDirty('is_primarycc_date')) {
+            $data->is_primarycc_date_set = date('Y-m-d H:i:s');
+        }
 
+        if($request->is_secondarycc && $data->isDirty('is_secondarycc_date')) {
+            $data->is_secondarycc_date_set = date('Y-m-d H:i:s');
+        }
+
+        if($request->is_tertiarycc && $data->isDirty('is_tertiarycc_date')) {
+            $data->is_tertiarycc_date_set = date('Y-m-d H:i:s');
+        }
+
+        if($data->isDirty('morbidityMonth') && $request->morbidityMonth == date('Y-m-d')) {
+            if(time() >= strtotime('13:00:00')) {
+                $data->morbidityMonth = date('Y-m-d', strtotime('+1 Day'));
+            }
+            else {
+                $data->morbidityMonth = $request->morbidityMonth;
+            }
+        }
+        
         if($data->isDirty()) {
             $data->save();
         }

@@ -419,6 +419,12 @@ class ReportV2Controller extends Controller
     }
 
     public function cmIndex() {
+        if(date('d') != 15 || date('d') != date('t')) {
+            return redirect()->route('home')
+            ->with('status', 'Warning: You can ONLY open Composite Measure Report on '.date('F').' 15 and '.date('F t').'.')
+            ->with('statustype', 'warning');
+        }
+
         $cc_count_total = Forms::whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
