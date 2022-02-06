@@ -1872,9 +1872,9 @@ class ReportController extends Controller
         
         $sheets = new SheetCollection([
             'Suspected' => suspectedGenerator($suspectedQuery),
-            //'Probable' => probableGenerator($probableQuery),
-            //'Confirmed' => confirmedGenerator($confirmedQuery),
-            //'Negative' => negativeGenerator($negativeQuery),
+            'Probable' => probableGenerator($probableQuery),
+            'Confirmed' => confirmedGenerator($confirmedQuery),
+            'Negative' => negativeGenerator($negativeQuery),
         ]);
 
         $header_style = (new StyleBuilder())->setFontBold()->build();
