@@ -19,27 +19,8 @@
                         <a data-toggle="collapse" data-parent="#accordianId" href="#exportContent" aria-expanded="true" aria-controls="exportContent"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</a>
                     </div>
                     <div id="exportContent" class="collapse in" role="tabpanel" aria-labelledby="exportHeader">
-                        <div class="card-body">
-                            @if(auth()->user()->isCesuAccount())
-                            <form action="{{route('report.DOHExportAll')}}" method="POST" id="reportForm">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="yearSelected">Select Year to Export</label>
-                                    <select class="form-control" name="yearSelected" id="yearSelected">
-                                        @foreach(range(date('Y'), 2019) as $y)
-                                        <option value="{{$y}}">{{$y}}</option>
-                                        @endforeach
-                                        <option value="">All</option>
-                                    </select>
-                                </div>
-                                <button type="button" id="generateExcel" class="btn btn-primary btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="downloadDohLoading"></i></button>
-                                <div class="text-center d-none" id="downloadNotice"><small class="text-muted">Note: Downloading might take a while to finish. Please be patient.</small></div>
-                            </form>
-                            <hr>
-                            @if(auth()->user()->ifTopAdmin())
-                            <a href="{{route('report.dilgExportAll')}}"><button type="button" name="" id="" class="btn btn-primary btn-block"><i class="fas fa-download mr-2"></i>DILG</button></a>
-                            @endif
-                            @endif
+                        <div class="card-body text-center">
+                            <p>Exporting module has been moved to the Home Page. (Under Reports -> Export Report to Excel)</p>
                         </div>
                     </div>
                 </div>

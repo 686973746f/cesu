@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brgy;
 use App\Models\Forms;
+use App\Models\SecondaryTertiaryRecords;
 use Carbon\CarbonPeriod;
 
 class ReportV2Controller extends Controller
@@ -293,7 +294,7 @@ class ReportV2Controller extends Controller
             })
             ->where('status', 'approved')
             ->where('pType', 'CLOSE CONTACT')
-            ->where('ccType', 2);;
+            ->where('ccType', 2);
 
             $tertiaryCount = Forms::whereHas('records', function ($q) use ($b) {
                 $q->where('address_province', $b->city->province->provinceName)
@@ -302,7 +303,7 @@ class ReportV2Controller extends Controller
             })
             ->where('status', 'approved')
             ->where('pType', 'CLOSE CONTACT')
-            ->where('ccType', 3);;
+            ->where('ccType', 3);
 
             $suspectedCount = Forms::whereHas('records', function ($q) use ($b) {
                 $q->where('address_province', $b->city->province->provinceName)
@@ -397,6 +398,11 @@ class ReportV2Controller extends Controller
                     $additional_counter += count(explode(",", $data));
                 }
             }
+
+            $st_count = SecondaryTertiaryRecords::where('morbidityMonth', $date->format('Y-m-d'))
+            ->count();
+
+            $additional_counter += $st_count;
 
             array_push($arr_summary, [
                 'date' => $date->format('Y-m-d'),

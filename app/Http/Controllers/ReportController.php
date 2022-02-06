@@ -1740,6 +1740,10 @@ class ReportController extends Controller
         ini_set('max_execution_time', 900);
         $year = $request->yearSelected;
 
+        if($year != date('Y')) {
+            return response()->download(storage_path('docs/GENTRI_COVID19_DATABASE_2021_below.xlsx'));
+        }
+
         $suspectedQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where(function ($q) {

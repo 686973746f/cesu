@@ -61,6 +61,10 @@
                             <div id="reportNotice" class="text-center d-none">
                                 <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
                             </div>
+                            @if(auth()->user()->ifTopAdmin())
+                            <button type="button" class="btn btn-success btn-lg btn-block mt-3" data-toggle="modal" data-target="#exportModal"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</button>
+                            @endif
+                            <hr>
                             <a href="{{route('report_cm_index')}}" class="btn btn-primary btn-lg btn-block mt-3">Composite Measure</a>
                             <a href="{{route('clustering_index')}}" class="btn btn-primary btn-lg btn-block mt-3">Confirmed Cases Clustering</a>
                             <hr>
@@ -104,11 +108,55 @@
     </div>
 </div>
 
+<form action="{{route('report.DOHExportAll')}}" method="POST" id="reportForm">
+    @csrf
+    <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Export Report to Excel</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <label for="yearSelected">Select Year to Export</label>
+                    <select class="form-control" name="yearSelected" id="yearSelected" required>
+                        <option value="{{date('Y')}}">{{date('Y')}}</option>
+                        <option value="All">2021 Below</option>
+                    </select>
+                    <div id="oldcases_div" class="d-none">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="generateExcel" class="btn btn-primary btn-block"><i class="fas fa-download mr-2"></i>Generate COVID-19 Excel Database (.XLSX)<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="downloadDohLoading"></i></button>
+                    <div class="text-center d-none" id="downloadNotice"><small class="text-muted">Note: Downloading might take a while to finish. Please be patient.</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <script>
     $('#reportsbtn').click(function (e) { 
         $(this).addClass('disabled');
         $('#reportNotice').removeClass('d-none');
         $('#reportLoading').removeClass('d-none');
+    });
+
+    $('#generateExcel').click(function (e) { 
+        e.preventDefault();
+        $('#downloadDohLoading').removeClass('d-none');
+        $('#downloadNotice').removeClass('d-none');
+        document.getElementById('reportForm').submit();
+        $('#generateExcel').prop('disabled', true);
+    });
+
+    $('#yearSelected').change(function (e) { 
+        e.preventDefault();
+        $('#generateExcel').prop('disabled', false);
+        $('#downloadDohLoading').addClass('d-none');
+        $('#downloadNotice').addClass('d-none');
     });
 </script>
 @endsection
