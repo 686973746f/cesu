@@ -227,11 +227,19 @@ class ReportV2Controller extends Controller
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 2);
 
+        $secondarycc_count = SecondaryTertiaryRecords::where('is_secondarycc', 1)
+        ->whereBetween('is_secondarycc_date_set', [date('Y-m-01 00:00:00'), date('Y-m-d 13:00:00')])
+        ->count();
+
         $tertiaryCount = Forms::where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('reinfected', 0)
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 3);
+
+        $tertiarycc_count = SecondaryTertiaryRecords::where('is_tertiarycc', 1)
+        ->whereBetween('is_tertiarycc_date', [date('Y-m-01 00:00:00'), date('Y-m-d 13:00:00')])
+        ->count();
 
         $suspectedCount = Forms::where('status', 'approved')
         ->where('ptype', '!=', 'CLOSE CONTACT')
@@ -265,7 +273,9 @@ class ReportV2Controller extends Controller
         (clone $probableCount)->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
-        })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count());
+        })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count()) +
+        $secondarycc_count + 
+        $tertiarycc_count;
 
         $activeCasesCount = Forms::whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -296,6 +306,16 @@ class ReportV2Controller extends Controller
             ->where('pType', 'CLOSE CONTACT')
             ->where('ccType', 2);
 
+            $st_secondary_count = SecondaryTertiaryRecords::where('address_province', $b->city->province->provinceName)
+            ->where('address_city', $b->city->cityName)
+            ->where('address_brgy', $b->brgyName)
+            ->where('is_secondarycc', 1);
+
+            $st_secondary_count_yesterday = SecondaryTertiaryRecords::where('address_province', $b->city->province->provinceName)
+            ->where('address_city', $b->city->cityName)
+            ->where('address_brgy', $b->brgyName)
+            ->where('is_secondarycc', 1);
+
             $tertiaryCount = Forms::whereHas('records', function ($q) use ($b) {
                 $q->where('address_province', $b->city->province->provinceName)
                 ->where('address_city', $b->city->cityName)
@@ -304,6 +324,16 @@ class ReportV2Controller extends Controller
             ->where('status', 'approved')
             ->where('pType', 'CLOSE CONTACT')
             ->where('ccType', 3);
+
+            $st_tertiary_count = SecondaryTertiaryRecords::where('address_province', $b->city->province->provinceName)
+            ->where('address_city', $b->city->cityName)
+            ->where('address_brgy', $b->brgyName)
+            ->where('is_tertiarycc', 1);
+
+            $st_tertiary_count_yesterday = SecondaryTertiaryRecords::where('address_province', $b->city->province->provinceName)
+            ->where('address_city', $b->city->cityName)
+            ->where('address_brgy', $b->brgyName)
+            ->where('is_tertiarycc', 1);
 
             $suspectedCount = Forms::whereHas('records', function ($q) use ($b) {
                 $q->where('address_province', $b->city->province->provinceName)
@@ -330,7 +360,19 @@ class ReportV2Controller extends Controller
                 $secondaryCount = $secondaryCount->whereDate('morbidityMonth', request()->input('getDate'))
                 ->count();
 
+                $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
+                ->count();
+
+                $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+                ->count();
+
                 $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', request()->input('getDate'))
+                ->count();
+
+                $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
+                ->count();
+
+                $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
                 ->count();
 
                 $suspectedCount = $suspectedCount->whereDate('morbidityMonth', request()->input('getDate'))
@@ -345,8 +387,20 @@ class ReportV2Controller extends Controller
 
                 $secondaryCount = $secondaryCount->whereDate('morbidityMonth', date('Y-m-d'))
                 ->count();
+                
+                $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
+                ->count();
+
+                $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+                ->count();
 
                 $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', date('Y-m-d'))
+                ->count();
+
+                $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
+                ->count();
+
+                $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
                 ->count();
 
                 $suspectedCount = $suspectedCount->whereDate('morbidityMonth', date('Y-m-d'))
@@ -359,8 +413,8 @@ class ReportV2Controller extends Controller
             array_push ($arr, [
                 'brgyName' => $b->brgyName,
                 'primaryCount' => $primaryCount,
-                'secondaryCount' => $secondaryCount,
-                'tertiaryCount' => $tertiaryCount,
+                'secondaryCount' => $secondaryCount + $st_secondary_count + $st_secondary_count_yesterday,
+                'tertiaryCount' => $tertiaryCount + $st_tertiary_count + $st_tertiary_count_yesterday,
                 'suspectedCount' => $suspectedCount,
                 'probableCount' => $probableCount,
             ]);
