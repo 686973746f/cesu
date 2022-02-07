@@ -17,12 +17,12 @@
 
             @if($errors->any())
             <div class="alert alert-danger" role="alert">
+                <p>{{Str::plural('Error', $errors->count())}} detected during processing your Self-Report Data:</p>
+                <hr>
                 @foreach ($errors->all() as $error)
-                    <p>{{$error}}</p>
-                    <hr>
+                    <li>{{$error}}</li>
                 @endforeach
             </div>
-            <hr>
             @endif
 
             <div class="card mb-3">

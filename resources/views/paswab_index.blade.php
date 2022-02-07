@@ -15,12 +15,12 @@
                     @endif
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
+                        <p>{{Str::plural('Error', $errors->count())}} detected during processing your Pa-swab Data:</p>
+                        <hr>
                         @foreach ($errors->all() as $error)
-                            <p>{{$error}}</p>
-                            <hr>
+                            <li>{{$error}}</li>
                         @endforeach
                     </div>
-                    <hr>
                     @endif
                     <div class="alert alert-info" role="alert">
                         <h4 class="alert-heading">{{__('paswab.notice.readcarefully') }}</h4>
