@@ -1994,7 +1994,7 @@ class ReportController extends Controller
 
             return [
                 'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->morbidityMonth)),
-                'MW (Morbidity Week' => Carbon::parse($form->morbidityMonth)->format('W'),
+                'MW (Morbidity Week)' => Carbon::parse($form->morbidityMonth)->format('W'),
                 'DATE REPORTED' => date('m/d/Y', strtotime($form->dateReported)),
                 'DRU' => $form->drunit,
                 'REGION OF DRU' => $form->drregion,

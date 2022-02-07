@@ -238,6 +238,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="alert alert-info" role="alert">
+                                <strong class="text-danger">Note:</strong> Special Characters such as <strong>! @ # _ $ , . ( )</strong> etc. are not allowed to input in the adress bar. 
+                            </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -277,7 +280,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                        <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" required>
+                                        <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
                                         @error('address_houseno')
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -286,7 +289,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio/Subdivision</label>
-                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" required>
+                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
                                         <small class="text-muted">Kung N/A, lagyan ng pinakamalapit na establisyemento kung saan ka nakatira (e.g Near Brgy. Hall, Near Alfamart, Near Tulay, Near Ilog, etc.)</small>
                                         @error('address_street')
                                             <small class="text-danger">{{$message}}</small>
@@ -447,7 +450,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Workplace Lot/Building</label>
-                                            <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             @error('occupation_lotbldg')
                                                 <small class="text-danger">{{$message}}</small>
                                             @enderror
@@ -456,7 +459,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Workplace Street/Avenue</label>
-                                            <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             @error('occupation_street')
                                                 <small class="text-danger">{{$message}}</small>
                                             @enderror
@@ -731,13 +734,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="vaccinationFacility1">Vaccination Center/Facility <small>(Optional)</small></label>
-                                        <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}" style="text-transform: uppercase;">
+                                        <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="vaccinationRegion1">Region of Health Facility <small>(Optional)</small></label>
-                                        <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}" style="text-transform: uppercase;">
+                                        <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -763,13 +766,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="vaccinationFacility2">Vaccination Center/Facility <small>(Optional)</small></label>
-                                            <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="vaccinationRegion2">Region of Health Facility <small>(Optional)</small></label>
-                                            <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -830,13 +833,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="vaccinationFacility3">Booster Vaccination Center/Facility <small>(Optional)</small></label>
-                                            <input type="text" class="form-control" name="vaccinationFacility3" id="vaccinationFacility3" value="{{old('vaccinationFacility3')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="vaccinationFacility3" id="vaccinationFacility3" value="{{old('vaccinationFacility3')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="vaccinationRegion3">Booster Region of Health Facility <small>(Optional)</small></label>
-                                            <input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                 </div>

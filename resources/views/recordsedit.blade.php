@@ -29,23 +29,6 @@
                         @endforeach
                     </div>
                     @endif
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td class="bg-light">Encoded By / Date</td>
-                                    <td class="text-center">{{$record->user->name}} ({{date("m/d/Y h:i A - l", strtotime($record->created_at))}})</td>
-                                </tr>
-                                @if(!is_null($record->updated_by))
-                                <tr>
-                                    <td class="bg-light">Edited By / Date</td>
-                                    <td class="text-center">{{$record->getEditedBy()}} ({{date("m/d/Y h:i A - l", strtotime($record->updated_at))}})</td>
-                                </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    
                     @if(session('msg'))
 					<div class="alert alert-danger" role="alert">
 						{{session('msg')}}
@@ -63,6 +46,22 @@
                     <div class="form-group">
                       <label for="">Patient ID</label>
                       <input type="text" class="form-control" value="#{{$record->id}}" readonly>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td class="bg-light">Encoded By / Date</td>
+                                    <td class="text-center">{{$record->user->name}} ({{date("m/d/Y h:i A - l", strtotime($record->created_at))}})</td>
+                                </tr>
+                                @if(!is_null($record->updated_by))
+                                <tr>
+                                    <td class="bg-light">Edited By / Date</td>
+                                    <td class="text-center">{{$record->getEditedBy()}} ({{date("m/d/Y h:i A - l", strtotime($record->updated_at))}})</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -251,6 +250,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="alert alert-info" role="alert">
+                        <strong class="text-danger">Note:</strong> Special Characters such as <strong>! @ # _ $ , . ( )</strong> etc. are not allowed to input in the adress bar. 
+                    </div>
                     @if(auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
                     <div class="alert alert-info" role="alert">
                         <strong class="text-danger">Note:</strong> For encoding Patients residing from other Barangay, please transfer it with the respective Barangay properly for proper monitoring.
@@ -316,7 +318,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno', $record->address_houseno)}}" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno', $record->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;" required>
                                 @error('address_houseno')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -325,7 +327,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
-                                <input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street', $record->address_street)}}" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street', $record->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;" required>
                                 @error('address_street')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -381,13 +383,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationFacility1">First Dose Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $record->vaccinationFacility1)}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', $record->vaccinationFacility1)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationRegion1">First Dose Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $record->vaccinationRegion1)}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', $record->vaccinationRegion1)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                     </div>
@@ -412,13 +414,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationFacility2">Second Dose Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $record->vaccinationFacility2)}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', $record->vaccinationFacility2)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationRegion2">Second Dose Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $record->vaccinationRegion2)}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', $record->vaccinationRegion2)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                     </div>
@@ -469,13 +471,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationFacility3">Booster Vaccination Center/Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationFacility3" id="vaccinationFacility3" value="{{old('vaccinationFacility3', $record->vaccinationFacility3)}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationFacility3" id="vaccinationFacility3" value="{{old('vaccinationFacility3', $record->vaccinationFacility3)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vaccinationRegion3">Booster Region of Health Facility <small>(Optional)</small></label>
-                                                <input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3', $record->vaccinationRegion3)}}" style="text-transform: uppercase;">
+                                                <input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3', $record->vaccinationRegion3)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                     </div>
@@ -567,7 +569,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="permaaddress_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                    <input type="text" class="form-control" id="permaaddress_houseno" name="permaaddress_houseno" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_houseno', $record->permaaddress_houseno) : old('permaaddress_houseno')}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" id="permaaddress_houseno" name="permaaddress_houseno" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_houseno', $record->permaaddress_houseno) : old('permaaddress_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('permaaddress_houseno')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -576,7 +578,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="permaaddress_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
-                                    <input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_street', $record->permaaddressDifferent) : old('permaaddress_street')}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{(old('paddressdifferent', $record->permaaddressDifferent) == 1) ? old('permaaddress_street', $record->permaaddressDifferent) : old('permaaddress_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('permaaddress_street')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -926,7 +928,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="occupation_lotbldg">Lot/Building <small>(Optional)</small></label>
-                                    <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{($record->hasOccupation == 1) ? $record->occupation_lotbldg : ""}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{($record->hasOccupation == 1) ? $record->occupation_lotbldg : ""}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('occupation_lotbldg')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -935,7 +937,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="occupation_street">Street <small>(Optional)</small></label>
-                                    <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{($record->hasOccupation == 1) ? $record->occupation_street : ""}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{($record->hasOccupation == 1) ? $record->occupation_street : ""}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('occupation_street')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
