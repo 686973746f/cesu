@@ -363,7 +363,7 @@ class ReportV2Controller extends Controller
                 $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
                 ->count();
 
-                $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+                $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime(request()->input('getDate').' -1 Day')), date('Y-m-d 23:59:59', strtotime(request()->input('getDate').' -1 Day'))])
                 ->count();
 
                 $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', request()->input('getDate'))
@@ -372,7 +372,7 @@ class ReportV2Controller extends Controller
                 $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
                 ->count();
 
-                $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+                $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime(request()->input('getDate').' -1 Day')), date('Y-m-d 23:59:59', strtotime(request()->input('getDate').' -1 Day'))])
                 ->count();
 
                 $suspectedCount = $suspectedCount->whereDate('morbidityMonth', request()->input('getDate'))
@@ -391,7 +391,7 @@ class ReportV2Controller extends Controller
                 $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
                 ->count();
 
-                $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+                $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 23:59:59')])
                 ->count();
 
                 $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', date('Y-m-d'))
@@ -400,7 +400,7 @@ class ReportV2Controller extends Controller
                 $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
                 ->count();
 
-                $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+                $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 23:59:59')])
                 ->count();
 
                 $suspectedCount = $suspectedCount->whereDate('morbidityMonth', date('Y-m-d'))
@@ -532,7 +532,7 @@ class ReportV2Controller extends Controller
             $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
             ->count();
 
-            $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime(request()->input('getDate').' -1 Day')), date('Y-m-d 23:59:59', strtotime(request()->input('getDate').' -1 Day'))])
             ->count();
 
             $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', request()->input('getDate'))
@@ -541,7 +541,7 @@ class ReportV2Controller extends Controller
             $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
             ->count();
 
-            $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime(request()->input('getDate').' -1 Day')), date('Y-m-d 23:59:59', strtotime(request()->input('getDate').' -1 Day'))])
             ->count();
 
             $suspectedCount = $suspectedCount->whereDate('morbidityMonth', request()->input('getDate'))
@@ -560,7 +560,7 @@ class ReportV2Controller extends Controller
             $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
             ->count();
 
-            $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 23:59:59')])
             ->count();
 
             $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', date('Y-m-d'))
@@ -569,7 +569,7 @@ class ReportV2Controller extends Controller
             $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
             ->count();
 
-            $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 23:59:59')])
             ->count();
 
             $suspectedCount = $suspectedCount->whereDate('morbidityMonth', date('Y-m-d'))
