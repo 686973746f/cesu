@@ -420,6 +420,174 @@ class ReportV2Controller extends Controller
             ]);
         }
 
+        //Array Push Other Cities
+        $primaryCount = Forms::where(function ($q) {
+            $q->whereHas('records', function ($r) {
+                $r->where('address_province', '!=', 'CAVITE');
+            })
+            ->orWhereHas('records', function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('status', 'approved')
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('ccType', 1);
+
+        $secondaryCount = Forms::where(function ($q) {
+            $q->whereHas('records', function ($r) {
+                $r->where('address_province', '!=', 'CAVITE');
+            })
+            ->orWhereHas('records', function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('status', 'approved')
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('ccType', 2);
+
+        $st_secondary_count = SecondaryTertiaryRecords::where(function ($q) {
+            $q->where('address_province', '!=', 'CAVITE')
+            ->orWhere(function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('is_secondarycc', 1);
+
+        $st_secondary_count_yesterday = SecondaryTertiaryRecords::where(function ($q) {
+            $q->where('address_province', '!=', 'CAVITE')
+            ->orWhere(function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('is_secondarycc', 1);
+
+        $tertiaryCount = Forms::where(function ($q) {
+            $q->whereHas('records', function ($r) {
+                $r->where('address_province', '!=', 'CAVITE');
+            })
+            ->orWhereHas('records', function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('status', 'approved')
+        ->where('pType', 'CLOSE CONTACT')
+        ->where('ccType', 3);
+
+        $st_tertiary_count = SecondaryTertiaryRecords::where(function ($q) {
+            $q->where('address_province', '!=', 'CAVITE')
+            ->orWhere(function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('is_tertiarycc', 1);
+
+        $st_tertiary_count_yesterday = SecondaryTertiaryRecords::where(function ($q) {
+            $q->where('address_province', '!=', 'CAVITE')
+            ->orWhere(function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('is_tertiarycc', 1);
+
+        $suspectedCount = Forms::where(function ($q) {
+            $q->whereHas('records', function ($r) {
+                $r->where('address_province', '!=', 'CAVITE');
+            })
+            ->orWhereHas('records', function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('status', 'approved')
+        ->where('ptype', '!=', 'CLOSE CONTACT')
+        ->where('caseClassification', 'Suspect');
+
+        $probableCount = Forms::where(function ($q) {
+            $q->whereHas('records', function ($r) {
+                $r->where('address_province', '!=', 'CAVITE');
+            })
+            ->orWhereHas('records', function ($r) {
+                $r->where('address_province', 'CAVITE')
+                ->where('address_city', '!=', 'GENERAL TRIAS');
+            });
+        })
+        ->where('status', 'approved')
+        ->where('ptype', '!=', 'CLOSE CONTACT')
+        ->where('caseClassification', 'Probable');
+
+        if(request()->input('getDate')) {
+            $primaryCount = $primaryCount->whereDate('morbidityMonth', request()->input('getDate'))
+            ->count();
+
+            $secondaryCount = $secondaryCount->whereDate('morbidityMonth', request()->input('getDate'))
+            ->count();
+
+            $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
+            ->count();
+
+            $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            ->count();
+
+            $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', request()->input('getDate'))
+            ->count();
+
+            $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00', strtotime(request()->input('getDate'))), date('Y-m-d 13:00:00', strtotime(request()->input('getDate')))]) //13:00 is cutoff as per CT
+            ->count();
+
+            $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            ->count();
+
+            $suspectedCount = $suspectedCount->whereDate('morbidityMonth', request()->input('getDate'))
+            ->count();
+
+            $probableCount = $probableCount->whereDate('morbidityMonth', request()->input('getDate'))
+            ->count();
+        }
+        else {
+            $primaryCount = $primaryCount->whereDate('morbidityMonth', date('Y-m-d'))
+            ->count();
+
+            $secondaryCount = $secondaryCount->whereDate('morbidityMonth', date('Y-m-d'))
+            ->count();
+            
+            $st_secondary_count = $st_secondary_count->whereBetween('is_secondarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
+            ->count();
+
+            $st_secondary_count_yesterday = $st_secondary_count_yesterday->whereBetween('is_secondarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            ->count();
+
+            $tertiaryCount = $tertiaryCount->whereDate('morbidityMonth', date('Y-m-d'))
+            ->count();
+
+            $st_tertiary_count = $st_tertiary_count->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 00:00:00'), date('Y-m-d 13:00:00')]) //13:00 is cutoff as per CT
+            ->count();
+
+            $st_tertiary_count_yesterday = $st_tertiary_count_yesterday->whereBetween('is_tertiarycc_date_set', [date('Y-m-d 13:00:00', strtotime('yesterday')), date('Y-m-d 00:00:00')])
+            ->count();
+
+            $suspectedCount = $suspectedCount->whereDate('morbidityMonth', date('Y-m-d'))
+            ->count();
+
+            $probableCount = $probableCount->whereDate('morbidityMonth', date('Y-m-d'))
+            ->count();
+        }
+
+        array_push ($arr, [
+            'brgyName' => 'OTHER CITIES',
+            'primaryCount' => $primaryCount,
+            'secondaryCount' => $secondaryCount + $st_secondary_count + $st_secondary_count_yesterday,
+            'tertiaryCount' => $tertiaryCount + $st_tertiary_count + $st_tertiary_count_yesterday,
+            'suspectedCount' => $suspectedCount,
+            'probableCount' => $probableCount,
+        ]);
+
         $period = CarbonPeriod::create(date('Y-m-01'), date('Y-m-d'));
         $arr_summary = [];
 
