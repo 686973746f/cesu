@@ -1189,8 +1189,8 @@ class FormsController extends Controller
                     $diff = $startDate->diffInDays($dateToday);
                     if($diff >= $daysToRecover) {
                         $auto_outcome = 'Recovered';
-                        //$auto_outcome_recovered_date = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
-                        $auto_outcome_recovered_date = date('Y-m-d');
+                        $auto_outcome_recovered_date = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
+                        //$auto_outcome_recovered_date = date('Y-m-d');
 
                         $add_note = 'Note: The patient CIF was automatically moved to Recovered Cases because the Quarantine Period is already over.';
                     }
@@ -1991,8 +1991,8 @@ class FormsController extends Controller
                         $diff = $startDate->diffInDays($dateToday);
                         if($diff >= $daysToRecover) {
                             $auto_outcome = 'Recovered';
-                            //$auto_outcome_recovered_date = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
-                            $auto_outcome_recovered_date = date('Y-m-d');
+                            $auto_outcome_recovered_date = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
+                            //$auto_outcome_recovered_date = date('Y-m-d');
 
                             $add_note = 'Note: The patient CIF was automatically moved to Recovered Cases because the Quarantine Period is already over.';
                         }
