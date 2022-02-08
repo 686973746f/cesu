@@ -649,7 +649,7 @@ class ReportController extends Controller
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
 
-                $lateRecoveredCount_partialVaccinated = $lateRecoveredCount_partialVaccinated>whereDate('morbidityMonth', date('Y-m-d'))
+                $lateRecoveredCount_partialVaccinated = $lateRecoveredCount_partialVaccinated->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
@@ -659,7 +659,7 @@ class ReportController extends Controller
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
 
-                $lateRecoveredCount_fullyVaccinated_janssen = $lateRecoveredCount_fullyVaccinated_janssen>whereDate('morbidityMonth', date('Y-m-d'))
+                $lateRecoveredCount_fullyVaccinated_janssen = $lateRecoveredCount_fullyVaccinated_janssen->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
