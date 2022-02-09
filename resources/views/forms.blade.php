@@ -102,7 +102,7 @@
                             <small>(for {{(!(request()->get('getDate'))) ? date('m/d/Y - l') : date('m/d/Y - l', strtotime(request()->get('getDate')))}})</small>
                             <h3 class="font-weight-bold">{{$count_ops->count() + $count_nps->count() + $count_opsandnps->count() + $count_antigen + $count_antibody + $count_others}}</h3>
                             <hr>
-                            <p>Suspected/Probable: <strong>{{$formsctr->where('pType', 'PROBABLE')->count()}}</strong> | Close Contact: <strong>{{$formsctr->where('pType', 'CLOSE CONTACT')->count()}}</strong> | Testing: <strong>{{$formsctr->where('pType', 'TESTING')->count()}}</strong></p>
+                            <p>Suspected/Probable: <strong>{{$formsctr->where('pType', 'PROBABLE')->count()}}</strong> | Close Contact: <strong>{{$formsctr->where('pType', 'CLOSE CONTACT')->count()}}</strong> | Non-COVID: <strong>{{$formsctr->where('pType', 'TESTING')->count()}}</strong></p>
                             <hr>
                             <p>Hospitalization: <strong>{{$formsctr->where('isForHospitalization', 1)->where('records.isPregnant', 0)->count()}}</strong> | Pregnant: <strong>{{$formsctr->where('records.isPregnant', 1)->count()}}</strong></p>
                             <p class="mb-0">Printed: <strong>{{$formsctr->where('isExported', 1)->count()}}</strong> | Not Printed: <strong>{{$formsctr->where('isExported', 0)->count()}}</strong></p>
