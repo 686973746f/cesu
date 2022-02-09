@@ -512,8 +512,10 @@ class PaSwabController extends Controller
                         'status' => 'approved'
                     ]);
 
-                    if($data->isNewRecord == 0 && $oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
-                        $fcheck = Forms::where('id', $oldform->id)->delete();
+                    if(isset($oldform) && !is_null($oldform)) {
+                        if($data->isNewRecord == 0 && $oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
+                            $fcheck = Forms::where('id', $oldform->id)->delete();
+                        }
                     }
                 }
                 else {
