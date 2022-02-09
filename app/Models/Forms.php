@@ -95,8 +95,11 @@ class Forms extends Model
         if(!is_null($this->testDateReleased2)) {
             return date('m/d/Y', strtotime($this->testDateReleased2));
         }
-        else {
+        else if(!is_null($this->testDateReleased1)) {
             return date('m/d/Y', strtotime($this->testDateReleased1));
+        }
+        else {
+            return NULL;
         }
     }
 

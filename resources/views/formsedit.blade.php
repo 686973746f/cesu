@@ -399,6 +399,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header">To be filled by Contact Tracers</div>
+                        <div class="card-body">
+                            
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->records->id}} for this current CIF</label>
                         <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
@@ -1065,17 +1071,6 @@
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input
-                                                                  class="form-check-input"
-                                                                  type="checkbox"
-                                                                  value="Asymptomatic"
-                                                                  name="sasCheck[]"
-                                                                  id="signsCheck1"
-                                                                  {{(in_array("Asymptomatic", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
-                                                                />
-                                                                <label class="form-check-label" for="signsCheck1">Asymptomatic</label>
-                                                            </div>
                                                             <div class="form-check">
                                                                 <input
                                                                   class="form-check-input"
