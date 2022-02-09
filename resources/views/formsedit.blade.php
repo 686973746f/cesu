@@ -7,7 +7,7 @@
             <form action="{{route('forms.reswab', ['id' => $records->records->id])}}" method="POST">
                 @csrf
                 <div class="text-right">
-                    <button type="submit" class="btn btn-success mb-3"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</button>
+                    <button type="submit" class="btn btn-success mb-3" onclick="return confirm('Ang CIF ng Pasyente ay nai-report noong {{date('m/d/Y', strtotime($records->dateReported))}}, ito ay nakaraang {{Carbon\Carbon::parse($records->dateReported)->diffInDays()}} na araw na nakakalipas. Kung nais pa ring magpatuloy sa reswab, I-click ang [OK] button.')"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</button>
                 </div>
             </form>
         @endif
