@@ -91,6 +91,15 @@ class Forms extends Model
         }
     }
 
+    public function getLatestTestDateReleased() {
+        if(!is_null($this->testDateReleased2)) {
+            return date('m/d/Y', strtotime($this->testDateReleased2));
+        }
+        else {
+            return date('m/d/Y', strtotime($this->testDateReleased1));
+        }
+    }
+
     public function getAttendedOnSwab() {
         if(!is_null($this->isPresentOnSwabDay)) {
             if($this->isPresentOnSwabDay == 1) {
@@ -138,6 +147,12 @@ class Forms extends Model
         }
         else if($this->dispoType == 6) {
             return 'ADMITTED AT GENERAL TRIAS ISOLATION FACILITY';
+        }
+        else if($this->dispoType == 6) {
+            return 'ADMITTED AT GENERAL TRIAS ISOLATION FACILITY #2';
+        }
+        else {
+            return 'UNKNOWN';
         }
     }
 

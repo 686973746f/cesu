@@ -14,22 +14,28 @@
                     @endif
                 </form>
                 @endif
-                <p><strong>Philhealth: </strong> {{$form->records->philhealth}} | 
+                <p><strong>Philhealth: </strong> {{(!is_null($form->records->philhealth)) ? $form->records->getPhilhealth() : 'N/A'}} • 
                     <strong>Mobile: </strong> {{$form->records->mobile}}</p>
                     <p><strong>Date Encoded / By:</strong> {{date('m/d/Y h:i A', strtotime($form->created_at))}} ({{$form->user->name}}) 
-                        @if(!is_null($form->updated_by)) | <strong>Date Edited / By:</strong> {{date('m/d/Y h:i A', strtotime($form->updated_at))}} ({{$form->getEditedBy()}})@endif</p>
-                    <p><strong>Morbidity Month / Week:</strong> {{date('m/d/Y (W)', strtotime($form->morbidityMonth))}} |
+                        @if(!is_null($form->updated_by)) • <strong>Date Edited / By:</strong> {{date('m/d/Y h:i A', strtotime($form->updated_at))}} ({{$form->getEditedBy()}})@endif</p>
+                    <p><strong>Morbidity Month / Week:</strong> {{date('m/d/Y (W)', strtotime($form->morbidityMonth))}} •
                         <strong>Date Reported:</strong> {{date('m/d/Y', strtotime($form->dateReported))}}</p>
-                    <p><strong>Patient Type:</strong> {{$form->getType()}} | 
-                        <strong>Health Status: </strong> {{$form->healthStatus}} | 
-                        <strong>Classification:</strong> <span class="{{($form->caseClassification == 'Confirmed') ? 'text-danger font-weight-bold' : ''}}">{{$form->caseClassification}}</span> | 
-                        <strong>Outcome:</strong> {{$form->outcomeCondition}}
+                    <p><strong>Patient Type:</strong> {{$form->getType()}} • 
+                        <strong>Health Status: </strong> {{$form->healthStatus}} • 
+                        <strong>Classification:</strong> <span class="{{($form->caseClassification == 'Confirmed') ? 'text-danger font-weight-bold' : ''}}">{{$form->caseClassification}}</span>
+                    </p>
+                    <p>
+                        <strong>Quarantine/Disposition Status:</strong> {{$form->getQuarantineStatus()}} • 
+                        <strong>Outcome:</strong> <span class="{{($form->outcomeCondition == 'Recovered') ? 'font-weight-bold text-success' : ''}}">{{$form->outcomeCondition}}</span>
                     </p>
                     <hr>
                     @if($form->ifScheduled())
-                    <p><strong>Latest Date of Swab Collection:</strong> {{$form->getLatestTestDate()}} | 
-                        <strong>Test Type:</strong> {{$form->getLatestTestType()}} | 
-                        <strong>Result:</strong> {{$form->getLatestTestResult()}}
+                    <p><strong>Latest Date of Swab Collection:</strong> {{$form->getLatestTestDate()}} • 
+                        <strong>Test Type:</strong> {{$form->getLatestTestType()}} • 
+                        @if(!is_null($form->getLatestTestDateReleased()))
+                        <strong>Date Released: </strong> {{$form->getLatestTestDateReleased()}} • 
+                        @endif
+                        <strong>Result:</strong> <span class="{{($form->getLatestTestResult() == 'POSITIVE' ? 'text-danger font-weight-bold' : '')}}">{{$form->getLatestTestResult()}}</span>
                     </p>
                     @php
                     if($form->getAttendedOnSwab() == 'PENDING') {
