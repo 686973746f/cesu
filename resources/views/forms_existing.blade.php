@@ -59,7 +59,7 @@
                     @endif
             </div>
             <div class="card-footer text-center">
-                For more details regarding the CIF of the patient, click <strong><a href="{{route('forms.edit', ['form' => $form->id])}}">HERE</a></strong>
+                To edit or view more details about the existing CIF of the Patient, click <strong><a href="{{route('forms.edit', ['form' => $form->id])}}">HERE</a></strong>
             </div>
         </div>
         <div class="card">
