@@ -186,7 +186,7 @@
                           Is Tertiary Close Contact <small>(Check if Yes)</small>
                         </label>
                     </div>
-                    <div id="tertiarycc_div">
+                    <div id="tertiarycc_div" class="d-none">
                         <div class="form-group">
                             <label for="is_tertiarycc_date"><span class="text-danger font-weight-bold">*</span>Tertiary Close Contact Exposure Date?</label>
                             <input type="date" class="form-control" name="is_tertiarycc_date" id="is_tertiarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_tertiarycc_date')}}">
