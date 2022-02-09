@@ -42,6 +42,8 @@ class CreateSecondaryTertiaryRecordsTable extends Migration
             $table->dateTime('is_primarycc_date_set')->nullable();
             $table->dateTime('is_secondarycc_date_set')->nullable();
             $table->dateTime('is_tertiarycc_date_set')->nullable();
+            $table->text('remarks')->nullable();
+            $table->text('from_establishment')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
         });

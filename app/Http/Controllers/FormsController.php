@@ -1144,7 +1144,7 @@ class FormsController extends Controller
             if($caseClassi == 'Confirmed') {
                 $dateToday = Carbon::parse(date('Y-m-d'));
                 
-                if($request->dispositionType != 6 || $request->dispositionType != 7) {
+                if($request->dispositionType != 6 && $request->dispositionType != 7) {
                     if(!is_null($request->testType2)) {
                         $swabDateCollected = $request->testDateCollected2;
                     }
@@ -1946,7 +1946,7 @@ class FormsController extends Controller
                 if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
                     $dateToday = Carbon::parse(date('Y-m-d'));
                     
-                    if($request->dispositionType != 6 || $request->dispositionType != 7) {
+                    if($request->dispositionType != 6 && $request->dispositionType != 7) {
                         if(!is_null($request->testType2)) {
                             $swabDateCollected = $request->testDateCollected2;
                         }

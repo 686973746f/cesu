@@ -192,6 +192,22 @@
                             <input type="date" class="form-control" name="is_tertiarycc_date" id="is_tertiarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_tertiarycc_date')}}">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="">Establishment Name</label>
+                              <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="">Remarks</label>
+                                  <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary">Save</button>

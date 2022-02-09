@@ -52,7 +52,7 @@ class AutoRecoveredActiveCases extends Command
         $dateToday = Carbon::parse(date('Y-m-d'));
 
         foreach($forms as $item) {
-            if($item->dispoType != 6 || $item->dispoType != 7) {
+            if($item->dispoType != 6 && $item->dispoType != 7) {
                 if(!is_null($item->testDateCollected2)) {
                     $swabDateCollected = $item->testDateCollected2;
                 }
@@ -125,7 +125,9 @@ class AutoRecoveredActiveCases extends Command
                     //$update->outcomeRecovDate = date('Y-m-d');
                     $update->outcomeRecovDate = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
     
-                    $update->save();
+                    if($update->isDirty()) {
+                        $update->save();
+                    }
                 }
             }
         }
