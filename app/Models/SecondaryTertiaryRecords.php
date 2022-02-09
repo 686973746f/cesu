@@ -37,6 +37,8 @@ class SecondaryTertiaryRecords extends Model
         'is_primarycc_date_set',
         'is_secondarycc_date_set',
         'is_tertiarycc_date_set',
+        'from_establishment',
+        'remarks',
     ];
 
     public function user() {

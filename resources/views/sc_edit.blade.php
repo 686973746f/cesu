@@ -193,6 +193,21 @@
                             <input type="date" class="form-control" name="is_tertiarycc_date" id="is_tertiarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_tertiarycc_date', $item->is_tertiarycc_date)}}">
                         </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="from_establishment">Establishment Name <small>(Optional)</small></label>
+                              <input type="text" class="form-control" name="from_establishment" id="from_establishment" value="{{old('from_establishment', $item->from_establishment)}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="remarks">Remarks <small>(Optional)</small></label>
+                                <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $item->remarks)}}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary">Update</button>

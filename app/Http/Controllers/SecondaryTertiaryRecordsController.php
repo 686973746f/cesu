@@ -96,6 +96,9 @@ class SecondaryTertiaryRecordsController extends Controller
                 'is_primarycc_date_set' => ($request->is_primarycc) ? date('Y-m-d H:i:s') : NULL,
                 'is_secondarycc_date_set' => ($request->is_secondarycc) ? date('Y-m-d H:i:s') : NULL,
                 'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? date('Y-m-d H:i:s') : NULL,
+
+                'from_establishment' => $request->from_establishment,
+                'remarks' => $request->remarks,
             ]);
     
             return redirect()->route('sc_index')->with('msg', 'The record has been successfully added.')->with('msgtype', 'success');
@@ -140,6 +143,9 @@ class SecondaryTertiaryRecordsController extends Controller
         $data->is_primarycc_date = ($request->is_primarycc) ? $request->is_primarycc_date : NULL;
         $data->is_secondarycc_date = ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL;
         $data->is_tertiarycc_date = ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL;
+
+        $data->from_establishment = $request->from_establishment;
+        $data->remarks = $request->remarks;
 
         if($request->is_primarycc && $data->isDirty('is_primarycc_date')) {
             $data->is_primarycc_date_set = date('Y-m-d H:i:s');
