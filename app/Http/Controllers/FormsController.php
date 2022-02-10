@@ -853,6 +853,14 @@ class FormsController extends Controller
 
         $checkform = Forms::where('records_id', $rec->id)
         ->where(function ($q) {
+            $q->whereDate('morbidityMonth', date('Y-m-d'))
+            ->orWhereDate('created_at', date('Y-m-d'));
+        })
+        ->first();
+
+        /*
+        $checkform = Forms::where('records_id', $rec->id)
+        ->where(function ($q) {
             $q->where(function ($r) {
                 $r->whereDate('testDateCollected1', date('Y-m-d'))
                 ->orWhereDate('testDateCollected2', date('Y-m-d'));
@@ -860,6 +868,7 @@ class FormsController extends Controller
             ->orWhereDate('created_at', date('Y-m-d'));
         })
         ->first();
+        */
 
         if($checkform) {
             return redirect()->route('forms.index')->with('status', 'Error: '.$rec->getName()." CIF Data was already existed and your request was blocked to prevent double entry.")->with('statustype', 'danger');
