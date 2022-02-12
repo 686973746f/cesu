@@ -949,44 +949,11 @@ class ReportController extends Controller
                     'probable' => $brgyProbableCount,
                 ]);
             }
-
-            return view('report_select', [
-                'activeCount' => $activeCount,
-                'totalActive_partialVaccinated' => $totalActive_partialVaccinated,
-                'totalActive_fullyVaccinated' => $totalActive_fullyVaccinated,
-                'recoveredCount' => $recoveredCount,
-                'totalRecovered_partialVaccinated' => $totalRecovered_partialVaccinated,
-                'totalRecovered_fullyVaccinated' => $totalRecovered_fullyVaccinated,
-                'deathCount' => $deathCount,
-                'totalDeath_partialVaccinated' => $totalDeath_partialVaccinated,
-                'totalDeath_fullyVaccinated' => $totalDeath_fullyVaccinated,
-                'newActiveCount' => $newActiveCount,
-                'newActiveCount_partialVaccinated' => $newActiveCount_partialVaccinated,
-                'newActiveCount_fullyVaccinated' => $newActiveCount_fullyVaccinated,
-                'lateActiveCount' => $lateActiveCount,
-                'lateActiveCount_partialVaccinated' => $lateActiveCount_partialVaccinated,
-                'lateActiveCount_fullyVaccinated' => $lateActiveCount_fullyVaccinated,
-                'newRecoveredCount' => $newRecoveredCount,
-                'newRecoveredCount_partialVaccinated' => $newRecoveredCount_partialVaccinated,
-                'newRecoveredCount_fullyVaccinated' => $newRecoveredCount_fullyVaccinated,
-                'lateRecoveredCount' => $lateRecoveredCount,
-                'lateRecoveredCount_partialVaccinated' => $lateRecoveredCount_partialVaccinated,
-                'lateRecoveredCount_fullyVaccinated' => $lateRecoveredCount_fullyVaccinated,
-                'newDeathCount' => $newDeathCount,
-                'totalCasesCount' => $totalCasesCount,
-                'totalCases_partialVaccinated' => $totalCasesCount_partialVaccinated,
-                'totalCases_fullyVaccinated' => $totalCasesCount_fullyVaccinated,
-                'facilityCount' => $facilityCount,
-                'facilityTwoCount' => $facilityTwoCount,
-                'hqCount' => $hqCount,
-                'hospitalCount' => $hospitalCount,
-                'brgylist' => $brgyArray,
-                'allCasesCount' => $allCasesCount,
-                'toggleFilterReport' => $toggleFilterReport,
-            ]);
         }
         else {
             if(auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1) {
+                $toggleFilterReport = 0;
+                
                 $activeCount = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
@@ -1058,6 +1025,7 @@ class ReportController extends Controller
                 ->count();
 
                 //Bilangin pati current reinfection sa total ng recovered
+                /*
                 $recoveredCount += Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
@@ -1067,6 +1035,7 @@ class ReportController extends Controller
                 ->where('status', 'approved')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
+                */
 
                 $totalRecovered_partialVaccinated = Forms::with('records')
                 ->whereHas('records', function ($q) {
@@ -1328,7 +1297,6 @@ class ReportController extends Controller
                     ->where('records.vaccinationName1', '!=', 'JANSSEN');
                 })
                 ->where('status', 'approved')
-                ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
@@ -1615,6 +1583,19 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
+                $facilityTwoCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('dispoType', 7)
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
                 $hqCount = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
@@ -1640,6 +1621,14 @@ class ReportController extends Controller
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
+
+                $allCasesCount = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('isPresentOnSwabDay', 1)->count();
 
                 //Barangay Counter
                 $brgyArray = collect();
@@ -1754,38 +1743,6 @@ class ReportController extends Controller
                         'probable' => $brgyProbableCount,
                     ]);
                 }
-
-                return view('report_select', [
-                    'activeCount' => $activeCount,
-                    'totalActive_partialVaccinated' => $totalActive_partialVaccinated,
-                    'totalActive_fullyVaccinated' => $totalActive_fullyVaccinated,
-                    'recoveredCount' => $recoveredCount,
-                    'totalRecovered_partialVaccinated' => $totalRecovered_partialVaccinated,
-                    'totalRecovered_fullyVaccinated' => $totalRecovered_fullyVaccinated,
-                    'deathCount' => $deathCount,
-                    'totalDeath_partialVaccinated' => $totalDeath_partialVaccinated,
-                    'totalDeath_fullyVaccinated' => $totalDeath_fullyVaccinated,
-                    'newActiveCount' => $newActiveCount,
-                    'newActiveCount_partialVaccinated' => $newActiveCount_partialVaccinated,
-                    'newActiveCount_fullyVaccinated' => $newActiveCount_fullyVaccinated,
-                    'lateActiveCount' => $lateActiveCount,
-                    'lateActiveCount_partialVaccinated' => $lateActiveCount_partialVaccinated,
-                    'lateActiveCount_fullyVaccinated' => $lateActiveCount_fullyVaccinated,
-                    'newRecoveredCount' => $newRecoveredCount,
-                    'newRecoveredCount_partialVaccinated' => $newRecoveredCount_partialVaccinated,
-                    'newRecoveredCount_fullyVaccinated' => $newRecoveredCount_fullyVaccinated,
-                    'lateRecoveredCount' => $lateRecoveredCount,
-                    'lateRecoveredCount_partialVaccinated' => $lateRecoveredCount_partialVaccinated,
-                    'lateRecoveredCount_fullyVaccinated' => $lateRecoveredCount_fullyVaccinated,
-                    'newDeathCount' => $newDeathCount,
-                    'totalCasesCount' => $totalCasesCount,
-                    'totalCases_partialVaccinated' => $totalCasesCount_partialVaccinated,
-                    'totalCases_fullyVaccinated' => $totalCasesCount_fullyVaccinated,
-                    'facilityCount' => $facilityCount,
-                    'hqCount' => $hqCount,
-                    'hospitalCount' => $hospitalCount,
-                    'brgylist' => $brgyArray,
-                ]);
             }
             else if(auth()->user()->isCompanyAccount()) {
                 return redirect()->route('home')
@@ -1798,6 +1755,41 @@ class ReportController extends Controller
                 ->with('statustype', 'warning');
             }
         }
+
+        return view('report_select', [
+            'activeCount' => $activeCount,
+            'totalActive_partialVaccinated' => $totalActive_partialVaccinated,
+            'totalActive_fullyVaccinated' => $totalActive_fullyVaccinated,
+            'recoveredCount' => $recoveredCount,
+            'totalRecovered_partialVaccinated' => $totalRecovered_partialVaccinated,
+            'totalRecovered_fullyVaccinated' => $totalRecovered_fullyVaccinated,
+            'deathCount' => $deathCount,
+            'totalDeath_partialVaccinated' => $totalDeath_partialVaccinated,
+            'totalDeath_fullyVaccinated' => $totalDeath_fullyVaccinated,
+            'newActiveCount' => $newActiveCount,
+            'newActiveCount_partialVaccinated' => $newActiveCount_partialVaccinated,
+            'newActiveCount_fullyVaccinated' => $newActiveCount_fullyVaccinated,
+            'lateActiveCount' => $lateActiveCount,
+            'lateActiveCount_partialVaccinated' => $lateActiveCount_partialVaccinated,
+            'lateActiveCount_fullyVaccinated' => $lateActiveCount_fullyVaccinated,
+            'newRecoveredCount' => $newRecoveredCount,
+            'newRecoveredCount_partialVaccinated' => $newRecoveredCount_partialVaccinated,
+            'newRecoveredCount_fullyVaccinated' => $newRecoveredCount_fullyVaccinated,
+            'lateRecoveredCount' => $lateRecoveredCount,
+            'lateRecoveredCount_partialVaccinated' => $lateRecoveredCount_partialVaccinated,
+            'lateRecoveredCount_fullyVaccinated' => $lateRecoveredCount_fullyVaccinated,
+            'newDeathCount' => $newDeathCount,
+            'totalCasesCount' => $totalCasesCount,
+            'totalCases_partialVaccinated' => $totalCasesCount_partialVaccinated,
+            'totalCases_fullyVaccinated' => $totalCasesCount_fullyVaccinated,
+            'facilityCount' => $facilityCount,
+            'facilityTwoCount' => $facilityTwoCount,
+            'hqCount' => $hqCount,
+            'hospitalCount' => $hospitalCount,
+            'brgylist' => $brgyArray,
+            'allCasesCount' => $allCasesCount,
+            'toggleFilterReport' => $toggleFilterReport,
+        ]);
     }
 
     public function viewDaily() {

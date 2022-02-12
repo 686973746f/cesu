@@ -13,18 +13,6 @@
                 <strong>Note:</strong> Counting results from BRGY. {{auth()->user()->brgy->brgyName}} Data ONLY.
             </div>
             @endif
-            <div id="accordianId" role="tablist" aria-multiselectable="true">
-                <div class="card">
-                    <div class="card-header text-center" role="tab" id="exportHeader">
-                        <a data-toggle="collapse" data-parent="#accordianId" href="#exportContent" aria-expanded="true" aria-controls="exportContent"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</a>
-                    </div>
-                    <div id="exportContent" class="collapse in" role="tabpanel" aria-labelledby="exportHeader">
-                        <div class="card-body text-center">
-                            <p>Exporting module has been moved to the Home Page. (Under Reports -> Export Report to Excel)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             @if(auth()->user()->ifTopAdmin())
             <div id="accordianId1" role="tablist" aria-multiselectable="true">
                 <div class="card mt-3">

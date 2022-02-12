@@ -64,9 +64,11 @@
                             @if(auth()->user()->ifTopAdmin())
                             <button type="button" class="btn btn-success btn-lg btn-block mt-3" data-toggle="modal" data-target="#exportModal"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</button>
                             @endif
+                            @if(auth()->user()->isCesuAccount())
                             <hr>
                             <a href="{{route('report_cm_index')}}" class="btn btn-primary btn-lg btn-block mt-3">Composite Measure</a>
                             <a href="{{route('clustering_index')}}" class="btn btn-primary btn-lg btn-block mt-3">Confirmed Cases Clustering</a>
+                            @endif
                             <hr>
                             <form action="{{route('reportv2.dashboard')}}" method="GET">
                                 <label for="">Or View Report per List</label>
