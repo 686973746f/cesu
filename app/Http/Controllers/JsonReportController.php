@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class JsonReportController extends Controller
 {
-
+    public function __construct() {
+        DB::setDefaultConnection('mysqlforjson');
+    }
+    
     public function totalCases() {
         sleep(20);
         $arr = [];
