@@ -15,7 +15,7 @@
             @endif
             @if(auth()->user()->ifTopAdmin())
             <div id="accordianId1" role="tablist" aria-multiselectable="true">
-                <div class="card mt-3">
+                <div class="card">
                     <div class="card-header text-center" role="tab" id="section1HeaderId1">
                         <a data-toggle="collapse" data-parent="#accordianId1" href="#dateFilter" aria-expanded="true" aria-controls="dateFilter"><i class="fas fa-calendar-alt mr-2"></i>Filter by Date</a>
                     </div>

@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class JsonReportController extends Controller
 {
-    public function __construct() {
-        DB::setDefaultConnection('mysqlforjson');
-    }
 
     public function totalCases() {
         sleep(20);
@@ -1126,75 +1123,101 @@ class JsonReportController extends Controller
         sleep(10);
         $arr = collect();
 
-        //Fetch Current Active Cases Only
-        function recordsGenerator() {
-            foreach(Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
-            ->where('status', 'approved')
-            ->where('caseClassification', 'Confirmed')
-            ->where('outcomeCondition', 'Active')
-            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
-            ->cursor() as $user) {
-                yield $user;
-            }
-        }
+        $active_agegroup1_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) <= 17');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
 
-        $activelist = recordsGenerator();
+        $active_agegroup2_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 18 AND 25');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
 
-        $ageBracket1 = 0;
-        $ageBracket2 = 0;
-        $ageBracket3 = 0;
-        $ageBracket4 = 0;
-        $ageBracket5 = 0;
-        $ageBracket6 = 0;
+        $active_agegroup3_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 26 AND 35');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
 
-        foreach($activelist as $item) {
-            if($item->records->getAgeInt() >= 0 && $item->records->getAgeInt() <= 17) {
-                $ageBracket1++;
-            }
-            else if($item->records->getAgeInt() >= 18 && $item->records->getAgeInt() <= 25) {
-                $ageBracket2++;
-            }
-            else if($item->records->getAgeInt() >= 26 && $item->records->getAgeInt() <= 35) {
-                $ageBracket3++;
-            }
-            else if($item->records->getAgeInt() >= 36 && $item->records->getAgeInt() <= 45) {
-                $ageBracket4++;
-            }
-            else if($item->records->getAgeInt() >= 46 && $item->records->getAgeInt() <= 59) {
-                $ageBracket5++;
-            }
-            else if($item->records->getAgeInt() >= 60) {
-                $ageBracket6++;
-            }
-        }
+        $active_agegroup4_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 36 AND 45');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
+
+        $active_agegroup5_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 46 AND 59');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
+
+        $active_agegroup6_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 60');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->count();
 
         $arr->push([
             'bracket' => '0 - 17 YO',
-            'count' => $ageBracket1,
+            'count' => $active_agegroup1_count,
         ]);
         $arr->push([
             'bracket' => '18 - 25 YO',
-            'count' => $ageBracket2,
+            'count' => $active_agegroup2_count,
         ]);
         $arr->push([
             'bracket' => '26 - 35 YO',
-            'count' => $ageBracket3,
+            'count' => $active_agegroup3_count,
         ]);
         $arr->push([
             'bracket' => '36 - 45 YO',
-            'count' => $ageBracket4,
+            'count' => $active_agegroup4_count,
         ]);
         $arr->push([
             'bracket' => '46 - 59 YO',
-            'count' => $ageBracket5,
+            'count' => $active_agegroup5_count,
         ]);
         $arr->push([
             'bracket' => '60 YO & UP',
-            'count' => $ageBracket6,
+            'count' => $active_agegroup6_count,
         ]);
 
         return response()->json($arr);
