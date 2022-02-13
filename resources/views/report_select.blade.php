@@ -56,7 +56,7 @@
                     <div class="card text-white bg-danger">
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold">{{number_format($activeCount)}} <small>({{round(($activeCount/$totalCasesCount) * 100, 1)}}%)</small></h4>
-                            <p class="card-text">Total Active Cases</p>
+                            <p class="card-text">Total Active Cases <button type="button" class="btn btn-link" data-toggle="modal" data-target="#tac_count"><i class="fa fa-info-circle text-white" aria-hidden="true"></i></button></p>
                             <hr>
                             <p>Partial Vaccinated: {{number_format($totalActive_partialVaccinated)}}</p>
                             <p class="mb-0">Fully Vaccinated: {{number_format($totalActive_fullyVaccinated)}}</p>
@@ -323,6 +323,23 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="tac_count" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">How Total Active Cases are being Counted</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $('#displayList').click(function (e) { 
         $(this).addClass('disabled');

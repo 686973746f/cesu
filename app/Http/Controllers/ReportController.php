@@ -18,6 +18,11 @@ use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 class ReportController extends Controller
 {
     public function index() {
+
+        $totalCasesCount = 0;
+        $totalCasesCount_partialVaccinated = 0;
+        $totalCasesCount_fullyVaccinated = 0;
+
         if(auth()->user()->isCesuAccount()) {
             $activeCount = Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -334,6 +339,7 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             });
 
+            /*
             $totalCasesCount = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
@@ -370,6 +376,7 @@ class ReportController extends Controller
                 ->where('records.vaccinationName1', 'JANSSEN');
             })
             ->where('status', 'approved');
+            */
 
             $facilityCount = Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -493,6 +500,7 @@ class ReportController extends Controller
 
                 $newDeathCount = 0;
 
+                /*
                 $totalCasesCount = $totalCasesCount->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
@@ -508,6 +516,7 @@ class ReportController extends Controller
                 $totalCasesCount_fullyVaccinated_janssen = $totalCasesCount_fullyVaccinated_janssen->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
+                */
 
                 $facilityCount = $facilityCount->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
@@ -747,6 +756,7 @@ class ReportController extends Controller
                     ->where('outcomeCondition', 'Died');
                 })->count();
 
+                /*
                 $totalCasesCount = $totalCasesCount->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
@@ -762,6 +772,7 @@ class ReportController extends Controller
                 $totalCasesCount_fullyVaccinated_janssen = $totalCasesCount_fullyVaccinated_janssen->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
+                */
 
                 $facilityCount = $facilityCount->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
@@ -783,7 +794,7 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
             }
-
+            
             $totalActive_fullyVaccinated += $totalActive_fullyVaccinated_janssen;
 
             $totalRecovered_fullyVaccinated += $totalRecovered_fullyVaccinated_janssen;
@@ -806,7 +817,14 @@ class ReportController extends Controller
 
             $lateRecoveredCount_fullyVaccinated += $lateRecoveredCount_fullyVaccinated_janssen;
 
-            $totalCasesCount_fullyVaccinated += $totalCasesCount_fullyVaccinated_janssen;
+            //New Total Cases Counter
+            $totalCasesCount += $activeCount + $recoveredCount + $deathCount;
+
+            $totalCasesCount_partialVaccinated += $totalActive_partialVaccinated + $totalRecovered_partialVaccinated + $totalDeath_partialVaccinated;
+
+            $totalCasesCount_fullyVaccinated += $totalActive_fullyVaccinated + $totalRecovered_fullyVaccinated + $totalDeath_fullyVaccinated;
+
+            //$totalCasesCount_fullyVaccinated += $totalCasesCount_fullyVaccinated_janssen;
 
             $allCasesCount = Forms::where('isPresentOnSwabDay', 1)->count();
 
@@ -1515,6 +1533,12 @@ class ReportController extends Controller
                     ->where('outcomeCondition', 'Died');
                 })->count();
 
+                $totalCasesCount = $activeCount + $recoveredCount + $deathCount;
+
+                $totalCasesCount_partialVaccinated = $totalActive_partialVaccinated + $totalRecovered_partialVaccinated + $totalDeath_partialVaccinated;
+
+                $totalCasesCount_fullyVaccinated = $totalActive_fullyVaccinated + $totalRecovered_fullyVaccinated + $totalDeath_fullyVaccinated;
+                /*
                 $totalCasesCount = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
@@ -1569,6 +1593,7 @@ class ReportController extends Controller
                 ->count();
 
                 $totalCasesCount_fullyVaccinated += $totalCasesCount_fullyVaccinated_janssen;
+                */
 
                 $facilityCount = Forms::with('records')
                 ->whereHas('records', function ($q) {

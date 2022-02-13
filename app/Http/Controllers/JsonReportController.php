@@ -19,6 +19,10 @@ class JsonReportController extends Controller
         sleep(20);
         $arr = [];
 
+        $totalCasesCount = 0;
+        $totalCasesCount_partialVaccinated = 0;
+        $totalCasesCount_fullyVaccinated = 0;
+
         $totalActiveCases = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -29,6 +33,8 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+
+        $totalCasesCount += $totalActiveCases;
 
         $totalActive_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -43,6 +49,8 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+
+        $totalCasesCount_partialVaccinated += $totalActive_partialVaccinated;
 
         $totalActive_fullyVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -74,6 +82,8 @@ class JsonReportController extends Controller
 
         $totalActive_fullyVaccinated += $totalActive_fullyVaccinated_janssen;
 
+        $totalCasesCount_fullyVaccinated += $totalActive_fullyVaccinated;
+
         $totalRecovered = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -83,6 +93,8 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Recovered')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+
+        $totalCasesCount += $totalRecovered;
 
         //Bilangin pati current reinfection sa total ng recovered
         /*
@@ -113,6 +125,8 @@ class JsonReportController extends Controller
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
 
+        $totalCasesCount_partialVaccinated += $totalRecovered_partialVaccinated;
+
         $totalRecovered_fullyVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -140,6 +154,8 @@ class JsonReportController extends Controller
         ->count();
 
         $totalRecovered_fullyVaccinated += $totalRecovered_fullyVaccinated_janssen;
+
+        $totalCasesCount_fullyVaccinated += $totalRecovered_fullyVaccinated;
         
         $totalDeaths = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -150,6 +166,8 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Died')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        
+        $totalCasesCount += $totalDeaths;
 
         $totalDeath_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -163,6 +181,8 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Died')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+
+        $totalCasesCount_partialVaccinated += $totalDeath_partialVaccinated;
 
         $totalDeath_fullyVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -191,6 +211,8 @@ class JsonReportController extends Controller
         ->count();
 
         $totalDeath_fullyVaccinated += $totalDeath_fullyVaccinated_janssen;
+
+        $totalCasesCount_fullyVaccinated += $totalDeath_fullyVaccinated;
 
         $newActive = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -545,6 +567,8 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Died');
         })->count();
 
+        /*
+        Total Cases Old Formula
         $totalCasesCount = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -595,6 +619,7 @@ class JsonReportController extends Controller
         ->count();
 
         $totalCasesCount_fullyVaccinated += $totalCasesCount_fullyVaccinated_janssen;
+        */
 
         //Reinfection
         $totalActiveReinfection = Forms::with('records')
