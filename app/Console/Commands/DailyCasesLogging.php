@@ -151,7 +151,7 @@ class DailyCasesLogging extends Command
             ->where('healthStatus', 'Asymptomatic')
             ->count();
 
-            $active_mild_count = Forms::with('records')
+            $active_mild_with_comorbid_count = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
@@ -161,6 +161,20 @@ class DailyCasesLogging extends Command
             ->where('outcomeCondition', 'Active')
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->where('healthStatus', 'Mild')
+            ->where('COMO', '!=', 'None')
+            ->count();
+
+            $active_mild_without_comorbid_count = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->where('healthStatus', 'Mild')
+            ->where('COMO', 'None')
             ->count();
 
             $active_moderate_count = Forms::with('records')
@@ -197,6 +211,76 @@ class DailyCasesLogging extends Command
             ->where('outcomeCondition', 'Active')
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->where('healthStatus', 'Critical')
+            ->count();
+
+            $facility_one_count = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 6)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $facility_two_count = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 7)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $hq_count = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('dispoType', 3)
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $hospital_count = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->whereIn('dispoType', [1,2,5])
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $active_male_count = Forms::with('records')
+            ->whereHas('records', function($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('gender', 'MALE');
+            })->where('status', 'approved')
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $active_female_count = Forms::with('records')
+            ->whereHas('records', function($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('gender', 'FEMALE');
+            })->where('status', 'approved')
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
             $active_agegroup1_count = Forms::with('records')
@@ -271,7 +355,40 @@ class DailyCasesLogging extends Command
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
-            $data = DailyCases::create( [
+            $totalActiveReinfection = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('reinfected', 1)
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $totalRecoveredReinfection = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('reinfected', 1)
+            ->where('outcomeCondition', 'Recovered')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $totalDeathReinfection = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('reinfected', 1)
+            ->where('outcomeCondition', 'Died')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $data = DailyCases::create([
                 'set_date' => date('Y-m-d'),
                 'type' => $type,
                 'total_active' => $totalActiveCases,
@@ -284,64 +401,29 @@ class DailyCasesLogging extends Command
                 'new_deaths' => $newDeaths,
                 'total_all_confirmed_cases' => $totalActiveCases + $totalRecovered + $totalDeaths,
                 'total_all_suspected_probable_cases',
-                'facility_one_count',
-                'facility_two_count',
-                'hq_count',
-                'hospital_count',
+                'facility_one_count' => $facility_one_count,
+                'facility_two_count' => $facility_two_count,
+                'hq_count' => $hq_count,
+                'hospital_count' => $hospital_count,
                 'active_asymptomatic_count' => $active_asymptomatic_count,
-                'active_mild_count' => $active_mild_count,
+                'active_mild_with_comorbid_count' => $active_mild_with_comorbid_count,
+                'active_mild_without_comorbid_count' => $active_mild_without_comorbid_count,
                 'active_moderate_count' => $active_moderate_count,
                 'active_severe_count' => $active_severe_count,
                 'active_critical_count' => $active_critical_count,
-                'active_male_count',
-                'active_female_count',
+                'active_male_count' => $active_male_count,
+                'active_female_count' => $active_female_count,
                 'active_agegroup1_count' => $active_agegroup1_count,
                 'active_agegroup2_count' => $active_agegroup2_count,
                 'active_agegroup3_count' => $active_agegroup3_count,
                 'active_agegroup4_count' => $active_agegroup4_count,
                 'active_agegroup5_count' => $active_agegroup5_count,
                 'active_agegroup6_count' => $active_agegroup6_count,
-                'reinfection_active',
-                'reinfection_recovered',
-                'reinfection_deaths',
-                'reinfection_total',
+                'reinfection_active' => $totalActiveReinfection,
+                'reinfection_recovered' => $totalRecoveredReinfection,
+                'reinfection_deaths' => $totalDeathReinfection,
+                'reinfection_total' => $totalActiveReinfection + $totalRecoveredReinfection + $totalDeathReinfection,
             ]);
-
-            /*
-            'set_date',
-            'type',
-            'total_active',
-            'total_recoveries',
-            'total_deaths',
-            'new_cases',
-            'late_cases',
-            'new_recoveries',
-            'late_recoveries',
-            'new_deaths',
-            'total_all_confirmed_cases',
-            'total_all_suspected_probable_cases',
-            'facility_one_count',
-            'facility_two_count',
-            'hq_count',
-            'hospital_count',
-            'active_asymptomatic_count',
-            'active_mild_count',
-            'active_moderate_count',
-            'active_severe_count',
-            'active_critical_count',
-            'active_male_count',
-            'active_female_count',
-            'active_agegroup1_count',
-            'active_agegroup2_count',
-            'active_agegroup3_count',
-            'active_agegroup4_count',
-            'active_agegroup5_count',
-            'active_agegroup6_count',
-            'reinfection_active',
-            'reinfection_recovered',
-            'reinfection_deaths',
-            'reinfection_total',
-            */
         }
     }
 }
