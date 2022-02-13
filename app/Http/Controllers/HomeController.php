@@ -28,7 +28,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
+    {    
         if(auth()->user()->isLevel1()) {
             $currentWeek = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('W');
 

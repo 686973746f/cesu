@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DailyCases extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
         'set_date',
         'type',
@@ -27,7 +27,8 @@ class DailyCases extends Model
         'hq_count',
         'hospital_count',
         'active_asymptomatic_count',
-        'active_mild_count',
+        'active_mild_with_comorbid_count',
+        'active_mild_without_comorbid_count',
         'active_moderate_count',
         'active_severe_count',
         'active_critical_count',

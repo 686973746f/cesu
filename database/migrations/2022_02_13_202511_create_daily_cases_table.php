@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDailyCases extends Migration
+class CreateDailyCasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -33,7 +33,8 @@ class CreateDailyCases extends Migration
             $table->integer('hq_count');
             $table->integer('hospital_count');
             $table->integer('active_asymptomatic_count');
-            $table->integer('active_mild_count');
+            $table->integer('active_mild_with_comorbid_count');
+            $table->integer('active_mild_without_comorbid_count');
             $table->integer('active_moderate_count');
             $table->integer('active_severe_count');
             $table->integer('active_critical_count');
