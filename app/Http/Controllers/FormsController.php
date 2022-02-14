@@ -1105,13 +1105,16 @@ class FormsController extends Controller
             if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
                 if(time() >= strtotime('13:00:00')) {
                     $set_mm = date('Y-m-d', strtotime('+1 Day'));
+                    $set_mt = date('Y-m-d 08:00:00', strtotime('+1 Day'));
                 }
                 else {
                     $set_mm = $request->morbidityMonth;
+                    $set_mt = $request->morbidityMonth.' '.date('H:i:s');
                 }
             }
             else {
                 $set_mm = $request->morbidityMonth;
+                $set_mt = $request->morbidityMonth.' '.date('H:i:s');
             }
 
             //Auto Change Date Reported Based on Date Released
@@ -1228,6 +1231,7 @@ class FormsController extends Controller
                 $createform = $request->user()->form()->create([
                     'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
                     'morbidityMonth' => $set_mm,
+                    'morbidityTime' => $set_mt,
                     'dateReported' => $set_dr,
                     'status' => 'approved',
                     'isPresentOnSwabDay' => $attended,
@@ -1905,6 +1909,18 @@ class FormsController extends Controller
                     $set_mm = $request->morbidityMonth;
                 }
 
+                if($rec->morbidityMonth != $set_mm) {
+                    if(time() >= strtotime('13:00:00')) {
+                        $set_mt = date('Y-m-d 08:00:00', strtotime('+1 Day'));
+                    }
+                    else {
+                        $set_mt = $set_mm.' '.date('H:i:s');
+                    }
+                }
+                else {
+                    $set_mt = $rec->morbidityTime;
+                }
+
                 //Auto Change Date Reported Based on Date Released
                 if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
                     if(!is_null($request->testDateCollected2)) {
@@ -2031,6 +2047,7 @@ class FormsController extends Controller
                         $form = Forms::where('id', $id)->update([
                             'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
                             'morbidityMonth' => $set_mm,
+                            'morbidityTime' => $set_mt,
                             'dateReported' => $set_dr,
                             'status' => 'approved',
                             'isExported' => '0',
