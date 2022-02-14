@@ -345,18 +345,8 @@ class AdminPanelController extends Controller
             ->count();
 
             $confirmed_count = Forms::where(function ($q) use ($item) {
-                $q->where(function ($r) use ($item) {
-                    $r->where('user_id', $item->id)
-                    ->where('updated_by', '!=', $item->id);
-                })
-                ->orWhere(function ($r) use ($item) {
-                    $r->where('user_id', '!=', $item->id)
-                    ->where('updated_by', $item->id);
-                })
-                ->orWhere(function ($r) use ($item) {
-                    $r->where('user_id', $item->id)
-                    ->where('updated_by', $item->id);
-                });
+                $q->where('user_id', $item->id)
+                ->orWhere('updated_by', $item->id);
             })
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('caseClassification', 'Confirmed')
