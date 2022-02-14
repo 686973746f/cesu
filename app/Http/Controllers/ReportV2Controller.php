@@ -277,15 +277,37 @@ class ReportV2Controller extends Controller
         $secondarycc_count + 
         $tertiarycc_count;
 
-        $activeCasesCount = Forms::whereHas('records', function ($q) {
-            $q->where('records.address_province', 'CAVITE')
-            ->where('records.address_city', 'GENERAL TRIAS');
-        })
-        ->where('status', 'approved')
-        ->where('caseClassification', 'Confirmed')
-        ->where('outcomeCondition', 'Active')
-        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
-        ->count();
+        if(date('H') >= 13) {
+            //idagdag ang bilang ng confirmed cases yesterday
+            $total_active_yesterday_1pm = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '1PM')
+            ->pluck('total_active')
+            ->first();
+
+            $total_active_yesterday_4pm = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '4PM')
+            ->pluck('total_active')
+            ->first();
+
+            $today_count_query = DailyCases::whereDate('set_date', date('Y-m-d'))
+            ->where('type', '1PM')
+            ->pluck('total_active')
+            ->first();
+
+            $add_yesterday = $total_active_yesterday_4pm - $total_active_yesterday_1pm;
+            $activeCasesCount = $today_count_query + $add_yesterday;
+        }
+        else {
+            $activeCasesCount = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+        }
 
         foreach($brgy as $b) {
             $primaryCount = Forms::whereHas('records', function ($q) use ($b) {

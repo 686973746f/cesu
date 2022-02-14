@@ -289,6 +289,7 @@ class AdminPanelController extends Controller
 
         $arr = [];
         foreach($list as $item) {
+            /*
             $suspected_count = Forms::where(function ($q) use ($item) {
                 $q->where('user_id', $item->id)
                 ->orWhere('updated_by', $item->id);
@@ -299,7 +300,9 @@ class AdminPanelController extends Controller
             })
             ->whereIn('caseClassification', ['Suspect', 'Probable'])
             ->count();
+            */
 
+            /*
             $confirmed_count = Forms::where(function ($q) use ($item) {
                 $q->where(function ($r) use ($item) {
                     $r->where('user_id', $item->id)
@@ -318,6 +321,7 @@ class AdminPanelController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
             ->count();
+            */
 
             /*
             $confirmed_count = Forms::where(function ($q) use ($item) {
@@ -332,6 +336,31 @@ class AdminPanelController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->count();
             */
+
+            $suspected_count = Forms::where('user_id', $item->id)
+            ->where(function($q) {
+                $q->whereDate('created_at', date('Y-m-d'));
+            })
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
+            ->count();
+
+            $confirmed_count = Forms::where(function ($q) use ($item) {
+                $q->where(function ($r) use ($item) {
+                    $r->where('user_id', $item->id)
+                    ->where('updated_by', '!=', $item->id);
+                })
+                ->orWhere(function ($r) use ($item) {
+                    $r->where('user_id', '!=', $item->id)
+                    ->where('updated_by', $item->id);
+                })
+                ->orWhere(function ($r) use ($item) {
+                    $r->where('user_id', $item->id)
+                    ->where('updated_by', $item->id);
+                });
+            })
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->where('caseClassification', 'Confirmed')
+            ->count();
 
             $recovered_count = Forms::where(function ($q) use ($item) {
                 $q->where(function ($r) use ($item) {
