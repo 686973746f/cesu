@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Brgy;
 use App\Models\Forms;
-use App\Models\SecondaryTertiaryRecords;
 use Carbon\CarbonPeriod;
+use App\Models\DailyCases;
+use App\Models\SecondaryTertiaryRecords;
 
 class ReportV2Controller extends Controller
 {
