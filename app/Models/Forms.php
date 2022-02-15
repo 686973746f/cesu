@@ -240,4 +240,8 @@ class Forms extends Model
             return false;
         }
     }
+
+    public function exposureHistory() {
+        return $this->hasMany(ExposureHistory::class);
+    }
 }

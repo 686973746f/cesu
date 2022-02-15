@@ -188,4 +188,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function secondaryTertiaryRecords() {
         return $this->hasMany(SecondaryTertiaryRecords::class);
     }
+
+    public function exposureHistory() {
+        return $this->hasMany(ExposureHistory::class);
+    }
 }

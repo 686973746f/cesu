@@ -138,6 +138,11 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/forms/singleExport/{id}', [FormsController::class, 'soloExport'])->name('forms.soloprint.cif');
     Route::get('/forms/printAntigen/{id}/{testType}', [FormsController::class, 'printAntigen'])->name('forms.soloprint.antigen');
 
+    Route::get('/forms/ct_exposure/{form}/create', [ContactTracingController::class, 'ctFormsExposureCreate'])->name('ct_exposure_create');
+    Route::post('/forms/ct_exposure/{form}/create', [ContactTracingController::class, 'ctFormsExposureStore'])->name('ct_exposure_store');
+    Route::get('/forms/ct_exposure/{form}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureEdit'])->name('ct_exposure_edit');
+    Route::post('/forms/ct_exposure/{form}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureUpdate'])->name('ct_exposure_update');
+
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');
     Route::post('/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');
