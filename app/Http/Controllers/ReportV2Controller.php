@@ -670,7 +670,7 @@ class ReportV2Controller extends Controller
     }
 
     public function cmIndex() {
-        if(date('d') != 15 || date('d') != date('t')) {
+        if(date('d') != '15' || date('d') != date('t')) {
             return redirect()->route('home')
             ->with('status', 'Warning: You can ONLY open Composite Measure Report on '.date('F').' 15 and '.date('F t').'.')
             ->with('statustype', 'warning');
