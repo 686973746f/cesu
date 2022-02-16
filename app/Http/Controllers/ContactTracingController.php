@@ -55,6 +55,13 @@ class ContactTracingController extends Controller
 
         $form = Forms::findOrFail($form_id);
 
+        if(time() >= strtotime('13:00:00')) {
+            $date_set = date('Y-m-d 08:00:00', strtotime('+1 Day'));
+        }
+        else {
+            $date_set = date('Y-m-d H:i:s');
+        }
+
         $request->user()->exposureHistory()->create([
             'form_id' => $form_id,
             'is_primarycc' => ($request->is_primarycc) ? 1 : 0,
@@ -63,9 +70,9 @@ class ContactTracingController extends Controller
             'is_primarycc_date' => ($request->is_primarycc) ? $request->is_primarycc_date : NULL,
             'is_secondarycc_date' => ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL,
             'is_tertiarycc_date' => ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL,
-            'is_primarycc_date_set' => ($request->is_primarycc) ? date('Y-m-d H:i:s') : NULL,
-            'is_secondarycc_date_set' => ($request->is_secondarycc) ? date('Y-m-d H:i:s') : NULL,
-            'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? date('Y-m-d H:i:s') : NULL,
+            'is_primarycc_date_set' => ($request->is_primarycc) ? $date_set : NULL,
+            'is_secondarycc_date_set' => ($request->is_secondarycc) ? $date_set : NULL,
+            'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? $date_set : NULL,
         ]);
 
         return redirect()->route('forms.edit', ['form' => $form_id])
@@ -98,16 +105,23 @@ class ContactTracingController extends Controller
             $update->is_secondarycc_date_set = ($request->is_secondarycc) ? date('Y-m-d H:i:s') : NULL;
             $update->is_tertiarycc_date_set = ($request->is_tertiarycc) ? date('Y-m-d H:i:s') : NULL;
 
+            if(time() >= strtotime('13:00:00')) {
+                $date_set = date('Y-m-d 08:00:00', strtotime('+1 Day'));
+            }
+            else {
+                $date_set = date('Y-m-d H:i:s');
+            }
+
             if($request->is_primarycc && $update->isDirty('is_primarycc_date')) {
-                $update->is_primarycc_date_set = date('Y-m-d H:i:s');
+                $update->is_primarycc_date_set = $date_set;
             }
     
             if($request->is_secondarycc && $update->isDirty('is_secondarycc_date')) {
-                $update->is_secondarycc_date_set = date('Y-m-d H:i:s');
+                $update->is_secondarycc_date_set = $date_set;
             }
     
             if($request->is_tertiarycc && $update->isDirty('is_tertiarycc_date')) {
-                $update->is_tertiarycc_date_set = date('Y-m-d H:i:s');
+                $update->is_tertiarycc_date_set = $date_set;
             }
 
             if($update->isDirty()) {

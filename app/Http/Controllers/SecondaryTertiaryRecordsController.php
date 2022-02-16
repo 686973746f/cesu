@@ -63,9 +63,13 @@ class SecondaryTertiaryRecordsController extends Controller
             //Set MM Based on Cutoff
             if(time() >= strtotime('13:00:00')) {
                 $set_mm = date('Y-m-d', strtotime('+1 Day'));
+
+                $date_set = date('Y-m-d 08:00:00', strtotime('+1 Day'));
             }
             else {
                 $set_mm = $request->morbidityMonth;
+
+                $date_set = date('Y-m-d H:i:s');
             }
 
             $create = $request->user()->secondaryTertiaryRecords()->create([
@@ -93,9 +97,9 @@ class SecondaryTertiaryRecordsController extends Controller
                 'is_secondarycc_date' => ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL,
                 'is_tertiarycc_date' => ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL,
 
-                'is_primarycc_date_set' => ($request->is_primarycc) ? date('Y-m-d H:i:s') : NULL,
-                'is_secondarycc_date_set' => ($request->is_secondarycc) ? date('Y-m-d H:i:s') : NULL,
-                'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? date('Y-m-d H:i:s') : NULL,
+                'is_primarycc_date_set' => ($request->is_primarycc) ? $date_set : NULL,
+                'is_secondarycc_date_set' => ($request->is_secondarycc) ? $date_set : NULL,
+                'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? $date_set : NULL,
 
                 'from_establishment' => $request->from_establishment,
                 'remarks' => $request->remarks,
@@ -147,18 +151,6 @@ class SecondaryTertiaryRecordsController extends Controller
         $data->from_establishment = $request->from_establishment;
         $data->remarks = $request->remarks;
 
-        if($request->is_primarycc && $data->isDirty('is_primarycc_date')) {
-            $data->is_primarycc_date_set = date('Y-m-d H:i:s');
-        }
-
-        if($request->is_secondarycc && $data->isDirty('is_secondarycc_date')) {
-            $data->is_secondarycc_date_set = date('Y-m-d H:i:s');
-        }
-
-        if($request->is_tertiarycc && $data->isDirty('is_tertiarycc_date')) {
-            $data->is_tertiarycc_date_set = date('Y-m-d H:i:s');
-        }
-
         if($data->isDirty('morbidityMonth') && $request->morbidityMonth == date('Y-m-d')) {
             if(time() >= strtotime('13:00:00')) {
                 $data->morbidityMonth = date('Y-m-d', strtotime('+1 Day'));
@@ -166,6 +158,25 @@ class SecondaryTertiaryRecordsController extends Controller
             else {
                 $data->morbidityMonth = $request->morbidityMonth;
             }
+        }
+
+        if(time() >= strtotime('13:00:00')) {
+            $date_set = date('Y-m-d 08:00:00', strtotime('+1 Day'));
+        }
+        else {
+            $date_set = date('Y-m-d H:i:s');
+        }
+
+        if($request->is_primarycc && $data->isDirty('is_primarycc_date')) {
+            $data->is_primarycc_date_set = $date_set;
+        }
+
+        if($request->is_secondarycc && $data->isDirty('is_secondarycc_date')) {
+            $data->is_secondarycc_date_set = $date_set;
+        }
+
+        if($request->is_tertiarycc && $data->isDirty('is_tertiarycc_date')) {
+            $data->is_tertiarycc_date_set = $date_set;
         }
         
         if($data->isDirty()) {
