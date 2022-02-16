@@ -6,6 +6,7 @@ use App\Models\Brgy;
 use App\Models\Forms;
 use Carbon\CarbonPeriod;
 use App\Models\DailyCases;
+use App\Models\ExposureHistory;
 use App\Models\SecondaryTertiaryRecords;
 
 class ReportV2Controller extends Controller
@@ -222,11 +223,19 @@ class ReportV2Controller extends Controller
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 1);
 
+        $ct_primary_count = ExposureHistory::where('is_primarycc', 1)
+        ->where('is_primarycc_date_set', [date('Y-m-01 00:00:00'), date('Y-m-d 13:00:00')])
+        ->count();
+
         $secondaryCount = Forms::where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('reinfected', 0)
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 2);
+
+        $ct_secondary_count = ExposureHistory::where('is_secondarycc', 1)
+        ->where('is_secondarycc_date_set', [date('Y-m-01 00:00:00'), date('Y-m-d 13:00:00')])
+        ->count();
 
         $secondarycc_count = SecondaryTertiaryRecords::where('is_secondarycc', 1)
         ->whereBetween('is_secondarycc_date_set', [date('Y-m-01 00:00:00'), date('Y-m-d 13:00:00')])
@@ -237,6 +246,10 @@ class ReportV2Controller extends Controller
         ->where('reinfected', 0)
         ->where('pType', 'CLOSE CONTACT')
         ->where('ccType', 3);
+
+        $ct_tertiary_count = ExposureHistory::where('is_tertiarycc', 1)
+        ->whereBetween('is_tertiarycc_date_set', [date('Y-m-01 00:00:00'), date('Y-m-d 13:00:00')])
+        ->count();
 
         $tertiarycc_count = SecondaryTertiaryRecords::where('is_tertiarycc', 1)
         ->whereBetween('is_tertiarycc_date', [date('Y-m-01 00:00:00'), date('Y-m-d 13:00:00')])
@@ -276,7 +289,10 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count()) +
         $secondarycc_count + 
-        $tertiarycc_count;
+        $tertiarycc_count + 
+        $ct_primary_count +
+        $ct_secondary_count +
+        $ct_tertiary_count;
 
         if(date('H') >= 13) {
             //idagdag ang bilang ng confirmed cases yesterday
@@ -376,6 +392,33 @@ class ReportV2Controller extends Controller
             ->where('ptype', '!=', 'CLOSE CONTACT')
             ->where('caseClassification', 'Probable');
 
+            $ct_primary_count = ExposureHistory::whereHas('form', function ($q) use ($b) {
+                $q->whereHas('records', function ($r) use ($b) {
+                    $r->where('address_province', $b->city->province->provinceName)
+                    ->where('address_city', $b->city->cityName)
+                    ->where('address_brgy', $b->brgyName);
+                });
+            })
+            ->where('is_primarycc', 1);
+
+            $ct_secondary_count = ExposureHistory::whereHas('form', function ($q) use ($b) {
+                $q->whereHas('records', function ($r) use ($b) {
+                    $r->where('address_province', $b->city->province->provinceName)
+                    ->where('address_city', $b->city->cityName)
+                    ->where('address_brgy', $b->brgyName);
+                });
+            })
+            ->where('is_secondarycc', 1);
+
+            $ct_tertiary_count = ExposureHistory::whereHas('form', function ($q) use ($b) {
+                $q->whereHas('records', function ($r) use ($b) {
+                    $r->where('address_province', $b->city->province->provinceName)
+                    ->where('address_city', $b->city->cityName)
+                    ->where('address_brgy', $b->brgyName);
+                });
+            })
+            ->where('is_tertiarycc', 1);
+
             if(request()->input('getDate')) {
                 $primaryCount = $primaryCount->whereDate('morbidityMonth', request()->input('getDate'))
                 ->count();
@@ -402,6 +445,15 @@ class ReportV2Controller extends Controller
                 ->count();
 
                 $probableCount = $probableCount->whereDate('morbidityMonth', request()->input('getDate'))
+                ->count();
+
+                $ct_primary_count = $ct_primary_count->whereDate('is_primarycc_date_set', request()->input('getDate'))
+                ->count();
+
+                $ct_secondary_count = $ct_primary_count->whereDate('is_secondarycc_date_set', request()->input('getDate'))
+                ->count();
+
+                $ct_tertiary_count = $ct_primary_count->whereDate('is_tertiarycc_date_set', request()->input('getDate'))
                 ->count();
             }
             else {
@@ -431,13 +483,22 @@ class ReportV2Controller extends Controller
 
                 $probableCount = $probableCount->whereDate('morbidityMonth', date('Y-m-d'))
                 ->count();
+
+                $ct_primary_count = $ct_primary_count->whereDate('is_primarycc_date_set', date('Y-m-d'))
+                ->count();
+
+                $ct_secondary_count = $ct_primary_count->whereDate('is_secondarycc_date_set', date('Y-m-d'))
+                ->count();
+
+                $ct_tertiary_count = $ct_primary_count->whereDate('is_tertiarycc_date_set', date('Y-m-d'))
+                ->count();
             }
 
             array_push ($arr, [
                 'brgyName' => $b->brgyName,
-                'primaryCount' => $primaryCount,
-                'secondaryCount' => $secondaryCount + $st_secondary_count + $st_secondary_count_yesterday,
-                'tertiaryCount' => $tertiaryCount + $st_tertiary_count + $st_tertiary_count_yesterday,
+                'primaryCount' => $primaryCount + $ct_primary_count,
+                'secondaryCount' => $secondaryCount + $st_secondary_count + $st_secondary_count_yesterday + $ct_secondary_count,
+                'tertiaryCount' => $tertiaryCount + $st_tertiary_count + $st_tertiary_count_yesterday + $ct_tertiary_count,
                 'suspectedCount' => $suspectedCount,
                 'probableCount' => $probableCount,
             ]);

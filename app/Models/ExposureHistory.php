@@ -27,4 +27,8 @@ class ExposureHistory extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function form() {
+        return $this->belongsTo(Forms::class);
+    }
 }
