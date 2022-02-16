@@ -2475,8 +2475,35 @@
                                                 <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</a></div>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            
+                                        <div class="card-body text-center">
+                                            @if($get_ctdata->count() != 0)
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Date Recorded</th>
+                                                            <th>Is Primary CC / Date</th>
+                                                            <th>Is Secondary CC / Date</th>
+                                                            <th>Is Tertiary CC / Date</th>
+                                                            <th>Encoded By</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($get_ctdata as $ctitem)
+                                                        <tr>
+                                                            <td><a href="{{route('ct_exposure_edit', ['form' => $records->id, 'ct_id' => $ctitem->id])}}">{{date('m/d/Y h:i A', strtotime($ctitem->created_at))}}</a></td>
+                                                            <td>{{($ctitem->is_primarycc == 1) ? 'YES - '.date('m/d/Y', strtotime($ctitem->is_primarycc_date)) : 'NO'}}</td>
+                                                            <td>{{($ctitem->is_secondarycc == 1) ? 'YES - '.date('m/d/Y', strtotime($ctitem->is_secondarycc_date)) : 'NO'}}</td>
+                                                            <td>{{($ctitem->is_tertiarycc == 1) ? 'YES - '.date('m/d/Y', strtotime($ctitem->is_tertiarycc_date)) : 'NO'}}</td>
+                                                            <td>{{$ctitem->user->name}}</td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            @else
+                                            <p>There are no Exposure History recorded in this CIF of the Patient.</p>
+                                            @endif
                                             <!--
                                             <hr>
                                             <div class="form-group">

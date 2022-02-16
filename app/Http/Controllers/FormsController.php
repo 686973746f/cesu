@@ -13,11 +13,12 @@ use App\Imports\ExcelImport;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
+use App\Models\ExposureHistory;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\MonitoringSheetMaster;
 use PragmaRX\Countries\Package\Countries;
 use App\Http\Requests\FormValidationRequest;
-use App\Models\MonitoringSheetMaster;
 use IlluminateAgnostic\Collection\Support\Str;
 
 class FormsController extends Controller
@@ -1543,6 +1544,9 @@ class FormsController extends Controller
             $cc_list_array = explode(',', $records->ccid_list);
             $get_current_ccid_data = Forms::whereIn('id', $cc_list_array)->get();
 
+            //Get ExposureHistory List
+            $get_ctdata = ExposureHistory::where('form_id', $records->id)->get();
+
             return view('formsedit', [
                 'countries' => $all,
                 'records' => $records,
@@ -1554,6 +1558,7 @@ class FormsController extends Controller
                 'msheet' => $msheet,
                 'is_cutoff' => $is_cutoff,
                 'current_ccid_data' => $get_current_ccid_data,
+                'get_ctdata' => $get_ctdata,
             ]);
         }
         else {

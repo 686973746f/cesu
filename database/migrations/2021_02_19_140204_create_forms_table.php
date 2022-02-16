@@ -47,6 +47,15 @@ class CreateFormsTable extends Migration
             $table->string('ecOthersRemarks')->nullable(); // new
             $table->string('pType');
             $table->tinyInteger('ccType')->nullable();
+            $table->tinyInteger('is_primarycc')->default(0);
+            $table->tinyInteger('is_secondarycc')->default(0);
+            $table->tinyInteger('is_tertiarycc')->default(0);
+            $table->date('is_primarycc_date')->nullable();
+            $table->date('is_secondarycc_date')->nullable();
+            $table->date('is_tertiarycc_date')->nullable();
+            $table->dateTime('is_primarycc_date_set')->nullable();
+            $table->dateTime('is_secondarycc_date_set')->nullable();
+            $table->dateTime('is_tertiarycc_date_set')->nullable();
             $table->text('testingCat');
 
             $table->enum('havePreviousCovidConsultation', [0,1]);

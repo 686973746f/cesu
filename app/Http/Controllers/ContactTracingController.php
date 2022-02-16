@@ -44,6 +44,17 @@ class ContactTracingController extends Controller
     }
 
     public function ctFormsExposureStore(Request $request, $form_id) {
+        $request->validate([
+            'is_primarycc' => 'sometimes',
+            'is_secondarycc' => 'sometimes',
+            'is_tertiarycc' => 'sometimes',
+            'is_primarycc_date' => ($request->is_primarycc) ? 'required' : 'nullable',
+            'is_secondarycc_date' => ($request->is_secondarycc) ? 'required' : 'nullable',
+            'is_tertiarycc_date' => ($request->is_tertiarycc) ? 'required' : 'nullable',
+        ]);
+
+        $form = Forms::findOrFail($form_id);
+
         $request->user()->exposureHistory()->create([
             'form_id' => $form_id,
             'is_primarycc' => ($request->is_primarycc) ? 1 : 0,
@@ -56,6 +67,10 @@ class ContactTracingController extends Controller
             'is_secondarycc_date_set' => ($request->is_secondarycc) ? date('Y-m-d H:i:s') : NULL,
             'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? date('Y-m-d H:i:s') : NULL,
         ]);
+
+        return redirect()->route('forms.edit', ['form' => $form_id])
+        ->with('msg', 'Exposure History Data has been Added successfully.')
+        ->with('msgType', 'success');
     }
 
     public function ctFormsExposureEdit($form_id, $ct_id) 
@@ -98,6 +113,10 @@ class ContactTracingController extends Controller
             if($update->isDirty()) {
                 $update->save();
             }
+
+            return redirect()->route('forms.edit', ['form' => $update->form_id])
+            ->with('msg', 'Exposure History Data has been Updated successfully.')
+            ->with('msgType', 'success');
         }
         else {
             return abort(401);

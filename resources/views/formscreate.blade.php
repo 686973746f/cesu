@@ -2233,13 +2233,11 @@
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between">
                                                 <div>To be filled by Contact Tracers ONLY</div>
-                                                <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</a></div>
+                                                <div><button type="button" class="btn btn-outline-success" disabled><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</button></div>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                
-                                            </div>
+                                        <div class="card-body text-center">
+                                            <p>Available after creating the CIF of the Patient.</p>
                                             <!--
                                             <hr>
                                             <div class="form-group">
