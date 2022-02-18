@@ -792,6 +792,7 @@
                                         <select class="form-control" name="dispositionType" id="dispositionType">
                                             <option value="1" {{(old('dispositionType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
                                             <option value="6" {{(old('dispositionType') == 6) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility</option>
+                                            <option value="7" {{(old('dispositionType') == 7) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility #2 (Eagle Ridge Brgy. Javalera)</option>
                                             <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}}>Admitted in OTHER isolation/quarantine facility</option>
                                             <option value="3" {{(old('dispositionType') == 3 || is_null(old('dispositionType'))) ? 'selected' : ''}}>In home isolation/quarantine</option>
                                             <option value="4" {{(old('dispositionType') == 4) ? 'selected' : ''}}>Discharged to home</option>

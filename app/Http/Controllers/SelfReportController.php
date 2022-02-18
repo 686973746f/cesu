@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Forms;
 use App\Models\Records;
 use App\Models\SelfReports;
@@ -303,6 +304,61 @@ class SelfReportController extends Controller
             $mm = date('Y-m-d');
         }
 
+        //Auto Recovered if Lagpas na sa Quarantine Period
+        $dateToday = Carbon::parse(date('Y-m-d'));
+        if($data->dispoType != 6 && $data->dispoType != 7) {
+            $swabDateCollected = $data->testDateCollected1;
+
+            if($data->dispoType == 1) {
+                $daysToRecover = 21;
+            }
+            else {
+                if(!is_null($data->vaccinationDate2)) {
+                    $date1 = Carbon::parse($data->vaccinationDate2);
+                    $days_diff = $date1->diffInDays($dateToday);
+
+                    if($days_diff >= 14) {
+                        $daysToRecover = 7;
+                    }
+                    else {
+                        $daysToRecover = 10;
+                    }
+                }
+                else {
+                    if($data->vaccinationName1 == 'JANSSEN') {
+                        $date1 = Carbon::parse($data->vaccinationDate1);
+                        $days_diff = $date1->diffInDays($dateToday);
+
+                        if($days_diff >= 14) {
+                            $daysToRecover = 7;
+                        }
+                        else {
+                            $daysToRecover = 10;
+                        }
+                    }
+                    else {
+                        $daysToRecover = 10;
+                    }
+                }
+            }
+
+            $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
+            $diff = $startDate->diffInDays($dateToday);
+            if($diff >= $daysToRecover) {
+                $auto_outcome = 'Recovered';
+                $auto_outcome_recovered_date = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
+                //$auto_outcome_recovered_date = date('Y-m-d');
+            }
+            else {
+                $auto_outcome = 'Active';
+                $auto_outcome_recovered_date = NULL;
+            }
+        }
+        else {
+            $auto_outcome = 'Active';
+            $auto_outcome_recovered_date = NULL;
+        }
+
         $form_array = array(
             'reinfected' => ($autoreinfect == 1) ? 1 : 0,
             'morbidityMonth' => $mm,
@@ -393,8 +449,8 @@ class SelfReportController extends Controller
             'testResult2' => NULL,
             'testResultOtherRemarks2' => NULL,
 
-            'outcomeCondition' => 'Active',
-            'outcomeRecovDate' => NULL,
+            'outcomeCondition' => $auto_outcome,
+            'outcomeRecovDate' => $auto_outcome_recovered_date,
             'outcomeDeathDate' => NULL,
             'deathImmeCause' => NULL,
             'deathAnteCause' => NULL,
