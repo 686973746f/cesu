@@ -71,6 +71,7 @@ class CreateRecordsTable extends Migration
             $table->string('occupation_mobile')->nullable();
             $table->string('occupation_email')->nullable();
 
+            $table->tinyInteger('if_vaccine_different_brand_dosage')->default(0);
             $table->date('vaccinationDate1')->nullable();
             $table->string('vaccinationName1')->nullable();
             $table->tinyInteger('vaccinationNoOfDose1')->nullable();

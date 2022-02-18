@@ -35,12 +35,14 @@ class CreateSiteSettingsTable extends Migration
             $table->text('listEmail')->nullable();
             $table->text('dilgCustomRespondentName')->nullable();
             $table->text('dilgCustomOfficeName')->nullable();
-            $table->tinyInteger('unvaccinated_days_of_recovery')->default('10');
-            $table->tinyInteger('partialvaccinated_days_of_recovery')->default('10');
-            $table->tinyInteger('fullyvaccinated_days_of_recovery')->default('7');
-            $table->tinyInteger('booster_days_of_recovery')->default('7');
-            $table->tinyInteger('in_hospital_days_of_recovery')->default('21');
-            $table->tinyInteger('severe_days_of_recovery')->default('21');
+            $table->tinyInteger('unvaccinated_days_of_recovery')->default(10);
+            $table->tinyInteger('partialvaccinated_days_of_recovery')->default(10);
+            $table->tinyInteger('fullyvaccinated_days_of_recovery')->default(7);
+            $table->tinyInteger('booster_days_of_recovery')->default(7);
+            $table->tinyInteger('in_hospital_days_of_recovery')->default(21);
+            $table->tinyInteger('severe_days_of_recovery')->default(21);
+            $table->tinyInteger('paswab_auto_schedule_if_symptomatic')->default(0);
+            $table->tinyInteger('cifpage_auto_schedule_if_symptomatic')->default(0);
         });
     }
 
