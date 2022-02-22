@@ -963,6 +963,17 @@
                                                                 <input
                                                                   class="form-check-input"
                                                                   type="checkbox"
+                                                                  value="Colds"
+                                                                  name="sasCheck[]"
+                                                                  id="signsCheck19"
+                                                                  {{(is_array(old('sasCheck')) && in_array("Colds", old('sasCheck'))) ? 'checked' : ''}}
+                                                                />
+                                                                <label class="form-check-label" for="signsCheck19">Colds</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                  class="form-check-input"
+                                                                  type="checkbox"
                                                                   value="General Weakness"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck4"
@@ -1128,7 +1139,7 @@
                                                             </div>
                                                             <div id="divSASOtherChecked">
                                                                 <div class="form-group mt-2">
-                                                                  <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings</label>
+                                                                  <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Specify Findings <small>(Separate each with commas [,])</small></label>
                                                                   <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks')}}" style="text-transform: uppercase;">
                                                                 </div>
                                                             </div>

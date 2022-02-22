@@ -183,6 +183,24 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $displaySecondTestResultOtherRemarks = ($form->testResult1 == "OTHERS") ? $form->testResultOtherRemarks1 : "N/A";
         }
 
+        //Colds in SX
+        if(in_array("Others", $arr_sas)) {
+            if(in_array("Colds", $arr_sas)) {
+                $auto_othersx = strtoupper($form->SASOtherRemarks).', Colds';
+            }
+            else {
+                $auto_othersx = strtoupper($form->SASOtherRemarks);
+            }
+        }
+        else {
+            if(in_array("Colds", $arr_sas)) {
+                $auto_othersx = 'Colds';
+            }
+            else {
+                $auto_othersx = 'N/A';
+            }
+        }
+
         return [
             $form->drunit,
             $form->drregion." ".$form->drprovince,
@@ -363,7 +381,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("Anosmia (Loss of Smell)", $arr_sas)) ? "YES" : "NO",
             (in_array("Ageusia (Loss of Taste)", $arr_sas)) ? "YES" : "NO",
             (in_array("Others", $arr_sas)) ? "YES" : "NO",
-            (in_array("Others", $arr_sas)) ? strtoupper($form->SASOtherRemarks) : "N/A",
+            $auto_othersx,
 
             (in_array("None", $arr_como)) ? "YES" : "NO",
             (in_array("Hypertension", $arr_como)) ? "YES" : "NO",
