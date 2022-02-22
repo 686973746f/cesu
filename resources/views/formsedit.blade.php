@@ -24,6 +24,10 @@
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
+                <hr>
+                <form action="" method="POST">
+                    <button type="submit" class="btn btn-sucess">Generate Medical Certificate</button>
+                </form>
                 @endif
             </div>
         @endif
@@ -1672,12 +1676,6 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testDateReleased1"><span id="asterisk_date_released1" class="d-none"><span class="text-danger font-weight-bold">*</span></span>Date Released</label>
-                                                <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
                                                 <label for="testResult1"><span class="text-danger font-weight-bold">*</span>Results</label>
                                                 <select class="form-control" name="testResult1" id="testResult1" required>
                                                     <option value="PENDING" {{(old('testResult1', $records->testResult1) == 'PENDING') ? 'selected' : ''}}>Pending</option>
@@ -1698,6 +1696,14 @@
                                                     <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/1"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                                 </div>
                                               @endif
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div id="ifDateReleased1" class="d-none">
+                                                <div class="form-group">
+                                                    <label for="testDateReleased1"><span class="text-danger font-weight-bold">*</span>Date Released</label>
+                                                    <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -1751,12 +1757,6 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testDateReleased2">Date Released</label>
-                                                <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2', $records->testDateReleased2)}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
                                               <label for="testResult2"><span class="text-danger font-weight-bold">*</span>Results</label>
                                               <select class="form-control" name="testResult2" id="testResult2">
                                                 <option value="PENDING" {{(old('testResult2', $records->testResult2) == 'PENDING') ? 'selected' : ''}}>Pending</option>
@@ -1777,6 +1777,14 @@
                                                     <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/2"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                                 </div>
                                             @endif
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div id="ifDateReleased2" class="d-none">
+                                                <div class="form-group">
+                                                    <label for="testDateReleased2">Date Released</label>
+                                                    <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2', $records->testDateReleased2)}}">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -3495,10 +3503,12 @@
                     if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
                         $('#testDateReleased1').prop('required', true);
                         $('#asterisk_date_released1').removeClass('d-none');
+                        $('#ifDateReleased1').removeClass('d-none');
                     }
                     else {
                         $('#testDateReleased1').prop('required', false);
                         $('#asterisk_date_released1').addClass('d-none');
+                        $('#ifDateReleased1').addClass('d-none');
                     }
                 }
             }).trigger('change');
@@ -3574,9 +3584,11 @@
 
                     if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
                         $('#testDateReleased2').prop('required', true);
+                        $('#ifDateReleased2').removeClass('d-none');
                     }
                     else {
                         $('#testDateReleased2').prop('required', false);
+                        $('#ifDateReleased2').addClass('d-none');
                     }
                 }
             }).trigger('change');
