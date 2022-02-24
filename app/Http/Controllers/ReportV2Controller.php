@@ -1250,4 +1250,56 @@ class ReportV2Controller extends Controller
             'list' => $brgy,
         ]);
     }
+
+    public function encodingCalendar() {
+        $brgy = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->orderBy('brgyName', 'ASC')
+        ->get();
+
+        $period = CarbonPeriod::create(date('2022-02-01'), date('2022-02-28'));
+
+        /*
+        $arr = [];
+        foreach($brgy as $b) {
+            foreach($period as $d) {
+                $sus_count = Forms::with('records')
+                ->whereHas('records', function ($q) use ($d) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $d->brgyName);
+                })
+                ->whereDate('morbidityMonth', $d->format('Y-m-d'))
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Suspect')
+                ->where('outcomeCondition', 'Active')
+                ->count();
+
+                $pro_count = Forms::with('records')
+                ->whereHas('records', function ($q) use ($d) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->where('records.address_brgy', $d->brgyName);
+                })
+                ->whereDate('morbidityMonth', $d->format('Y-m-d'))
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Probable')
+                ->where('outcomeCondition', 'Active')
+                ->count();
+
+                array_push($arr, [
+                    'brgy' => $b->brgyName,
+                    'forDate' => $d->format('Y-m-d'),
+                    'sus_count' => $sus_count,
+                    'pro_count' => $pro_count,
+                ]);
+            }
+        }
+        */
+
+        return view('encodingcalendar', [
+            'brgy' => $brgy,
+            'period' => $period,
+        ]);
+    }
 }

@@ -188,6 +188,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'store'])->name('sc_store');
     Route::get('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'edit'])->name('sc_edit');
     Route::put('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'update'])->name('sc_update');
+
+    Route::get('/report/encoding_calendar', [ReportV2Controller::class, 'encodingCalendar'])->name('encoding_calendar');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
