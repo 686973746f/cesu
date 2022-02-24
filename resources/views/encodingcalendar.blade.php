@@ -10,18 +10,28 @@
                         <tr>
                             <th>February</th>
                             @foreach($period as $d)
-                            <th colspan="2">{{$d->format('d')}}</th>
+                            <th colspan="3">{{$d->format('d')}}</th>
                             @endforeach
+                            <th colspan="3">TOTAL</th>
                         </tr>
                         <tr>
                             <th></th>
                             @foreach($period as $d)
                             <th>Suspected</th>
                             <th>Probable</th>
+                            <th class="text-danger">Confirmed</th>
                             @endforeach
+                            <th>Suspected</th>
+                            <th>Probable</th>
+                            <th class="text-danger">Confirmed</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                        $sus_total = 0;
+                        $pro_total = 0;
+                        $con_total = 0;
+                        @endphp
                         @foreach($brgy as $b)
                         <tr>
                             <td scope="row">{{$b->brgyName}}</td>
@@ -51,10 +61,30 @@
                             ->where('caseClassification', 'Probable')
                             ->where('outcomeCondition', 'Active')
                             ->count();
+
+                            $con_count = App\Models\Forms::with('records')
+                            ->whereHas('records', function ($q) use ($b) {
+                                $q->where('records.address_province', 'CAVITE')
+                                ->where('records.address_city', 'GENERAL TRIAS')
+                                ->where('records.address_brgy', $b->brgyName);
+                            })
+                            ->whereDate('morbidityMonth', $d->format('Y-m-d'))
+                            ->where('status', 'approved')
+                            ->where('caseClassification', 'Confirmed')
+                            ->count();
+
+                            $sus_total += $sus_count;
+                            $pro_total += $pro_count;
+                            $con_total += $con_count;
+
                             @endphp
                             <td class="text-center">{{$sus_count}}</td>
                             <td class="text-center">{{$pro_count}}</td>
+                            <td class="text-center text-danger">{{$con_count}}</td>
                             @endforeach
+                            <td class="text-center">{{$sus_total}}</td>
+                            <td class="text-center">{{$pro_total}}</td>
+                            <td class="text-center text-danger">{{$con_total}}</td>
                         </tr>
                         @endforeach
                     </tbody>
