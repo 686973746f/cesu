@@ -1257,7 +1257,7 @@ class ReportV2Controller extends Controller
         ->orderBy('brgyName', 'ASC')
         ->get();
 
-        $period = CarbonPeriod::create(date('2022-02-01'), date('2022-02-28'));
+        $period = CarbonPeriod::create(date('Y-m-01'), date('Y-m-d'));
 
         /*
         $arr = [];
