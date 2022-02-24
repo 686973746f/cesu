@@ -138,6 +138,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/forms/singleExport/{id}', [FormsController::class, 'soloExport'])->name('forms.soloprint.cif');
     Route::get('/forms/printAntigen/{id}/{testType}', [FormsController::class, 'printAntigen'])->name('forms.soloprint.antigen');
 
+    Route::post('/forms/medcert/{form_id}', [FormsController::class, 'generateMedCert'])->name('generate_medcert');
+
     Route::get('/forms/ct_exposure/{form}/create', [ContactTracingController::class, 'ctFormsExposureCreate'])->name('ct_exposure_create');
     Route::post('/forms/ct_exposure/{form}/create', [ContactTracingController::class, 'ctFormsExposureStore'])->name('ct_exposure_store');
     Route::get('/forms/ct_exposure/{form}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureEdit'])->name('ct_exposure_edit');

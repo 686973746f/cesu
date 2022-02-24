@@ -2330,4 +2330,13 @@ class FormsController extends Controller
 
         return view('forms_existing', ['form' => $form]);
     }
+
+    public function generateMedCert(Request $request, $form_id) {
+        $data = Forms::findOrFail($form_id);
+
+        return view('medcert', [
+            'data' => $data,
+            'req' => $request,
+        ]);
+    }
 }

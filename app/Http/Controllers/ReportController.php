@@ -900,9 +900,29 @@ class ReportController extends Controller
                     //Recovery Count Not Included
                     $brgyRecoveryCount = 0;
 
-                    $brgySuspectedCount = 0;
+                    $brgySuspectedCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Suspect')
+                    ->where('outcomeCondition', 'Active')
+                    ->count();
 
-                    $brgyProbableCount = 0;
+                    $brgyProbableCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Probable')
+                    ->where('outcomeCondition', 'Active')
+                    ->count();
                 }
                 else {
                     $brgyConfirmedCount = $brgyConfirmedCount->where('caseClassification', 'Confirmed')
