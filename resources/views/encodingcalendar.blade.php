@@ -27,6 +27,7 @@
                             <td scope="row">{{$b->brgyName}}</td>
                             @foreach($period as $d)
                             @php
+                            ini_set('max_execution_time', 600);
                             $sus_count = App\Models\Forms::with('records')
                             ->whereHas('records', function ($q) use ($b) {
                                 $q->where('records.address_province', 'CAVITE')

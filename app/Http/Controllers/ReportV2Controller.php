@@ -1252,6 +1252,7 @@ class ReportV2Controller extends Controller
     }
 
     public function encodingCalendar() {
+        ini_set('max_execution_time', 600);
         $brgy = Brgy::where('city_id', 1)
         ->where('displayInList', 1)
         ->orderBy('brgyName', 'ASC')
