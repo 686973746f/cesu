@@ -135,6 +135,10 @@ class CreateFormsTable extends Migration
             $table->string('testType1')->nullable();
             $table->string('testTypeAntigenRemarks1')->nullable();
             $table->string('antigenKit1')->nullable();
+            
+            $table->foreignId('antigen_id1')->nullable()->constrained('antigens')->onDelete('cascade');
+            $table->text('antigenLotNo1')->nullable();
+            
             $table->string('testTypeOtherRemarks1')->nullable();
             $table->string('testResult1')->nullable();
             $table->string('testResultOtherRemarks1')->nullable();
@@ -146,6 +150,10 @@ class CreateFormsTable extends Migration
             $table->string('testType2')->nullable();
             $table->string('testTypeAntigenRemarks2')->nullable();
             $table->string('antigenKit2')->nullable();
+            
+            $table->foreignId('antigen_id2')->nullable()->constrained('antigens')->onDelete('cascade');
+            $table->text('antigenLotNo2')->nullable();
+
             $table->string('testTypeOtherRemarks2')->nullable();
             $table->string('testResult2')->nullable();
             $table->string('testResultOtherRemarks2')->nullable();

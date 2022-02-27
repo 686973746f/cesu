@@ -20,6 +20,7 @@ use App\Http\Controllers\LineListController;
 use App\Http\Controllers\ReportV2Controller;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\AntigenController;
 use App\Http\Controllers\BulkUpdateController;
 use App\Http\Controllers\JsonReportController;
 use App\Http\Controllers\SelfReportController;
@@ -243,6 +244,12 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 
     //Encoder Stats
     Route::get('/admin/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
+
+    Route::get('/admin/antigen', [AntigenController::class, 'index'])->name('antigen_index');
+    Route::get('/admin/antigen/create', [AntigenController::class, 'create'])->name('antigen_create');
+    Route::post('/admin/antigen/create', [AntigenController::class, 'store'])->name('antigen_store');
+    Route::get('/admin/antigen/{id}/edit', [AntigenController::class, 'edit'])->name('antigen_edit');
+    Route::post('/admin/antigen/{id}/edit', [AntigenController::class, 'update'])->name('antigen_update');
 });
 
 //JSON Reports
