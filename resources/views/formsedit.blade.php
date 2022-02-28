@@ -1698,8 +1698,16 @@
                                               </div>
                                               <div id="ifAntigen1" class="d-none">
                                                 <div class="form-group">
-                                                    <label for="antigenKit1"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
-                                                    <input type="text" class="form-control" name="antigenKit1" id="antigenKit1" value="{{old('antigenKit1', $records->antigenKit1)}}" style="text-transform: uppercase;">
+                                                    <label for="antigen_id1">Antigen Kit</label>
+                                                    <select class="form-control" name="antigen_id1" id="antigen_id1">
+                                                        @foreach($antigen_list as $ai)
+                                                        <option value="{{$ai->id}}">{{$ai->antigenKitShortName}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="antigenLotNo1">Antigen Lot No <small>(Leave Blank to use Default)</small></label>
+                                                    <input type="text" class="form-control" name="antigenLotNo1" id="antigenLotNo1">
                                                 </div>
                                             </div>
                                         </div>
@@ -1779,8 +1787,16 @@
                                             </div>
                                             <div id="ifAntigen2" class="d-none">
                                                 <div class="form-group">
-                                                    <label for="antigenKit2"><span class="text-danger font-weight-bold">*</span>Antigen Kit</label>
-                                                    <input type="text" class="form-control" name="antigenKit2" id="antigenKit2" value="{{old('antigenKit2', $records->antigenKit2)}}" style="text-transform: uppercase;">
+                                                    <label for="antigen_id2">Antigen Kit</label>
+                                                    <select class="form-control" name="antigen_id2" id="antigen_id2">
+                                                        @foreach($antigen_list as $ai)
+                                                        <option value="{{$ai->id}}">{{$ai->antigenKitShortName}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="antigenLotNo2">Antigen Lot No <small>(Leave Blank to use Default)</small></label>
+                                                    <input type="text" class="form-control" name="antigenLotNo2" id="antigenLotNo2">
                                                 </div>
                                             </div>
                                         </div>
@@ -3494,7 +3510,7 @@
 
                     $('#antigenExport1').addClass('d-none');
                     $('#ifAntigen1').addClass('d-none');
-                    $('#antigenKit1').prop('required', false);
+                    $('#antigen_id1').prop('required', false);
 
                     $('#testResult1').prop('disabled', true);
                     $('#testDateCollected1').prop('disabled', true);
@@ -3519,12 +3535,12 @@
                         if($(this).val() == 'ANTIGEN') {
                             $('#antigenExport1').removeClass('d-none');
                             $('#ifAntigen1').removeClass('d-none');
-                            $('#antigenKit1').prop('required', true);
+                            $('#antigen_id1').prop('required', true);
                         }
                         else {
                             $('#antigenExport1').addClass('d-none');
                             $('#ifAntigen1').addClass('d-none');
-                            $('#antigenKit1').prop('required', false);
+                            $('#antigen_id1').prop('required', false);
                         }
                     }
                     else {
@@ -3534,7 +3550,7 @@
 
                         $('#antigenExport1').addClass('d-none');
                         $('#ifAntigen1').addClass('d-none');
-                        $('#antigenKit1').prop('required', false);
+                        $('#antigen_id1').prop('required', false);
                     }
                 }
             }).trigger('change');
@@ -3575,7 +3591,7 @@
                     
                     $('#antigenExport2').addClass('d-none');
                     $('#ifAntigen2').addClass('d-none');
-                    $('#antigenKit2').prop('required', false);
+                    $('#antigen_id2').prop('required', false);
 
                     $('#testResult2').prop('disabled', true);
                     $('#testDateCollected2').prop('disabled', true);
@@ -3601,12 +3617,12 @@
                         if($(this).val() == 'ANTIGEN') {
                             $('#antigenExport2').removeClass('d-none');
                             $('#ifAntigen2').removeClass('d-none');
-                            $('#antigenKit2').prop('required', true);
+                            $('#antigen_id2').prop('required', true);
                         }
                         else {
                             $('#antigenExport2').addClass('d-none');
                             $('#ifAntigen2').addClass('d-none');
-                            $('#antigenKit2').prop('required', false);
+                            $('#antigen_id2').prop('required', false);
                         }
                     }
                     else {
@@ -3616,7 +3632,7 @@
                         
                         $('#antigenExport2').addClass('d-none');
                         $('#ifAntigen2').addClass('d-none');
-                        $('#antigenKit2').prop('required', false);
+                        $('#antigen_id2').prop('required', false);
                     }
                 }
             }).trigger('change');

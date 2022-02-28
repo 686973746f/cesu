@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Brgy;
+use App\Models\Antigen;
 use App\Models\Records;
 use App\Models\CifUploads;
 use App\Models\PaSwabLinks;
@@ -191,5 +192,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function exposureHistory() {
         return $this->hasMany(ExposureHistory::class);
+    }
+
+    public function antigen() {
+        return $this->hasMany(Antigen::class);
     }
 }

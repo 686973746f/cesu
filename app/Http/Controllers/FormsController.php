@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 use Carbon\Carbon;
 use App\Models\Forms;
+use App\Models\Antigen;
 use App\Models\Records;
 use App\Imports\CifImport;
 use App\Models\CifUploads;
@@ -787,11 +788,21 @@ class FormsController extends Controller
                 else {
                     $is_cutoff = false;
                 }
+
+                //Get Antigen List
+                $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
                 
                 $countries = new Countries();
                 $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
                 $all = $countries->all()->pluck('name.common')->toArray();
-                return view('formscreate', ['countries' => $all, 'records' => $check, 'interviewers' => $interviewers, 'id' => $id, 'is_cutoff' => $is_cutoff]);
+                return view('formscreate', [
+                    'countries' => $all,
+                    'records' => $check,
+                    'interviewers' => $interviewers,
+                    'id' => $id,
+                    'is_cutoff' => $is_cutoff,
+                    'antigen_list' => $antigen_list,
+                ]);
             }
         }
         else {
@@ -1306,7 +1317,9 @@ class FormsController extends Controller
                     'testLaboratory1' => $request->testLaboratory1,
                     'testType1' => $request->testType1,
                     'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                    'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                    //'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                    'antigen_id1' => ($request->testType1 == "ANTIGEN") ? $request->antigen_id1 : NULL,
+                    'antigenLotNo1' => ($request->testType1 == "ANTIGEN" && !is_null($request->antigenLotNo1)) ? mb_strtoupper($request->antigenLotNo1) : NULL,
                     'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
                     'testResult1' => (!is_null($request->testType1)) ? $request->testResult1 : NULL,
                     'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
@@ -1317,7 +1330,9 @@ class FormsController extends Controller
                     'testLaboratory2' => $request->testLaboratory2,
                     'testType2' => $request->testType2,
                     'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
-                    'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
+                    //'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
+                    'antigen_id2' => ($request->testType2 == "ANTIGEN") ? $request->antigen_id2 : NULL,
+                    'antigenLotNo2' => ($request->testType2 == "ANTIGEN" && !is_null($request->antigenLotNo2)) ? mb_strtoupper($request->antigenLotNo2) : NULL,
                     'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
                     'testResult2' => (!is_null($request->testType2)) ? $request->testResult2 : NULL,
                     'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
@@ -1547,6 +1562,9 @@ class FormsController extends Controller
             //Get ExposureHistory List
             $get_ctdata = ExposureHistory::where('form_id', $records->id)->get();
 
+            //Get Antigen List
+            $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
+
             return view('formsedit', [
                 'countries' => $all,
                 'records' => $records,
@@ -1559,6 +1577,7 @@ class FormsController extends Controller
                 'is_cutoff' => $is_cutoff,
                 'current_ccid_data' => $get_current_ccid_data,
                 'get_ctdata' => $get_ctdata,
+                'antigen_list' => $antigen_list,
             ]);
         }
         else {
@@ -2128,7 +2147,9 @@ class FormsController extends Controller
                             'testLaboratory1' => $request->testLaboratory1,
                             'testType1' => $request->testType1,
                             'testTypeAntigenRemarks1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
-                            'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                            //'antigenKit1' => ($request->testType1 == "ANTIGEN") ? mb_strtoupper($request->antigenKit1) : NULL,
+                            'antigen_id1' => ($request->testType1 == "ANTIGEN") ? $request->antigen_id1 : NULL,
+                            'antigenLotNo1' => ($request->testType1 == "ANTIGEN" && !is_null($request->antigenLotNo1)) ? mb_strtoupper($request->antigenLotNo1) : NULL,
                             'testTypeOtherRemarks1' => ($request->testType1 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
                             'testResult1' => $request->testResult1,
                             'testResultOtherRemarks1' => $request->testResultOtherRemarks1,
@@ -2139,7 +2160,9 @@ class FormsController extends Controller
                             'testLaboratory2' => $request->testLaboratory2,
                             'testType2' => ($request->testType2 != "N/A") ? $request->testType2 : NULL,
                             'testTypeAntigenRemarks2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
-                            'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
+                            //'antigenKit2' => ($request->testType2 == "ANTIGEN") ? mb_strtoupper($request->antigenKit2) : NULL,
+                            'antigen_id2' => ($request->testType2 == "ANTIGEN") ? $request->antigen_id2 : NULL,
+                            'antigenLotNo2' => ($request->testType2 == "ANTIGEN" && !is_null($request->antigenLotNo2)) ? mb_strtoupper($request->antigenLotNo2) : NULL,
                             'testTypeOtherRemarks2' => ($request->testType2 == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks2) : NULL,
                             'testResult2' => ($request->testType2 != "N/A") ? $request->testResult2 : NULL,
                             'testResultOtherRemarks2' => $request->testResultOtherRemarks2,
@@ -2316,7 +2339,17 @@ class FormsController extends Controller
                 $is_cutoff = false;
             }
 
-            return view('formscreate', ['countries' => $all, 'records' => $record, 'interviewers' => $interviewers, 'id' => $id, 'is_cutoff' => $is_cutoff]);
+            //Get Antigen List
+            $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
+
+            return view('formscreate', [
+                'countries' => $all,
+                'records' => $record,
+                'interviewers' => $interviewers,
+                'id' => $id,
+                'is_cutoff' => $is_cutoff,
+                'antigen_list' => $antigen_list,
+            ]);
         }
         else {
             return redirect()->route('forms.index')
