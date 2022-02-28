@@ -1428,6 +1428,7 @@
                                                 <div class="form-group">
                                                     <label for="antigen_id1">Antigen Kit</label>
                                                     <select class="form-control" name="antigen_id1" id="antigen_id1">
+                                                        <option value="" disabled {{(is_null(old('antigen_id1', $records->antigen_id1))) ? 'selected' : ''}}>Choose...</option>
                                                         @foreach($antigen_list as $ai)
                                                         <option value="{{$ai->id}}" {{(old('antigen_id1') == $ai->id) ? 'selected' : ''}}>{{$ai->antigenKitShortName}}</option>
                                                         @endforeach
@@ -1512,6 +1513,7 @@
                                                 <div class="form-group">
                                                     <label for="antigen_id2">Antigen Kit</label>
                                                     <select class="form-control" name="antigen_id2" id="antigen_id2">
+                                                        <option value="" disabled {{(is_null(old('antigen_id2', $records->antigen_id2))) ? 'selected' : ''}}>Choose...</option>
                                                         @foreach($antigen_list as $ai)
                                                         <option value="{{$ai->id}}" {{(old('antigen_id2') == $ai->id) ? 'selected' : ''}}>{{$ai->antigenKitShortName}}</option>
                                                         @endforeach
