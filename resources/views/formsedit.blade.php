@@ -1707,7 +1707,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="antigenLotNo1">Antigen Lot No <small>(Leave Blank to use Default)</small></label>
-                                                    <input type="text" class="form-control" name="antigenLotNo1" id="antigenLotNo1">
+                                                    <input type="text" class="form-control" name="antigenLotNo1" id="antigenLotNo1" value="{{old('antigenLotNo1', $records->antigenLotNo1)}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -1796,7 +1796,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="antigenLotNo2">Antigen Lot No <small>(Leave Blank to use Default)</small></label>
-                                                    <input type="text" class="form-control" name="antigenLotNo2" id="antigenLotNo2">
+                                                    <input type="text" class="form-control" name="antigenLotNo2" id="antigenLotNo2" value="{{old('antigenLotNo2', $records->antigenLotNo2)}}">
                                                 </div>
                                             </div>
                                         </div>
