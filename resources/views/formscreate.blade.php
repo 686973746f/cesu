@@ -1429,7 +1429,7 @@
                                                     <label for="antigen_id1">Antigen Kit</label>
                                                     <select class="form-control" name="antigen_id1" id="antigen_id1">
                                                         @foreach($antigen_list as $ai)
-                                                        <option value="{{$ai->id}}">{{$ai->antigenKitShortName}}</option>
+                                                        <option value="{{$ai->id}}" {{(old('antigen_id1') == $ai->id) ? 'selected' : ''}}>{{$ai->antigenKitShortName}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -1513,7 +1513,7 @@
                                                     <label for="antigen_id2">Antigen Kit</label>
                                                     <select class="form-control" name="antigen_id2" id="antigen_id2">
                                                         @foreach($antigen_list as $ai)
-                                                        <option value="{{$ai->id}}">{{$ai->antigenKitShortName}}</option>
+                                                        <option value="{{$ai->id}}" {{(old('antigen_id2') == $ai->id) ? 'selected' : ''}}>{{$ai->antigenKitShortName}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
