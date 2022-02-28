@@ -446,8 +446,37 @@ class FormsController extends Controller
         $details = Forms::find($id);
 
         if(auth()->user()->isCesuAccount()) {
+            if($testType == 1) {
+                $aname = Antigen::where('id', $details->antigen_id1)->value('antigenKitName');
+                
+                if(!is_null($details->antigenLotNo1)) {
+                    $alot = $details->antigenLotNo1;
+                }
+                else {
+                    $alot = Antigen::where('id', $details->antigen_id1)->value('lotNo');
+                }
+            }
+            else if($testType == 2) {
+                $aname = Antigen::where('id', $details->antigen_id2)->value('antigenKitName');
+
+                if(!is_null($details->antigenLotNo2)) {
+                    $alot = $details->antigenLotNo2;
+                }
+                else {
+                    $alot = Antigen::where('id', $details->antigen_id2)->value('lotNo');
+                }
+            }
+            else {
+                return abort(401);
+            }
+
             if($details->testType1 == "ANTIGEN" || $details->testType2 == "ANTIGEN") {
-                $pdf = PDF::loadView('pdf_antigen', ['details' => $details, 'testType' => $testType])->setPaper('a4', 'portrait');
+                $pdf = PDF::loadView('pdf_antigen', [
+                    'details' => $details,
+                    'testType' => $testType,
+                    'aname' => $aname,
+                    'alot' => $alot,
+                ])->setPaper('a4', 'portrait');
                 return $pdf->download('ANTIGEN_RESULT_'.$details->records->lname.'.pdf');
             }
             else {
