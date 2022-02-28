@@ -128,7 +128,9 @@ class FormValidationRequest extends FormRequest
             'testLaboratory1' => 'nullable',
             'testType1' => 'nullable|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
             'testTypeOtherRemarks1' => ($this->testType1 == "OTHERS") ? 'required' : 'nullable',
-            'antigenKit1' => ($this->testType1 == "ANTIGEN") ? 'required' : 'nullable',
+            //'antigenKit1' => ($this->testType1 == "ANTIGEN") ? 'required' : 'nullable',
+            'antigen_id1' => ($this->testType1 == "ANTIGEN") ? 'required' : 'nullable',
+            'antigenLotNo1' => 'nullable',
             'testResult1' => (!is_null($this->testType1)) ? 'required' : 'nullable',
             'testResultOtherRemarks1' => ($this->testResult1 == "OTHERS") ? 'required' : 'nullable',
 
@@ -138,7 +140,9 @@ class FormValidationRequest extends FormRequest
             'testLaboratory2' => 'nullable',
             'testType2' => 'nullable|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
             'testTypeOtherRemarks2' => ($this->testType2 == "OTHERS") ? 'required' : 'nullable',
-            'antigenKit2' => ($this->testType2 == "ANTIGEN") ? 'required' : 'nullable',
+            //'antigenKit2' => ($this->testType2 == "ANTIGEN") ? 'required' : 'nullable',
+            'antigen_id2' => ($this->testType2 == "ANTIGEN") ? 'required' : 'nullable',
+            'antigenLotNo2' => 'nullable',
             'testResult2' => (!is_null($this->testType2)) ? 'required' : 'nullable',
             'testResultOtherRemarks2' => ($this->testResult2 == "OTHERS") ? 'required' : 'nullable',
 
