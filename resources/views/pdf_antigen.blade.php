@@ -17,7 +17,7 @@ if($testType == 1) {
     $time = (!is_null($details->oniTimeCollected1)) ? date('h:i A', strtotime($details->oniTimeCollected1)) : '';
     $result = ($details->testResult1 != "PENDING") ? $details->testResult1 : '';
 
-    $resultColor = ($details->testResult1 == "POSITIVE") ? 'text-danger' : '';
+    $resultColor = ($details->testResult1 == "POSITIVE") ? 'text-danger font-weight-bold' : '';
 }
 else {
     $dateCollected = date('m/d/Y', strtotime($details->testDateCollected2));
@@ -31,7 +31,7 @@ else {
     $time = (!is_null($details->oniTimeCollected2)) ? date('h:i A', strtotime($details->oniTimeCollected2)) : '';
     $result = ($details->testResult2 != "PENDING") ? $details->testResult2 : '';
 
-    $resultColor = ($details->testResult2 == "POSITIVE") ? 'text-danger' : '';
+    $resultColor = ($details->testResult2 == "POSITIVE") ? 'text-danger font-weight-bold' : '';
 }
 @endphp
 <div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif">
@@ -79,8 +79,8 @@ else {
         </thead>
         <tbody>
             <tr>
-                <td style="vertical-align: middle;">Abbott Panbio COVID-19 Ag Rapid Test Device</td>
-                <td style="vertical-align: middle;">41ADG330A BL0212A</td>
+                <td style="vertical-align: middle;">{{$aname}}</td>
+                <td style="vertical-align: middle;">{{$alot}}</td>
                 <td style="vertical-align: middle;">{{$time}}</td>
                 <td style="vertical-align: middle;" class="{{$resultColor}}">{{$result}}</td>
             </tr>
