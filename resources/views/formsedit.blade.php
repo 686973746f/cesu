@@ -1749,11 +1749,6 @@
                                                       <input type="text" class="form-control" name="testResultOtherRemarks1" id="testResultOtherRemarks1" value="{{old('testResultOtherRemarks1', ($records->testType1 == "ANTIGEN") ? $records->testTypeAntigenRemarks1 : $records->testResultOtherRemarks1)}}" style="text-transform: uppercase;">
                                                   </div>
                                               </div>
-                                              @if($records->testType1 == "ANTIGEN")
-                                                <div id="antigenExport1" class="d-none">
-                                                    <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/1"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
-                                                </div>
-                                              @endif
                                         </div>
                                         <div class="col-md-4">
                                             <div id="ifDateReleased1" class="d-none">
@@ -1762,6 +1757,11 @@
                                                     <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
                                                 </div>
                                             </div>
+                                            @if($records->testType1 == "ANTIGEN")
+                                            <div id="antigenExport1" class="d-none">
+                                                <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/1"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <hr>
@@ -1838,11 +1838,6 @@
                                                     <input type="text" class="form-control" name="testResultOtherRemarks2" id="testResultOtherRemarks2" value="{{old('testResultOtherRemarks2', $records->testResultOtherRemarks2)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
-                                            @if($records->testType2 == "ANTIGEN")
-                                                <div id="antigenExport2" class="d-none">
-                                                    <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/2"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
-                                                </div>
-                                            @endif
                                         </div>
                                         <div class="col-md-4">
                                             <div id="ifDateReleased2" class="d-none">
@@ -1851,6 +1846,11 @@
                                                     <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2', $records->testDateReleased2)}}">
                                                 </div>
                                             </div>
+                                            @if($records->testType2 == "ANTIGEN")
+                                            <div id="antigenExport2" class="d-none">
+                                                <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/2"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

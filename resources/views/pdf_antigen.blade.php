@@ -62,7 +62,7 @@ else {
                 <td>Date Requested: <u>{{date('m/d/Y', strtotime($details->interviewDate))}}</u></td>
             </tr>
             <tr style="vertical-align: top;">
-                <td>Address: <u>{{$details->records->address_street.", BRGY.".$details->records->address_brgy.", ".$details->records->address_city.", ".$details->records->address_province}}</u>&nbsp;</td>
+                <td>Address: <u><small>{{$details->records->address_street.", BRGY.".$details->records->address_brgy.", ".$details->records->address_city.", ".$details->records->address_province}}</small></u></td>
                 <td style="width: 200px;">Age & Gender: <u>{{$details->records->getAge()." / ".$details->records->gender}}</u></td>
             </tr>
         </tbody>
@@ -90,8 +90,8 @@ else {
     <table class="table table-borderless">
         <tbody>
             <tr>
-                <td>Date Performed: {{$dateCollected}}</td>
-                <td class="text-center">Date Released: {{$dateReleased}}</td>
+                <td>Date Performed: <u>{{$dateCollected}}</u></td>
+                <td class="text-center">Date Released: <u>{{$dateReleased}}</u></td>
             </tr>
             <tr>
                 <td>
