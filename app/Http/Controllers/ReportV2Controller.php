@@ -739,7 +739,7 @@ class ReportV2Controller extends Controller
         }
         */
 
-        $sdate = '2022-02-01';
+        $sdate = '2022-02-16';
 
         if(date('d') <= 15) { 
             $edate = '2022-02-28';
