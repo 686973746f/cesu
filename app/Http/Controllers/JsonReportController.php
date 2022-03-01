@@ -6,6 +6,7 @@ use App\Models\Brgy;
 use App\Models\Forms;
 use App\Models\Records;
 use Carbon\CarbonPeriod;
+use App\Models\DailyCases;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,6 +24,13 @@ class JsonReportController extends Controller
         $totalCasesCount_partialVaccinated = 0;
         $totalCasesCount_fullyVaccinated = 0;
 
+        $dcdata = DailyCases::whereDate('set_date', date('Y-m-d'))
+        ->where('type', '4PM')
+        ->first();
+
+        $totalActiveCases = $dcdata->total_active;
+
+        /*
         $totalActiveCases = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -33,6 +41,7 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
 
         $totalCasesCount += $totalActiveCases;
 
@@ -84,6 +93,7 @@ class JsonReportController extends Controller
 
         $totalCasesCount_fullyVaccinated += $totalActive_fullyVaccinated;
 
+        /*
         $totalRecovered = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -93,6 +103,9 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Recovered')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
+
+        $total_recoveries = $dcdata->total_recoveries;
 
         $totalCasesCount += $totalRecovered;
 
@@ -157,6 +170,7 @@ class JsonReportController extends Controller
 
         $totalCasesCount_fullyVaccinated += $totalRecovered_fullyVaccinated;
         
+        /*
         $totalDeaths = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -166,6 +180,9 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Died')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
+
+        $totalDeaths = $dcdata->total_deaths;
         
         $totalCasesCount += $totalDeaths;
 
@@ -214,6 +231,7 @@ class JsonReportController extends Controller
 
         $totalCasesCount_fullyVaccinated += $totalDeath_fullyVaccinated;
 
+        /*
         $newActive = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -225,6 +243,9 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->count();
+        */
+        
+        $newActive = $dcdata->new_cases;
 
         $newActiveCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -273,6 +294,7 @@ class JsonReportController extends Controller
 
         $newActiveCount_fullyVaccinated += $newActiveCount_fullyVaccinated_janssen;
 
+        /*
         $lateActive = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -284,6 +306,9 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->count();
+        */
+
+        $lateActive = $dcdata->late_cases;
 
         $lateActiveCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -332,6 +357,7 @@ class JsonReportController extends Controller
 
         $lateActiveCount_fullyVaccinated += $lateActiveCount_fullyVaccinated_janssen;
 
+        /*
         $newRecovered = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -341,6 +367,9 @@ class JsonReportController extends Controller
         ->whereDate('outcomeRecovDate', date('Y-m-d'))
         ->where('outcomeCondition', 'Recovered')
         ->count();
+        */
+
+        $newRecovered = $dcdata->new_recoveries;
 
         $newRecoveredCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -383,6 +412,7 @@ class JsonReportController extends Controller
 
         $newRecoveredCount_fullyVaccinated += $newRecoveredCount_fullyVaccinated_janssen;
 
+        /*
         $lateRecovered = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -393,6 +423,9 @@ class JsonReportController extends Controller
         ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
         ->where('outcomeCondition', 'Recovered')
         ->count();
+        */
+
+        $lateRecovered = $dcdata->late_recoveries;
 
         $lateRecoveredCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -552,6 +585,7 @@ class JsonReportController extends Controller
         $lateRecoveredCount_fullyVaccinated += $lateRecoveredCount_fullyVaccinated_janssen;
         */
 
+        /*
         $newDeaths = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -566,6 +600,9 @@ class JsonReportController extends Controller
             ->whereDate('morbidityMonth', date('Y-m-d'))
             ->where('outcomeCondition', 'Died');
         })->count();
+        */
+
+        $new_deaths = $dcdata->new_deaths;
 
         /*
         Total Cases Old Formula
@@ -622,6 +659,8 @@ class JsonReportController extends Controller
         */
 
         //Reinfection
+        /*
+        Old Fetching Method
         $totalActiveReinfection = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -654,6 +693,13 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Died')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
+
+        $totalActiveReinfection = $dcdata->reinfection_active;
+
+        $totalRecoveredReinfection = $dcdata->reinfection_recovered;
+
+        $totalDeathReinfection = $dcdata->reinfection_deaths;
 
         $grand_total_reinfection = $totalActiveReinfection + $totalRecoveredReinfection + $totalDeathReinfection;
 
