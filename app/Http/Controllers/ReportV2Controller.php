@@ -487,10 +487,10 @@ class ReportV2Controller extends Controller
                 $ct_primary_count = $ct_primary_count->whereDate('is_primarycc_date_set', date('Y-m-d'))
                 ->count();
 
-                $ct_secondary_count = $ct_primary_count->whereDate('is_secondarycc_date_set', date('Y-m-d'))
+                $ct_secondary_count = $ct_secondary_count->whereDate('is_secondarycc_date_set', date('Y-m-d'))
                 ->count();
 
-                $ct_tertiary_count = $ct_primary_count->whereDate('is_tertiarycc_date_set', date('Y-m-d'))
+                $ct_tertiary_count = $ct_tertiary_count->whereDate('is_tertiarycc_date_set', date('Y-m-d'))
                 ->count();
             }
 
