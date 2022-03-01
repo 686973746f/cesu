@@ -731,10 +731,21 @@ class ReportV2Controller extends Controller
     }
 
     public function cmIndex() {
+        /*
         if(date('d') != 15 && date('d') != date('t')) {
             return redirect()->route('home')
             ->with('status', 'Warning: You can ONLY open Composite Measure Report on '.date('F').' 15 and '.date('F t').'.')
             ->with('statustype', 'warning');
+        }
+        */
+
+        $sdate = '2022-02-01';
+
+        if(date('d') <= 15) { 
+            $edate = '2022-02-28';
+        }
+        else if(date('d') >= 16) {
+            $edate = '2022-02-28';
         }
 
         $cc_count_total = Forms::whereHas('records', function ($q) {
@@ -742,7 +753,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', 'CLOSE CONTACT')
         ->count();
 
@@ -751,7 +762,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', 'CLOSE CONTACT')
         ->where('dispoType', 3)
         ->count();
@@ -761,7 +772,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', 'CLOSE CONTACT')
         ->whereIn('dispoType', [6,7,2,5])
         ->count();
@@ -771,7 +782,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', 'CLOSE CONTACT')
         ->where('dispoType', 1)
         ->count();
@@ -781,7 +792,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
         ->count();
@@ -791,7 +802,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
         ->where('dispoType', 3)
@@ -802,7 +813,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
         ->whereIn('dispoType', [6,7,2,5])
@@ -813,7 +824,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
         ->where('dispoType', 1)
@@ -824,7 +835,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
         ->count();
@@ -834,7 +845,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
         ->where('dispoType', 3)
@@ -845,7 +856,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
         ->whereIn('dispoType', [6,7,2,5])
@@ -856,7 +867,7 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->whereBetween('morbidityMonth', ['2022-01-16', '2022-01-31'])
+        ->whereBetween('morbidityMonth', [$sdate, $edate])
         ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
         ->where('dispoType', 1)
