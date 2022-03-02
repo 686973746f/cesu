@@ -17,7 +17,6 @@ class JsonReportController extends Controller
     }
     
     public function totalCases() {
-        sleep(20);
         $arr = [];
 
         $totalCasesCount = 0;
@@ -27,6 +26,10 @@ class JsonReportController extends Controller
         $dcdata = DailyCases::whereDate('set_date', date('Y-m-d'))
         ->where('type', '4PM')
         ->first();
+
+        if(!($dcdata)) {
+            abort(404);
+        }
 
         $totalActiveCases = $dcdata->total_active;
 
@@ -105,7 +108,7 @@ class JsonReportController extends Controller
         ->count();
         */
 
-        $total_recoveries = $dcdata->total_recoveries;
+        $totalRecovered = $dcdata->total_recoveries;
 
         $totalCasesCount += $totalRecovered;
 
@@ -602,7 +605,7 @@ class JsonReportController extends Controller
         })->count();
         */
 
-        $new_deaths = $dcdata->new_deaths;
+        $newDeaths = $dcdata->new_deaths;
 
         /*
         Total Cases Old Formula

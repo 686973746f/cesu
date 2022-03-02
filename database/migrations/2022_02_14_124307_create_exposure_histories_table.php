@@ -18,8 +18,11 @@ class CreateExposureHistoriesTable extends Migration
             $table->timestamps();
             $table->foreignId('form_id')->constrained()->onDelete('cascade');
             $table->tinyInteger('is_primarycc')->default(0);
+            $table->foreignId('primarycc_id')->nullable()->constrained()->onDelete('cascade');
             $table->tinyInteger('is_secondarycc')->default(0);
+            $table->foreignId('secondarycc_id')->nullable()->constrained()->onDelete('cascade');
             $table->tinyInteger('is_tertiarycc')->default(0);
+            $table->foreignId('tertiarycc_id')->nullable()->constrained()->onDelete('cascade');
             $table->date('is_primarycc_date')->nullable();
             $table->date('is_secondarycc_date')->nullable();
             $table->date('is_tertiarycc_date')->nullable();
