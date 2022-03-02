@@ -1105,6 +1105,15 @@ class JsonReportController extends Controller
     public function genderBreakdown() {
         $arr = [];
 
+        $dcdata = DailyCases::whereDate('set_date', date('Y-m-d'))
+        ->where('type', '4PM')
+        ->first();
+
+        if(!($dcdata)) {
+            abort(404);
+        }
+
+        /*
         $male = Forms::with('records')
         ->whereHas('records', function($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -1126,15 +1135,16 @@ class JsonReportController extends Controller
         ->where('caseClassification', 'Confirmed')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
 
         array_push($arr, [
             'gender' => 'MALE',
-            'count' => $male,
+            'count' => $dcdata->active_male_count,
         ]);
 
         array_push($arr, [
             'gender' => 'FEMALE',
-            'count' => $female,
+            'count' => $dcdata->active_female_count,
         ]);
 
         return response()->json($arr);
