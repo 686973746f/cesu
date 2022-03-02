@@ -63,6 +63,50 @@ class DailyCasesLogging extends Command
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
+                $totalActive_partialVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalActive_fullyVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalActive_fullyVaccinated_janssen = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalActive_fullyVaccinated += $totalActive_fullyVaccinated_janssen;
+
                 $totalRecovered = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', 'CAVITE')
@@ -72,6 +116,47 @@ class DailyCasesLogging extends Command
                 ->where('outcomeCondition', 'Recovered')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
+
+                $totalRecovered_partialVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalRecovered_fullyVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalRecovered_fullyVaccinated_janssen = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalRecovered_fullyVaccinated += $totalRecovered_fullyVaccinated_janssen;
                 
                 $totalDeaths = Forms::with('records')
                 ->whereHas('records', function ($q) {
@@ -82,6 +167,47 @@ class DailyCasesLogging extends Command
                 ->where('outcomeCondition', 'Died')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
+
+                $totalDeath_partialVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalDeath_fullyVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalDeath_fullyVaccinated_janssen = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $totalDeath_fullyVaccinated += $totalDeath_fullyVaccinated_janssen;
                 
                 $total_all_suspected_probable_cases = Forms::where('isPresentOnSwabDay', 1)->count();
 
@@ -97,6 +223,53 @@ class DailyCasesLogging extends Command
                 ->where('caseClassification', 'Confirmed')
                 ->count();
 
+                $newActiveCount_partialVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->count();
+
+                $newActiveCount_fullyVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->count();
+
+                $newActiveCount_fullyVaccinated_janssen = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->count();
+
+                $newActiveCount_fullyVaccinated += $newActiveCount_fullyVaccinated_janssen;
+
                 $lateActive = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', 'CAVITE')
@@ -109,6 +282,53 @@ class DailyCasesLogging extends Command
                 ->where('caseClassification', 'Confirmed')
                 ->count();
 
+                $lateActiveCount_partialVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->count();
+
+                $lateActiveCount_fullyVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->count();
+
+                $lateActiveCount_fullyVaccinated_janssen = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
+                ->where('outcomeCondition', 'Active')
+                ->where('caseClassification', 'Confirmed')
+                ->count();
+
+                $lateActiveCount_fullyVaccinated += $lateActiveCount_fullyVaccinated_janssen;
+
                 $newRecovered = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', 'CAVITE')
@@ -118,6 +338,47 @@ class DailyCasesLogging extends Command
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
+
+                $newRecoveredCount_partialVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->count();
+
+                $newRecoveredCount_fullyVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->count();
+
+                $newRecoveredCount_fullyVaccinated_janssen = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->count();
+
+                $newRecoveredCount_fullyVaccinated += $newRecoveredCount_fullyVaccinated_janssen;
 
                 $lateRecovered = Forms::with('records')
                 ->whereHas('records', function ($q) {
@@ -129,6 +390,50 @@ class DailyCasesLogging extends Command
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
+
+                $lateRecoveredCount_partialVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereNull('records.vaccinationDate2')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->count();
+
+                $lateRecoveredCount_fullyVaccinated = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate2')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', '!=', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->count();
+
+                $lateRecoveredCount_fullyVaccinated_janssen = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS')
+                    ->whereNotNull('records.vaccinationDate1')
+                    ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+                    ->where('records.vaccinationName1', 'JANSSEN');
+                })
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered')
+                ->count();
+
+                $lateRecoveredCount_fullyVaccinated += $lateRecoveredCount_fullyVaccinated_janssen;
 
                 $newDeaths = Forms::with('records')
                 ->whereHas('records', function ($q) {
@@ -398,13 +703,29 @@ class DailyCasesLogging extends Command
                     'set_date' => date('Y-m-d'),
                     'type' => $type,
                     'total_active' => $totalActiveCases,
+                    'total_active_halfvax' => $totalActive_partialVaccinated,
+                    'total_active_fullvax' => $totalActive_fullyVaccinated,
                     'total_recoveries' => $totalRecovered,
+                    'total_recoveries_halfvax' => $totalRecovered_partialVaccinated,
+                    'total_recoveries_fullvax' => $totalRecovered_fullyVaccinated,
                     'total_deaths' => $totalDeaths,
+                    'total_deaths_halfvax' => $totalDeath_partialVaccinated,
+                    'total_deaths_fullvax' => $totalDeath_fullyVaccinated,
                     'new_cases' => $newActive,
+                    'new_cases_halfvax' => $newActiveCount_partialVaccinated,
+                    'new_cases_fullvax' => $newActiveCount_fullyVaccinated,
                     'late_cases' => $lateActive,
+                    'late_cases_halfvax' => $lateActiveCount_partialVaccinated,
+                    'late_cases_fullvax' => $lateActiveCount_fullyVaccinated,
                     'new_recoveries' => $newRecovered,
+                    'new_recoveries_halfvax' => $newRecoveredCount_partialVaccinated,
+                    'new_recoveries_fullvax' => $newRecoveredCount_fullyVaccinated,
                     'late_recoveries' => $lateRecovered,
+                    'late_recoveries_halfvax' => $lateRecoveredCount_partialVaccinated,
+                    'late_recoveries_fullvax' => $lateRecoveredCount_fullyVaccinated,
                     'new_deaths' => $newDeaths,
+                    'new_deaths_halfvax' => 0,
+                    'new_deaths_fullvax' => 0,
                     'total_all_confirmed_cases' => $totalActiveCases + $totalRecovered + $totalDeaths,
                     'total_all_suspected_probable_cases' => $total_all_suspected_probable_cases,
                     'facility_one_count' => $facility_one_count,

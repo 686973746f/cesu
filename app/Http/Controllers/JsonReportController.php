@@ -48,6 +48,7 @@ class JsonReportController extends Controller
 
         $totalCasesCount += $totalActiveCases;
 
+        /*
         $totalActive_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -61,9 +62,13 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
+
+        $totalActive_partialVaccinated = $dcdata->total_active_halfvax;
 
         $totalCasesCount_partialVaccinated += $totalActive_partialVaccinated;
 
+        /*
         $totalActive_fullyVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -93,6 +98,9 @@ class JsonReportController extends Controller
         ->count();
 
         $totalActive_fullyVaccinated += $totalActive_fullyVaccinated_janssen;
+        */
+
+        $totalActive_fullyVaccinated = $dcdata->total_active_fullvax;
 
         $totalCasesCount_fullyVaccinated += $totalActive_fullyVaccinated;
 
@@ -128,6 +136,7 @@ class JsonReportController extends Controller
         $totalRecovered += $reinfect_hidden_count;
         */
 
+        /*
         $totalRecovered_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -140,9 +149,13 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Recovered')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
+
+        $totalRecovered_partialVaccinated = $dcdata->total_recoveries_halfvax;
 
         $totalCasesCount_partialVaccinated += $totalRecovered_partialVaccinated;
 
+        /*
         $totalRecovered_fullyVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -170,6 +183,9 @@ class JsonReportController extends Controller
         ->count();
 
         $totalRecovered_fullyVaccinated += $totalRecovered_fullyVaccinated_janssen;
+        */
+
+        $totalRecovered_fullyVaccinated = $dcdata->total_recoveries_fullvax;
 
         $totalCasesCount_fullyVaccinated += $totalRecovered_fullyVaccinated;
         
@@ -189,6 +205,7 @@ class JsonReportController extends Controller
         
         $totalCasesCount += $totalDeaths;
 
+        /*
         $totalDeath_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -201,9 +218,13 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Died')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->count();
+        */
+
+        $totalDeath_partialVaccinated = $dcdata->total_deaths_halfvax;
 
         $totalCasesCount_partialVaccinated += $totalDeath_partialVaccinated;
 
+        /*
         $totalDeath_fullyVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -231,6 +252,9 @@ class JsonReportController extends Controller
         ->count();
 
         $totalDeath_fullyVaccinated += $totalDeath_fullyVaccinated_janssen;
+        */
+
+        $totalDeath_fullyVaccinated = $dcdata->total_deaths_fullvax;
 
         $totalCasesCount_fullyVaccinated += $totalDeath_fullyVaccinated;
 
@@ -250,6 +274,7 @@ class JsonReportController extends Controller
         
         $newActive = $dcdata->new_cases;
 
+        /*
         $newActiveCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -264,7 +289,11 @@ class JsonReportController extends Controller
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->count();
+        */
 
+        $newActiveCount_partialVaccinated = $dcdata->new_cases_halfvax;
+
+        /*
         $newActiveCount_fullyVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -296,6 +325,9 @@ class JsonReportController extends Controller
         ->count();
 
         $newActiveCount_fullyVaccinated += $newActiveCount_fullyVaccinated_janssen;
+        */
+        
+        $newActiveCount_fullyVaccinated = $dcdata->new_cases_fullvax;
 
         /*
         $lateActive = Forms::with('records')
@@ -313,6 +345,11 @@ class JsonReportController extends Controller
 
         $lateActive = $dcdata->late_cases;
 
+        $lateActiveCount_partialVaccinated = $dcdata->late_cases_halfvax;
+
+        $lateActiveCount_fullyVaccinated = $dcdata->late_cases_fullvax;
+
+        /*
         $lateActiveCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -359,6 +396,7 @@ class JsonReportController extends Controller
         ->count();
 
         $lateActiveCount_fullyVaccinated += $lateActiveCount_fullyVaccinated_janssen;
+        */
 
         /*
         $newRecovered = Forms::with('records')
@@ -374,6 +412,11 @@ class JsonReportController extends Controller
 
         $newRecovered = $dcdata->new_recoveries;
 
+        $newRecoveredCount_partialVaccinated = $dcdata->new_recoveries_halfvax;
+
+        $newRecoveredCount_fullyVaccinated = $dcdata->new_recoveries_fullvax;
+
+        /*
         $newRecoveredCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -414,6 +457,7 @@ class JsonReportController extends Controller
         ->count();
 
         $newRecoveredCount_fullyVaccinated += $newRecoveredCount_fullyVaccinated_janssen;
+        */
 
         /*
         $lateRecovered = Forms::with('records')
@@ -430,6 +474,11 @@ class JsonReportController extends Controller
 
         $lateRecovered = $dcdata->late_recoveries;
 
+        $lateRecoveredCount_partialVaccinated = $dcdata->late_recoveries_halfvax;
+
+        $lateRecoveredCount_fullyVaccinated = $dcdata->late_recoveries_fullvax;
+
+        /*
         $lateRecoveredCount_partialVaccinated = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -473,6 +522,7 @@ class JsonReportController extends Controller
         ->count();
 
         $lateRecoveredCount_fullyVaccinated += $lateRecoveredCount_fullyVaccinated_janssen;
+        */
         
         /*
         Old Formula
@@ -1172,9 +1222,17 @@ class JsonReportController extends Controller
     }
 
     public function ageDistribution() {
-        sleep(10);
         $arr = collect();
 
+        $dcdata = DailyCases::whereDate('set_date', date('Y-m-d'))
+        ->where('type', '4PM')
+        ->first();
+
+        if(!($dcdata)) {
+            abort(404);
+        }
+
+        /*
         $active_agegroup1_count = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -1270,6 +1328,32 @@ class JsonReportController extends Controller
         $arr->push([
             'bracket' => '60 YO & UP',
             'count' => $active_agegroup6_count,
+        ]);
+        */
+
+        $arr->push([
+            'bracket' => '0 - 17 YO',
+            'count' => $dcdata->active_agegroup1_count,
+        ]);
+        $arr->push([
+            'bracket' => '18 - 25 YO',
+            'count' => $dcdata->active_agegroup2_count,
+        ]);
+        $arr->push([
+            'bracket' => '26 - 35 YO',
+            'count' => $dcdata->active_agegroup3_count,
+        ]);
+        $arr->push([
+            'bracket' => '36 - 45 YO',
+            'count' => $dcdata->active_agegroup4_count,
+        ]);
+        $arr->push([
+            'bracket' => '46 - 59 YO',
+            'count' => $dcdata->active_agegroup5_count,
+        ]);
+        $arr->push([
+            'bracket' => '60 YO & UP',
+            'count' => $dcdata->active_agegroup6_count,
         ]);
 
         return response()->json($arr);
