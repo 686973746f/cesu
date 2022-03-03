@@ -31,7 +31,7 @@
                             </div>
                             <div id="primarycc_div" class="d-none">
                                 <div class="form-group">
-                                    <label for="is_primarycc_date"><span class="text-danger font-weight-bold">*</span>Primary Close Contact Exposure Date?</label>
+                                    <label for="is_primarycc_date"><span class="text-danger font-weight-bold">*</span>Primary Close Contact Exposure Date</label>
                                     <input type="date" class="form-control" name="is_primarycc_date" id="is_primarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_primarycc_date', $ctdata->is_primarycc_date)}}">
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                             </div>
                             <div id="secondarycc_div" class="d-none">
                                 <div class="form-group">
-                                    <label for="is_secondarycc_date"><span class="text-danger font-weight-bold">*</span>Secondary Close Contact Exposure Date?</label>
+                                    <label for="is_secondarycc_date"><span class="text-danger font-weight-bold">*</span>Secondary Close Contact Exposure Date</label>
                                     <input type="date" class="form-control" name="is_secondarycc_date" id="is_secondarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_secondarycc_date', $ctdata->is_secondarycc_date)}}">
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                             </div>
                             <div id="tertiarycc_div" class="d-none">
                                 <div class="form-group">
-                                    <label for="is_tertiarycc_date"><span class="text-danger font-weight-bold">*</span>Tertiary Close Contact Exposure Date?</label>
+                                    <label for="is_tertiarycc_date"><span class="text-danger font-weight-bold">*</span>Tertiary Close Contact Exposure Date</label>
                                     <input type="date" class="form-control" name="is_tertiarycc_date" id="is_tertiarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_tertiarycc_date', $ctdata->is_tertiarycc_date)}}">
                                 </div>
                             </div>
