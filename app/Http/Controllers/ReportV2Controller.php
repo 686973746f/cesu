@@ -1008,7 +1008,7 @@ class ReportV2Controller extends Controller
         ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Active')
         ->where('healthStatus', 'Mild')
-        ->where('COMO', '!=', 'None')
+        ->where('COMO', 'None')
         ->where('dispoType', 1)
         ->count();
 

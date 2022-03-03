@@ -191,6 +191,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::put('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'update'])->name('sc_update');
 
     Route::get('/report/encoding_calendar', [ReportV2Controller::class, 'encodingCalendar'])->name('encoding_calendar');
+
+    Route::get('/report/ctlgu', [ContactTracingController::class, 'ctlgureport'])->name('ctlgu_report');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

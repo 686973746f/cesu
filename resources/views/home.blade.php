@@ -41,9 +41,12 @@
                     </button>
                     <div class="collapse" id="ctCollapse">
                         <div class="card card-body">
+                            <!--
                             <a href="{{route('sc_index')}}" class="btn btn-primary btn-lg btn-block">Health Declaration Records</a>
                             <hr>
+                            -->
                             <a href="{{route('ct.dashboard.index')}}" class="btn btn-primary btn-lg btn-block">Contact Tracing Search</a>
+                            <a href="{{route('ctlgu_report')}}" class="btn btn-primary btn-lg btn-block">CT Report #2</a>
                             <a href="{{route('report.ct.index')}}" class="btn btn-primary btn-lg btn-block">Contact Tracing Report</a>
                         </div>
                     </div>
