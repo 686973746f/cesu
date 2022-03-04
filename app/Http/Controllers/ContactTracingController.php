@@ -165,7 +165,7 @@ class ContactTracingController extends Controller
         ->count();
         
         //% of Suspect/ Probable case isolated within 24 hours
-        $item5 = ($item1 != 0 || $item2 != 0) ? ($item4 / $item4) * 100 : 0;
+        $item5 = ($item4 != 0 && $item4 != 0) ? ($item4 / $item4) * 100 : 0;
 
         //No. of Confirmed/ Active Cases of the day
         $item6 = Forms::with('records')
@@ -193,7 +193,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of Confirmed/ Active Cases of the day traced within 24 hours
-        $item8 = ($item1 != 0 && $item2 != 0) ? ($item6 / $item7) * 100 : 0;
+        $item8 = ($item6 != 0 && $item7 != 0) ? ($item6 / $item7) * 100 : 0;
         
         //No. of Pending Confirmed/ Active Cases still to be traced
         $item9  = 0;
@@ -202,7 +202,7 @@ class ContactTracingController extends Controller
         $item10 = 0;
 
         //% of pending Confirmed/ Active Cases still to be traced traced within 24 hours
-        $item11 = ($item1 != 0 && $item2 != 0) ? ($item9 / $item10) * 100 : 0;
+        $item11 = ($item9 != 0 && $item10 != 0) ? ($item9 / $item10) * 100 : 0;
 
         //No. of Confirmed/ Active Cases traced and quarantined/isolated within 24 hours
         $item12 = Forms::with('records')
@@ -218,7 +218,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of Confirmed/ Active Cases isolated/quarantined within 24 hours
-        $item13 = ($item1 != 0 && $item2 != 0) ? ($item12 / ($item6 + $item9)) * 100 : 0;
+        $item13 = ($item12 != 0 && ($item6 + $item9) != 0) ? ($item12 / ($item6 + $item9)) * 100 : 0;
 
         //No. of CCs listed from the Confirmed/ Active Cases
         $item14 = Forms::with('records')
@@ -248,7 +248,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of CCs listed Traced and Assesed within 24 hours
-        $item16 = ($item1 != 0 && $item2 != 0) ? ($item15 / $item14) * 100 : 0;
+        $item16 = ($item15 != 0 && $item14 != 0) ? ($item15 / $item14) * 100 : 0;
 
         //Case: Close Contact Ratio
         $item17 = ($item6/$item6).':'.($item14/$item6);
@@ -262,7 +262,7 @@ class ContactTracingController extends Controller
         ->count();
         
         //% of CCs placed under home quarantine within 24 hours
-        $item19 = ($item1 != 0 && $item2 != 0) ? ($item18 / $item14) * 100 : 0;
+        $item19 = ($item18 != 0 && $item14 != 0) ? ($item18 / $item14) * 100 : 0;
 
         //Total no. of active asymptomatic or mild with no comorbidities, confirmed cases
         $item20 = Forms::with('records')
@@ -294,7 +294,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of total no. of active asymptomatic, mild with no comorbidity, confirmed cases under Home Quarantine
-        $item22 = ($item1 != 0 && $item2 != 0) ? ($item21 / $item20) * 100 : 0;
+        $item22 = ($item21 != 0 && $item20 != 0) ? ($item21 / $item20) * 100 : 0;
 
         //Total no. of active asymptomatic, mild with no comorbidities, confirmed cases under Isolation/Quarantine Facility
         $item23 = Forms::with('records')
@@ -312,7 +312,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of total no. of active asymptomatic, mild with no comorbidities, confirmed cases under Isolation/Quarantine Facility
-        $item24 = ($item1 != 0 && $item2 != 0) ? ($item23 / $item20) * 100 : 0;
+        $item24 = ($item23 != 0 && $item20 != 0) ? ($item23 / $item20) * 100 : 0;
 
         //Total number of Mild with Comorbidity, Moderate, Severe and Critical Confirmed Cases
         $item25 = Forms::with('records')
@@ -344,7 +344,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of total number Mild with Comorbidity, Moderate, Severe and Critical Confirmed Cases in Hospital
-        $item27 = ($item1 != 0 && $item2 != 0) ? ($item26 / $item25) * 100 : 0;
+        $item27 = ($item26 != 0 && $item25 != 0) ? ($item26 / $item25) * 100 : 0;
 
         return view('report_ctlgu', [
             'item1' => $item1,
