@@ -154,7 +154,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of Suspect/ Probable case of the day traced within 24 hours
-        $item3 = ($item1 != 0 && $item2 != 0) ? ($item1 / $item2) * 100 : 0;
+        $item3 = ($item1 != 0 && $item2 != 0) ? ($item2 / $item1) * 100 : 0;
 
         //No. of Suspect/ Probable case traced and isolated within 24 hours
         $item4 = Forms::where('status', 'approved')
