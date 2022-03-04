@@ -154,7 +154,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of Suspect/ Probable case of the day traced within 24 hours
-        $item3 = ($item1 != 0 && $item2 != 0) ? ($item2 / $item1) * 100 : 0;
+        $item3 = ($item1 != 0 && $item2 != 0) ? round(($item2 / $item1) * 100) : 0;
 
         //No. of Suspect/ Probable case traced and isolated within 24 hours
         $item4 = Forms::where('status', 'approved')
@@ -165,7 +165,7 @@ class ContactTracingController extends Controller
         ->count();
         
         //% of Suspect/ Probable case isolated within 24 hours
-        $item5 = ($item4 != 0 && $item4 != 0) ? ($item4 / $item4) * 100 : 0;
+        $item5 = ($item4 != 0 && $item4 != 0) ? round(($item4 / $item1) * 100) : 0;
 
         //No. of Confirmed/ Active Cases of the day
         $item6 = Forms::with('records')
@@ -193,7 +193,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of Confirmed/ Active Cases of the day traced within 24 hours
-        $item8 = ($item6 != 0 && $item7 != 0) ? ($item6 / $item7) * 100 : 0;
+        $item8 = ($item6 != 0 && $item7 != 0) ? round(($item7 / $item6) * 100) : 0;
         
         //No. of Pending Confirmed/ Active Cases still to be traced
         $item9  = 0;
@@ -202,7 +202,7 @@ class ContactTracingController extends Controller
         $item10 = 0;
 
         //% of pending Confirmed/ Active Cases still to be traced traced within 24 hours
-        $item11 = ($item9 != 0 && $item10 != 0) ? ($item9 / $item10) * 100 : 0;
+        $item11 = ($item9 != 0 && $item10 != 0) ? round((($item9 - $item10)/$item9) * 100) : 0;
 
         //No. of Confirmed/ Active Cases traced and quarantined/isolated within 24 hours
         $item12 = Forms::with('records')
@@ -218,7 +218,9 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of Confirmed/ Active Cases isolated/quarantined within 24 hours
-        $item13 = ($item12 != 0 && ($item6 + $item9) != 0) ? ($item12 / ($item6 + $item9)) * 100 : 0;
+        //$item13 = ($item12 != 0 && ($item6 + $item9) != 0) ? round(($item12 / ($item6 + $item9)) * 100) : 0;
+
+        $item13 = ($item12 != 0 && $item6 != 0) ? round(($item12 / $item6) * 100) : 0;
 
         //No. of CCs listed from the Confirmed/ Active Cases
         $item14 = Forms::with('records')
@@ -248,7 +250,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of CCs listed Traced and Assesed within 24 hours
-        $item16 = ($item15 != 0 && $item14 != 0) ? ($item15 / $item14) * 100 : 0;
+        $item16 = ($item15 != 0 && $item14 != 0) ? round(($item15 / $item14) * 100) : 0;
 
         //Case: Close Contact Ratio
         $item17 = ($item6/$item6).':'.($item14/$item6);

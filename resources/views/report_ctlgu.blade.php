@@ -53,31 +53,31 @@
                             <td>{{date('m/d/Y')}}</td>
                             <td>{{$item1}}</td>
                             <td>{{$item2}}</td>
-                            <td>{{$item3}}</td>
+                            <td>{{$item3}}%</td>
                             <td>{{$item4}}</td>
-                            <td>{{$item5}}</td>
+                            <td>{{$item5}}%</td>
                             <td>{{$item6}}</td>
                             <td>{{$item7}}</td>
-                            <td>{{$item8}}</td>
+                            <td>{{$item8}}%</td>
                             <td>{{$item9}}</td>
                             <td>{{$item10}}</td>
-                            <td>{{$item11}}</td>
+                            <td>{{$item11}}%</td>
                             <td>{{$item12}}</td>
-                            <td>{{$item13}}</td>
+                            <td>{{$item13}}%</td>
                             <td>{{$item14}}</td>
                             <td>{{$item15}}</td>
-                            <td>{{$item16}}</td>
+                            <td>{{$item16}}%</td>
                             <td>{{$item17}}</td>
                             <td>{{$item18}}</td>
-                            <td>{{$item19}}</td>
+                            <td>{{$item19}}%</td>
                             <td>{{$item20}}</td>
                             <td>{{$item21}}</td>
-                            <td>{{$item22}}</td>
+                            <td>{{$item22}}%</td>
                             <td>{{$item23}}</td>
-                            <td>{{$item24}}</td>
+                            <td>{{$item24}}%</td>
                             <td>{{$item25}}</td>
                             <td>{{$item26}}</td>
-                            <td>{{$item27}}</td>
+                            <td>{{$item27}}%</td>
                         </tr>
                     </tbody>
                 </table>
