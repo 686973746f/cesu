@@ -34,6 +34,11 @@
                                     <label for="is_primarycc_date"><span class="text-danger font-weight-bold">*</span>Primary Close Contact Exposure Date</label>
                                     <input type="date" class="form-control" name="is_primarycc_date" id="is_primarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_primarycc_date')}}">
                                 </div>
+                                <div class="form-group">
+                                  <label for="primarycc_id"></label>
+                                  <select class="form-control" name="primarycc_id" id="primarycc_id">
+                                  </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -48,6 +53,11 @@
                                     <label for="is_secondarycc_date"><span class="text-danger font-weight-bold">*</span>Secondary Close Contact Exposure Date</label>
                                     <input type="date" class="form-control" name="is_secondarycc_date" id="is_secondarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_secondarycc_date')}}">
                                 </div>
+                                <div class="form-group">
+                                    <label for="secondarycc_id"></label>
+                                    <select class="form-control" name="secondarycc_id" id="secondarycc_id">
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -61,6 +71,11 @@
                                 <div class="form-group">
                                     <label for="is_tertiarycc_date"><span class="text-danger font-weight-bold">*</span>Tertiary Close Contact Exposure Date</label>
                                     <input type="date" class="form-control" name="is_tertiarycc_date" id="is_tertiarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_tertiarycc_date')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tertiarycc_id"></label>
+                                    <select class="form-control" name="tertiarycc_id" id="tertiarycc_id">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -109,5 +124,26 @@
                 $('#is_tertiarycc_date').prop('required', false);
             }
         }).trigger('change');
+
+        $('#primarycc_id, #secondarycc_id, #tertiarycc_id').select2({
+                theme: "bootstrap",
+                placeholder: 'Search by Name / Patient ID ...',
+                ajax: {
+                    url: "{{route('forms.ajaxcclist')}}?self_id={{$data->records->id}}",
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id,
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
     </script>
 @endsection
