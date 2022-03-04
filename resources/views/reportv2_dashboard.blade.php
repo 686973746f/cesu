@@ -29,39 +29,41 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-light">
                             <tr class="text-center">
-                                <th>MM</th>
-                                <th>Date Reported</th>
-                                <th>DRU</th>
-                                <th>DRU Region & Mun/City</th>
-                                <th>Name / ID</th>
-                                <th>Age / Sex</th>
-                                <th>Birthdate</th>
-                                <th>Street</th>
-                                <th>Brgy</th>
-                                <th>Case Severity</th>
-                                <th>Date of Specimen Collection</th>
-                                <th>Classification</th>
-                                <th>Quarantine Status</th>
-                                <th>Vaccine</th>
+                                <th style="vertical-align: middle;">MM</th>
+                                <th style="vertical-align: middle;">Date Reported</th>
+                                <th style="vertical-align: middle;">DRU</th>
+                                <th style="vertical-align: middle;">DRU Region & Mun/City</th>
+                                <th style="vertical-align: middle;">Patient Type</th>
+                                <th style="vertical-align: middle;">Name / ID</th>
+                                <th style="vertical-align: middle;">Age / Sex</th>
+                                <th style="vertical-align: middle;">Birthdate</th>
+                                <th style="vertical-align: middle;">Street</th>
+                                <th style="vertical-align: middle;">Brgy</th>
+                                <th style="vertical-align: middle;">Case Severity</th>
+                                <th style="vertical-align: middle;">Date of Specimen Collection</th>
+                                <th style="vertical-align: middle;">Classification</th>
+                                <th style="vertical-align: middle;">Quarantine Status</th>
+                                <th style="vertical-align: middle;">Vaccine</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($list as $item)
                             <tr>
-                                <td class="text-center">{{date('m/d/Y', strtotime($item->morbidityMonth))}}</td>
-                                <td class="text-center">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
-                                <td class="text-center">{{$item->drunit}}</td>
-                                <td class="text-center">{{$item->drregion.' '.$item->drprovince}}</td>
-                                <td><a href="/forms/{{$item->id}}/edit">{{$item->records->getName()}} <small>(#{{$item->id}})</small></a></td>
-                                <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
-                                <td class="text-center">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
-                                <td class="text-center"><small>{{$item->records->address_street}}</small></td>
-                                <td class="text-center">{{$item->records->address_brgy}}</td>
-                                <td class="text-center">{{$item->healthStatus}}</td>
-                                <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
-                                <td class="text-center">{{$item->caseClassification}}</td>
-                                <td class="text-center">{{$item->getQuarantineStatus()}}</td>
-                                <td class="text-center">{{$item->records->showVaxInfo()}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->morbidityMonth))}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->drunit}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->drregion.' '.$item->drprovince}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->getType()}}</td>
+                                <td style="vertical-align: middle;"><a href="/forms/{{$item->id}}/edit">{{$item->records->getName()}} <small>(#{{$item->id}})</small></a></td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                                <td class="text-center" style="vertical-align: middle;"><small>{{$item->records->address_street}}</small></td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->records->address_brgy}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->healthStatus}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->caseClassification}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->getQuarantineStatus()}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->records->showVaxInfo()}}</td>
                             </tr>
                             @endforeach
                         </tbody>
