@@ -141,10 +141,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 
     Route::post('/forms/medcert/{form_id}', [FormsController::class, 'generateMedCert'])->name('generate_medcert');
 
-    Route::get('/forms/ct_exposure/{form}/create', [ContactTracingController::class, 'ctFormsExposureCreate'])->name('ct_exposure_create');
-    Route::post('/forms/ct_exposure/{form}/create', [ContactTracingController::class, 'ctFormsExposureStore'])->name('ct_exposure_store');
-    Route::get('/forms/ct_exposure/{form}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureEdit'])->name('ct_exposure_edit');
-    Route::post('/forms/ct_exposure/{form}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureUpdate'])->name('ct_exposure_update');
+    Route::get('/forms/ct_exposure/{form_id}/create', [ContactTracingController::class, 'ctFormsExposureCreate'])->name('ct_exposure_create');
+    Route::post('/forms/ct_exposure/{form_id}/create', [ContactTracingController::class, 'ctFormsExposureStore'])->name('ct_exposure_store');
+    Route::get('/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureEdit'])->name('ct_exposure_edit');
+    Route::post('/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureUpdate'])->name('ct_exposure_update');
 
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');

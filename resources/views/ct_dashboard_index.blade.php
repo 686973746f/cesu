@@ -19,79 +19,72 @@
 
     @if(request()->input('pid') && $search_is_valid)
     <div class="card mt-3">
-        <div class="card-header">Displaying Contact Tracing Result for </div>
+        <div class="card-header">Exposure History Found for {{$form->form->records->getName()}}</div>
         <div class="card-body">
-            <div id="accordianId" role="tablist" aria-multiselectable="true">
-                <div class="card">
-                    <div class="card-header" role="tab" id="section1HeaderId">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
-                                    {{$form->records->getName()}}
-                                </a>
+            <div class="card">
+                <div class="card-header">Primary CC - Total: {{$form->getPrimaryCCList($form->form_id)->count()}}</div>
+                <div class="card-body">
+                    <div id="mainacc" role="tablist" aria-multiselectable="true">
+                        @forelse($form->getPrimaryCCList($form->form_id) as $q)
+                        <div class="card {{($loop->first) ? '' : 'mt-3'}}">
+                            <div class="card-header" role="tab" id="sectionid_{{$loop->iteration}}">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <a data-toggle="collapse" data-parent="#mainacc" href="#sectioncontent_{{$loop->iteration}}" aria-expanded="true" aria-controls="sectioncontent_{{$loop->iteration}}">
+                                            Primary CC #{{$loop->iteration}} - {{$q->records->getName()}}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 text-center">Exposure Date</div>
+                                    <div class="col-md-4 text-right"><a href="{{route('forms.edit', ['form' => $q->id])}}">View CIF</a></div>
+                                </div>
+                                
                             </div>
-                            <div>
-                                <a href="{{route('forms.edit', ['form' => $form->id])}}">View CIF</a>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-                    <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
-                        <div class="card-body">
-                            <div class="card">
-                                <div class="card-header">Primary Close Contact</div>
+                            <div id="sectioncontent_{{$loop->iteration}}" class="collapse in" role="tabpanel" aria-labelledby="sectionid_{{$loop->iteration}}">
                                 <div class="card-body">
-                                    @foreach($form->getContactTracingList() as $k => $pri)
-                                    <div id="acc_{{$k}}" role="tablist" aria-multiselectable="true">
-                                        <div class="card {{($loop->last) ? '' : 'mb-3'}}">
-                                            <div class="card-header" role="tab" id="section1HeaderId">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <a data-toggle="collapse" data-parent="#acc_{{$k}}" href="#sec_{{$k}}" aria-expanded="true" aria-controls="sec_{{$k}}">
-                                                            {{$k+1}}.) {{$pri->records->getName()}}
-                                                        </a>
+                                    <div class="card">
+                                        <div class="card-header">Secondary CC - Total: {{$form->getPrimaryCCList($q->id)->count()}}</div>
+                                        <div class="card-body">
+                                            <div id="secacc" role="tablist" aria-multiselectable="true">
+                                                @forelse($form->getPrimaryCCList($q->id) as $r)
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="section1HeaderId">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <a data-toggle="collapse" data-parent="#secacc" href="#section2content_{{$loop->iteration}}" aria-expanded="true" aria-controls="section2content_{{$loop->iteration}}">
+                                                                    Secondary CC #{{$loop->iteration}} - {{$r->records->getName()}}
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-md-4 text-center">Exposure Date</div>
+                                                            <div class="col-md-4 text-right"><a href="{{route('forms.edit', ['form' => $r->id])}}">View CIF</a></div>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <a href="{{route('forms.edit', ['form' => $pri->id])}}">View CIF</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="sec_{{$k}}" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
-                                                <div class="card-body">
-                                                    <div class="card">
-                                                        <div class="card-header">Secondary Close Contact</div>
+                                                    <div id="section2content_{{$loop->iteration}}" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
                                                         <div class="card-body">
-                                                            @if($pri->getContactTracingList())
-                                                                @foreach($pri->getContactTracing() as $x)
-                                                                <div id="accordianId" role="tablist" aria-multiselectable="true">
-                                                                    <div class="card">
-                                                                        <div class="card-header" role="tab" id="section1HeaderId">
-                                                                            <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
-                                                                                {{$x->records->getName()}}
-                                                                            </a>
-                                                                        </div>
-                                                                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
-                                                                            <div class="card-body">
-                                                                                
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                            <div class="card">
+                                                                <div class="card-header">Tertiary CC - Total: {{$form->getPrimaryCCList($r->id)->count()}}</div>
+                                                                <div class="card-body">
+                                                                    @forelse($form->getPrimaryCCList($r->id) as $s)
+                                                                    <a href="{{route('forms.edit', ['form' => $s->id])}}">{{$s->records->getName()}} | Exposure Date: </a>
+                                                                    @empty
+                                                                    <p class="text-center">No Tertiary CC Found under {{$r->records->getName()}}.</p>
+                                                                    @endforelse
                                                                 </div>
-                                                                @endforeach
-                                                            @else
-                                                            No Secondary Close Contact Found.
-                                                            @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @empty
+                                                <p class="text-center">No Secondary CC Found under {{$q->records->getName()}}.</p>
+                                                @endforelse
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </div>
+                        @empty
+                        <p class="text-center">No Primary CC Found.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>

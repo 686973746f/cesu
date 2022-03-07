@@ -26,4 +26,22 @@ class ExposureHistory extends Model
     public function form() {
         return $this->belongsTo(Forms::class);
     }
+
+    public function cif_linkid() {
+        return $this->belongsTo(Forms::class);
+    }
+
+    public function getPrimaryCCList($form_id) {
+        $data = ExposureHistory::where('form_id', $form_id)->get();
+
+        $arr = collect();
+
+        foreach($data as $item) {
+            $q = Forms::where('id', $item->cif_linkid)->first();
+
+            $arr->push($q);
+        }
+        
+        return $arr;
+    }
 }

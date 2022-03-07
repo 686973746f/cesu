@@ -2548,7 +2548,7 @@
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between">
                                                 <div>To be filled by Contact Tracers ONLY</div>
-                                                <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</a></div>
+                                                <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form_id' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</a></div>
                                             </div>
                                         </div>
                                         <div class="card-body text-center">
@@ -2566,7 +2566,7 @@
                                                     <tbody>
                                                         @foreach($get_ctdata as $ctitem)
                                                         <tr>
-                                                            <td><a href="{{route('ct_exposure_edit', ['form' => $records->id, 'ct_id' => $ctitem->id])}}">{{date('m/d/Y h:i A', strtotime($ctitem->created_at))}}</a></td>
+                                                            <td><a href="{{route('ct_exposure_edit', ['form_id' => $records->id, 'ct_id' => $ctitem->id])}}">{{date('m/d/Y h:i A', strtotime($ctitem->created_at))}}</a></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td>{{$ctitem->user->name}}</td>

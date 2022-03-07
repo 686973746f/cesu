@@ -14,9 +14,7 @@ class ContactTracingController extends Controller
         if(request()->input('pid')) {
             $pid = request()->input('pid');
 
-            $check = Forms::where('id', $pid)
-            ->whereNotNull('ccid_list')
-            ->first();
+            $check = ExposureHistory::where('form_id', $pid)->first();
 
             if($check) {
                 $siv = true;
@@ -52,8 +50,6 @@ class ContactTracingController extends Controller
 
         $form = Forms::findOrFail($form_id);
 
-        $get_primarycc_id = Records::findOrFail($request->primarycc_id);
-
         if(time() >= strtotime('13:00:00')) {
             $date_set = date('Y-m-d 08:00:00', strtotime('+1 Day'));
         }
@@ -64,8 +60,7 @@ class ContactTracingController extends Controller
         $request->user()->exposureHistory()->create([
             'set_date' => $date_set,
             'form_id' => $form_id,
-            'primarycc_id' => $get_primarycc_id->id,
-            'cif_linkid' => NULL,
+            'cif_linkid' => $request->primarycc_id,
             'exposure_date' => $request->exposure_date,
         ]);
 

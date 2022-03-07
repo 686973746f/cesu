@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('ct_exposure_store', ['form' => $data->id])}}" method="POST">
+        <form action="{{route('ct_exposure_store', ['form_id' => $data->id])}}" method="POST">
             @csrf
             <div class="card">
                 <div class="card-header font-weight-bold">Add Exposure History to Patient {{$data->records->getName()}} (#{{$data->records->id}})</div>
