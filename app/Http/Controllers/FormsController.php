@@ -328,11 +328,32 @@ class FormsController extends Controller
             ->whereHas('records', function ($q) use ($self_id) {
                 $q->where('records.id', '!=', $self_id);
             })
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
+            ->where('outcomeCondition', 'Active')
+            //->whereBetween('created_at', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+            /*
+            $data = Records::where(function ($q) use ($search) {
+                $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                ->orWhere('id', $search);
+            })
+            ->where('id', '!=', $self_id)
             ->get();
 
             foreach($data as $item) {
                 array_push($list, [
-                    'id' => $item->getNewCif(),
+                    'id' => $item->id,
+                    'text' => '#'.$item->id.' - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                ]);
+            }
+            */
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->id,
                     'text' => '#'.$item->records->id.' - '.$item->records->getName().' | '.$item->records->getAge().'/'.substr($item->records->gender,0,1).' | '.date('m/d/Y', strtotime($item->records->bdate)),
                 ]);
             }

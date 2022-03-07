@@ -2558,9 +2558,8 @@
                                                     <thead class="thead-light">
                                                         <tr>
                                                             <th>Date Recorded</th>
-                                                            <th>Is Primary CC / Date</th>
-                                                            <th>Is Secondary CC / Date</th>
-                                                            <th>Is Tertiary CC / Date</th>
+                                                            <th>Name of Primary CC</th>
+                                                            <th>Exposure Date</th>
                                                             <th>Encoded By</th>
                                                         </tr>
                                                     </thead>
@@ -2568,9 +2567,8 @@
                                                         @foreach($get_ctdata as $ctitem)
                                                         <tr>
                                                             <td><a href="{{route('ct_exposure_edit', ['form' => $records->id, 'ct_id' => $ctitem->id])}}">{{date('m/d/Y h:i A', strtotime($ctitem->created_at))}}</a></td>
-                                                            <td>{{($ctitem->is_primarycc == 1) ? 'YES - '.date('m/d/Y', strtotime($ctitem->is_primarycc_date)) : 'NO'}}</td>
-                                                            <td>{{($ctitem->is_secondarycc == 1) ? 'YES - '.date('m/d/Y', strtotime($ctitem->is_secondarycc_date)) : 'NO'}}</td>
-                                                            <td>{{($ctitem->is_tertiarycc == 1) ? 'YES - '.date('m/d/Y', strtotime($ctitem->is_tertiarycc_date)) : 'NO'}}</td>
+                                                            <td></td>
+                                                            <td></td>
                                                             <td>{{$ctitem->user->name}}</td>
                                                         </tr>
                                                         @endforeach

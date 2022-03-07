@@ -21,49 +21,14 @@
                         {{session('msg')}}
                     </div>
                     @endif
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="is_primarycc" id="is_primarycc" value="1" {{(old('is_primarycc', $ctdata->is_primarycc) == 1) ? 'checked' : ''}}>
-                                    Is Primary Contact <small>(Check if Yes)</small>
-                                </label>
-                            </div>
-                            <div id="primarycc_div" class="d-none">
-                                <div class="form-group">
-                                    <label for="is_primarycc_date"><span class="text-danger font-weight-bold">*</span>Primary Close Contact Exposure Date</label>
-                                    <input type="date" class="form-control" name="is_primarycc_date" id="is_primarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_primarycc_date', $ctdata->is_primarycc_date)}}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="is_secondarycc" id="is_secondarycc" value="1" {{(old('is_secondarycc', $ctdata->is_secondarycc) == 1) ? 'checked' : ''}}>
-                                    Is Secondary Close Contact <small>(Check if Yes)</small>
-                                </label>
-                            </div>
-                            <div id="secondarycc_div" class="d-none">
-                                <div class="form-group">
-                                    <label for="is_secondarycc_date"><span class="text-danger font-weight-bold">*</span>Secondary Close Contact Exposure Date</label>
-                                    <input type="date" class="form-control" name="is_secondarycc_date" id="is_secondarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_secondarycc_date', $ctdata->is_secondarycc_date)}}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                  <input type="checkbox" class="form-check-input" name="is_tertiarycc" id="is_tertiarycc" value="1" {{(old('is_tertiarycc', $ctdata->is_tertiarycc) == 1) ? 'checked' : ''}}>
-                                  Is Tertiary Close Contact <small>(Check if Yes)</small>
-                                </label>
-                            </div>
-                            <div id="tertiarycc_div" class="d-none">
-                                <div class="form-group">
-                                    <label for="is_tertiarycc_date"><span class="text-danger font-weight-bold">*</span>Tertiary Close Contact Exposure Date</label>
-                                    <input type="date" class="form-control" name="is_tertiarycc_date" id="is_tertiarycc_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('is_tertiarycc_date', $ctdata->is_tertiarycc_date)}}">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="primarycc_id"><span class="text-danger font-weight-bold">*</span>Link Name of Primary CC to {{$data->records->getName()}}</label>
+                        <select class="form-control" name="primarycc_id" id="primarycc_id" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exposure_date"><span class="text-danger font-weight-bold">*</span>Primary Close Contact Exposure Date</label>
+                        <input type="date" class="form-control" name="exposure_date" id="exposure_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('exposure_date')}}" required>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -74,40 +39,25 @@
     </div>
 
     <script>
-        $('#is_primarycc').change(function (e) { 
-            e.preventDefault();
-            if($(this).prop('checked')) {
-                $('#primarycc_div').removeClass('d-none');
-                $('#is_primarycc_date').prop('required', true);
-            }
-            else {
-                $('#primarycc_div').addClass('d-none');
-                $('#is_primarycc_date').prop('required', false);
-            }
-        }).trigger('change');
-
-        $('#is_secondarycc').change(function (e) { 
-            e.preventDefault();
-            if($(this).prop('checked')) {
-                $('#secondarycc_div').removeClass('d-none');
-                $('#is_secondarycc_date').prop('required', true);
-            }
-            else {
-                $('#secondarycc_div').addClass('d-none');
-                $('#is_secondarycc_date').prop('required', false);
-            }
-        }).trigger('change');
-
-        $('#is_tertiarycc').change(function (e) { 
-            e.preventDefault();
-            if($(this).prop('checked')) {
-                $('#tertiarycc_div').removeClass('d-none');
-                $('#is_tertiarycc_date').prop('required', true);
-            }
-            else {
-                $('#tertiarycc_div').addClass('d-none');
-                $('#is_tertiarycc_date').prop('required', false);
-            }
-        }).trigger('change');
+    $('#primarycc_id').select2({
+        theme: "bootstrap",
+        placeholder: 'Search Primary CC by Name / Patient ID ...',
+        ajax: {
+            url: "{{route('forms.ajaxcclist')}}?self_id={{$data->records->id}}",
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.text,
+                            id: item.id,
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
     </script>
 @endsection

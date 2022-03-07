@@ -16,9 +16,9 @@ class CreateExposureHistoriesTable extends Migration
         Schema::create('exposure_histories', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->dateTime('set_date');
             $table->foreignId('form_id')->constrained()->onDelete('cascade');
-            $table->foreignId('primarycc_id')->constrained('records')->onDelete('cascade');
-            $table->foreignId('cif_id_of_primarycc')->constrained('forms')->onDelete('cascade');
+            $table->foreignId('cif_linkid')->nullable()->constrained('forms')->onDelete('cascade');
             $table->date('exposure_date');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

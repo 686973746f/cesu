@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Forms;
+use App\Models\Records;
 use Illuminate\Http\Request;
 use App\Models\ExposureHistory;
 
@@ -45,15 +46,13 @@ class ContactTracingController extends Controller
 
     public function ctFormsExposureStore(Request $request, $form_id) {
         $request->validate([
-            'is_primarycc' => 'sometimes',
-            'is_secondarycc' => 'sometimes',
-            'is_tertiarycc' => 'sometimes',
-            'is_primarycc_date' => ($request->is_primarycc) ? 'required' : 'nullable',
-            'is_secondarycc_date' => ($request->is_secondarycc) ? 'required' : 'nullable',
-            'is_tertiarycc_date' => ($request->is_tertiarycc) ? 'required' : 'nullable',
+            'primarycc_id' => 'required',
+            'exposure_date' => 'required|date',
         ]);
 
         $form = Forms::findOrFail($form_id);
+
+        $get_primarycc_id = Records::findOrFail($request->primarycc_id);
 
         if(time() >= strtotime('13:00:00')) {
             $date_set = date('Y-m-d 08:00:00', strtotime('+1 Day'));
@@ -63,16 +62,11 @@ class ContactTracingController extends Controller
         }
 
         $request->user()->exposureHistory()->create([
+            'set_date' => $date_set,
             'form_id' => $form_id,
-            'is_primarycc' => ($request->is_primarycc) ? 1 : 0,
-            'is_secondarycc' => ($request->is_secondarycc) ? 1 : 0,
-            'is_tertiarycc' => ($request->is_tertiarycc) ? 1 : 0,
-            'is_primarycc_date' => ($request->is_primarycc) ? $request->is_primarycc_date : NULL,
-            'is_secondarycc_date' => ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL,
-            'is_tertiarycc_date' => ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL,
-            'is_primarycc_date_set' => ($request->is_primarycc) ? $date_set : NULL,
-            'is_secondarycc_date_set' => ($request->is_secondarycc) ? $date_set : NULL,
-            'is_tertiarycc_date_set' => ($request->is_tertiarycc) ? $date_set : NULL,
+            'primarycc_id' => $get_primarycc_id->id,
+            'cif_linkid' => NULL,
+            'exposure_date' => $request->exposure_date,
         ]);
 
         return redirect()->route('forms.edit', ['form' => $form_id])
@@ -95,9 +89,6 @@ class ContactTracingController extends Controller
         $update = ExposureHistory::findOrFail($ct_id);
 
         if($update->form_id == $form_id) {
-            $update->is_primarycc = ($request->is_primarycc) ? 1 : 0;
-            $update->is_secondarycc = ($request->is_secondarycc) ? 1 : 0;
-            $update->is_tertiarycc = ($request->is_tertiarycc) ? 1 : 0;
             $update->is_primarycc_date = ($request->is_primarycc) ? $request->is_primarycc_date : NULL;
             $update->is_secondarycc_date = ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL;
             $update->is_tertiarycc_date = ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL;
@@ -111,6 +102,7 @@ class ContactTracingController extends Controller
             else {
                 $date_set = date('Y-m-d H:i:s');
             }
+
 
             if($request->is_primarycc && $update->isDirty('is_primarycc_date')) {
                 $update->is_primarycc_date_set = $date_set;
