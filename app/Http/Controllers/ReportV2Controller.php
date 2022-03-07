@@ -273,6 +273,9 @@ class ReportV2Controller extends Controller
         ->where('reinfected', 0)
         ->where('caseClassification', 'Probable');
 
+        $exposure_history_count = ExposureHistory::whereDate('set_date', date('Y-m-d'))
+        ->count();
+
         $grandTotalContactTraced =
         ((clone $primaryCount)->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -295,7 +298,8 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })->whereBetween('morbidityMonth', [date('Y-m-01'), date('Y-m-d')])->count()) +
         $secondarycc_count + 
-        $tertiarycc_count;
+        $tertiarycc_count + 
+        $exposure_history_count;
 
         if(date('H') >= 13) {
             //idagdag ang bilang ng confirmed cases yesterday
