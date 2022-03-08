@@ -124,7 +124,7 @@
             @csrf
             @method('delete')
             <div class="text-right mb-3">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('You will delete this CIF Associated with the Patient. Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('You will delete this CIF Associated with the Patient. Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete CIF</button>
             </div>
         </form>
         @endif
@@ -2547,7 +2547,7 @@
                                     <div class="card mt-3">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between">
-                                                <div>Link Primary CC (To be filled by Contact Tracers ONLY)</div>
+                                                <div>Link Primary CC of {{$records->records->getName()}} (To be filled by Contact Tracers ONLY)</div>
                                                 <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form_id' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Primary CC</a></div>
                                             </div>
                                         </div>

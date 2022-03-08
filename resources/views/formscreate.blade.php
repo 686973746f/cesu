@@ -2265,7 +2265,7 @@
                                     <div class="card mt-3">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between">
-                                                <div>Link Primary CC (To be filled by Contact Tracers ONLY)</div>
+                                                <div>Link Primary CC of {{$records->getName()}} (To be filled by Contact Tracers ONLY)</div>
                                                 <div><button type="button" class="btn btn-outline-success" disabled><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Primary CC</button></div>
                                             </div>
                                         </div>

@@ -7,7 +7,7 @@
             @csrf
             @method('delete')
             <div class="text-right mb-3">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('This will also delete the CIF associated with this record. You cannot undo once the process is done. Are you sure you want to DELETE? Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('This will also delete the CIF associated with this record. You cannot undo once the process is done. Are you sure you want to DELETE? Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete Patient Record</button>
             </div>
         </form>
         @endif
