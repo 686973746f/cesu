@@ -41,8 +41,11 @@ class Forms extends Model
         else if($this->pType == 'CLOSE CONTACT') {
             return 'CLOSE CONTACT';
         }
-        else if($this->pType == 'CLOSE CONTACT') {
+        else if($this->pType == 'TESTING') {
             return 'NON-COVID CASE';
+        }
+        else {
+            return 'N/A';
         }
     }
 
