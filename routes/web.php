@@ -145,6 +145,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/forms/ct_exposure/{form_id}/create', [ContactTracingController::class, 'ctFormsExposureStore'])->name('ct_exposure_store');
     Route::get('/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureEdit'])->name('ct_exposure_edit');
     Route::post('/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureUpdate'])->name('ct_exposure_update');
+    Route::post('/forms/ct_exposure/{ct_id}/delete', [ContactTracingController::class, 'ctFormsExposureDelete'])->name('ct_exposure_delete');
 
     Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
     Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');

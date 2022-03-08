@@ -2558,18 +2558,29 @@
                                                     <thead class="thead-light">
                                                         <tr>
                                                             <th>Date Encoded</th>
-                                                            <th>Name of Primary CC</th>
+                                                            <th>Primary CC Name / CIF ID</th>
                                                             <th>Exposure Date</th>
                                                             <th>Encoded By</th>
+                                                            @if(auth()->user()->ifTopAdmin() || auth()->user()->id == $ctitem->user_id)
+                                                            <th></th>
+                                                            @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach($get_ctdata as $ctitem)
                                                         <tr>
                                                             <td><a href="{{route('ct_exposure_edit', ['form_id' => $records->id, 'ct_id' => $ctitem->id])}}">{{date('m/d/Y h:i A', strtotime($ctitem->created_at))}}</a></td>
-                                                            <td>{{$ctitem->getCifLinkRecords()->records->getName()}}</td>
+                                                            <td><a href="{{route('forms.edit', ['form' => $ctitem->cif_linkid])}}">{{$ctitem->getCifLinkRecords()->records->getName()}} <small>(#{{$ctitem->cif_linkid}})</small></a></td>
                                                             <td>{{date('m/d/Y', strtotime($ctitem->exposure_date))}}</td>
                                                             <td>{{$ctitem->user->name}}</td>
+                                                            @if(auth()->user()->ifTopAdmin() || auth()->user()->id == $ctitem->user_id)
+                                                            <td>
+                                                                <form action="{{route('ct_exposure_delete', ['ct_id' => $ctitem->id])}}" method="POST">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('The selected Primary CC of this Patient will be deleted. Click OK to Proceed.')"><i class="fa fa-trash"></i></button>
+                                                                </form>
+                                                            </td>
+                                                            @endif
                                                         </tr>
                                                         @endforeach
                                                     </tbody>

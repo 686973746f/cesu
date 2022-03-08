@@ -124,6 +124,23 @@ class ContactTracingController extends Controller
         }
     }
 
+    public function ctFormsExposureDelete($id) {
+        $data = ExposureHistory::findOrFail($id);
+
+        $form_id = $data->form_id;
+
+        if(auth()->user()->ifTopAdmin() || auth()->user()->id == $data->user_id) {
+            $data->delete();
+
+            return redirect()->route('forms.edit', ['form' => $form_id])
+            ->with('msg', 'Primary CC Record has been Deleted successfully.')
+            ->with('msgType', 'success');
+        }
+        else {
+            return abort(401);
+        }
+    }
+
     public function ctlgureport() {
         //No. of Suspect/Probable case of the day
         $item1 = Forms::where('status', 'approved')
