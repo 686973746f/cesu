@@ -20,6 +20,7 @@
                 <hr>
                 <p>If <strong>FOR RESWAB OR REINFECTION</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 <hr>
+                <p>Other Options:</p>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medcertmodal">Generate Medical Certificate</button>
                 @elseif($records->caseClassification == 'Non-COVID-19 Case')
                 <p>This CIF of Patient was already marked as <u><strong>NEGATIVE RESULT</strong></u></p>
