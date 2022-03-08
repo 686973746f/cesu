@@ -2547,7 +2547,7 @@
                                     <div class="card mt-3">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between">
-                                                <div>To be filled by Contact Tracers ONLY</div>
+                                                <div>Exposure History (To be filled by Contact Tracers ONLY)</div>
                                                 <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form_id' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</a></div>
                                             </div>
                                         </div>
@@ -2557,7 +2557,7 @@
                                                 <table class="table table-bordered table-striped">
                                                     <thead class="thead-light">
                                                         <tr>
-                                                            <th>Date Recorded</th>
+                                                            <th>Date Encoded</th>
                                                             <th>Name of Primary CC</th>
                                                             <th>Exposure Date</th>
                                                             <th>Encoded By</th>
@@ -2567,8 +2567,8 @@
                                                         @foreach($get_ctdata as $ctitem)
                                                         <tr>
                                                             <td><a href="{{route('ct_exposure_edit', ['form_id' => $records->id, 'ct_id' => $ctitem->id])}}">{{date('m/d/Y h:i A', strtotime($ctitem->created_at))}}</a></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>{{$ctitem->getCifLinkRecords()->records->getName()}}</td>
+                                                            <td>{{date('m/d/Y', strtotime($ctitem->exposure_date))}}</td>
                                                             <td>{{$ctitem->user->name}}</td>
                                                         </tr>
                                                         @endforeach
