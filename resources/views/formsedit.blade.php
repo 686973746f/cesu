@@ -2547,8 +2547,8 @@
                                     <div class="card mt-3">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between">
-                                                <div>Exposure History (To be filled by Contact Tracers ONLY)</div>
-                                                <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form_id' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</a></div>
+                                                <div>Link Primary CC (To be filled by Contact Tracers ONLY)</div>
+                                                <div><a class="btn btn-outline-success" href="{{route('ct_exposure_create', ['form_id' => $records->id])}}" role="button"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Primary CC</a></div>
                                             </div>
                                         </div>
                                         <div class="card-body text-center">
@@ -2578,17 +2578,6 @@
                                             @else
                                             <p>There are no Exposure History recorded in this CIF of the Patient.</p>
                                             @endif
-                                            <!--
-                                            <hr>
-                                            <div class="form-group">
-                                                <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->records->id}} for this current CIF</label>
-                                                <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
-                                                    @foreach($current_ccid_data as $i)
-                                                        <option value="{{$i->id}}" {{(collect(old('ccid_list', $i->id))->contains($i->id)) ? 'selected' : ''}}>{{'#'.$i->records->id.' - '.$i->records->getName().' | '.$i->records->getAge().'/'.substr($i->records->gender,0,1).' | '.date('m/d/Y', strtotime($i->records->bdate))}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            -->
                                         </div>
                                     </div>
                                 </div>

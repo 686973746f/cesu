@@ -2265,20 +2265,12 @@
                                     <div class="card mt-3">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between">
-                                                <div>To be filled by Contact Tracers ONLY</div>
-                                                <div><button type="button" class="btn btn-outline-success" disabled><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Exposure History</button></div>
+                                                <div>Link Primary CC (To be filled by Contact Tracers ONLY)</div>
+                                                <div><button type="button" class="btn btn-outline-success" disabled><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Primary CC</button></div>
                                             </div>
                                         </div>
                                         <div class="card-body text-center">
                                             <p>Available after creating the CIF of the Patient.</p>
-                                            <!--
-                                            <hr>
-                                            <div class="form-group">
-                                                <label for="ccid_list"><i>For Contact Tracing</i>, list the ID of Patients exposed to Patient #{{$records->id}} for this CIF</label>
-                                                <select class="form-control" name="ccid_list[]" id="ccid_list" multiple>
-                                                </select>
-                                            </div>
-                                            -->
                                         </div>
                                     </div>
                                 </div>
