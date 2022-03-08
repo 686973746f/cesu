@@ -26,6 +26,11 @@
                         <select class="form-control" name="primarycc_id" id="primarycc_id" required>
                         </select>
                     </div>
+                    <div class="alert alert-info" role="alert">
+                        <span class="font-weight-bold text-danger">Note:</span> If the Name of Primary CC cannot be found:</p>
+                        <li>Create Patient Record and CIF first before searching.</li>
+                        <li>Make sure the Case Classification of the Latest CIF is set to Suspected or Probable.</li>
+                    </div>
                     <div class="form-group">
                         <label for="exposure_date"><span class="text-danger font-weight-bold">*</span>Primary Close Contact Exposure Date</label>
                         <input type="date" class="form-control" name="exposure_date" id="exposure_date" min="{{date('Y-m-d', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('exposure_date')}}" required>
@@ -41,7 +46,7 @@
     <script>
     $('#primarycc_id').select2({
         theme: "bootstrap",
-        placeholder: 'Search Primary CC by Name / Patient ID ...',
+        placeholder: 'Search Primary CC by Name or Records ID...',
         ajax: {
             url: "{{route('forms.ajaxcclist')}}?self_id={{$data->records->id}}",
             dataType: 'json',
