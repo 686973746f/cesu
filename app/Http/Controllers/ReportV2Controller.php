@@ -35,8 +35,7 @@ class ReportV2Controller extends Controller
                 ->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereBetween('dateReported', [date('Y-m-d', strtotime('-2 Days')), date('Y-m-d')])
                 ->where('outcomeCondition', 'Active')
-                ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0);
+                ->where('caseClassification', 'Confirmed');
 
                 $getListName = 'List of Newly Reported Active Cases';
             }
@@ -46,8 +45,7 @@ class ReportV2Controller extends Controller
                 ->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('dateReported', '<=', date('Y-m-d', strtotime('-3 Days')))
                 ->where('outcomeCondition', 'Active')
-                ->where('caseClassification', 'Confirmed')
-                ->where('reinfected', 0);
+                ->where('caseClassification', 'Confirmed');
 
                 $getListName = 'List of Late Reported Active Cases';
             }
@@ -55,7 +53,6 @@ class ReportV2Controller extends Controller
                 $opt_final_query = $initial_query
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->where(function ($q) {
                     $q->where(function ($r) {
                         $r->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-10 Days')), date('Y-m-d')])
@@ -77,7 +74,6 @@ class ReportV2Controller extends Controller
                 ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
-                ->where('reinfected', 0)
                 ->where('dispoType', '!=', 6);
 
                 $getListName = 'List of Late Reported Recovered Cases';
@@ -101,7 +97,6 @@ class ReportV2Controller extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
 
                 $getListName = 'List of Total Active Cases';
@@ -110,15 +105,7 @@ class ReportV2Controller extends Controller
                 $opt_final_query = $initial_query
                 ->where('status', 'approved')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
-                ->where(function ($q) {
-                    $q->where(function ($r) {
-                        $r->where('outcomeCondition', 'Recovered')
-                        ->where('reinfected', 0);
-                    })
-                    ->orWhere(function ($s) {
-                        $s->where('reinfected', 1);
-                    });
-                });
+                ->where('outcomeCondition', 'Recovered');
 
                 $getListName = 'List of Total Recoveries';
             }
@@ -146,7 +133,6 @@ class ReportV2Controller extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
 
                 $getListName = 'List of Patients On Strict Home Quarantine';
@@ -157,7 +143,6 @@ class ReportV2Controller extends Controller
                 ->where('status', 'approved')
                 ->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
-                ->where('reinfected', 0)
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
 
                 $getListName = 'List of Patients Admitted in the Hospital/Other Isolation Facility';
@@ -697,7 +682,6 @@ class ReportV2Controller extends Controller
             ->whereDate('morbidityMonth', $date->format('Y-m-d'))
             ->where('outcomeCondition', 'Active')
             ->where('caseClassification', 'Confirmed')
-            ->where('reinfected', 0)
             ->count();
 
             $currentCT_query = Forms::whereHas('records', function ($q) {
