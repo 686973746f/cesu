@@ -81,35 +81,23 @@ class ContactTracingController extends Controller
     }
 
     public function ctFormsExposureUpdate(Request $request, $form_id, $ct_id) {
+        $request->validate([
+            'primarycc_id' => 'required',
+            'exposure_date' => 'required|date',
+        ]);
+        
         $update = ExposureHistory::findOrFail($ct_id);
 
         if($update->form_id == $form_id) {
-            $update->is_primarycc_date = ($request->is_primarycc) ? $request->is_primarycc_date : NULL;
-            $update->is_secondarycc_date = ($request->is_secondarycc) ? $request->is_secondarycc_date : NULL;
-            $update->is_tertiarycc_date = ($request->is_tertiarycc) ? $request->is_tertiarycc_date : NULL;
-            $update->is_primarycc_date_set = ($request->is_primarycc) ? date('Y-m-d H:i:s') : NULL;
-            $update->is_secondarycc_date_set = ($request->is_secondarycc) ? date('Y-m-d H:i:s') : NULL;
-            $update->is_tertiarycc_date_set = ($request->is_tertiarycc) ? date('Y-m-d H:i:s') : NULL;
-
             if(time() >= strtotime('13:00:00')) {
-                $date_set = date('Y-m-d 08:00:00', strtotime('+1 Day'));
+                $update->set_date = date('Y-m-d 08:00:00', strtotime('+1 Day'));
             }
             else {
-                $date_set = date('Y-m-d H:i:s');
+                $update->set_date = date('Y-m-d H:i:s');
             }
 
-
-            if($request->is_primarycc && $update->isDirty('is_primarycc_date')) {
-                $update->is_primarycc_date_set = $date_set;
-            }
-    
-            if($request->is_secondarycc && $update->isDirty('is_secondarycc_date')) {
-                $update->is_secondarycc_date_set = $date_set;
-            }
-    
-            if($request->is_tertiarycc && $update->isDirty('is_tertiarycc_date')) {
-                $update->is_tertiarycc_date_set = $date_set;
-            }
+            $update->cif_linkid = $request->primarycc_id;
+            $update->exposure_date = $request->exposure_date;
 
             if($update->isDirty()) {
                 $update->save();
