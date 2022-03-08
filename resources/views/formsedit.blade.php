@@ -78,45 +78,53 @@
         </div>
         @else
             @if($records->getOldCif()->count() > 0)
-            <div class="card mb-3">
-                <div class="card-header">Old CIF List of Patient</div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center thead-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>MM</th>
-                                    <th>Date Reported</th>
-                                    <th>Date Encoded</th>
-                                    <th>Health Status</th>
-                                    <th>Classification</th>
-                                    <th>Outcome</th>
-                                    <th>Date Swabbed / Type</th>
-                                    <th>Result</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                @foreach($records->getOldCif() as $olditem)
-                                <tr>
-                                    <td scope="row">{{$loop->iteration}}</td>
-                                    <td>{{date('m/d/Y', strtotime($olditem->morbidityMonth))}}</td>
-                                    <td>{{date('m/d/Y', strtotime($olditem->dateReported))}}</td>
-                                    <td>{{date('m/d/Y', strtotime($olditem->created_at))}}</td>
-                                    <td>{{$olditem->healthStatus}}</td>
-                                    <td>{{$olditem->caseClassification}}</td>
-                                    <td>{{$olditem->outcomeCondition}}</td>
-                                    <td>{{$olditem->getLatestTestDate()}} / {{$olditem->getLatestTestType()}}</td>
-                                    <td>{{$olditem->getLatestTestResult()}}</td>
-                                    <td><a href="{{route('forms.edit', ['form' => $olditem->id])}}">View</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            <div id="accordianId" role="tablist" aria-multiselectable="true">
+                <div class="card mb-3">
+                    <div class="card-header" role="tab" id="oldcifheader">
+                        <a data-toggle="collapse" data-parent="#accordianId" href="#oldcifcontent" aria-expanded="true" aria-controls="oldcifcontent">
+                            Previous CIF Record/s of {{$records->records->getName()}}
+                        </a>
+                    </div>
+                    <div id="oldcifcontent" class="collapse in" role="tabpanel" aria-labelledby="oldcifheader">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="text-center thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>MM</th>
+                                            <th>Date Reported</th>
+                                            <th>Date Encoded</th>
+                                            <th>Health Status</th>
+                                            <th>Classification</th>
+                                            <th>Outcome</th>
+                                            <th>Date Swabbed / Type</th>
+                                            <th>Result</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        @foreach($records->getOldCif() as $olditem)
+                                        <tr>
+                                            <td scope="row">{{$loop->iteration}}</td>
+                                            <td>{{date('m/d/Y', strtotime($olditem->morbidityMonth))}}</td>
+                                            <td>{{date('m/d/Y', strtotime($olditem->dateReported))}}</td>
+                                            <td>{{date('m/d/Y', strtotime($olditem->created_at))}}</td>
+                                            <td>{{$olditem->healthStatus}}</td>
+                                            <td>{{$olditem->caseClassification}}</td>
+                                            <td>{{$olditem->outcomeCondition}}</td>
+                                            <td>{{$olditem->getLatestTestDate()}} / {{$olditem->getLatestTestType()}}</td>
+                                            <td>{{$olditem->getLatestTestResult()}}</td>
+                                            <td><a href="{{route('forms.edit', ['form' => $olditem->id])}}">View</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div> 
+            </div>
             @endif
         @endif
         @if(auth()->user()->ifTopAdmin())
@@ -237,6 +245,7 @@
                         <input type="date" class="form-control" name="dateReported" id="dateReported" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d', strtotime($records->dateReported)))}}" required>
                         <small class="text-muted">Note: For Positive/Negative Result, it will be automatically changed based on Date Released of Swab Result <i>(Under 2.7 Laboratory Information)</i>.</small>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

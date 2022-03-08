@@ -64,6 +64,7 @@
                       <input type="date" class="form-control" name="dateReported" id="dateReported" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('dateReported', date('Y-m-d'))}}" required>
                       <small class="text-muted">Note: For Positive/Negative Result, it will be automatically changed based on Date Released of Swab Result <i>(Under 2.7 Laboratory Information)</i>.</small>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
