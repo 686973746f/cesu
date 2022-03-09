@@ -2417,9 +2417,20 @@ class FormsController extends Controller
     public function generateMedCert(Request $request, $form_id) {
         $data = Forms::findOrFail($form_id);
 
+        $number = date('j');
+
+        $ends = array('th','st','nd','rd','th','th','th','th','th','th');
+        if (($number %100) >= 11 && ($number%100) <= 13) {
+            $abbreviation = $number. 'th';
+        }
+        else {
+            $abbreviation = $number. $ends[$number % 10];
+        }
+
         return view('medcert', [
             'data' => $data,
             'req' => $request,
+            'cardinal' => $abbreviation,
         ]);
     }
 }
