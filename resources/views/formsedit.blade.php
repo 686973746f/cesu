@@ -19,59 +19,59 @@
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB OR REINFECTION</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
-                <hr>
-                <p>Other Options:</p>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medcertmodal">Generate Medical Certificate / Recovered Form</button>
                 @elseif($records->caseClassification == 'Non-COVID-19 Case')
                 <p>This CIF of Patient was already marked as <u><strong>NEGATIVE RESULT</strong></u></p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 @endif
+                <hr>
+                <p>Other Options:</p>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medcertmodal">Generate Medical Certificate / Recovered Form</button>
             </div>
-        @endif
-        <form action="{{route('generate_medcert', ['form_id' => $records->id])}}" method="POST">
-            @csrf
-            <div class="modal fade" id="medcertmodal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Generate Medical Certificate / Recovered Form</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label for="qDateStart">Quarantine Date Start</label>
-                                      <input type="date" class="form-control" name="qDateStart" id="qDateStart" required>
+            <form action="{{route('generate_medcert', ['form_id' => $records->id])}}" method="POST">
+                @csrf
+                <div class="modal fade" id="medcertmodal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Generate Medical Certificate / Recovered Form</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label for="qDateStart">Quarantine Date Start</label>
+                                          <input type="date" class="form-control" name="qDateStart" id="qDateStart" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="qDateEnd">Quarantine Date End</label>
+                                            <input type="date" class="form-control" name="qDateEnd" id="qDateEnd" required>
+                                          </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="qDateEnd">Quarantine Date End<</label>
-                                        <input type="date" class="form-control" name="qDateEnd" id="qDateEnd" required>
-                                      </div>
+                                <div class="form-group">
+                                  <label for="purpose">Purpose</label>
+                                  <select class="form-control" name="purpose" id="purpose" required>
+                                      <option value="Fit to Travel">Fit to Travel</option>
+                                      <option value="Fit to Work">Fit to Work</option>
+                                  </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                              <label for="purpose">Purpose</label>
-                              <select class="form-control" name="purpose" id="purpose" required>
-                                  <option value="Fit to Travel">Fit to Travel</option>
-                                  <option value="Fit to Work">Fit to Work</option>
-                              </select>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" value="medcert1" name="submit">Generate Medical Certificate</button>
+                                <button type="submit" class="btn btn-primary" value="medcert2" name="submit">Generate Recovered Form</button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" value="medcert1" name="submit">Generate Medical Certificate</button>
-                            <button type="submit" class="btn btn-primary" value="medcert2" name="submit">Generate Recovered Form</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        @endif
         @if($records->ifOldCif())
         <div class="alert alert-info" role="alert">
             <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
