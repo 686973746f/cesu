@@ -22,44 +22,48 @@
         </div>
         <div id="divToPrint">
             <div class="card-body" style="font-family: Arial, Helvetica, sans-serif">
-                <table class="table table-borderless text-center">
-                    <tbody>
-                        <tr>
-                            <td><img src="{{asset('assets/images/gentriheader.png')}}" style="width: 9rem" alt=""></td>
-                            <td>
-                                <h4>Republic of the Philippines</h4>
-                                <h4>Province of Cavite</h4>
-                                <h4>City of General Trias</h4>
-                                <h5><small><i>Telephone No.: (046) 509-5289</i></small></h5>
-                            </td>
-                            <td><img src="{{asset('assets/images/choheader.png')}}" style="width: 9rem" alt=""></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless text-center">
+                        <tbody>
+                            <tr>
+                                <td><img src="{{asset('assets/images/gentriheader.png')}}" style="width: 9rem" alt=""></td>
+                                <td>
+                                    <h4>Republic of the Philippines</h4>
+                                    <h4>Province of Cavite</h4>
+                                    <h4>City of General Trias</h4>
+                                    <h5><small><i>Telephone No.: (046) 509-5289</i></small></h5>
+                                </td>
+                                <td><img src="{{asset('assets/images/choheader.png')}}" style="width: 9rem" alt=""></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="text-center">
                     <h3 class="font-weight-bold my-3">OFFICE OF THE CITY HEALTH OFFICER</h3>
                     <h4 class="font-weight-bold mb-5">HEALTH CERTIFICATION</h4>
                 </div>
-                <table class="table table-borderless">
-                    <tbody>
-                        <tr class="font-weight-bold">
-                            <td class="text-left"><h4><strong>NAME:</strong></h4></td>
-                            <td style="border-bottom: 1px solid black;" class="text-center" colspan="5"><h4><strong>{{$data->records->getName()}}</strong></h4></td>
-                        </tr>
-                        <tr class="font-weight-bold">
-                            <td class="text-left"><h5><strong>AGE:</strong></h5></td>
-                            <td style="border-bottom: 1px solid black;" class="text-center"><h5>{{$data->records->getAge()}}</h5></td>
-                            <td class="text-right"><h5><strong>GENDER:</strong></h5></td>
-                            <td style="border-bottom: 1px solid black;" class="text-center"><h5>{{$data->records->gender}}</h5></td>
-                            <td class="text-right"><h5><strong>CIVIL STATUS:</strong></h5></td>
-                            <td style="border-bottom: 1px solid black;" class="text-center"><h5>{{$data->records->cs}}</h5></td>
-                        </tr>
-                        <tr>
-                            <td class="text-left"><h5><strong>ADDRESS:</strong></h5></td>
-                            <td style="border-bottom: 1px solid black;" class="text-center" colspan="5"><h5>BRGY. {{$data->records->address_brgy}}, {{$data->records->address_city}} {{$data->records->address_province}}</h5></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr class="font-weight-bold">
+                                <td class="text-left"><h4><strong>NAME:</strong></h4></td>
+                                <td style="border-bottom: 1px solid black;" class="text-center" colspan="5"><h4><strong>{{$data->records->getName()}}</strong></h4></td>
+                            </tr>
+                            <tr class="font-weight-bold">
+                                <td class="text-left"><h5><strong>AGE:</strong></h5></td>
+                                <td style="border-bottom: 1px solid black;" class="text-center"><h5>{{$data->records->getAge()}}</h5></td>
+                                <td class="text-right"><h5><strong>GENDER:</strong></h5></td>
+                                <td style="border-bottom: 1px solid black;" class="text-center"><h5>{{$data->records->gender}}</h5></td>
+                                <td class="text-right"><h5><strong>CIVIL STATUS:</strong></h5></td>
+                                <td style="border-bottom: 1px solid black;" class="text-center"><h5>{{$data->records->cs}}</h5></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left"><h5><strong>ADDRESS:</strong></h5></td>
+                                <td style="border-bottom: 1px solid black;" class="text-center" colspan="5"><h5>BRGY. {{$data->records->address_brgy}}, {{$data->records->address_city}} {{$data->records->address_province}}</h5></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <h5>We appreciate your full cooperation and understanding.</h5>
                 <h5>Given this {{date('m')}} day of _ in the year of {{date('Y')}}</h5>    
                 <div class="row mt-3 mb-3" style="font-size: 20px;">

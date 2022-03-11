@@ -30,23 +30,25 @@
         </div>
         <div id="divToPrint">
             <div class="card-body" style="font-family: Arial, Helvetica, sans-serif">
-                <table class="table table-borderless text-center">
-                    <tbody>
-                        <tr>
-                            <td><img src="{{asset('assets/images/gentriheader.png')}}" style="width: 9rem" alt=""></td>
-                            <td>
-                                <h4 style="margin-bottom: 1px;">Republic of the Philippines</h4>
-                                <h4 style="margin-bottom: 1px;">Province of Cavite</h4>
-                                <h4 style="margin-bottom: 1px;">City of General Trias</h4>
-                                <h4 style="margin-bottom: 1px;">CITY GOVERNMENT OF GENERAL TRIAS</h4>
-                                <h4 style="margin-bottom: 1px;"><strong>OFFICE OF THE CITY HEALTH OFFICER</strong></h4>
-                                <h5 style="margin-bottom: 1px;"><small><i>Telephone No.: (046) 509-5289</i></small></h5>
-                                <h5 style="margin-bottom: 1px;">Email: <span class="text-primary">cesu.gentrias@gmail.com</span> / <span class="text-primary">cho.generaltrias@gmail.com</span></h5>
-                            </td>
-                            <td><img src="{{asset('assets/images/choheader.png')}}" style="width: 9rem" alt=""></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless text-center">
+                        <tbody>
+                            <tr>
+                                <td><img src="{{asset('assets/images/gentriheader.png')}}" style="width: 9rem" alt=""></td>
+                                <td>
+                                    <h4 style="margin-bottom: 1px;">Republic of the Philippines</h4>
+                                    <h4 style="margin-bottom: 1px;">Province of Cavite</h4>
+                                    <h4 style="margin-bottom: 1px;">City of General Trias</h4>
+                                    <h4 style="margin-bottom: 1px;">CITY GOVERNMENT OF GENERAL TRIAS</h4>
+                                    <h4 style="margin-bottom: 1px;"><strong>OFFICE OF THE CITY HEALTH OFFICER</strong></h4>
+                                    <h5 style="margin-bottom: 1px;"><small><i>Telephone No.: (046) 509-5289</i></small></h5>
+                                    <h5 style="margin-bottom: 1px;">Email: <span class="text-primary">cesu.gentrias@gmail.com</span> / <span class="text-primary">cho.generaltrias@gmail.com</span></h5>
+                                </td>
+                                <td><img src="{{asset('assets/images/choheader.png')}}" style="width: 9rem" alt=""></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <h4 class="font-weight-bold text-center my-3">MEDICAL CERTIFICATE</h4>
                 <p style="font-size:20px;"><strong>Date:</strong> <u>{{date('m/d/Y')}}</u></p>
                 <p style="font-size:20px;text-align: justify;"><strong>Last Name:</strong> <u>{{$data->records->lname}}</u> <strong>First Name:</strong> <u>{{$data->records->fname}}</u> <strong>M.I:</strong> <u>{{(!is_null($data->records->mname)) ? substr($data->records->mname,0,1).'.' : 'N/A'}}</u></p>
