@@ -24,7 +24,7 @@
                         <i class="fa fa-file mr-2" aria-hidden="true"></i>Case Investigation Forms
                     </button>
                     <div class="collapse" id="collapse1">
-                        <div class="card card-body">
+                        <div class="card card-body border-primary">
                             <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block">View/Create CIFs</a>
                             @if(auth()->user()->isCesuAccount())
                             <a href="{{route('pendingshedchecker.index')}}" class="btn btn-primary btn-lg btn-block">Pending Swab Counter</a>
@@ -40,7 +40,7 @@
                         Contact Tracing
                     </button>
                     <div class="collapse" id="ctCollapse">
-                        <div class="card card-body">
+                        <div class="card card-body border-primary">
                             <!--
                             <a href="{{route('sc_index')}}" class="btn btn-primary btn-lg btn-block">Health Declaration Records</a>
                             <hr>
@@ -59,7 +59,7 @@
                     <hr>
                     <button class="btn btn-primary btn-lg btn-block mt-2" type="button" data-toggle="collapse" data-target="#reportCollapse" aria-expanded="false" aria-controls="reportCollapse"><i class="fas fa-chart-bar mr-2"></i>Reports</button>
                     <div class="collapse" id="reportCollapse">
-                        <div class="card card-body">
+                        <div class="card card-body border-primary">
                             <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block" id="reportsbtn">View Report Dashboard / Summary<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="reportLoading"></i></a>
                             <div id="reportNotice" class="text-center d-none">
                                 <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
