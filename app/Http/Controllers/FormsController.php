@@ -2457,6 +2457,7 @@ class FormsController extends Controller
                 'cardinal' => $abbreviation,
                 'pui' => $pui,
                 'pum' => $pum,
+                'whonote' => ($request->whonote == 1) ? $data->interviewerName : mb_strtoupper($request->whonote_other),
             ]);
         }
     }

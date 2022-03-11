@@ -62,6 +62,19 @@
                                       <option value="Fit to Work">Fit to Work</option>
                                   </select>
                                 </div>
+                                <div class="form-group">
+                                  <label for="whonote">Nurse/Midwife to Note</label>
+                                  <select class="form-control" name="whonote" id="whonote">
+                                      <option value="1">Based on Name of Interviewer</option>
+                                      <option value="2">Other</option>
+                                  </select>
+                                </div>
+                                <div id="whonotediv" class="d-none">
+                                    <div class="form-group">
+                                        <label for="whonote_other">Name of Nurse/Midwife to Note</label>
+                                        <input type="text" class="form-control" name="whonote_other" id="whonote_other">
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" value="medcert1" name="submit">Generate Medical Certificate</button>
@@ -70,6 +83,19 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                    $('#whonote').change(function (e) { 
+                        e.preventDefault();
+                        if($(this).val() == 1) {
+                            $('#whonotediv').addClass('d-none');
+                            $('#whonote_other').prop('required', false);
+                        }
+                        else {
+                            $('#whonotediv').removeClass('d-none');
+                            $('#whonote_other').prop('required', true);
+                        }
+                    });
+                </script>
             </form>
         @endif
         @if($records->ifOldCif())

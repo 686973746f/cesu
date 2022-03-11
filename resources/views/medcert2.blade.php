@@ -75,8 +75,8 @@
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                     <div class="col-md-6 text-center">
-                        <p style="margin-bottom: 1px;"><strong>Noted by:</strong> _____________________</p>
-                        <p style="margin-bottom: 1px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Midwife/Nurse</p>
+                        <p style="margin-bottom: 1px;"><strong>Noted by:</strong> <u>{{$whonote}}</u></p>
+                        <p style="margin-bottom: 1px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Midwife/Nurse</p>
                     </div>
                 </div>
                 <div class="row">
