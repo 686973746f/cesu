@@ -21,7 +21,7 @@
                 <p>If <strong>FOR RESWAB OR REINFECTION</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 <hr>
                 <p>Other Options:</p>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medcertmodal">Generate Medical Certificate</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medcertmodal">Generate Medical Certificate / Recovered Form</button>
                 @elseif($records->caseClassification == 'Non-COVID-19 Case')
                 <p>This CIF of Patient was already marked as <u><strong>NEGATIVE RESULT</strong></u></p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
@@ -36,7 +36,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Generate Medical Certificate</h5>
+                            <h5 class="modal-title">Generate Medical Certificate / Recovered Form</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -65,7 +65,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Generate</button>
+                            <button type="submit" class="btn btn-primary" value="medcert1" name="submit">Generate Medical Certificate</button>
+                            <button type="submit" class="btn btn-primary" value="medcert2" name="submit">Generate Recovered Form</button>
                         </div>
                     </div>
                 </div>

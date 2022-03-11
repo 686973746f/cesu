@@ -17,7 +17,7 @@
         <div class="card-header" id="titleBody">
             <div class="d-flex justify-content-between">
                 <div>Online Medical Certificate</div>
-                <div><button type="button" class="btn btn-primary" id="PrintBtn" onclick="window.print()">Print</button></div>
+                <div><button type="button" class="btn btn-primary" id="PrintBtn" onclick="window.print()"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button></div>
             </div>
         </div>
         <div id="divToPrint">
@@ -25,19 +25,19 @@
                 <table class="table table-borderless text-center">
                     <tbody>
                         <tr>
-                            <td><img src="{{asset('assets/images/gentriheader.png')}}" style="width: 8rem" alt=""></td>
+                            <td><img src="{{asset('assets/images/gentriheader.png')}}" style="width: 9rem" alt=""></td>
                             <td>
                                 <h4>Republic of the Philippines</h4>
                                 <h4>Province of Cavite</h4>
                                 <h4>City of General Trias</h4>
                                 <h5><small><i>Telephone No.: (046) 509-5289</i></small></h5>
                             </td>
-                            <td><img src="{{asset('assets/images/choheader.png')}}" style="width: 8rem" alt=""></td>
+                            <td><img src="{{asset('assets/images/choheader.png')}}" style="width: 9rem" alt=""></td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="text-center">
-                    <h3 class="font-weight-bold my-4">OFFICE OF THE CITY HEALTH OFFICER</h3>
+                    <h3 class="font-weight-bold my-3">OFFICE OF THE CITY HEALTH OFFICER</h3>
                     <h4 class="font-weight-bold mb-5">HEALTH CERTIFICATION</h4>
                 </div>
                 <table class="table table-borderless">
@@ -85,16 +85,16 @@
                 </div>
                 <div class="row mb-3 text-center">
                     <div class="col-md-3">
-                        <h5><span class="mr-2">{{($req->purpose == 'Fit to Travel') ? '⬛' : '⬜'}}</span>PUI</h5>
+                        <h5><span class="mr-2">{{($pui) ? '⬛' : '⬜'}}</span>PUI</h5>
                     </div>
                     <div class="col-md-3">
-                        <h5><span class="mr-2">{{($req->purpose == 'Fit to Travel') ? '⬛' : '⬜'}}</span>NON-PUI</h5>
+                        <h5><span class="mr-2">{{(!$pui) ? '⬛' : '⬜'}}</span>NON-PUI</h5>
                     </div>
                     <div class="col-md-3">
-                        <h5><span class="mr-2">{{($req->purpose == 'Fit to Travel') ? '⬛' : '⬜'}}</span>PUM</h5>
+                        <h5><span class="mr-2">{{($pum) ? '⬛' : '⬜'}}</span>PUM</h5>
                     </div>
                     <div class="col-md-3">
-                        <h5><span class="mr-2">{{($req->purpose == 'Fit to Travel') ? '⬛' : '⬜'}}</span>NON-PUM</h5>
+                        <h5><span class="mr-2">{{(!$pum) ? '⬛' : '⬜'}}</span>NON-PUM</h5>
                     </div>
                 </div>
                 <h5 style="font-size: 20px;">We appreciate your full cooperation and understanding.</h5>

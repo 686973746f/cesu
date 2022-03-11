@@ -2427,10 +2427,37 @@ class FormsController extends Controller
             $abbreviation = $number. $ends[$number % 10];
         }
 
-        return view('medcert', [
-            'data' => $data,
-            'req' => $request,
-            'cardinal' => $abbreviation,
-        ]);
+        if($data->pType == 'CLOSE CONTACT') {
+            $pui = true;
+        }
+        else {
+            $pui = false;
+        }
+
+        if(!is_null($data->SAS)) {
+            $pum = true;
+        }
+        else {
+            $pum = false;
+        }
+
+        if($request->submit == 'medcert1') {
+            return view('medcert', [
+                'data' => $data,
+                'req' => $request,
+                'cardinal' => $abbreviation,
+                'pui' => $pui,
+                'pum' => $pum,
+            ]);
+        }
+        else {
+            return view('medcert2', [
+                'data' => $data,
+                'req' => $request,
+                'cardinal' => $abbreviation,
+                'pui' => $pui,
+                'pum' => $pum,
+            ]);
+        }
     }
 }
