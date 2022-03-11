@@ -256,7 +256,7 @@ class ContactTracingController extends Controller
         ->count();
         
         //% of CCs placed under home quarantine within 24 hours
-        $item19 = ($item18 != 0 && $item14 != 0) ? ($item18 / $item14) * 100 : 0;
+        $item19 = ($item18 != 0 && $item14 != 0) ? round(($item18 / $item14) * 100) : 0;
 
         //Total no. of active asymptomatic or mild with no comorbidities, confirmed cases
         $item20 = Forms::with('records')
@@ -288,7 +288,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of total no. of active asymptomatic, mild with no comorbidity, confirmed cases under Home Quarantine
-        $item22 = ($item21 != 0 && $item20 != 0) ? ($item21 / $item20) * 100 : 0;
+        $item22 = ($item21 != 0 && $item20 != 0) ? round(($item21 / $item20) * 100) : 0;
 
         //Total no. of active asymptomatic, mild with no comorbidities, confirmed cases under Isolation/Quarantine Facility
         $item23 = Forms::with('records')
@@ -306,7 +306,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of total no. of active asymptomatic, mild with no comorbidities, confirmed cases under Isolation/Quarantine Facility
-        $item24 = ($item23 != 0 && $item20 != 0) ? ($item23 / $item20) * 100 : 0;
+        $item24 = ($item23 != 0 && $item20 != 0) ? round(($item23 / $item20) * 100) : 0;
 
         //Total number of Mild with Comorbidity, Moderate, Severe and Critical Confirmed Cases
         $item25 = Forms::with('records')
@@ -338,7 +338,7 @@ class ContactTracingController extends Controller
         ->count();
 
         //% of total number Mild with Comorbidity, Moderate, Severe and Critical Confirmed Cases in Hospital
-        $item27 = ($item26 != 0 && $item25 != 0) ? ($item26 / $item25) * 100 : 0;
+        $item27 = ($item26 != 0 && $item25 != 0) ? round(($item26 / $item25) * 100) : 0;
 
         return view('report_ctlgu', [
             'item1' => $item1,
