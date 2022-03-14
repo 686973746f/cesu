@@ -6,7 +6,7 @@
         <div class="card-header">Accomplishment Report Q1</div>
         <div class="card-body">
             <p>Q1 Total Active Cases: {{number_format($currq_active)}}</p>
-            <p>Q1 Total Active Average ({{$currq_active}}/90): {{number_format($currq_active)/90}}</p>
+            <p>Q1 Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
         </div>
     </div>
     <div class="card">
