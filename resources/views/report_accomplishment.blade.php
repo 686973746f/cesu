@@ -3,14 +3,14 @@
 @section('content')
 <div class="container">
     <div class="card mb-3">
-        <div class="card-header">Accomplishment Report Q1</div>
+        <div class="card-header font-weight-bold">Accomplishment Report Q1</div>
         <div class="card-body">
             <p>Q1 Total Active Cases: {{number_format($currq_active)}}</p>
             <p>Q1 Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
         </div>
     </div>
     <div class="card">
-        <div class="card-header">Accomplishment Report (2021)</div>
+        <div class="card-header font-weight-bold">Accomplishment Report for PREVIOUS YEAR ({{date('Y', strtotime('-1 Year'))}})</div>
         <div class="card-body">
             <p>2021 Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
             <p>2021 Confirmed Average: {{number_format($count2)}}</p>

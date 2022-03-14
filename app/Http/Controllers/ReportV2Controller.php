@@ -1311,6 +1311,17 @@ class ReportV2Controller extends Controller
     }
 
     public function accomplishment_index() {
+        //Current Quarter Active Cases
+        $currq_active = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', '2022')
+        ->count();
+
+        //Previous Year Active Cases
         $count1 = Forms::whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
@@ -1318,7 +1329,7 @@ class ReportV2Controller extends Controller
         ->where('status', 'approved')
         ->where('drunit', 'CHO GENERAL TRIAS')
         ->where('caseClassification', 'Confirmed')
-        ->whereYear('morbidityMonth', '2021')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
         ->count();
 
         $count2 = $count1/365;
@@ -1331,7 +1342,7 @@ class ReportV2Controller extends Controller
         ->where('drunit', 'CHO GENERAL TRIAS')
         ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Recovered')
-        ->whereYear('morbidityMonth', '2021')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
         ->count();
 
         $count4 = Forms::whereHas('records', function ($q) {
@@ -1342,7 +1353,7 @@ class ReportV2Controller extends Controller
         ->where('drunit', 'CHO GENERAL TRIAS')
         ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Died')
-        ->whereYear('morbidityMonth', '2021')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
         ->count();
 
         $brgyArray = collect();
@@ -1361,7 +1372,7 @@ class ReportV2Controller extends Controller
             ->where('status', 'approved')
             ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('caseClassification', 'Confirmed')
-            ->whereYear('morbidityMonth', '2021')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
             ->count();
 
             $brgyDeathCount = Forms::with('records')
@@ -1373,7 +1384,7 @@ class ReportV2Controller extends Controller
             ->where('status', 'approved')
             ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('outcomeCondition', 'Died')
-            ->whereYear('morbidityMonth', '2021')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
             ->count();
 
             $brgyRecoveryCount = Forms::with('records')
@@ -1385,7 +1396,7 @@ class ReportV2Controller extends Controller
             ->where('status', 'approved')
             ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('outcomeCondition', 'Recovered')
-            ->whereYear('morbidityMonth', '2021')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
             ->count();
 
             $brgyArray->push([
@@ -1405,28 +1416,10 @@ class ReportV2Controller extends Controller
         ->where('status', 'approved')
         ->where('drunit', 'CHO GENERAL TRIAS')
         ->where('caseClassification', 'Confirmed')
-        ->whereYear('morbidityMonth', '2021')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
         ->count();
 
         $femalecount = $count1 - $malecount;
-
-        $currq_active = Forms::whereHas('records', function ($q) {
-            $q->where('records.address_province', 'CAVITE')
-            ->where('records.address_city', 'GENERAL TRIAS');
-        })
-        ->where('status', 'approved')
-        ->where('caseClassification', 'Confirmed')
-        ->whereYear('morbidityMonth', '2022')
-        ->count();
-        
-        $currq_active = Forms::whereHas('records', function ($q) {
-            $q->where('records.address_province', 'CAVITE')
-            ->where('records.address_city', 'GENERAL TRIAS');
-        })
-        ->where('status', 'approved')
-        ->where('caseClassification', 'Confirmed')
-        ->whereYear('morbidityMonth', '2022')
-        ->count();
 
         return view('report_accomplishment', [
             'count1' => $count1,
