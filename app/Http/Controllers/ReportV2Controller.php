@@ -1396,12 +1396,47 @@ class ReportV2Controller extends Controller
             ]);
         }
 
+        $malecount = Forms::with('records')
+        ->whereHas('records', function ($q) use ($brgy) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->where('records.gender', 'MALE');
+        })
+        ->where('status', 'approved')
+        ->where('drunit', 'CHO GENERAL TRIAS')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', '2021')
+        ->count();
+
+        $femalecount = $count1 - $malecount;
+
+        $currq_active = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', '2022')
+        ->count();
+        
+        $currq_active = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', '2022')
+        ->count();
+
         return view('report_accomplishment', [
             'count1' => $count1,
             'count2' => $count2,
             'count3' => $count3,
             'count4' => $count4,
             'brgylist' => $brgyArray,
+            'malecount' => $malecount,
+            'femalecount' => $femalecount,
+            'currq_active' => $currq_active,
         ]);
     }
 }
