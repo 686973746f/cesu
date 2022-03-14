@@ -1714,12 +1714,16 @@ class FormsController extends Controller
                         $caseClassi = 'Confirmed';
                     }
                     else if($request->testResult1 == "NEGATIVE") {
+                        /*
                         if($request->pType == 'CLOSE CONTACT') {
                             $caseClassi = 'Suspect';
                         }
                         else {
                             $caseClassi = 'Non-COVID-19 Case';
                         }
+                        */
+
+                        $caseClassi = 'Non-COVID-19 Case';
                     }
                     else {
                         $caseClassi = $request->caseClassification;
@@ -1749,12 +1753,16 @@ class FormsController extends Controller
                             $caseClassi = 'Confirmed';
                         }
                         else if($request->testResult2 == "NEGATIVE") {
+                            /*
                             if($request->pType == 'CLOSE CONTACT') {
                                 $caseClassi = 'Suspect';
                             }
                             else {
                                 $caseClassi = 'Non-COVID-19 Case';
                             }
+                            */
+                            
+                            $caseClassi = 'Non-COVID-19 Case';
                         }
                         else {
                             //Equivocal and others will be placed here
