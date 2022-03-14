@@ -530,6 +530,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->isPresentOnSwabDay) && $form->isPresentOnSwabDay == 1) ? 'YES' : 'NO',
             ($form->isForHospitalization == 1) ? 'YES' : 'NO',
             $form->records->id,
+            date('m/d/Y', strtotime('+1 Day')),
         ];
     }
 
@@ -634,7 +635,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             
             'Have previous COVID consultation',
             'Date of first consult',
-            'Name of facility where first consult was done',
+            'Name of facility where first consult',
 
             'Admitted in Hospital',
             'Name of Hospital',
@@ -844,7 +845,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
 
             'Attended',
             'for Hospitalization',
-            'Patient ID'
+            'Patient ID',
+            'MoLab Date Receipt',
         ];
     }
 }
