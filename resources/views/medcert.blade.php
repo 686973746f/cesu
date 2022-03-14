@@ -64,8 +64,6 @@
                         </tbody>
                     </table>
                 </div>
-                <h5>We appreciate your full cooperation and understanding.</h5>
-                <h5>Given this {{$cardinal}} day of {{date('F')}} in the year of {{date('Y')}}</h5>    
                 <div class="row mt-3 mb-3" style="font-size: 20px;">
                     <div class="col-md-5">
                         <p>Mandatory Quarantine Period</p>
