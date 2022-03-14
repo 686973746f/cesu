@@ -1309,4 +1309,47 @@ class ReportV2Controller extends Controller
             'period' => $period,
         ]);
     }
+
+    public function accomplishment_index() {
+        $count1 = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('drunit', 'CHO GENERAL TRIAS')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', '2021')
+        ->count();
+
+        $count2 = $count1/365;
+
+        $count3 = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('drunit', 'CHO GENERAL TRIAS')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Recovered')
+        ->whereYear('morbidityMonth', '2021')
+        ->count();
+
+        $count4 = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('drunit', 'CHO GENERAL TRIAS')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', '2021')
+        ->count();
+
+        return view('report_accomplishment', [
+            'count1' => $count1,
+            'count2' => $count2,
+            'count3' => $count3,
+            'count4' => $count4,
+        ]);
+    }
 }
