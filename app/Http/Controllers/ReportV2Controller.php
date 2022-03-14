@@ -1345,11 +1345,63 @@ class ReportV2Controller extends Controller
         ->whereYear('morbidityMonth', '2021')
         ->count();
 
+        $brgyArray = collect();
+        $brgyList = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
+
+        foreach($brgyList as $brgy) {
+            $brgyConfirmedCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('caseClassification', 'Confirmed')
+            ->whereYear('morbidityMonth', '2021')
+            ->count();
+
+            $brgyDeathCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('outcomeCondition', 'Died')
+            ->whereYear('morbidityMonth', '2021')
+            ->count();
+
+            $brgyRecoveryCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('outcomeCondition', 'Recovered')
+            ->whereYear('morbidityMonth', '2021')
+            ->count();
+
+            $brgyArray->push([
+                'name' => $brgy->brgyName,
+                'confirmed' => $brgyConfirmedCount,
+                'deaths' => $brgyDeathCount,
+                'recoveries' => $brgyRecoveryCount,
+            ]);
+        }
+
         return view('report_accomplishment', [
             'count1' => $count1,
             'count2' => $count2,
             'count3' => $count3,
             'count4' => $count4,
+            'brgylist' => $brgyArray,
         ]);
     }
 }
