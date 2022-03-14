@@ -1551,11 +1551,11 @@
                                             <div class="form-group">
                                               <label for="testResult2"><span class="text-danger font-weight-bold">*</span>Results</label>
                                               <select class="form-control" name="testResult2" id="testResult2">
-                                                <option value="PENDING" {{(old('testResult2') == 'PENDING') ? 'selected' : ''}}>Pending</option>
-                                                <option value="POSITIVE" {{(old('testResult2') == 'POSITIVE') ? 'selected' : ''}}>Positive (will change the Case Classification to 'Confirmed')</option>
-                                                <option value="NEGATIVE" {{(old('testResult2') == 'NEGATIVE') ? 'selected' : ''}}>Negative (will change the Case Classification to 'Non-COVID Case')</option>
-                                                <option value="EQUIVOCAL" {{(old('testResult2') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
-                                                <option value="OTHERS" {{(old('testResult2') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                                <option value="PENDING" id="tro2_pending" {{(old('testResult2') == 'PENDING') ? 'selected' : ''}}>Pending</option>
+                                                <option value="POSITIVE" id="tro2_positive" {{(old('testResult2') == 'POSITIVE') ? 'selected' : ''}}>Positive (will change the Case Classification to 'Confirmed')</option>
+                                                <option value="NEGATIVE" id="tro2_negative" {{(old('testResult2') == 'NEGATIVE') ? 'selected' : ''}}>Negative (will change the Case Classification to 'Non-COVID Case')</option>
+                                                <option value="EQUIVOCAL" id="tro2_equivocal" {{(old('testResult2') == 'EQUIVOCAL') ? 'selected' : ''}}>Equivocal</option>
+                                                <option value="OTHERS" id="tro2_others" {{(old('testResult2') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>
                                             <div id="divResultOthers2" class="d-none">
@@ -2631,10 +2631,40 @@
                     //First Type of Swab Test Will be Required and Set to Positive
                     $('#testType1').prop('required', true);
                     $('#testResult1').val("POSITIVE");
+                    $('#testResult1').trigger('change');
                     $('#tro1_pending').addClass('d-none');
+                    $('#tro1_positive').removeClass('d-none');
                     $('#tro1_negative').addClass('d-none');
                     $('#tro1_equivocal').addClass('d-none');
                     $('#tro1_others').addClass('d-none');
+
+                    $('#testResult2').val("POSITIVE");
+                    $('#tro2_pending').addClass('d-none');
+                    $('#tro2_positive').removeClass('d-none');
+                    $('#tro2_negative').addClass('d-none');
+                    $('#tro2_equivocal').addClass('d-none');
+                    $('#tro2_others').addClass('d-none');
+                }
+                else if($(this).val() == 'Non-COVID-19 Case') {
+                    $('#cutoffwarning').removeClass('d-none');
+                    $('#askIfReinfected').hide();
+                    $('#confirmedVariant').hide();
+
+                    $('#testType1').prop('required', true);
+                    $('#testResult1').val("NEGATIVE");
+                    $('#testResult1').trigger('change');
+                    $('#tro1_pending').addClass('d-none');
+                    $('#tro1_positive').addClass('d-none');
+                    $('#tro1_negative').removeClass('d-none');
+                    $('#tro1_equivocal').addClass('d-none');
+                    $('#tro1_others').addClass('d-none');
+
+                    $('#testResult2').val("NEGATIVE");
+                    $('#tro2_pending').addClass('d-none');
+                    $('#tro2_positive').addClass('d-none');
+                    $('#tro2_negative').removeClass('d-none');
+                    $('#tro2_equivocal').addClass('d-none');
+                    $('#tro2_others').addClass('d-none');
                 }
                 else {
                     $('#askIfReinfected').hide();
@@ -2642,23 +2672,21 @@
 
                     $('#testType1').prop('required', false);
                     $('#testResult1').val("PENDING");
+                    $('#testResult1').trigger('change');
                     $('#tro1_pending').removeClass('d-none');
+                    $('#tro1_positive').removeClass('d-none');
                     $('#tro1_negative').removeClass('d-none');
                     $('#tro1_equivocal').removeClass('d-none');
                     $('#tro1_others').removeClass('d-none');
+                    
+                    $('#testResult2').val("PENDING");
+                    $('#tro2_pending').removeClass('d-none');
+                    $('#tro2_positive').removeClass('d-none');
+                    $('#tro2_negative').removeClass('d-none');
+                    $('#tro2_equivocal').removeClass('d-none');
+                    $('#tro2_others').removeClass('d-none');
                 }
             }).trigger('change');
-
-            $('#testDateCollected2').keydown(function (e) {
-                if(!Date.parse($(this).val())) {
-                    $('#testType2').prop('required', false);
-                    $('#testResult2').prop('required', false);
-                }
-                else {
-                    $('#testType2').prop('required', true);
-                    $('#testResult2').prop('required', true);
-                }
-            }).trigger('keydown');
             
             $('#ecothers').change(function (e) { 
                 e.preventDefault();
