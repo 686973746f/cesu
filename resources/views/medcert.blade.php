@@ -66,26 +66,26 @@
                 </div>
                 <div class="row mt-3 mb-3" style="font-size: 20px;">
                     <div class="col-md-5">
-                        <p>Mandatory Quarantine Period</p>
+                        <p style="margin-bottom: 1px;">Mandatory Quarantine Period</p>
                         <p><small><i>**if undergo a 14 day quarantine</i></small></p>
                     </div>
                     <div class="col-md-3 text-center">
-                        <p><u>{{date('m/d/Y', strtotime($req->qDateStart))}}</u></p>
-                        <p><small><i>Date Starts</i></small></p>
+                        <p style="margin-bottom: 1px;"><u>{{date('m/d/Y', strtotime($req->qDateStart))}}</u></p>
+                        <p style="margin-bottom: 1px;"><small><i>Date Starts</i></small></p>
                     </div>
                     <div class="col-md-1 text-center">
                         <p>to</p>
                     </div>
                     <div class="col-md-3 text-center">
-                        <p><u>{{date('m/d/Y', strtotime($req->qDateEnd))}}</u></p>
-                        <p><small><i>Date Ends</i></small></p>
+                        <p style="margin-bottom: 1px;"><u>{{date('m/d/Y', strtotime($req->qDateEnd))}}</u></p>
+                        <p style="margin-bottom: 1px;"><small><i>Date Ends</i></small></p>
                     </div>
                 </div>
                 <h5><strong>SYMPTOMS</strong></h5>
                 <div class="card card-body mb-3">
                     <p style="font-size: 20px;" class="text-center my-5">{{(!is_null($data->SAS)) ? mb_strtoupper($data->SAS) : 'NONE'}}</p>
                 </div>
-                <div class="row mb-3 text-center">
+                <div class="row mb-5 text-center">
                     <div class="col-md-3">
                         <h5><span class="mr-2">{{($pui) ? '⬛' : '⬜'}}</span>PUI</h5>
                     </div>
@@ -102,7 +102,7 @@
                 <h5 style="font-size: 20px;">We appreciate your full cooperation and understanding.</h5>
                 <h5 class="mb-5" style="font-size: 22px;">Given this <u><strong>{{$cardinal}}</strong></u> day of <u><strong>{{{date('F')}}}</strong></u> in the year of {{date('Y')}}.</h5>
                 <div>
-                    <h5 class="mb-5"><strong>PURPOSE:</strong></h5>
+                    <h5 class="mb-3"><strong>PURPOSE:</strong></h5>
                     <div class="row">
                         <div class="col-md-6 text-center">
                             <h5><span class="mr-2">{{($req->purpose == 'Fit to Travel') ? '⬛' : '⬜'}}</span>FIT TO TRAVEL</h5>
