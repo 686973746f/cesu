@@ -539,6 +539,8 @@ class FormsController extends Controller
 
             $models = $models->sortBy('records.lname');
 
+            echo '<br>';
+
             foreach($models as $item) {
                 if(!is_null($item->testDateCollected2)) {
                     $swabtype = $item->testType2;
