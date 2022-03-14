@@ -254,7 +254,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/admin/antigen/{id}/edit', [AntigenController::class, 'edit'])->name('antigen_edit');
     Route::post('/admin/antigen/{id}/edit', [AntigenController::class, 'update'])->name('antigen_update');
 
-    Route::get('/report/accomplishment', [ReportV2Controller::class, 'report_accomplishment'])->name('report.accomplishment');
+    Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
 });
 
 //JSON Reports
