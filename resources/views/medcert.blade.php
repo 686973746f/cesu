@@ -7,6 +7,10 @@
             display: none;
         }
 
+        @page {
+            margin: 0;
+        }
+
         body {
             background-color: white;
         }

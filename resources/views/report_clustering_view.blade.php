@@ -19,7 +19,7 @@
                 @endphp
                 <tr>
                     <td scope="row" class="{{($clusterctr >= 2) ? 'bg-danger font-weight-bold text-warning' : ''}}">{{$item->records->address_street}}</td>
-                    <td class="text-center {{($clusterctr >= 2) ? 'bg-danger font-weight-bold text-warning' : ''}}">{{$clusterctr}}</td>
+                    <td class="text-center {{($clusterctr >= 2) ? 'bg-danger font-weight-bold text-warning' : ''}}"><a href="">{{$clusterctr}}</a></td>
                 </tr>
                 @endforeach
             </tbody>

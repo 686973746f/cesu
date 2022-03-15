@@ -1246,14 +1246,36 @@ class ReportV2Controller extends Controller
     }
 
     public function clustering_index() {
+        $arr = collect();
+
         //get Brgy List
         $brgy = Brgy::where('city_id', 1)
         ->where('displayInList', 1)
         ->orderBy('brgyName', 'ASC')
         ->get();
 
+        foreach($brgy as $b) {
+            $active_count = Forms::whereHas('records', function ($q) use ($b) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $b->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Active')
+            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->count();
+
+            $arr->push([
+                'id' => $b->id,
+                'city_id' => $b->city_id,
+                'brgyName' => $b->brgyName,
+                'active_count' => $active_count,
+            ]);
+        }
+
         return view('report_clustering_index', [
-            'list' => $brgy,
+            'list' => $arr,
         ]);
     }
 
