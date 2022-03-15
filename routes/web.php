@@ -162,6 +162,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/report/situational/excel', [ReportController::class, 'printSituationalv2'])->name('report.situationalv2.print');
     Route::get('/report/clustering', [ReportV2Controller::class, 'clustering_index'])->name('clustering_index');
     Route::get('/report/clustering/{city}/{brgy}', [ReportController::class, 'viewClustering'])->name('clustering_view');
+    Route::get('/report/clustering/{city}/{brgy}/view_list/q={subd}', [ReportV2Controller::class, 'clustering_viewlist'])->name('clustering_viewlist');
     Route::post('/report/dohExportAll/', [ReportController::class, 'dohExportAll'])->name('report.DOHExportAll');
     Route::get('/report/dilgExportAll/', [ReportController::class, 'dilgExportAll'])->name('report.dilgExportAll');
     Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');

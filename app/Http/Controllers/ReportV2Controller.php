@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brgy;
+use App\Models\City;
 use App\Models\Forms;
 use Carbon\CarbonPeriod;
 use App\Models\DailyCases;
@@ -1276,6 +1277,29 @@ class ReportV2Controller extends Controller
 
         return view('report_clustering_index', [
             'list' => $arr,
+        ]);
+    }
+
+    public function clustering_viewlist($city_id, $brgy_id, $subd) {
+        $city_data = City::findOrFail($city_id);
+        $brgy_data = Brgy::findOrFail($brgy_id);
+
+        $list = Forms::whereHas('records', function ($q) use ($city_data, $brgy_data, $subd) {
+            $q->where('records.address_city', $city_data->cityName)
+            ->where('records.address_brgy', $brgy_data->brgyName)
+            ->where('records.address_street', $subd);
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Active')
+        ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+        ->get();
+
+        return view('report_clustering_view_patientlist', [
+            'subd' => $subd,
+            'city_data' => $city_data,
+            'brgy_data' => $brgy_data,
+            'list' => $list,
         ]);
     }
 

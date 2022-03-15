@@ -15,7 +15,13 @@
                     <tbody>
                         @foreach($list as $item)
                         <tr>
-                            <td><a href="{{route('clustering_view', ['city' => $item['city_id'], 'brgy' => $item['id']])}}" disabled>{{$item['brgyName']}}</a></td>
+                            <td>
+                                @if($item['active_count'] == 0)
+                                <button type="button" class="btn btn-link disabled">{{$item['brgyName']}}</button>
+                                @else
+                                <a href="{{route('clustering_view', ['city' => $item['city_id'], 'brgy' => $item['id']])}}" class="btn btn-link">{{$item['brgyName']}}</a>
+                                @endif
+                            </td>
                             <td class="text-center">{{$item['active_count']}}</td>
                         </tr>
                         @endforeach

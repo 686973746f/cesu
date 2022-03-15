@@ -1877,7 +1877,8 @@ class ReportController extends Controller
 
         return view('report_clustering_view', [
             'clustered_forms' => $clustered_forms,
-            'brgy_name' => $brgy_data->brgyName,
+            'brgy_data' => $brgy_data,
+            'city_data' => $city_data,
         ]);
     }
 
