@@ -2461,6 +2461,25 @@ class FormsController extends Controller
             ]);
         }
         else {
+            if($data->dispoType == 1) {
+                $admitted = 'Hospital';
+            }
+            else if($data->dispoType == 2) {
+                $admitted = 'Isolation Facility';
+            }
+            else if($data->dispoType == 3 || $data->dispoType == 4) {
+                $admitted = 'Home Quarantine';
+            }
+            else if($data->dispoType == 5) {
+                $admitted = 'Others';
+            }
+            else if($data->dispoType == 6) {
+                $admitted = 'Gen. Trias Isolation Facility (Brgy. Santiago)';
+            }
+            else if($data->dispoType == 7) {
+                $admitted = 'Gen. Trias Isolation Facility (Brgy. Javalera)';
+            }
+
             return view('medcert2', [
                 'data' => $data,
                 'req' => $request,
@@ -2468,6 +2487,7 @@ class FormsController extends Controller
                 'pui' => $pui,
                 'pum' => $pum,
                 'whonote' => ($request->whonote == 1) ? $data->interviewerName : mb_strtoupper($request->whonote_other),
+                'admitted' => $admitted,
             ]);
         }
     }

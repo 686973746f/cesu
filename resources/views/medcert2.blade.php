@@ -54,7 +54,7 @@
                         </tbody>
                     </table>
                 </div>
-                <h4 class="font-weight-bold text-center my-2">MEDICAL CERTIFICATE</h4>
+                <h4 class="font-weight-bold text-center my-3">MEDICAL CERTIFICATE</h4>
                 <p style="font-size:20px;"><strong>Date:</strong> <u>{{date('m/d/Y')}}</u></p>
                 <p style="font-size:20px;text-align: justify;"><strong>Last Name:</strong> <u>{{$data->records->lname}}</u> <strong>First Name:</strong> <u>{{$data->records->fname}}</u> <strong>M.I:</strong> <u>{{(!is_null($data->records->mname)) ? substr($data->records->mname,0,1).'.' : 'N/A'}}</u></p>
                 <p style="font-size:20px;">
@@ -63,7 +63,7 @@
                     <strong>Age/Sex:</strong> <u>{{$data->records->getAgeInt()}} / {{substr($data->records->gender,0,1)}}</u>
                 </p>
                 <p style="font-size:20px;"><strong>CAUSE OF INJURY/ILLNESS:</strong> <u>Medical</u></p>
-                <p style="font-size:20px;"><strong>PLACE OF ISOLATION/QUARANTINE:</strong> <u>Home Quarantine</u></p>
+                <p style="font-size:20px;"><strong>PLACE OF ISOLATION/QUARANTINE:</strong> <u>{{$admitted}}</u></p>
                 <p style="font-size:20px;">
                     <strong>DATE START: </strong> <u>{{date('m/d/Y', strtotime($req->qDateStart))}}</u>
                     <strong>DATE END:</strong> <u>{{date('m/d/Y', strtotime($req->qDateEnd))}}</u>
