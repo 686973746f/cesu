@@ -1217,7 +1217,7 @@ class FormsController extends Controller
             }
 
             //Auto Recovered if Lagpas na sa Quarantine Period
-            if($caseClassi == 'Confirmed') {
+            if($caseClassi == 'Confirmed' && $request->outcomeCondition != 'Died') {
                 $dateToday = Carbon::parse(date('Y-m-d'));
                 
                 if($request->dispositionType != 6 && $request->dispositionType != 7) {
@@ -2052,7 +2052,7 @@ class FormsController extends Controller
                 }
 
                 //Auto Recovered if Lagpas na sa Quarantine Period
-                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
+                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed' && $request->outcomeCondition != 'Died') {
                     $dateToday = Carbon::parse(date('Y-m-d'));
                     
                     if($request->dispositionType != 6 && $request->dispositionType != 7) {

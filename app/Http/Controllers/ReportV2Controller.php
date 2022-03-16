@@ -729,11 +729,6 @@ class ReportV2Controller extends Controller
     }
 
     public function cmIndex() {
-        if(date('d') != 15 && date('d') != date('t')) {
-            return redirect()->route('home')
-            ->with('status', 'Warning: You can ONLY open Composite Measure Report on '.date('F').' 15 and '.date('F t').'.')
-            ->with('statustype', 'warning');
-        }
 
         $sdate = date('Y-m-01');
 
@@ -741,7 +736,7 @@ class ReportV2Controller extends Controller
             $edate = date('Y-m-15');
         }
         else if(date('d') >= 16) {
-            $edate = date('Y-m-t');
+            $edate = date('Y-m-15');
         }
 
         $cc_count_total = Forms::whereHas('records', function ($q) {
