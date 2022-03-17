@@ -948,6 +948,17 @@ class JsonReportController extends Controller
     public function facilityCount() {
         $arr = [];
 
+        $dcdata = DailyCases::whereDate('set_date', date('Y-m-d'))
+        ->where('type', '4PM')
+        ->first();
+
+        if(!($dcdata)) {
+            $dcdata = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '4PM')
+            ->first();
+        }
+
+        /*
         array_push($arr, [
             'facilityCount' => Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -982,6 +993,13 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Active')
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
+        ]);
+        */
+
+        array_push($arr, [
+            'facilityCount' => $dcdata->facility_one_count,
+            'hqCount' => $dcdata->hq_count,
+            'hospitalCount' => $dcdata->hospital_count,
         ]);
 
         return response()->json($arr);
@@ -1112,7 +1130,9 @@ class JsonReportController extends Controller
         ->first();
 
         if(!($dcdata)) {
-            abort(404);
+            $dcdata = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '4PM')
+            ->first();
         }
 
         /*
@@ -1155,6 +1175,42 @@ class JsonReportController extends Controller
     public function conditionBreakdown() {
         $arr = [];
 
+        $dcdata = DailyCases::whereDate('set_date', date('Y-m-d'))
+        ->where('type', '4PM')
+        ->first();
+
+        if(!($dcdata)) {
+            $dcdata = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '4PM')
+            ->first();
+        }
+
+        array_push($arr, [
+            'status' => 'ASYMPTOMATIC',
+            'count' => $dcdata->active_asymptomatic_count,
+        ]);
+        
+        array_push($arr, [
+            'status' => 'MILD',
+            'count' => $dcdata->active_mild_with_comorbid_count + $active_mild_without_comorbid_count,
+        ]);
+
+        array_push($arr, [
+            'status' => 'MODERATE',
+            'count' => $dcdata->active_moderate_count,
+        ]);
+        
+        array_push($arr, [
+            'status' => 'SEVERE',
+            'count' => $dcdata->active_severe_count,
+        ]);
+
+        array_push($arr, [
+            'status' => 'CRITICAL',
+            'count' => $dcdata->active_critical_count,
+        ]);
+
+        /*
         array_push($arr, [
             'status' => 'ASYMPTOMATIC',
             'count' => Forms::with('records')
@@ -1229,6 +1285,7 @@ class JsonReportController extends Controller
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count(),
         ]);
+        */
 
         return response()->json($arr);
     }
@@ -1241,7 +1298,9 @@ class JsonReportController extends Controller
         ->first();
 
         if(!($dcdata)) {
-            abort(404);
+            $dcdata = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '4PM')
+            ->first();
         }
 
         /*
