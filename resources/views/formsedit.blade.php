@@ -24,10 +24,15 @@
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
+                @elseif($records->outcomeCondition == 'Died')
+                <p>The patient was already declared <u><strong>Dead</strong></u> on {{date('m/d/Y', strtotime($records->outcomeDeathDate))}}. Editing or Creating New CIF for the patient is now disabled.</p>
+                <p>You may contact CESU Staff/Encoders if you would like to update information or if you think there was a mistake.</p>
                 @endif
+                @if($records->outcomeCondition == 'Recovered' || $records->caseClassification == 'Non-COVID-19 Case')
                 <hr>
                 <p>Other Options:</p>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medcertmodal">Generate Medical Certificate / Recovered Form</button>
+                @endif
             </div>
             <form action="{{route('generate_medcert', ['form_id' => $records->id])}}" method="POST">
                 @csrf

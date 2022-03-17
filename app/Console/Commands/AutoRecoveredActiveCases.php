@@ -39,12 +39,20 @@ class AutoRecoveredActiveCases extends Command
      */
     public function handle()
     {
+        /*
         $forms = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')
+        ->whereNotIn('dispoType', [6,7])
+        ->get();
+        */
+
+        $forms = Forms::where('status', 'approved')
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
         ->whereNotIn('dispoType', [6,7])
