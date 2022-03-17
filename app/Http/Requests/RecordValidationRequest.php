@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RecordValidationRequest extends FormRequest
@@ -48,13 +49,25 @@ class RecordValidationRequest extends FormRequest
 			'phoneno' => 'nullable|numeric',
 			'email' => 'nullable|email',
 			'philhealth' => 'nullable|regex:/^[0-9]+$/',
-			'address_houseno' => 'required|different:address_brgy|different:address_street|not_in:NEAR BRGY. HALL,NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/',
-			'address_street' => 'required|different:address_brgy|different:address_houseno|not_in:NEAR BRGY. HALL,NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/',
+			'address_houseno' => [
+                'required',
+                'different:address_brgy',
+                'different:address_street',
+                'regex:/(^[a-zA-Z0-9 ]+$)+/',
+                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL')
+            ],
+            'address_street' => [
+                'required',
+                'different:address_brgy',
+                'different:address_houseno',
+                'regex:/(^[a-zA-Z0-9 ]+$)+/',
+                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL')
+            ],
 			'address_brgy' => 'required',
 			'address_city' => 'required',
 			'address_province' => 'required',
-			'permaaddress_houseno' => ($this->paddressdifferent == 1) ? 'required|not_in:NEAR BRGY. HALL,NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/' : 'nullable',
-			'permaaddress_street' => ($this->paddressdifferent == 1) ? 'required|not_in:NEAR BRGY. HALL,NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/' : 'nullable',
+			'permaaddress_houseno' => ($this->paddressdifferent == 1) ? 'required|not_in:NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/' : 'nullable',
+			'permaaddress_street' => ($this->paddressdifferent == 1) ? 'required|not_in:NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/' : 'nullable',
 			'permaaddress_brgy' => ($this->paddressdifferent == 1) ? 'required' : 'nullable',
 			'permaaddress_city' => ($this->paddressdifferent == 1) ? 'required' : 'nullable',
 			'permaaddress_province' => ($this->paddressdifferent == 1) ? 'required' : 'nullable',
@@ -64,8 +77,8 @@ class RecordValidationRequest extends FormRequest
 
 			'occupation' => ($this->hasoccupation == 1) ? 'required' : 'nullable',
 			'worksInClosedSetting' => ($this->hasoccupation == 1) ? 'required' : 'nullable',
-			'occupation_lotbldg' => 'nullable|different:occupation_brgy|different:occupation_street|not_in:NEAR BRGY. HALL,NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/',
-			'occupation_street' => 'nullable|different:occupation_brgy|different:occupation_lotbldg|not_in:NEAR BRGY. HALL,NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/',
+			'occupation_lotbldg' => 'nullable|different:occupation_brgy|different:occupation_street|not_in:NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/',
+			'occupation_street' => 'nullable|different:occupation_brgy|different:occupation_lotbldg|not_in:NEAR BRGY HALL,NEAR BARANGAY HALL|regex:/(^[a-zA-Z0-9 ]+$)+/',
 			'occupation_brgy' => 'nullable',
 			'occupation_city' => 'nullable',
 			'occupation_province' => 'nullable',
