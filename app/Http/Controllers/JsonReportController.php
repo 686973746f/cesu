@@ -1192,7 +1192,7 @@ class JsonReportController extends Controller
         
         array_push($arr, [
             'status' => 'MILD',
-            'count' => $dcdata->active_mild_with_comorbid_count + $active_mild_without_comorbid_count,
+            'count' => $dcdata->active_mild_with_comorbid_count + $dcdata->active_mild_without_comorbid_count,
         ]);
 
         array_push($arr, [
