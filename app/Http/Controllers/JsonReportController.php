@@ -28,7 +28,9 @@ class JsonReportController extends Controller
         ->first();
 
         if(!($dcdata)) {
-            abort(404);
+            $dcdata = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '4PM')
+            ->first();
         }
 
         $totalActiveCases = $dcdata->total_active;
