@@ -3639,7 +3639,10 @@
                 }
             }).trigger('change');
 
-            $('#testResult1').change(function (e) { 
+            //Get Default Case Classification
+            var defcc = $('#caseClassification').val();
+
+            $('#testResult1').change(function (e) {
                 e.preventDefault();
                 if($(this).val() == "OTHERS") {
                     $('#divResultOthers1').removeClass('d-none');
@@ -3661,9 +3664,28 @@
                         $('#ifDateReleased1').addClass('d-none');
                     }
                 }
+
+                if($(this).val() == 'POSITIVE') {
+                    if($('#caseClassification').val() != 'Confirmed') {
+                        $('#caseClassification').val('Confirmed');
+                        $('#caseClassification').trigger('change');
+                    } 
+                }
+                else if($(this).val() == 'NEGATIVE') {
+                    if($('#caseClassification').val() != 'Non-COVID-19 Case') {
+                        $('#caseClassification').val('Non-COVID-19 Case');
+                        $('#caseClassification').trigger('change');
+                    }
+                }
+                else {
+                    if($('#caseClassification').val() != defcc) {
+                        $('#caseClassification').val(defcc);
+                        $('#caseClassification').trigger('change');
+                    }
+                }
             }).trigger('change');
 
-            $('#testType2').change(function (e) { 
+            $('#testType2').change(function (e) {
                 e.preventDefault();
                 if($(this).val() === "") {
                     $('#testDateCollected2').prop('required', false);
@@ -3721,7 +3743,7 @@
                 }
             }).trigger('change');
 
-            $('#testResult2').change(function (e) { 
+            $('#testResult2').change(function (e) {
                 e.preventDefault();
                 if($(this).val() == "OTHERS") {
                     $('#divResultOthers2').removeClass('d-none');
@@ -3739,6 +3761,25 @@
                     else {
                         $('#testDateReleased2').prop('required', false);
                         $('#ifDateReleased2').addClass('d-none');
+                    }
+                }
+
+                if($(this).val() == 'POSITIVE') {
+                    if($('#caseClassification').val() != 'Confirmed') {
+                        $('#caseClassification').val('Confirmed');
+                        $('#caseClassification').trigger('change');
+                    }
+                }
+                else if($(this).val() == 'NEGATIVE') {
+                    if($('#caseClassification').val() != 'Non-COVID-19 Case') {
+                        $('#caseClassification').val('Non-COVID-19 Case');
+                        $('#caseClassification').trigger('change');
+                    }
+                }
+                else {
+                    if($('#caseClassification').val() != defcc) {
+                        $('#caseClassification').val(defcc);
+                        $('#caseClassification').trigger('change');
                     }
                 }
             }).trigger('change');
