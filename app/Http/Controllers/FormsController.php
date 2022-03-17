@@ -1285,7 +1285,7 @@ class FormsController extends Controller
                 $auto_outcome_recovered_date = $request->outcomeRecovDate;
             }
     
-            if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
+            if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
                 ->withInput()
                 ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM - 12AM Daily. You can change the Morbidity Month to Tomorrow ('.date('m/d/Y', strtotime('+1 Day')).') so that it could be encoded for tomorrow.')
@@ -2121,7 +2121,7 @@ class FormsController extends Controller
                 }
 
                 if($proceed == 1) {
-                    if($request->morbidityMonth == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
+                    if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                         return back()
                         ->withInput()
                         ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM - 12AM Daily. You can change the Morbidity Month to Tomorrow ('.date('m/d/Y', strtotime('+1 Day')).') so that it could be encoded for tomorrow.')
