@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PaSwabValidationRequest extends FormRequest
@@ -60,8 +61,22 @@ class PaSwabValidationRequest extends FormRequest
             'address_city' => 'required',
             'saddress_city' => 'required',
             'address_brgy' => 'required',
-            'address_street' => 'required|different:address_brgy|different:address_houseno|not_in:NEAR BRGY. HALL,0,00,000,0000,N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE,NEAR BRGY HALL,NEAR BARANGAY HALL|min:3|regex:/(^[a-zA-Z0-9 ]+$)+/',
-            'address_houseno' => 'required|different:address_brgy|different:address_street|not_in:NEAR BRGY. HALL,0,00,000,0000,N,NA,NONE,n/a,N/A,NOT APPLICABLE,NOTAPPLICABLE,NEAR BRGY HALL,NEAR BARANGAY HALL|min:3|regex:/(^[a-zA-Z0-9 ]+$)+/',
+            'address_street' => [
+                'required',
+                'different:address_brgy',
+                'different:address_houseno',
+                'min:3',
+                'regex:/(^[a-zA-Z0-9 ]+$)+/',
+                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL', '000', 'NONE', 'NOT APPLICABLE'),
+            ],
+            'address_houseno' => [
+                'required',
+                'different:address_brgy',
+                'different:address_street',
+                'min:3',
+                'regex:/(^[a-zA-Z0-9 ]+$)+/',
+                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL', '000', 'NONE', 'NOT APPLICABLE'),
+            ],
             
             'haveOccupation' => 'required|numeric',
             'occupation' => ($this->haveOccupation == 1) ? 'required' : 'nullable', 

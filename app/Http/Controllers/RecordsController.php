@@ -8,6 +8,7 @@ use App\Models\Records;
 use App\Models\Companies;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
+use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\RecordValidationRequest;
@@ -223,8 +224,27 @@ class RecordsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(RecordValidationRequest $request) {
+		$request->address_street = strtolower($request->address_street);
+		$request->address_houseno = strtolower($request->address_houseno);
 
 		$request->validated();
+
+		$request->validate([
+			'address_houseno' => [
+				'required',
+				'different:address_brgy',
+				'different:address_street',
+				'regex:/(^[a-zA-Z0-9 ]+$)+/',
+				Rule::notIn(array_map('strtolower', ['NEAR BRGY HALL', 'NEAR BARANGAY HALL']))
+			],
+			'address_street' => [
+				'required',
+				'different:address_brgy',
+				'different:address_houseno',
+				'regex:/(^[a-zA-Z0-9 ]+$)+/',
+				Rule::notIn(array_map('strtolower', ['NEAR BRGY HALL', 'NEAR BARANGAY HALL']))
+			],
+		]);
 
 		if($request->paddressdifferent == 1) {
 			$paddress_houseno = $request->permaaddress_houseno;
@@ -562,7 +582,27 @@ class RecordsController extends Controller
 		if(Records::eligibleToUpdate($id)) {
 			$current = Records::findOrFail($id);
 
+			$request->address_street = strtolower($request->address_street);
+			$request->address_houseno = strtolower($request->address_houseno);
+
 			$request->validated();
+
+			$request->validate([
+				'address_houseno' => [
+					'required',
+					'different:address_brgy',
+					'different:address_street',
+					'regex:/(^[a-zA-Z0-9 ]+$)+/',
+					Rule::notIn(array_map('strtolower', ['NEAR BRGY HALL', 'NEAR BARANGAY HALL', 'NONE']))
+				],
+				'address_street' => [
+					'required',
+					'different:address_brgy',
+					'different:address_houseno',
+					'regex:/(^[a-zA-Z0-9 ]+$)+/',
+					Rule::notIn(array_map('strtolower', ['NEAR BRGY HALL', 'NEAR BARANGAY HALL', 'NONE']))
+				],
+			]);
 
 			if($request->paddressdifferent == 1) {
 				$paddress_houseno = $request->permaaddress_houseno;

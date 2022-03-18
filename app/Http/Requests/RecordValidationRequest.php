@@ -49,19 +49,19 @@ class RecordValidationRequest extends FormRequest
 			'phoneno' => 'nullable|numeric',
 			'email' => 'nullable|email',
 			'philhealth' => 'nullable|regex:/^[0-9]+$/',
-			'address_houseno' => [
+            'address_houseno' => [
                 'required',
                 'different:address_brgy',
                 'different:address_street',
                 'regex:/(^[a-zA-Z0-9 ]+$)+/',
-                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL')
+                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL', 'NONE', '000')
             ],
             'address_street' => [
                 'required',
                 'different:address_brgy',
                 'different:address_houseno',
                 'regex:/(^[a-zA-Z0-9 ]+$)+/',
-                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL')
+                Rule::notIn('NEAR BRGY HALL', 'NEAR BARANGAY HALL', 'NONE', '000')
             ],
 			'address_brgy' => 'required',
 			'address_city' => 'required',

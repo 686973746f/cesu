@@ -213,8 +213,8 @@
                                       <label for="havePhilhealth"><span class="text-danger font-weight-bold">*</span>Do you have Philhealth Account?</label>
                                       <select class="form-control" name="havePhilhealth" id="havePhilhealth">
                                         <option value="" disabled {{(is_null(old('havePhilhealth'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
-                                        <option value="YES">{{__('paswab.select.ChooseYes')}}</option>
-                                        <option value="NO">{{__('paswab.select.ChooseNo')}}</option>
+                                        <option value="YES" {{(old('havePhilhealth') == 'YES') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
+                                        <option value="NO" {{(old('havePhilhealth') == 'NO') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                       </select>
                                       <small class="form-text text-muted">{{__('paswab.philhealth.notice')}}</i></small>
                                     </div>
@@ -223,8 +223,8 @@
                                           <label for="declaredDependent"><span class="text-danger font-weight-bold">*</span>Are you declared as dependent from your Parents Philhealth Number?</label>
                                           <select class="form-control" name="declaredDependent" id="declaredDependent">
                                             <option value="" disabled {{(is_null(old('declaredDependent'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
-                                            <option value="YES">{{__('paswab.select.ChooseYes')}}</option>
-                                            <option value="NO">{{__('paswab.select.ChooseNo')}}</option>
+                                            <option value="YES" {{(old('declaredDependent') == 'YES') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
+                                            <option value="NO" {{(old('declaredDependent') == 'NO') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                           </select>
                                         </div>
                                     </div>

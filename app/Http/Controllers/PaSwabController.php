@@ -9,6 +9,7 @@ use App\Models\PaSwabLinks;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Models\MonitoringSheetMaster;
@@ -931,7 +932,29 @@ class PaSwabController extends Controller
     }
 
     public function store(PaSwabValidationRequest $request, $locale) {
+        $request->address_street = strtolower($request->address_street);
+		$request->address_houseno = strtolower($request->address_houseno);
+
         $request->validated();
+
+        $request->validate([
+            'address_street' => [
+                'required',
+                'different:address_brgy',
+                'different:address_houseno',
+                'min:3',
+                'regex:/(^[a-zA-Z0-9 ]+$)+/',
+                Rule::notIn(array_map('strtolower', ['NEAR BRGY HALL', 'NEAR BARANGAY HALL', '000', 'NONE', 'NOT APPLICABLE'])),
+            ],
+            'address_houseno' => [
+                'required',
+                'different:address_brgy',
+                'different:address_street',
+                'min:3',
+                'regex:/(^[a-zA-Z0-9 ]+$)+/',
+                Rule::notIn(array_map('strtolower', ['NEAR BRGY HALL', 'NEAR BARANGAY HALL', '000', 'NONE', 'NOT APPLICABLE'])),
+            ],
+        ]);
 
         /*
         
