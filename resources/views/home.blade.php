@@ -18,7 +18,6 @@
                             {{session('status')}}
                         </div>
                     @endif
-
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Information</a>
                     <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
                         <i class="fa fa-file mr-2" aria-hidden="true"></i>Case Investigation Forms

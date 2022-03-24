@@ -18,6 +18,12 @@ import 'datatables.net-buttons/js/buttons.html5.min';
 import 'datatables.net-buttons/js/buttons.print.min';
 import 'holderjs';
 import 'select2';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import download from 'downloadjs';
 
 window.JSZip = jsZip;
 window.ClipboardJS = require('clipboard');
+window.PDFDocument = PDFDocument;
+window.StandardFonts = StandardFonts;
+window.rgb = rgb;
+window.download = download;
