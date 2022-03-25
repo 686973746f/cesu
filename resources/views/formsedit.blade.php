@@ -115,7 +115,7 @@
                 <div class="card mb-3">
                     <div class="card-header" role="tab" id="oldcifheader">
                         <a data-toggle="collapse" data-parent="#accordianId" href="#oldcifcontent" aria-expanded="true" aria-controls="oldcifcontent">
-                            Previous CIF Record/s of {{$records->records->getName()}}
+                            <i class="fa fa-history mr-2" aria-hidden="true"></i>Previous CIF Record/s of {{$records->records->getName()}}
                         </a>
                     </div>
                     <div id="oldcifcontent" class="collapse in" role="tabpanel" aria-labelledby="oldcifheader">
