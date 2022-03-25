@@ -843,6 +843,20 @@ class FormsController extends Controller
 
                 //Get Antigen List
                 $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
+
+                //Adjust Max Date of Swab
+                if(date('m') == 01) {
+                    $mindate = date('Y-12-01', strtotime('-1 Year'));
+                    $enddate = date('Y-12-31');
+                }
+                else if(date('m') == 12) {
+                    $mindate = date('Y-01-01');
+                    $enddate = date('Y-01-31', strtotime('+1 Year'));
+                }
+                else {
+                    $mindate = date('Y-01-01');
+                    $enddate = date('Y-12-31');
+                }
                 
                 $countries = new Countries();
                 $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
@@ -854,6 +868,8 @@ class FormsController extends Controller
                     'id' => $id,
                     'is_cutoff' => $is_cutoff,
                     'antigen_list' => $antigen_list,
+                    'mindate' => $mindate,
+                    'enddate' => $enddate,
                 ]);
             }
         }
@@ -1617,6 +1633,20 @@ class FormsController extends Controller
             //Get Antigen List
             $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
 
+            //Adjust Max Date of Swab
+            if(date('m') == 01) {
+                $mindate = date('Y-12-01', strtotime('-1 Year'));
+                $enddate = date('Y-12-31');
+            }
+            else if(date('m') == 12) {
+                $mindate = date('Y-01-01');
+                $enddate = date('Y-01-31', strtotime('+1 Year'));
+            }
+            else {
+                $mindate = date('Y-01-01');
+                $enddate = date('Y-12-31');
+            }
+
             return view('formsedit', [
                 'countries' => $all,
                 'records' => $records,
@@ -1630,6 +1660,8 @@ class FormsController extends Controller
                 'current_ccid_data' => $get_current_ccid_data,
                 'get_ctdata' => $get_ctdata,
                 'antigen_list' => $antigen_list,
+                'mindate' => $mindate,
+                'enddate' => $enddate,
             ]);
         }
         else {
@@ -2402,6 +2434,20 @@ class FormsController extends Controller
             //Get Antigen List
             $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
 
+            //Adjust Max Date of Swab
+            if(date('m') == 01) {
+                $mindate = date('Y-12-01', strtotime('-1 Year'));
+                $enddate = date('Y-12-31');
+            }
+            else if(date('m') == 12) {
+                $mindate = date('Y-01-01');
+                $enddate = date('Y-01-31', strtotime('+1 Year'));
+            }
+            else {
+                $mindate = date('Y-01-01');
+                $enddate = date('Y-12-31');
+            }
+
             return view('formscreate', [
                 'countries' => $all,
                 'records' => $record,
@@ -2409,6 +2455,8 @@ class FormsController extends Controller
                 'id' => $id,
                 'is_cutoff' => $is_cutoff,
                 'antigen_list' => $antigen_list,
+                'mindate' => $mindate,
+                'enddate' => $enddate,
             ]);
         }
         else {

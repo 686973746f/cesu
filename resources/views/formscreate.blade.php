@@ -1444,7 +1444,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="testDateCollected1"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
-                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected1')}}">
+                                              <input type="date" class="form-control" name="testDateCollected1" id="testDateCollected1" min="{{$mindate}}" max="{{$enddate}}" value="{{old('testDateCollected1')}}">
                                               <small class="text-muted">Note: This also considered the first day of Quarantine Period.</small>
                                             </div>
                                         </div>
@@ -1529,7 +1529,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date Collected</label>
-                                                <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-12-31')}}" value="{{old('testDateCollected2')}}">
+                                                <input type="date" class="form-control" name="testDateCollected2" id="testDateCollected2" min="{{$mindate}}" max="{{$enddate}}" value="{{old('testDateCollected2')}}">
                                                 <small class="text-muted">Note: This also considered the first day of Quarantine Period.</small>
                                             </div>
                                         </div>
