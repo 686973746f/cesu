@@ -22,7 +22,7 @@
                     @endforeach
                 </tbody>
             </table>
-            b4
+            <p>Last Year Swab Count: {{$lastYearSwab}}</p>
         </div>
     </div>
     <div class="card">

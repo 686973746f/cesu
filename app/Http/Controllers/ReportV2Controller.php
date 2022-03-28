@@ -1520,6 +1520,16 @@ class ReportV2Controller extends Controller
             ]);
         }
 
+        $lastYearSwab = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('drunit', 'CHO GENERAL TRIAS')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->where('isPresentOnSwabDay', 1)
+        ->count();
+
         return view('report_accomplishment', [
             'count1' => $count1,
             'count2' => $count2,
@@ -1530,6 +1540,7 @@ class ReportV2Controller extends Controller
             'femalecount' => $femalecount,
             'currq_active' => $currq_active,
             'swabarr' => $swabarr,
+            'lastYearSwab' => $lastYearSwab,
         ]);
     }
 }
