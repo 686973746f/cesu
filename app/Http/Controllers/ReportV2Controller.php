@@ -1449,7 +1449,7 @@ class ReportV2Controller extends Controller
         }
 
         $malecount = Forms::with('records')
-        ->whereHas('records', function ($q) use ($brgy) {
+        ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS')
             ->where('records.gender', 'MALE');
@@ -1462,6 +1462,64 @@ class ReportV2Controller extends Controller
 
         $femalecount = $count1 - $malecount;
 
+        $swabarr = [];
+
+        for($i = 1; $i<=date('n');$i++) {
+            if($i == 1) {
+                $m = 'January';
+            }
+            else if($i == 2) {
+                $m = 'February';
+            }
+            else if($i == 3) {
+                $m = 'March';
+            }
+            else if($i == 4) {
+                $m = 'April';
+            }
+            else if($i == 5) {
+                $m = 'May';
+            }
+            else if($i == 6) {
+                $m = 'June';
+            }
+            else if($i == 7) {
+                $m = 'July';
+            }
+            else if($i == 8) {
+                $m = 'August';
+            }
+            else if($i == 9) {
+                $m = 'September';
+            }
+            else if($i == 10) {
+                $m = 'October';
+            }
+            else if($i == 11) {
+                $m = 'November';
+            }
+            else if($i == 12) {
+                $m = 'December';
+            }
+
+            $count = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->whereYear('morbidityMonth', '2022')
+            ->whereMonth('morbidityMonth', $i)
+            ->where('isPresentOnSwabDay', 1)
+            ->count();
+
+
+            array_push($swabarr, [
+                'month' => $m,
+                'count' => $count,
+            ]);
+        }
+
         return view('report_accomplishment', [
             'count1' => $count1,
             'count2' => $count2,
@@ -1471,6 +1529,7 @@ class ReportV2Controller extends Controller
             'malecount' => $malecount,
             'femalecount' => $femalecount,
             'currq_active' => $currq_active,
+            'swabarr' => $swabarr,
         ]);
     }
 }
