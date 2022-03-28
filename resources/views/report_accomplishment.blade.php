@@ -10,6 +10,22 @@
         </div>
     </div>
     <div class="card">
+        <div class="card-header">Swab Count</div>
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    @foreach($swabarr as $s)
+                    <tr>
+                        <td>{{$s['month']}}</td>
+                        <td>{{$s['count']}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            b4
+        </div>
+    </div>
+    <div class="card">
         <div class="card-header font-weight-bold">Accomplishment Report for PREVIOUS YEAR ({{date('Y', strtotime('-1 Year'))}})</div>
         <div class="card-body">
             <p>2021 Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
