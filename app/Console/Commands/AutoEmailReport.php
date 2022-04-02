@@ -47,6 +47,12 @@ class AutoEmailReport extends Command
         ->where('type', '4PM')
         ->first();
 
+        if(!($data)) {
+            $data = DailyCases::whereDate('set_date', date('Y-m-d', strtotime('-1 Day')))
+            ->where('type', '4PM')
+            ->first();
+        }
+
         $templateProcessor  = new TemplateProcessor(asset('assets/docs/CovidGentriTemplate.docx'));
         $templateProcessor->setValue('date', date('F d, Y'));
         $templateProcessor->setValue('c_n', number_format($data->new_cases));
