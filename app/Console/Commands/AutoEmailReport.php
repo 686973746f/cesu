@@ -53,7 +53,7 @@ class AutoEmailReport extends Command
             ->first();
         }
 
-        $templateProcessor  = new TemplateProcessor('C:\laragon\www\cesu\public\CovidGentriTemplate.docx');
+        $templateProcessor  = new TemplateProcessor(public_path().'/assets/docs/CovidGentriTemplate.docx');
         $templateProcessor->setValue('date', date('F d, Y'));
         $templateProcessor->setValue('c_n', number_format($data->new_cases));
         $templateProcessor->setValue('c_l', number_format($data->late_cases));
@@ -208,7 +208,7 @@ class AutoEmailReport extends Command
         $templateProcessor->setValue('bst', number_format($bst));
         $templateProcessor->setValue('bpt', number_format($bpt));
 
-        $templateProcessor->saveAs('CITY-OF-GENERAL-TRIAS.docx');
+        $templateProcessor->saveAs(public_path().'CITY-OF-GENERAL-TRIAS.docx');
 
         foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
             Mail::to($recipient)->send(new CovidReportWord());
