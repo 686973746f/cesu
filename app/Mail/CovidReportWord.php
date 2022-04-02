@@ -31,6 +31,6 @@ class CovidReportWord extends Mailable
         return $this->view('email.covidreport')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
         ->subject('COVID Gentri '.date('F d, Y'))
-        ->attach(public_path().'/CITY-OF-GENERAL-TRIAS.docx');
+        ->attach(public_path('CITY-OF-GENERAL-TRIAS.docx'));
     }
 }

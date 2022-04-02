@@ -13,7 +13,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{public_path()}}
                     @if(session('status'))
                         <div class="text-center alert alert-{{session('statustype')}}" role="alert">
                             {{session('status')}}
