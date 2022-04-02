@@ -17,7 +17,7 @@ class AutoEmailReport extends Command
      *
      * @var string
      */
-    protected $signature = 'autoemailreport:daily';
+    protected $signature = 'autoemailreport:everyminute';
 
     /**
      * The console command description.
