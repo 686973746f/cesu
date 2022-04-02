@@ -1643,8 +1643,14 @@ class FormsController extends Controller
                 $enddate = date('Y-01-31', strtotime('+1 Year'));
             }
             else {
-                $mindate = date('Y-01-01');
-                $enddate = date('Y-12-31');
+                if(date('Y', strtotime($records->testDateCollected1)) != date('Y')) {
+                    $mindate = date('Y-01-01', strtotime($records->testDateCollected1));
+                    $enddate = date('Y-12-31');
+                }
+                else {
+                    $mindate = date('Y-01-01');
+                    $enddate = date('Y-12-31');
+                }
             }
 
             return view('formsedit', [

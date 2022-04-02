@@ -289,7 +289,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
+							<label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
 							<input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
 							@error('address_street')
 								<small class="text-danger">{{$message}}</small>
@@ -540,7 +540,7 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="permaaddress_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio</label>
+								<label for="permaaddress_street"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
 								<input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{old('permaaddress_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 								@error('permaaddress_street')
 									<small class="text-danger">{{$message}}</small>
@@ -714,7 +714,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="occupation_street">Street</label>
+								<label for="occupation_street">Street/Zone</label>
 								<input type="text" class="form-control" name="occupation_street" id="occupation_street" value="{{$list->loc_street}}" pattern="(^[a-zA-Z0-9 ]+$)+" readonly>
 								@error('occupation_street')
 									<small class="text-danger">{{$message}}</small>
@@ -911,7 +911,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="occupation_street">Street</label>
+								<label for="occupation_street">Street/Zone</label>
 								<input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 								@error('occupation_street')
 									<small class="text-danger">{{$message}}</small>

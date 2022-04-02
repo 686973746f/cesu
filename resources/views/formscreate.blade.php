@@ -395,7 +395,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="">Street/Purok/Sitio</label>
+                                                <label for="">Street/Subdivision/Purok/Sitio</label>
                                                 <input type="text" class="form-control" value="{{$records->address_street}}" disabled>
                                             </div>
                                         </div>
@@ -452,7 +452,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="">Street/Purok/Sitio</label>
+                                                <label for="">Street/Subdivision/Purok/Sitio</label>
                                                 <input type="text" class="form-control" value="{{(is_null($records->permaaddress_street)) ? "N/A" : $records->permaaddress_street}}" disabled>
                                             </div>
                                         </div>
@@ -509,7 +509,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="">Street</label>
+                                                <label for="">Street/Zone</label>
                                                 <input type="text" class="form-control" value="{{(is_null($records->occupation_street)) ? 'N/A' : $records->occupation_street}}" disabled>
                                             </div>
                                         </div>
