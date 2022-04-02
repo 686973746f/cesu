@@ -29,7 +29,7 @@ class CovidReportWord extends Mailable
     public function build()
     {
         return $this->view('email.covidreport')
-        ->from('histoemulator@gmail.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'Christian James Historillo')
         ->subject('COVID Gentri '.date('F d, Y'))
         ->attach(asset('CITY-OF-GENERAL-TRIAS.docx'));
     }
