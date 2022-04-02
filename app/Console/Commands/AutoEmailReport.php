@@ -210,7 +210,7 @@ class AutoEmailReport extends Command
 
         $templateProcessor->saveAs(public_path('CITY-OF-GENERAL-TRIAS.docx'));
 
-        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
+        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com'] as $recipient) {
             Mail::to($recipient)->send(new CovidReportWord());
         }
     }
