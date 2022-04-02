@@ -42,7 +42,7 @@ class AutoEmailReport extends Command
      * @return int
      */
     public function handle()
-    {
+    {   
         $data = DailyCases::whereDate('set_date', date('Y-m-d'))
         ->where('type', '4PM')
         ->first();
@@ -53,7 +53,7 @@ class AutoEmailReport extends Command
             ->first();
         }
 
-        $templateProcessor  = new TemplateProcessor(asset('assets/docs/CovidGentriTemplate.docx'));
+        $templateProcessor  = new TemplateProcessor('C:\laragon\www\cesu\public\CovidGentriTemplate.docx');
         $templateProcessor->setValue('date', date('F d, Y'));
         $templateProcessor->setValue('c_n', number_format($data->new_cases));
         $templateProcessor->setValue('c_l', number_format($data->late_cases));
