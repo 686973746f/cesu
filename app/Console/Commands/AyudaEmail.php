@@ -70,6 +70,8 @@ class AyudaEmail extends Command
             $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
     
             $exp = (new FastExcel($sheets))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
             ->export(public_path('AyudaList_'.date('F_d_Y').'.xlsx'), function ($form) {
                 $arr_sas = explode(",", $form->SAS);
                 $arr_othersas = explode(",", $form->SASOtherRemarks);
