@@ -102,9 +102,9 @@ class SuspectedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
         }
 
         return [
-            date('m/d/Y', strtotime($form->created_at)),
-            Carbon::parse($form->created_at)->format('W'),
-            date('m/d/Y', strtotime($form->interviewDate)),
+            date('m/d/Y', strtotime($form->morbidityMonth)),
+            Carbon::parse($form->morbidityMonth)->format('W'),
+            date('m/d/Y', strtotime($form->dateReported)),
             $form->drunit,
             $form->drregion,
             $form->drprovince,
@@ -304,9 +304,9 @@ class ProbableCaseSheet implements FromCollection, WithMapping, WithHeadings, Wi
         }
 
         return [
-            date('m/d/Y', strtotime($form->created_at)),
-            Carbon::parse($form->created_at)->format('W'),
-            date('m/d/Y', strtotime($form->interviewDate)),
+            date('m/d/Y', strtotime($form->morbidityMonth)),
+            Carbon::parse($form->morbidityMonth)->format('W'),
+            date('m/d/Y', strtotime($form->dateReported)),
             $form->drunit,
             $form->drregion,
             $form->drprovince,
@@ -505,9 +505,9 @@ class ConfirmedCaseSheet implements FromCollection, WithMapping, WithHeadings, W
         }
 
         return [
-            date('m/d/Y', strtotime($form->created_at)),
-            Carbon::parse($form->created_at)->format('W'),
-            date('m/d/Y', strtotime($form->interviewDate)),
+            date('m/d/Y', strtotime($form->morbidityMonth)),
+            Carbon::parse($form->morbidityMonth)->format('W'),
+            date('m/d/Y', strtotime($form->dateReported)),
             $form->drunit,
             $form->drregion,
             $form->drprovince,
