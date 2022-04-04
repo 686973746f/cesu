@@ -19,7 +19,7 @@ class AyudaEmail extends Command
      *
      * @var string
      */
-    protected $signature = 'ayudaemail:everyminute';
+    protected $signature = 'ayudaemail:daily';
 
     /**
      * The console command description.
