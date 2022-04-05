@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Forms;
-use App\Mail\TestMail;
 use Carbon\CarbonPeriod;
 use App\Models\SelfReports;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
-use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -31,11 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
-            Mail::to($recipient)->send(new TestMail());
-        }
-        
-        /*
         if(auth()->user()->isLevel1()) {
             $currentWeek = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('W');
 
@@ -54,7 +47,6 @@ class HomeController extends Controller
         else if(auth()->user()->isLevel3()) {
             return redirect()->route('facility.home');
         }
-        */
     }
 
     public function pendingSchedChecker() {
