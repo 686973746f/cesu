@@ -231,13 +231,12 @@ class AutoEmailReport extends Command
 
         $writer = new Xlsx($spreadsheet);
         $writer->save(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
-        //'jango_m14@yahoo.com'
 
-        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
+        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com'] as $recipient) {
             Mail::to($recipient)->send(new CovidReportWord());
         }
 
-        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
+        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ronald888mojica@gmail.com'] as $recipient) {
             Mail::to($recipient)->send(new DilgReportExcel());
         }
 
