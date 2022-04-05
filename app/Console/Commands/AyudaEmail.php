@@ -156,12 +156,12 @@ class AyudaEmail extends Command
                 ];
             });
 
-            foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
+            foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'] as $recipient) {
                 Mail::to($recipient)->send(new SendAyudaList());
             }
         }
         else {
-            foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
+            foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'] as $recipient) {
                 Mail::to($recipient)->send(new SendAyudaListEmpty());
             }
         }
