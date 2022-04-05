@@ -236,7 +236,7 @@ class AutoEmailReport extends Command
             Mail::to($recipient)->send(new CovidReportWord());
         }
 
-        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ronald888mojica@gmail.com', 'glorybemendez06@gmail.com'] as $recipient) {
+        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ronald888mojica@gmail.com'] as $recipient) {
             Mail::to($recipient)->send(new DilgReportExcel());
         }
 
