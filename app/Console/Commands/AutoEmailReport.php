@@ -6,9 +6,13 @@ use App\Models\Brgy;
 use App\Models\Forms;
 use App\Models\DailyCases;
 use App\Mail\CovidReportWord;
+use App\Mail\DilgReportExcel;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class AutoEmailReport extends Command
 {
@@ -54,6 +58,9 @@ class AutoEmailReport extends Command
         }
 
         $templateProcessor  = new TemplateProcessor(public_path('/assets/docs/CovidGentriTemplate.docx'));
+        $spreadsheet = IOFactory::load(public_path('/assets/docs/DilgExcelTemplate.xlsx'));
+        $sheet = $spreadsheet->getActiveSheet();
+
         $templateProcessor->setValue('date', date('F d, Y'));
         $templateProcessor->setValue('c_n', number_format($data->new_cases));
         $templateProcessor->setValue('c_l', number_format($data->late_cases));
@@ -92,6 +99,8 @@ class AutoEmailReport extends Command
         ->get();
 
         $ind = 1;
+
+        $eind = 3;
 
         $bct = 0;
         $bat = 0;
@@ -189,7 +198,17 @@ class AutoEmailReport extends Command
             $templateProcessor->setValue('bs'.$ind, number_format($brgySuspectedCount));
             $templateProcessor->setValue('bp'.$ind, number_format($brgyProbableCount));
 
+            //Excel
+            $sheet->setCellValue('D'.$eind, $brgySuspectedCount);
+            $sheet->setCellValue('E'.$eind, $brgyProbableCount);
+
+            $sheet->setCellValue('G'.$eind, $brgyConfirmedCount);
+            $sheet->setCellValue('H'.$eind, $brgyActiveCount);
+            $sheet->setCellValue('I'.$eind, $brgyDeathCount);
+            $sheet->setCellValue('J'.$eind, $brgyRecoveryCount);
+
             $ind++;
+            $eind++;
 
             $bct += $brgyConfirmedCount;
             $bat += $brgyActiveCount;
@@ -208,10 +227,21 @@ class AutoEmailReport extends Command
         $templateProcessor->setValue('bst', number_format($bst));
         $templateProcessor->setValue('bpt', number_format($bpt));
 
-        $templateProcessor->saveAs(public_path('CITY-OF-GENERAL-TRIAS.docx'));
+        $templateProcessor->saveAs(public_path('CITY-OF-GENERAL-TRIAS-'.date('F-d-Y').'.docx'));
 
-        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com'] as $recipient) {
+        $writer = new Xlsx($spreadsheet);
+        $writer->save(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
+        //'jango_m14@yahoo.com'
+
+        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
             Mail::to($recipient)->send(new CovidReportWord());
         }
+
+        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
+            Mail::to($recipient)->send(new DilgReportExcel());
+        }
+
+        File::delete(public_path('CITY-OF-GENERAL-TRIAS-'.date('F-d-Y', strtotime('-1 Day')).'.docx'));
+        File::delete(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y', strtotime('-1 Day')).'.xlsx'));
     }
 }

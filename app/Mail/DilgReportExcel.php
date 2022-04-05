@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class CovidReportWord extends Mailable
+class DilgReportExcel extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,9 +28,9 @@ class CovidReportWord extends Mailable
      */
     public function build()
     {
-        return $this->view('email.covidreport')
+        return $this->view('email.dilgreport')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
-        ->subject('COVID Gentri '.date('F d, Y'))
-        ->attach(public_path('CITY-OF-GENERAL-TRIAS-'.date('F-d-Y').'.docx'));
+        ->subject('CHO DILG '.date('F d, Y'))
+        ->attach(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
     }
 }
