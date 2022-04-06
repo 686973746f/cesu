@@ -95,8 +95,6 @@ class AutoEmailCovidDatabase extends Command
         $probableQuery = $probableQuery->orderby('morbidityMonth', 'asc');
         $confirmedQuery = $confirmedQuery->orderby('morbidityMonth', 'asc');
         $negativeQuery = $negativeQuery->orderby('morbidityMonth', 'asc');
-
-        $fName = 'GENTRI_COVID19_DATABASE_'.date('m_d_Y').'.xlsx';
         
         function suspectedGenerator($suspectedQuery) {
             foreach ($suspectedQuery->cursor() as $user) {
@@ -132,10 +130,10 @@ class AutoEmailCovidDatabase extends Command
         $header_style = (new StyleBuilder())->setFontBold()->build();
         $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
 
-        return (new FastExcel($sheets))
+        $exp = (new FastExcel($sheets))
         ->headerStyle($header_style)
         ->rowsStyle($rows_style)
-        ->export(public_path($fName), function ($form) {
+        ->export(public_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y').'.xlsx'), function ($form) {
             $arr_sas = explode(",", $form->SAS);
             $arr_othersas = explode(",", $form->SASOtherRemarks);
             $arr_como = explode(",", $form->COMO);
