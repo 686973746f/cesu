@@ -7,6 +7,7 @@ use App\Models\Forms;
 use App\Mail\SendCovidDatabase;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Rap2hpoutre\FastExcel\SheetCollection;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
