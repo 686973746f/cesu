@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Forms;
 use App\Mail\SendCovidDatabase;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -36,6 +37,7 @@ class AutoEmailCovidDatabase extends Command
     public function __construct()
     {
         parent::__construct();
+        DB::setDefaultConnection('mysqlcesuexp');
     }
 
     /**
