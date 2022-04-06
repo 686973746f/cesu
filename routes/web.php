@@ -259,6 +259,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::post('/admin/antigen/{id}/edit', [AntigenController::class, 'update'])->name('antigen_update');
 
     Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
+
+    //Acceptance Letter
+    Route::get('/acceptance', [AcceptanceLetterController::class, 'index'])->name('acceptance.index');
+    Route::post('/acceptance', [AcceptanceLetterController::class, 'store'])->name('acceptance.store');
+    Route::post('/acceptance', [AcceptanceLetterController::class, 'savetodocx'])->name('acceptance.savetodocx');
 });
 
 //JSON Reports
