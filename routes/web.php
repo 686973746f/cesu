@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\PaSwabController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AntigenController;
 use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\FacilityController;
@@ -20,7 +22,6 @@ use App\Http\Controllers\LineListController;
 use App\Http\Controllers\ReportV2Controller;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\AdminPanelController;
-use App\Http\Controllers\AntigenController;
 use App\Http\Controllers\BulkUpdateController;
 use App\Http\Controllers\JsonReportController;
 use App\Http\Controllers\SelfReportController;
@@ -30,9 +31,9 @@ use App\Http\Controllers\RegisterCodeController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ContactTracingController;
 use App\Http\Controllers\MonitoringSheetController;
+use App\Http\Controllers\AcceptanceLetterController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
-use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
