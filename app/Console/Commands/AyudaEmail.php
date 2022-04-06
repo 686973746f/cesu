@@ -156,14 +156,10 @@ class AyudaEmail extends Command
                 ];
             });
 
-            foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'] as $recipient) {
-                Mail::to($recipient)->send(new SendAyudaList());
-            }
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'])->send(new SendAyudaList());
         }
         else {
-            foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'] as $recipient) {
-                Mail::to($recipient)->send(new SendAyudaListEmpty());
-            }
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'])->send(new SendAyudaListEmpty());
         }
 
         File::delete(public_path('AyudaList_'.date('F_d_Y', strtotime('-1 Day')).'.xlsx'));
