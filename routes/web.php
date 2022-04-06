@@ -263,7 +263,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 
     //Acceptance Letter
     Route::get('/acceptance', [AcceptanceLetterController::class, 'index'])->name('acceptance.index');
-    Route::post('/acceptance', [AcceptanceLetterController::class, 'store'])->name('acceptance.store');
+    Route::post('/acceptance/store', [AcceptanceLetterController::class, 'store'])->name('acceptance.store');
     Route::post('/acceptance', [AcceptanceLetterController::class, 'savetodocx'])->name('acceptance.savetodocx');
 });
 

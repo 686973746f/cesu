@@ -16,7 +16,13 @@ class AcceptanceLetterController extends Controller
     }
 
     public function store(Request $request) {
-        
+        $request->validate([
+            'lname' => 'required',
+        ]);
+
+        return redirect()->route('acceptance.index')
+        ->with('msg', 'Acceptance Letter was successfully created.')
+        ->with('msgType', 'success');
     }
 
     public function savetodocx(Request $request) {
