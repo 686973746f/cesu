@@ -9,5 +9,5 @@
     <p><i>Nurse II/CESU Head</i></p>
     <p><i>City Health Office - General Trias, Cavite</i></p>
     <p><b>Mobile:</b> +63 917 561 1254</p>
-    <p><b>Email:</b><a href="mailto:cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></p>
+    <p><b>Email:</b> <a href="mailto:cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></p>
 </div>
