@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Mail;
 class TestController extends Controller
 {
     public function index() {
-        foreach(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'] as $recipient) {
-            Mail::to($recipient)->send(new TestMail());
-        }
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new TestMail());
     }
 }
