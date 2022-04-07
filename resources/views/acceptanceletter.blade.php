@@ -6,7 +6,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><strong>Acceptance Letter</strong></div>
-                <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createal">Add</button></div>
+                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#createal"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Add</button></div>
             </div>
         </div>
         <div class="card-body">
@@ -38,8 +38,8 @@
                     @foreach($list as $item)
                     <tr>
                         <td class="text-center">{{$loop->iteration}}</td>
-                        <td class="text-center">{{$item->getName()}}</td>
-                        <td>{{$item->travelto}}</td>
+                        <td>{{$item->getName()}}</td>
+                        <td class="text-center">{{$item->travelto}}</td>
                         <td class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
                         <td class="text-center">
                             <form action="{{route('acceptance.savetodocx')}}" method="POST">
@@ -51,6 +51,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="pagination justify-content-center mt-3">
+                {{$list->appends(request()->input())->links()}}
+            </div>
         </div>
     </div>
 
@@ -138,7 +141,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
                     </div>
                 </div>
             </div>
