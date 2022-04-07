@@ -151,7 +151,7 @@
                     <div class="text-center">
                         <p style="margin-bottom: 1px;"><strong>Office of the City Health Officer</strong></p>
                         <p style="margin-bottom: 1px;">Pria Rd, Brgy. Pinagtipunan, General Trias, City, 4107 Cavite</p>
-                        <p style="margin-bottom: 1px;">Website: <a href="">https://generaltrias.gov.ph/cho/</a></p>
+                        <p style="margin-bottom: 1px;">Website: <a href="#">https://generaltrias.gov.ph/cho/</a></p>
                         <p style="margin-bottom: 1px;">Contact No: (046) 509 - 5289</p>
                     </div>
                 </div>

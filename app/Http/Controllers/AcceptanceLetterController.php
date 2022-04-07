@@ -54,8 +54,8 @@ class AcceptanceLetterController extends Controller
         ->with('msgType', 'success');
     }
 
-    public function savetodocx(Request $request) {
-        $data = AcceptanceLetter::findOrFail($request->submit);
+    public function printview($id) {
+        $data = AcceptanceLetter::findOrFail($id);
 
         $number = date('j', strtotime($data->created_at));
 
@@ -66,17 +66,15 @@ class AcceptanceLetterController extends Controller
         else {
             $abbreviation = $number. $ends[$number % 10];
         }
-        
-        $templateProcessor  = new TemplateProcessor(storage_path('ACCEPTANCE_LETTER_TEMPLATE.docx'));
-        $templateProcessor->setValue('PATIENT_NAME', $data->getName());
-        $templateProcessor->setValue('TRAVEL_TO', $data->travelto);
-        $templateProcessor->setValue('PATIENT_ADDRESS', $data->getAddress());
-        $templateProcessor->setValue('GCHECK', ($data->sex == 'M') ? 'MR' : 'MS');
-        $templateProcessor->setValue('CURR_DATE', $abbreviation.' of '.date('F, Y', strtotime($data->created_at)));
 
-        header('Content-Type: application/octet-stream');
-        header("Content-Disposition: attachment; filename=ACCEPTANCE_LETTER_".$data->lname."_".$data->fname."_".date('m_d_Y', strtotime($data->created_at)).".docx");
+        $gcheck = ($data->sex == 'M') ? 'MR' : 'MS';
+        $gcheck1 = ($data->sex == 'M') ? 'He' : 'She';
 
-        $templateProcessor->saveAs('php://output');
+        return view('acceptance_print', [
+            'data' => $data,
+            'curr_date' => $abbreviation.' of '.date('F, Y', strtotime($data->created_at)),
+            'gcheck' => $gcheck,
+            'gcheck1' => $gcheck1,
+        ]);
     }
 }

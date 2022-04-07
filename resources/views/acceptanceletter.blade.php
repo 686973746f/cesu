@@ -42,10 +42,7 @@
                         <td class="text-center">{{$item->travelto}}</td>
                         <td class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
                         <td class="text-center">
-                            <form action="{{route('acceptance.savetodocx')}}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary" value="{{$item->id}}" name="submit"><i class="fa fa-download mr-2" aria-hidden="true"></i>Download</button>
-                            </form>
+                            <a href="{{route('acceptance.print', ['id' => $item->id])}}">Print</a>
                         </td>
                     </tr>
                     @endforeach
