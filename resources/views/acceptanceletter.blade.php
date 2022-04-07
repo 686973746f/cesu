@@ -42,7 +42,7 @@
                         <td class="text-center">{{$item->travelto}}</td>
                         <td class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
                         <td class="text-center">
-                            <a href="{{route('acceptance.print', ['id' => $item->id])}}">Print</a>
+                            <a href="{{route('acceptance.print', ['id' => $item->id])}}">View</a>
                         </td>
                     </tr>
                     @endforeach
