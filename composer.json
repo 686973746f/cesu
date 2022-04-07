@@ -22,8 +22,7 @@
         "phpoffice/phpspreadsheet": "^1.22",
         "phpoffice/phpword": "^0.18.3",
         "pragmarx/countries": "^0.7.2",
-        "rap2hpoutre/fast-excel": "^3.1",
-        "tecnickcom/tcpdf": "^6.4"
+        "rap2hpoutre/fast-excel": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
