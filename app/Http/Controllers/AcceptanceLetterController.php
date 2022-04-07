@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use PhpOffice\PhpWord\Settings;
 use App\Models\AcceptanceLetter;
-use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class AcceptanceLetterController extends Controller
@@ -68,11 +66,7 @@ class AcceptanceLetterController extends Controller
         else {
             $abbreviation = $number. $ends[$number % 10];
         }
-
-        $domPdfPath = base_path('vendor/dompdf/dompdf');
-        Settings::setPdfRendererPath($domPdfPath);
-        Settings::setPdfRendererName('DomPDF');
-
+        
         $templateProcessor  = new TemplateProcessor(storage_path('ACCEPTANCE_LETTER_TEMPLATE.docx'));
         $templateProcessor->setValue('PATIENT_NAME', $data->getName());
         $templateProcessor->setValue('TRAVEL_TO', $data->travelto);
@@ -80,28 +74,9 @@ class AcceptanceLetterController extends Controller
         $templateProcessor->setValue('GCHECK', ($data->sex == 'M') ? 'MR' : 'MS');
         $templateProcessor->setValue('CURR_DATE', $abbreviation.' of '.date('F, Y', strtotime($data->created_at)));
 
-        //Start
-        $saveDocPath = storage_path('new-result.docx');
-        $templateProcessor->saveAs($saveDocPath);
-         
-        // Load temporarily create word file
-        $Content = IOFactory::load($saveDocPath); 
- 
-        //Save it into PDF
-        $savePdfPath = storage_path('new-result.pdf');
- 
-        /*@ If already PDF exists then delete it */
-        if(file_exists($savePdfPath) ) {
-            unlink($savePdfPath);
-        }
- 
-        //Save it into PDF
-        $PDFWriter = IOFactory::createWriter($Content,'PDF');
+        header('Content-Type: application/octet-stream');
+        header("Content-Disposition: attachment; filename=ACCEPTANCE_LETTER_".$data->lname."_".$data->fname."_".date('m_d_Y', strtotime($data->created_at)).".docx");
 
-        $PDFWriter->save($savePdfPath); 
-
-        
-
-        //$templateProcessor->saveAs('php://output');
+        $templateProcessor->saveAs('php://output');
     }
 }
