@@ -34,7 +34,9 @@
                             <a href="{{route('bulkupdate.index')}}" class="btn btn-primary btn-lg btn-block">Bulk Update CIF Status</a>
                         </div>
                     </div>
+                    @if(auth()->user()->ifTopAdmin())
                     <a href="{{route('acceptance.index')}}" class="btn btn-primary btn-lg btn-block mt-2">Acceptance Letter</a>
+                    @endif
                     @if(auth()->user()->isCesuAccount())
                     <button class="btn btn-primary btn-lg btn-block mt-2" type="button" data-toggle="collapse" data-target="#ctCollapse" aria-expanded="false" aria-controls="ctCollapse">
                         Contact Tracing
