@@ -8,6 +8,7 @@ use App\Models\Records;
 use App\Models\CifUploads;
 use App\Models\PaSwabLinks;
 use App\Models\LinelistMaster;
+use App\Models\AcceptanceLetter;
 use App\Models\SecondaryTertiaryRecords;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -144,6 +145,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function interviewer() {
         return $this->hasMany(Interviewers::class);
+    }
+    
+    public function acceptanceletter() {
+        return $this->hasMany(AcceptanceLetter::class);
     }
 
     public function defaultInterviewer() {

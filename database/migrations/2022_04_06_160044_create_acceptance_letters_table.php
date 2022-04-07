@@ -21,6 +21,18 @@ class CreateAcceptanceLettersTable extends Migration
             $table->string('fname');
             $table->string('mname')->nullable();
             $table->string('suffix')->nullable();
+            $table->string('sex');
+            
+            $table->text('address_region_code');
+            $table->text('address_region_text');
+            $table->text('address_province_code');
+            $table->text('address_province_text');
+            $table->text('address_muncity_code');
+            $table->text('address_muncity_text');
+            $table->text('address_brgy_code');
+            $table->text('address_brgy_text');
+            $table->text('address_houseno');
+
             $table->string('travelto');
         });
     }
