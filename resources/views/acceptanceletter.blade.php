@@ -134,7 +134,7 @@
                         <hr>
                         <div class="form-group">
                             <label for="travelto"><span class="text-danger font-weight-bold">*</span>Will Travel To (Hotel/Isolation Facility Name)</label>
-                            <input type="text"class="form-control" name="travelto" id="travelto" value="{{old('travelto')}}" maxlength="50">
+                            <input type="text"class="form-control" name="travelto" id="travelto" value="{{old('travelto')}}" maxlength="50" required>
                         </div>
                     </div>
                     <div class="modal-footer">
