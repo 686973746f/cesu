@@ -29,6 +29,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Address</th>
                         <th>Travel To</th>
                         <th>Date Processed / By</th>
                         <th></th>
@@ -39,6 +40,7 @@
                     <tr>
                         <td class="text-center">{{$loop->iteration}}</td>
                         <td>{{$item->getName()}}</td>
+                        <td><small>{{$item->getAddress()}}</small></td>
                         <td class="text-center">{{$item->travelto}}</td>
                         <td class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
                         <td class="text-center">
