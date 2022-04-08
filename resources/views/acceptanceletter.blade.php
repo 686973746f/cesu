@@ -24,32 +24,34 @@
                 {{session('msg')}}
             </div>
             @endif
-            <table class="table table-bordered table-striped">
-                <thead class="text-center thead-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Travel To</th>
-                        <th>Date Processed / By</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list as $item)
-                    <tr>
-                        <td class="text-center">{{$loop->iteration}}</td>
-                        <td>{{$item->getName()}}</td>
-                        <td><small>{{$item->getAddress()}}</small></td>
-                        <td class="text-center">{{$item->travelto}}</td>
-                        <td class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}} / {{$item->user->name}}</td>
-                        <td class="text-center">
-                            <a href="{{route('acceptance.print', ['id' => $item->id])}}">View</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="text-center thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Travel To</th>
+                            <th>Date Processed / By</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $item)
+                        <tr>
+                            <td class="text-center">{{$loop->iteration}}</td>
+                            <td>{{$item->getName()}}</td>
+                            <td><small>{{$item->getAddress()}}</small></td>
+                            <td class="text-center">{{$item->travelto}}</td>
+                            <td class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}} / {{$item->user->name}}</td>
+                            <td class="text-center">
+                                <a href="{{route('acceptance.print', ['id' => $item->id])}}">View</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <div class="pagination justify-content-center mt-3">
                 {{$list->appends(request()->input())->links()}}
             </div>
