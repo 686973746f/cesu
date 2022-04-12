@@ -18,6 +18,9 @@
                     <tr>
                         <td>{{$s['month']}}</td>
                         <td>{{$s['count']}}</td>
+                        <td>{{$s['suspro']}}</td>
+                        <td>{{$s['confirmed']}}</td>
+                        <td>{{$s['cc']}}</td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -1508,15 +1508,48 @@ class ReportV2Controller extends Controller
             })
             ->where('status', 'approved')
             ->where('drunit', 'CHO GENERAL TRIAS')
-            ->whereYear('morbidityMonth', '2022')
+            ->whereYear('morbidityMonth', date('Y'))
             ->whereMonth('morbidityMonth', $i)
             ->where('isPresentOnSwabDay', 1)
             ->count();
 
+            $suspro = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereYear('morbidityMonth', date('Y'))
+            ->whereMonth('morbidityMonth', $i)
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
+            ->where('outcomeCondition', 'Active')
+            ->count();
+
+            $confirmed = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereYear('morbidityMonth', date('Y'))
+            ->whereMonth('morbidityMonth', $i)
+            ->where('caseClassification', 'Confirmed')
+            ->count();
+
+            $cc = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->whereYear('morbidityMonth', date('Y'))
+            ->whereMonth('morbidityMonth', $i)
+            ->where('pType', 'CLOSE CONTACT')
+            ->count();
 
             array_push($swabarr, [
                 'month' => $m,
                 'count' => $count,
+                'suspro' => $suspro,
+                'confirmed' => $confirmed,
+                'cc' => $cc,
             ]);
         }
 
