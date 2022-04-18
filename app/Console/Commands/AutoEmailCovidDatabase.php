@@ -49,6 +49,17 @@ class AutoEmailCovidDatabase extends Command
     {
         ini_set('max_execution_time', 900);
 
+        $newlyencoded_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->whereDate('morbidityMonth', date('Y-m-d'))
+        ->where('outcomeCondition', 'Active')
+        ->where('caseClassification', 'Confirmed')
+        ->count();
+
         $suspectedQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where(function ($q) {
@@ -318,7 +329,7 @@ class AutoEmailCovidDatabase extends Command
             ];
         });
 
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'resu4a@gmail.com', 'ludettelontoc@gmail.com', 'macvillaviray.doh@gmail.com', 'cavitecovid19labresults@gmail.com'])->send(new SendCovidDatabase());
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'resu4a@gmail.com', 'ludettelontoc@gmail.com', 'macvillaviray.doh@gmail.com', 'cavitecovid19labresults@gmail.com'])->send(new SendCovidDatabase($newlyencoded_count));
 
         File::delete(public_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y', strtotime('-1 Day')).'.xlsx'));
     }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 class TestController extends Controller
 {
     public function index() {
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new TestMail(322));
+        Mail::to(['hihihisto@gmail.com'])->send(new TestMail(322));
 
         dd('EMAIL SENT '.date('Y-m-d H:i:s'));
     }

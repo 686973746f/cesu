@@ -55,7 +55,9 @@ class AyudaEmail extends Command
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed');
 
-        if($query->count() != 0) {
+        $count = $query->count();
+
+        if($count != 0) {
             function suspectedGenerator($query) {
                 foreach ($query->cursor() as $user) {
                     yield $user;
@@ -156,7 +158,7 @@ class AyudaEmail extends Command
                 ];
             });
 
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'])->send(new SendAyudaList());
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'])->send(new SendAyudaList($count));
         }
         else {
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com'])->send(new SendAyudaListEmpty());

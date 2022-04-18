@@ -1,7 +1,7 @@
 <div>
     <p>Good Day!</p>
     <p>Please see the attached file for the Ayuda List of Newly Reported COVID-19 Confirmed Cases for {{date('F d, Y')}}.</p>
-    <p>This list also serves as the list of newly reported confirmed cases for today.</p>
+    <p>This list also serves as the list of newly reported confirmed cases for today, it contains {{$count}} newly encoded confirmed patients.</p>
     <p>-</p>
     <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
     <br>

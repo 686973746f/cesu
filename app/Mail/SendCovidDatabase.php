@@ -11,14 +11,16 @@ class SendCovidDatabase extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $count;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($count)
     {
-        //
+        $this->count = $count;
     }
 
     /**
