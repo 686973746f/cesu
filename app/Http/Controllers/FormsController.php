@@ -1747,7 +1747,7 @@ class FormsController extends Controller
 
                 //$rec = Records::findOrFail($rec->records->id);
 
-                if($rec->gender == 'MALE') {
+                if($rec->records->gender == 'MALE') {
                     $hrp = 0;
                 }
                 else {
@@ -1758,7 +1758,7 @@ class FormsController extends Controller
                         $hrp = $request->highRiskPregnancy;
                     }
                 }
-                
+
                 if($request->testResult1 != "PENDING") {
                     if($request->testResult1 == "POSITIVE") {
                         $caseClassi = 'Confirmed';
