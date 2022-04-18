@@ -954,13 +954,18 @@ class FormsController extends Controller
             return redirect()->route('forms.index')->with('status', 'Error: '.$rec->getName()." CIF Data was already existed and your request was blocked to prevent double entry.")->with('statustype', 'danger');
         }
         else {
-            if($rec->isPregnant == 0) {
+            if($rec->gender == 'MALE') {
                 $hrp = 0;
             }
             else {
-                $hrp = $request->highRiskPregnancy;
+                if($rec->isPregnant == 0) {
+                    $hrp = 0;
+                }
+                else {
+                    $hrp = $request->highRiskPregnancy;
+                }
             }
-    
+            
             $request->validated();
     
             if(!is_null($request->testDateCollected2) || !is_null($request->testDateCollected1)) {
