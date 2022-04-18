@@ -965,7 +965,7 @@ class FormsController extends Controller
                     $hrp = $request->highRiskPregnancy;
                 }
             }
-            
+
             $request->validated();
     
             if(!is_null($request->testDateCollected2) || !is_null($request->testDateCollected1)) {
@@ -1747,13 +1747,18 @@ class FormsController extends Controller
 
                 //$rec = Records::findOrFail($rec->records->id);
 
-                if($rec->records->isPregnant == 0) {
+                if($rec->gender == 'MALE') {
                     $hrp = 0;
                 }
                 else {
-                    $hrp = $request->highRiskPregnancy;
+                    if($rec->records->isPregnant == 0) {
+                        $hrp = 0;
+                    }
+                    else {
+                        $hrp = $request->highRiskPregnancy;
+                    }
                 }
-
+                
                 if($request->testResult1 != "PENDING") {
                     if($request->testResult1 == "POSITIVE") {
                         $caseClassi = 'Confirmed';
