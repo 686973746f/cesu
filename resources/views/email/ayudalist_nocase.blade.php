@@ -1,6 +1,6 @@
 <div>
     <p>Good Day!</p>
-    <p>There are no new encoded confirmed cases for today ({{date('F d, Y')}})</p>
+    <p>There are <b>Zero (0) newly encoded COVID-19 confirmed cases for today</b> ({{date('F d, Y')}})</p>
     <p>Therefore, no Ayuda List will be submitted.</p>
     <p>-</p>
     <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
