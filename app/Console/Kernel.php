@@ -32,6 +32,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('autoemailreport:daily')->dailyAt('16:10')->evenInMaintenanceMode();
         $schedule->command('ayudaemail:daily')->dailyAt('16:15')->evenInMaintenanceMode();
         $schedule->command('autoemailcoviddatabase:daily')->dailyAt('16:20')->evenInMaintenanceMode();
+        $schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(15, '16:05');
+        $schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(date('t'), '16:05');
 
         //$schedule->command('test:everyminute')->everyMinute();
     }
