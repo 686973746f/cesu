@@ -2,11 +2,10 @@
 
 namespace App\Mail;
 
-use App\Models\Forms;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendCompositeMeasure extends Mailable
 {
@@ -27,6 +26,7 @@ class SendCompositeMeasure extends Mailable
      *
      * @return $this
      */
+
     public function build()
     {
         $sdate = date('Y-m-01');
@@ -496,7 +496,7 @@ class SendCompositeMeasure extends Mailable
         ->where('dispoType', 1)
         ->count();
 
-        return $this->view('email.compositemeasure', [
+        return $this->markdown('email.compositemeasure', [
             'cc_count_total' => $cc_count_total,
             'cc_count_hq' => $cc_count_hq,
             'cc_count_ttmf' => $cc_count_ttmf,
