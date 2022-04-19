@@ -18,9 +18,9 @@ class TestMail extends Mailable
      *
      * @return void
      */
-    public function __construct($count)
+    public function __construct()
     {
-        $this->count = $count;
+        
     }
 
     /**

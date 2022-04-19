@@ -50,7 +50,7 @@ Auth::routes(['verify' => true]);
 Route::get('/referral', [RegisterCodeController::class, 'index'])->name('rcode.index');
 Route::get('/referral/check', [RegisterCodeController::class, 'refCodeCheck'])->name('rcode.check');
 
-//Route::get('/test', [TestController::class, 'index']);
+Route::get('/test', [TestController::class, 'index']);
 
 Route::get('/email/verify', function () {
     return view('auth.verify');
