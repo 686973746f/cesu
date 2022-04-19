@@ -7,20 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TestMail extends Mailable
+class SendCompositeMeasure extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $count;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($count)
+    public function __construct()
     {
-        $this->count = $count;
+        //
     }
 
     /**
@@ -30,10 +28,9 @@ class TestMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.test', [
-            'bilat' => '1324',
-        ])
+        return $this->view('email.compositemeasure')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
-        ->subject('Test Mail Queue');
+        ->subject('CESU Gen. Trias, Cavite - Composite Measure for '.date('F d, Y'))
+        ->attach(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
     }
 }

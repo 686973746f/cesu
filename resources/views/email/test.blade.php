@@ -1,5 +1,5 @@
 <div>
-    <p>Test Mail Queue. ({{$count}})</p>
+    <p>Test Mail Queue. ({{$bilat}})</p>
     <br>
     <p>Automated Email noted and approved by:</p>
     <p><b>LUIS P. BROAS,RN,RPh,MAN</b></p>
