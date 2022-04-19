@@ -539,7 +539,6 @@ class SendCompositeMeasure extends Mailable
             'activecases_count_critical_hospital' => $activecases_count_critical_hospital,
         ])
         ->from('admin@cesugentri.com', 'Christian James Historillo')
-        ->subject('CESU Gen. Trias, Cavite - Composite Measure for '.date('F d, Y'))
-        ->attach(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
+        ->subject('CESU Gen. Trias, Cavite - Composite Measure for '.date('F d, Y'));
     }
 }
