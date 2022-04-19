@@ -1370,8 +1370,11 @@
                 </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary btn-block" id="verifyButton" data-toggle="modal" data-target="#verifyDetails">Isumite / Submit</button>
+                    <hr>
+                    <p class="text-center">Note: If error or site not working, please contact CESU Staff Immediately.</p>
                 </div>
             </div>
+            <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
         </div>
         
         <div class="modal fade" id="verifyDetails" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" style="font-family: Arial, Helvetica, sans-serif">

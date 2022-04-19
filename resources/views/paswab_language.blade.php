@@ -29,5 +29,6 @@
                 </div>
             </div>
         </div>
+        <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
 @endsection
