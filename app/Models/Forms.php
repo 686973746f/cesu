@@ -247,4 +247,16 @@ class Forms extends Model
     public function exposureHistory() {
         return $this->hasMany(ExposureHistory::class);
     }
+
+    public function getOutcomeDate() {
+        if($this->outcomeCondition == 'Recovered') {
+            return date('m/d/Y', strtotime($this->outcomeRecovDate));
+        }
+        else if ($this->outcomeCondition == 'Died') {
+            return date('m/d/Y', strtotime($this->outcomeDeathDate));
+        }
+        else {
+            return NULL;
+        }
+    }
 }

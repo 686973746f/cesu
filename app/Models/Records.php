@@ -117,7 +117,7 @@ class Records extends Model
     }
 
     public function getAddress() {
-        return $this->address_houseno.', '.$this->address_street.', BRGY.'.$this->address_brgy.', '.$this->address_city.', '.$this->address_province;
+        return $this->address_houseno.', '.$this->address_street.', BRGY. '.$this->address_brgy.', '.$this->address_city.', '.$this->address_province;
     }
 
     public function getName() {

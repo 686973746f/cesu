@@ -1598,8 +1598,8 @@ class ReportV2Controller extends Controller
             }
             else {
                 return view('casechecker_index', [
-                    'msg' => 'No Results found for BRGY. '.request()->input('address_brgy').', '.request()->input('address_city').', '.request()->input('address_province'),
-                    'msgtype' => 'warning'
+                    'msg' => 'No Results found for BRGY. '.request()->input('address_brgy').', '.request()->input('address_city').', '.request()->input('address_province').' on the specified date range.',
+                    'msgtype' => 'warning',
                 ]);
             }   
         }

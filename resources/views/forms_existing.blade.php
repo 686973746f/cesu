@@ -14,23 +14,28 @@
                     @endif
                 </form>
                 @endif
+                <p><strong>Birthdate: </strong> {{date('m/d/Y', strtotime($form->records->bdate))}} •
+                <strong>Age/Sex: </strong> {{$form->records->getAge()}} / {{substr($form->records->gender,0,1)}}</p>
                 <p><strong>Philhealth: </strong> {{(!is_null($form->records->philhealth)) ? $form->records->getPhilhealth() : 'N/A'}} • 
                     <strong>Mobile: </strong> {{$form->records->mobile}}</p>
+                    <p><strong>Address: </strong> {{$form->records->getAddress()}}</p>
+                    <hr>
                     <p><strong>Date Encoded / By:</strong> {{date('m/d/Y h:i A', strtotime($form->created_at))}} ({{$form->user->name}}) 
                         @if(!is_null($form->updated_by)) • <strong>Date Edited / By:</strong> {{date('m/d/Y h:i A', strtotime($form->updated_at))}} ({{$form->getEditedBy()}})@endif</p>
                     <p><strong>Morbidity Month / Week:</strong> {{date('m/d/Y (W)', strtotime($form->morbidityMonth))}} •
                         <strong>Date Reported:</strong> {{date('m/d/Y', strtotime($form->dateReported))}}</p>
+                    <p><strong>DRU: </strong> {{$form->drunit}} ({{$form->drregion}} {{$form->drprovince}})</p>
                     <p><strong>Patient Type:</strong> {{$form->getType()}} • 
                         <strong>Health Status: </strong> {{$form->healthStatus}} • 
                         <strong>Classification:</strong> <span class="{{($form->caseClassification == 'Confirmed') ? 'text-danger font-weight-bold' : ''}}">{{$form->caseClassification}}</span>
                     </p>
                     <p>
-                        <strong>Quarantine/Disposition Status:</strong> {{$form->getQuarantineStatus()}} • 
-                        <strong>Outcome:</strong> <span class="{{($form->outcomeCondition == 'Recovered') ? 'font-weight-bold text-success' : ''}}">{{$form->outcomeCondition}}</span>
+                        <strong>Quarantine Status:</strong> {{$form->getQuarantineStatus()}} ({{date('m/d/Y', strtotime($form->dispoDate))}}) • 
+                        <strong>Outcome:</strong> <span class="{{($form->outcomeCondition == 'Recovered') ? 'font-weight-bold text-success' : ''}}">{{$form->outcomeCondition}} {{(!is_null($form->getOutcomeDate())) ? '('.$form->getOutcomeDate().')' : ''}}</span>
                     </p>
                     <hr>
                     @if($form->ifScheduled())
-                    <p><strong>Latest Date of Swab Collection:</strong> {{$form->getLatestTestDate()}} • 
+                    <p><strong>Most Recent Swab Date:</strong> {{$form->getLatestTestDate()}} • 
                         <strong>Test Type:</strong> {{$form->getLatestTestType()}} • 
                         @if(!is_null($form->getLatestTestDateReleased()))
                         <strong>Date Released: </strong> {{$form->getLatestTestDateReleased()}} • 
