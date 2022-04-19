@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" style="font-family: Arial, Helvetica, sans-serif;">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="text-center">
@@ -117,6 +117,7 @@
                   </div>
                 </div>
             </div>
+            <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
         </div>
     </div>
 </div>
