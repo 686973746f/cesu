@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Mail\SendCompositeMeasure;
+use Illuminate\Support\Facades\Mail;
 
 class AutoEmailCompositeMeasure extends Command
 {
