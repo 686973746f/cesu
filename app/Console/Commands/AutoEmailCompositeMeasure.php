@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Mail\SendCompositeMeasure;
 
 class AutoEmailCompositeMeasure extends Command
 {
@@ -37,6 +38,6 @@ class AutoEmailCompositeMeasure extends Command
      */
     public function handle()
     {
-        return 0;
+        Mail::to(['hihihisto@gmail.com'])->send(new SendCompositeMeasure());
     }
 }
