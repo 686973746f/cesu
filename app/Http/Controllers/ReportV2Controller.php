@@ -1578,6 +1578,33 @@ class ReportV2Controller extends Controller
     }
 
     public function casechecker_index() {
-        return view('casechecker_index');
+        if(request()->input('sdate') && request()->input('edate')) {
+            $list = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', request()->input('address_province'))
+                ->where('records.address_city', request()->input('address_city'))
+                ->where('records.address_brgy', request()->input('address_brgy'));
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->whereBetween('dateReported', [request()->input('sdate'), request()->input('edate')])
+            ->orderBy('dateReported', 'DESC')
+            ->get();
+
+            if($list->count() != 0) {
+                return view('casechecker_index', [
+                    'list' => $list,
+                ]);
+            }
+            else {
+                return view('casechecker_index', [
+                    'msg' => 'No Results found for BRGY. '.request()->input('address_brgy').', '.request()->input('address_city').', '.request()->input('address_province'),
+                    'msgtype' => 'warning'
+                ]);
+            }   
+        }
+        else {
+            return view('casechecker_index');
+        }
     }
 }
