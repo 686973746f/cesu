@@ -24,14 +24,14 @@
                     </button>
                     <div class="collapse" id="collapse1">
                         <div class="card card-body border-primary">
-                            <a href="{{route('forms.index')}}" class="btn btn-primary btn-lg btn-block">View/Create CIFs</a>
+                            <a href="{{route('forms.index')}}" class="btn btn-primary btn-block">View/Create CIFs</a>
                             @if(auth()->user()->isCesuAccount())
-                            <a href="{{route('pendingshedchecker.index')}}" class="btn btn-primary btn-lg btn-block">Pending Swab Counter</a>
+                            <a href="{{route('pendingshedchecker.index')}}" class="btn btn-primary btn-block">Pending Swab Counter</a>
                             @endif
                             @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount())
-                            <a href="{{route('paswab.view')}}" class="btn btn-primary btn-lg btn-block">Pa-swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
+                            <a href="{{route('paswab.view')}}" class="btn btn-primary btn-block">Pa-swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
                             @endif
-                            <a href="{{route('bulkupdate.index')}}" class="btn btn-primary btn-lg btn-block">Bulk Update CIF Status</a>
+                            <a href="{{route('bulkupdate.index')}}" class="btn btn-primary btn-block">Bulk Update CIF Status</a>
                         </div>
                     </div>
                     @if(auth()->user()->isCesuAccount())
@@ -40,13 +40,9 @@
                     </button>
                     <div class="collapse" id="ctCollapse">
                         <div class="card card-body border-primary">
-                            <!--
-                            <a href="{{route('sc_index')}}" class="btn btn-primary btn-lg btn-block">Health Declaration Records</a>
-                            <hr>
-                            -->
-                            <a href="{{route('ct.dashboard.index')}}" class="btn btn-primary btn-lg btn-block">Contact Tracing Search</a>
-                            <a href="{{route('ctlgu_report')}}" class="btn btn-primary btn-lg btn-block">CT Report #2</a>
-                            <a href="{{route('report.ct.index')}}" class="btn btn-primary btn-lg btn-block">Contact Tracing Report</a>
+                            <a href="{{route('ct.dashboard.index')}}" class="btn btn-primary btn-block">Contact Tracing Search</a>
+                            <a href="{{route('ctlgu_report')}}" class="btn btn-primary btn-block">CT Report #2</a>
+                            <a href="{{route('report.ct.index')}}" class="btn btn-primary btn-block">Contact Tracing Report</a>
                         </div>
                     </div>
                     <a href="{{route('selfreport.view')}}" class="btn btn-primary btn-lg btn-block mt-2">Self-Report <span class="badge badge-light ml-1">{{number_format($selfreport_count)}}</span></a>
@@ -54,25 +50,33 @@
                     @if(auth()->user()->canUseLinelist())
                     <a href="{{route('linelist.index')}}" class="btn btn-primary btn-lg btn-block mt-2"><i class="fas fa-archive mr-2"></i>Line List</a>
                     @endif
-                    @if(auth()->user()->ifTopAdmin())
-                    <a href="{{route('acceptance.index')}}" class="btn btn-primary btn-lg btn-block mt-2">Acceptance Letter</a>
-                    @endif
+                    <button class="btn btn-primary btn-lg btn-block mt-2" type="button" data-toggle="collapse" data-target="#othersCollapse" aria-expanded="false" aria-controls="othersCollapse">
+                        Others
+                    </button>
+                    <div class="collapse" id="othersCollapse">
+                        <div class="card card-body border-primary">
+                            @if(auth()->user()->ifTopAdmin())
+                            <a href="{{route('acceptance.index')}}" class="btn btn-primary btn-block">Acceptance Letter</a>
+                            @endif
+                            <a href="{{route('casechecker_index')}}" class="btn btn-primary btn-block">Barangay Case Checker</a>
+                        </div>
+                    </div>
                     @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
                     <hr>
                     <button class="btn btn-primary btn-lg btn-block mt-2" type="button" data-toggle="collapse" data-target="#reportCollapse" aria-expanded="false" aria-controls="reportCollapse"><i class="fas fa-chart-bar mr-2"></i>Reports</button>
                     <div class="collapse" id="reportCollapse">
                         <div class="card card-body border-primary">
-                            <a href="{{route('report.index')}}" class="btn btn-primary btn-lg btn-block" id="reportsbtn">View Report Dashboard / Summary<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="reportLoading"></i></a>
+                            <a href="{{route('report.index')}}" class="btn btn-primary btn-block" id="reportsbtn">View Report Dashboard / Summary<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="reportLoading"></i></a>
                             <div id="reportNotice" class="text-center d-none">
                                 <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
                             </div>
                             @if(auth()->user()->ifTopAdmin())
-                            <button type="button" class="btn btn-success btn-lg btn-block mt-3" data-toggle="modal" data-target="#exportModal"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</button>
+                            <button type="button" class="btn btn-success btn-block mt-3" data-toggle="modal" data-target="#exportModal"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</button>
                             @endif
                             @if(auth()->user()->isCesuAccount())
                             <hr>
-                            <a href="{{route('report_cm_index')}}" class="btn btn-primary btn-lg btn-block mt-3">Composite Measure</a>
-                            <a href="{{route('clustering_index')}}" class="btn btn-primary btn-lg btn-block mt-3">Confirmed Cases Clustering</a>
+                            <a href="{{route('report_cm_index')}}" class="btn btn-primary btn-block mt-3">Composite Measure</a>
+                            <a href="{{route('clustering_index')}}" class="btn btn-primary btn-block mt-3">Confirmed Cases Clustering</a>
                             @endif
                             <hr>
                             <form action="{{route('reportv2.dashboard')}}" method="GET">

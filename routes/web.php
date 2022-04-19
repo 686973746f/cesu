@@ -199,6 +199,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/report/encoding_calendar', [ReportV2Controller::class, 'encodingCalendar'])->name('encoding_calendar');
 
     Route::get('/report/ctreport2', [ContactTracingController::class, 'ctlgureport'])->name('ctlgu_report');
+
+    Route::get('/casechecker', [ReportV2Controller::class, 'casechecker_index'])->name('casechecker_index');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

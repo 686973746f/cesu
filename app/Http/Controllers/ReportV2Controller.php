@@ -1576,4 +1576,8 @@ class ReportV2Controller extends Controller
             'lastYearSwab' => $lastYearSwab,
         ]);
     }
+
+    public function casechecker_index() {
+        return view('casechecker_index');
+    }
 }
