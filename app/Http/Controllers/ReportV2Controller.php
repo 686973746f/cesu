@@ -736,7 +736,7 @@ class ReportV2Controller extends Controller
             $edate = date('Y-m-15');
         }
         else if(date('d') >= 16) {
-            $edate = date('Y-m-15');
+            $edate = date('Y-m-t');
         }
 
         $cc_count_total = Forms::whereHas('records', function ($q) {
