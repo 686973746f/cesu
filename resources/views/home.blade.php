@@ -31,7 +31,7 @@
                             @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount())
                             <a href="{{route('paswab.view')}}" class="btn btn-primary btn-block">Pa-swab List <span class="badge badge-light ml-1">{{number_format($paswabctr)}}</span></a>
                             @endif
-                            <!-- <a href="{{route('bulkupdate.index')}}" class="btn btn-primary btn-block">Bulk Update CIF Status</a> -->
+                            <!-- <a href="" class="btn btn-primary btn-block">Bulk Update CIF Status</a> -->
                         </div>
                     </div>
                     @if(auth()->user()->isCesuAccount())
