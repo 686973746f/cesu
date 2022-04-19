@@ -1,4 +1,6 @@
+@component('mail::message')
 <div>
+    @component('mail::table')
     <table>
         <thead>
             <tr>
@@ -82,4 +84,6 @@
             </tr>
         </tbody>
     </table>
+    @endcomponent
 </div>
+@endcomponent
