@@ -38,7 +38,7 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" value="#{{$records->id}} - {{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>
                         <div class="input-group-append">
-                            <a class="btn btn-outline-primary" id="quickreclink" href="/records/{{$records->records_id}}/">Edit Record</a>
+                            <a class="btn btn-outline-primary" id="quickreclink" href="{{route('records.edit', ['record' => $records->id])}}">Edit Record</a>
                         </div>
                     </div>
                     <div class="form-group">
