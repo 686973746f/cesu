@@ -1553,6 +1553,36 @@ class ReportV2Controller extends Controller
             ]);
         }
 
+        array_push($swabarr, [
+            'month' => 'DECEMBER 2021',
+            'count' => Forms::whereHas('records', function ($q) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS');
+                    })
+                    ->where('status', 'approved')
+                    ->whereBetween('morbidityMonth', ['2021-12-01', '2021-12-31'])
+                    ->where('isPresentOnSwabDay', 1)
+                    ->count(),
+            'suspro' => 0,
+            'confirmed' => 0,
+            'cc' => 0,
+        ]);
+
+        array_push($swabarr, [
+            'month' => 'DECEMBER 2020',
+            'count' => Forms::whereHas('records', function ($q) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS');
+                    })
+                    ->where('status', 'approved')
+                    ->whereBetween('morbidityMonth', ['2020-12-01', '2020-12-31'])
+                    ->where('isPresentOnSwabDay', 1)
+                    ->count(),
+            'suspro' => 0,
+            'confirmed' => 0,
+            'cc' => 0,
+        ]);
+
         $lastYearSwab = Forms::whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');

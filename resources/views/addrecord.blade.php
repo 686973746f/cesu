@@ -248,17 +248,17 @@
 							<select class="form-control" name="saddress_province" id="saddress_province" required>
 							  <option value="" selected disabled>Choose...</option>
 							</select>
-								@error('saddress_province')
-								  <small class="text-danger">{{$message}}</small>
-							  @enderror
+							@error('saddress_province')
+								<small class="text-danger">{{$message}}</small>
+							@enderror
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-						  <label for="saddress_city"><span class="text-danger font-weight-bold">*</span>City</label>
-						  <select class="form-control" name="saddress_city" id="saddress_city" required>
-							<option value="" selected disabled>Choose...</option>
-						  </select>
+							<label for="saddress_city"><span class="text-danger font-weight-bold">*</span>City</label>
+							<select class="form-control" name="saddress_city" id="saddress_city" required>
+								<option value="" selected disabled>Choose...</option>
+							</select>
 							@error('saddress_city')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
