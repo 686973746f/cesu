@@ -942,6 +942,7 @@ class ReportController extends Controller
                     ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                     ->count();
 
+                    /*
                     $brgySuspectedCount = Forms::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
                         $q->where('records.address_province', 'CAVITE')
@@ -974,6 +975,35 @@ class ReportController extends Controller
                         $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
                         ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
                     })
+                    ->count();
+                    */
+
+                    $brgySuspectedCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where(function ($q) {
+                        $q->where('isPresentOnSwabDay', 0)
+                        ->orwhereNull('isPresentOnSwabDay');
+                    })
+                    ->where('caseClassification', 'Suspect')
+                    ->where('outcomeCondition', 'Active')
+                    ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
+                    ->count();
+
+                    $brgyProbableCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Probable')
+                    ->where('outcomeCondition', 'Active')
+                    ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
                     ->count();
                 }
 
@@ -1744,6 +1774,7 @@ class ReportController extends Controller
                     ->count();
                     */
 
+                    /*
                     $brgySuspectedCount = Forms::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
                         $q->where('records.address_province', 'CAVITE')
@@ -1776,6 +1807,35 @@ class ReportController extends Controller
                         $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
                         ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
                     })
+                    ->count();
+                    */
+
+                    $brgySuspectedCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where(function ($q) {
+                        $q->where('isPresentOnSwabDay', 0)
+                        ->orwhereNull('isPresentOnSwabDay');
+                    })
+                    ->where('caseClassification', 'Suspect')
+                    ->where('outcomeCondition', 'Active')
+                    ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
+                    ->count();
+
+                    $brgyProbableCount = Forms::with('records')
+                    ->whereHas('records', function ($q) use ($brgy) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS')
+                        ->where('records.address_brgy', $brgy->brgyName);
+                    })
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Probable')
+                    ->where('outcomeCondition', 'Active')
+                    ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
                     ->count();
 
                     $brgyArray->push([
@@ -1946,13 +2006,16 @@ class ReportController extends Controller
             ->orwhereNull('isPresentOnSwabDay');
         })
         ->where('caseClassification', 'Suspect')
-        ->where('outcomeCondition', 'Active');
+        ->where('outcomeCondition', 'Active')
+        ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')]);
 
         $probableQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where('caseClassification', 'Probable')
-        ->where('outcomeCondition', 'Active');
+        ->where('outcomeCondition', 'Active')
+        ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')]);
 
+        /*
         if($year && $year == date('Y')) {
             $suspectedQuery = $suspectedQuery->where(function ($q) {
                 $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
@@ -1964,6 +2027,7 @@ class ReportController extends Controller
                 ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
             });
         }
+        */
 
         $confirmedQuery = Forms::with('records')
         ->where('status', 'approved')
@@ -2277,6 +2341,7 @@ class ReportController extends Controller
         ->headerStyle($header_style)
         ->rowsStyle($rows_style)
         ->download('DILG_'.date('Ymd').'.xlsx', function ($form) {
+            /*
             $brgySuspectedCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($form) {
                 $q->where('records.address_province', 'CAVITE')
@@ -2309,6 +2374,35 @@ class ReportController extends Controller
                 $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
                 ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
             })
+            ->count();
+            */
+
+            $brgySuspectedCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $form->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where(function ($q) {
+                $q->where('isPresentOnSwabDay', 0)
+                ->orwhereNull('isPresentOnSwabDay');
+            })
+            ->where('caseClassification', 'Suspect')
+            ->where('outcomeCondition', 'Active')
+            ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
+            ->count();
+
+            $brgyProbableCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $form->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Probable')
+            ->where('outcomeCondition', 'Active')
+            ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
             ->count();
 
             $brgyActiveCount = Forms::with('records')

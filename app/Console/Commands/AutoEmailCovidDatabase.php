@@ -67,12 +67,14 @@ class AutoEmailCovidDatabase extends Command
             ->orwhereNull('isPresentOnSwabDay');
         })
         ->where('caseClassification', 'Suspect')
-        ->where('outcomeCondition', 'Active');
+        ->where('outcomeCondition', 'Active')
+        ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')]);
 
         $probableQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where('caseClassification', 'Probable')
-        ->where('outcomeCondition', 'Active');
+        ->where('outcomeCondition', 'Active')
+        ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')]);
 
         $confirmedQuery = Forms::with('records')
         ->where('status', 'approved')
