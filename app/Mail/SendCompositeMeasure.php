@@ -48,6 +48,7 @@ class SendCompositeMeasure extends Mailable
         ->where('status', 'approved')
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
         ->where('pType', 'CLOSE CONTACT')
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $cc_count_hq = Forms::whereHas('records', function ($q) {
@@ -58,6 +59,7 @@ class SendCompositeMeasure extends Mailable
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
         ->where('pType', 'CLOSE CONTACT')
         ->where('dispoType', 3)
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $cc_count_ttmf = Forms::whereHas('records', function ($q) {
@@ -68,6 +70,7 @@ class SendCompositeMeasure extends Mailable
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
         ->where('pType', 'CLOSE CONTACT')
         ->whereIn('dispoType', [6,7,2,5])
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $cc_count_hospital = Forms::whereHas('records', function ($q) {
@@ -78,6 +81,7 @@ class SendCompositeMeasure extends Mailable
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
         ->where('pType', 'CLOSE CONTACT')
         ->where('dispoType', 1)
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $probable_count_total = Forms::whereHas('records', function ($q) {
@@ -85,9 +89,13 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $probable_count_hq = Forms::whereHas('records', function ($q) {
@@ -95,10 +103,14 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
         ->where('dispoType', 3)
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $probable_count_ttmf = Forms::whereHas('records', function ($q) {
@@ -106,10 +118,14 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
         ->whereIn('dispoType', [6,7,2,5])
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $probable_count_hospital = Forms::whereHas('records', function ($q) {
@@ -117,10 +133,14 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Probable')
         ->where('dispoType', 1)
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $suspected_count_total = Forms::whereHas('records', function ($q) {
@@ -128,9 +148,13 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $suspected_count_hq = Forms::whereHas('records', function ($q) {
@@ -138,10 +162,14 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
         ->where('dispoType', 3)
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $suspected_count_ttmf = Forms::whereHas('records', function ($q) {
@@ -149,10 +177,14 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
         ->whereIn('dispoType', [6,7,2,5])
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $suspected_count_hospital = Forms::whereHas('records', function ($q) {
@@ -160,10 +192,14 @@ class SendCompositeMeasure extends Mailable
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
+        ->where(function ($q) {
+            $q->where('isPresentOnSwabDay', 0)
+            ->orwhereNull('isPresentOnSwabDay');
+        })
         ->whereBetween('morbidityMonth', [$lastsevendays, $edate])
-        ->where('pType', '!=','CLOSE CONTACT')
         ->where('caseClassification', 'Suspect')
         ->where('dispoType', 1)
+        ->where('outcomeCondition', 'Active')
         ->count();
 
         $activecases_count_total = Forms::whereHas('records', function ($q) {

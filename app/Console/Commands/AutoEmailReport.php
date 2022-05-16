@@ -156,6 +156,7 @@ class AutoEmailReport extends Command
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
+            /*
             $brgySuspectedCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($brgy) {
                 $q->where('records.address_province', 'CAVITE')
@@ -188,6 +189,35 @@ class AutoEmailReport extends Command
                 $q->whereBetween('testDateCollected1', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')])
                 ->orWhereBetween('testDateCollected2', [date('Y-m-d', strtotime('-14 Days')), date('Y-m-d')]);
             })
+            ->count();
+            */
+
+            $brgySuspectedCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where(function ($q) {
+                $q->where('isPresentOnSwabDay', 0)
+                ->orwhereNull('isPresentOnSwabDay');
+            })
+            ->where('caseClassification', 'Suspect')
+            ->where('outcomeCondition', 'Active')
+            ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
+            ->count();
+
+            $brgyProbableCount = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Probable')
+            ->where('outcomeCondition', 'Active')
+            ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')])
             ->count();
 
             $templateProcessor->setValue('bc'.$ind, number_format($brgyConfirmedCount));
