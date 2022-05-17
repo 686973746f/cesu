@@ -1369,7 +1369,6 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->where('drunit', 'CHO GENERAL TRIAS')
         ->where('caseClassification', 'Confirmed')
         ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
         ->count();
@@ -1381,7 +1380,6 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->where('drunit', 'CHO GENERAL TRIAS')
         ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Recovered')
         ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
@@ -1392,9 +1390,35 @@ class ReportV2Controller extends Controller
             ->where('records.address_city', 'GENERAL TRIAS');
         })
         ->where('status', 'approved')
-        ->where('drunit', 'CHO GENERAL TRIAS')
         ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $count5 = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Suspect')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $count6 = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Probable')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $count7 = Forms::whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('pType', 'CLOSE CONTACT')
         ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
         ->count();
 

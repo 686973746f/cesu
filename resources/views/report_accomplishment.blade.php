@@ -31,13 +31,17 @@
     <div class="card">
         <div class="card-header font-weight-bold">Accomplishment Report for PREVIOUS YEAR ({{date('Y', strtotime('-1 Year'))}})</div>
         <div class="card-body">
-            <p>2021 Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
-            <p>2021 Confirmed Average: {{number_format($count2)}}</p>
-            <p>2021 Number of Recoveries: {{number_format($count3)}}</p>
-            <p>2021 Number of Deaths: {{number_format($count4)}}</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Average: {{number_format($count2)}}</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Number of Recoveries: {{number_format($count3)}}</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Number of Deaths: {{number_format($count4)}}</p>
             <hr>
-            <p>2021 Confirmed Male Total/Percentage: {{number_format($malecount)}} / {{round(($malecount/$count1) * 100)}}%</p>
-            <p>2021 Confirmed Female Total/Percentage: {{number_format($femalecount)}} / {{round(($femalecount/$count1) * 100)}}%</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Male Total/Percentage: {{number_format($malecount)}} / {{round(($malecount/$count1) * 100)}}%</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Female Total/Percentage: {{number_format($femalecount)}} / {{round(($femalecount/$count1) * 100)}}%</p>
+            <hr>
+            <p>{{date('Y', strtotime('-1 Year'))}} Suspected: {{number_format($count5)}}</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Probable: {{number_format($count6)}}</p>
+            <p>{{date('Y', strtotime('-1 Year'))}} Close Contact: {{number_format($count7)}}</p>
             <hr>
             <div class="table-responsive">
                 <table class="table table-bordered">
