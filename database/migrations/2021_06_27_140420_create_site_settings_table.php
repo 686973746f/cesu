@@ -26,9 +26,6 @@ class CreateSiteSettingsTable extends Migration
             $table->tinyInteger('lockencode_positive_enabled')->default(0);
             $table->time('lockencode_positive_start_time')->default('16:00');
             $table->time('lockencode_positive_end_time')->default('00:00');
-            $table->text('default_dru')->nullable();
-            $table->text('default_dru_region')->nullable();
-            $table->text('default_dru_province')->nullable();
             $table->time('encodeActiveCasesCutoff')->default('16:00');
             $table->text('listMobiles')->nullable();
             $table->text('listTelephone')->nullable();
@@ -43,6 +40,12 @@ class CreateSiteSettingsTable extends Migration
             $table->tinyInteger('severe_days_of_recovery')->default(21);
             $table->tinyInteger('paswab_auto_schedule_if_symptomatic')->default(0);
             $table->tinyInteger('cifpage_auto_schedule_if_symptomatic')->default(0);
+            $table->text('default_dru_name')->nullable();
+            $table->text('default_dru_region')->nullable();
+            $table->text('default_dru_province')->nullable();
+            $table->text('default_dru_province_code')->nullable();
+            $table->text('default_dru_muncity')->nullable();
+            $table->text('default_dru_muncity_code')->nullable();
         });
     }
 
