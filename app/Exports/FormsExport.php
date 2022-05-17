@@ -381,7 +381,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("Altered Mental Status", $arr_sas)) ? "YES" : "NO",
             (in_array("Anosmia (Loss of Smell)", $arr_sas)) ? "YES" : "NO",
             (in_array("Ageusia (Loss of Taste)", $arr_sas)) ? "YES" : "NO",
-            (in_array("Others", $arr_sas)) ? "YES" : "NO",
+            (in_array("Others", $arr_sas) || in_array("Colds", $arr_sas)) ? "YES" : "NO",
             $auto_othersx,
 
             (in_array("None", $arr_como)) ? "YES" : "NO",
