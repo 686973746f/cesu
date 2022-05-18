@@ -576,8 +576,8 @@ class AutoEmailCompositeMeasureV2 extends Command
 
         $activecases_count_critical_hospital_percentage = ($activecases_count_critical_total != 0) ? round(($activecases_count_critical_hospital / $activecases_count_critical_total) * 100, 2) : 0;
 
-        $rat = round(($cc_count_total / $activecases_count_total), 2);
-        $ct_per = round((($cc_count_total / ($activecases_count_total * 15)) * 100), 2);
+        $rat = ($activecases_count_total != 0) ? round(($cc_count_total / $activecases_count_total), 2) : 0;
+        $ct_per = ($activecases_count_total != 0) ? round((($cc_count_total / ($activecases_count_total * 15)) * 100), 2) : 0;
 
         $templateProcessor->setValue('DCREATED', date('m/d/Y'));
         $templateProcessor->setValue('RANGE', $period);
