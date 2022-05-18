@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Forms;
 use Illuminate\Console\Command;
 use App\Mail\SendCompositeMeasureV2;
 use Illuminate\Support\Facades\File;
