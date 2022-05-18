@@ -597,7 +597,7 @@ class AutoEmailCompositeMeasureV2 extends Command
 
         $templateProcessor->setValue('cm_3c_mil', $activecases_count_mild_withcomorbid_hospital_percent);
         $templateProcessor->setValue('cm_3c_mod', $activecases_count_moderate_hospital_percent);
-        $templateProcessor->setValue('cm_3c_sev', $$activecases_count_severe_hospital_percent);
+        $templateProcessor->setValue('cm_3c_sev', $activecases_count_severe_hospital_percent);
         $templateProcessor->setValue('cm_3c_cri', $activecases_count_critical_hospital_percentage);
 
         $templateProcessor->setValue('CTA_A', $cc_count_total);
