@@ -2168,6 +2168,22 @@ class FormsController extends Controller
                     $auto_outcome_recovered_date = $request->outcomeRecovDate;
                 }
 
+                //Disobedient Admin Checker
+                if($rec->is_disobedient == 1) {
+                    if(auth()->user()->ifTopAdmin()) {
+                        $form_is_disobedient = ($request->is_disobedient) ? 1 : 0;
+                        $form_disobedient_remarks = ($request->is_disobedient) ? $request->disobedient_remarks : NULL;
+                    }
+                    else {
+                        $form_is_disobedient = $rec->is_disobedient;
+                        $form_disobedient_remarks = $rec->disobedient_remarks;
+                    }
+                }
+                else {
+                    $form_is_disobedient = ($request->is_disobedient) ? 1 : 0;
+                    $form_disobedient_remarks = ($request->is_disobedient) ? $request->disobedient_remarks : NULL;
+                }
+                
                 if($proceed == 1) {
                     if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                         return back()
@@ -2365,8 +2381,8 @@ class FormsController extends Controller
             
                             'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
 
-                            'is_disobedient' => ($request->is_disobedient) ? 1 : 0,
-                            'disobedient_remarks' => ($request->is_disobedient) ? $request->disobedient_remarks : NULL,
+                            'is_disobedient' => $form_is_disobedient,
+                            'disobedient_remarks' => $form_disobedient_remarks,
                         ]);
             
                         if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {

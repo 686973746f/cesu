@@ -31,9 +31,18 @@
                 @if($records->outcomeCondition == 'Recovered' || $records->caseClassification == 'Non-COVID-19 Case')
                 <hr>
                 <p>Other Options:</p>
+                @if($records->is_disobedient == 1)
+                <div class="alert alert-danger" role="alert">
+                    <p>The patient cannot be able to process Medical Certifate as it was marked as <strong class="text-danger">DISOBEDIENT/UNCOOPERATIVE</strong></p>
+                    <p><strong>Reason:</strong> {{$records->disobedient_remarks}}</p>
+                    <p>Kindly Coordinate with CESU Head for more details.</p>
+                </div>
+                @else
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medcertmodal">Generate Medical Certificate / Recovered Form</button>
                 @endif
+                @endif
             </div>
+            @if($records->is_disobedient != 1)
             <form action="{{route('generate_medcert', ['form_id' => $records->id])}}" method="POST">
                 @csrf
                 <div class="modal fade" id="medcertmodal" tabindex="-1" role="dialog">
@@ -102,6 +111,7 @@
                     });
                 </script>
             </form>
+            @endif
         @endif
         @if($records->ifOldCif())
         <div class="alert alert-info" role="alert">
@@ -245,19 +255,19 @@
                         </table>
                     </div>
                     <div class="form-group">
-                        <label for="remarks">Remarks</label>
+                        <label for="remarks">Remarks <small><i>(If Applicable)</i></small></label>
                         <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $records->remarks)}}</textarea>
                     </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="is_disobedient" id="is_disobedient" value="1" {{($records->is_disobedient == 1) ? 'checked' : ''}}>
-                        Is Patient Disobedient?
-                        </label>
-                    </div>
-                    <div class="form-group mt-2 d-none" id="disobedient_div">
-                      <label for="disobedient_remarks"><span class="text-danger font-weight-bold">*</span>Disobedient Remarks</label>
-                      <textarea class="form-control" name="disobedient_remarks" id="disobedient_remarks" rows="3">{{$records->disobedient_remarks}}</textarea>
-                    </div>
+                    @if(auth()->user()->ifTopAdmin() || $records->is_disobedient != 1)
+                        <div class="form-check">
+                            <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="is_disobedient" id="is_disobedient" value="1" {{($records->is_disobedient == 1) ? 'checked' : ''}}>Is Patient Disobedient/Uncooperative?</label>
+                        </div>
+                        <div class="form-group mt-2 d-none" id="disobedient_div">
+                            <label for="disobedient_remarks"><span class="text-danger font-weight-bold">*</span>Disobedient Remarks</label>
+                            <textarea class="form-control" name="disobedient_remarks" id="disobedient_remarks" rows="3">{{$records->disobedient_remarks}}</textarea>
+                        </div>
+                    @endif
                     <hr>
                     <div class="row">
                         <div class="col-md-6">

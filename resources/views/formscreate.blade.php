@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="remarks">Remarks</label>
+                      <label for="remarks">Remarks/Notes <small><i>(If Applicable)</i></small></label>
                       <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks')}}</textarea>
                     </div>
                     <div class="row">
