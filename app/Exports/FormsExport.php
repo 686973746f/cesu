@@ -118,7 +118,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         $arr_existingCase = explode(",", $form->existingCaseList);
         $arr_testingcat = explode(",", $form->testingCat);
         $first_testingcat = head(explode(',', $form->testingCat));
-        $arr_sas = explode(",", $form->SAS);
+        $arr_sas = (!is_null($form->SAS)) ? explode(",", $form->SAS) : NULL;
         $arr_como = explode(",", $form->COMO);
         $arr_placeVisited = explode(",", $form->placevisited);
 
@@ -363,7 +363,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->records->vaccinationDate2) && $form->records->haveAdverseEvents2 == 1) ? 'YES' : 'NO',
 
             (!is_null($form->dateOnsetOfIllness)) ? date("m/d/Y", strtotime($form->dateOnsetOfIllness)) : 'N/A',
-            (in_array("Asymptomatic", $arr_sas)) ? "YES" : "NO",
+            (is_null($arr_sas)) ? "YES" : "NO",
             (in_array("Fever", $arr_sas)) ? "YES" : "NO",
             (in_array("Fever", $arr_sas)) ? $form->SASFeverDeg : "",
             (in_array("Cough", $arr_sas)) ? "YES" : "NO",
