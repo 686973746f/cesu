@@ -363,7 +363,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->records->vaccinationDate2) && $form->records->haveAdverseEvents2 == 1) ? 'YES' : 'NO',
 
             (!is_null($form->dateOnsetOfIllness)) ? date("m/d/Y", strtotime($form->dateOnsetOfIllness)) : 'N/A',
-            (count($arr_sas) == 0) ? "YES" : "NO",
+            (!in_array(array('Fever', 'Cough', 'General Weakness', 'Fatigue', 'Headache', 'Myalgia', 'Sore throat', 'Coryza', 'Dyspnea', 'Anorexia', 'Nausea', 'Vomiting', 'Diarrhea', 'Altered Mental Status', 'Colds', 'Anosmia (Loss of Smell)', 'Ageusia (Loss of Taste)', 'Others'), $arr_sas)) ? "YES" : "NO",
             (in_array("Fever", $arr_sas)) ? "YES" : "NO",
             (in_array("Fever", $arr_sas)) ? $form->SASFeverDeg : "",
             (in_array("Cough", $arr_sas)) ? "YES" : "NO",
