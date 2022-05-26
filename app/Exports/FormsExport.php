@@ -363,7 +363,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->records->vaccinationDate2) && $form->records->haveAdverseEvents2 == 1) ? 'YES' : 'NO',
 
             (!is_null($form->dateOnsetOfIllness)) ? date("m/d/Y", strtotime($form->dateOnsetOfIllness)) : 'N/A',
-            (!in_array(array('Fever', 'Cough', 'General Weakness', 'Fatigue', 'Headache', 'Myalgia', 'Sore throat', 'Coryza', 'Dyspnea', 'Anorexia', 'Nausea', 'Vomiting', 'Diarrhea', 'Altered Mental Status', 'Colds', 'Anosmia (Loss of Smell)', 'Ageusia (Loss of Taste)', 'Others'), $arr_sas)) ? "YES" : "NO",
+            (in_array("Fever", $arr_sas) || in_array("Cough", $arr_sas) || in_array("General Weakness", $arr_sas) || in_array("Fatigue", $arr_sas) || in_array("Headache", $arr_sas) || in_array("Myalgia", $arr_sas) || in_array("Sore throat", $arr_sas) || in_array("Coryza", $arr_sas) || in_array("Dyspnea", $arr_sas) || in_array("Anorexia", $arr_sas) || in_array("Nausea", $arr_sas) || in_array("Vomiting", $arr_sas) || in_array("Diarrhea", $arr_sas) || in_array("Altered Mental Status", $arr_sas) || in_array("Anosmia (Loss of Smell)", $arr_sas) || in_array("Ageusia (Loss of Taste)", $arr_sas) || in_array("Others", $arr_sas) || in_array("Colds", $arr_sas)) ? "NO" : "YES",
             (in_array("Fever", $arr_sas)) ? "YES" : "NO",
             (in_array("Fever", $arr_sas)) ? $form->SASFeverDeg : "",
             (in_array("Cough", $arr_sas)) ? "YES" : "NO",
