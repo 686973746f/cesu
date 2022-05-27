@@ -12,7 +12,16 @@
     <div class="card">
         <div class="card-header">Swab Count</div>
         <div class="card-body">
-            <table class="table">
+            <table class="table table-bordered">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>Month</th>
+                        <th>Swab</th>
+                        <th>Suspected/Probable</th>
+                        <th>Confirmed</th>
+                        <th>Close Contact</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach($swabarr as $s)
                     <tr>
