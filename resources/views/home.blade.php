@@ -114,6 +114,9 @@
                     <a href="{{route('adminpanel.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-user-cog mr-2"></i>Admin Panel</a>
                     @endif
                 </div>
+                <div class="card-footer">
+                    <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
+                </div>
             </div>
         </div>
     </div>

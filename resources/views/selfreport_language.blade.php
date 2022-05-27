@@ -22,6 +22,9 @@
                 <a name="" id="" class="btn btn-primary btn-block" href="{{route('selfreport.index', ['locale' => 'en'])}}" role="button"><span class="flag-icon flag-icon-gb mr-2"></span>English</a>
                 <a name="" id="" class="btn btn-primary btn-block" href="{{route('selfreport.index', ['locale' => 'fil'])}}" role="button"><span class="flag-icon flag-icon-ph mr-2"></span>Filipino / Tag-lish</a>
             </div>
+            <div class="card-footer">
+                <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
+            </div>
         </div>
         <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
