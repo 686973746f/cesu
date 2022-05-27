@@ -3076,6 +3076,15 @@
             }
         });
 
+        $('#formsubmit').click(function (e) { 
+            if($('#caseClassification').val() == 'Confirmed') {
+                confirm('You are encoding {{$records->records->getName()}} as a POSITIVE Case. Please double check carefully and Click OK to Confirm.');
+            }
+            else if($('#caseClassification').val() == 'Non-COVID-19 Case') {
+                confirm('You are encoding {{$records->records->getName()}} as a NEGATIVE Case. Please double check carefully and  Click OK to Confirm.');
+            }
+        });
+
         $(document).ready(function () {
             @if(is_null(auth()->user()->brgy_id) && is_null(auth()->user()->company_id))
             $('#interviewerName').selectize();
