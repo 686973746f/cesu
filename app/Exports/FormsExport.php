@@ -93,7 +93,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                     $normal_col = Forms::whereIn('id', $list)
                     ->get()->sortBy('records.lname');
 
-                    $data = $pregnant_col->merge($senior_col)->merge($hospitalization_col)->merge($normal_col);
+                    $data = $senior_col->merge($pregnant_col)->merge($hospitalization_col)->merge($normal_col);
                 }
                 else {
                     $phfirst_col = Forms::whereIn('id', $list)
@@ -106,7 +106,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                     $normal_col = Forms::whereIn('id', $list)
                     ->get()->sortBy('records.lname');
 
-                    $data = $pregnant_col->merge($senior_col)->merge($hospitalization_col)->merge($phfirst_col)->merge($normal_col);
+                    $data = $senior_col->merge($pregnant_col)->merge($hospitalization_col)->merge($phfirst_col)->merge($normal_col);
                 }
             }
 
