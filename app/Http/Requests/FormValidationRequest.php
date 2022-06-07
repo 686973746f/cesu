@@ -124,7 +124,7 @@ class FormValidationRequest extends FormRequest
 
             'testDateCollected1' => (!is_null($this->testType1)) ? 'required|date' : 'nullable|date',
             'oniTimeCollected1' => 'nullable',
-            'testDateReleased1' => ($this->testType1 != 'PENDING') ? 'nullable|date|after_or_equal:testDateCollected1|before_or_equal:today' : 'nullable|date',
+            'testDateReleased1' => ($this->testResult1 != 'PENDING') ? 'nullable|date|after_or_equal:testDateCollected1|before_or_equal:today' : 'nullable|date',
             'testLaboratory1' => 'nullable',
             'testType1' => 'nullable|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
             'testTypeOtherRemarks1' => ($this->testType1 == "OTHERS") ? 'required' : 'nullable',
@@ -136,7 +136,7 @@ class FormValidationRequest extends FormRequest
 
             'testDateCollected2' => (!is_null($this->testType2)) ? 'required|date|after_or_equal:testDateCollected1' : 'nullable|date',
             'oniTimeCollected2' => 'nullable',
-            'testDateReleased2' => ($this->testType2 != 'PENDING') ? 'nullable|date|after_or_equal:testDateCollected2|before_or_equal:today' : 'nullable|date',
+            'testDateReleased2' => ($this->testResult2 != 'PENDING') ? 'nullable|date|after_or_equal:testDateCollected2|before_or_equal:today' : 'nullable|date',
             'testLaboratory2' => 'nullable',
             'testType2' => 'nullable|in:OPS,NPS,OPS AND NPS,ANTIGEN,ANTIBODY,OTHERS',
             'testTypeOtherRemarks2' => ($this->testType2 == "OTHERS") ? 'required' : 'nullable',
