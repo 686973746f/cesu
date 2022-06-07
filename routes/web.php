@@ -86,8 +86,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.guest.updatemonitoring');
     Route::get('/msheet/guest/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.guest.print');
 
-    Route::get('/medcert', [OnlineMedCertController::class, 'index'])->name('onlinemedcert_index');
-    Route::post('/medcert', [OnlineMedCertController::class, 'check'])->name('onlinemedcert_check');
+    //Route::get('/medcert', [OnlineMedCertController::class, 'index'])->name('onlinemedcert_index');
+    //Route::post('/medcert', [OnlineMedCertController::class, 'check'])->name('onlinemedcert_check');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
