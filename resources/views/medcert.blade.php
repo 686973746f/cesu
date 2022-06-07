@@ -85,6 +85,7 @@
                             <p style="margin-bottom: 1px;">Mandatory Quarantine Period</p>
                             <p><small><i>**if undergo a 14 day quarantine</i></small></p>
                         </div>
+                        @if(isset($req))
                         <div class="col-md-3 text-center">
                             <p style="margin-bottom: 1px;"><u>{{date('m/d/Y', strtotime($req->qDateStart))}}</u></p>
                             <p style="margin-bottom: 1px;"><small><i>Date Starts</i></small></p>
@@ -96,6 +97,19 @@
                             <p style="margin-bottom: 1px;"><u>{{date('m/d/Y', strtotime($req->qDateEnd))}}</u></p>
                             <p style="margin-bottom: 1px;"><small><i>Date Ends</i></small></p>
                         </div>
+                        @else
+                        <div class="col-md-3 text-center">
+                            <p style="margin-bottom: 1px;"><u>{{date('m/d/Y', strtotime($qds))}}</u></p>
+                            <p style="margin-bottom: 1px;"><small><i>Date Starts</i></small></p>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <p>to</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <p style="margin-bottom: 1px;"><u>{{date('m/d/Y', strtotime($qde))}}</u></p>
+                            <p style="margin-bottom: 1px;"><small><i>Date Ends</i></small></p>
+                        </div>
+                        @endif
                     </div>
                     <h5><strong>SYMPTOMS</strong></h5>
                     <div class="card card-body mb-3" id="symptomsbox">
@@ -120,19 +134,28 @@
                     <div>
                         <h5 class="mb-3"><strong>PURPOSE:</strong></h5>
                         <div class="row">
+                            @if(isset($req))
                             <div class="col-md-6 text-center">
                                 <h5><span class="mr-2">{{($req->purpose == 'Fit to Travel') ? '⬛' : '⬜'}}</span>FIT TO TRAVEL</h5>
                             </div>
                             <div class="col-md-6 text-center">
                                 <h5><span class="mr-2">{{($req->purpose == 'Fit to Work') ? '⬛' : '⬜'}}</span>FIT TO WORK</h5>
                             </div>
+                            @else
+                            <div class="col-md-6 text-center">
+                                <h5><span class="mr-2">⬜</span>FIT TO TRAVEL</h5>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <h5><span class="mr-2">⬛</span>FIT TO WORK</h5>
+                            </div>
+                            @endif
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <h5>Certified by:</h5>
                             <div class="text-center">
-                                <img src="{{asset('assets/images/signatureonly_docyves.png')}}" style="width: 10rem;">
+                                <img src="{{asset('assets/images/signatureonly_docyves.png')}}" style="width: 10rem;margin-bottom: -50px;">
                                 <h5><strong>YVES M. TALOSIG, MD</strong></h5>
                                 <h5>Medical Officer III</h5>
                                 <h5>Reg. # 0112243</h5>
@@ -141,7 +164,7 @@
                         <div class="col-md-6">
                             <h5>Approved by:</h5>
                             <div class="text-center">
-                                <img src="{{asset('assets/images/signatureonly_docathan.png')}}" style="width: 10rem;">
+                                <img src="{{asset('assets/images/signatureonly_docathan.png')}}" style="width: 10rem;margin-bottom: -50px;">
                                 <h5><strong>JONATHAN P. LUSECO, MD</strong></h5>
                                 <h5>City Health Officer II</h5>
                                 <h5>Reg. # 102377</h5>

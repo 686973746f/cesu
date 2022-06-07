@@ -28,6 +28,7 @@ use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
+use App\Http\Controllers\OnlineMedCertController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ContactTracingController;
 use App\Http\Controllers\MonitoringSheetController;
@@ -84,6 +85,9 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.guest.viewdate');
     Route::post('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.guest.updatemonitoring');
     Route::get('/msheet/guest/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.guest.print');
+
+    Route::get('/medcert', [OnlineMedCertController::class, 'index'])->name('onlinemedcert_index');
+    Route::post('/medcert', [OnlineMedCertController::class, 'check'])->name('onlinemedcert_check');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
