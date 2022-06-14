@@ -16,7 +16,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
 </head>
-<body>
+<body style="font-family: Arial, Helvetica, sans-serif">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-success shadow-sm">
             <div class="container-fluid">
