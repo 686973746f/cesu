@@ -3072,6 +3072,9 @@
                 e.preventDefault();
                 $('#formsubmit').trigger('click');
                 $('#formsubmit').prop('disabled', true);
+                setTimeout(function() {
+                    $('#formsubmit').prop('disabled', false);
+                }, 2000);
                 return false;
             }
         });

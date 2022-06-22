@@ -968,6 +968,9 @@
 			e.preventDefault();
 			$('#submitBtn').trigger('click');
 			$('#submitBtn').prop('disabled', true);
+			setTimeout(function() {
+				$('#submitBtn').prop('disabled', false);
+			}, 2000);
 			return false;
 		}
 	});

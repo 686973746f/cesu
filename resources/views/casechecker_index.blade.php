@@ -106,40 +106,42 @@
             <p>Total Count: <strong>{{$list->count()}}</strong></p>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-striped">
-                <thead class="text-center thead-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>MM</th>
-                        <th>DR</th>
-                        <th>Age/Sex</th>
-                        <th>Street</th>
-                        <th>Severity</th>
-                        <th>Date Swab</th>
-                        <th>Classification</th>
-                        <th>Quarantine Status</th>
-                        <th>Vaccine</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list as $item)
-                    <tr>
-                        <td class="text-center">{{$loop->iteration}}</td>
-                        <td scope="row"><a href="{{route('forms.edit', ['form' => $item->id])}}">{{$item->records->getName()}}</a></td>
-                        <td class="text-center">{{date('m/d/Y', strtotime($item->morbidityMonth))}}</td>
-                        <td class="text-center">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
-                        <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
-                        <td class="text-center"><small>{{$item->records->address_houseno}}, {{$item->records->address_street}}</small></td>
-                        <td class="text-center">{{$item->healthStatus}}</td>
-                        <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
-                        <td class="text-center">{{$item->caseClassification}}</td>
-                        <td class="text-center">{{$item->getQuarantineStatus()}}</td>
-                        <td class="text-center">{{$item->records->showVaxInfo()}}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="text-center thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>MM</th>
+                            <th>DR</th>
+                            <th>Age/Sex</th>
+                            <th>Street</th>
+                            <th>Severity</th>
+                            <th>Date Swab</th>
+                            <th>Classification</th>
+                            <th>Quarantine Status</th>
+                            <th>Vaccine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $item)
+                        <tr>
+                            <td class="text-center">{{$loop->iteration}}</td>
+                            <td scope="row"><a href="{{route('forms.edit', ['form' => $item->id])}}">{{$item->records->getName()}}</a></td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($item->morbidityMonth))}}</td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
+                            <td class="text-center">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
+                            <td class="text-center"><small>{{$item->records->address_houseno}}, {{$item->records->address_street}}</small></td>
+                            <td class="text-center">{{$item->healthStatus}}</td>
+                            <td class="text-center">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
+                            <td class="text-center">{{$item->caseClassification}}</td>
+                            <td class="text-center">{{$item->getQuarantineStatus()}}</td>
+                            <td class="text-center">{{$item->records->showVaxInfo()}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     @endif
