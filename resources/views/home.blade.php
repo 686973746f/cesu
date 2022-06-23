@@ -94,10 +94,10 @@
                                     <option value="7">List of Total Recoveries</option>
                                     <option value="8">List of Total Deaths</option>
                                     <option disabled>-----</option>
-                                    <option value="9">List of Patients Admitted in General Trias Ligtas COVID-19 Facility #1</option>
-                                    <option value="12">List of Patients Admitted in General Trias Ligtas COVID-19 Facility #2 (Eagle Ridge, Brgy. Javalera)</option>
-                                    <option value="10">List of Patients On Strict Home Quarantine</option>
-                                    <option value="11">List of Patients Admitted in the Hospital/Other Isolation Facility</option>
+                                    <option value="9">List of Patients Currently Admitted in General Trias Ligtas COVID-19 Facility #1</option>
+                                    <option value="12">List of Patients Currently Admitted in General Trias Ligtas COVID-19 Facility #2 (Eagle Ridge, Brgy. Javalera)</option>
+                                    <option value="10">List of Patients Currently On Strict Home Quarantine</option>
+                                    <option value="11">List of Patients Currently Admitted in the Hospital/Other Isolation Facility</option>
                                     </select>
                                     <div class="input-group-append">
                                     <button class="btn btn-outline-success" type="submit">Go</button>
