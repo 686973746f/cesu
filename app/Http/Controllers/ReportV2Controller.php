@@ -51,6 +51,7 @@ class ReportV2Controller extends Controller
                 $getListName = 'List of Late Reported Active Cases';
             }
             else if($opt == 3) {
+                /*
                 $opt_final_query = $initial_query
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
@@ -66,16 +67,30 @@ class ReportV2Controller extends Controller
                         ->where('dispoType', 6);
                     });
                 });
+                */
+                
+                $opt_final_query = $initial_query
+                ->where('status', 'approved')
+                ->whereDate('outcomeRecovDate', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered');
 
                 $getListName = 'List of Newly Reported Recovered Cases';
             }
             else if($opt == 4) {
+                /*
                 $opt_final_query = $initial_query
                 ->where('status', 'approved')
                 ->whereDate('morbidityMonth', '<', date('Y-m-d', strtotime('-10 Days')))
                 ->whereDate('outcomeRecovDate', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->where('dispoType', '!=', 6);
+                */
+
+                $opt_final_query = $initial_query
+                ->where('status', 'approved')
+                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
+                ->where('outcomeCondition', 'Recovered');
 
                 $getListName = 'List of Late Reported Recovered Cases';
             }
