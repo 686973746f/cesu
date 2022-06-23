@@ -29,7 +29,7 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-light">
                             <tr class="text-center">
-                                <th style="vertical-align: middle;">MM</th>
+                                <th style="vertical-align: middle;">MM/MW <small>(Date Encoded)</small></th>
                                 <th style="vertical-align: middle;">Date Reported</th>
                                 <th style="vertical-align: middle;">DRU</th>
                                 <th style="vertical-align: middle;">DRU Region & Mun/City</th>
@@ -44,13 +44,16 @@
                                 <th style="vertical-align: middle;">Classification</th>
                                 <th style="vertical-align: middle;">Quarantine Status</th>
                                 <th style="vertical-align: middle;">Vaccine</th>
+                                @if(request()->input('getOption') == 1 || request()->input('getOption') == 2 || request()->input('getOption') == 6)
+                                <th style="vertical-align: middle;">Date of Possible Recovery</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($list as $item)
                             <tr>
-                                <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->morbidityMonth))}}</td>
-                                <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->dateReported))}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->morbidityMonth))}} / W{{date('W', strtotime($item->morbidityMonth))}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->dateReported))}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->drunit}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->drregion.' '.$item->drprovince}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->getType()}}</td>
@@ -60,10 +63,13 @@
                                 <td class="text-center" style="vertical-align: middle;"><small>{{$item->records->address_street}}</small></td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->records->address_brgy}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->healthStatus}}</td>
-                                <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y', strtotime($item->testDateCollected2)) : date('m/d/Y', strtotime($item->testDateCollected1))}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y (D)', strtotime($item->testDateCollected2)) : date('m/d/Y (D)', strtotime($item->testDateCollected1))}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->caseClassification}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->getQuarantineStatus()}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->records->showVaxInfo()}}</td>
+                                @if(request()->input('getOption') == 1 || request()->input('getOption') == 2 || request()->input('getOption') == 6)
+                                <td class="text-center" style="vertical-align: middle;">{{$item->getPossibleRecoveryDate()}}</td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

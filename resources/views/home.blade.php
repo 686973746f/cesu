@@ -18,6 +18,8 @@
                             {{session('status')}}
                         </div>
                     @endif
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#quicksearch"><i class="fas fa-search mr-2"></i>Patient Quick Search</button>
+                    <hr>
                     <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Information</a>
                     <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
                         <i class="fa fa-file mr-2" aria-hidden="true"></i>Case Investigation Forms
@@ -122,6 +124,25 @@
     </div>
 </div>
 
+<div class="modal fade" id="quicksearch" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Patient Quick Search</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="newList">Select Patient to Create or Search (If existing)</label>
+                <select class="form-control" name="newList" id="newList"></select>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
 <form action="{{route('report.DOHExportAll')}}" method="POST" id="reportForm">
     @csrf
     <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -152,6 +173,42 @@
 </form>
 
 <script>
+    $('#newList').select2({
+        theme: "bootstrap",
+        placeholder: 'Search by Name / Patient ID ...',
+        ajax: {
+            url: "{{route('forms.ajaxList')}}",
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.text,
+                            id: item.id,
+                            class: item.class,
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('#newList').change(function (e) { 
+        e.preventDefault();
+        var d = $('#newList').select2('data')[0].class;
+        if(d == 'cif') {
+            var url = "{{route("forms.new", ['id' => ':id']) }}";
+        }
+        else if (d == 'paswab') {
+            var url = "{{route("paswab.viewspecific", ['id' => ':id']) }}";
+        }
+
+        url = url.replace(':id', $(this).val());
+        window.location.href = url;
+    });
+
     $('#reportsbtn').click(function (e) { 
         $(this).addClass('disabled');
         $('#reportNotice').removeClass('d-none');
