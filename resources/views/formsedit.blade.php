@@ -3594,18 +3594,18 @@
                     $('#comCheck13').prop({'disabled': true, 'checked': false});
                 }
                 else {
-                    $('#comCheck2').prop({'disabled': false, 'checked': false});
-                    $('#comCheck3').prop({'disabled': false, 'checked': false});
-                    $('#comCheck4').prop({'disabled': false, 'checked': false});
-                    $('#comCheck5').prop({'disabled': false, 'checked': false});
-                    $('#comCheck6').prop({'disabled': false, 'checked': false});
-                    $('#comCheck7').prop({'disabled': false, 'checked': false});
-                    $('#comCheck8').prop({'disabled': false, 'checked': false});
-                    $('#comCheck9').prop({'disabled': false, 'checked': false});
-                    $('#comCheck10').prop({'disabled': false, 'checked': false});
-                    $('#comCheck11').prop({'disabled': false, 'checked': false});
-                    $('#comCheck12').prop({'disabled': false, 'checked': false});
-                    $('#comCheck13').prop({'disabled': false, 'checked': false});
+                    $('#comCheck2').prop({'disabled': false});
+                    $('#comCheck3').prop({'disabled': false});
+                    $('#comCheck4').prop({'disabled': false});
+                    $('#comCheck5').prop({'disabled': false});
+                    $('#comCheck6').prop({'disabled': false});
+                    $('#comCheck7').prop({'disabled': false});
+                    $('#comCheck8').prop({'disabled': false});
+                    $('#comCheck9').prop({'disabled': false});
+                    $('#comCheck10').prop({'disabled': false});
+                    $('#comCheck11').prop({'disabled': false});
+                    $('#comCheck12').prop({'disabled': false});
+                    $('#comCheck13').prop({'disabled': false});
                 }
             });
 
