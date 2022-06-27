@@ -1142,7 +1142,7 @@ class FormsController extends Controller
             if(!in_array("F.1", $testCat) && $rec->isPregnant == 1) {
                 array_push($testCat, "F.1");
             }
-            if(!in_array("F.3", $testCat) && $rec->isForHospitalization == 1) {
+            if(!in_array("F.3", $testCat) && $request->isForHospitalization == 1 && $rec->isPregnant == 0) {
                 array_push($testCat, "F.3");
             }
             if(!in_array("F.2", $testCat) && in_array('Dialysis', $request->comCheck)) {
@@ -1991,13 +1991,13 @@ class FormsController extends Controller
                 if(!in_array("D.1", $testCat) && $request->pType == 'CLOSE CONTACT') {
                     array_push($testCat, "D.1");
                 }
-                if(!in_array("F.1", $testCat) && $rec->isPregnant == 1) {
+                if(!in_array("F.1", $testCat) && $rec->records->isPregnant == 1) {
                     array_push($testCat, "F.1");
                 }
                 if(!in_array("F.2", $testCat) && in_array('Dialysis', $request->comCheck)) {
                     array_push($testCat, "F.2");
                 }
-                if(!in_array("F.3", $testCat) && $rec->isForHospitalization == 1) {
+                if(!in_array("F.3", $testCat) && $request->isForHospitalization == 1 && $rec->records->isPregnant == 0) {
                     array_push($testCat, "F.3");
                 }
                 if(!in_array("F.4", $testCat) && in_array('Cancer', $request->comCheck)) {
