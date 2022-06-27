@@ -510,6 +510,15 @@
                             <option value="E.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('E.1')) ? 'selected' : ''}}>E.1 Frontliners (Non-Medical) w/ High or Direct Exposure to COVID-19</option>
                             <option value="E.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('E.2')) ? 'selected' : ''}}>E.1 Frontliners (Non-Medical) living/working in Special Concern Areas</option>
                         </optgroup>
+                        <optgroup label="Category F - Other vulnerable patients and those living in confined spaces">
+                            <option value="F.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("F.1")) ? 'selected' : ''}}>F.1 Pregnant Patients</option>
+                            <option value="F.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("F.2")) ? 'selected' : ''}}>F.2 Dialysis Patients</option>
+                            <option value="F.3" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("F.3")) ? 'selected' : ''}}>F.3 Immunocompromised (HIV/AIDS)</option>
+                            <option value="F.4" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("F.4")) ? 'selected' : ''}}>F.4 Patient undergoing chemotheraphy or radiotheraphy</option>
+                            <option value="F.5" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("F.5")) ? 'selected' : ''}}>F.5 Patients who will undergo elective surgical procedures with high risk for transmission</option>
+                            <option value="F.6" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("F.6")) ? 'selected' : ''}}>F.6 Any person who have had organ transplants, or had bone marrow or stem cell transplant in the past 6 months</option>
+                            <option value="F.7" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("F.7")) ? 'selected' : ''}}>F.7 Any person who is about to be admitted in enclosed institution such as jails, penitentiaries, and mental institutions</option>
+                        </optgroup>
                         <option value="F" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('F')) ? 'selected' : ''}}>F. Other Vulnerable Patients and Living in Confined Spaces (e.g. Pregnant, Dialysis Patient, HIV/AIDS, Chemotherapy, For Operation, Jail Admission)</option>
                         <option value="G" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('G')) ? 'selected' : ''}}>G. Residents, occupants, or workes in a localized area with an active COVID-19 cluster</option>
                         <optgroup label="Category H - Frontliners in Tourist Zones">
