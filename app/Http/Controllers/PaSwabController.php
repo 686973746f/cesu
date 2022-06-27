@@ -280,8 +280,12 @@ class PaSwabController extends Controller
                         array_push($testCat, "C");
                     }
                     else {
-                        array_push($testCat, "D.1");
+                        if($data->isForHospitalization != 1) {
+                            array_push($testCat, "D.1");
+                        }
                     }
+
+                    $comcheck = explode(',', $data->COMO);
 
                     if($data->getAgeInt() >= 60) {
                         array_push($testCat, "B");
@@ -289,8 +293,25 @@ class PaSwabController extends Controller
                     if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                         array_push($testCat, "D.1");
                     }
-                    if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
-                        array_push($testCat, "F");
+                    if($data->isPregnant == 1) {
+                        array_push($testCat, "F.1");
+                    }
+                    if(in_array('Dialysis', $comcheck)) {
+                        array_push($testCat, "F.2");
+                    }
+                    /*
+                    if($rec->isForHospitalization == 1) {
+                        array_push($testCat, "F.3");
+                    }
+                    */
+                    if(in_array('Cancer', $comcheck)) {
+                        array_push($testCat, "F.4");
+                    }
+                    if(in_array('Operation', $comcheck)) {
+                        array_push($testCat, "F.5");
+                    }
+                    if(in_array('Transplant', $comcheck)) {
+                        array_push($testCat, "F.6");
                     }
 
                     //Auto Change Case Classification to Probable Based on Symptoms
@@ -704,8 +725,12 @@ class PaSwabController extends Controller
                         array_push($testCat, "C");
                     }
                     else {
-                        array_push($testCat, "D.1");
+                        if($data->isForHospitalization != 1) {
+                            array_push($testCat, "D.1");
+                        }
                     }
+
+                    $comcheck = explode(',', $data->COMO);
 
                     if($data->getAgeInt() >= 60) {
                         array_push($testCat, "B");
@@ -713,8 +738,25 @@ class PaSwabController extends Controller
                     if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                         array_push($testCat, "D.1");
                     }
-                    if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
-                        array_push($testCat, "F");
+                    if($data->isPregnant == 1) {
+                        array_push($testCat, "F.1");
+                    }
+                    if(in_array('Dialysis', $comcheck)) {
+                        array_push($testCat, "F.2");
+                    }
+                    /*
+                    if($rec->isForHospitalization == 1) {
+                        array_push($testCat, "F.3");
+                    }
+                    */
+                    if(in_array('Cancer', $comcheck)) {
+                        array_push($testCat, "F.4");
+                    }
+                    if(in_array('Operation', $comcheck)) {
+                        array_push($testCat, "F.5");
+                    }
+                    if(in_array('Transplant', $comcheck)) {
+                        array_push($testCat, "F.6");
                     }
 
                     //Auto Change Case Classification to Probable Based on Symptoms
@@ -1511,8 +1553,12 @@ class PaSwabController extends Controller
                 array_push($testCat, "C");
             }
             else {
-                array_push($testCat, "D.1");
+                if($data->isForHospitalization != 1) {
+                    array_push($testCat, "D.1");
+                }
             }
+
+            $comcheck = explode(',', $data->COMO);
 
             if($data->getAgeInt() >= 60) {
                 array_push($testCat, "B");
@@ -1520,8 +1566,25 @@ class PaSwabController extends Controller
             if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                 array_push($testCat, "D.1");
             }
-            if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
-                array_push($testCat, "F");
+            if($data->isPregnant == 1) {
+                array_push($testCat, "F.1");
+            }
+            if(in_array('Dialysis', $comcheck)) {
+                array_push($testCat, "F.2");
+            }
+            /*
+            if($rec->isForHospitalization == 1) {
+                array_push($testCat, "F.3");
+            }
+            */
+            if(in_array('Cancer', $comcheck)) {
+                array_push($testCat, "F.4");
+            }
+            if(in_array('Operation', $comcheck)) {
+                array_push($testCat, "F.5");
+            }
+            if(in_array('Transplant', $comcheck)) {
+                array_push($testCat, "F.6");
             }
 
             //Auto Change Case Classification to Probable Based on Symptoms
@@ -1961,8 +2024,12 @@ class PaSwabController extends Controller
                 array_push($testCat, "C");
             }
             else {
-                array_push($testCat, "D.1");
+                if($data->isForHospitalization != 1) {
+                    array_push($testCat, "D.1");
+                }
             }
+
+            $comcheck = explode(',', $data->COMO);
 
             if($data->getAgeInt() >= 60) {
                 array_push($testCat, "B");
@@ -1970,8 +2037,25 @@ class PaSwabController extends Controller
             if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
                 array_push($testCat, "D.1");
             }
-            if($data->isPregnant == 1 || $data->isForHospitalization == 1) {
-                array_push($testCat, "F");
+            if($data->isPregnant == 1) {
+                array_push($testCat, "F.1");
+            }
+            if(in_array('Dialysis', $comcheck)) {
+                array_push($testCat, "F.2");
+            }
+            /*
+            if($rec->isForHospitalization == 1) {
+                array_push($testCat, "F.3");
+            }
+            */
+            if(in_array('Cancer', $comcheck)) {
+                array_push($testCat, "F.4");
+            }
+            if(in_array('Operation', $comcheck)) {
+                array_push($testCat, "F.5");
+            }
+            if(in_array('Transplant', $comcheck)) {
+                array_push($testCat, "F.6");
             }
 
             //Auto Change Case Classification to Probable Based on Symptoms

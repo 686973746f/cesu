@@ -1113,7 +1113,43 @@
                                                   required
                                                   {{(is_array(old('comCheck')) && in_array("Cancer", old('comCheck'))) ? 'checked' : ''}}
                                                 />
-                                                <label class="form-check-label" for="comCheck9">Cancer</label>
+                                                <label class="form-check-label" for="comCheck9">Cancer (for Chemotheraphy/Radiotheraphy)</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Dialysis"
+                                                  name="comCheck[]"
+                                                  id="comCheck11"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Dialysis", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck11">For Dialysis</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Operation"
+                                                  name="comCheck[]"
+                                                  id="comCheck12"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Operation", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck12">For Operation</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Transplant"
+                                                  name="comCheck[]"
+                                                  id="comCheck13"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Transplant", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck13">Had Organ Transplant/Bone Marrow/Stem Cell Transplant (for the Past 6 Months)</label>
                                             </div>
                                             <div class="form-check">
                                                 <input
@@ -1735,6 +1771,9 @@
                 $('#comCheck8').prop({'disabled': true, 'checked': false});
                 $('#comCheck9').prop({'disabled': true, 'checked': false});
                 $('#comCheck10').prop({'disabled': true, 'checked': false});
+                $('#comCheck11').prop({'disabled': true, 'checked': false});
+                $('#comCheck12').prop({'disabled': true, 'checked': false});
+                $('#comCheck13').prop({'disabled': true, 'checked': false});
             }
             else {
                 $('#comCheck2').prop({'disabled': false, 'checked': false});
@@ -1746,6 +1785,9 @@
                 $('#comCheck8').prop({'disabled': false, 'checked': false});
                 $('#comCheck9').prop({'disabled': false, 'checked': false});
                 $('#comCheck10').prop({'disabled': false, 'checked': false});
+                $('#comCheck11').prop({'disabled': false, 'checked': false});
+                $('#comCheck12').prop({'disabled': false, 'checked': false});
+                $('#comCheck13').prop({'disabled': false, 'checked': false});
             }
         });
 
