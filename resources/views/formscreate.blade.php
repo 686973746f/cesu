@@ -1270,7 +1270,43 @@
                                                                   required
                                                                   {{(is_array(old('comCheck')) && in_array("Cancer", old('comCheck'))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="comCheck9">Cancer</label>
+                                                                <label class="form-check-label" for="comCheck9">Cancer (for Chemotheraphy/Radiotheraphy)</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                  class="form-check-input"
+                                                                  type="checkbox"
+                                                                  value="Dialysis"
+                                                                  name="comCheck[]"
+                                                                  id="comCheck9"
+                                                                  required
+                                                                  {{(is_array(old('comCheck')) && in_array("Dialysis", old('comCheck'))) ? 'checked' : ''}}
+                                                                />
+                                                                <label class="form-check-label" for="comCheck9">For Dialysis</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                  class="form-check-input"
+                                                                  type="checkbox"
+                                                                  value="Operation"
+                                                                  name="comCheck[]"
+                                                                  id="comCheck9"
+                                                                  required
+                                                                  {{(is_array(old('comCheck')) && in_array("Operation", old('comCheck'))) ? 'checked' : ''}}
+                                                                />
+                                                                <label class="form-check-label" for="comCheck9">For Operation</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                  class="form-check-input"
+                                                                  type="checkbox"
+                                                                  value="Transplant"
+                                                                  name="comCheck[]"
+                                                                  id="comCheck9"
+                                                                  required
+                                                                  {{(is_array(old('comCheck')) && in_array("Transplant", old('comCheck'))) ? 'checked' : ''}}
+                                                                />
+                                                                <label class="form-check-label" for="comCheck9">Had Organ Transplant/Bone Marrow/Stem Cell Transplant (for the Past 6 Months)</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
