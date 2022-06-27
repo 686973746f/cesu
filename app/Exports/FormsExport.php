@@ -228,18 +228,18 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             
             $form->pType,
             $form->caseClassification,
-            /*
             (in_array("A", $arr_testingcat)) ? "YES" : "NO",
             (in_array("B", $arr_testingcat)) ? "YES" : "NO",
             (in_array("C", $arr_testingcat)) ? "YES" : "NO",
             (in_array("D.1", $arr_testingcat) || in_array("D.2", $arr_testingcat) || in_array("D.3", $arr_testingcat) || in_array("D.4", $arr_testingcat)) ? "YES" : "NO",
             (in_array("E.1", $arr_testingcat) || in_array("E.2", $arr_testingcat)) ? "YES" : "NO",
-            (in_array("F", $arr_testingcat)) ? "YES" : "NO",
+            (in_array("F.1", $arr_testingcat) || in_array("F.2", $arr_testingcat) || in_array("F.3", $arr_testingcat) || in_array("F.4", $arr_testingcat) || in_array("F.5", $arr_testingcat) || in_array("F.6", $arr_testingcat) || in_array("F.7", $arr_testingcat)) ? "YES" : "NO",
             (in_array("G", $arr_testingcat)) ? "YES" : "NO",
             (in_array("H.1", $arr_testingcat) || in_array("H.2", $arr_testingcat)) ? "YES" : "NO",
             (in_array("I", $arr_testingcat)) ? "YES" : "NO",
             (in_array("J.1", $arr_testingcat) || in_array("J.2", $arr_testingcat)) ? "YES" : "NO",
-            */
+            $form->testingCat,
+            /*
             ($first_testingcat == "A") ? "YES" : "NO",
             ($first_testingcat == "B") ? "YES" : "NO",
             ($first_testingcat == "C") ? "YES" : "NO",
@@ -251,6 +251,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($first_testingcat == "I") ? "YES" : "NO",
             ($first_testingcat == "J.1" || $first_testingcat == "J.2") ? "YES" : "NO",
             $first_testingcat,
+            */
             
             $form->records->lname,
             $form->records->fname,
