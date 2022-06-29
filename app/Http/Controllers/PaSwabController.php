@@ -283,6 +283,9 @@ class PaSwabController extends Controller
                         if($data->isForHospitalization != 1) {
                             array_push($testCat, "D.1");
                         }
+                        else {
+                            array_push($testCat, "F.7");
+                        }
                     }
 
                     $comcheck = explode(',', $data->COMO);
@@ -727,6 +730,9 @@ class PaSwabController extends Controller
                     else {
                         if($data->isForHospitalization != 1) {
                             array_push($testCat, "D.1");
+                        }
+                        else {
+                            array_push($testCat, "F.7");
                         }
                     }
 
@@ -1556,6 +1562,9 @@ class PaSwabController extends Controller
                 if($data->isForHospitalization != 1) {
                     array_push($testCat, "D.1");
                 }
+                else {
+                    array_push($testCat, "F.7");
+                }
             }
 
             $comcheck = explode(',', $data->COMO);
@@ -2026,6 +2035,9 @@ class PaSwabController extends Controller
             else {
                 if($data->isForHospitalization != 1) {
                     array_push($testCat, "D.1");
+                }
+                else {
+                    array_push($testCat, "F.7");
                 }
             }
 
