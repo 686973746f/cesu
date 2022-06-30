@@ -1158,7 +1158,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="card mb-3">
-                                                <div class="card-header">Comorbidities (Check all that apply if present)</div>
+                                                <div class="card-header">Comorbidities / Reason for Hospitalization <small><i>(Check all that apply if present)</i></small></div>
                                                 <div class="card-body">
                                                     <div class="row comoOpt">
                                                         <div class="col-md-6">

@@ -1001,11 +1001,11 @@
                             </div>
                             <hr>
                             <div class="card mb-3">
-                                <div class="card-header">Comorbidities (Check all that apply if present)</div>
+                                <div class="card-header">Comorbidities / Reason for Hospitalization <small><i>(Check all that apply if present)</i></small></div>
                                 <div class="card-body">
                                     <div class="row comoOpt">
                                         <div class="col-md-6">
-                                            <div class="form-check">
+                                            <div class="form-check" id="como_none">
                                                 <input
                                                   class="form-check-input"
                                                   type="checkbox"
@@ -1016,6 +1016,54 @@
                                                   {{(is_array(old('comCheck')) && in_array("None", old('comCheck'))) ? 'checked' : ''}}
                                                 />
                                                 <label class="form-check-label" for="comCheck1">Wala / None</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Cancer"
+                                                  name="comCheck[]"
+                                                  id="comCheck9"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Cancer", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck9">Cancer (for Chemotheraphy/Radiotheraphy)</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Dialysis"
+                                                  name="comCheck[]"
+                                                  id="comCheck11"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Dialysis", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck11">For Dialysis</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Operation"
+                                                  name="comCheck[]"
+                                                  id="comCheck12"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Operation", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck12">For Operation</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="checkbox"
+                                                  value="Transplant"
+                                                  name="comCheck[]"
+                                                  id="comCheck13"
+                                                  required
+                                                  {{(is_array(old('comCheck')) && in_array("Transplant", old('comCheck'))) ? 'checked' : ''}}
+                                                />
+                                                <label class="form-check-label" for="comCheck13">Had Organ Transplant/Bone Marrow/Stem Cell Transplant (for the Past 6 Months)</label>
                                             </div>
                                             <div class="form-check">
                                                 <input
@@ -1102,54 +1150,6 @@
                                                   {{(is_array(old('comCheck')) && in_array("Neurological Disease", old('comCheck'))) ? 'checked' : ''}}
                                                 />
                                                 <label class="form-check-label" for="comCheck8">Neurological Disease</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="Cancer"
-                                                  name="comCheck[]"
-                                                  id="comCheck9"
-                                                  required
-                                                  {{(is_array(old('comCheck')) && in_array("Cancer", old('comCheck'))) ? 'checked' : ''}}
-                                                />
-                                                <label class="form-check-label" for="comCheck9">Cancer (for Chemotheraphy/Radiotheraphy)</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="Dialysis"
-                                                  name="comCheck[]"
-                                                  id="comCheck11"
-                                                  required
-                                                  {{(is_array(old('comCheck')) && in_array("Dialysis", old('comCheck'))) ? 'checked' : ''}}
-                                                />
-                                                <label class="form-check-label" for="comCheck11">For Dialysis</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="Operation"
-                                                  name="comCheck[]"
-                                                  id="comCheck12"
-                                                  required
-                                                  {{(is_array(old('comCheck')) && in_array("Operation", old('comCheck'))) ? 'checked' : ''}}
-                                                />
-                                                <label class="form-check-label" for="comCheck12">For Operation</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input
-                                                  class="form-check-input"
-                                                  type="checkbox"
-                                                  value="Transplant"
-                                                  name="comCheck[]"
-                                                  id="comCheck13"
-                                                  required
-                                                  {{(is_array(old('comCheck')) && in_array("Transplant", old('comCheck'))) ? 'checked' : ''}}
-                                                />
-                                                <label class="form-check-label" for="comCheck13">Had Organ Transplant/Bone Marrow/Stem Cell Transplant (for the Past 6 Months)</label>
                                             </div>
                                             <div class="form-check">
                                                 <input
@@ -2025,6 +2025,17 @@
                 $('#nophilhealthbox').addClass('d-none');
                 $('#philhealth').prop('required', false);
                 $('#philhealth').val('');
+            }
+        });
+
+        $('#isForHospitalization').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == '1') {
+                $('#como_none').addClass('d-none');
+                $('#comCheck1').prop('checked', false);
+            }
+            else {
+                $('#como_none').removeClass('d-none');
             }
         });
     </script>
