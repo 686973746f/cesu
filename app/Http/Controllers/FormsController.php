@@ -1239,7 +1239,7 @@ class FormsController extends Controller
             }
 
             //Block Re-infection if di pa lagpas ng 90 Days
-            if($caseClassi == 'Confirmed') {
+            if($caseClassi == 'Confirmed' && $request->outcomeCondition != 'Died') {
                 $confirmed_search = Forms::where('status', 'approved')
                 ->where('records_id', $rec->id)
                 ->where('caseClassification', 'Confirmed')
@@ -2115,7 +2115,7 @@ class FormsController extends Controller
                 }
 
                 //Block Re-infection if di pa lagpas ng 90 Days
-                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed') {
+                if($currentClassi != 'Confirmed' && $caseClassi == 'Confirmed' && $request->outcomeCondition != 'Died') {
                     $confirmed_search = Forms::where('status', 'approved')
                     ->where('id', '!=', $id)
                     ->where('records_id', $rec->records->id)
