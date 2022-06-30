@@ -54,6 +54,9 @@
                     }
                     @endphp
                     <p><strong>Attended: <span class="{{$atext}}">{{$form->getAttendedOnSwab()}}</span></strong></p>
+                    @if($l)
+                    <p><strong>Linelist Last Attended Date:</strong> {{date('m/d/Y', strtotime($l->dateAndTimeCollected))}}</p>
+                    @endif
                     @else
                     <p>No Swab Schedule Date found.</p>
                     @endif

@@ -12,6 +12,7 @@ use App\Models\CifUploads;
 use App\Exports\FormsExport;
 use App\Imports\ExcelImport;
 use App\Models\Interviewers;
+use App\Models\LinelistSubs;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 use App\Models\ExposureHistory;
@@ -809,7 +810,9 @@ class FormsController extends Controller
                 //existing na
                 $ex_id = Forms::where('records_id', $check->id)->orderBy('created_at', 'DESC')->first();
 
-                return view('forms_existing', ['form' => $ex_id]);
+                $l = LinelistSubs::where('records_id', $check->id)->orderBy('created_at', 'DESC')->first();
+
+                return view('forms_existing', ['form' => $ex_id, 'l' => $l]);
                 /*
                 Old Redirect Method
                 return redirect()->back()
@@ -2536,7 +2539,9 @@ class FormsController extends Controller
     public function viewExistingForm($id) {
         $form = Forms::findOrFail($id);
 
-        return view('forms_existing', ['form' => $form]);
+        $l = LinelistSubs::where('records_id', $form->records->id)->orderBy('created_at', 'DESC')->first();
+
+        return view('forms_existing', ['form' => $form, 'l' => $l]);
     }
 
     public function generateMedCert(Request $request, $form_id) {
