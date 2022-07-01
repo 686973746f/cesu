@@ -37,6 +37,7 @@
                                 <th style="vertical-align: middle;">Name / ID</th>
                                 <th style="vertical-align: middle;">Age / Sex</th>
                                 <th style="vertical-align: middle;">Birthdate</th>
+                                <th style="vertical-align: middle;">House #</th>
                                 <th style="vertical-align: middle;">Street</th>
                                 <th style="vertical-align: middle;">Brgy</th>
                                 <th style="vertical-align: middle;">Case Severity</th>
@@ -60,6 +61,7 @@
                                 <td style="vertical-align: middle;"><a href="/forms/{{$item->id}}/edit">{{$item->records->getName()}} <small>(#{{$item->id}})</small></a></td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
+                                <td class="text-center" style="vertical-align: middle;"><small>{{$item->records->address_houseno}}</small></td>
                                 <td class="text-center" style="vertical-align: middle;"><small>{{$item->records->address_street}}</small></td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->records->address_brgy}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->healthStatus}}</td>
