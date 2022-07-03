@@ -53,33 +53,36 @@
             @endif
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <div class="card text-white bg-danger">
+                    <div class="card text-white bg-danger mb-3">
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold">{{number_format($activeCount)}} <small>({{round(($activeCount/$totalCasesCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Active Cases <button type="button" class="btn btn-link" data-toggle="modal" data-target="#tac_count"><i class="fa fa-info-circle text-white" aria-hidden="true"></i></button></p>
                             <hr>
+                            <p>Unvaccinated: {{number_format($activeCount - $totalActive_partialVaccinated - $totalActive_fullyVaccinated)}}</p>
                             <p>Partial Vaccinated: {{number_format($totalActive_partialVaccinated)}}</p>
                             <p class="mb-0">Fully Vaccinated: {{number_format($totalActive_fullyVaccinated)}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card text-white bg-success">
+                    <div class="card text-white bg-success mb-3">
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold">{{number_format($recoveredCount)}} <small>({{round(($recoveredCount/$totalCasesCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Recoveries</p>
                             <hr>
+                            <p>Unvaccinated: {{number_format($recoveredCount - $totalRecovered_partialVaccinated - $totalRecovered_fullyVaccinated)}}</p>
                             <p>Partial Vaccinated: {{number_format($totalRecovered_partialVaccinated)}}</p>
                             <p class="mb-0">Fully Vaccinated: {{number_format($totalRecovered_fullyVaccinated)}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card text-white bg-dark">
+                    <div class="card text-white bg-dark mb-3">
                         <div class="card-body">
                             <h4 class="card-title font-weight-bold">{{number_format($deathCount)}} <small>({{round(($deathCount/$totalCasesCount) * 100, 1)}}%)</small></h4>
                             <p class="card-text">Total Deaths</p>
                             <hr>
+                            <p>Unvaccinated: {{number_format($deathCount - $totalDeath_partialVaccinated - $totalDeath_fullyVaccinated)}}</p>
                             <p>Partial Vaccinated: {{number_format($totalDeath_partialVaccinated)}}</p>
                             <p class="mb-0">Fully Vaccinated: {{number_format($totalDeath_fullyVaccinated)}}</p>
                         </div>
