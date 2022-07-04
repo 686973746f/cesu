@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Models\Forms;
 use App\Mail\SendCTReport;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
