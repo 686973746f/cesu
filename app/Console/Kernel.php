@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('autorecoveredactivecases:daily')->dailyAt('06:00')->evenInMaintenanceMode();
         $schedule->command('dailycaseslogging:daily')->dailyAt('13:00')->evenInMaintenanceMode();
         $schedule->command('dailycaseslogging:daily')->dailyAt('16:00')->evenInMaintenanceMode();
+        $schedule->command('autoemailctreport:daily')->dailyAt('16:05')->evenInMaintenanceMode();
         $schedule->command('autoemailreport:daily')->dailyAt('16:10')->evenInMaintenanceMode();
         $schedule->command('ayudaemail:daily')->dailyAt('16:15')->evenInMaintenanceMode();
         $schedule->command('autoemailcoviddatabase:daily')->dailyAt('16:20')->evenInMaintenanceMode();
