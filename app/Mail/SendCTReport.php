@@ -28,7 +28,7 @@ class SendCTReport extends Mailable
      */
     public function build()
     {
-        return $this->view('email.coviddb')
+        return $this->view('email.ctreport')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
         ->subject('CT Report for '.date('F d, Y'))
         ->attach(public_path('CTREPORT_'.date('m_d_Y').'.xlsx'));
