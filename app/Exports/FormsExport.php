@@ -228,6 +228,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             
             $form->pType,
             $form->caseClassification,
+            /*
+            Old Subgroup, Maramihan
             (in_array("A", $arr_testingcat)) ? "YES" : "NO",
             (in_array("B", $arr_testingcat)) ? "YES" : "NO",
             (in_array("C", $arr_testingcat)) ? "YES" : "NO",
@@ -239,19 +241,18 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("I", $arr_testingcat)) ? "YES" : "NO",
             (in_array("J.1", $arr_testingcat) || in_array("J.2", $arr_testingcat)) ? "YES" : "NO",
             $form->testingCat,
-            /*
+            */
             ($first_testingcat == "A") ? "YES" : "NO",
             ($first_testingcat == "B") ? "YES" : "NO",
             ($first_testingcat == "C") ? "YES" : "NO",
             ($first_testingcat == "D.1" || $first_testingcat == "D.2" || $first_testingcat == "D.3" || $first_testingcat == "D.4") ? "YES" : "NO",
-            ($first_testingcat == "E.1" || $first_testingcat == "E.2") ? "YES" : "NO",
-            ($first_testingcat == "F") ? "YES" : "NO",
+            ($first_testingcat == "E1.1" || $first_testingcat == "E1.2" || $first_testingcat == "E1.3" || $first_testingcat == "E1.4" || $first_testingcat == "E2.1" || $first_testingcat == "E2.2" || $first_testingcat == "E2.3" || $first_testingcat == "E2.4" || $first_testingcat == "E2.5" || $first_testingcat == "E2.6" || $first_testingcat == "E2.7" || $first_testingcat == "E2.8" ) ? "YES" : "NO",
+            ($first_testingcat == "F.1" || $first_testingcat == "F.2" || $first_testingcat == "F.3" || $first_testingcat == "F.4" || $first_testingcat == "F.5" || $first_testingcat == "F.6" || $first_testingcat == "F.7") ? "YES" : "NO",
             ($first_testingcat == "G") ? "YES" : "NO",
             ($first_testingcat == "H.1" || $first_testingcat == "H.2") ? "YES" : "NO",
             ($first_testingcat == "I") ? "YES" : "NO",
-            ($first_testingcat == "J.1" || $first_testingcat == "J.2") ? "YES" : "NO",
+            ($first_testingcat == "J1.1" || $first_testingcat == "J1.2" || $first_testingcat == "J1.3" || $first_testingcat == "J1.4" || $first_testingcat == "J1.5" || $first_testingcat == "J1.6" || $first_testingcat == "J1.7" || $first_testingcat == "J1.8" || $first_testingcat == "J1.9" || $first_testingcat == "J1.10" || $first_testingcat == "J1.11" || $first_testingcat == "J.2") ? "YES" : "NO",
             $first_testingcat,
-            */
             
             $form->records->lname,
             $form->records->fname,

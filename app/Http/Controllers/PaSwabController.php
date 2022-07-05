@@ -317,6 +317,50 @@ class PaSwabController extends Controller
                         array_push($testCat, "F.6");
                     }
 
+                    if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                        array_push($testCat, "D.2");
+                    }
+                    if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+                        array_push($testCat, "I");
+                    }
+                    if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                        array_push($testCat, "E2.3");
+                    }
+        
+                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
+                        array_push($testCat, "J1.1");
+                    }
+                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
+                        array_push($testCat, "J1.1");
+                    }
+                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
+                        array_push($testCat, "J1.1");
+                    }
+                    if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+                        array_push($testCat, "J1.3");
+                    }
+                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
+                        array_push($testCat, "J1.8");
+                    }
+                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
+                        array_push($testCat, "J1.8");
+                    }
+                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
+                        array_push($testCat, "J1.2");
+                    }
+                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                        array_push($testCat, "J1.2");
+                    }
+                    if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+                        array_push($testCat, "J1.4");
+                    }
+                    if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+                        array_push($testCat, "J1.6");
+                    }
+                    if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+                        array_push($testCat, "J1.11");
+                    }
+
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
                         if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
@@ -763,6 +807,50 @@ class PaSwabController extends Controller
                     }
                     if(in_array('Transplant', $comcheck)) {
                         array_push($testCat, "F.6");
+                    }
+
+                    if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                        array_push($testCat, "D.2");
+                    }
+                    if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+                        array_push($testCat, "I");
+                    }
+                    if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                        array_push($testCat, "E2.3");
+                    }
+        
+                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
+                        array_push($testCat, "J1.1");
+                    }
+                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
+                        array_push($testCat, "J1.1");
+                    }
+                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
+                        array_push($testCat, "J1.1");
+                    }
+                    if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+                        array_push($testCat, "J1.3");
+                    }
+                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
+                        array_push($testCat, "J1.8");
+                    }
+                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
+                        array_push($testCat, "J1.8");
+                    }
+                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
+                        array_push($testCat, "J1.2");
+                    }
+                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                        array_push($testCat, "J1.2");
+                    }
+                    if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+                        array_push($testCat, "J1.4");
+                    }
+                    if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+                        array_push($testCat, "J1.6");
+                    }
+                    if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+                        array_push($testCat, "J1.11");
                     }
 
                     //Auto Change Case Classification to Probable Based on Symptoms
@@ -1596,6 +1684,50 @@ class PaSwabController extends Controller
                 array_push($testCat, "F.6");
             }
 
+            if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                array_push($testCat, "D.2");
+            }
+            if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+                array_push($testCat, "I");
+            }
+            if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                array_push($testCat, "E2.3");
+            }
+
+            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+                array_push($testCat, "J1.3");
+            }
+            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
+                array_push($testCat, "J1.8");
+            }
+            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
+                array_push($testCat, "J1.8");
+            }
+            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
+                array_push($testCat, "J1.2");
+            }
+            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                array_push($testCat, "J1.2");
+            }
+            if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+                array_push($testCat, "J1.4");
+            }
+            if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+                array_push($testCat, "J1.6");
+            }
+            if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+                array_push($testCat, "J1.11");
+            }
+
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {
                 if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
@@ -2068,6 +2200,50 @@ class PaSwabController extends Controller
             }
             if(in_array('Transplant', $comcheck)) {
                 array_push($testCat, "F.6");
+            }
+
+            if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                array_push($testCat, "D.2");
+            }
+            if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+                array_push($testCat, "I");
+            }
+            if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                array_push($testCat, "E2.3");
+            }
+
+            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+                array_push($testCat, "J1.3");
+            }
+            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
+                array_push($testCat, "J1.8");
+            }
+            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
+                array_push($testCat, "J1.8");
+            }
+            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
+                array_push($testCat, "J1.2");
+            }
+            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                array_push($testCat, "J1.2");
+            }
+            if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+                array_push($testCat, "J1.4");
+            }
+            if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+                array_push($testCat, "J1.6");
+            }
+            if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+                array_push($testCat, "J1.11");
             }
 
             //Auto Change Case Classification to Probable Based on Symptoms

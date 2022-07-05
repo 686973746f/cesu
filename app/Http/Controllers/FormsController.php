@@ -1172,8 +1172,42 @@ class FormsController extends Controller
             if(!in_array('I', $testCat) && $rec->natureOfWork == 'MANUFACTURING') {
                 array_push($testCat, "I");
             }
-            if(!in_array('E.2', $testCat) && $rec->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
-                array_push($testCat, "E.2");
+            if(!in_array('E2.3', $testCat) && $rec->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                array_push($testCat, "E2.3");
+            }
+
+            if(!in_array('J1.1', $testCat) && $rec->natureOfWork == 'TRANSPORTATION') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.1', $testCat) && $rec->natureOfWork == 'MANNING/SHIPPING AGENCY') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.1', $testCat) && $rec->natureOfWork == 'STORAGE') {
+                array_push($testCat, "J1.1");
+            }
+            if(!in_array('J1.3', $testCat) && $rec->natureOfWork == 'EDUCATION') {
+                array_push($testCat, "J1.3");
+            }
+            if(!in_array('J1.8', $testCat) && $rec->natureOfWork == 'CONSTRUCTION') {
+                array_push($testCat, "J1.8");
+            }
+            if(!in_array('J1.8', $testCat) && $rec->natureOfWork == 'ELECTRICITY') {
+                array_push($testCat, "J1.8");
+            }
+            if(!in_array('J1.2', $testCat) && $rec->natureOfWork == 'HOTEL AND RESTAURANT') {
+                array_push($testCat, "J1.2");
+            }
+            if(!in_array('J1.2', $testCat) && $rec->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                array_push($testCat, "J1.2");
+            }
+            if(!in_array('J1.4', $testCat) && $rec->natureOfWork == 'FINANCIAL') {
+                array_push($testCat, "J1.4");
+            }
+            if(!in_array('J1.6', $testCat) && $rec->natureOfWork == 'SERVICES') {
+                array_push($testCat, "J1.6");
+            }
+            if(!in_array('J1.11', $testCat) && $rec->natureOfWork == 'MASS MEDIA') {
+                array_push($testCat, "J1.11");
             }
     
             //Auto Change Case Classification based on symptoms
@@ -2019,8 +2053,42 @@ class FormsController extends Controller
                 if(!in_array('I', $testCat) && $rec->records->natureOfWork == 'MANUFACTURING') {
                     array_push($testCat, "I");
                 }
-                if(!in_array('E.2', $testCat) && $rec->records->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
-                    array_push($testCat, "E.2");
+                if(!in_array('E2.3', $testCat) && $rec->records->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                    array_push($testCat, "E2.3");
+                }
+
+                if(!in_array('J1.1', $testCat) && $rec->records->natureOfWork == 'TRANSPORTATION') {
+                    array_push($testCat, "J1.1");
+                }
+                if(!in_array('J1.1', $testCat) && $rec->records->natureOfWork == 'MANNING/SHIPPING AGENCY') {
+                    array_push($testCat, "J1.1");
+                }
+                if(!in_array('J1.1', $testCat) && $rec->records->natureOfWork == 'STORAGE') {
+                    array_push($testCat, "J1.1");
+                }
+                if(!in_array('J1.3', $testCat) && $rec->records->natureOfWork == 'EDUCATION') {
+                    array_push($testCat, "J1.3");
+                }
+                if(!in_array('J1.8', $testCat) && $rec->records->natureOfWork == 'CONSTRUCTION') {
+                    array_push($testCat, "J1.8");
+                }
+                if(!in_array('J1.8', $testCat) && $rec->records->natureOfWork == 'ELECTRICITY') {
+                    array_push($testCat, "J1.8");
+                }
+                if(!in_array('J1.2', $testCat) && $rec->records->natureOfWork == 'HOTEL AND RESTAURANT') {
+                    array_push($testCat, "J1.2");
+                }
+                if(!in_array('J1.2', $testCat) && $rec->records->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                    array_push($testCat, "J1.2");
+                }
+                if(!in_array('J1.4', $testCat) && $rec->records->natureOfWork == 'FINANCIAL') {
+                    array_push($testCat, "J1.4");
+                }
+                if(!in_array('J1.6', $testCat) && $rec->records->natureOfWork == 'SERVICES') {
+                    array_push($testCat, "J1.6");
+                }
+                if(!in_array('J1.11', $testCat) && $rec->records->natureOfWork == 'MASS MEDIA') {
+                    array_push($testCat, "J1.11");
                 }
         
                 //Auto Change Case Classification based on symptoms
