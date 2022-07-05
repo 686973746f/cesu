@@ -1391,27 +1391,6 @@
         var getCurrentPtype = $('#pType').val();
         var getCurrentExpo1 = $('#expoitem1').val();
 
-        $(function(){
-            var requiredCheckboxes = $(".symptomsList :checkbox");
-            requiredCheckboxes.change(function() {
-                if(requiredCheckboxes.is(':checked')) {
-                    $('#dateOnsetOfIllness').prop('required', true);
-                    $('#pType').val('PROBABLE');
-                    $('#expoitem1').val('1').change();
-                    $('#sexpoitem1_no').addClass('d-none');
-                    $('#sexpoitem1_unknown').addClass('d-none');
-                    $('#sexpoitem1_choose').addClass('d-none');
-                } else {
-                    $('#dateOnsetOfIllness').prop('required', false);
-                    $('#pType').val(getCurrentPtype);
-                    $('#expoitem1').val(getCurrentExpo1).change();
-                    $('#sexpoitem1_no').removeClass('d-none');
-                    $('#sexpoitem1_unknown').removeClass('d-none');
-                    $('#sexpoitem1_choose').removeClass('d-none');
-                }
-            }).trigger('change');
-        });
-
         $(document).ready(function () {
             @if($enableLockAddress != 1)
             //Patient Location Select2 Init
@@ -1764,10 +1743,20 @@
             if($(this).val() == '0' || $(this).val() == null) {
                 $('#ifHaveSymptoms').addClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', false);
+                $('#expoitem1').val(getCurrentExpo1).change();
+                $('#sexpoitem1_no').removeClass('d-none');
+                $('#sexpoitem1_unknown').removeClass('d-none');
+                $('#sexpoitem1_choose').removeClass('d-none');
+                $('#pType').val(getCurrentPtype);
             }
             else {
                 $('#ifHaveSymptoms').removeClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', true);
+                $('#expoitem1').val('1').change();
+                $('#sexpoitem1_no').addClass('d-none');
+                $('#sexpoitem1_unknown').addClass('d-none');
+                $('#sexpoitem1_choose').addClass('d-none');
+                $('#pType').val('PROBABLE');
             }
         }).trigger('change');
 
