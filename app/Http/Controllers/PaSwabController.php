@@ -280,7 +280,7 @@ class PaSwabController extends Controller
                         array_push($testCat, "C");
                     }
                     else {
-                        if($data->isForHospitalization != 1) {
+                        if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
                             array_push($testCat, "D.4");
                         }
                         else {
@@ -728,7 +728,7 @@ class PaSwabController extends Controller
                         array_push($testCat, "C");
                     }
                     else {
-                        if($data->isForHospitalization != 1) {
+                        if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
                             array_push($testCat, "D.4");
                         }
                         else {
@@ -1559,7 +1559,7 @@ class PaSwabController extends Controller
                 array_push($testCat, "C");
             }
             else {
-                if($data->isForHospitalization != 1) {
+                if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
                     array_push($testCat, "D.4");
                 }
                 else {
@@ -2033,7 +2033,7 @@ class PaSwabController extends Controller
                 array_push($testCat, "C");
             }
             else {
-                if($data->isForHospitalization != 1) {
+                if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
                     array_push($testCat, "D.4");
                 }
                 else {
