@@ -1362,6 +1362,33 @@ class FormsController extends Controller
                 $auto_outcome = $request->outcomeCondition;
                 $auto_outcome_recovered_date = $request->outcomeRecovDate;
             }
+
+            //Get Number of Previous Swab and if Nag-positive
+            $previousswab_count = Forms::where('records_id', $rec->id)
+            ->where('isPresentOnSwabDay', 1)
+            ->where(function ($q) {
+                $q->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                ->orWhereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS']);
+            })
+            ->count();
+
+            $get_previousswab_positive = Forms::where('records_id', $rec->id)
+            ->where('caseClassification', 'Confirmed')
+            ->orderBy('created_at', 'DESC')
+            ->first();
+
+            if($get_previousswab_positive) {
+                if(!is_null($get_previousswab_positive->testDateCollected2)) {
+                    $get_testedPositiveSpecCollectedDate = $get_previousswab_positive->testDateCollected2;
+                }
+                else {
+                    $get_testedPositiveSpecCollectedDate = $get_previousswab_positive->testDateCollected1;
+                }
+            }
+            else {
+                $get_testedPositiveLab = NULL;
+                $get_testedPositiveSpecCollectedDate = NULL;
+            }
     
             if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -1436,10 +1463,10 @@ class FormsController extends Controller
                     'imagingResult' => $request->imagingResult,
                     'imagingOtherFindings' => $request->imagingOtherFindings,
         
-                    'testedPositiveUsingRTPCRBefore' => $request->testedPositiveUsingRTPCRBefore,
-                    'testedPositiveNumOfSwab' => $request->testedPositiveNumOfSwab,
-                    'testedPositiveLab' => $request->testedPositiveLab,
-                    'testedPositiveSpecCollectedDate' => $request->testedPositiveSpecCollectedDate,
+                    'testedPositiveUsingRTPCRBefore' => ($get_previousswab_positive) ? 1 : 0,
+                    'testedPositiveNumOfSwab' => $previousswab_count, // Previous RT-PCR Swab Done
+                    'testedPositiveLab' => $get_testedPositiveLab,
+                    'testedPositiveSpecCollectedDate' => $get_testedPositiveSpecCollectedDate,
         
                     'testDateCollected1' => (!is_null($request->testType1)) ? $request->testDateCollected1 : NULL,
                     'oniTimeCollected1' => $oniTimeFinal,

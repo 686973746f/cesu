@@ -3260,10 +3260,14 @@
                     if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
                         $('#testDateReleased1').prop('required', true);
                         $('#ifDateReleased1').removeClass('d-none');
+
+                        $('#testLaboratory1').prop('required', true);
                     }
                     else {
                         $('#testDateReleased1').prop('required', false);
                         $('#ifDateReleased1').addClass('d-none');
+
+                        $('#testLaboratory1').prop('required', false);
                     }
                 }
 
@@ -3356,10 +3360,14 @@
                     if($(this).val() == "POSITIVE" || $(this).val() == "NEGATIVE" || $(this).val() == "EQUIVOCAL") {
                         $('#testDateReleased2').prop('required', true);
                         $('#ifDateReleased2').removeClass('d-none');
+
+                        $('#testLaboratory2').prop('required', true);
                     }
                     else {
                         $('#testDateReleased2').prop('required', false);
                         $('#ifDateReleased2').addClass('d-none');
+
+                        $('#testLaboratory2').prop('required', false);
                     }
                 }
 
