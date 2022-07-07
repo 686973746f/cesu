@@ -1465,7 +1465,7 @@ class FormsController extends Controller
                     'imagingResult' => $request->imagingResult,
                     'imagingOtherFindings' => $request->imagingOtherFindings,
         
-                    'testedPositiveUsingRTPCRBefore' => ($get_previousswab_positive) ? 1 : 0,
+                    'testedPositiveUsingRTPCRBefore' => ($get_previousswab_positive) ? '1' : '0',
                     'testedPositiveNumOfSwab' => $previousswab_count, // Previous RT-PCR Swab Done
                     'testedPositiveLab' => $get_testedPositiveLab,
                     'testedPositiveSpecCollectedDate' => $get_testedPositiveSpecCollectedDate,
