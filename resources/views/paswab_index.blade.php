@@ -469,11 +469,13 @@
                                               <option value="HOTEL AND RESTAURANT" {{(old('natureOfWork') == 'HOTEL AND RESTAURANT') ? 'selected' : ''}}>Hotel and Restaurant (E.G. Jollibee Foods Corp)</option>
                                               <option value="MANNING/SHIPPING AGENCY" {{(old('natureOfWork') == 'MANNING/SHIPPING AGENCY') ? 'selected' : ''}}>Manning/Shipping Agency (E.G. Fil Star Maritime)</option>
                                               <option value="MANUFACTURING" {{(old('natureOfWork') == 'MANUFACTURING') ? 'selected' : ''}}>Manufacturing (E.G. Nestle Phils Inc)</option>
+                                              <option value="MASS MEDIA" {{(old('natureOfWork') == 'MASS MEDIA') ? 'selected' : ''}}>Mass Media (Field Reporters, Photographers, etc.)</option>
                                               <option value="MEDICAL AND HEALTH SERVICES" {{(old('natureOfWork') == 'MEDICAL AND HEALTH SERVICES') ? 'selected' : ''}}>Medical and Health Services</option>
                                               <option value="MICROFINANCE" {{(old('natureOfWork') == 'MICROFINANCE') ? 'selected' : ''}}>Microfinance (E.G. Ahon sa Hirap Inc)</option>
                                               <option value="MINING AND QUARRYING" {{(old('natureOfWork') == 'MINING AND QUARRYING') ? 'selected' : ''}}>Mining and Quarrying (E.G. Philex Mining Corp)</option>
                                               <option value="NON PROFIT ORGANIZATIONS" {{(old('natureOfWork') == 'NON PROFIT ORGANIZATIONS') ? 'selected' : ''}}>Non Profit Organizations (E.G. Iglesia Ni Cristo)</option>
                                               <option value="REAL ESTATE" {{(old('natureOfWork') == 'REAL ESTATE') ? 'selected' : ''}}>Real Estate (E.G. Megaworld Corp)</option>
+                                              <option value="SERVICES" {{(old('natureOfWork') == 'SERVICES') ? 'selected' : ''}}>Services (Hairdressers, manicurist, embalmers, security guards, messengers, massage therapists, etc.)</option>
                                               <option value="STORAGE" {{(old('natureOfWork') == 'STORAGE') ? 'selected' : ''}}>Storage (Include Freight Forwarding E.G. Dhl)</option>
                                               <option value="TRANSPORTATION" {{(old('natureOfWork') == 'TRANSPORTATION') ? 'selected' : ''}}>Transportation (E.G. Philippine Airlines)</option>
                                               <option value="WHOLESALE AND RETAIL TRADE" {{(old('natureOfWork') == 'WHOLESALE AND RETAIL TRADE') ? 'selected' : ''}}>Wholesale and Retail Trade (E.G. Mercury Drug)</option>
@@ -791,7 +793,7 @@
                                 <div class="card">
                                     <div class="card-header">{{__('paswab.sxText')}}</div>
                                     <div class="card-body">
-                                        <div class="row">
+                                        <div class="row symptomsList">
                                             <div class="col-md-6">
                                                 <div class="form-check">
                                                     <input
@@ -898,7 +900,7 @@
                                                       id="signsCheck10"
                                                       {{(is_array(old('sasCheck')) && in_array("Dyspnea", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck10">Dyspnea</label>
+                                                    <label class="form-check-label" for="signsCheck10">Dyspnea (Shortness of Breath)</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -1224,15 +1226,15 @@
                             <div class="form-group">
                                 <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
                                 <select class="form-control" name="expoitem1" id="expoitem1" required>
-                                    <option value="" disabled {{is_null(old('expoitem1')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                    <option id="sexpoitem1_choose" value="" disabled {{is_null(old('expoitem1')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="1" {{(old('expoitem1') == '1') ? 'selected' : ''}}>Oo / Yes</option>
-                                    <option value="2" {{(old('expoitem1') == '2') ? 'selected' : ''}}>Hindi / No</option>
-                                    <option value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Hindi sigurado / Unknown</option>
+                                    <option id="sexpoitem1_no" value="2" {{(old('expoitem1') == '2') ? 'selected' : ''}}>Hindi / No</option>
+                                    <option id="sexpoitem1_unknown" value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Hindi sigurado / Unknown</option>
                                 </select>
                             </div>
                             <div id="divExpoitem1" class="d-none">
                                 <div class="form-group">
-                                    <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose / Date of Exposure</label>
+                                    <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose sa nag-positibo na Lugar o Pasyente?</label>
                                     <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                 </div>
                                 <div class="card">
@@ -1388,6 +1390,9 @@
     </div>
 
     <script>
+        var getCurrentPtype = $('#pType').val();
+        var getCurrentExpo1 = $('#expoitem1').val();
+
         $(document).ready(function () {
             @if($enableLockAddress != 1)
             //Patient Location Select2 Init
@@ -1740,10 +1745,20 @@
             if($(this).val() == '0' || $(this).val() == null) {
                 $('#ifHaveSymptoms').addClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', false);
+                $('#expoitem1').val(getCurrentExpo1).change();
+                $('#sexpoitem1_no').removeClass('d-none');
+                $('#sexpoitem1_unknown').removeClass('d-none');
+                $('#sexpoitem1_choose').removeClass('d-none');
+                $('#pType').val(getCurrentPtype);
             }
             else {
                 $('#ifHaveSymptoms').removeClass('d-none');
                 $('#dateOnsetOfIllness').prop('required', true);
+                $('#expoitem1').val('1').change();
+                $('#sexpoitem1_no').addClass('d-none');
+                $('#sexpoitem1_unknown').addClass('d-none');
+                $('#sexpoitem1_choose').addClass('d-none');
+                $('#pType').val('PROBABLE');
             }
         }).trigger('change');
 

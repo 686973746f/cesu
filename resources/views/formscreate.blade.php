@@ -961,7 +961,7 @@
                                             <div class="card">
                                                 <div class="card-header">Signs and Symptoms (Check all that apply)</div>
                                                 <div class="card-body">
-                                                    <div class="row">
+                                                    <div class="row symptomsList">
                                                         <div class="col-md-6">
                                                             <div class="form-check">
                                                                 <input
@@ -1079,7 +1079,7 @@
                                                                   id="signsCheck10"
                                                                   {{(is_array(old('sasCheck')) && in_array("Dyspnea", old('sasCheck'))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck10">Dyspnea</label>
+                                                                <label class="form-check-label" for="signsCheck10">Dyspnea (Shortness of Breath)</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1710,14 +1710,14 @@
                                     <div class="form-group">
                                       <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>History of exposure to known probable and/or confirmed COVID-19 case 14 days before the onset of signs and symptoms?  OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
                                       <select class="form-control" name="expoitem1" id="expoitem1" required>
-                                            <option value="2" {{(old('expoitem1') == 2) ? 'selected' : ''}}>No</option>
+                                            <option id="sexpoitem1_no" value="2" {{(old('expoitem1') == 2) ? 'selected' : ''}}>No</option>
                                             <option value="1" {{(old('expoitem1') == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option value="3" {{(old('expoitem1') == 3) ? 'selected' : ''}}>Unknown</option>
+                                            <option id="sexpoitem1_unknown" value="3" {{(old('expoitem1') == 3) ? 'selected' : ''}}>Unknown</option>
                                       </select>
                                     </div>
                                     <div id="divExpoitem1">
                                         <div class="form-group">
-                                          <label for=""><span class="text-danger font-weight-bold">*</span>Date of Last Contact</label>
+                                          <label for=""><span class="text-danger font-weight-bold">*</span>Date of Last Contact/Exposure to COVID-19 Positive Area or Patient</label>
                                           <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                         </div>
                                     </div>
@@ -2821,6 +2821,28 @@
                         requiredCheckboxes.attr('required', 'required');
                     }
                 }).trigger('change');;
+            });
+
+            var getCurrentPtype = $('#pType').val();
+            var getCurrentExpo1 = $('#expoitem1').val();
+
+            $(function(){
+                var requiredCheckboxes = $(".symptomsList :checkbox");
+                requiredCheckboxes.change(function() {
+                    if(requiredCheckboxes.is(':checked')) {
+                        $('#dateOnsetOfIllness').prop('required', true);
+                        $('#pType').val('PROBABLE');
+                        $('#expoitem1').val('1').change();
+                        $('#sexpoitem1_no').addClass('d-none');
+                        $('#sexpoitem1_unknown').addClass('d-none');
+                    } else {
+                        $('#dateOnsetOfIllness').prop('required', false);
+                        $('#pType').val(getCurrentPtype);
+                        $('#expoitem1').val(getCurrentExpo1).change();
+                        $('#sexpoitem1_no').removeClass('d-none');
+                        $('#sexpoitem1_unknown').removeClass('d-none');
+                    }
+                }).trigger('change');
             });
 
             $('#LSICity').prop({'disabled': true, 'required': false});
