@@ -67,14 +67,29 @@ class AutoEmailReport extends Command
         $templateProcessor->setValue('c_p', round(($data->total_active / $data->total_all_confirmed_cases) * 100, 1).'%');
         $templateProcessor->setValue('c_t', number_format($data->total_active));
 
+        $templateProcessor->setValue('vcu', number_format($data->total_active_unvaccinated));
+        $templateProcessor->setValue('vcp', number_format($data->total_active_halfvax));
+        $templateProcessor->setValue('vcf', number_format($data->total_active_fullvax));
+        $templateProcessor->setValue('vcb', number_format($data->total_active_booster));
+
         $templateProcessor->setValue('r_n', number_format($data->new_recoveries));
         $templateProcessor->setValue('r_l', number_format($data->late_recoveries));
         $templateProcessor->setValue('r_p', round(($data->total_recoveries / $data->total_all_confirmed_cases) * 100, 1).'%');
         $templateProcessor->setValue('r_t', number_format($data->total_recoveries));
 
+        $templateProcessor->setValue('vru', number_format($data->total_recoveries_unvaccinated));
+        $templateProcessor->setValue('vrp', number_format($data->total_recoveries_halfvax));
+        $templateProcessor->setValue('vrf', number_format($data->total_recoveries_fullvax));
+        $templateProcessor->setValue('vrb', number_format($data->total_recoveries_booster));
+
         $templateProcessor->setValue('d_n', number_format($data->new_deaths));
         $templateProcessor->setValue('d_p', round(($data->total_deaths / $data->total_all_confirmed_cases) * 100, 1).'%');
         $templateProcessor->setValue('d_t', number_format($data->total_deaths));
+
+        $templateProcessor->setValue('vdu', number_format($data->total_deaths_unvaccinated));
+        $templateProcessor->setValue('vdp', number_format($data->total_deaths_halfvax));
+        $templateProcessor->setValue('vdf', number_format($data->total_deaths_fullvax));
+        $templateProcessor->setValue('vdb', number_format($data->total_deaths_booster));
 
         $templateProcessor->setValue('gt_cases', number_format($data->total_all_confirmed_cases));
 
@@ -262,7 +277,7 @@ class AutoEmailReport extends Command
         $writer = new Xlsx($spreadsheet);
         $writer->save(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
 
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'glorybemendez06@gmail.com', 'cesugentri2022@yahoo.com'])->send(new CovidReportWord());
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com'])->send(new CovidReportWord());
         Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ronald888mojica@gmail.com'])->send(new DilgReportExcel());
 
         File::delete(public_path('CITY-OF-GENERAL-TRIAS-'.date('F-d-Y', strtotime('-1 Day')).'.docx'));
