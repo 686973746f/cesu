@@ -201,6 +201,137 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             }
         }
 
+        if(!is_null($form->placevisited)) {
+            $pv1a = ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? "YES" : "NO";
+            $pv1b = ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? strtoupper($form->locName1) : "N/A";
+            $pv1c = ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? strtoupper($form->locAddress1) : "N/A";
+            $pv1d = ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom1)) : "N/A";
+            $pv1e = ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo1)) : "N/A";
+            $pv1f = ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited) && $form->locWithOngoingCovid1 != "N/A") ? $form->locWithOngoingCovid1 : "N/A";
+
+            $pv2a = ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? "YES" : "NO";
+            $pv2b = ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? strtoupper($form->locName2) : "N/A";
+            $pv2c = ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? strtoupper($form->locAddress2) : "N/A";
+            $pv2d = ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom2)) : "N/A";
+            $pv2e = ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo2)) : "N/A";
+            $pv2f = ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited) && $form->locWithOngoingCovid2 != "N/A") ? $form->locWithOngoingCovid2 : "N/A";
+
+            $pv3a = ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? "YES" : "NO";
+            $pv3b = ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? strtoupper($form->locName3) : "N/A";
+            $pv3c = ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? strtoupper($form->locAddress3) : "N/A";
+            $pv3d = ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom3)) : "N/A";
+            $pv3e = ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo3)) : "N/A";
+            $pv3f = ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited) && $form->locWithOngoingCovid3 != "N/A") ? $form->locWithOngoingCovid3 : "N/A";
+
+            $pv4a = ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? "YES" : "NO";
+            $pv4b = ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? strtoupper($form->locName4) : "N/A";
+            $pv4c = ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? strtoupper($form->locAddress4) : "N/A";
+            $pv4d = ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom4)) : "N/A";
+            $pv4e = ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo4)) : "N/A";
+            $pv4f = ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited) && $form->locWithOngoingCovid4 != "N/A") ? $form->locWithOngoingCovid4 : "N/A";
+
+            $pv5a = ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? "YES" : "NO";
+            $pv5b = ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? strtoupper($form->locName5) : "N/A";
+            $pv5c = ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? strtoupper($form->locAddress5) : "N/A";
+            $pv5d = ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom5)) : "N/A";
+            $pv5e = ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo5)) : "N/A";
+            $pv5f = ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited) && $form->locWithOngoingCovid5 != "N/A") ? $form->locWithOngoingCovid5 : "N/A";
+
+            $pv6a = ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? "YES" : "NO";
+            $pv6b = ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? strtoupper($form->locName6) : "N/A";
+            $pv6c = ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? strtoupper($form->locAddress6) : "N/A";
+            $pv6d = ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom6)) : "N/A";
+            $pv6e = ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo6)) : "N/A";
+            $pv6f = ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited) && $form->locWithOngoingCovid6 != "N/A") ? $form->locWithOngoingCovid6 : "N/A";
+
+            $pv7a = ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? "YES" : "NO";
+            $pv7b = ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? strtoupper($form->locName7) : "N/A";
+            $pv7c = ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? strtoupper($form->locAddress7) : "N/A";
+            $pv7d = ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom7)) : "N/A";
+            $pv7e = ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo7)) : "N/A";
+            $pv7f = ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited) && $form->locWithOngoingCovid7 != "N/A") ? $form->locWithOngoingCovid7 : "N/A";
+
+            $pv8a = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited)) ? "YES" : "NO";
+            $pv8b = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVessel1)) ? strtoupper($form->localVessel1) : "N/A";
+            $pv8c = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVesselNo1)) ? strtoupper($form->localVesselNo1) : "N/A";
+            $pv8d = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localOrigin1)) ? strtoupper($form->localOrigin1) : "N/A";
+            $pv8e = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateDepart1)) ? date('m/d/Y', strtotime($form->localDateDeart1)) : "N/A";
+            $pv8f = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDest1)) ? strtoupper($form->localDest1) : "N/A";
+            $pv8g = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateArrive1)) ? date('m/d/Y', strtotime($form->localDateArrive1)) : "N/A";
+
+            $pv8a = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVessel2)) ? strtoupper($form->localVessel2) : "N/A";
+            $pv8b = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVesselNo2)) ? strtoupper($form->localVesselNo2) : "N/A";
+            $pv8c = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localOrigin2)) ? strtoupper($form->localOrigin2) : "N/A";
+            $pv8d = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateDepart2)) ? date('m/d/Y', strtotime($form->localDateDepart2)) : "N/A";
+            $pv8e = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDest2)) ? strtoupper($form->localDest2) : "N/A";
+            $pv8f = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateArrive2)) ? date('m/d/Y', strtotime($form->localDateArrive2)) : "N/A";
+        }
+        else {
+            $pv1a = "NO";
+            $pv1b = "";
+            $pv1c = "";
+            $pv1d = "";
+            $pv1e = "";
+            $pv1f = "";
+
+            $pv2a = "NO";
+            $pv2b = "";
+            $pv2c = "";
+            $pv2d = "";
+            $pv2e = "";
+            $pv2f = "";
+
+            $pv3a = "NO";
+            $pv3b = "";
+            $pv3c = "";
+            $pv3d = "";
+            $pv3e = "";
+            $pv3f = "";
+
+            $pv4a = "NO";
+            $pv4b = "";
+            $pv4c = "";
+            $pv4d = "";
+            $pv4e = "";
+            $pv4f = "";
+
+            $pv5a = "NO";
+            $pv5b = "";
+            $pv5c = "";
+            $pv5d = "";
+            $pv5e = "";
+            $pv5f = "";
+
+            $pv6a = "NO";
+            $pv6b = "";
+            $pv6c = "";
+            $pv6d = "";
+            $pv6e = "";
+            $pv6f = "";
+
+            $pv7a = "NO";
+            $pv7b = "";
+            $pv7c = "";
+            $pv7d = "";
+            $pv7e = "";
+            $pv7f = "";
+
+            $pv8a = "NO";
+            $pv8b = "";
+            $pv8c = "";
+            $pv8d = "";
+            $pv8e = "";
+            $pv8f = "";
+            $pv8g = "";
+
+            $pv8a = "NO";
+            $pv8b = "";
+            $pv8c = "";
+            $pv8d = "";
+            $pv8e = "";
+            $pv8f = "";
+        }   
+
         return [
             $form->drunit,
             $form->drregion." ".$form->drprovince,
@@ -457,70 +588,72 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->expoitem2 == 2) ? $form->intDateDepart : 'N/A',
             ($form->expoitem2 == 2) ? $form->intDateArrive : 'N/A',
 
-            ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? strtoupper($form->locName1) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? strtoupper($form->locAddress1) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom1)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo1)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Health Facility", $arr_placeVisited) && $form->locWithOngoingCovid1 != "N/A") ? $form->locWithOngoingCovid1 : "N/A",
+            //Travel History Starts Here
+            $pv1a,
+            $pv1b,
+            $pv1c,
+            $pv1d,
+            $pv1e,
+            $pv1f,
 
-            ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? strtoupper($form->locName2) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? strtoupper($form->locAddress2) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom2)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo2)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Closed Settings", $arr_placeVisited) && $form->locWithOngoingCovid2 != "N/A") ? $form->locWithOngoingCovid2 : "N/A",
+            $pv2a,
+            $pv2b,
+            $pv2c,
+            $pv2d,
+            $pv2e,
+            $pv2f,
 
-            ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? strtoupper($form->locName3) : "N/A",
-            ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? strtoupper($form->locAddress3) : "N/A",
-            ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom3)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo3)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("School", $arr_placeVisited) && $form->locWithOngoingCovid3 != "N/A") ? $form->locWithOngoingCovid3 : "N/A",
+            $pv3a,
+            $pv3b,
+            $pv3c,
+            $pv3d,
+            $pv3e,
+            $pv3f,
 
-            ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? strtoupper($form->locName4) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? strtoupper($form->locAddress4) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom4)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo4)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Workplace", $arr_placeVisited) && $form->locWithOngoingCovid4 != "N/A") ? $form->locWithOngoingCovid4 : "N/A",
+            $pv4a,
+            $pv4b,
+            $pv4c,
+            $pv4d,
+            $pv4e,
+            $pv4f,
 
-            ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? strtoupper($form->locName5) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? strtoupper($form->locAddress5) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom5)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo5)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Market", $arr_placeVisited) && $form->locWithOngoingCovid5 != "N/A") ? $form->locWithOngoingCovid5 : "N/A",
+            $pv5a,
+            $pv5b,
+            $pv5c,
+            $pv5d,
+            $pv5e,
+            $pv5f,
 
-            ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? strtoupper($form->locName6) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? strtoupper($form->locAddress6) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom6)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo6)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Social Gathering", $arr_placeVisited) && $form->locWithOngoingCovid6 != "N/A") ? $form->locWithOngoingCovid6 : "N/A",
+            $pv6a,
+            $pv6b,
+            $pv6c,
+            $pv6d,
+            $pv6e,
+            $pv6f,
 
-            ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? strtoupper($form->locName7) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? strtoupper($form->locAddress7) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateFrom7)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited)) ? date('m/d/Y', strtotime($form->locDateTo7)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Others", $arr_placeVisited) && $form->locWithOngoingCovid7 != "N/A") ? $form->locWithOngoingCovid7 : "N/A",
+            $pv7a,
+            $pv7b,
+            $pv7c,
+            $pv7d,
+            $pv7e,
+            $pv7f,
 
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited)) ? "YES" : "NO",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVessel1)) ? strtoupper($form->localVessel1) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVesselNo1)) ? strtoupper($form->localVesselNo1) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localOrigin1)) ? strtoupper($form->localOrigin1) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateDepart1)) ? date('m/d/Y', strtotime($form->localDateDepart1)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDest1)) ? strtoupper($form->localDest1) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateArrive1)) ? date('m/d/Y', strtotime($form->localDateArrive1)) : "N/A",
+            $pv8a,
+            $pv8b,
+            $pv8c,
+            $pv8d,
+            $pv8e,
+            $pv8f,
+            $pv8g,
 
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVessel2)) ? strtoupper($form->localVessel2) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localVesselNo2)) ? strtoupper($form->localVesselNo2) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localOrigin2)) ? strtoupper($form->localOrigin2) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateDepart2)) ? date('m/d/Y', strtotime($form->localDateDepart2)) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDest2)) ? strtoupper($form->localDest2) : "N/A",
-            ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateArrive2)) ? date('m/d/Y', strtotime($form->localDateArrive2)) : "N/A",
+            $pv8a,
+            $pv8b,
+            $pv8c,
+            $pv8d,
+            $pv8e,
+            $pv8f,
 
+            //Close Contact Names
             (!is_null($form->contact1Name)) ? mb_strtoupper($form->contact1Name) : "N/A",
             (!is_null($form->contact1No)) ? $form->contact1No : "N/A",
             (!is_null($form->contact2Name)) ? mb_strtoupper($form->contact2Name) : "N/A",
