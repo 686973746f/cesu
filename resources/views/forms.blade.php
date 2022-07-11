@@ -74,7 +74,8 @@
                                         <div class="form-group">
                                             <label for="view">Filter Type</label>
                                             <select class="form-control" name="view" id="view" required>
-                                              <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Records</option>
+                                              <option value="1" {{(request()->get('view') == '1') ? 'selected' : ''}}>Show All Pending Swab Records</option>
+                                              <option value="2" {{(request()->get('view') == '2') ? 'selected' : ''}}>Show All Positive/Negative Result Records</option>
                                             </select>
                                         </div>
                                     </div>
