@@ -536,26 +536,44 @@ class FormsController extends Controller
 
         if(auth()->user()->isCesuAccount()) {
             $data = Forms::join('records', 'records_id', '=', 'records.id')
-            ->where(function ($query) {
-                $query->where('testDateCollected1', date('Y-m-d'))
-                ->orWhere('testDateCollected2', date('Y-m-d'));
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->whereDate('testDateCollected1', date('Y-m-d'))
+                    ->where('testResult1', 'PENDING');
+                })
+                ->orWhere(function ($r) {
+                    $r->whereDate('testDateCollected2', date('Y-m-d'))
+                    ->where('testResult2', 'PENDING');
+                });
             })->orderBy('records.lname', 'ASC')->get();
         }
         else {
             if(auth()->user()->isBrgyAccount()) {
                 $data = Forms::join('records', 'records_id', '=', 'records.id')
-                ->where(function ($query) {
-                    $query->where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                ->where(function ($q) {
+                    $q->where(function ($r) {
+                        $r->whereDate('testDateCollected1', date('Y-m-d'))
+                        ->where('testResult1', 'PENDING');
+                    })
+                    ->orWhere(function ($r) {
+                        $r->whereDate('testDateCollected2', date('Y-m-d'))
+                        ->where('testResult2', 'PENDING');
+                    });
                 })->whereHas('user', function ($query) {
                     $query->where('brgy_id', auth()->user()->brgy_id);
                 })->orderBy('records.lname', 'ASC')->get();
             }
             else if(auth()->user()->isCompanyAccount()) {
                 $data = Forms::join('records', 'records_id', '=', 'records.id')
-                ->where(function ($query) {
-                    $query->where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                ->where(function ($q) {
+                    $q->where(function ($r) {
+                        $r->whereDate('testDateCollected1', date('Y-m-d'))
+                        ->where('testResult1', 'PENDING');
+                    })
+                    ->orWhere(function ($r) {
+                        $r->whereDate('testDateCollected2', date('Y-m-d'))
+                        ->where('testResult2', 'PENDING');
+                    });
                 })->whereHas('user', function ($query) {
                     $query->where('company_id', auth()->user()->company_id);
                 })->orderBy('records.lname', 'ASC')->get();
