@@ -324,7 +324,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $pv8f = "";
             $pv8g = "";
 
-            $pv8a = "NO";
+            $pv8a = "";
             $pv8b = "";
             $pv8c = "";
             $pv8d = "";
