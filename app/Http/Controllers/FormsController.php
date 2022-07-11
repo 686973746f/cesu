@@ -50,9 +50,91 @@ class FormsController extends Controller
                                 ->where('address_brgy', auth()->user()->brgy->brgyName);
                             });
                         })
-                        ->where(function ($query) {
-                            $query->whereDate('testDateCollected1', request()->input('getDate'))
-                            ->orWhereDate('testDateCollected2', request()->input('getDate'));
+                        ->where(function ($q) {
+                            $q->where(function ($r) {
+                                $r->whereDate('testDateCollected1', request()->input('getDate'))
+                                ->where('testResult1', 'PENDING');
+                            })
+                            ->orWhere(function ($r) {
+                                $r->whereDate('testDateCollected2', request()->input('getDate'))
+                                ->where('testResult2', 'PENDING');
+                            });
+                        })
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+                    }
+                    else {
+                        $forms = Forms::with('user')
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($query) {
+                                $query->where('company_id', auth()->user()->company_id);
+                            })
+                            ->orWhereHas('records', function ($query) {
+                                $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            });
+                        })
+                        ->where(function ($q) {
+                            $q->where(function ($r) {
+                                $r->whereDate('testDateCollected1', request()->input('getDate'))
+                                ->where('testResult1', 'PENDING');
+                            })
+                            ->orWhere(function ($r) {
+                                $r->whereDate('testDateCollected2', request()->input('getDate'))
+                                ->where('testResult2', 'PENDING');
+                            });
+                        })
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+                    }
+                }
+                else {
+                    /*
+                    $forms = Forms::where(function ($query) {
+                        $query->whereDate('testDateCollected1', request()->input('getDate'))
+                        ->orWhereDate('testDateCollected2', request()->input('getDate'));
+                    })
+                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                    ->orderBy('created_at', 'desc')->get();
+                    */
+                    $forms = Forms::where(function ($q) {
+                        $q->where(function ($r) {
+                            $r->whereDate('testDateCollected1', request()->input('getDate'))
+                            ->where('testResult1', 'PENDING');
+                        })
+                        ->orWhere(function ($r) {
+                            $r->whereDate('testDateCollected2', request()->input('getDate'))
+                            ->where('testResult2', 'PENDING');
+                        });
+                    })
+                    ->orderBy('created_at', 'desc')->get();
+                }
+            }
+            if(request()->input('view') == 2) { //ONLY POSITIVE AND NEGATIVE RESULTS
+                if(!is_null(auth()->user()->brgy_id) || !is_null(auth()->user()->company_id)) {
+                    if(!is_null(auth()->user()->brgy_id)) {
+                        $forms = Forms::with('user')
+                        ->where(function ($sq) {
+                            $sq->whereHas('user', function ($q) {
+                                $q->where('brgy_id', auth()->user()->brgy_id);
+                            })
+                            ->orWhereHas('records', function ($q) {
+                                $q->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
+                            })
+                            ->orWhereHas('records', function ($q) {
+                                $q->where('address_province', auth()->user()->brgy->city->province->provinceName)
+                                ->where('address_city', auth()->user()->brgy->city->cityName)
+                                ->where('address_brgy', auth()->user()->brgy->brgyName);
+                            });
+                        })
+                        ->where(function ($q) {
+                            $q->where(function ($r) {
+                                $r->whereDate('testDateCollected1', request()->input('getDate'))
+                                ->where('testResult1', '!=', 'PENDING');
+                            })
+                            ->orWhere(function ($r) {
+                                $r->whereDate('testDateCollected2', request()->input('getDate'))
+                                ->where('testResult2', '!=', 'PENDING');
+                            });
                         })
                         ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->orderBy('created_at', 'desc')
@@ -68,22 +150,33 @@ class FormsController extends Controller
                                 $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                             });
                         })
-                        ->where(function ($query) {
-                            $query->whereDate('testDateCollected1', request()->input('getDate'))
-                            ->orWhereDate('testDateCollected2', request()->input('getDate'));
+                        ->where(function ($q) {
+                            $q->where(function ($r) {
+                                $r->whereDate('testDateCollected1', request()->input('getDate'))
+                                ->where('testResult1', '!=', 'PENDING');
+                            })
+                            ->orWhere(function ($r) {
+                                $r->whereDate('testDateCollected2', request()->input('getDate'))
+                                ->where('testResult2', '!=', 'PENDING');
+                            });
                         })
-                        ->whereIn('caseClassification', ['Suspect', 'Probable'])
                         ->orderBy('created_at', 'desc')
                         ->get();
                     }
                 }
                 else {
-                    $forms = Forms::where(function ($query) {
-                        $query->whereDate('testDateCollected1', request()->input('getDate'))
-                        ->orWhereDate('testDateCollected2', request()->input('getDate'));
+                    $forms = Forms::where(function ($q) {
+                        $q->where(function ($r) {
+                            $r->whereDate('testDateCollected1', request()->input('getDate'))
+                            ->where('testResult1', '!=', 'PENDING');
+                        })
+                        ->orWhere(function ($r) {
+                            $r->whereDate('testDateCollected2', request()->input('getDate'))
+                            ->where('testResult2', '!=', 'PENDING');
+                        });
                     })
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
-                    ->orderBy('created_at', 'desc')->get();
+                    ->orderBy('created_at', 'desc')
+                    ->get();
                 }
             }
         }
@@ -104,11 +197,16 @@ class FormsController extends Controller
                             ->where('address_brgy', auth()->user()->brgy->brgyName);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('testDateCollected1', date('Y-m-d'))
-                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    ->where(function ($q) {
+                        $q->where(function ($r) {
+                            $r->whereDate('testDateCollected1', date('Y-m-d'))
+                            ->where('testResult1', '!=', 'PENDING');
+                        })
+                        ->orWhere(function ($r) {
+                            $r->whereDate('testDateCollected2', date('Y-m-d'))
+                            ->where('testResult2', '!=', 'PENDING');
+                        });
                     })
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
                 }
                 else {
@@ -121,20 +219,30 @@ class FormsController extends Controller
                             $query->where('sharedOnId', 'LIKE', '%'.auth()->user()->id);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('testDateCollected1', date('Y-m-d'))
-                        ->orWhere('testDateCollected2', date('Y-m-d'));
+                    ->where(function ($q) {
+                        $q->where(function ($r) {
+                            $r->whereDate('testDateCollected1', date('Y-m-d'))
+                            ->where('testResult1', '!=', 'PENDING');
+                        })
+                        ->orWhere(function ($r) {
+                            $r->whereDate('testDateCollected2', date('Y-m-d'))
+                            ->where('testResult2', '!=', 'PENDING');
+                        });
                     })
-                    ->whereIn('caseClassification', ['Suspect', 'Probable'])
                     ->orderBy('created_at', 'desc')->get();
                 }
             }
             else {
                 $forms = Forms::where(function ($q) {
-                    $q->where('testDateCollected1', date('Y-m-d'))
-                    ->orWhere('testDateCollected2', date('Y-m-d'));
+                    $q->where(function ($r) {
+                        $r->whereDate('testDateCollected1', date('Y-m-d'))
+                        ->where('testResult1', '!=', 'PENDING');
+                    })
+                    ->orWhere(function ($r) {
+                        $r->whereDate('testDateCollected2', date('Y-m-d'))
+                        ->where('testResult2', '!=', 'PENDING');
+                    });
                 })
-                ->whereIn('caseClassification', ['Suspect', 'Probable'])
                 ->orderBy('created_at', 'desc')->get();
             }
         }
