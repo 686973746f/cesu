@@ -200,11 +200,11 @@ class FormsController extends Controller
                     ->where(function ($q) {
                         $q->where(function ($r) {
                             $r->whereDate('testDateCollected1', date('Y-m-d'))
-                            ->where('testResult1', '!=', 'PENDING');
+                            ->where('testResult1', 'PENDING');
                         })
                         ->orWhere(function ($r) {
                             $r->whereDate('testDateCollected2', date('Y-m-d'))
-                            ->where('testResult2', '!=', 'PENDING');
+                            ->where('testResult2', 'PENDING');
                         });
                     })
                     ->orderBy('created_at', 'desc')->get();
@@ -222,11 +222,11 @@ class FormsController extends Controller
                     ->where(function ($q) {
                         $q->where(function ($r) {
                             $r->whereDate('testDateCollected1', date('Y-m-d'))
-                            ->where('testResult1', '!=', 'PENDING');
+                            ->where('testResult1', 'PENDING');
                         })
                         ->orWhere(function ($r) {
                             $r->whereDate('testDateCollected2', date('Y-m-d'))
-                            ->where('testResult2', '!=', 'PENDING');
+                            ->where('testResult2', 'PENDING');
                         });
                     })
                     ->orderBy('created_at', 'desc')->get();
@@ -236,11 +236,11 @@ class FormsController extends Controller
                 $forms = Forms::where(function ($q) {
                     $q->where(function ($r) {
                         $r->whereDate('testDateCollected1', date('Y-m-d'))
-                        ->where('testResult1', '!=', 'PENDING');
+                        ->where('testResult1', 'PENDING');
                     })
                     ->orWhere(function ($r) {
                         $r->whereDate('testDateCollected2', date('Y-m-d'))
-                        ->where('testResult2', '!=', 'PENDING');
+                        ->where('testResult2', 'PENDING');
                     });
                 })
                 ->orderBy('created_at', 'desc')->get();
