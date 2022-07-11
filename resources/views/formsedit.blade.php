@@ -508,20 +508,20 @@
                         </optgroup>
                         <optgroup label="Category E - Frontliners Indirectly Involved in Healthcare Provision">
                             <optgroup label="E1 - High Direct Exposure to COVID-19 Regardless of Location">
-                                <option value="E1.1" {{(collect(old('testingCat'))->contains("E1.1")) ? 'selected' : ''}}>E1.1 Quarantine Facilities</option>
-                                <option value="E1.2" {{(collect(old('testingCat'))->contains("E1.2")) ? 'selected' : ''}}>E1.2 COVID-19 Swabbing Center</option>
-                                <option value="E1.3" {{(collect(old('testingCat'))->contains("E1.3")) ? 'selected' : ''}}>E1.3 Contact Tracing</option>
-                                <option value="E1.4" {{(collect(old('testingCat'))->contains("E1.4")) ? 'selected' : ''}}>E1.4 Personnel Conducting Swabbing</option>
+                                <option value="E1.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E1.1")) ? 'selected' : ''}}>E1.1 Quarantine Facilities</option>
+                                <option value="E1.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E1.2")) ? 'selected' : ''}}>E1.2 COVID-19 Swabbing Center</option>
+                                <option value="E1.3" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E1.3")) ? 'selected' : ''}}>E1.3 Contact Tracing</option>
+                                <option value="E1.4" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E1.4")) ? 'selected' : ''}}>E1.4 Personnel Conducting Swabbing</option>
                             </optgroup>
                             <optgroup label="E2 - Not High or Indirect Exposure to COVID-19">
-                                <option value="E2.1" {{(collect(old('testingCat'))->contains("E2.1")) ? 'selected' : ''}}>E2.1 Quarantine Control Points (eg. AFP, BFP, etc.)</option>
-                                <option value="E2.2" {{(collect(old('testingCat'))->contains("E2.2")) ? 'selected' : ''}}>E2.2 National/regional/local risk of reduction management</option>
-                                <option value="E2.3" {{(collect(old('testingCat'))->contains("E2.3")) ? 'selected' : ''}}>E2.3 Government Employees</option>
-                                <option value="E2.4" {{(collect(old('testingCat'))->contains("E2.4")) ? 'selected' : ''}}>E2.4 BHERTs</option>
-                                <option value="E2.5" {{(collect(old('testingCat'))->contains("E2.5")) ? 'selected' : ''}}>E2.5 Bureau of Corrections & Bureau of Jail Penology and Management</option>
-                                <option value="E2.6" {{(collect(old('testingCat'))->contains("E2.6")) ? 'selected' : ''}}>E2.6 One-Stop-Shop in the Management of the Returning Overseas Filipinos</option>
-                                <option value="E2.7" {{(collect(old('testingCat'))->contains("E2.7")) ? 'selected' : ''}}>E2.7 Border Control or Patrol Officer (eg. Coast Guard)</option>
-                                <option value="E2.8" {{(collect(old('testingCat'))->contains("E2.8")) ? 'selected' : ''}}>E2.8 Social Workers</option>
+                                <option value="E2.1" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.1")) ? 'selected' : ''}}>E2.1 Quarantine Control Points (eg. AFP, BFP, etc.)</option>
+                                <option value="E2.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.2")) ? 'selected' : ''}}>E2.2 National/regional/local risk of reduction management</option>
+                                <option value="E2.3" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.3")) ? 'selected' : ''}}>E2.3 Government Employees</option>
+                                <option value="E2.4" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.4")) ? 'selected' : ''}}>E2.4 BHERTs</option>
+                                <option value="E2.5" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.5")) ? 'selected' : ''}}>E2.5 Bureau of Corrections & Bureau of Jail Penology and Management</option>
+                                <option value="E2.6" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.6")) ? 'selected' : ''}}>E2.6 One-Stop-Shop in the Management of the Returning Overseas Filipinos</option>
+                                <option value="E2.7" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.7")) ? 'selected' : ''}}>E2.7 Border Control or Patrol Officer (eg. Coast Guard)</option>
+                                <option value="E2.8" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains("E2.8")) ? 'selected' : ''}}>E2.8 Social Workers</option>
                             </optgroup>
                         </optgroup>
                         <optgroup label="Category F - Other vulnerable patients and those living in confined spaces">
