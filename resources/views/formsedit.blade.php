@@ -1266,7 +1266,7 @@
                                                                   id="signsCheck7"
                                                                   {{(in_array("Myalgia", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck7">Myalgia</label>
+                                                                <label class="form-check-label" for="signsCheck7">Myalgia/Body Pain</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1301,7 +1301,7 @@
                                                                   id="signsCheck10"
                                                                   {{(in_array("Dyspnea", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck10">Dyspnea (Shortness of Breath)</label>
+                                                                <label class="form-check-label" for="signsCheck10">Dyspnea/Shortness of Breath</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1312,7 +1312,7 @@
                                                                   id="signsCheck11"
                                                                   {{(in_array("Anorexia", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck11">Anorexia</label>
+                                                                <label class="form-check-label" for="signsCheck11">Anorexia/Eating Disorder</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1367,7 +1367,7 @@
                                                                   id="signsCheck16"
                                                                   {{(in_array("Anosmia (Loss of Smell)", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck16">Anosmia <small>(loss of smell, w/o any identified cause)</small></label>
+                                                                <label class="form-check-label" for="signsCheck16">Anosmia/Loss of Smell</small></label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1378,7 +1378,7 @@
                                                                   id="signsCheck17"
                                                                   {{(in_array("Ageusia (Loss of Taste)", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck17">Ageusia <small>(loss of taste, w/o any identified cause)</small></label>
+                                                                <label class="form-check-label" for="signsCheck17">Ageusia/Loss of Taste</small></label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
