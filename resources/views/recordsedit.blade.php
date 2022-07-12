@@ -632,7 +632,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="occupation">Occupation</label>
+                                    <label for="occupation">Occupation/Job Title</label>
                                     <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation', $record->occupation)}}" style="text-transform: uppercase;">
                                     @error('occupation')
                                         <small class="text-danger">{{$message}}</small>
@@ -686,7 +686,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="occupation_name">Name of Workplace</small></label>
+                                    <label for="occupation_name">Name of Workplace/Company</small></label>
                                     <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{$record->occupation_name}}" readonly>
                                     @error('occupation_name')
                                         <small class="text-danger">{{$message}}</small>
@@ -707,7 +707,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="occupation_province">Province</label>
+                                    <label for="occupation_province"><span class="text-danger font-weight-bold">*</span>Workplace Province</label>
                                     <input type="text" class="form-control" name="occupation_province" id="occupation_province" value="{{$record->occupation_province}}" readonly>
                                     @error('occupation_province')
                                         <small class="text-danger">{{$message}}</small>
@@ -716,7 +716,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="occupation_city">City</label>
+                                    <label for="occupation_city"><span class="text-danger font-weight-bold">*</span>Workplace City</label>
                                     <input type="text" class="form-control" name="occupation_city" id="occupation_city" value="{{$record->occupation_city}}" readonly>
                                     @error('occupation_city')
                                         <small class="text-danger">{{$message}}</small>
@@ -725,7 +725,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="occupation_brgy">Barangay</label>
+                                    <label for="occupation_brgy"><span class="text-danger font-weight-bold">*</span>Workplace Barangay</label>
                                     <input type="text" class="form-control" name="occupation_brgy" id="occupation_brgy" value="{{$record->occupation_brgy}}" readonly>
                                     @error('occupation_brgy')
                                         <small class="text-danger">{{$message}}</small>
@@ -736,7 +736,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_lotbldg">Lot/Building</label>
+                                    <label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Workplace Lot/Building</label>
                                     <input type="text" class="form-control" name="occupation_lotbldg" id="occupation_lotbldg" value="{{$record->occupation_lotbldg}}" readonly>
                                     @error('occupation_lotbldg')
                                         <small class="text-danger">{{$message}}</small>
@@ -745,7 +745,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_street">Street</label>
+                                    <label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Workplace Street</label>
                                     <input type="text" class="form-control" name="occupation_street" id="occupation_street" value="{{$record->occupation_street}}" readonly>
                                     @error('occupation_street')
                                         <small class="text-danger">{{$message}}</small>
@@ -754,7 +754,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_mobile">Phone/Mobile No.</label>
+                                    <label for="occupation_mobile">Workplace Phone/Mobile No. <small>(Optional)</small></label>
                                     <input type="text" class="form-control" name="occupation_mobile" id="occupation_mobile" value="{{$record->occupation_mobile}}" readonly>
                                     @error('occupation_mobile')
                                         <small class="text-danger">{{$message}}</small>
@@ -763,7 +763,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_email">Email</label>
+                                    <label for="occupation_email">Workplace Email <small>(Optional)</small></label>
                                     <input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{$record->occupation_email}}" readonly>
                                     @error('occupation_email')
                                         <small class="text-danger">{{$message}}</small>
@@ -791,7 +791,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation</label>
+                                    <label for="occupation"><span class="text-danger font-weight-bold">*</span>Occupation/Job Title</label>
                                     <input type="text" class="form-control" name="occupation" id="occupation" value="{{(old('hasoccupation', $record->hasOccupation) == 1) ? old('occupation', $record->occupation) : ""}}" style="text-transform: uppercase;">
                                     @error('occupation')
                                         <small class="text-danger">{{$message}}</small>
@@ -847,7 +847,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="occupation_name">Name of Workplace <small>(Optional)</small></label>
+                                    <label for="occupation_name"><span class="text-danger font-weight-bold">*</span>Name of Workplace/Company</label>
                                     <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{($record->hasOccupation == 1) ? $record->occupation_name : ""}}" style="text-transform: uppercase;">
                                     @error('occupation_name')
                                         <small class="text-danger">{{$message}}</small>
@@ -894,7 +894,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="soccupation_province">Province <small>(Optional)</small></label>
+                                    <label for="soccupation_province">Workplace Province</label>
                                     <select class="form-control" name="soccupation_province" id="soccupation_province">
                                       <option value="" selected disabled>Choose...</option>
                                     </select>
@@ -905,7 +905,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="soccupation_city">City <small>(Optional)</small></label>
+                                    <label for="soccupation_city">Workplace City</label>
                                     <select class="form-control" name="soccupation_city" id="soccupation_city">
                                       <option value="" selected disabled>Choose...</option>
                                     </select>
@@ -916,7 +916,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="occupation_brgy">Barangay <small>(Optional)</small></label>
+                                    <label for="occupation_brgy">Workplace Barangay</label>
                                     <select class="form-control" name="occupation_brgy" id="occupation_brgy">
                                       <option value="" selected disabled>Choose...</option>
                                     </select>
@@ -929,7 +929,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_lotbldg">Lot/Building <small>(Optional)</small></label>
+                                    <label for="occupation_lotbldg">Workplace Lot/Building</label>
                                     <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{($record->hasOccupation == 1) ? $record->occupation_lotbldg : ""}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('occupation_lotbldg')
                                         <small class="text-danger">{{$message}}</small>
@@ -938,7 +938,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_street">Street <small>(Optional)</small></label>
+                                    <label for="occupation_street">Workplace Street</label>
                                     <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{($record->hasOccupation == 1) ? $record->occupation_street : ""}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('occupation_street')
                                         <small class="text-danger">{{$message}}</small>
@@ -947,7 +947,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_mobile">Phone/Mobile No. <small>(Optional)</small></label>
+                                    <label for="occupation_mobile">Workplace Phone/Mobile No. <small>(Optional)</small></label>
                                     <input type="text" class="form-control" id="occupation_mobile" name="occupation_mobile" pattern="[0-9]{11}" placeholder="0917xxxxxxx" value="{{($record->hasOccupation == 1) ? $record->occupation_mobile : ""}}">
                                     @error('occupation_mobile')
                                         <small class="text-danger">{{$message}}</small>
@@ -956,7 +956,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_email">Email <small>(Optional)</small></label>
+                                    <label for="occupation_email">Workplace Email <small>(Optional)</small></label>
                                     <input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{($record->hasOccupation == 1) ? $record->occupation_email : ""}}">
                                     @error('occupation_email')
                                           <small class="text-danger">{{$message}}</small>
@@ -1345,21 +1345,19 @@
                     $('#occupation_lotbldg').prop('required', false);
                     $('#occupation_street').prop('required', false);
                     $('#worksInClosedSetting').prop('required', false);
-                    $('#natureOfWork').prop('required', false);
                 }
                 else {
                     $('#occupation_div').removeClass('d-none');
 
-                    $('#occupation_name').prop('required', false);
+                    $('#occupation_name').prop('required', true);
                     $('#natureOfWork').prop('required', true);
                     $('#occupation').prop('required', true);
-                    $('#soccupation_province').prop('required', false);
-                    $('#soccupation_city').prop('required', false);
-                    $('#occupation_brgy').prop('required', false);
-                    $('#occupation_lotbldg').prop('required', false);
-                    $('#occupation_street').prop('required', false);
+                    $('#soccupation_province').prop('required', true);
+                    $('#soccupation_city').prop('required', true);
+                    $('#occupation_brgy').prop('required', true);
+                    $('#occupation_lotbldg').prop('required', true);
+                    $('#occupation_street').prop('required', true);
                     $('#worksInClosedSetting').prop('required', true);
-                    $('#natureOfWork').prop('required', true);
                 }
             }).trigger('change');
 
