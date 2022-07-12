@@ -210,8 +210,8 @@
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical w/ Priority)</button>
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp2"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical w/ Priority & Philhealth First)</button>
                             <div class="dropdown-divider"></div>
-                            <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>VTM Sticker (ONI & LaSalle Format)</button>
-                            <button type="submit" class="dropdown-item" id="exportBtnStk2" name="submit" value="printsticker_alllasalle"><i class="fas fa-print mr-2"></i>VTM Sticker (LaSalle Format)</button>
+                            <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>VTM Sticker (ONI & LaSalle)</button>
+                            <button type="submit" class="dropdown-item" id="exportBtnStk2" name="submit" value="printsticker_alllasalle"><i class="fas fa-print mr-2"></i>VTM Sticker (LaSalle)</button>
                         </div>
                     </div>
                     @endif

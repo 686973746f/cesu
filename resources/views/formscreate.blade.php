@@ -285,7 +285,7 @@
                             <option value="B" {{(collect(old('testingCat'))->contains("B")) ? 'selected' : ''}}>B. With Mild Symptoms (Senior Citizens / Patients w. Comorbidity)</option>
                             <option value="C" {{(collect(old('testingCat'))->contains("C")) ? 'selected' : ''}}>C. With Mild Symptoms Only</option>
                             <optgroup label="Category D - No Symptoms but with Relevant History of Travel or Contact">
-                                <option value="D.1" {{(collect(old('testingCat'))->contains("D.1") || is_null(old('testingCat'))) ? 'selected' : ''}}>D.1 Contact Traced Individuals</option>
+                                <option value="D.1" {{(collect(old('testingCat'))->contains("D.1")) ? 'selected' : ''}}>D.1 Contact Traced Individuals</option>
                                 <option value="D.2" {{(collect(old('testingCat'))->contains("D.2")) ? 'selected' : ''}}>D.2 Health Care Workers</option>
                                 <option value="D.3" {{(collect(old('testingCat'))->contains("D.3")) ? 'selected' : ''}}>D.3 Returning Overseas Filipino</option>
                                 <option value="D.4" {{(collect(old('testingCat'))->contains("D.4")) ? 'selected' : ''}}>D.4 Locally Stranded Individuals (LSI)</option>

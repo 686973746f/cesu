@@ -8,10 +8,23 @@
                 @if(auth()->user()->isCesuAccount())
                 <form action="{{route('forms.soloprint.cif', ['id' => $form->id])}}" method="POST" class="mb-3">
                     @csrf
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-file-csv mr-2"></i>Export to .CSV</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-file-csv mr-2"></i>Export to .CSV</button>
                     @if($form->getLatestTestType() == 'ANTIGEN')
-                    <a href="{{route('forms.soloprint.antigen', ['id' => $form->id, 'testType' => $form->getTestNum()])}}" class="btn btn-sm btn-primary"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
+                    <a href="{{route('forms.soloprint.antigen', ['id' => $form->id, 'testType' => $form->getTestNum()])}}" class="btn btn-primary"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                     @endif
+                </form>
+                <form action="{{route('forms.options')}}" method="POST">
+                    @csrf
+                    <input type="text" class="form-control d-none" name="listToPrint[]" id="" value="{{$form->id}}">
+                    <div class="btn-group mb-3">
+                        <button type="submit" class="btn btn-primary" id="exportBtnStk2" name="submit" value="printsticker_alllasalle"><i class="fas fa-print mr-2"></i>Print VTM Sticker (LaSalle)</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="exportDropdown">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>Print VTM Sticker (ONI & LaSalle)</button>
+                        </div>
+                    </div>
                 </form>
                 @endif
                 <p><strong>Birthdate: </strong> {{date('m/d/Y', strtotime($form->records->bdate))}} •
