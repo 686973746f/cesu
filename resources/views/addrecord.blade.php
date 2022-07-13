@@ -982,6 +982,11 @@
 			theme: "bootstrap",
 		});
 		@endif
+		@if(!(auth()->user()->isCompanyAccount()))
+		$('#soccupation_province, #soccupation_city, #occupation_brgy').select2({
+			theme: "bootstrap",
+		});
+		@endif
 		$('#natureOfWork, #spermaaddress_province, #spermaaddress_city, #permaaddress_brgy').select2({
 			theme: "bootstrap",
 		});

@@ -22,7 +22,8 @@ class LinelistMasters extends Model
         'contactMobile',
         'email',
         'laSallePreparedBy',
-        'laSallePreparedByDate'
+        'laSallePreparedByDate',
+        'is_override',
     ];
 
     public function user() {

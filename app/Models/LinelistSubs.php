@@ -23,7 +23,7 @@ class LinelistSubs extends Model
     ];
 
     public function linelistmaster() {
-        return $this->belongsTo(LinelistMasters::class);
+        return $this->belongsTo(LinelistMasters::class, 'linelist_masters_id');
     }
 
     public function records() {

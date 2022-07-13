@@ -354,12 +354,30 @@ class LineListController extends Controller
         ]);
 
         for($i=0;$i<count($request->user);$i++) {
+            //Count number of Swab based on the number of linelist done to the record id
+            $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
+                $q->where('type', 2)
+                ->where('is_override', 0);
+            })
+            ->where('records_id', $request->user[$i])
+            ->count();
+            
+            if($rctr <= 0) {
+                $fcount = '1ST'; 
+            }
+            else if($rctr == 1) {
+                $fcount = '2ND'; 
+            }
+            else if($rctr >= 2) {
+                $fcount = '3RD'; 
+            }
+
             $query = LinelistSubs::create([
                 'linelist_masters_id' => $master->id,
                 'specNo' => $i+1,
                 'records_id' => $request->user[$i],
                 'dateAndTimeCollected' => $request->dateCollected[$i]." ".$request->timeCollected[$i],
-                'remarks' => $request->remarks[$i],
+                'remarks' => $fcount,
             ]);
         }
 

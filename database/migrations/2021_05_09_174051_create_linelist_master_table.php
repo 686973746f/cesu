@@ -27,6 +27,7 @@ class CreateLinelistMasterTable extends Migration
             $table->string('contactMobile');
             $table->string('laSallePreparedBy')->nullable();
             $table->dateTime('laSallePreparedByDate')->nullable();
+            $table->tinyInteger('is_override')->default(0);
         });
     }
 
