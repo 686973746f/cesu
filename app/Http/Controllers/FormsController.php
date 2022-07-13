@@ -1517,6 +1517,17 @@ class FormsController extends Controller
                 $get_testedPositiveLab = NULL;
                 $get_testedPositiveSpecCollectedDate = NULL;
             }
+
+            //Auto Change to Mild and Probable if May Symptoms
+            if(!is_null($request->sasCheck)) {
+                $hs = 'Mild';
+                if($caseClassi != 'Confirmed') {
+                    $caseClassi = 'Probable';
+                }
+            }
+            else {
+                $hs = 'Asymptomatic';
+            }
     
             if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -1556,7 +1567,7 @@ class FormsController extends Controller
                     'dispoType' => $request->dispositionType,
                     'dispoName' => $request->dispositionName,
                     'dispoDate' => $request->dispositionDate,
-                    'healthStatus' => $request->healthStatus,
+                    'healthStatus' => $hs,
                     'caseClassification' => $caseClassi,
                     'date_of_positive' => ($caseClassi == 'Confirmed') ? $set_dr : NULL,
                     'confirmedVariantName' => $request->confirmedVariantName,
@@ -2444,6 +2455,17 @@ class FormsController extends Controller
                     $form_is_disobedient = ($request->is_disobedient) ? 1 : 0;
                     $form_disobedient_remarks = ($request->is_disobedient) ? $request->disobedient_remarks : NULL;
                 }
+
+                //Auto Change to Mild and Probable if May Symptoms
+                if(!is_null($request->sasCheck)) {
+                    $hs = 'Mild';
+                    if($caseClassi != 'Confirmed') {
+                        $caseClassi = 'Probable';
+                    }
+                }
+                else {
+                    $hs = 'Asymptomatic';
+                }
                 
                 if($proceed == 1) {
                     if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
@@ -2486,7 +2508,7 @@ class FormsController extends Controller
                             'dispoType' => $request->dispositionType,
                             'dispoName' => $request->dispositionName,
                             'dispoDate' => $request->dispositionDate,
-                            'healthStatus' => $request->healthStatus,
+                            'healthStatus' => $hs,
                             'caseClassification' => $caseClassi,
                             'date_of_positive' => ($caseClassi == 'Confirmed') ? $set_dr : NULL,
                             'confirmedVariantName' => $request->confirmedVariantName,
