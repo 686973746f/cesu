@@ -356,8 +356,7 @@ class LineListController extends Controller
         for($i=0;$i<count($request->user);$i++) {
             //Count number of Swab based on the number of linelist done to the record id
             $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
-                $q->where('type', 2)
-                ->where('is_override', 0);
+                $q->where('type', 2);
             })
             ->where('records_id', $request->user[$i])
             ->count();
