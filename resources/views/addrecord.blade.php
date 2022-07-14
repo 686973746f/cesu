@@ -392,7 +392,7 @@
 								<hr>
 								<div class="form-group">
 								  <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
-								  <select class="form-control" name="haveBooster" id="haveBooster">
+								  <select class="form-control" name="haveBooster" id="haveBooster" required>
 									<option value="0" {{(old('haveBooster') == '0') ? 'selected' : ''}}>No</option>
 									<option value="1" {{(old('haveBooster') == '1') ? 'selected' : ''}}>Yes</option>
 								  </select>
@@ -819,7 +819,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="occupation_name">Name of Workplace <small>(Optional)</small></label>
+								<label for="occupation_name"><span class="text-danger font-weight-bold">*</span>Name of Workplace</label>
 								<input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
 								@error('occupation_name')
 									<small class="text-danger">{{$message}}</small>
@@ -869,42 +869,42 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="soccupation_province">Province <small>(Optional)</small></label>
+								<label for="soccupation_province"><span class="text-danger font-weight-bold">*</span>Workplace Province</label>
 								<select class="form-control" name="soccupation_province" id="soccupation_province">
 								  <option value="" selected disabled>Choose...</option>
 								</select>
-									@error('soccupation_province')
-									  <small class="text-danger">{{$message}}</small>
-								  @enderror
+								@error('soccupation_province')
+									<small class="text-danger">{{$message}}</small>
+								@enderror
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="soccupation_city">City <small>(Optional)</small></label>
+								<label for="soccupation_city"><span class="text-danger font-weight-bold">*</span>Workplace City</label>
 								<select class="form-control" name="soccupation_city" id="soccupation_city">
 								  <option value="" selected disabled>Choose...</option>
 								</select>
-								  @error('soccupation_city')
-									  <small class="text-danger">{{$message}}</small>
-								  @enderror
+								@error('soccupation_city')
+									<small class="text-danger">{{$message}}</small>
+								@enderror
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="occupation_brgy">Barangay <small>(Optional)</small></label>
+								<label for="occupation_brgy"><span class="text-danger font-weight-bold">*</span>Workplace Barangay</label>
 								<select class="form-control" name="occupation_brgy" id="occupation_brgy">
 								  <option value="" selected disabled>Choose...</option>
 								</select>
-									@error('occupation_brgy')
-									  <small class="text-danger">{{$message}}</small>
-								  @enderror
+								@error('occupation_brgy')
+									<small class="text-danger">{{$message}}</small>
+								@enderror
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="occupation_lotbldg">Lot/Building <small>(Optional)</small></label>
+								<label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Workplace Lot/Building</label>
 								<input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 								@error('occupation_lotbldg')
 									<small class="text-danger">{{$message}}</small>
@@ -913,7 +913,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="occupation_street">Street/Zone</label>
+								<label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Workplace Street/Zone</label>
 								<input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 								@error('occupation_street')
 									<small class="text-danger">{{$message}}</small>
@@ -922,7 +922,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="occupation_mobile">Phone/Mobile No. <small>(Optional)</small></label>
+								<label for="occupation_mobile">Workplace Phone/Mobile No. <small>(Optional)</small></label>
 								<input type="text" class="form-control" id="occupation_mobile" name="occupation_mobile" pattern="[0-9]{11}" placeholder="0917xxxxxxx" value="{{old('occupation_mobile')}}">
 								@error('occupation_mobile')
 									<small class="text-danger">{{$message}}</small>
@@ -931,7 +931,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="occupation_email">Email <small>(Optional)</small></label>
+								<label for="occupation_email">Workplace Email <small>(Optional)</small></label>
 								<input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{old('occupation_email')}}">
 								@error('occupation_email')
 									  <small class="text-danger">{{$message}}</small>
@@ -998,6 +998,15 @@
 		$('#soccupation_city').prop('disabled', true);
 		$('#occupation_brgy').prop('disabled', true);
 
+		var sadp_default = "{{old('address_provincejson', '0421')}}";
+		var sadc_default = "{{old('address_cityjson', '042108')}}";
+
+		var padp_default = "{{old('permaaddress_provincejson')}}";
+		var padc_default = "{{old('permaaddress_cityjson')}}";
+
+		var oadp_default = "{{old('occupation_provincejson')}}";
+		var oadc_default = "{{old('occupation_cityjson')}}";
+
 		$.getJSON("{{asset('json/refprovince.json')}}", function(data) {
 			var sorted = data.sort(function(a, b) {
 				if (a.provDesc > b.provDesc) {
@@ -1013,10 +1022,18 @@
 				$('#saddress_province').append($('<option>', {
 					value: val.provCode,
 					text: val.provDesc,
-					selected: (val.provCode == '0421') ? true : false, //default for Cavite
+					selected: (sadp_default == val.provCode) ? true : false, //default for Cavite
 				}));
-				$("#spermaaddress_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
-				$("#soccupation_province").append('<option value="'+val.provCode+'">'+val.provDesc+'</option>');
+				$('#spermaaddress_province').append($('<option>', {
+					value: val.provCode,
+					text: val.provDesc,
+					selected: (padp_default == val.provCode) ? true : false,
+				}));
+				$('#soccupation_province').append($('<option>', {
+					value: val.provCode,
+					text: val.provDesc,
+					selected: (oadp_default == val.provCode) ? true : false,
+				}));
 			});
         });
 
@@ -1046,12 +1063,16 @@
 						$('#saddress_city').append($('<option>', {
 							value: val.citymunCode,
 							text: val.citymunDesc,
-							selected: (val.citymunCode == '042108') ? true : false, //default for General Trias
+							selected: (sadc_default == val.citymunCode) ? true : false, //default for General Trias
 						})); 
 					}
 				});
 			});
 		}).trigger('change');
+
+		//for edit default values on load
+		$("#address_province").val("{{old('address_province')}}");
+        $("#address_provincejson").val("{{old('address_provincejson')}}");
 
 		$('#spermaaddress_province').change(function (e) {
 			e.preventDefault();
@@ -1076,7 +1097,11 @@
 				});
 				$.each(sorted, function(key, val) {
 					if($('#spermaaddress_province').val() == val.provCode) {
-						$("#spermaaddress_city").append('<option value="'+val.citymunCode+'">'+val.citymunDesc+'</option>');
+						$('#spermaaddress_city').append($('<option>', {
+							value: val.citymunCode,
+							text: val.citymunDesc,
+							selected: (padc_default == val.citymunCode) ? true : false,
+						}));
 					}
 				});
 			});
@@ -1107,11 +1132,31 @@
 				});
 				$.each(sorted, function(key, val) {
 					if($('#soccupation_province').val() == val.provCode) {
-						$("#soccupation_city").append('<option value="'+val.citymunCode+'">'+val.citymunDesc+'</option>');
+						$('#soccupation_city').append($('<option>', {
+							value: val.citymunCode,
+							text: val.citymunDesc,
+							selected: (oadc_default == val.citymunCode) ? true : false,
+						}));
 					}
 				});
 			});
 		});
+
+		if(padp_default.length != 0) {
+			$('#spermaaddress_province').trigger('change');
+
+			//for edit default values on load
+			$("#permaaddress_province").val("{{old('permaaddress_province')}}");
+			$("#permaaddress_provincejson").val("{{old('permaaddress_provincejson')}}");
+		}
+
+		if(oadp_default.length != 0) {
+			$('#soccupation_province').trigger('change');
+
+			//for edit default values on load
+			$("#occupation_province").val("{{old('occupation_province')}}");
+			$("#occupation_provincejson").val("{{old('occupation_provincejson')}}");
+		}
 
 		$('#saddress_city').change(function (e) {
 			e.preventDefault();
@@ -1133,17 +1178,24 @@
 				});
 				$.each(sorted, function(key, val) {
 					if($('#saddress_city').val() == val.citymunCode) {
-						$("#address_brgy").append('<option value="'+val.brgyDesc.toUpperCase()+'">'+val.brgyDesc.toUpperCase()+'</option>');
+						$('#address_brgy').append($('<option>', {
+							value: val.brgyDesc.toUpperCase(),
+							text: val.brgyDesc.toUpperCase(),
+							selected: (val.brgyDesc.toUpperCase() == "{{old('address_brgy')}}") ? true : false,
+						}));
 					}
 				});
 			});
 		}).trigger('change');
 
+		$("#address_city").val("{{old('address_city')}}");
+        $('#address_cityjson').val("{{old('address_cityjson')}}");
+		
 		//for Setting Default values on hidden address/json for Cavite - General Trias
-		$("#address_province").val('CAVITE');
-		$("#address_provincejson").val('0421');
-		$("#address_city").val('GENERAL TRIAS');
-		$('#address_cityjson').val('042108');
+		$("#address_province").val("{{old('address_province', 'CAVITE')}}");
+		$("#address_provincejson").val("{{old('address_provincejson', '0421')}}");
+		$("#address_city").val("{{old('address_city', 'GENERAL TRIAS')}}");
+		$('#address_cityjson').val("{{old('address_cityjson', '042108')}}");
 
 		$('#spermaaddress_city').change(function (e) { 
 			e.preventDefault();
@@ -1165,7 +1217,11 @@
 				});
 				$.each(sorted, function(key, val) {
 					if($('#spermaaddress_city').val() == val.citymunCode) {
-						$("#permaaddress_brgy").append('<option value="'+val.brgyDesc.toUpperCase()+'">'+val.brgyDesc.toUpperCase()+'</option>');
+						$('#permaaddress_brgy').append($('<option>', {
+							value: val.brgyDesc.toUpperCase(),
+							text: val.brgyDesc.toUpperCase(),
+							selected: (val.brgyDesc.toUpperCase() == "{{old('permaaddress_brgy')}}") ? true : false,
+						}));
 					}
 				});
 			});
@@ -1192,11 +1248,31 @@
 				});
 				$.each(sorted, function(key, val) {
 					if($('#soccupation_city').val() == val.citymunCode) {
-						$("#occupation_brgy").append('<option value="'+val.brgyDesc.toUpperCase()+'">'+val.brgyDesc.toUpperCase()+'</option>');
+						$('#occupation_brgy').append($('<option>', {
+							value: val.brgyDesc.toUpperCase(),
+							text: val.brgyDesc.toUpperCase(),
+							selected: (val.brgyDesc.toUpperCase() == "{{old('occupation_brgy')}}") ? true : false,
+						}));
 					}
 				});
 			});
 		});
+
+		if(padc_default.length != 0) {
+			$('#spermaaddress_city').trigger('change');
+
+			//for edit default values on load
+			$("#permaaddress_city").val("{{old('permaaddress_city')}}");
+			$('#permaaddress_cityjson').val("{{old('permaaddress_cityjson')}}");
+		}
+
+		if(oadc_default.length != 0) {
+			$('#soccupation_city').trigger('change');
+			
+			//for edit default values on load
+			$("#occupation_city").val("{{old('occupation_city')}}");
+			$('#occupation_cityjson').val("{{old('occupation_cityjson')}}");
+		}
 
 		$('#addresscheck').change(function() {
 			if($("input[name='paddressdifferent']:checked").val() == 0) {
@@ -1252,11 +1328,11 @@
 				$('#occupation_name').prop('required', false);
 				$('#natureOfWork').prop('required', true);
 				$('#occupation').prop('required', true);
-				$('#soccupation_province').prop('required', false);
-				$('#soccupation_city').prop('required', false);
-				$('#occupation_brgy').prop('required', false);
-				$('#occupation_lotbldg').prop('required', false);
-				$('#occupation_street').prop('required', false);
+				$('#soccupation_province').prop('required', true);
+				$('#soccupation_city').prop('required', true);
+				$('#occupation_brgy').prop('required', true);
+				$('#occupation_lotbldg').prop('required', true);
+				$('#occupation_street').prop('required', true);
 				$('#worksInClosedSetting').prop('required', true);
 				$('#natureOfWork').prop('required', true);
 			}

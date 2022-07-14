@@ -429,7 +429,7 @@
                                     <hr>
                                     <div class="form-group">
                                       <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
-                                      <select class="form-control" name="haveBooster" id="haveBooster">
+                                      <select class="form-control" name="haveBooster" id="haveBooster" required>
                                         <option value="0" {{(old('haveBooster', $haveBooster) == '0') ? 'selected' : ''}}>No</option>
                                         <option value="1" {{(old('haveBooster', $haveBooster) == '1') ? 'selected' : ''}}>Yes</option>
                                       </select>
@@ -848,7 +848,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="occupation_name"><span class="text-danger font-weight-bold">*</span>Name of Workplace/Company</label>
-                                    <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{($record->hasOccupation == 1) ? $record->occupation_name : ""}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name', $record->occupation_name)}}" style="text-transform: uppercase;">
                                     @error('occupation_name')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -869,24 +869,24 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <input type="text" class="form-control" name="occupation_province" id="occupation_province" value="{{$record->occupation_province}}">
+                                      <input type="text" class="form-control" name="occupation_province" id="occupation_province" value="{{old('occupation_province', $record->occupation_province)}}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="occupation_city" id="occupation_city" value="{{$record->occupation_city}}">
+                                        <input type="text" class="form-control" name="occupation_city" id="occupation_city" value="{{old('occupation_city', $record->occupation_city)}}">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <input type="text" class="form-control" name="occupation_provincejson" id="occupation_provincejson" value="{{$record->occupation_provincejson}}">
+                                      <input type="text" class="form-control" name="occupation_provincejson" id="occupation_provincejson" value="{{old('occupation_provincejson', $record->occupation_provincejson)}}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="occupation_cityjson" id="occupation_cityjson" value="{{$record->occupation_cityjson}}">
+                                        <input type="text" class="form-control" name="occupation_cityjson" id="occupation_cityjson" value="{{old('occupation_cityjson', $record->occupation_cityjson)}}">
                                     </div>
                                 </div>
                             </div>
@@ -894,7 +894,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="soccupation_province">Workplace Province</label>
+                                    <label for="soccupation_province"><span class="text-danger font-weight-bold">*</span>Workplace Province</label>
                                     <select class="form-control" name="soccupation_province" id="soccupation_province">
                                       <option value="" selected disabled>Choose...</option>
                                     </select>
@@ -905,7 +905,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="soccupation_city">Workplace City</label>
+                                    <label for="soccupation_city"><span class="text-danger font-weight-bold">*</span>Workplace City</label>
                                     <select class="form-control" name="soccupation_city" id="soccupation_city">
                                       <option value="" selected disabled>Choose...</option>
                                     </select>
@@ -916,7 +916,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="occupation_brgy">Workplace Barangay</label>
+                                    <label for="occupation_brgy"><span class="text-danger font-weight-bold">*</span>Workplace Barangay</label>
                                     <select class="form-control" name="occupation_brgy" id="occupation_brgy">
                                       <option value="" selected disabled>Choose...</option>
                                     </select>
@@ -929,8 +929,8 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_lotbldg">Workplace Lot/Building</label>
-                                    <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{($record->hasOccupation == 1) ? $record->occupation_lotbldg : ""}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+                                    <label for="occupation_lotbldg"><span class="text-danger font-weight-bold">*</span>Workplace Lot/Building</label>
+                                    <input type="text" class="form-control" id="occupation_lotbldg" name="occupation_lotbldg" value="{{old('occupation_lotbldg', $record->occupation_lotbldg)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('occupation_lotbldg')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -938,8 +938,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="occupation_street">Workplace Street</label>
-                                    <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{($record->hasOccupation == 1) ? $record->occupation_street : ""}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+                                    <label for="occupation_street"><span class="text-danger font-weight-bold">*</span>Workplace Street</label>
+                                    <input type="text" class="form-control" id="occupation_street" name="occupation_street" value="{{old('occupation_street', $record->occupation_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
                                     @error('occupation_street')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -948,7 +948,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="occupation_mobile">Workplace Phone/Mobile No. <small>(Optional)</small></label>
-                                    <input type="text" class="form-control" id="occupation_mobile" name="occupation_mobile" pattern="[0-9]{11}" placeholder="0917xxxxxxx" value="{{($record->hasOccupation == 1) ? $record->occupation_mobile : ""}}">
+                                    <input type="text" class="form-control" id="occupation_mobile" name="occupation_mobile" pattern="[0-9]{11}" placeholder="0917xxxxxxx" value="{{old('occupation_mobile', $record->occupation_mobile)}}">
                                     @error('occupation_mobile')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -957,7 +957,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="occupation_email">Workplace Email <small>(Optional)</small></label>
-                                    <input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{($record->hasOccupation == 1) ? $record->occupation_email : ""}}">
+                                    <input type="email" class="form-control" name="occupation_email" id="occupation_email" value="{{old('occupation_email', $record->occupation_email)}}">
                                     @error('occupation_email')
                                           <small class="text-danger">{{$message}}</small>
                                       @enderror
@@ -1034,14 +1034,14 @@
             $('#soccupation_city').prop('disabled', true);
             $('#occupation_brgy').prop('disabled', true);
 
-            var sadp_default = '{{$record->address_provincejson}}';
-            var sadc_default = '{{$record->address_cityjson}}';
+            var sadp_default = "{{old('address_provincejson', $record->address_provincejson)}}";
+            var sadc_default = "{{old('address_cityjson', $record->address_cityjson)}}";
 
-            var padp_default = '{{$record->permaaddress_provincejson}}';
-            var padc_default = '{{$record->permaaddress_cityjson}}';
+            var padp_default = "{{old('permaaddress_provincejson', $record->permaaddress_provincejson)}}";
+            var padc_default = "{{old('permaaddress_cityjson', $record->permaaddress_cityjson)}}";
 
-            var oadp_default = '{{$record->occupation_provincejson}}';
-            var oadc_default = '{{$record->occupation_cityjson}}';
+            var oadp_default = "{{old('occupation_provincejson', $record->occupation_provincejson)}}";
+            var oadc_default = "{{old('occupation_cityjson', $record->occupation_cityjson)}}";
     
             $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
                 var sorted = data.sort(function(a, b) {
@@ -1107,8 +1107,8 @@
             }).trigger('change');
 
             //for edit default values on load
-            $("#address_province").val('{{$record->address_province}}');
-            $("#address_provincejson").val('{{$record->address_provincejson}}');
+            $("#address_province").val("{{old('address_province', $record->address_province)}}");
+            $("#address_provincejson").val("{{old('address_provincejson', $record->address_provincejson)}}");
     
             $('#spermaaddress_province').change(function (e) {
                 e.preventDefault();
@@ -1182,16 +1182,16 @@
                 $('#spermaaddress_province').trigger('change');
 
                 //for edit default values on load
-                $("#permaaddress_province").val('{{$record->permaaddress_province}}');
-                $("#permaaddress_provincejson").val('{{$record->permaaddress_provincejson}}');
+                $("#permaaddress_province").val("{{old('permaaddress_province', $record->permaaddress_province)}}");
+                $("#permaaddress_provincejson").val("{{old('permaaddress_provincejson', $record->permaaddress_provincejson)}}");
             }
 
             if(oadp_default.length != 0) {
                 $('#soccupation_province').trigger('change');
 
                 //for edit default values on load
-                $("#occupation_province").val('{{$record->occupation_province}}');
-			    $("#occupation_provincejson").val('{{$record->occupation_provincejson}}');
+                $("#occupation_province").val("{{old('occupation_province', $record->occupation_province)}}");
+			    $("#occupation_provincejson").val("{{old('occupation_provincejson', $record->occupation_provincejson)}}");
             }
     
             $('#saddress_city').change(function (e) { 
@@ -1217,15 +1217,15 @@
                             $('#address_brgy').append($('<option>', {
                                 value: val.brgyDesc.toUpperCase(),
                                 text: val.brgyDesc.toUpperCase(),
-                                selected: (val.brgyDesc.toUpperCase() == '{{$record->address_brgy}}') ? true : false,
+                                selected: (val.brgyDesc.toUpperCase() == "{{old('address_brgy', $record->address_brgy)}}") ? true : false,
                             }));
                         }
                     });
                 });
             }).trigger('change');
 
-            $("#address_city").val('{{$record->address_city}}');
-            $('#address_cityjson').val('{{$record->address_cityjson}}');
+            $("#address_city").val("{{old('address_city', $record->address_city)}}");
+            $('#address_cityjson').val("{{old('address_cityjson', $record->address_cityjson)}}");
     
             $('#spermaaddress_city').change(function (e) { 
                 e.preventDefault();
@@ -1250,7 +1250,7 @@
                             $('#permaaddress_brgy').append($('<option>', {
                                 value: val.brgyDesc.toUpperCase(),
                                 text: val.brgyDesc.toUpperCase(),
-                                selected: (val.brgyDesc.toUpperCase() == '{{$record->permaaddress_brgy}}') ? true : false,
+                                selected: (val.brgyDesc.toUpperCase() == "{{old('permaaddress_brgy', $record->permaaddress_brgy)}}") ? true : false,
                             }));
                         }
                     });
@@ -1281,7 +1281,7 @@
                             $('#occupation_brgy').append($('<option>', {
                                 value: val.brgyDesc.toUpperCase(),
                                 text: val.brgyDesc.toUpperCase(),
-                                selected: (val.brgyDesc.toUpperCase() == '{{$record->occupation_brgy}}') ? true : false,
+                                selected: (val.brgyDesc.toUpperCase() == "{{old('occupation_brgy', $record->occupation_brgy)}}") ? true : false,
                             }));
                         }
                     });
@@ -1292,16 +1292,16 @@
                 $('#spermaaddress_city').trigger('change');
 
                 //for edit default values on load
-                $("#permaaddress_city").val('{{$record->permaaddress_city}}');
-			    $('#permaaddress_cityjson').val('{{$record->permaaddress_cityjson}}');
+                $("#permaaddress_city").val("{{old('permaaddress_city', $record->permaaddress_city)}}");
+			    $('#permaaddress_cityjson').val("{{old('permaaddress_cityjson', $record->permaaddress_cityjson)}}");
             }
 
             if(oadc_default.length != 0) {
                 $('#soccupation_city').trigger('change');
                 
                 //for edit default values on load
-                $("#occupation_city").val('{{$record->occupation_city}}');
-			    $('#occupation_cityjson').val('{{$record->occupation_cityjson}}');
+                $("#occupation_city").val("{{old('occupation_city', $record->occupation_city)}}");
+			    $('#occupation_cityjson').val("{{old('occupation_cityjson', $record->occupation_cityjson)}}");
             }
             
             $('#addresscheck').change(function() {
