@@ -274,91 +274,78 @@ class PaSwabController extends Controller
                         $oniTimeFinal = NULL;
                     }
 
-                    //Auto Change Testing Category/Subgroup Base on the patient data
-                    $testCat = [];
-                    if(!is_null($data->SAS)) {
-                        array_push($testCat, "C");
-                    }
-                    else {
-                        if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
-                            array_push($testCat, "D.4");
-                        }
-                        else {
-                            array_push($testCat, "F.7");
-                        }
-                    }
-
                     $comcheck = explode(',', $data->COMO);
 
-                    if($data->getAgeInt() >= 60) {
-                        array_push($testCat, "B");
-                    }
-                    if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
-                        array_push($testCat, "D.1");
-                    }
-                    if($data->isPregnant == 1) {
-                        array_push($testCat, "F.1");
-                    }
-                    if(in_array('Dialysis', $comcheck)) {
-                        array_push($testCat, "F.2");
-                    }
+                    //Auto Change Testing Category/Subgroup Base on the patient data
                     /*
                     if($rec->isForHospitalization == 1) {
                         array_push($testCat, "F.3");
                     }
                     */
-                    if(in_array('Cancer', $comcheck)) {
+
+                    $testCat = [];
+                    if(!is_null($data->SAS)) {
+                        array_push($testCat, "C");
+                    }
+                    else if($data->getAgeInt() >= 60) {
+                        array_push($testCat, "B");
+                    }
+                    else if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
+                        array_push($testCat, "D.1");
+                    }
+                    else if($data->isPregnant == 1) {
+                        array_push($testCat, "F.1");
+                    }
+                    else if(in_array('Dialysis', $comcheck)) {
+                        array_push($testCat, "F.2");
+                    }
+                    else if(in_array('Cancer', $comcheck)) {
                         array_push($testCat, "F.4");
                     }
-                    if(in_array('Operation', $comcheck)) {
+                    else if(in_array('Operation', $comcheck)) {
                         array_push($testCat, "F.5");
                     }
-                    if(in_array('Transplant', $comcheck)) {
+                    else if(in_array('Transplant', $comcheck)) {
                         array_push($testCat, "F.6");
                     }
-
-                    if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                    else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         array_push($testCat, "D.2");
                     }
-                    if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+                    else if($data->natureOfWork == 'MANUFACTURING') {
                         array_push($testCat, "I");
                     }
-                    if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                    else if($data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
                         array_push($testCat, "E2.3");
                     }
-        
-                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
-                        array_push($testCat, "J1.1");
+                    else if($data->natureOfWork == 'TRANSPORTATION' || $data->natureOfWork == 'MANNING/SHIPPING AGENCY' || $data->natureOfWork == 'STORAGE') {
+                        if(!in_array('J1.1', $testCat)) {
+                            array_push($testCat, "J1.1");
+                        }
                     }
-                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
-                        array_push($testCat, "J1.1");
-                    }
-                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
-                        array_push($testCat, "J1.1");
-                    }
-                    if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+                    else if($data->natureOfWork == 'EDUCATION') {
                         array_push($testCat, "J1.3");
                     }
-                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
-                        array_push($testCat, "J1.8");
+                    else if($data->natureOfWork == 'CONSTRUCTION' || $data->natureOfWork == 'ELECTRICITY') {
+                        if(!in_array('J1.8', $testCat)) {
+                            array_push($testCat, "J1.8");
+                        }  
                     }
-                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
-                        array_push($testCat, "J1.8");
+                    else if($data->natureOfWork == 'HOTEL AND RESTAURANT' || $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                        if(!in_array('J1.2', $testCat)) {
+                            array_push($testCat, "J1.2");
+                        }
                     }
-                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
-                        array_push($testCat, "J1.2");
-                    }
-                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
-                        array_push($testCat, "J1.2");
-                    }
-                    if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+                    else if($data->natureOfWork == 'FINANCIAL') {
                         array_push($testCat, "J1.4");
                     }
-                    if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+                    else if($data->natureOfWork == 'SERVICES') {
                         array_push($testCat, "J1.6");
                     }
-                    if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+                    else if($data->natureOfWork == 'MASS MEDIA') {
                         array_push($testCat, "J1.11");
+                    }
+                    else {
+                        array_push($testCat, "G");
                     }
 
                     //Auto Change Case Classification to Probable Based on Symptoms
@@ -766,91 +753,78 @@ class PaSwabController extends Controller
                         $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
                     }
                     
-                    //Auto Change Testing Category/Subgroup Base on the patient data
-                    $testCat = [];
-                    if(!is_null($data->SAS)) {
-                        array_push($testCat, "C");
-                    }
-                    else {
-                        if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
-                            array_push($testCat, "D.4");
-                        }
-                        else {
-                            array_push($testCat, "F.7");
-                        }
-                    }
-
                     $comcheck = explode(',', $data->COMO);
 
-                    if($data->getAgeInt() >= 60) {
-                        array_push($testCat, "B");
-                    }
-                    if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
-                        array_push($testCat, "D.1");
-                    }
-                    if($data->isPregnant == 1) {
-                        array_push($testCat, "F.1");
-                    }
-                    if(in_array('Dialysis', $comcheck)) {
-                        array_push($testCat, "F.2");
-                    }
+                    //Auto Change Testing Category/Subgroup Base on the patient data
                     /*
                     if($rec->isForHospitalization == 1) {
                         array_push($testCat, "F.3");
                     }
                     */
-                    if(in_array('Cancer', $comcheck)) {
+
+                    $testCat = [];
+                    if(!is_null($data->SAS)) {
+                        array_push($testCat, "C");
+                    }
+                    else if($data->getAgeInt() >= 60) {
+                        array_push($testCat, "B");
+                    }
+                    else if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
+                        array_push($testCat, "D.1");
+                    }
+                    else if($data->isPregnant == 1) {
+                        array_push($testCat, "F.1");
+                    }
+                    else if(in_array('Dialysis', $comcheck)) {
+                        array_push($testCat, "F.2");
+                    }
+                    else if(in_array('Cancer', $comcheck)) {
                         array_push($testCat, "F.4");
                     }
-                    if(in_array('Operation', $comcheck)) {
+                    else if(in_array('Operation', $comcheck)) {
                         array_push($testCat, "F.5");
                     }
-                    if(in_array('Transplant', $comcheck)) {
+                    else if(in_array('Transplant', $comcheck)) {
                         array_push($testCat, "F.6");
                     }
-
-                    if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                    else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         array_push($testCat, "D.2");
                     }
-                    if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+                    else if($data->natureOfWork == 'MANUFACTURING') {
                         array_push($testCat, "I");
                     }
-                    if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                    else if($data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
                         array_push($testCat, "E2.3");
                     }
-        
-                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
-                        array_push($testCat, "J1.1");
+                    else if($data->natureOfWork == 'TRANSPORTATION' || $data->natureOfWork == 'MANNING/SHIPPING AGENCY' || $data->natureOfWork == 'STORAGE') {
+                        if(!in_array('J1.1', $testCat)) {
+                            array_push($testCat, "J1.1");
+                        }
                     }
-                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
-                        array_push($testCat, "J1.1");
-                    }
-                    if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
-                        array_push($testCat, "J1.1");
-                    }
-                    if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+                    else if($data->natureOfWork == 'EDUCATION') {
                         array_push($testCat, "J1.3");
                     }
-                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
-                        array_push($testCat, "J1.8");
+                    else if($data->natureOfWork == 'CONSTRUCTION' || $data->natureOfWork == 'ELECTRICITY') {
+                        if(!in_array('J1.8', $testCat)) {
+                            array_push($testCat, "J1.8");
+                        }  
                     }
-                    if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
-                        array_push($testCat, "J1.8");
+                    else if($data->natureOfWork == 'HOTEL AND RESTAURANT' || $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                        if(!in_array('J1.2', $testCat)) {
+                            array_push($testCat, "J1.2");
+                        }
                     }
-                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
-                        array_push($testCat, "J1.2");
-                    }
-                    if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
-                        array_push($testCat, "J1.2");
-                    }
-                    if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+                    else if($data->natureOfWork == 'FINANCIAL') {
                         array_push($testCat, "J1.4");
                     }
-                    if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+                    else if($data->natureOfWork == 'SERVICES') {
                         array_push($testCat, "J1.6");
                     }
-                    if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+                    else if($data->natureOfWork == 'MASS MEDIA') {
                         array_push($testCat, "J1.11");
+                    }
+                    else {
+                        array_push($testCat, "G");
                     }
 
                     //Auto Change Case Classification to Probable Based on Symptoms
@@ -1641,91 +1615,78 @@ class PaSwabController extends Controller
                 $oniTimeFinal = NULL;
             }
 
-            //Auto Change Testing Category/Subgroup Base on the patient data
-            $testCat = [];
-            if(!is_null($data->SAS)) {
-                array_push($testCat, "C");
-            }
-            else {
-                if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
-                    array_push($testCat, "D.4");
-                }
-                else {
-                    array_push($testCat, "F.7");
-                }
-            }
-
             $comcheck = explode(',', $data->COMO);
 
-            if($data->getAgeInt() >= 60) {
-                array_push($testCat, "B");
-            }
-            if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
-                array_push($testCat, "D.1");
-            }
-            if($data->isPregnant == 1) {
-                array_push($testCat, "F.1");
-            }
-            if(in_array('Dialysis', $comcheck)) {
-                array_push($testCat, "F.2");
-            }
+            //Auto Change Testing Category/Subgroup Base on the patient data
             /*
             if($rec->isForHospitalization == 1) {
                 array_push($testCat, "F.3");
             }
             */
-            if(in_array('Cancer', $comcheck)) {
+
+            $testCat = [];
+            if(!is_null($data->SAS)) {
+                array_push($testCat, "C");
+            }
+            else if($data->getAgeInt() >= 60) {
+                array_push($testCat, "B");
+            }
+            else if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
+                array_push($testCat, "D.1");
+            }
+            else if($data->isPregnant == 1) {
+                array_push($testCat, "F.1");
+            }
+            else if(in_array('Dialysis', $comcheck)) {
+                array_push($testCat, "F.2");
+            }
+            else if(in_array('Cancer', $comcheck)) {
                 array_push($testCat, "F.4");
             }
-            if(in_array('Operation', $comcheck)) {
+            else if(in_array('Operation', $comcheck)) {
                 array_push($testCat, "F.5");
             }
-            if(in_array('Transplant', $comcheck)) {
+            else if(in_array('Transplant', $comcheck)) {
                 array_push($testCat, "F.6");
             }
-
-            if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+            else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 array_push($testCat, "D.2");
             }
-            if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+            else if($data->natureOfWork == 'MANUFACTURING') {
                 array_push($testCat, "I");
             }
-            if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+            else if($data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
                 array_push($testCat, "E2.3");
             }
-
-            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
-                array_push($testCat, "J1.1");
+            else if($data->natureOfWork == 'TRANSPORTATION' || $data->natureOfWork == 'MANNING/SHIPPING AGENCY' || $data->natureOfWork == 'STORAGE') {
+                if(!in_array('J1.1', $testCat)) {
+                    array_push($testCat, "J1.1");
+                }
             }
-            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
-                array_push($testCat, "J1.1");
-            }
-            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
-                array_push($testCat, "J1.1");
-            }
-            if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+            else if($data->natureOfWork == 'EDUCATION') {
                 array_push($testCat, "J1.3");
             }
-            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
-                array_push($testCat, "J1.8");
+            else if($data->natureOfWork == 'CONSTRUCTION' || $data->natureOfWork == 'ELECTRICITY') {
+                if(!in_array('J1.8', $testCat)) {
+                    array_push($testCat, "J1.8");
+                }  
             }
-            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
-                array_push($testCat, "J1.8");
+            else if($data->natureOfWork == 'HOTEL AND RESTAURANT' || $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                if(!in_array('J1.2', $testCat)) {
+                    array_push($testCat, "J1.2");
+                }
             }
-            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
-                array_push($testCat, "J1.2");
-            }
-            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
-                array_push($testCat, "J1.2");
-            }
-            if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+            else if($data->natureOfWork == 'FINANCIAL') {
                 array_push($testCat, "J1.4");
             }
-            if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+            else if($data->natureOfWork == 'SERVICES') {
                 array_push($testCat, "J1.6");
             }
-            if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+            else if($data->natureOfWork == 'MASS MEDIA') {
                 array_push($testCat, "J1.11");
+            }
+            else {
+                array_push($testCat, "G");
             }
 
             //Auto Change Case Classification to Probable Based on Symptoms
@@ -2159,91 +2120,78 @@ class PaSwabController extends Controller
                 $oldform = Forms::where('records_id', $rec->id)->orderBy('created_at', 'DESC')->first();
             }
 
-            //Auto Change Testing Category/Subgroup Base on the patient data
-            $testCat = [];
-            if(!is_null($data->SAS)) {
-                array_push($testCat, "C");
-            }
-            else {
-                if($data->isForHospitalization != 1 && $data->isPregnant != 1) {
-                    array_push($testCat, "D.4");
-                }
-                else {
-                    array_push($testCat, "F.7");
-                }
-            }
-
             $comcheck = explode(',', $data->COMO);
 
-            if($data->getAgeInt() >= 60) {
-                array_push($testCat, "B");
-            }
-            if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
-                array_push($testCat, "D.1");
-            }
-            if($data->isPregnant == 1) {
-                array_push($testCat, "F.1");
-            }
-            if(in_array('Dialysis', $comcheck)) {
-                array_push($testCat, "F.2");
-            }
+            //Auto Change Testing Category/Subgroup Base on the patient data
             /*
             if($rec->isForHospitalization == 1) {
                 array_push($testCat, "F.3");
             }
             */
-            if(in_array('Cancer', $comcheck)) {
+
+            $testCat = [];
+            if(!is_null($data->SAS)) {
+                array_push($testCat, "C");
+            }
+            else if($data->getAgeInt() >= 60) {
+                array_push($testCat, "B");
+            }
+            else if(!in_array("D.1", $testCat) && $data->pType == 'CLOSE CONTACT') {
+                array_push($testCat, "D.1");
+            }
+            else if($data->isPregnant == 1) {
+                array_push($testCat, "F.1");
+            }
+            else if(in_array('Dialysis', $comcheck)) {
+                array_push($testCat, "F.2");
+            }
+            else if(in_array('Cancer', $comcheck)) {
                 array_push($testCat, "F.4");
             }
-            if(in_array('Operation', $comcheck)) {
+            else if(in_array('Operation', $comcheck)) {
                 array_push($testCat, "F.5");
             }
-            if(in_array('Transplant', $comcheck)) {
+            else if(in_array('Transplant', $comcheck)) {
                 array_push($testCat, "F.6");
             }
-
-            if(!in_array('D.2', $testCat) && $data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+            else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 array_push($testCat, "D.2");
             }
-            if(!in_array('I', $testCat) && $data->natureOfWork == 'MANUFACTURING') {
+            else if($data->natureOfWork == 'MANUFACTURING') {
                 array_push($testCat, "I");
             }
-            if(!in_array('E2.3', $testCat) && $data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+            else if($data->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
                 array_push($testCat, "E2.3");
             }
-
-            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'TRANSPORTATION') {
-                array_push($testCat, "J1.1");
+            else if($data->natureOfWork == 'TRANSPORTATION' || $data->natureOfWork == 'MANNING/SHIPPING AGENCY' || $data->natureOfWork == 'STORAGE') {
+                if(!in_array('J1.1', $testCat)) {
+                    array_push($testCat, "J1.1");
+                }
             }
-            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'MANNING/SHIPPING AGENCY') {
-                array_push($testCat, "J1.1");
-            }
-            if(!in_array('J1.1', $testCat) && $data->natureOfWork == 'STORAGE') {
-                array_push($testCat, "J1.1");
-            }
-            if(!in_array('J1.3', $testCat) && $data->natureOfWork == 'EDUCATION') {
+            else if($data->natureOfWork == 'EDUCATION') {
                 array_push($testCat, "J1.3");
             }
-            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'CONSTRUCTION') {
-                array_push($testCat, "J1.8");
+            else if($data->natureOfWork == 'CONSTRUCTION' || $data->natureOfWork == 'ELECTRICITY') {
+                if(!in_array('J1.8', $testCat)) {
+                    array_push($testCat, "J1.8");
+                }  
             }
-            if(!in_array('J1.8', $testCat) && $data->natureOfWork == 'ELECTRICITY') {
-                array_push($testCat, "J1.8");
+            else if($data->natureOfWork == 'HOTEL AND RESTAURANT' || $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                if(!in_array('J1.2', $testCat)) {
+                    array_push($testCat, "J1.2");
+                }
             }
-            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'HOTEL AND RESTAURANT') {
-                array_push($testCat, "J1.2");
-            }
-            if(!in_array('J1.2', $testCat) && $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
-                array_push($testCat, "J1.2");
-            }
-            if(!in_array('J1.4', $testCat) && $data->natureOfWork == 'FINANCIAL') {
+            else if($data->natureOfWork == 'FINANCIAL') {
                 array_push($testCat, "J1.4");
             }
-            if(!in_array('J1.6', $testCat) && $data->natureOfWork == 'SERVICES') {
+            else if($data->natureOfWork == 'SERVICES') {
                 array_push($testCat, "J1.6");
             }
-            if(!in_array('J1.11', $testCat) && $data->natureOfWork == 'MASS MEDIA') {
+            else if($data->natureOfWork == 'MASS MEDIA') {
                 array_push($testCat, "J1.11");
+            }
+            else {
+                array_push($testCat, "G");
             }
 
             //Auto Change Case Classification to Probable Based on Symptoms
