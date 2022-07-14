@@ -667,6 +667,11 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->isForHospitalization == 1) ? 'YES' : 'NO',
             $form->records->id,
             date('m/d/Y', strtotime('+1 Day')),
+            ($first_testingcat == "D.1" || $first_testingcat == "D.2" || $first_testingcat == "D.3" || $first_testingcat == "D.4") ? $first_testingcat : 'D', //D
+            ($first_testingcat == "E1.1" || $first_testingcat == "E1.2" || $first_testingcat == "E1.3" || $first_testingcat == "E1.4" || $first_testingcat == "E2.1" || $first_testingcat == "E2.2" || $first_testingcat == "E2.3" || $first_testingcat == "E2.4" || $first_testingcat == "E2.5" || $first_testingcat == "E2.6" || $first_testingcat == "E2.7" || $first_testingcat == "E2.8" ) ? $first_testingcat : 'E', //E
+            ($first_testingcat == "F.1" || $first_testingcat == "F.2" || $first_testingcat == "F.3" || $first_testingcat == "F.4" || $first_testingcat == "F.5" || $first_testingcat == "F.6" || $first_testingcat == "F.7") ? $first_testingcat : 'F', //F
+            ($first_testingcat == "H.1" || $first_testingcat == "H.2") ? $first_testingcat : 'H', //H
+            ($first_testingcat == "J1.1" || $first_testingcat == "J1.2" || $first_testingcat == "J1.3" || $first_testingcat == "J1.4" || $first_testingcat == "J1.5" || $first_testingcat == "J1.6" || $first_testingcat == "J1.7" || $first_testingcat == "J1.8" || $first_testingcat == "J1.9" || $first_testingcat == "J1.10" || $first_testingcat == "J1.11" || $first_testingcat == "J.2") ? $first_testingcat : 'J', //J
         ];
     }
 
@@ -983,6 +988,11 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'for Hospitalization',
             'Patient ID',
             'MoLab Date Receipt',
+            'sg_d_specify',
+            'sg_e_specify',
+            'sg_f_specify',
+            'sg_h_specify',
+            'sg_j_specify',
         ];
     }
 }
