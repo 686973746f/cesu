@@ -1301,30 +1301,23 @@ class FormsController extends Controller
             if(!in_array('E2.3', $testCat) && $rec->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
                 array_push($testCat, "E2.3");
             }
-
-            if(!in_array('J1.1', $testCat) && $rec->natureOfWork == 'TRANSPORTATION') {
-                array_push($testCat, "J1.1");
-            }
-            if(!in_array('J1.1', $testCat) && $rec->natureOfWork == 'MANNING/SHIPPING AGENCY') {
-                array_push($testCat, "J1.1");
-            }
-            if(!in_array('J1.1', $testCat) && $rec->natureOfWork == 'STORAGE') {
-                array_push($testCat, "J1.1");
+            if($rec->natureOfWork == 'TRANSPORTATION' || $rec->natureOfWork == 'MANNING/SHIPPING AGENCY' || $rec->natureOfWork == 'STORAGE') {
+                if(!in_array('J1.1', $testCat)) {
+                    array_push($testCat, "J1.1");
+                }
             }
             if(!in_array('J1.3', $testCat) && $rec->natureOfWork == 'EDUCATION') {
                 array_push($testCat, "J1.3");
             }
-            if(!in_array('J1.8', $testCat) && $rec->natureOfWork == 'CONSTRUCTION') {
-                array_push($testCat, "J1.8");
+            if($rec->natureOfWork == 'CONSTRUCTION' || $rec->natureOfWork == 'ELECTRICITY') {
+                if(!in_array('J1.8', $testCat)) {
+                    array_push($testCat, "J1.8");
+                }
             }
-            if(!in_array('J1.8', $testCat) && $rec->natureOfWork == 'ELECTRICITY') {
-                array_push($testCat, "J1.8");
-            }
-            if(!in_array('J1.2', $testCat) && $rec->natureOfWork == 'HOTEL AND RESTAURANT') {
-                array_push($testCat, "J1.2");
-            }
-            if(!in_array('J1.2', $testCat) && $rec->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
-                array_push($testCat, "J1.2");
+            if($rec->natureOfWork == 'HOTEL AND RESTAURANT' || $rec->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                if(!in_array('J1.2', $testCat)) {
+                    array_push($testCat, "J1.2");
+                }
             }
             if(!in_array('J1.4', $testCat) && $rec->natureOfWork == 'FINANCIAL') {
                 array_push($testCat, "J1.4");
@@ -2222,30 +2215,23 @@ class FormsController extends Controller
                 if(!in_array('E2.3', $testCat) && $rec->records->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
                     array_push($testCat, "E2.3");
                 }
-
-                if(!in_array('J1.1', $testCat) && $rec->records->natureOfWork == 'TRANSPORTATION') {
-                    array_push($testCat, "J1.1");
-                }
-                if(!in_array('J1.1', $testCat) && $rec->records->natureOfWork == 'MANNING/SHIPPING AGENCY') {
-                    array_push($testCat, "J1.1");
-                }
-                if(!in_array('J1.1', $testCat) && $rec->records->natureOfWork == 'STORAGE') {
-                    array_push($testCat, "J1.1");
+                if($rec->records->natureOfWork == 'TRANSPORTATION' || $rec->records->natureOfWork == 'MANNING/SHIPPING AGENCY' || $rec->records->natureOfWork == 'STORAGE') {
+                    if(!in_array('J1.1', $testCat)) {
+                        array_push($testCat, "J1.1");
+                    }
                 }
                 if(!in_array('J1.3', $testCat) && $rec->records->natureOfWork == 'EDUCATION') {
                     array_push($testCat, "J1.3");
                 }
-                if(!in_array('J1.8', $testCat) && $rec->records->natureOfWork == 'CONSTRUCTION') {
-                    array_push($testCat, "J1.8");
+                if($rec->records->natureOfWork == 'CONSTRUCTION' || $rec->records->natureOfWork == 'ELECTRICITY') {
+                    if(!in_array('J1.8', $testCat)) {
+                        array_push($testCat, "J1.8");
+                    }
                 }
-                if(!in_array('J1.8', $testCat) && $rec->records->natureOfWork == 'ELECTRICITY') {
-                    array_push($testCat, "J1.8");
-                }
-                if(!in_array('J1.2', $testCat) && $rec->records->natureOfWork == 'HOTEL AND RESTAURANT') {
-                    array_push($testCat, "J1.2");
-                }
-                if(!in_array('J1.2', $testCat) && $rec->records->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
-                    array_push($testCat, "J1.2");
+                if($rec->records->natureOfWork == 'HOTEL AND RESTAURANT' || $rec->records->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
+                    if(!in_array('J1.2', $testCat)) {
+                        array_push($testCat, "J1.2");
+                    }
                 }
                 if(!in_array('J1.4', $testCat) && $rec->records->natureOfWork == 'FINANCIAL') {
                     array_push($testCat, "J1.4");
