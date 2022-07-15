@@ -145,7 +145,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="mobile"><span class="text-danger font-weight-bold">*</span>Cellphone No.</label>
-							<input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile', '09')}}" pattern="[0-9]{11}" placeholder="0917xxxxxxx" required>
+							<input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile', '09')}}" pattern="[0-9]{11}" placeholder="09*********" required>
 							@error('mobile')
 								<small class="text-danger">{{$message}}</small>
 							@enderror

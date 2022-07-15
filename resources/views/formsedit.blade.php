@@ -2648,16 +2648,16 @@
                                                         <div class="card-header">Contact Number</div>
                                                         <div class="card-body">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact1No" id="contact1No" value="{{old('contact1No', $records->contact1No)}}">
+                                                                <input type="text" class="form-control" name="contact1No" id="contact1No" value="{{old('contact1No', $records->contact1No)}}" pattern="[0-9]{11}" placeholder="09*********">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact2No" id="contact2No" value="{{old('contact2No', $records->contact2No)}}">
+                                                                <input type="text" class="form-control" name="contact2No" id="contact2No" value="{{old('contact2No', $records->contact2No)}}" pattern="[0-9]{11}" placeholder="09*********">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact3No" id="contact3No" value="{{old('contact3No', $records->contact3No)}}">
+                                                                <input type="text" class="form-control" name="contact3No" id="contact3No" value="{{old('contact3No', $records->contact3No)}}" pattern="[0-9]{11}" placeholder="09*********">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact4No" id="contact4No" value="{{old('contact4No', $records->contact4No)}}">
+                                                                <input type="text" class="form-control" name="contact4No" id="contact4No" value="{{old('contact4No', $records->contact4No)}}" pattern="[0-9]{11}" placeholder="09*********">
                                                             </div>
                                                         </div>
                                                     </div>
