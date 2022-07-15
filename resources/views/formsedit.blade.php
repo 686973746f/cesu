@@ -1526,9 +1526,9 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck11"
                                                                   required
-                                                                  {{(is_array(old('comCheck')) && in_array("Dialysis", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
+                                                                  {{(in_array("Dialysis", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="comCheck9">For Dialysis</label>
+                                                                <label class="form-check-label" for="comCheck11">For Dialysis</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1538,9 +1538,9 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck12"
                                                                   required
-                                                                  {{(is_array(old('comCheck')) && in_array("Operation", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
+                                                                  {{(in_array("Operation", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="comCheck9">For Operation</label>
+                                                                <label class="form-check-label" for="comCheck12">For Operation</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1550,9 +1550,9 @@
                                                                   name="comCheck[]"
                                                                   id="comCheck13"
                                                                   required
-                                                                  {{(is_array(old('comCheck')) && in_array("Transplant", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
+                                                                  {{(in_array("Transplant", old('comCheck', explode(",", $records->COMO)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="comCheck9">Had Organ Transplant/Bone Marrow/Stem Cell Transplant (for the Past 6 Months)</label>
+                                                                <label class="form-check-label" for="comCheck13">Had Organ Transplant/Bone Marrow/Stem Cell Transplant (for the Past 6 Months)</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -3654,6 +3654,10 @@
                     $('#comCheck13').prop({'disabled': false});
                 }
             });
+
+            @if(in_array("None", old('comCheck', explode(",", $records->COMO))))
+                $('#comCheck1').prop('checked', true);
+            @endif
 
             $('#imagingDone').change(function (e) { 
                 e.preventDefault();
