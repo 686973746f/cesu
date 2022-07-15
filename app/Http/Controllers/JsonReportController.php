@@ -1569,4 +1569,13 @@ class JsonReportController extends Controller
         
         return response()->json($arr);
     }
+
+    public function currentDate() {
+        $arr = collect();
+        $arr->push([
+            'currentDate' => date('m/d/Y'),
+        ]);
+
+        return response()->json($arr);
+    }
 }

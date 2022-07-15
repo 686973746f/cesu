@@ -286,7 +286,7 @@ Route::get('json/facilityCount', [JsonReportController::class, 'facilityCount'])
 Route::get('json/ageDistribution', [JsonReportController::class, 'ageDistribution']);
 Route::get('json/workDistribution', [JsonReportController::class, 'workDistribution']);
 Route::get('json/activeVaccineList', [JsonReportController::class, 'activeVaccineList']);
-
+Route::get('json/currentDate', [JsonReportController::class, 'currentDate']);
 
 //Main landing page
 Route::get('/', function () {
