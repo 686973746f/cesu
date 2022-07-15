@@ -1038,6 +1038,18 @@ class JsonReportController extends Controller
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
+            $brgyNewlyEncoded = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->where('outcomeCondition', 'Active')
+            ->where('caseClassification', 'Confirmed')
+            ->count();
+
             $brgyDeathCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($brgy) {
                 $q->where('records.address_province', 'CAVITE')
@@ -1142,6 +1154,7 @@ class JsonReportController extends Controller
                 'brgyName' => $brgy->brgyName,
                 'numOfConfirmedCases' => $brgyConfirmedCount,
                 'numOfActiveCases' => $brgyActiveCount,
+                'numOfReportedToday' => $brgyNewlyEncoded,
                 'numOfDeaths' => $brgyDeathCount,
                 'numOfRecoveries' => $brgyRecoveryCount,
                 'numOfSuspected' => $brgySuspectedCount,
