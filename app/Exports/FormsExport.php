@@ -330,7 +330,26 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $pv8d = "";
             $pv8e = "";
             $pv8f = "";
-        }   
+        }
+        
+        $ocomo = [];
+
+        //Other Comorbids
+        if(in_array("Others", $arr_como)) {
+            array_push($ocomo, $form->COMOOtherRemarks);
+        }
+
+        if(in_array("Dialysis", $arr_como)) {
+            array_push($ocomo, 'DIALYSIS');
+        }
+        if(in_array("Operation", $arr_como)) {
+            array_push($ocomo, 'OPERATION');
+        }
+        if(in_array("Transplant", $arr_como)) {
+            array_push($ocomo, 'TRANSPLANT');
+        }
+
+        $ocomo_final = implode(',', $ocomo);
 
         return [
             $form->drunit,
@@ -526,8 +545,9 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("Genito-urinary", $arr_como)) ? "YES" : "NO",
             (in_array("Neurological Disease", $arr_como)) ? "YES" : "NO",
             (in_array("Cancer", $arr_como)) ? "YES" : "NO",
-            (in_array("Others", $arr_como)) ? "YES" : "NO",
-            (in_array("Others", $arr_como)) ? strtoupper($form->COMOOtherRemarks) : "N/A",
+            (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como)) ? "YES" : "NO",
+            (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como)) ? $ocomo_final : "N/A",
+
             ($form->records->isPregnant == 1) ? "YES" : "NO",
             ($form->records->isPregnant == 1) ? date('m/d/Y', strtotime($form->PregnantLMP)) : "N/A",
             ($form->PregnantHighRisk == 1) ? "YES" : "NO",
