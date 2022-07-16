@@ -235,7 +235,6 @@ class ContactTracingController extends Controller
         })
         ->where('status', 'approved')
         ->where('pType', 'CLOSE CONTACT')
-        ->where('caseClassification', 'Confirmed')
         ->where('outcomeCondition', 'Active')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
         ->whereDate('dateReported', date('Y-m-d'))
