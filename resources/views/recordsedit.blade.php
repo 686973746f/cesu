@@ -1409,7 +1409,7 @@
                     $('#haveAdverseEvents2').prop('required', false);
 
                     $('#booster_question').removeClass('d-none');
-                    $('#haveBooster').val("{{$haveBooster}}");
+                    $('#haveBooster').val("{{old('haveBooster', $haveBooster)}}");
                     $('#haveBooster').trigger('change');
                 }
                 else if($(this).val() == '2') {
@@ -1425,7 +1425,7 @@
                     $('#haveAdverseEvents2').prop('required', true);
                     
                     $('#booster_question').removeClass('d-none');
-                    $('#haveBooster').val("{{$haveBooster}}");
+                    $('#haveBooster').val("{{old('haveBooster', $haveBooster)}}");
                     $('#haveBooster').trigger('change');
                 }
             }).trigger('change');
