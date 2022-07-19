@@ -30,6 +30,22 @@ class ReportController extends Controller
                 ->where('records.address_city', 'GENERAL TRIAS');
             })
             ->where('status', 'approved');
+
+            $activeCount_male = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.gender', 'MALE');
+            })
+            ->where('status', 'approved');
+
+            $activeCount_female = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.gender', 'FEMALE');
+            })
+            ->where('status', 'approved');
             
             $totalActive_partialVaccinated = Forms::with('records')
             ->whereHas('records', function ($q) {
@@ -65,6 +81,22 @@ class ReportController extends Controller
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved');
+
+            $recoveredCount_male = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.gender', 'MALE');
+            })
+            ->where('status', 'approved');
+
+            $recoveredCount_female = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.gender', 'FEMALE');
             })
             ->where('status', 'approved');
 
@@ -115,6 +147,22 @@ class ReportController extends Controller
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved');
+
+            $deathCount_male = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.gender', 'MALE');
+            })
+            ->where('status', 'approved');
+
+            $deathCount_female = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.gender', 'FEMALE');
             })
             ->where('status', 'approved');
 
@@ -420,6 +468,14 @@ class ReportController extends Controller
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
 
+                $activeCount_male = $activeCount_male->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+                
+                $activeCount_female = $activeCount_female->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
                 $totalActive_partialVaccinated = $totalActive_partialVaccinated->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
@@ -435,6 +491,10 @@ class ReportController extends Controller
                 //Recovered Count is Equals to Zero kasi lahat ay nakalagay sa Active when Filtering via Date
                 $recoveredCount = 0;
 
+                $recoveredCount_male = 0;
+                
+                $recoveredCount_female = 0;
+
                 $totalRecovered_partialVaccinated = 0;
 
                 $totalRecovered_fullyVaccinated = 0;
@@ -442,6 +502,14 @@ class ReportController extends Controller
                 $totalRecovered_fullyVaccinated_janssen = 0;
 
                 $deathCount = $deathCount->where('outcomeCondition', 'Died')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
+                $deathCount_male = $deathCount_male->where('outcomeCondition', 'Died')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
+                $deathCount_female = $deathCount_female->where('outcomeCondition', 'Died')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
 
@@ -542,6 +610,16 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
+                $activeCount_male = $activeCount_male->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $activeCount_female = $activeCount_female->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
                 $totalActive_partialVaccinated = $totalActive_partialVaccinated->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
@@ -561,6 +639,14 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
+                $recoveredCount_male = $recoveredCount_male->where('outcomeCondition', 'Recovered')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $recoveredCount_female = $recoveredCount_female->where('outcomeCondition', 'Recovered')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
                 $totalRecovered_partialVaccinated = $totalRecovered_partialVaccinated->where('outcomeCondition', 'Recovered')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
@@ -574,6 +660,14 @@ class ReportController extends Controller
                 ->count();
 
                 $deathCount = $deathCount->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $deathCount_male = $deathCount_male->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $deathCount_female = $deathCount_female->where('outcomeCondition', 'Died')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -1034,6 +1128,32 @@ class ReportController extends Controller
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
+                $activeCount_male = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName)
+                    ->where('records.gender', 'MALE');
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $activeCount_female = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName)
+                    ->where('records.gender', 'FEMALE');
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
                 $totalActive_partialVaccinated = Forms::with('records')
                 ->whereHas('records', function ($q) {
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
@@ -1086,6 +1206,30 @@ class ReportController extends Controller
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
                     ->where('records.address_city', auth()->user()->brgy->city->cityName)
                     ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $recoveredCount_male = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName)
+                    ->where('records.gender', 'MALE');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Recovered')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $recoveredCount_female = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName)
+                    ->where('records.gender', 'FEMALE');
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Recovered')
@@ -1154,6 +1298,30 @@ class ReportController extends Controller
                     $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
                     ->where('records.address_city', auth()->user()->brgy->city->cityName)
                     ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $deathCount_male = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName)
+                    ->where('records.gender', 'MALE');
+                })
+                ->where('status', 'approved')
+                ->where('outcomeCondition', 'Died')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $deathCount_female = Forms::with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                    ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                    ->where('records.address_brgy', auth()->user()->brgy->brgyName)
+                    ->where('records.gender', 'FEMALE');
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
@@ -1863,12 +2031,18 @@ class ReportController extends Controller
 
         return view('report_select', [
             'activeCount' => $activeCount,
+            'activeCount_male' => $activeCount_male,
+            'activeCount_female' => $activeCount_female,
             'totalActive_partialVaccinated' => $totalActive_partialVaccinated,
             'totalActive_fullyVaccinated' => $totalActive_fullyVaccinated,
             'recoveredCount' => $recoveredCount,
+            'recoveredCount_male' => $recoveredCount_male,
+            'recoveredCount_female' => $recoveredCount_female,
             'totalRecovered_partialVaccinated' => $totalRecovered_partialVaccinated,
             'totalRecovered_fullyVaccinated' => $totalRecovered_fullyVaccinated,
             'deathCount' => $deathCount,
+            'deathCount_male' => $deathCount_male,
+            'deathCount_female' => $deathCount_female,
             'totalDeath_partialVaccinated' => $totalDeath_partialVaccinated,
             'totalDeath_fullyVaccinated' => $totalDeath_fullyVaccinated,
             'newActiveCount' => $newActiveCount,
