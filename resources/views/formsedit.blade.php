@@ -1876,7 +1876,7 @@
                                             <div id="ifDateReleased1" class="d-none">
                                                 <div class="form-group">
                                                     <label for="testDateReleased1"><span class="text-danger font-weight-bold">*</span>Date Released</label>
-                                                    <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}">
+                                                    <input type="date" class="form-control" name="testDateReleased1" id="testDateReleased1" value="{{old('testDateReleased1', $records->testDateReleased1)}}" max="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                             @if($records->testType1 == "ANTIGEN")
@@ -1966,7 +1966,7 @@
                                             <div id="ifDateReleased2" class="d-none">
                                                 <div class="form-group">
                                                     <label for="testDateReleased2">Date Released</label>
-                                                    <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-01-01')}}" value="{{old('testDateReleased2', $records->testDateReleased2)}}">
+                                                    <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" value="{{old('testDateReleased2', $records->testDateReleased2)}}" max="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                             @if($records->testType2 == "ANTIGEN")

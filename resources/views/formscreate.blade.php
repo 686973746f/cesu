@@ -1636,7 +1636,7 @@
                                             <div id="ifDateReleased2" class="d-none">
                                                 <div class="form-group">
                                                     <label for="testDateReleased2">Date released</label>
-                                                    <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-m-d', strtotime('-1 Year'))}}" value="{{old('testDateReleased2')}}">
+                                                    <input type="date" class="form-control" name="testDateReleased2" id="testDateReleased2" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('testDateReleased2')}}">
                                                 </div>
                                             </div>
                                         </div>
