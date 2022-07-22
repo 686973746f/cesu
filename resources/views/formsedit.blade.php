@@ -1177,7 +1177,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                              <label for="dateOnsetOfIllness">Date of Onset of Illness</label>
+                                              <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold d-none" id="onsetasterisk">*</span>Date of Onset of Illness</label>
                                               <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{date('Y-m-d')}}" value="{{old('dateOnsetOfIllness', $records->dateOnsetOfIllness)}}">
                                             </div>
                                             <div class="card">
@@ -2141,7 +2141,7 @@
                                     <div id="divTravelLoc" class="localTravelOptions">
                                         <div class="card">
                                             <div class="card-header">
-                                                If Local Travel, specify travel places (<i>Check all that apply, provide name of facility, address, and inclusive travel dates</i>)
+                                                <span class="text-danger font-weight-bold">*</span>If Local Travel, specify travel places (<i>Check all that apply, provide name of facility, address, and inclusive travel dates</i>)
                                             </div>
                                             <div class="card-body">
                                                 <div class="form-check">
@@ -2154,13 +2154,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locName1">Name of Place</label>
+                                                              <label for="locName1"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
                                                               <input class="form-control" type="text" name="locName1" id="locName1" value="{{old('locName1', $records->locName1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="locAddress1">Location</label>
+                                                                <label for="locAddress1"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
                                                                 <input class="form-control" type="text" name="locAddress1" id="locAddress1" value="{{old('locAddress1', $records->locAddress1)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
@@ -2173,13 +2173,13 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateFrom1">From</label>
+                                                                                <label for="locDateFrom1"><span class="text-danger font-weight-bold">*</span>From</label>
                                                                                 <input class="form-control" type="date" name="locDateFrom1" id="locDateFrom1" value="{{old('locDateFrom1', $records->locDateFrom1)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateTo1">To</label>
+                                                                                <label for="locDateTo1"><span class="text-danger font-weight-bold">*</span>To</label>
                                                                                 <input class="form-control" type="date" name="locDateTo1" id="locDateTo1" value="{{old('locDateTo1', $records->locDateTo1)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
@@ -2189,7 +2189,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locWithOngoingCovid1">With ongoing COVID-19 Community Transmission?</label>
+                                                              <label for="locWithOngoingCovid1"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid1" id="locWithOngoingCovid1">
                                                                 <option value="NO" {{(old('locWithOngoingCovid1', $records->locWithOngoingCovid1) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid1', $records->locWithOngoingCovid1) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -2208,13 +2208,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locName2">Name of Place</label>
+                                                              <label for="locName2"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
                                                               <input class="form-control" type="text" name="locName2" id="locName2" value="{{old('locName2', $records->locName2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="locAddress2">Location</label>
+                                                                <label for="locAddress2"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
                                                                 <input class="form-control" type="text" name="locAddress2" id="locAddress2" value="{{old('locAddress2', $records->locAddress2)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
@@ -2227,13 +2227,13 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateFrom2">From</label>
+                                                                                <label for="locDateFrom2"><span class="text-danger font-weight-bold">*</span>From</label>
                                                                                 <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2" value="{{old('locDateFrom2', $records->locDateFrom2)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateTo2">To</label>
+                                                                                <label for="locDateTo2"><span class="text-danger font-weight-bold">*</span>To</label>
                                                                                 <input class="form-control" type="date" name="locDateTo2" id="locDateTo2" value="{{old('locDateTo2', $records->locDateTo2)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
@@ -2243,7 +2243,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locWithOngoingCovid2">With ongoing COVID-19 Community Transmission?</label>
+                                                              <label for="locWithOngoingCovid2"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid2" id="locWithOngoingCovid2">
                                                                 <option value="NO" {{(old('locWithOngoingCovid2', $records->locWithOngoingCovid2) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid2', $records->locWithOngoingCovid2) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -2262,13 +2262,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locName3">Name of Place</label>
+                                                              <label for="locName3"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
                                                               <input class="form-control" type="text" name="locName3" id="locName3" value="{{old('locName3', $records->locName3)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="locAddress3">Location</label>
+                                                                <label for="locAddress3"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
                                                                 <input class="form-control" type="text" name="locAddress3" id="locAddress3" value="{{old('locAddress3', $records->locAddress3)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
@@ -2281,13 +2281,13 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateFrom3">From</label>
+                                                                                <label for="locDateFrom3"><span class="text-danger font-weight-bold">*</span>From</label>
                                                                                 <input class="form-control" type="date" name="locDateFrom3" id="locDateFrom3" value="{{old('locDateFrom3', $records->locDateFrom3)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateTo3">To</label>
+                                                                                <label for="locDateTo3"><span class="text-danger font-weight-bold">*</span>To</label>
                                                                                 <input class="form-control" type="date" name="locDateTo3" id="locDateTo3" value="{{old('locDateTo3', $records->locDateTo3)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
@@ -2297,7 +2297,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locWithOngoingCovid3">With ongoing COVID-19 Community Transmission?</label>
+                                                              <label for="locWithOngoingCovid3"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid3" id="locWithOngoingCovid3">
                                                                 <option value="NO" {{(old('locWithOngoingCovid3', $records->locWithOngoingCovid3) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid3', $records->locWithOngoingCovid3) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -2316,13 +2316,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locName4">Name of Place</label>
+                                                              <label for="locName4"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
                                                               <input class="form-control" type="text" name="locName4" id="locName4" value="{{old('locName4', $records->locName4)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="locAddress4">Location</label>
+                                                                <label for="locAddress4"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
                                                                 <input class="form-control" type="text" name="locAddress4" id="locAddress4" value="{{old('locAddress4', $records->locAddress4)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
@@ -2335,13 +2335,13 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateFrom4">From</label>
+                                                                                <label for="locDateFrom4"><span class="text-danger font-weight-bold">*</span>From</label>
                                                                                 <input class="form-control" type="date" name="locDateFrom4" id="locDateFrom4" value="{{old('locDateFrom4', $records->locDateFrom4)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateTo4">To</label>
+                                                                                <label for="locDateTo4"><span class="text-danger font-weight-bold">*</span>To</label>
                                                                                 <input class="form-control" type="date" name="locDateTo4" id="locDateTo4" value="{{old('locDateTo4', $records->locDateTo4)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
@@ -2351,7 +2351,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locWithOngoingCovid4">With ongoing COVID-19 Community Transmission?</label>
+                                                              <label for="locWithOngoingCovid4"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid4" id="locWithOngoingCovid4">
                                                                 <option value="NO" {{(old('locWithOngoingCovid4', $records->locWithOngoingCovid4) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid4', $records->locWithOngoingCovid4) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -2370,13 +2370,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locName5">Name of Place</label>
+                                                              <label for="locName5"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
                                                               <input class="form-control" type="text" name="locName5" id="locName5" value="{{old('locName5', $records->locName5)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="locAddress5">Location</label>
+                                                                <label for="locAddress5"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
                                                                 <input class="form-control" type="text" name="locAddress5" id="locAddress5" value="{{old('locAddress5', $records->locAddress5)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
@@ -2389,13 +2389,13 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateFrom5">From</label>
+                                                                                <label for="locDateFrom5"><span class="text-danger font-weight-bold">*</span>From</label>
                                                                                 <input class="form-control" type="date" name="locDateFrom5" id="locDateFrom5" value="{{old('locDateFrom5', $records->locDateFrom5)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateTo5">To</label>
+                                                                                <label for="locDateTo5"><span class="text-danger font-weight-bold">*</span>To</label>
                                                                                 <input class="form-control" type="date" name="locDateTo5" id="locDateTo5" value="{{old('locDateTo5', $records->locDateTo5)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
@@ -2405,7 +2405,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locWithOngoingCovid5">With ongoing COVID-19 Community Transmission?</label>
+                                                              <label for="locWithOngoingCovid5"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid5" id="locWithOngoingCovid5">
                                                                 <option value="NO" {{(old('locWithOngoingCovid5', $records->locWithOngoingCovid5) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid5', $records->locWithOngoingCovid5) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -2424,13 +2424,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locName6">Name of Place</label>
+                                                              <label for="locName6"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
                                                               <input class="form-control" type="text" name="locName6" id="locName6" value="{{old('locName6', $records->locName6)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="locAddress6">Location</label>
+                                                                <label for="locAddress6"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
                                                                 <input class="form-control" type="text" name="locAddress6" id="locAddress6" value="{{old('locAddress6', $records->locAddress6)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
@@ -2443,13 +2443,13 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateFrom6">From</label>
+                                                                                <label for="locDateFrom6"><span class="text-danger font-weight-bold">*</span>From</label>
                                                                                 <input class="form-control" type="date" name="locDateFrom6" id="locDateFrom6" value="{{old('locDateFrom6', $records->locDateFrom6)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateTo6">To</label>
+                                                                                <label for="locDateTo6"><span class="text-danger font-weight-bold">*</span>To</label>
                                                                                 <input class="form-control" type="date" name="locDateTo6" id="locDateTo6" value="{{old('locDateTo6', $records->locDateTo6)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
@@ -2459,7 +2459,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locWithOngoingCovid6">With ongoing COVID-19 Community Transmission?</label>
+                                                              <label for="locWithOngoingCovid6"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid6" id="locWithOngoingCovid6">
                                                                 <option value="NO" {{(old('locWithOngoingCovid6', $records->locWithOngoingCovid6) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid6', $records->locWithOngoingCovid6) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -2478,13 +2478,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locName7">Name of Place</label>
+                                                              <label for="locName7"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
                                                               <input class="form-control" type="text" name="locName7" id="locName7" value="{{old('locName7', $records->locName7)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="locAddress7">Location</label>
+                                                                <label for="locAddress7"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
                                                                 <input class="form-control" type="text" name="locAddress7" id="locAddress7" value="{{old('locAddress7', $records->locAddress7)}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
@@ -2497,13 +2497,13 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateFrom7">From</label>
+                                                                                <label for="locDateFrom7"><span class="text-danger font-weight-bold">*</span>From</label>
                                                                                 <input class="form-control" type="date" name="locDateFrom7" id="locDateFrom7" value="{{old('locDateFrom7', $records->locDateFrom7)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label for="locDateTo7">To</label>
+                                                                                <label for="locDateTo7"><span class="text-danger font-weight-bold">*</span>To</label>
                                                                                 <input class="form-control" type="date" name="locDateTo7" id="locDateTo7" value="{{old('locDateTo7', $records->locDateTo7)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
@@ -2513,7 +2513,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                              <label for="locWithOngoingCovid7">With ongoing COVID-19 Community Transmission?</label>
+                                                              <label for="locWithOngoingCovid7"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid7" id="locWithOngoingCovid7">
                                                                 <option value="NO" {{(old('locWithOngoingCovid7', $records->locWithOngoingCovid7) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid7', $records->locWithOngoingCovid7) == "YES") ? 'selected' : ''}}>Yes</option>
@@ -3320,6 +3320,17 @@
                 }).trigger('change');
             });
 
+            $(function(){
+                var requiredCheckboxes = $('.localTravelOptions :checkbox[required]');
+                requiredCheckboxes.change(function(){
+                    if(requiredCheckboxes.is(':checked')) {
+                        requiredCheckboxes.removeAttr('required');
+                    } else {
+                        requiredCheckboxes.attr('required', 'required');
+                    }
+                }).trigger('change');
+            });
+
             var getCurrentPtype = $('#pType').val();
             var getCurrentExpo1 = $('#expoitem1').val();
             var getCurrentExpo2 = $('#expoitem2').val();
@@ -3328,6 +3339,7 @@
                 var requiredCheckboxes = $(".symptomsList :checkbox");
                 requiredCheckboxes.change(function() {
                     if(requiredCheckboxes.is(':checked')) {
+                        $('#onsetasterisk').removeClass('d-none');
                         $('#dateOnsetOfIllness').prop('required', true);
                         $('#pType').val('PROBABLE');
                         $('#expoitem1').val('1').change();
@@ -3337,6 +3349,7 @@
                         $('#expoitem2').val('1').change();
                         $('#expoitem2_sno').addClass('d-none');
                     } else {
+                        $('#onsetasterisk').addClass('d-none');
                         $('#dateOnsetOfIllness').prop('required', false);
                         $('#pType').val(getCurrentPtype);
                         $('#expoitem1').val(getCurrentExpo1).change();
@@ -4001,6 +4014,8 @@
                 if($(this).val() == 0 || $(this).val() == 3) {
                     $('#divTravelInt').hide();
                     $('#divTravelLoc').hide();
+
+                    $('.localTravelOptions :checkbox').removeAttr('required');
                 }
                 else if($(this).val() == 1) {
                     $('#divTravelInt').hide();
@@ -4015,6 +4030,8 @@
                     $('#intDateArrive').prop('required', false);
                     
                     $('#divTravelLoc').show();
+
+                    $('.localTravelOptions :checkbox').attr('required', 'required');
                 }
                 else if($(this).val() == 2) {
                     $('#divTravelInt').show();
@@ -4029,6 +4046,8 @@
                     $('#intDateArrive').prop('required', false);
 
                     $('#divTravelLoc').hide();
+
+                    $('.localTravelOptions :checkbox').removeAttr('required');
                 }
             }).trigger('change');
 
