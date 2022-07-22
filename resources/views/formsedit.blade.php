@@ -2059,7 +2059,7 @@
                                     <div class="form-group">
                                         <label for="expoitem2"><span class="text-danger font-weight-bold">*</span>Has the patient been in a place with a known COVID-19 transmission 14 days before the onset of signs and symptoms? OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
                                         <select class="form-control" name="expoitem2" id="expoitem2" required>
-                                          <option value="0" {{(old('expoitem2', $records->expoitem2) == 0) ? 'selected' : ''}}>No</option>
+                                          <option value="0" id="expoitem2_sno" {{(old('expoitem2', $records->expoitem2) == 0) ? 'selected' : ''}}>No</option>
                                           <option value="1" {{(old('expoitem2', $records->expoitem2) == 1) ? 'selected' : ''}}>Yes, Local</option>
                                           <option value="2" {{(old('expoitem2', $records->expoitem2) == 2) ? 'selected' : ''}}>Yes, International</option>
                                           <option value="3" {{(old('expoitem2', $records->expoitem2) == 3) ? 'selected' : ''}}>Unknown exposure</option>
@@ -2138,7 +2138,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="divTravelLoc">
+                                    <div id="divTravelLoc" class="localTravelOptions">
                                         <div class="card">
                                             <div class="card-header">
                                                 If Local Travel, specify travel places (<i>Check all that apply, provide name of facility, address, and inclusive travel dates</i>)
@@ -3322,6 +3322,7 @@
 
             var getCurrentPtype = $('#pType').val();
             var getCurrentExpo1 = $('#expoitem1').val();
+            var getCurrentExpo2 = $('#expoitem2').val();
             
             $(function(){
                 var requiredCheckboxes = $(".symptomsList :checkbox");
@@ -3332,12 +3333,18 @@
                         $('#expoitem1').val('1').change();
                         $('#sexpoitem1_no').addClass('d-none');
                         $('#sexpoitem1_unknown').addClass('d-none');
+
+                        $('#expoitem2').val('1').change();
+                        $('#expoitem2_sno').addClass('d-none');
                     } else {
                         $('#dateOnsetOfIllness').prop('required', false);
                         $('#pType').val(getCurrentPtype);
                         $('#expoitem1').val(getCurrentExpo1).change();
                         $('#sexpoitem1_no').removeClass('d-none');
                         $('#sexpoitem1_unknown').removeClass('d-none');
+
+                        $('#expoitem2').val(getCurrentExpo2).change();
+                        $('#expoitem2_sno').removeClass('d-none');
                     }
                 }).trigger('change');
             });
