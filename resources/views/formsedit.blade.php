@@ -3321,7 +3321,7 @@
             });
 
             $(function(){
-                var requiredCheckboxes = $('.localTravelOptions :checkbox[required]');
+                var requiredCheckboxes = $('.localTravelOptions :checkbox');
                 requiredCheckboxes.change(function(){
                     if(requiredCheckboxes.is(':checked')) {
                         requiredCheckboxes.removeAttr('required');
