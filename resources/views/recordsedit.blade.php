@@ -481,6 +481,60 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="haveBooster2"><span class="text-danger font-weight-bold">*</span>Have 2ND Booster Vaccine?</label>
+                                        <select class="form-control" name="haveBooster2" id="haveBooster2" required>
+                                          <option value="0" {{(old('haveBooster2', $haveBooster) == '0') ? 'selected' : ''}}>No</option>
+                                          <option value="1" {{(old('haveBooster2', $haveBooster) == '1') ? 'selected' : ''}}>Yes</option>
+                                        </select>
+                                    </div>
+                                    <div id="ifBoosterVaccine2" class="d-none">
+                                        <div class="form-group">
+                                            <label for="vaccinationName4"><span class="text-danger font-weight-bold">*</span>2ND Booster Vaccine Name</label>
+                                            <select class="form-control" name="vaccinationName4" id="vaccinationName4">
+                                              <option value="" disabled {{is_null(old('vaccinationName4', $record->vaccinationName4)) ? 'selected' : ''}}>Choose...</option>
+                                              <option value="BHARAT BIOTECH" {{(old('vaccinationName4', $record->vaccinationName4) == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
+                                              <option value="GAMALEYA SPUTNIK V" {{(old('vaccinationName4', $record->vaccinationName4) == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
+                                              <option value="JANSSEN" {{(old('vaccinationName4', $record->vaccinationName4) == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
+                                              <option value="MODERNA" {{(old('vaccinationName4', $record->vaccinationName4) == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+                                              <option value="NOVARAX" {{(old('vaccinationName4', $record->vaccinationName4) == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
+                                              <option value="OXFORD ASTRAZENECA" {{(old('vaccinationName4', $record->vaccinationName4) == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
+                                              <option value="PFIZER BIONTECH" {{(old('vaccinationName4', $record->vaccinationName4) == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
+                                              <option value="SINOPHARM" {{(old('vaccinationName4', $record->vaccinationName4) == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
+                                              <option value="SINOVAC CORONAVAC" {{(old('vaccinationName4', $record->vaccinationName4) == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
+                                            </select>
+                                            <small class="text-muted">Vaccine Name not Included in the List? You may contact CESU Staff.</small>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationDate4"><span class="text-danger font-weight-bold">*</span>2ND Booster Date Vaccinated</label>
+                                                    <input type="date" class="form-control" name="vaccinationDate4" id="vaccinationDate4" value="{{old('vaccinationDate4', $record->vaccinationDate4)}}" max="{{date('Y-m-d')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="haveAdverseEvents4"><span class="text-danger font-weight-bold">*</span>2ND Booster Adverse Event/s</label>
+                                                    <select class="form-control" name="haveAdverseEvents4" id="haveAdverseEvents4">
+                                                        <option value="0" {{(old('haveAdverseEvents4', $record->haveAdverseEvents4) == '0') ? 'selected' : ''}}>No</option>
+                                                        <option value="1" {{(old('haveAdverseEvents4', $record->haveAdverseEvents4) == '1') ? 'selected' : ''}}>Yes</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationFacility4">2ND Booster Vaccination Center/Facility <small>(Optional)</small></label>
+                                                    <input type="text" class="form-control" name="vaccinationFacility4" id="vaccinationFacility4" value="{{old('vaccinationFacility4', $record->vaccinationFacility4)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="vaccinationRegion4">2ND Booster Region of Health Facility <small>(Optional)</small></label>
+                                                    <input type="text" class="form-control" name="vaccinationRegion4" id="vaccinationRegion4" value="{{old('vaccinationRegion4', $record->vaccinationRegion4)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1395,6 +1449,9 @@
                     $('#booster_question').addClass('d-none');
                     $('#haveBooster').val('0');
                     $('#haveBooster').trigger('change');
+
+                    $('#haveBooster2').val('0');
+                    $('#haveBooster2').trigger('change');
                 }
                 else if($(this).val() == '1') {
                     $('#vaccineName').prop('required', true);
@@ -1411,6 +1468,9 @@
                     $('#booster_question').removeClass('d-none');
                     $('#haveBooster').val("{{old('haveBooster', $haveBooster)}}");
                     $('#haveBooster').trigger('change');
+
+                    $('#haveBooster2').val("{{old('haveBooster2', $haveBooster2)}}");
+                    $('#haveBooster2').trigger('change');
                 }
                 else if($(this).val() == '2') {
                     $('#vaccineName').prop('required', true);
@@ -1427,6 +1487,9 @@
                     $('#booster_question').removeClass('d-none');
                     $('#haveBooster').val("{{old('haveBooster', $haveBooster)}}");
                     $('#haveBooster').trigger('change');
+
+                    $('#haveBooster2').val("{{old('haveBooster2', $haveBooster2)}}");
+                    $('#haveBooster2').trigger('change');
                 }
             }).trigger('change');
 
@@ -1443,6 +1506,22 @@
                     $('#vaccinationName3').prop('required', false);
                     $('#vaccinationDate3').prop('required', false);
                     $('#haveAdverseEvents3').prop('required', false);
+                }
+            }).trigger('change');
+
+            $('#haveBooster2').change(function (e) { 
+                e.preventDefault();
+                if($(this).val() == 1) {
+                    $('#ifBoosterVaccine2').removeClass('d-none');
+                    $('#vaccinationName4').prop('required', true);
+                    $('#vaccinationDate4').prop('required', true);
+                    $('#haveAdverseEvents4').prop('required', true);
+                }
+                else {
+                    $('#ifBoosterVaccine2').addClass('d-none');
+                    $('#vaccinationName4').prop('required', false);
+                    $('#vaccinationDate4').prop('required', false);
+                    $('#haveAdverseEvents4').prop('required', false);
                 }
             }).trigger('change');
 

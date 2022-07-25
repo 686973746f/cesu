@@ -391,7 +391,7 @@
 							<div id="booster_question" class="d-none">
 								<hr>
 								<div class="form-group">
-								  <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Already Vaccinated with Booster Vaccine?</label>
+								  <label for="haveBooster"><span class="text-danger font-weight-bold">*</span>Have Booster Vaccine?</label>
 								  <select class="form-control" name="haveBooster" id="haveBooster" required>
 									<option value="0" {{(old('haveBooster') == '0') ? 'selected' : ''}}>No</option>
 									<option value="1" {{(old('haveBooster') == '1') ? 'selected' : ''}}>Yes</option>
@@ -441,6 +441,60 @@
 										<div class="form-group">
 											<label for="vaccinationRegion3">Booster Region of Health Facility <small>(Optional)</small></label>
 											<input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="haveBooster2"><span class="text-danger font-weight-bold">*</span>Have 2nd Booster Vaccine?</label>
+									<select class="form-control" name="haveBooster2" id="haveBooster2" required>
+									  <option value="0" {{(old('haveBooster2') == '0') ? 'selected' : ''}}>No</option>
+									  <option value="1" {{(old('haveBooster2') == '1') ? 'selected' : ''}}>Yes</option>
+									</select>
+								</div>
+								<div id="ifBoosterVaccine2" class="d-none">
+									<div class="form-group">
+										<label for="vaccinationName4"><span class="text-danger font-weight-bold">*</span>2ND Booster Vaccine Name</label>
+										<select class="form-control" name="vaccinationName4" id="vaccinationName4">
+										  <option value="" disabled {{is_null(old('vaccinationName4')) ? 'selected' : ''}}>Choose...</option>
+										  <option value="BHARAT BIOTECH" {{(old('vaccinationName4') == "BHARAT BIOTECH") ? 'selected' : ''}}>Bharat BioTech</option>
+										  <option value="GAMALEYA SPUTNIK V" {{(old('vaccinationName4') == 'GAMALEYA SPUTNIK V') ? 'selected' : ''}}>Gamaleya Sputnik V</option>
+										  <option value="JANSSEN" {{(old('vaccinationName4') == "JANSSEN") ? 'selected' : ''}}>Janssen</option>
+										  <option value="MODERNA" {{(old('vaccinationName4') == 'MODERNA') ? 'selected' : ''}}>Moderna</option>
+										  <option value="NOVARAX" {{(old('vaccinationName4') == 'NOVARAX') ? 'selected' : ''}}>Novarax</option>
+										  <option value="OXFORD ASTRAZENECA" {{(old('vaccinationName4') == 'OXFORD ASTRAZENECA') ? 'selected' : ''}}>Oxford AstraZeneca</option>
+										  <option value="PFIZER BIONTECH" {{(old('vaccinationName4') == 'PFIZER BIONTECH') ? 'selected' : ''}}>Pfizer BioNTech</option>
+										  <option value="SINOPHARM" {{(old('vaccinationName4') == 'SINOPHARM') ? 'selected' : ''}}>Sinopharm</option>
+										  <option value="SINOVAC CORONAVAC" {{(old('vaccinationName4') == 'SINOVAC CORONAVAC') ? 'selected' : ''}}>Sinovac Coronavac</option>
+										</select>
+										<small class="text-muted">Vaccine Name not Included in the List? You may contact CESU Staff.</small>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="vaccinationDate4"><span class="text-danger font-weight-bold">*</span>2ND Booster Date Vaccinated</label>
+												<input type="date" class="form-control" name="vaccinationDate4" id="vaccinationDate4" value="{{old('vaccinationDate4')}}" max="{{date('Y-m-d')}}">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="haveAdverseEvents4"><span class="text-danger font-weight-bold">*</span>2ND Booster Adverse Event/s</label>
+												<select class="form-control" name="haveAdverseEvents4" id="haveAdverseEvents4">
+													<option value="0" {{(old('haveAdverseEvents4') == '0') ? 'selected' : ''}}>No</option>
+													<option value="1" {{(old('haveAdverseEvents4') == '1') ? 'selected' : ''}}>Yes</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="vaccinationFacility4">2ND Booster Vaccination Center/Facility <small>(Optional)</small></label>
+												<input type="text" class="form-control" name="vaccinationFacility4" id="vaccinationFacility4" value="{{old('vaccinationFacility4')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="vaccinationRegion4">2ND Booster Region of Health Facility <small>(Optional)</small></label>
+												<input type="text" class="form-control" name="vaccinationRegion4" id="vaccinationRegion4" value="{{old('vaccinationRegion4')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											</div>
 										</div>
 									</div>
 								</div>
@@ -1415,6 +1469,22 @@
                 $('#vaccinationName3').prop('required', false);
 				$('#vaccinationDate3').prop('required', false);
 				$('#haveAdverseEvents3').prop('required', false);
+            }
+        }).trigger('change');
+
+		$('#haveBooster2').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 1) {
+                $('#ifBoosterVaccine2').removeClass('d-none');
+                $('#vaccinationName4').prop('required', true);
+				$('#vaccinationDate4').prop('required', true);
+				$('#haveAdverseEvents4').prop('required', true);
+            }
+            else {
+                $('#ifBoosterVaccine2').addClass('d-none');
+                $('#vaccinationName4').prop('required', false);
+				$('#vaccinationDate4').prop('required', false);
+				$('#haveAdverseEvents4').prop('required', false);
             }
         }).trigger('change');
 

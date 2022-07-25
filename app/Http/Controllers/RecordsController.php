@@ -461,6 +461,13 @@ class RecordsController extends Controller
 				'vaccinationFacility3' => ($request->haveBooster == 1 && $request->filled('vaccinationFacility3')) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
 				'vaccinationRegion3' => ($request->haveBooster == 1 && $request->filled('vaccinationRegion3')) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
 
+				'vaccinationDate4' => ($request->haveBooster2 == 1) ? $request->vaccinationDate4 : NULL,
+				'haveAdverseEvents4' => ($request->haveBooster2 == 1) ? $request->haveAdverseEvents4 : NULL,
+				'vaccinationName4' => ($request->haveBooster2 == 1) ? $request->vaccinationName4 : NULL,
+				'vaccinationNoOfDose4' => ($request->haveBooster2 == 1) ? 4 : NULL,
+				'vaccinationFacility4' => ($request->haveBooster2 == 1 && $request->filled('vaccinationFacility4')) ? mb_strtoupper($request->vaccinationFacility4) : NULL,
+				'vaccinationRegion4' => ($request->haveBooster2 == 1 && $request->filled('vaccinationRegion4')) ? mb_strtoupper($request->vaccinationRegion4) : NULL,
+
 				'is_confidential' => ($request->is_confidential) ? 1 : 0,
 			]);
 			
@@ -506,7 +513,18 @@ class RecordsController extends Controller
 			}
 
 			//Vaccination Details
-			if(!is_null($record->vaccinationDate3)) {
+			if(!is_null($record->vaccinationDate4)) {
+				$haveBooster2 = 1;
+				$haveBooster = 1;
+				if($record->vaccinationName1 == 'JANSSEN') {
+					$vaccineDose = 1;
+				}
+				else {
+					$vaccineDose = 2;
+				}
+			}
+			else if(!is_null($record->vaccinationDate3)) {
+				$haveBooster2 = 0;
 				$haveBooster = 1;
 				if($record->vaccinationName1 == 'JANSSEN') {
 					$vaccineDose = 1;
@@ -516,14 +534,17 @@ class RecordsController extends Controller
 				}
 			}
 			else if(!is_null($record->vaccinationDate2) && !is_null($record->vaccinationDate1)) {
+				$haveBooster2 = 0;
 				$haveBooster = 0;
 				$vaccineDose = 2;
 			}
 			else if(!is_null($record->vaccinationDate1)) {
+				$haveBooster2 = 0;
 				$haveBooster = 0;
 				$vaccineDose = 1;
 			}
 			else {
+				$haveBooster2 = 0;
 				$haveBooster = 0;
 				$vaccineDose = NULL;
 			}
@@ -561,6 +582,7 @@ class RecordsController extends Controller
 				'cifcheck' =>$cifcheck,
 				'vaccineDose' => $vaccineDose,
 				'haveBooster' => $haveBooster,
+				'haveBooster2' => $haveBooster2,
 				'sharedAccessList' => $sharedAccessList,
 				'sameaddress' => $sameaddress,
 			]);
@@ -936,6 +958,13 @@ class RecordsController extends Controller
 					'vaccinationNoOfDose3' => ($request->haveBooster == 1) ? 3 : NULL,
 					'vaccinationFacility3' => ($request->haveBooster == 1 && $request->filled('vaccinationFacility3')) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
 					'vaccinationRegion3' => ($request->haveBooster == 1 && $request->filled('vaccinationRegion3')) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
+
+					'vaccinationDate4' => ($request->haveBooster2 == 1) ? $request->vaccinationDate4 : NULL,
+					'haveAdverseEvents4' => ($request->haveBooster2 == 1) ? $request->haveAdverseEvents4 : NULL,
+					'vaccinationName4' => ($request->haveBooster2 == 1) ? $request->vaccinationName4 : NULL,
+					'vaccinationNoOfDose4' => ($request->haveBooster2 == 1) ? 4 : NULL,
+					'vaccinationFacility4' => ($request->haveBooster2 == 1 && $request->filled('vaccinationFacility4')) ? mb_strtoupper($request->vaccinationFacility4) : NULL,
+					'vaccinationRegion4' => ($request->haveBooster2 == 1 && $request->filled('vaccinationRegion4')) ? mb_strtoupper($request->vaccinationRegion4) : NULL,
 	
 					'sharedOnId' => $shareAccountList,
 					'is_confidential' => $is_confidential,
