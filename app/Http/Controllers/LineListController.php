@@ -54,6 +54,13 @@ class LineListController extends Controller
     }
 
     public function createLineList(Request $request) {
+        if($request->isOverride == 1) {
+            session(['set_override' => 1]);
+        }
+        else {
+            session(['set_override' => 0]);
+        }
+
         if($request->submit == 1) {
             //LaSalle
             return view('linelist_createlasalle', [
@@ -237,6 +244,7 @@ class LineListController extends Controller
             'dru' => $request->dru,
             'contactPerson' => $request->contactPerson,
             'contactMobile' => $request->contactMobile,
+            'is_override' => session('set_override'),
         ]);
 
         for($i=0;$i<count($request->user);$i++) {
@@ -350,13 +358,15 @@ class LineListController extends Controller
             'contactTelephone' => $request->contactTelephone,
             'contactMobile' => $request->contactMobile,
             'laSallePreparedBy' => $request->laSallePreparedBy,
-            'laSallePreparedByDate' => date('Y-m-d H:i:s', strtotime($request->laSallePreparedByDate." ".$request->laSallePreparedByTime))
+            'laSallePreparedByDate' => date('Y-m-d H:i:s', strtotime($request->laSallePreparedByDate." ".$request->laSallePreparedByTime)),
+            'is_override' => session('set_override'),
         ]);
 
         for($i=0;$i<count($request->user);$i++) {
             //Count number of Swab based on the number of linelist done to the record id
             $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
-                $q->where('type', 2);
+                $q->where('type', 2)
+                ->where('is_override', 0);
             })
             ->where('records_id', $request->user[$i])
             ->count();
