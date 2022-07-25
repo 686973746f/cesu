@@ -5,8 +5,20 @@
     <div class="card mb-3">
         <div class="card-header font-weight-bold">Accomplishment Report Q1</div>
         <div class="card-body">
-            <p>Q1 Total Active Cases: {{number_format($currq_active)}}</p>
-            <p>Q1 Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Q1 Total Active Cases: {{number_format($currq_active)}}</p>
+                    <p>Q1 Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
+                </div>
+                <div class="col-md-6">
+                    <p>Number of Confirmed Hospitalized Patients: </p>
+                    <p>Number of Confirmed Hospitalized Patients (Unvaccinated): </p>
+                    <p>Number of Confirmed Hospitalized Patients (Partially Vaccinated): </p>
+                    <p>Number of Confirmed Hospitalized Patients (Fully Vaccinated): </p>
+                    <p>Number of Confirmed Hospitalized Patients (Boostered): </p>
+                </div>
+            </div>
+            <hr>
         </div>
     </div>
     <div class="card">
