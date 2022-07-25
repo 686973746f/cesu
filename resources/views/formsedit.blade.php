@@ -1166,6 +1166,64 @@
                                         </div>
                                     </div>
                                     @endif
+                                    @if(!is_null($records->records->vaccinationDate3))
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="">3.) Booster Dose Date</label>
+                                              <input type="date" class="form-control" name="" id="" value="{{$records->records->vaccinationDate3}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Vaccination Center/Facility</label>
+                                                <input type="text" class="form-control" name="" id="" value="{{($records->records->vaccinationFacility3) ? $records->records->vaccinationFacility3 : 'N/A'}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Region of Health Facility</label>
+                                                <input type="text" class="form-control" name="" id="" value="{{($records->records->vaccinationRegion3) ? $records->records->vaccinationRegion3 : 'N/A'}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Adverse Event/s</label>
+                                                <input type="text" class="form-control" name="" id="" value="{{($records->records->haveAdverseEvents3 == 1) ? 'YES' : 'NO'}}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @if(!is_null($records->records->vaccinationDate4))
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="">4.) 2ND Booster Dose Date</label>
+                                              <input type="date" class="form-control" name="" id="" value="{{$records->records->vaccinationDate4}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Vaccination Center/Facility</label>
+                                                <input type="text" class="form-control" name="" id="" value="{{($records->records->vaccinationFacility4) ? $records->records->vaccinationFacility4 : 'N/A'}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Region of Health Facility</label>
+                                                <input type="text" class="form-control" name="" id="" value="{{($records->records->vaccinationRegion4) ? $records->records->vaccinationRegion4 : 'N/A'}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Adverse Event/s</label>
+                                                <input type="text" class="form-control" name="" id="" value="{{($records->records->haveAdverseEvents4 == 1) ? 'YES' : 'NO'}}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                     @else
                                     <p class="text-center">Not yet Vaccinated.</p>
                                     @endif

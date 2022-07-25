@@ -378,7 +378,29 @@ class Records extends Model
     }
 
     public function showVaxInfo() {
-        if(!is_null($this->vaccinationDate2)) {
+        if(!is_null($this->vaccinationDate4)) {
+            $date1 = Carbon::parse($this->vaccinationDate4);
+            $days_diff = $date1->diffInDays(Carbon::now());
+
+            if($days_diff >= 14) {
+                return '2ND BOOSTERED ('.$this->vaccinationName4.' + '.$this->vaccinationName3.' + '.$this->vaccinationName1.')';
+            }
+            else {
+                return 'BOOSTERED ('.$this->vaccinationName3.')';
+            }
+        }
+        else if(!is_null($this->vaccinationDate3)) {
+            $date1 = Carbon::parse($this->vaccinationDate3);
+            $days_diff = $date1->diffInDays(Carbon::now());
+
+            if($days_diff >= 14) {
+                return 'BOOSTERED ('.$this->vaccinationName3.')';
+            }
+            else {
+                return 'FULL VAX ('.$this->vaccinationName1.')';
+            }
+        }
+        else if(!is_null($this->vaccinationDate2)) {
             $date1 = Carbon::parse($this->vaccinationDate2);
             $days_diff = $date1->diffInDays(Carbon::now());
 
