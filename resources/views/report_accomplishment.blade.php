@@ -2,26 +2,32 @@
 
 @section('content')
 <div class="container">
-    <div class="card mb-3">
-        <div class="card-header font-weight-bold">Accomplishment Report Q1</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header"><b>Accomplishment Report Q1</b></div>
+                <div class="card-body">
                     <p>Q1 Total Active Cases: {{number_format($currq_active)}}</p>
                     <p>Q1 Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
                 </div>
-                <div class="col-md-6">
-                    <p>Number of Confirmed Hospitalized Patients: </p>
-                    <p>Number of Confirmed Hospitalized Patients (Unvaccinated): </p>
-                    <p>Number of Confirmed Hospitalized Patients (Partially Vaccinated): </p>
-                    <p>Number of Confirmed Hospitalized Patients (Fully Vaccinated): </p>
-                    <p>Number of Confirmed Hospitalized Patients (Boostered): </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header"><b>{{date('Y')}} Hospitalization</b></div>
+                <div class="card-body">
+                    <p>Number of Confirmed Hospitalized Patients: <b>{{$cy_hospitalized}}</b></p>
+                    <ul>
+                        <li>Unvaccinated: {{($cy_hospitalized - $cy_hospitalized_partialvacc - $cy_hospitalized_fullvacc - $cy_hospitalized_boostered)}}</li>
+                        <li>Partially Vaccinated: {{$cy_hospitalized_partialvacc}}</li>
+                        <li>Fully Vaccinated: {{$cy_hospitalized_fullvacc}}</li>
+                        <li>Boostered: {{$cy_hospitalized_boostered}}</li>
+                    </ul>
                 </div>
             </div>
-            <hr>
         </div>
     </div>
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header">Swab Count</div>
         <div class="card-body">
             <table class="table table-bordered">
@@ -50,7 +56,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header font-weight-bold">Accomplishment Report for PREVIOUS YEAR ({{date('Y', strtotime('-1 Year'))}})</div>
+        <div class="card-header font-weight-bold text-center">Accomplishment Report for PREVIOUS YEAR ({{date('Y', strtotime('-1 Year'))}})</div>
         <div class="card-body">
             <p>{{date('Y', strtotime('-1 Year'))}} Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
             <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Average: {{number_format($count2)}}</p>

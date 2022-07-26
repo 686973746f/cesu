@@ -207,6 +207,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/report/ctreport2', [ContactTracingController::class, 'ctlgureport'])->name('ctlgu_report');
 
     Route::get('/casechecker', [ReportV2Controller::class, 'casechecker_index'])->name('casechecker_index');
+    
+    Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
@@ -266,8 +268,6 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::post('/admin/antigen/create', [AntigenController::class, 'store'])->name('antigen_store');
     Route::get('/admin/antigen/{id}/edit', [AntigenController::class, 'edit'])->name('antigen_edit');
     Route::post('/admin/antigen/{id}/edit', [AntigenController::class, 'update'])->name('antigen_update');
-
-    Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
 
     //Acceptance Letter
     Route::get('/acceptance', [AcceptanceLetterController::class, 'index'])->name('acceptance.index');
