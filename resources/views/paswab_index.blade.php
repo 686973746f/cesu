@@ -804,7 +804,7 @@
                                                       id="signsCheck2"
                                                       {{(is_array(old('sasCheck')) && in_array("Fever", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck2">Lagnat / Fever</label>
+                                                    <label class="form-check-label" for="signsCheck2">Lagnat/Fever</label>
                                                 </div>
                                                 <div id="divFeverChecked" class="d-none">
                                                     <div class="form-group mt-2">
@@ -821,7 +821,7 @@
                                                       id="signsCheck3"
                                                       {{(is_array(old('sasCheck')) && in_array("Cough", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck3">Ubo / Cough</label>
+                                                    <label class="form-check-label" for="signsCheck3">Ubo/Cough</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -832,7 +832,7 @@
                                                       id="signsCheck4"
                                                       {{(is_array(old('sasCheck')) && in_array("General Weakness", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck4">Panghihina / General Weakness</label>
+                                                    <label class="form-check-label" for="signsCheck4">Panghihina/General Weakness</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -843,7 +843,7 @@
                                                       id="signsCheck5"
                                                       {{(is_array(old('sasCheck')) && in_array("Fatigue", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck5">Pagkapagod / Fatigue</label>
+                                                    <label class="form-check-label" for="signsCheck5">Pagkapagod/Fatigue</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -854,7 +854,7 @@
                                                       id="signsCheck6"
                                                       {{(is_array(old('sasCheck')) && in_array("Headache", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck6">Sakit ng Ulo / Headache</label>
+                                                    <label class="form-check-label" for="signsCheck6">Sakit ng Ulo/Headache</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -865,7 +865,7 @@
                                                       id="signsCheck7"
                                                       {{(is_array(old('sasCheck')) && in_array("Myalgia", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck7">Myalgia</label>
+                                                    <label class="form-check-label" for="signsCheck7">Sakit ng Katawan/Body Pain</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -876,7 +876,7 @@
                                                       id="signsCheck8"
                                                       {{(is_array(old('sasCheck')) && in_array("Sore throat", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck8">Sakit ng Lalamunan / Sore Throat</label>
+                                                    <label class="form-check-label" for="signsCheck8">Sakit ng Lalamunan/Sore Throat</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -887,7 +887,7 @@
                                                       id="signsCheck9"
                                                       {{(is_array(old('sasCheck')) && in_array("Coryza", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck9">Coryza</label>
+                                                    <label class="form-check-label" for="signsCheck9">Sipon/Colds <small>(Coryza)</small></label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -900,7 +900,7 @@
                                                       id="signsCheck10"
                                                       {{(is_array(old('sasCheck')) && in_array("Dyspnea", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck10">Dyspnea (Shortness of Breath)</label>
+                                                    <label class="form-check-label" for="signsCheck10">Nahihirapang Huminga/Difficulty of Breath <small>(Dyspnea)</small></label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -911,7 +911,7 @@
                                                       id="signsCheck11"
                                                       {{(is_array(old('sasCheck')) && in_array("Anorexia", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck11">Anorexia</label>
+                                                    <label class="form-check-label" for="signsCheck11">Eating Disorder <small>(Anorexia)</small></label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -922,7 +922,7 @@
                                                       id="signsCheck12"
                                                       {{(is_array(old('sasCheck')) && in_array("Nausea", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck12">Pagduduwal / Nausea</label>
+                                                    <label class="form-check-label" for="signsCheck12">Pagkahilo/Nausea</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -933,7 +933,7 @@
                                                       id="signsCheck13"
                                                       {{(is_array(old('sasCheck')) && in_array("Vomiting", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck13">Nagsusuka / Vomiting</label>
+                                                    <label class="form-check-label" for="signsCheck13">Nagsusuka/Vomiting</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -944,7 +944,7 @@
                                                       id="signsCheck14"
                                                       {{(is_array(old('sasCheck')) && in_array("Diarrhea", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck14">Pagdudumi / Diarrhea</label>
+                                                    <label class="form-check-label" for="signsCheck14">Pagdudumi/Diarrhea</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -955,7 +955,7 @@
                                                       id="signsCheck15"
                                                       {{(is_array(old('sasCheck')) && in_array("Altered Mental Status", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck15">Nabago ang Katayuan sa Kaisipan / Altered Mental Status</label>
+                                                    <label class="form-check-label" for="signsCheck15">Nabago ang Katayuan sa Kaisipan/Altered Mental Status</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -966,7 +966,7 @@
                                                       id="signsCheck16"
                                                       {{(is_array(old('sasCheck')) && in_array("Anosmia (Loss of Smell)", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck16">Kawalan ng Pang-Amoy / Anosmia <small>(loss of smell, w/o any identified cause)</small></label>
+                                                    <label class="form-check-label" for="signsCheck16">Kawalan ng Pang-Amoy/Loss of Smell</small></label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -977,7 +977,7 @@
                                                       id="signsCheck17"
                                                       {{(is_array(old('sasCheck')) && in_array("Ageusia (Loss of Taste)", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck17">Kawalan ng Panglasa / Ageusia <small>(loss of taste, w/o any identified cause)</small></label>
+                                                    <label class="form-check-label" for="signsCheck17">Kawalan ng Panglasa/Loss of Taste</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input
@@ -988,11 +988,11 @@
                                                       id="signsCheck18"
                                                       {{(is_array(old('sasCheck')) && in_array("Others", old('sasCheck'))) ? 'checked' : ''}}
                                                     />
-                                                    <label class="form-check-label" for="signsCheck18">Iba pa / Others</label>
+                                                    <label class="form-check-label" for="signsCheck18">Iba pa/Others</label>
                                                 </div>
                                                 <div id="divSASOtherChecked" class="d-none">
                                                     <div class="form-group mt-2">
-                                                      <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Tukuyin / Specify Findings</label>
+                                                      <label for="SASOtherRemarks"><span class="text-danger font-weight-bold">*</span>Tukuyin/Specify Findings</label>
                                                       <input type="text" class="form-control" name="SASOtherRemarks" id="SASOtherRemarks" value="{{old('SASOtherRemarks')}}">
                                                     </div>
                                                 </div>
