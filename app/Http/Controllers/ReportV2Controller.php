@@ -1368,6 +1368,28 @@ class ReportV2Controller extends Controller
     }
 
     public function accomplishment_index() {
+        $current_month = date('n');
+        if($current_month >= 1 && $current_month <= 3) {
+            $qstr = '1st Quarter Active Cases (January - March '.date('Y').')';
+            $start_date = date('Y-01-01');
+            $end_date = date('Y-03-t');
+        }
+        else if ($current_month >= 4 && $current_month <= 6) {
+            $qstr = '2nd Quarter Active Cases (April - June '.date('Y').')';
+            $start_date = date('Y-04-01');
+            $end_date = date('Y-06-t');
+        }
+        else if ($current_month >= 7 && $current_month <= 9) {
+            $qstr = '3rd Quarter Active Cases (July - September '.date('Y').')';
+            $start_date = date('Y-07-01');
+            $end_date = date('Y-09-t');
+        }
+        else if ($current_month >= 10 && $current_month <= 12) {
+            $qstr = '4th Quarter Active Cases (October - December '.date('Y').')';
+            $start_date = date('Y-10-01');
+            $end_date = date('Y-12-t');
+        }
+
         //Current Quarter Active Cases
         $currq_active = Forms::whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -1375,7 +1397,7 @@ class ReportV2Controller extends Controller
         })
         ->where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
-        ->whereYear('morbidityMonth', '2022')
+        ->whereIn('morbidityMonth', [$start_date, $end_date])
         ->count();
 
         //Previous Year Active Cases
@@ -1645,6 +1667,30 @@ class ReportV2Controller extends Controller
         ->whereYear('morbidityMonth', date('Y'))
         ->count();
 
+        $cy_hospitalized_recovered = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->where('outcomeCondition', 'Recovered')
+        ->whereYear('morbidityMonth', date('Y'))
+        ->count();
+        
+        $cy_hospitalized_died = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', date('Y'))
+        ->count();
+
         $cy_hospitalized_partialvacc = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -1706,6 +1752,7 @@ class ReportV2Controller extends Controller
         ->count();
 
         return view('report_accomplishment', [
+            'qstr' => $qstr,
             'count1' => $count1,
             'count2' => $count2,
             'count3' => $count3,
@@ -1720,6 +1767,8 @@ class ReportV2Controller extends Controller
             'swabarr' => $swabarr,
             'lastYearSwab' => $lastYearSwab,
             'cy_hospitalized' => $cy_hospitalized,
+            'cy_hospitalized_recovered' => $cy_hospitalized_recovered,
+            'cy_hospitalized_died' => $cy_hospitalized_died,
             'cy_hospitalized_partialvacc' => $cy_hospitalized_partialvacc,
             'cy_hospitalized_fullvacc' => $cy_hospitalized_fullvacc,
             'cy_hospitalized_boostered' => $cy_hospitalized_boostered,

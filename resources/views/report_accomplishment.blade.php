@@ -5,10 +5,10 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-3">
-                <div class="card-header"><b>Accomplishment Report Q1</b></div>
+                <div class="card-header"><b>{{$qstr}}</b></div>
                 <div class="card-body">
-                    <p>Q1 Total Active Cases: {{number_format($currq_active)}}</p>
-                    <p>Q1 Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
+                    <p>Total Active Cases: {{number_format($currq_active)}}</p>
+                    <p>Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
                 </div>
             </div>
         </div>
@@ -17,6 +17,7 @@
                 <div class="card-header"><b>{{date('Y')}} Hospitalization</b></div>
                 <div class="card-body">
                     <p>Number of Confirmed Hospitalized Patients: <b>{{$cy_hospitalized}}</b></p>
+                    <p>(Active: {{($cy_hospitalized - $cy_hospitalized_recovered - $cy_hospitalized_died)}} | Recovered: {{$cy_hospitalized_recovered}} | Died: {{$cy_hospitalized_died}})</p>
                     <ul>
                         <li>Unvaccinated: {{($cy_hospitalized - $cy_hospitalized_partialvacc - $cy_hospitalized_fullvacc - $cy_hospitalized_boostered)}}</li>
                         <li>Partially Vaccinated: {{$cy_hospitalized_partialvacc}}</li>
@@ -28,10 +29,10 @@
         </div>
     </div>
     <div class="card mb-3">
-        <div class="card-header">Swab Count</div>
+        <div class="card-header"><b>Swab Count</b></div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead class="thead-light text-center">
+            <table class="table table-bordered text-center">
+                <thead class="thead-light">
                     <tr>
                         <th>Month</th>
                         <th>Swab</th>
@@ -43,7 +44,7 @@
                 <tbody>
                     @foreach($swabarr as $s)
                     <tr>
-                        <td>{{$s['month']}}</td>
+                        <td><b>{{$s['month']}}</b></td>
                         <td>{{$s['count']}}</td>
                         <td>{{$s['suspro']}}</td>
                         <td>{{$s['confirmed']}}</td>
