@@ -8,7 +8,7 @@
                 <div class="card-header"><b>{{$qstr}}</b></div>
                 <div class="card-body">
                     <p>Total Active Cases: {{number_format($currq_active)}}</p>
-                    <p>Total Active Average ({{$currq_active}}/90): {{number_format($currq_active/90)}}</p>
+                    <p>Total Active Average ({{$currq_active}}/90): {{round($currq_active/90)}} Cases per Day</p>
                 </div>
             </div>
         </div>

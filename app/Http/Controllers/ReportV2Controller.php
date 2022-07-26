@@ -1397,7 +1397,8 @@ class ReportV2Controller extends Controller
         })
         ->where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
-        ->whereIn('morbidityMonth', [$start_date, $end_date])
+        ->where('morbidityMonth', '>=', $start_date)
+        ->where('morbidityMonth', '<=', $end_date)
         ->count();
 
         //Previous Year Active Cases
