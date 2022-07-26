@@ -340,401 +340,535 @@
                         </select>
                         <small class="text-muted">Refer to Appendix 2 for more details (Button in top-right corner of this page)</small>
                     </div>
-                    <div class="card mt-3">
-                        <div class="card-header font-weight-bold">Part 1. Patient Information</div>
+                    <div id="accordion">
+                        <div class="card mb-3">
+                            <div class="card-header" id="headingOne">
+                                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#patientInfo" aria-expanded="true" aria-controls="patientInfo">Part 1. Patient Information (Click to Show)</button>
+                            </div>
+                            <div id="patientInfo" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="card mb-3">
+                                        <div class="card-header">1.1 Patient Profile</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Last Name</label>
+                                                        <input type="text" class="form-control" value="{{$records->lname}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">First Name</label>
+                                                        <input type="text" class="form-control" value="{{$records->fname}}" id="" disabled>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Middle Name</label>
+                                                        <input type="text" class="form-control" value="{{$records->mname}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Birthdate (MM/DD/YYYY)</label>
+                                                        <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($records->bdate))}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Age</label>
+                                                        <input type="text" class="form-control" value="{{$records->getAge($records->bdate)}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Gender</label>
+                                                        <input type="text" class="form-control" value="{{$records->gender}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Civil Status</label>
+                                                        <input type="text" class="form-control" value="{{$records->cs}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Nationality</label>
+                                                        <input type="text" class="form-control" value="{{$records->nationality}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Occupation</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation)) ? 'N/A' : $records->occupation}}" id="" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Works in a Closed Setting</label>
+                                                        <input type="text" class="form-control" value="{{$records->worksInClosedSetting}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3">
+                                        <div class="card-header">1.2 Current Address in the Philippines and Contact Information</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">House No./Lot/Bldg.</label>
+                                                        <input type="text" class="form-control" value="{{$records->address_houseno}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Street/Subdivision/Purok/Sitio</label>
+                                                        <input type="text" class="form-control" value="{{$records->address_street}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Barangay</label>
+                                                        <input type="text" class="form-control" value="{{$records->address_brgy}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Municipality/City</label>
+                                                        <input type="text" class="form-control" value="{{$records->address_city}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Province</label>
+                                                        <input type="text" class="form-control" value="{{$records->address_province}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Home Phone No. (& Area Code)</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->phoneno)) ? 'N/A' : $records->phoneno}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Cellphone No.</label>
+                                                        <input type="text" class="form-control" value="{{$records->mobile}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Email Address</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->email)) ? 'N/A' : $records->email}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3">
+                                        <div class="card-header">1.3 Permanent Address and Contact Information (If different from current address)</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">House No./Lot/Bldg.</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permaaddress_houseno)) ? "N/A" : $records->permaaddress_houseno}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Street/Subdivision/Purok/Sitio</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permaaddress_street)) ? "N/A" : $records->permaaddress_street}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Barangay</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permaaddress_brgy)) ? "N/A" : $records->permaaddress_brgy}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Municipality/City</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permaaddress_city)) ? "N/A" : $records->permaaddress_city}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Province</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permaaddress_province)) ? "N/A" : $records->permaaddress_province}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Home Phone No. (& Area Code)</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permaphoneno)) ? "N/A" : $records->permaphoneno}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Cellphone No.</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permamobile)) ? "N/A" : $records->permamobile}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Email Address</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->permaemail)) ? "N/A" : $records->permaemail}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3">
+                                        <div class="card-header">1.4 Current Workplace Address and Contact Information</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Lot/Bldg.</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_lotbldg)) ? 'N/A' : $records->occupation_lotbldg}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Street/Zone</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_street)) ? 'N/A' : $records->occupation_street}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Barangay</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_brgy)) ? 'N/A' : $records->occupation_brgy}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Municipality/City</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_city)) ? 'N/A' : $records->occupation_city}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Province</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_province)) ? 'N/A' : $records->occupation_province}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Name of Workplace</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_name)) ? 'N/A' : $records->occupation_name}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Phone No./Cellphone No.</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_mobile)) ? 'N/A' : $records->occupation_mobile}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Email Address</label>
+                                                        <input type="text" class="form-control" value="{{(is_null($records->occupation_email)) ? 'N/A' : $records->occupation_email}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3">
+                                        <div class="card-header">2.5 COVID-19 Vaccination Information</div>
+                                        <div class="card-body">
+                                            @if(!is_null($records->vaccinationDate1))
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="">Name of Vaccine</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{$records->vaccinationName1}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                      <label for="">1.) First Dose Date</label>
+                                                      <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate1}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Vaccination Center/Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility1) ? $records->vaccinationFacility1 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Region of Health Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion1) ? $records->vaccinationRegion1 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Adverse Event/s</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents1 == 1) ? 'YES' : 'NO'}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if(!is_null($records->vaccinationDate2))
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                      <label for="">2.) Second Dose Date</label>
+                                                      <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate2}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Vaccination Center/Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility2) ? $records->vaccinationFacility2 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Region of Health Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion2) ? $records->vaccinationRegion2 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Adverse Event/s</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents2 == 1) ? 'YES' : 'NO'}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+                                            @if(!is_null($records->vaccinationDate3))
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                      <label for="">3.) Booster Dose Date</label>
+                                                      <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate3}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Vaccination Center/Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility3) ? $records->vaccinationFacility3 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Region of Health Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion3) ? $records->vaccinationRegion3 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Adverse Event/s</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents3 == 1) ? 'YES' : 'NO'}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+                                            @if(!is_null($records->vaccinationDate4))
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                      <label for="">4.) 2ND Booster Dose Date</label>
+                                                      <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate4}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Vaccination Center/Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility4) ? $records->vaccinationFacility4 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Region of Health Facility</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion4) ? $records->vaccinationRegion4 : 'N/A'}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="">Adverse Event/s</label>
+                                                        <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents4 == 1) ? 'YES' : 'NO'}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+                                            @else
+                                            <p class="text-center">Not yet Vaccinated.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header">1.5 Special Population</div>
                         <div class="card-body">
-                            <div class="card mb-3">
-                                <div class="card-header">1.1 Patient Profile</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">Last Name</label>
-                                                <input type="text" class="form-control" value="{{$records->lname}}" id="" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">First Name</label>
-                                                <input type="text" class="form-control" value="{{$records->fname}}" id="" disabled>
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">Middle Name</label>
-                                                <input type="text" class="form-control" value="{{$records->mname}}" id="" disabled>
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="isHealthCareWorker"><span class="text-danger font-weight-bold">*</span>Health Care Worker</label>
+                                        <select class="form-control" name="isHealthCareWorker" id="isHealthCareWorker" required>
+                                            <option value="1" {{(old('isHealthCareWorker') == 1) ? 'selected' : ''}}>Yes</option>
+                                            <option value="0" {{(old('isHealthCareWorker') == 0 || is_null(old('isHealthCareWorker'))) ? 'selected' : ''}}>No</option>
+                                        </select>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">Birthdate (MM/DD/YYYY)</label>
-                                                <input type="text" class="form-control" value="{{date('m/d/Y', strtotime($records->bdate))}}" id="" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">Age</label>
-                                                <input type="text" class="form-control" value="{{$records->getAge($records->bdate)}}" id="" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">Gender</label>
-                                                <input type="text" class="form-control" value="{{$records->gender}}" id="" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="">Civil Status</label>
-                                                <input type="text" class="form-control" value="{{$records->cs}}" id="" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="">Nationality</label>
-                                                <input type="text" class="form-control" value="{{$records->nationality}}" id="" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">Occupation</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation)) ? 'N/A' : $records->occupation}}" id="" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="">Works in a Closed Setting</label>
-                                                <input type="text" class="form-control" value="{{$records->worksInClosedSetting}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">1.2 Current Address in the Philippines and Contact Information</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">House No./Lot/Bldg.</label>
-                                                <input type="text" class="form-control" value="{{$records->address_houseno}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Street/Subdivision/Purok/Sitio</label>
-                                                <input type="text" class="form-control" value="{{$records->address_street}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Barangay</label>
-                                                <input type="text" class="form-control" value="{{$records->address_brgy}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Municipality/City</label>
-                                                <input type="text" class="form-control" value="{{$records->address_city}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Province</label>
-                                                <input type="text" class="form-control" value="{{$records->address_province}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Home Phone No. (& Area Code)</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->phoneno)) ? 'N/A' : $records->phoneno}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Cellphone No.</label>
-                                                <input type="text" class="form-control" value="{{$records->mobile}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Email Address</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->email)) ? 'N/A' : $records->email}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">1.3 Permanent Address and Contact Information (If different from current address)</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">House No./Lot/Bldg.</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_houseno)) ? "N/A" : $records->permaaddress_houseno}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Street/Subdivision/Purok/Sitio</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_street)) ? "N/A" : $records->permaaddress_street}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Barangay</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_brgy)) ? "N/A" : $records->permaaddress_brgy}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Municipality/City</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_city)) ? "N/A" : $records->permaaddress_city}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Province</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permaaddress_province)) ? "N/A" : $records->permaaddress_province}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Home Phone No. (& Area Code)</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permaphoneno)) ? "N/A" : $records->permaphoneno}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Cellphone No.</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permamobile)) ? "N/A" : $records->permamobile}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Email Address</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->permaemail)) ? "N/A" : $records->permaemail}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">1.4 Current Workplace Address and Contact Information</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Lot/Bldg.</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_lotbldg)) ? 'N/A' : $records->occupation_lotbldg}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Street/Zone</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_street)) ? 'N/A' : $records->occupation_street}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Barangay</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_brgy)) ? 'N/A' : $records->occupation_brgy}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Municipality/City</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_city)) ? 'N/A' : $records->occupation_city}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Province</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_province)) ? 'N/A' : $records->occupation_province}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Name of Workplace</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_name)) ? 'N/A' : $records->occupation_name}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Phone No./Cellphone No.</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_mobile)) ? 'N/A' : $records->occupation_mobile}}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="">Email Address</label>
-                                                <input type="text" class="form-control" value="{{(is_null($records->occupation_email)) ? 'N/A' : $records->occupation_email}}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header">1.5 Special Population</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="isHealthCareWorker"><span class="text-danger font-weight-bold">*</span>Health Care Worker</label>
-                                                <select class="form-control" name="isHealthCareWorker" id="isHealthCareWorker" required>
-                                                    <option value="1" {{(old('isHealthCareWorker') == 1) ? 'selected' : ''}}>Yes</option>
-                                                    <option value="0" {{(old('isHealthCareWorker') == 0 || is_null(old('isHealthCareWorker'))) ? 'selected' : ''}}>No</option>
-                                                </select>
-                                            </div>
-                                            <div id="divisHealthCareWorker">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="healthCareCompanyName"><span class="text-danger font-weight-bold">*</span>Name of Health Facility</label>
-                                                            <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{old('healthCareCompanyName')}}" style="text-transform: uppercase;">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="healthCareCompanyLocation"><span class="text-danger font-weight-bold">*</span>Location</label>
-                                                            <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{old('healthCareCompanyLocation')}}" style="text-transform: uppercase;">
-                                                        </div>
-                                                    </div>
+                                    <div id="divisHealthCareWorker">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="healthCareCompanyName"><span class="text-danger font-weight-bold">*</span>Name of Health Facility</label>
+                                                    <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{old('healthCareCompanyName')}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="isOFW"><span class="text-danger font-weight-bold">*</span>Returning Overseas Filipino</label>
-                                                <select class="form-control" name="isOFW" id="isOFW" required>
-                                                    <option value="1" {{(old('isOFW') == 1) ? 'selected' : ''}}>Yes</option>
-                                                    <option value="0" {{(old('isOFW') == 0 || is_null(old('isOFW'))) ? 'selected' : ''}}>No</option>
-                                                </select>
-                                            </div>
-                                            <div id="divisOFW">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="OFWCountyOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
-                                                    <select class="form-control" name="OFWCountyOfOrigin" id="OFWCountyOfOrigin">
-                                                        <option value="" disabled {{(is_null(old('OFWCountyOfOrigin'))) ? 'selected' : ''}}>Choose...</option>
-                                                        @foreach ($countries as $country)
-                                                            @if($country != 'Philippines')
-                                                                <option value="{{$country}}" {{(old('OFWCountyOfOrigin') == $country) ? 'selected' : ''}}>{{$country}}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                  <label for="OFWPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
-                                                  <input type="text" class="form-control" name="OFWPassportNo" id="OFWPassportNo" value="{{old('OFWPassportNo')}}" style="text-transform: uppercase;">
-                                                </div>
-                                                <div class="form-group">
-                                                  <label for="ofwType"><span class="text-danger font-weight-bold">*</span>OFW?</label>
-                                                  <select class="form-control" name="ofwType" id="ofwType">
-                                                    <option value="1" {{(old('ofwType') == "YES") ? 'selected' : ''}}>Yes</option>
-                                                    <option value="2" {{(old('ofwType') == "NO") ? 'selected' : ''}}>No (Non-OFW)</option>
-                                                  </select>
+                                                    <label for="healthCareCompanyLocation"><span class="text-danger font-weight-bold">*</span>Location</label>
+                                                    <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{old('healthCareCompanyLocation')}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="isFNT"><span class="text-danger font-weight-bold">*</span>Foreign National Traveler</label>
-                                                <select class="form-control" name="isFNT" id="isFNT" required>
-                                                    <option value="1" {{(old('isFNT') == 1) ? 'selected' : ''}}>Yes</option>
-                                                    <option value="0" {{(old('isFNT') == 0 || is_null(old('isFNT'))) ? 'selected' : ''}}>No</option>
-                                                </select>
-                                            </div>
-                                            <div id="divisFNT">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="isOFW"><span class="text-danger font-weight-bold">*</span>Returning Overseas Filipino</label>
+                                        <select class="form-control" name="isOFW" id="isOFW" required>
+                                            <option value="1" {{(old('isOFW') == 1) ? 'selected' : ''}}>Yes</option>
+                                            <option value="0" {{(old('isOFW') == 0 || is_null(old('isOFW'))) ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                    <div id="divisOFW">
+                                        <div class="form-group">
+                                            <label for="OFWCountyOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
+                                            <select class="form-control" name="OFWCountyOfOrigin" id="OFWCountyOfOrigin">
+                                                <option value="" disabled {{(is_null(old('OFWCountyOfOrigin'))) ? 'selected' : ''}}>Choose...</option>
+                                                @foreach ($countries as $country)
+                                                    @if($country != 'Philippines')
+                                                        <option value="{{$country}}" {{(old('OFWCountyOfOrigin') == $country) ? 'selected' : ''}}>{{$country}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="OFWPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
+                                          <input type="text" class="form-control" name="OFWPassportNo" id="OFWPassportNo" value="{{old('OFWPassportNo')}}" style="text-transform: uppercase;">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="ofwType"><span class="text-danger font-weight-bold">*</span>OFW?</label>
+                                          <select class="form-control" name="ofwType" id="ofwType">
+                                            <option value="1" {{(old('ofwType') == "YES") ? 'selected' : ''}}>Yes</option>
+                                            <option value="2" {{(old('ofwType') == "NO") ? 'selected' : ''}}>No (Non-OFW)</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="isFNT"><span class="text-danger font-weight-bold">*</span>Foreign National Traveler</label>
+                                        <select class="form-control" name="isFNT" id="isFNT" required>
+                                            <option value="1" {{(old('isFNT') == 1) ? 'selected' : ''}}>Yes</option>
+                                            <option value="0" {{(old('isFNT') == 0 || is_null(old('isFNT'))) ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                    <div id="divisFNT">
+                                        <div class="form-group">
+                                            <label for="FNTCountryOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
+                                            <select class="form-control" name="FNTCountryOfOrigin" id="FNTCountryOfOrigin">
+                                                <option value="" selected disabled>Choose...</option>
+                                                @foreach ($countries as $country)
+                                                    @if($country != 'Philippines')
+                                                        <option value="{{$country}}" {{(old('FNTCountryOfOrigin') == $country) ? 'selected' : ''}}>{{$country}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="FNTPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
+                                            <input type="text" class="form-control" name="FNTPassportNo" id="FNTPassportNo" value="{{old('FNTPassportNo')}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="isLSI"><span class="text-danger font-weight-bold">*</span>Locally Stranded Individual/APOR/Traveler</label>
+                                        <select class="form-control" name="isLSI" id="isLSI" required>
+                                            <option value="1" {{(old('isLSI') == 1) ? 'selected' : ''}}>Yes</option>
+                                            <option value="0" {{(old('isLSI') == 0 || is_null(old('isLSI'))) ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                    <div id="divisLSI">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="FNTCountryOfOrigin"><span class="text-danger font-weight-bold">*</span>Country of Origin</label>
-                                                    <select class="form-control" name="FNTCountryOfOrigin" id="FNTCountryOfOrigin">
+                                                  <label for="LSIProvince"><span class="text-danger font-weight-bold">*</span>Province of Origin</label>
+                                                  <select class="form-control" name="LSIProvince" id="LSIProvince">
                                                         <option value="" selected disabled>Choose...</option>
-                                                        @foreach ($countries as $country)
-                                                            @if($country != 'Philippines')
-                                                                <option value="{{$country}}" {{(old('FNTCountryOfOrigin') == $country) ? 'selected' : ''}}>{{$country}}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="FNTPassportNo"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
-                                                    <input type="text" class="form-control" name="FNTPassportNo" id="FNTPassportNo" value="{{old('FNTPassportNo')}}" style="text-transform: uppercase;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="isLSI"><span class="text-danger font-weight-bold">*</span>Locally Stranded Individual/APOR/Traveler</label>
-                                                <select class="form-control" name="isLSI" id="isLSI" required>
-                                                    <option value="1" {{(old('isLSI') == 1) ? 'selected' : ''}}>Yes</option>
-                                                    <option value="0" {{(old('isLSI') == 0 || is_null(old('isLSI'))) ? 'selected' : ''}}>No</option>
-                                                </select>
-                                            </div>
-                                            <div id="divisLSI">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                          <label for="LSIProvince"><span class="text-danger font-weight-bold">*</span>Province of Origin</label>
-                                                          <select class="form-control" name="LSIProvince" id="LSIProvince">
-                                                                <option value="" selected disabled>Choose...</option>
-                                                          </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="LSICity"><span class="text-danger font-weight-bold">*</span>City of Origin</label>
-                                                            <select class="form-control" name="LSICity" id="LSICity">
-                                                                  <option value="" selected disabled>Choose...</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                  <label for="lsiType"><span class="text-danger font-weight-bold">*</span>Type</label>
-                                                  <select class="form-control" name="lsiType" id="lsiType">
-                                                    <option value="1" {{(old('lsiType') == 1) ? 'selected' : ''}}>Locally Stranted Individual</option>
-                                                    <option value="0" {{(old('lsiType') == 2) ? 'selected' : ''}}>Authorized Person Outside Residence/Local Traveler</option>
                                                   </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
-                                                <select class="form-control" name="isLivesOnClosedSettings" id="isLivesOnClosedSettings" required>
-                                                    <option value="1" {{(old('isLivesOnClosedSettings') == 1) ? 'selected' : ''}}>Yes</option>
-                                                    <option value="0" {{(old('isLivesOnClosedSettings') == 0 || is_null(old('isLivesOnClosedSettings'))) ? 'selected' : ''}}>No</option>
-                                                </select>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="LSICity"><span class="text-danger font-weight-bold">*</span>City of Origin</label>
+                                                    <select class="form-control" name="LSICity" id="LSICity">
+                                                          <option value="" selected disabled>Choose...</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div id="divisLivesOnClosedSettings">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                          <label for="institutionType"><span class="text-danger font-weight-bold">*</span>Specify Institution Type</label>
-                                                          <input type="text" class="form-control" name="institutionType" id="institutionType" value="{{old('institutionType')}}" style="text-transform: uppercase;">
-                                                          <small><i>(e.g. prisons, residential facilities, retirement communities, care homes, camps etc.)</i></small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="institutionName"><span class="text-danger font-weight-bold">*</span>Name of Institution</label>
-                                                            <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{old('institutionName')}}" style="text-transform: uppercase;">
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="lsiType"><span class="text-danger font-weight-bold">*</span>Type</label>
+                                          <select class="form-control" name="lsiType" id="lsiType">
+                                            <option value="1" {{(old('lsiType') == 1) ? 'selected' : ''}}>Locally Stranted Individual</option>
+                                            <option value="0" {{(old('lsiType') == 2) ? 'selected' : ''}}>Authorized Person Outside Residence/Local Traveler</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="isLivesOnClosedSettings"><span class="text-danger font-weight-bold">*</span>Lives in Closed Settings</label>
+                                        <select class="form-control" name="isLivesOnClosedSettings" id="isLivesOnClosedSettings" required>
+                                            <option value="1" {{(old('isLivesOnClosedSettings') == 1) ? 'selected' : ''}}>Yes</option>
+                                            <option value="0" {{(old('isLivesOnClosedSettings') == 0 || is_null(old('isLivesOnClosedSettings'))) ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                    <div id="divisLivesOnClosedSettings">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label for="institutionType"><span class="text-danger font-weight-bold">*</span>Specify Institution Type</label>
+                                                  <input type="text" class="form-control" name="institutionType" id="institutionType" value="{{old('institutionType')}}" style="text-transform: uppercase;">
+                                                  <small><i>(e.g. prisons, residential facilities, retirement communities, care homes, camps etc.)</i></small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="institutionName"><span class="text-danger font-weight-bold">*</span>Name of Institution</label>
+                                                    <input type="text" class="form-control" name="institutionName" id="institutionName" value="{{old('institutionName')}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>
@@ -879,134 +1013,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card mb-3">
-                                <div class="card-header">2.5 COVID-19 Vaccination Information</div>
-                                <div class="card-body">
-                                    @if(!is_null($records->vaccinationDate1))
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="">Name of Vaccine</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{$records->vaccinationName1}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                              <label for="">1.) First Dose Date</label>
-                                              <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate1}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Vaccination Center/Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility1) ? $records->vaccinationFacility1 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Region of Health Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion1) ? $records->vaccinationRegion1 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Adverse Event/s</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents1 == 1) ? 'YES' : 'NO'}}" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @if(!is_null($records->vaccinationDate2))
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                              <label for="">2.) Second Dose Date</label>
-                                              <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate2}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Vaccination Center/Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility2) ? $records->vaccinationFacility2 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Region of Health Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion2) ? $records->vaccinationRegion2 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Adverse Event/s</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents2 == 1) ? 'YES' : 'NO'}}" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if(!is_null($records->vaccinationDate3))
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                              <label for="">3.) Booster Dose Date</label>
-                                              <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate3}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Vaccination Center/Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility3) ? $records->vaccinationFacility3 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Region of Health Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion3) ? $records->vaccinationRegion3 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Adverse Event/s</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents3 == 1) ? 'YES' : 'NO'}}" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if(!is_null($records->vaccinationDate4))
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                              <label for="">4.) 2ND Booster Dose Date</label>
-                                              <input type="date" class="form-control" name="" id="" value="{{$records->vaccinationDate4}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Vaccination Center/Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationFacility4) ? $records->vaccinationFacility4 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Region of Health Facility</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->vaccinationRegion4) ? $records->vaccinationRegion4 : 'N/A'}}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Adverse Event/s</label>
-                                                <input type="text" class="form-control" name="" id="" value="{{($records->haveAdverseEvents4 == 1) ? 'YES' : 'NO'}}" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @else
-                                    <p class="text-center">Not yet Vaccinated.</p>
-                                    @endif
-                                </div>
-                            </div>
+                            
                             <div class="card mb-3">
                                 <div class="card-header">2.6 Clinical Information</div>
                                 <div class="card-body">
