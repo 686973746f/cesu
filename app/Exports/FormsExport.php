@@ -674,14 +674,14 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $pv8f,
 
             //Close Contact Names
-            (!is_null($form->contact1Name)) ? mb_strtoupper($form->contact1Name) : "N/A",
-            (!is_null($form->contact1No)) ? $form->contact1No : "N/A",
-            (!is_null($form->contact2Name)) ? mb_strtoupper($form->contact2Name) : "N/A",
-            (!is_null($form->contact2No)) ? $form->contact2No : "N/A",
-            (!is_null($form->contact3Name)) ? mb_strtoupper($form->contact3Name) : "N/A",
-            (!is_null($form->contact3No)) ? $form->contact3No : "N/A",
-            (!is_null($form->contact4Name)) ? mb_strtoupper($form->contact4Name) : "N/A",
-            (!is_null($form->contact4No)) ? $form->contact4No : "N/A",
+            (!is_null($form->contact1Name)) ? mb_strtoupper($form->contact1Name) : "",
+            (!is_null($form->contact1No)) ? $form->contact1No : "",
+            (!is_null($form->contact2Name)) ? mb_strtoupper($form->contact2Name) : "",
+            (!is_null($form->contact2No)) ? $form->contact2No : "",
+            (!is_null($form->contact3Name)) ? mb_strtoupper($form->contact3Name) : "",
+            (!is_null($form->contact3No)) ? $form->contact3No : "",
+            (!is_null($form->contact4Name)) ? mb_strtoupper($form->contact4Name) : "",
+            (!is_null($form->contact4No)) ? $form->contact4No : "",
 
             (!is_null($form->isPresentOnSwabDay) && $form->isPresentOnSwabDay == 1) ? 'YES' : 'NO',
             ($form->isForHospitalization == 1) ? 'YES' : 'NO',
