@@ -970,8 +970,8 @@
                                                 <select class="form-control" name="caseClassification" id="caseClassification" required>
                                                     <option value="Probable" {{(old('caseClassification') == 'Probable') ? 'selected' : ''}}>Probable</option>
                                                     <option value="Suspect" {{(old('caseClassification') == 'Suspect') ? 'selected' : 'selected'}}>Suspect</option>
-                                                    <option value="Confirmed" {{(old('caseClassification') == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
-                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
+                                                    <option value="Confirmed" {{(old('caseClassification') == 'Confirmed') ? 'selected' : ''}}>Confirmed (POSITIVE +)</option>
+                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification') == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (NEGATIVE -)</option>
                                                 </select>
                                             </div>
                                             @if($is_cutoff && $records->id == $records->getNewCif() && $records->caseClassification != 'Confirmed')
@@ -1718,7 +1718,7 @@
                                         <option value="Recovered" {{(old('outcomeCondition') == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition') == 'Died') ? 'selected' : ''}}>Died</option>
                                       </select>
-                                      <small class="text-danger d-none" id="outcomeWarningText">Note: When selecting the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case" and this CIF will be locked for editing.</small>
+                                      <small class="text-danger d-none" id="outcomeWarningText">Note: When selecting the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case" and this CIF will be LOCKED for editing.</small>
                                     </div>
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">
@@ -2345,7 +2345,7 @@
                                         </div>
                                     </div>
                                     <div class="card mt-3">
-                                        <div class="card-header">List the names of persons who were with you two days prior to onset of illness until this date and their contact numbers.</div>
+                                        <div class="card-header">List name o</div>
                                         <div class="card-body">
                                             <div class="alert alert-info" role="alert">
                                                 <h4 class="text-danger"><b>NOTE:</b></h4>
@@ -3594,10 +3594,7 @@
                     $('#intDateArrive').prop('required', false);
                     
                     $('#divTravelLoc').show();
-                    if($('.localTravelOptions :checkbox').is(':checked')) {
-                        
-                    }
-                    else {
+                    if(!($('.localTravelOptions :checkbox').is(':checked'))) {
                         $('.localTravelOptions :checkbox').attr('required', 'required');
                     }
                 }

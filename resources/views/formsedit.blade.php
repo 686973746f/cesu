@@ -1190,9 +1190,9 @@
                                                     <option value="Probable" {{(old('caseClassification', $records->caseClassification) == 'Probable') ? 'selected' : ''}}>Probable</option>
                                                     <option value="Suspect" {{(old('caseClassification', $records->caseClassification) == 'Suspect') ? 'selected' : ''}}>Suspect</option>
                                                     @endif
-                                                    <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed (Select if the Result is Positive +)</option>
+                                                    <option value="Confirmed" {{(old('caseClassification', $records->caseClassification) == 'Confirmed') ? 'selected' : ''}}>Confirmed (POSITIVE +)</option>
                                                     @if($records->caseClassification != 'Confirmed' || auth()->user()->ifTopAdmin())
-                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (Select if the Result is Negative -)</option>
+                                                    <option value="Non-COVID-19 Case" {{(old('caseClassification', $records->caseClassification) == 'Non-COVID-19 Case') ? 'selected' : ''}}>Non-COVID-19 Case (NEGATIVE -)</option>
                                                     @endif
                                                 </select>
                                             </div>
@@ -2052,7 +2052,7 @@
                                         <option value="Recovered" {{(old('outcomeCondition', $records->outcomeCondition) == 'Recovered') ? 'selected' : ''}}>Recovered</option>
                                         <option value="Died" {{(old('outcomeCondition', $records->outcomeCondition) == 'Died') ? 'selected' : ''}}>Died</option>
                                       </select>
-                                      <small class="text-danger d-none" id="outcomeWarningText">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case" and this CIF will be locked for editing.</small>
+                                      <small class="text-danger d-none" id="outcomeWarningText">Note: When Changing the Outcome to Recovered or Died, the [2.4 Case Classification] of the patient will be automatically set to "Confirmed Case" and this CIF will be LOCKED for editing.</small>
                                     </div>
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">
@@ -4106,10 +4106,7 @@
                     $('#intDateArrive').prop('required', false);
                     
                     $('#divTravelLoc').removeClass('d-none');
-                    if($('.localTravelOptions :checkbox').is(':checked')) {
-                        
-                    }
-                    else {
+                    if(!($('.localTravelOptions :checkbox').is(':checked'))) {
                         $('.localTravelOptions :checkbox').attr('required', 'required');
                     }
                 }
