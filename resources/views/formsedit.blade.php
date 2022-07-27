@@ -2202,7 +2202,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="divTravelLoc" class="localTravelOptions">
+                                    <div id="divTravelLoc" class="localTravelOptions d-none">
                                         <div class="card">
                                             <div class="card-header">
                                                 <span class="text-danger font-weight-bold">*</span>If Local Travel, specify travel places (<i>Check all that apply, provide name of facility, address, and inclusive travel dates</i>)
@@ -4077,7 +4077,7 @@
                 e.preventDefault();
                 if($(this).val() == 0 || $(this).val() == 3) {
                     $('#divTravelInt').hide();
-                    $('#divTravelLoc').hide();
+                    $('#divTravelLoc').addClass('d-none');
 
                     $('.localTravelOptions :checkbox').removeAttr('required');
                 }
@@ -4093,9 +4093,13 @@
                     $('#intDateDepart').prop('required', false);
                     $('#intDateArrive').prop('required', false);
                     
-                    $('#divTravelLoc').show();
-
-                    $('.localTravelOptions :checkbox').attr('required', 'required');
+                    $('#divTravelLoc').removeClass('d-none');
+                    if($('.localTravelOptions :checkbox').is(':checked')) {
+                        
+                    }
+                    else {
+                        $('.localTravelOptions :checkbox').attr('required', 'required');
+                    }
                 }
                 else if($(this).val() == 2) {
                     $('#divTravelInt').show();
@@ -4109,7 +4113,7 @@
                     $('#intDateDepart').prop('required', false);
                     $('#intDateArrive').prop('required', false);
 
-                    $('#divTravelLoc').hide();
+                    $('#divTravelLoc').addClass('d-none');
 
                     $('.localTravelOptions :checkbox').removeAttr('required');
                 }

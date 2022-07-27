@@ -3588,8 +3588,12 @@
                     $('#intDateArrive').prop('required', false);
                     
                     $('#divTravelLoc').show();
-
-                    $('.localTravelOptions :checkbox').attr('required', 'required');
+                    if($('.localTravelOptions :checkbox').is(':checked')) {
+                        
+                    }
+                    else {
+                        $('.localTravelOptions :checkbox').attr('required', 'required');
+                    }
                 }
                 else if($(this).val() == 2) {
                     $('#divTravelInt').show();
