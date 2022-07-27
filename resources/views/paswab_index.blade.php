@@ -1240,7 +1240,6 @@
                                 <div class="card">
                                     <div class="card-header">Isulat ang mga pangalan ng iyong mga nakasama / List the Names of your Close Contact</div>
                                     <div class="card-body">
-
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -1251,7 +1250,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="contact1No">Mobile Number of Close Contact #1</label>
-                                                    <input type="text" class="form-control" name="contact1No" id="contact1No">
+                                                    <input type="text" class="form-control" name="contact1No" id="contact1No" pattern="[0-9]{11}" placeholder="09*********">
                                                 </div>
                                             </div>
                                         </div>
@@ -1265,7 +1264,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="contact2No">Mobile Number of Close Contact #2</label>
-                                                    <input type="text" class="form-control" name="contact2No" id="contact2No">
+                                                    <input type="text" class="form-control" name="contact2No" id="contact2No" pattern="[0-9]{11}" placeholder="09*********">
                                                 </div>
                                             </div>
                                         </div>
@@ -1279,7 +1278,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="contact3No">Mobile Number of Close Contact #3</label>
-                                                    <input type="text" class="form-control" name="contact3No" id="contact3No">
+                                                    <input type="text" class="form-control" name="contact3No" id="contact3No" pattern="[0-9]{11}" placeholder="09*********">
                                                 </div>
                                             </div>
                                         </div>
@@ -1293,7 +1292,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="contact4No">Mobile Number of Close Contact #4</label>
-                                                    <input type="text" class="form-control" name="contact4No" id="contact4No">
+                                                    <input type="text" class="form-control" name="contact4No" id="contact4No" pattern="[0-9]{11}" placeholder="09*********">
                                                 </div>
                                             </div>
                                         </div>

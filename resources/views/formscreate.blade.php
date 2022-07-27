@@ -2347,28 +2347,28 @@
                                     <div class="card mt-3">
                                         <div class="card-header">List the names of persons who were with you two days prior to onset of illness until this date and their contact numbers.</div>
                                         <div class="card-body">
+                                            <div class="alert alert-info" role="alert">
+                                                <h4 class="text-danger"><b>NOTE:</b></h4>
+                                                <hr>
+                                                <p id="ccnote_withsx" class="d-none">Isulat ang mga <b>pangalan at contact number</b> ng mga taong nakasalamuha ng pasyente <b>DALAWANG ARAW BAGO NAGSIMULA ANG SINTOMAS</b> hanggang ngayong araw. / Provide <b>names and contact numbers</b> of persons who were with the patient <b>TWO DAYS PRIOR TO ONSET OF ILLNESS</b> until this date.</p>
+                                                <p id="ccnote_nosx" class="d-none">Isulat ang mga <b>pangalan at contact number</b> ng mga taong nakasalamuha ng pasyente sa <b>MISMONG ARAW NA KINOLEKTA ANG KANYANG SPECIMEN</b>. / Provide <b>names and contact numbers</b> of persons who were with the patient <b>ON THE DAY SPECIMEN WAS SUBMITTED FOR TESTING</b> until this date.</p>
+                                            </div>
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="alert alert-info" role="alert">
-                                                        <p>- If symptomatic, provide names and contact numbers of persons who were with the patient two days prior to onset of illness until this date.</p>
-                                                        <p>- If asymptomatic, provide names and contact numbers of persons who were with the patient on the day specimen was submitted for testing until this date.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-6">
                                                     <div class="card">
                                                         <div class="card-header">Name</div>
                                                         <div class="card-body">
                                                             <div class="form-group">
-                                                              <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{old('contact1Name')}}" style="text-transform: uppercase;">
+                                                              <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{old('contact1Name')}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #1">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{old('contact2Name')}}" style="text-transform: uppercase;">
+                                                                <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{old('contact2Name')}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #2">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{old('contact3Name')}}" style="text-transform: uppercase;">
+                                                                <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{old('contact3Name')}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #3">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{old('contact4Name')}}" style="text-transform: uppercase;">
+                                                                <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{old('contact4Name')}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #4">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2916,6 +2916,9 @@
 
                         $('#expoitem2').val('1').change();
                         $('#expoitem2_sno').addClass('d-none');
+
+                        $('#ccnote_withsx').removeClass('d-none');
+                        $('#ccnote_nosx').addClass('d-none');
                     } else {
                         $('#onsetasterisk').addClass('d-none');
                         $('#dateOnsetOfIllness').prop('required', false);
@@ -2926,6 +2929,9 @@
 
                         $('#expoitem2').val(getCurrentExpo2).change();
                         $('#expoitem2_sno').removeClass('d-none');
+
+                        $('#ccnote_withsx').addClass('d-none');
+                        $('#ccnote_nosx').removeClass('d-none');
                     }
                 }).trigger('change');
             });
