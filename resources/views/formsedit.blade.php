@@ -2109,9 +2109,9 @@
                                     <div class="form-group">
                                       <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>History of exposure to known probable and/or confirmed COVID-19 case 14 days before the onset of signs and symptoms?  OR If Asymptomatic, 14 days before swabbing or specimen collection?</label>
                                       <select class="form-control" name="expoitem1" id="expoitem1" required>
-                                            <option id="sexpoitem1_no" value="2" {{(old('expoitem1', $records->expoitem1) == 2) ? 'selected' : ''}}>No</option>
                                             <option value="1" {{(old('expoitem1', $records->expoitem1) == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option id="sexpoitem1_unknown" value="3" {{(old('expoitem1', $records->expoitem1) == 3) ? 'selected' : ''}}>Unknown</option>
+                                            <option id="sexpoitem1_no" class="d-none" value="2" {{(old('expoitem1', $records->expoitem1) == 2) ? 'selected' : ''}}>No</option>
+                                            <option id="sexpoitem1_unknown" class="d-none" value="3" {{(old('expoitem1', $records->expoitem1) == 3) ? 'selected' : ''}}>Unknown</option>
                                       </select>
                                     </div>
                                     <div id="divExpoitem1">
