@@ -285,7 +285,12 @@ class PaSwabController extends Controller
 
                     $testCat = [];
                     if(!is_null($data->SAS)) {
-                        array_push($testCat, "C");
+                        if($data->getAgeInt() >= 60) {
+                            array_push($testCat, "B");
+                        }
+                        else {
+                            array_push($testCat, "C");
+                        }
                     }
                     else if($data->getAgeInt() >= 60) {
                         array_push($testCat, "B");
@@ -764,7 +769,12 @@ class PaSwabController extends Controller
 
                     $testCat = [];
                     if(!is_null($data->SAS)) {
-                        array_push($testCat, "C");
+                        if($data->getAgeInt() >= 60) {
+                            array_push($testCat, "B");
+                        }
+                        else {
+                            array_push($testCat, "C");
+                        }
                     }
                     else if($data->getAgeInt() >= 60) {
                         array_push($testCat, "B");
@@ -1626,7 +1636,12 @@ class PaSwabController extends Controller
 
             $testCat = [];
             if(!is_null($data->SAS)) {
-                array_push($testCat, "C");
+                if($data->getAgeInt() >= 60) {
+                    array_push($testCat, "B");
+                }
+                else {
+                    array_push($testCat, "C");
+                }
             }
             else if($data->getAgeInt() >= 60) {
                 array_push($testCat, "B");
@@ -2131,7 +2146,12 @@ class PaSwabController extends Controller
 
             $testCat = [];
             if(!is_null($data->SAS)) {
-                array_push($testCat, "C");
+                if($data->getAgeInt() >= 60) {
+                    array_push($testCat, "B");
+                }
+                else {
+                    array_push($testCat, "C");
+                }
             }
             else if($data->getAgeInt() >= 60) {
                 array_push($testCat, "B");
