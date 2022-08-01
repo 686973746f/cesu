@@ -1260,7 +1260,12 @@ class FormsController extends Controller
             }
             */
             if(!in_array("C", $testCat) && !is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
-                array_push($testCat, "C");
+                if($rec->getAgeInt() >= 60) {
+                    array_push($testCat, "B");
+                }
+                else {
+                    array_push($testCat, "C");
+                }
             }
             if(!in_array("B", $testCat) && $rec->getAgeInt() >= 60) {
                 array_push($testCat, "B");
@@ -2179,7 +2184,12 @@ class FormsController extends Controller
                 }
                 */
                 if(!in_array("C", $testCat) && !is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
-                    array_push($testCat, "C");
+                    if($rec->records->getAgeInt() >= 60) {
+                        array_push($testCat, "B");
+                    }
+                    else {
+                        array_push($testCat, "C");
+                    }
                 }
                 if(!in_array("B", $testCat) && $rec->records->getAgeInt() >= 60) {
                     array_push($testCat, "B");
