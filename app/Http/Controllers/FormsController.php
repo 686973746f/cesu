@@ -1526,6 +1526,19 @@ class FormsController extends Controller
             else {
                 $hs = 'Asymptomatic';
             }
+
+            //Auto set Patient type to COVID-19 Case if may Symptoms
+            if($request->pType != 'CLOSE CONTACT') {
+                if(!is_null($request->sasCheck)) {
+                    $set_ptype = 'PROBABLE';
+                }
+                else {
+                    $set_ptype = 'TESTING';
+                }
+            }
+            else {
+                $set_ptype = 'CLOSE CONTACT';
+            }
     
             if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -1553,7 +1566,7 @@ class FormsController extends Controller
                     'informantMobile' => $request->informantMobile,
                     'existingCaseList' => implode(",", $request->existingCaseList),
                     'ecOthersRemarks' => $request->ecOthersRemarks,
-                    'pType' => $request->pType,
+                    'pType' => $set_ptype,
                     'ccType' => ($request->pType == 'CLOSE CONTACT') ? $request->ccType : NULL,
                     'ccid_list' => (!is_null($request->ccid_list)) ? implode(",", $request->ccid_list) : NULL,
                     'isForHospitalization' => $request->isForHospitalization,
@@ -2462,6 +2475,19 @@ class FormsController extends Controller
                 else {
                     $hs = 'Asymptomatic';
                 }
+
+                //Auto set Patient type to COVID-19 Case if may Symptoms
+                if($request->pType != 'CLOSE CONTACT') {
+                    if(!is_null($request->sasCheck)) {
+                        $set_ptype = 'PROBABLE';
+                    }
+                    else {
+                        $set_ptype = 'TESTING';
+                    }
+                }
+                else {
+                    $set_ptype = 'CLOSE CONTACT';
+                }
                 
                 if($proceed == 1) {
                     if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
@@ -2492,7 +2518,7 @@ class FormsController extends Controller
                             'informantMobile' => $request->informantMobile,
                             'existingCaseList' => implode(",", $request->existingCaseList),
                             'ecOthersRemarks' => $request->ecOthersRemarks,
-                            'pType' => $request->pType,
+                            'pType' => $set_ptype,
                             'ccType' => ($request->pType == 'CLOSE CONTACT') ? $request->ccType : NULL,
                             'ccid_list' => (!is_null($request->ccid_list)) ? implode(",", $request->ccid_list) : NULL,
                             'isForHospitalization' => $request->isForHospitalization,
