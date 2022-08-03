@@ -1539,6 +1539,35 @@ class FormsController extends Controller
             else {
                 $set_ptype = 'CLOSE CONTACT';
             }
+
+            //If magkalayo range between Date Collected and Date Released, show Error
+            if(!is_null($request->testDateCollected2)) {
+                if(!is_null($request->testDateReleased2)) {
+                    $datea = Carbon::parse($request->testDateCollected2);
+                    $dateb = Carbon::parse($request->testDateReleased2);
+
+                    if($datea->diffInDays($dateb) >= 14) {
+                        return back()
+                        ->withInput()
+                        ->with('msg', 'Test Date Collected #2 should be 14 days behind Test Date Released #2.')
+                        ->with('msgType', 'danger');
+                    }
+                }
+            }
+
+            if(!is_null($request->testDateCollected1)) {
+                if(!is_null($request->testDateReleased1)) {
+                    $datea = Carbon::parse($request->testDateCollected1);
+                    $dateb = Carbon::parse($request->testDateReleased1);
+
+                    if($datea->diffInDays($dateb) >= 14) {
+                        return back()
+                        ->withInput()
+                        ->with('msg', 'Test Date Collected #1 should be 14 days behind Test Date Released #1.')
+                        ->with('msgType', 'danger');
+                    }
+                }
+            }
     
             if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
                 return back()
@@ -2487,6 +2516,35 @@ class FormsController extends Controller
                 }
                 else {
                     $set_ptype = 'CLOSE CONTACT';
+                }
+
+                //If magkalayo range between Date Collected and Date Released, show Error
+                if(!is_null($request->testDateCollected2)) {
+                    if(!is_null($request->testDateReleased2)) {
+                        $datea = Carbon::parse($request->testDateCollected2);
+                        $dateb = Carbon::parse($request->testDateReleased2);
+
+                        if($datea->diffInDays($dateb) >= 14) {
+                            return back()
+                            ->withInput()
+                            ->with('msg', 'Test Date Collected #2 should be 14 days behind Test Date Released #2.')
+                            ->with('msgType', 'danger');
+                        }
+                    }
+                }
+
+                if(!is_null($request->testDateCollected1)) {
+                    if(!is_null($request->testDateReleased1)) {
+                        $datea = Carbon::parse($request->testDateCollected1);
+                        $dateb = Carbon::parse($request->testDateReleased1);
+
+                        if($datea->diffInDays($dateb) >= 14) {
+                            return back()
+                            ->withInput()
+                            ->with('msg', 'Test Date Collected #1 should be 14 days behind Test Date Released #1.')
+                            ->with('msgType', 'danger');
+                        }
+                    }
                 }
                 
                 if($proceed == 1) {
