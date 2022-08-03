@@ -1549,7 +1549,7 @@ class FormsController extends Controller
                     if($datea->diffInDays($dateb) >= 14) {
                         return back()
                         ->withInput()
-                        ->with('msg', 'Test Date Collected #2 should be 14 days behind Test Date Released #2.')
+                        ->with('msg', 'Test Date Collected #2 should be 14 days behind Test Date Released #2. Please check the swab date and try again.')
                         ->with('msgType', 'danger');
                     }
                 }
@@ -1563,7 +1563,7 @@ class FormsController extends Controller
                     if($datea->diffInDays($dateb) >= 14) {
                         return back()
                         ->withInput()
-                        ->with('msg', 'Test Date Collected #1 should be 14 days behind Test Date Released #1.')
+                        ->with('msg', 'Test Date Collected #1 should be 14 days behind Test Date Released #1. Please check the swab date and try again.')
                         ->with('msgType', 'danger');
                     }
                 }
@@ -2527,7 +2527,7 @@ class FormsController extends Controller
                         if($datea->diffInDays($dateb) >= 14) {
                             return back()
                             ->withInput()
-                            ->with('msg', 'Test Date Collected #2 should be 14 days behind Test Date Released #2.')
+                            ->with('msg', 'Test Date Collected #2 should be 14 days behind Test Date Released #2. Please check the swab date and then try again.')
                             ->with('msgType', 'danger');
                         }
                     }
@@ -2541,7 +2541,7 @@ class FormsController extends Controller
                         if($datea->diffInDays($dateb) >= 14) {
                             return back()
                             ->withInput()
-                            ->with('msg', 'Test Date Collected #1 should be 14 days behind Test Date Released #1.')
+                            ->with('msg', 'Test Date Collected #1 should be 14 days behind Test Date Released #1. Please check the swab date and then try again.')
                             ->with('msgType', 'danger');
                         }
                     }
