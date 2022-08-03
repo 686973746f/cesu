@@ -1,6 +1,5 @@
 @component('mail::message')
     <div>
-        @component('mail::table')
         @php
         $gt_suspected = 0;
         $gt_confirmed = 0;
@@ -49,6 +48,5 @@
                 </tr>
             </tfoot>
         </table>
-        @endcomponent
     </div>
 @endcomponent

@@ -142,6 +142,6 @@ class SendEncoderStatus extends Mailable
             'arr' => $arr,
         ])
         ->from('admin@cesugentri.com', 'Christian James Historillo')
-        ->subject('CESU Gen. Trias - Encoder Status for '.date(''));
+        ->subject('CESU Gen. Trias - Encoder Status for '.date('F d, Y'));
     }
 }
