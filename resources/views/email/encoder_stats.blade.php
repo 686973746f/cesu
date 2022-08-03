@@ -1,5 +1,6 @@
 @component('mail::message')
     <div>
+        @component('mail::table')
         @php
         $gt_suspected = 0;
         $gt_confirmed = 0;
@@ -19,16 +20,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($arr as $i) 
-                <tr>
-                    <td class="text-center">{{$loop->iteration}}</td>
-                    <td>{{$i['name']}}</td>
-                    <td class="text-center">{{$i['suspected_count']}}</td>
-                    <td class="text-center" style="color: red;">{{$i['confirmed_count']}}</td>
-                    <td class="text-center" style="color: green;">{{$i['recovered_count']}}</td>
-                    <td class="text-center">{{$i['negative_count']}}</td>
-                    <td class="text-center font-weight-bold">{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count']}}</td>
-                </tr>
+                @foreach($arr as $i)
+                {{$loop->iteration}}
+                {{$i['name']}}
+                {{$i['suspected_count']}}
+                {{$i['confirmed_count']}}
+                {{$i['recovered_count']}}
+                {{$i['negative_count']}}
+                {{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count']}}
                 @php
                 $gt_suspected += $i['suspected_count'];
                 $gt_confirmed += $i['confirmed_count'];
@@ -48,5 +47,6 @@
                 </tr>
             </tfoot>
         </table>
+        @endcomponent
     </div>
 @endcomponent
