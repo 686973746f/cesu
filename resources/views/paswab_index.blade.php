@@ -1224,7 +1224,7 @@
                         <div class="card-header font-weight-bold">7. Exposure History</div>
                         <div class="card-body">
                             <div class="alert alert-info" role="alert">
-                                <b>Starting August 09, 2022</b>, Date of Exposure and Names of Close Contact on Home or other places will be required to be filled up. This is to comply with the requirements of the Molecular Laboratory.
+                                <b class="text-danger">Note:</b> Starting <b>August 09, 2022</b>, Date of Exposure and Names of Close Contact on Home or other places <b>will be required to be filled up</b>. This is to comply with the requirements of the Molecular Laboratory.
                             </div>
                             <div class="form-group">
                                 <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
