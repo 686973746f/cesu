@@ -1650,7 +1650,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="PregnantLMP"><span class="text-danger font-weight-bold">*</span>Last Menstrual Period (LMP)</label>
-                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{old('PregnantLMP', $records->PregnantLMP)}}" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
+                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" max="{{date('Y-m-d')}}" value="{{old('PregnantLMP', $records->PregnantLMP)}}" {{($records->records->gender == "FEMALE" && $records->records->isPregnant == 1) ? 'required' : 'disabled'}}>
                                                     </div>
                                                 </div>
                                             </div>

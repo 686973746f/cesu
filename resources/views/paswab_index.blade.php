@@ -1239,7 +1239,7 @@
                             <div id="divExpoitem1" class="d-none">
                                 <div class="form-group">
                                     <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose sa tao/lugar na may COVID-19?</label>
-                                    <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
+                                    <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                 </div>
                                 <div class="card">
                                     <div class="card-header">Contact Tracing - Ilista ang mga pangalan ng mga kasama sa bahay o mga nakasalamuha noong mga nakaraang araw</div>

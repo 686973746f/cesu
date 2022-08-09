@@ -1429,7 +1429,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="PregnantLMP"><span class="text-danger font-weight-bold">*</span>Last Menstrual Period (LMP)</label>
-                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" value="{{old('PregnantLMP')}}" {{($records->gender == "FEMALE" && $records->isPregnant == 1) ? 'required' : 'disabled'}}>
+                                                        <input type="date" class="form-control" name="PregnantLMP" id="PregnantLMP" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('PregnantLMP')}}" {{($records->gender == "FEMALE" && $records->isPregnant == 1) ? 'required' : 'disabled'}}>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1783,7 +1783,7 @@
                                     <div id="divExpoitem1">
                                         <div class="form-group">
                                           <label for=""><span class="text-danger font-weight-bold">*</span>Date of Last Contact/Exposure to COVID-19 Positive Area or Patient</label>
-                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
+                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
