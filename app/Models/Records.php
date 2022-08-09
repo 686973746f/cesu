@@ -144,7 +144,12 @@ class Records extends Model
     }
 
     public function getPhilhealth() {
-        return substr($this->philhealth,0,2)."-".substr($this->philhealth,2,9)."-".substr($this->philhealth,11,1);
+        if(!is_null($this->philhealth)) {
+            return substr($this->philhealth,0,2)."-".substr($this->philhealth,2,9)."-".substr($this->philhealth,11,1);
+        }
+        else {
+            return 'N/A';
+        }
     }
 
     public static function ifDuplicateFound($lname, $fname, $mname, $bdate) {

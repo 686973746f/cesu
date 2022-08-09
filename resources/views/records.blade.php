@@ -26,23 +26,44 @@
                                 <p class="mb-0">To check/update the existing CIF associated with the patient, click <a href="{{session('ciflink')}}">HERE</a></p>
                                 <hr>
                                 <div class="alert alert-info" role="alert">
-                                    <p>Recent CIF Details:</p>
-                                    <p><strong>Philhealth: </strong> {{session('cifdetails')->records->philhealth}} | 
+                                    <p>Existing CIF Details:</p>
+                                    <p><strong>Birthdate: </strong> {{date('m/d/Y', strtotime(session('cifdetails')->records->bdate))}} • 
+                                        <strong>Age/Sex: </strong> {{session('cifdetails')->records->getAge()}} / {{substr(session('cifdetails')->records->gender,0,1)}}</p>
+                                    <p><strong>Philhealth: </strong> {{session('cifdetails')->records->getPhilhealth()}} • 
                                     <strong>Mobile: </strong> {{session('cifdetails')->records->mobile}}</p>
+                                    <p><strong>Address: </strong> {{session('cifdetails')->records->getAddress()}}</p>
                                     <p><strong>Date Encoded / By:</strong> {{date('m/d/Y h:i A', strtotime(session('cifdetails')->created_at))}} ({{session('cifdetails')->user->name}}) 
-                                        @if(!is_null(session('cifdetails')->updated_by)) | <strong>Date Edited / By:</strong> {{date('m/d/Y h:i A', strtotime(session('cifdetails')->updated_at))}} ({{session('cifdetails')->getEditedBy()}})@endif</p>
-                                    <p><strong>Morbidity Month / Week:</strong> {{date('m/d/Y (W)', strtotime(session('cifdetails')->morbidityMonth))}} |
+                                        @if(!is_null(session('cifdetails')->updated_by)) • <strong>Date Edited / By:</strong> {{date('m/d/Y h:i A', strtotime(session('cifdetails')->updated_at))}} ({{session('cifdetails')->getEditedBy()}})@endif</p>
+                                    <p><strong>Morbidity Month / Week:</strong> {{date('m/d/Y (W)', strtotime(session('cifdetails')->morbidityMonth))}} •
                                         <strong>Date Reported:</strong> {{date('m/d/Y', strtotime(session('cifdetails')->dateReported))}}</p>
-                                    <p><strong>Patient Type:</strong> {{session('cifdetails')->getType()}} | 
-                                        <strong>Health Status: </strong> {{session('cifdetails')->healthStatus}} | 
-                                        <strong>Classification:</strong> {{session('cifdetails')->caseClassification}} | 
-                                        <strong>Outcome:</strong> {{session('cifdetails')->outcomeCondition}}
+                                    <p><strong>DRU: </strong> {{session('cifdetails')->drunit}} ({{session('cifdetails')->drregion}} {{session('cifdetails')->drprovince}})</p>
+                                    <p><strong>Patient Type:</strong> {{session('cifdetails')->getType()}} • 
+                                        <strong>Health Status: </strong> {{session('cifdetails')->healthStatus}} • 
+                                        <strong>Classification:</strong> {{session('cifdetails')->caseClassification}}
                                     </p>
-                                    <p><strong>Latest Date of Swab Collection:</strong> {{session('cifdetails')->getLatestTestDate()}} | 
-                                        <strong>Test Type:</strong> {{session('cifdetails')->getLatestTestType()}} | 
-                                        <strong>Result:</strong> {{session('cifdetails')->getLatestTestResult()}}
+                                    <p>
+                                        <strong>Quarantine Status:</strong> {{session('cifdetails')->getQuarantineStatus()}} ({{date('m/d/Y', strtotime(session('cifdetails')->dispoDate))}}) • 
+                                        <strong>Outcome:</strong> <span class="{{(session('cifdetails')->outcomeCondition == 'Recovered') ? 'font-weight-bold text-success' : ''}}">{{session('cifdetails')->outcomeCondition}} {{(!is_null(session('cifdetails')->getOutcomeDate())) ? '('.session('cifdetails')->getOutcomeDate().')' : ''}}</span>
+                                    </p>
+                                    @if(session('cifdetails')->ifScheduled())
+                                    <hr>
+                                    <p><strong>Most Recent Swab Date:</strong> {{session('cifdetails')->getLatestTestDate()}} • 
+                                        <strong>Test Type:</strong> {{session('cifdetails')->getLatestTestType()}}
+                                    </p>
+                                    <p>
+                                        @if(!is_null(session('cifdetails')->getLatestTestDateReleased()))
+                                        <strong>Date Released: </strong> {{session('cifdetails')->getLatestTestDateReleased()}} • 
+                                        @endif
+                                        @if(!is_null(session('cifdetails')->getLatestTestLaboratory()))
+                                        <strong>Laboratory: </strong> {{session('cifdetails')->getLatestTestLaboratory()}} • 
+                                        @endif
+                                        <strong>Result:</strong> <span class="{{(session('cifdetails')->getLatestTestResult() == 'POSITIVE' ? 'text-danger font-weight-bold' : '')}}">{{session('cifdetails')->getLatestTestResult()}}</span>
                                     </p>
                                     <p><strong>Attended: </strong>{{session('cifdetails')->getAttendedOnSwab()}}</p>
+                                    @else
+                                    <hr>
+                                    <p><b>No Swab Schedule found on current CIF.</b></p>
+                                    @endif
                                 </div>
                                 @endif
                             @else

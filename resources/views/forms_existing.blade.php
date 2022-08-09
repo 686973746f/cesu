@@ -49,9 +49,13 @@
                     <hr>
                     @if($form->ifScheduled())
                     <p><strong>Most Recent Swab Date:</strong> {{$form->getLatestTestDate()}} • 
-                        <strong>Test Type:</strong> {{$form->getLatestTestType()}} • 
+                        <strong>Test Type:</strong> {{$form->getLatestTestType()}}</p>
+                    <p>
                         @if(!is_null($form->getLatestTestDateReleased()))
                         <strong>Date Released: </strong> {{$form->getLatestTestDateReleased()}} • 
+                        @endif
+                        @if(!is_null($form->getLatestTestLaboratory()))
+                        <strong>Laboratory: </strong> {{$form->getLatestTestLaboratory()}} • 
                         @endif
                         <strong>Result:</strong> <span class="{{($form->getLatestTestResult() == 'POSITIVE' ? 'text-danger font-weight-bold' : '')}}">{{$form->getLatestTestResult()}}</span>
                     </p>

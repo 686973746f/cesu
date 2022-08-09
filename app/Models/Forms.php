@@ -107,6 +107,18 @@ class Forms extends Model
         }
     }
 
+    public function getLatestTestLaboratory() {
+        if(!is_null($this->testLaboratory2)) {
+            return $this->testLaboratory2;
+        }
+        else if(!is_null($this->testLaboratory1)) {
+            return $this->testLaboratory1;
+        }
+        else {
+            return NULL;
+        }
+    }
+
     public function getAttendedOnSwab() {
         if(!is_null($this->isPresentOnSwabDay)) {
             if($this->isPresentOnSwabDay == 1) {
