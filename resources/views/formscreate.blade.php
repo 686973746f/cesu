@@ -2345,7 +2345,7 @@
                                         </div>
                                     </div>
                                     <div class="card mt-3">
-                                        <div class="card-header">List name o</div>
+                                        <div class="card-header">List Names of Close Contacts</div>
                                         <div class="card-body">
                                             <div class="alert alert-info" role="alert">
                                                 <h4 class="text-danger"><b>NOTE:</b></h4>
@@ -2373,7 +2373,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6">
                                                     <div class="card">
                                                         <div class="card-header">Contact Number</div>
                                                         <div class="card-body">

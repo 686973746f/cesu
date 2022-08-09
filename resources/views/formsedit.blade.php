@@ -2679,7 +2679,7 @@
                                         </div>
                                     </div>
                                     <div class="card mt-3">
-                                        <div class="card-header">List the names of persons who were with you two days prior to onset of illness until this date and their contact numbers.</div>
+                                        <div class="card-header">List Names of Close Contacts</div>
                                         <div class="card-body">
                                             <div class="alert alert-info" role="alert">
                                                 <h4 class="text-danger"><b>NOTE:</b></h4>

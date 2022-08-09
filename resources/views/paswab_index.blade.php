@@ -1226,7 +1226,6 @@
                             <div class="form-group">
                                 <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
                                 <select class="form-control" name="expoitem1" id="expoitem1" required>
-                                    <option id="sexpoitem1_choose" value="" disabled {{is_null(old('expoitem1')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                     <option value="1" {{(old('expoitem1') == '1') ? 'selected' : ''}}>Oo / Yes</option>
                                     <option id="sexpoitem1_no" value="2" {{(old('expoitem1') == '2') ? 'selected' : ''}}>Hindi / No</option>
                                     <option id="sexpoitem1_unknown" value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Hindi sigurado / Unknown</option>
@@ -1238,7 +1237,7 @@
                                     <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">Isulat ang mga pangalan ng iyong mga nakasama / List the Names of your Close Contact</div>
+                                    <div class="card-header">Contact Tracing - Ilista ang mga pangalan ng mga kasama sa bahay o mga nakasalamuha noong mga nakaraang araw</div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
