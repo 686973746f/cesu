@@ -1227,16 +1227,18 @@
                                 <b class="text-danger">Note:</b> Starting <b>August 09, 2022</b>, Date of Exposure and Names of Close Contact on Home or other places <b>will be required to be filled up</b>. This is to comply with the requirements of the Molecular Laboratory.
                             </div>
                             <div class="form-group">
-                                <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 Positive 14 days ago?</label>
+                                <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 o pumunta sa lugar na may aktibong kaso ng COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 OR went to a place that has active COVID-19 case/s 14 days ago?</label>
                                 <select class="form-control" name="expoitem1" id="expoitem1" required>
                                     <option value="1" {{(old('expoitem1') == '1') ? 'selected' : ''}}>Oo / Yes</option>
+                                    <!--
                                     <option id="sexpoitem1_no" class="d-none" value="2" {{(old('expoitem1') == '2') ? 'selected' : ''}}>Hindi / No</option>
                                     <option id="sexpoitem1_unknown" class="d-none" value="3" {{(old('expoitem1') == '3') ? 'selected' : ''}}>Hindi sigurado / Unknown</option>
+                                    -->
                                 </select>
                             </div>
                             <div id="divExpoitem1" class="d-none">
                                 <div class="form-group">
-                                    <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose sa nag-positibo na Lugar o Pasyente?</label>
+                                    <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose sa tao/lugar na may COVID-19?</label>
                                     <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                 </div>
                                 <div class="card">
