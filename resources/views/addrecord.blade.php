@@ -444,6 +444,7 @@
 										</div>
 									</div>
 								</div>
+								<hr>
 								<div class="form-group">
 									<label for="haveBooster2"><span class="text-danger font-weight-bold">*</span>Have 2nd Booster Vaccine?</label>
 									<select class="form-control" name="haveBooster2" id="haveBooster2" required>

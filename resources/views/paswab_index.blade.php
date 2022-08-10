@@ -769,6 +769,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
                                         <div class="form-group">
                                             <label for="haveBooster2"><span class="text-danger font-weight-bold">*</span>Have 2nd Booster Vaccine?</label>
                                             <select class="form-control" name="haveBooster2" id="haveBooster2" required>
@@ -1985,6 +1986,9 @@
                 $('#booster_question').addClass('d-none');
                 $('#haveBooster').val('0');
                 $('#haveBooster').trigger('change');
+
+                $('#haveBooster2').val('0');
+                $('#haveBooster2').trigger('change');
             }
             else if($(this).val() == '2') {
                 $('#VaccineDose1').removeClass('d-none');
@@ -1997,6 +2001,9 @@
                 $('#booster_question').removeClass('d-none');
                 $('#haveBooster').val('0');
                 $('#haveBooster').trigger('change');
+
+                $('#haveBooster2').val('0');
+                $('#haveBooster2').trigger('change');
             }
             else {
                 $('#VaccineDose1').addClass('d-none');
@@ -2009,6 +2016,9 @@
                 $('#booster_question').addClass('d-none');
                 $('#haveBooster').val('0');
                 $('#haveBooster').trigger('change');
+
+                $('#haveBooster2').val('0');
+                $('#haveBooster2').trigger('change');
             }
         }).trigger('change');
 

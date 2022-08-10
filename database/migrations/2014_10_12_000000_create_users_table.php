@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('canAccessLinelist')->default(0);
             $table->tinyInteger('canByPassValidation')->default(0);
             $table->tinyInteger('canByPassCutoff')->default(0);
+            $table->tinyInteger('canExportReport')->default(0);
             $table->tinyInteger('isValidator')->default(0);
             $table->tinyInteger('isPositiveEncoder')->default(0);
             $table->string('name');

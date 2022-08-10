@@ -253,6 +253,13 @@ class SelfReportController extends Controller
             'vaccinationFacility3' => $data->vaccinationFacility3,
             'vaccinationRegion3' => $data->vaccinationRegion3,
             'haveAdverseEvents3' => $data->haveAdverseEvents3,
+
+            'vaccinationDate4' => $data->vaccinationDate4,
+            'vaccinationName4' => $data->vaccinationName4,
+            'vaccinationNoOfDose4' => $data->vaccinationNoOfDose4,
+            'vaccinationFacility4' => $data->vaccinationFacility4,
+            'vaccinationRegion4' => $data->vaccinationRegion4,
+            'haveAdverseEvents4' => $data->haveAdverseEvents4,
         );
 
         if($data->isNewRecord == 1) {
@@ -664,6 +671,12 @@ class SelfReportController extends Controller
 				'vaccinationNoOfDose3' =>  ($request->haveBooster == 1) ? 3 : NULL,
 				'vaccinationFacility3' =>  ($request->haveBooster == 1 && $request->filled('vaccinationFacility3')) ? mb_strtoupper($request->vaccinationFacility3) : NULL,
 				'vaccinationRegion3' =>  ($request->haveBooster == 1 && $request->filled('vaccinationRegion3')) ? mb_strtoupper($request->vaccinationRegion3) : NULL,
+                'vaccinationDate4' => ($request->haveBooster2 == 1) ? $request->vaccinationDate4 : NULL,
+                'haveAdverseEvents4' => ($request->haveBooster2 == 1) ? $request->haveAdverseEvents4 : NULL,
+                'vaccinationName4' => ($request->haveBooster2 == 1) ? $request->vaccinationName4 : NULL,
+                'vaccinationNoOfDose4' => ($request->haveBooster2 == 1) ? 4 : NULL,
+                'vaccinationFacility4' => ($request->haveBooster2 == 1 && $request->filled('vaccinationFacility4')) ? mb_strtoupper($request->vaccinationFacility4) : NULL,
+                'vaccinationRegion4' => ($request->haveBooster2 == 1 && $request->filled('vaccinationRegion4')) ? mb_strtoupper($request->vaccinationRegion4) : NULL,
                 
                 'dateOnsetOfIllness' => ($request->haveSymptoms == 1) ? $request->dateOnsetOfIllness : NULL,
                 'SAS' => ($request->haveSymptoms == 1 && !is_null($request->sasCheck)) ? implode(",", $request->sasCheck) : NULL,
@@ -884,6 +897,13 @@ class SelfReportController extends Controller
             'vaccinationFacility3' => $data->vaccinationFacility3,
             'vaccinationRegion3' => $data->vaccinationRegion3,
             'haveAdverseEvents3' => $data->haveAdverseEvents3,
+
+            'vaccinationDate4' => $data->vaccinationDate4,
+            'vaccinationName4' => $data->vaccinationName4,
+            'vaccinationNoOfDose4' => $data->vaccinationNoOfDose4,
+            'vaccinationFacility4' => $data->vaccinationFacility4,
+            'vaccinationRegion4' => $data->vaccinationRegion4,
+            'haveAdverseEvents4' => $data->haveAdverseEvents4,
         );
 
         if($data->isNewRecord == 1) {
