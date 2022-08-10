@@ -673,9 +673,8 @@
                                             <div class="form-group">
                                                 <label for="haveAdverseEvents1"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
                                                 <select class="form-control" name="haveAdverseEvents1" id="haveAdverseEvents1">
-                                                  <option value="" disabled {{(is_null(old('haveAdverseEvents1'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
-                                                  <option value="1" {{(old('haveAdverseEvents1') == '1') ? 'selected' : ''}}>Yes</option>
-                                                  <option value="0" {{(old('haveAdverseEvents1') == '0') ? 'selected' : ''}}>No</option>
+                                                    <option value="0" {{(old('haveAdverseEvents1') == '0') ? 'selected' : ''}}>No</option>
+                                                    <option value="1" {{(old('haveAdverseEvents1') == '1') ? 'selected' : ''}}>Yes</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -705,9 +704,8 @@
                                                 <div class="form-group">
                                                     <label for="haveAdverseEvents2"><span class="text-danger font-weight-bold">*</span>Adverse Event/s</label>
                                                     <select class="form-control" name="haveAdverseEvents2" id="haveAdverseEvents2">
-                                                      <option value="" disabled {{(is_null(old('haveAdverseEvents2'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
-                                                      <option value="1" {{(old('haveAdverseEvents2') == '1') ? 'selected' : ''}}>Yes</option>
-                                                      <option value="0" {{(old('haveAdverseEvents2') == '0') ? 'selected' : ''}}>No</option>
+                                                        <option value="0" {{(old('haveAdverseEvents2') == '0') ? 'selected' : ''}}>No</option>
+                                                        <option value="1" {{(old('haveAdverseEvents2') == '1') ? 'selected' : ''}}>Yes</option>
                                                     </select>
                                                 </div>
                                             </div>
