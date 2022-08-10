@@ -604,9 +604,9 @@ class SelfReportController extends Controller
                 'occupation_mobile' => $request->occupation_mobile,
                 'occupation_email' => $request->occupation_email,
 
-                'drunit' => mb_strtoupper($request->drunit),
-                'drregion' => mb_strtoupper($request->drregion),
-                'drprovince' => mb_strtoupper($request->drprovince),
+                'drunit' => 'CHO GENERAL TRIAS',
+                'drregion' => '4A',
+                'drprovince' => 'CAVITE',
                 
                 'pType' => $request->pType,
                 'isHealthCareWorker' => $request->isHealthCareWorker,
