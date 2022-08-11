@@ -68,10 +68,12 @@
                     <button class="btn btn-primary btn-lg btn-block mt-2" type="button" data-toggle="collapse" data-target="#reportCollapse" aria-expanded="false" aria-controls="reportCollapse"><i class="fas fa-chart-bar mr-2"></i>Reports</button>
                     <div class="collapse" id="reportCollapse">
                         <div class="card card-body border-primary">
+                            @if(auth()->user()->canExportReport == 1)
                             <a href="{{route('report.index')}}" class="btn btn-primary btn-block" id="reportsbtn">View Report Dashboard / Summary<i class="fas fa-circle-notch fa-spin ml-2 d-none" id="reportLoading"></i></a>
                             <div id="reportNotice" class="text-center d-none">
                                 <small>Note: Loading report might take a while to finish. Please be patient and do not refresh the page immediately.</small>
                             </div>
+                            @endif
                             @if(auth()->user()->ifTopAdmin())
                             <button type="button" class="btn btn-success btn-block mt-3" data-toggle="modal" data-target="#exportModal"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</button>
                             @endif

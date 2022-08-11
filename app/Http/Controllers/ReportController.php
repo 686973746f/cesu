@@ -24,6 +24,12 @@ class ReportController extends Controller
         $totalCasesCount_fullyVaccinated = 0;
 
         if(auth()->user()->isCesuAccount()) {
+            if(auth()->user()->canExportReport != 1) {
+                return redirect()->route('home')
+                ->with('status', 'You are not allowed to do that.')
+                ->with('statustype', 'warning');
+            }
+
             $activeCount = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
@@ -2171,6 +2177,13 @@ class ReportController extends Controller
 
     public function dohExportAll(Request $request) {
         ini_set('max_execution_time', 900);
+
+        if(auth()->user()->canExportReport != 1) {
+            return redirect()->route('home')
+            ->with('status', 'You are not allowed to do that.')
+            ->with('statustype', 'warning');
+        }
+        
         $year = $request->yearSelected;
 
         $suspectedQuery = Forms::with('records')
