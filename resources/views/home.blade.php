@@ -26,7 +26,7 @@
                     </button>
                     <div class="collapse" id="collapse1">
                         <div class="card card-body border-primary">
-                            <a href="{{route('forms.index')}}" class="btn btn-primary btn-block">View/Create CIFs</a>
+                            <a href="{{route('forms.index')}}" class="btn btn-primary btn-block">View Swab Schedule</a>
                             @if(auth()->user()->isCesuAccount())
                             <a href="{{route('pendingshedchecker.index')}}" class="btn btn-primary btn-block">Pending Swab Counter</a>
                             @endif
@@ -76,9 +76,9 @@
                             @endif
                             @if(auth()->user()->ifTopAdmin())
                             <button type="button" class="btn btn-success btn-block mt-3" data-toggle="modal" data-target="#exportModal"><i class="fas fa-file-excel mr-2"></i>Export Report to Excel</button>
+                            <hr>
                             @endif
                             @if(auth()->user()->isCesuAccount())
-                            <hr>
                             <a href="{{route('report_cm_index')}}" class="btn btn-primary btn-block mt-3">Composite Measure</a>
                             <a href="{{route('clustering_index')}}" class="btn btn-primary btn-block mt-3">Confirmed Cases Clustering</a>
                             @endif
