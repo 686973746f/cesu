@@ -1081,14 +1081,16 @@ class PaSwabController extends Controller
 
     public function store(PaSwabValidationRequest $request, $locale) {
         //Block Record if No Symptoms or Not for Hospitalization
-        if($request->forAntigen != 1) {
-            if(is_null($request->sasCheck)) {
-                if($request->isForHospitalization != 1) {
-                    return back()
-                    ->withInput()
-                    ->with('msg', 'Based on your swab schedule application, you have NO SYMPTOMS or NOT FOR HOSPITALIZATION. Therefore, your swab schedule application is REJECTED.')
-                    ->with('msgtype', 'danger')
-                    ->with('skipmodal', true);
+        if($request->pType != 'CLOSE CONTACT') {
+            if($request->forAntigen != 1) {
+                if(is_null($request->sasCheck)) {
+                    if($request->isForHospitalization != 1) {
+                        return back()
+                        ->withInput()
+                        ->with('msg', 'Based on your swab schedule application, you have NO SYMPTOMS or NOT FOR HOSPITALIZATION. Therefore, your swab schedule application is REJECTED.')
+                        ->with('msgtype', 'danger')
+                        ->with('skipmodal', true);
+                    }
                 }
             }
         }
