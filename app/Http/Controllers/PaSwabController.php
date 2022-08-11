@@ -1082,7 +1082,7 @@ class PaSwabController extends Controller
     public function store(PaSwabValidationRequest $request, $locale) {
         //Block Record if No Symptoms or Not for Hospitalization
         if($request->forAntigen != 1) {
-            if(!is_null($request->sasCheck)) {
+            if(is_null($request->sasCheck)) {
                 if($request->isForHospitalization != 1) {
                     return back()
                     ->withInput()
