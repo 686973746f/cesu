@@ -72,7 +72,7 @@
                                         <select class="form-control" name="isForHospitalization" id="isForHospitalization" required>
                                             <option value="" disabled {{is_null(old('isForHospitalization')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                             <option value="1" {{(old('isForHospitalization') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
-                                            <option value="0" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
+                                            <option value="0" id="isForHospitalization_sno" {{(old('isForHospitalization') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1736,15 +1736,25 @@
             }
         }).trigger('change');
 
+        var isfhosp = $('#isForHospitalization').val();
+
         $('#isPregnant').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '0' || $(this).val() == null) {
                 $('#ifPregnant').addClass('d-none');
                 $('#lmp').prop('required', false);
+
+                $('#isForHospitalization').val(isfhosp);
+                $('#isForHospitalization').trigger('change');
+                $('#isForHospitalization_sno').removeClass('d-none');
             }
             else {
                 $('#ifPregnant').removeClass('d-none');
                 $('#lmp').prop('required', true);
+
+                $('#isForHospitalization').val('1');
+                $('#isForHospitalization').trigger('change');
+                $('#isForHospitalization_sno').addClass('d-none');
             }
         }).trigger('change');
 
