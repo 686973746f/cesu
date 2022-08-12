@@ -2791,7 +2791,7 @@ class FormsController extends Controller
      */
     public function destroy(Forms $form)
     {
-        if(auth()->user()->ifTopAdmin()) {
+        if(auth()->user()->ifTopAdmin() || $form->status == 'paswab_rejected') {
             $form->delete();
 
             return redirect()->action([FormsController::class, 'index'])->with('status', 'CIF of Patient ['.$form->records->getName().' #'.$form->records->id.'] has been deleted successfully.')->with('statustype', 'success');
@@ -2935,5 +2935,27 @@ class FormsController extends Controller
                 'admitted' => $admitted,
             ]);
         }
+    }
+
+    public function setTempSched($id, Request $request) {
+        $d = Forms::findOrFail($id);
+
+        $d->testType2 = $request->temp_testType2;
+        $d->testResult2 = 'PENDING';
+        $d->testDateCollected2 = $request->temp_testDateCollected2;
+        $d->oniTimeCollected2 = $request->temp_oniTimeCollected2;
+        $d->testTypeAntigenRemarks2 = ($request->temp_testType2 == "ANTIGEN") ? mb_strtoupper($request->temp_testTypeOtherRemarks2) : NULL;
+        $d->antigen_id2 = ($request->temp_testType2 == "ANTIGEN") ? $request->temp_antigen_id2 : NULL;
+        $d->antigenLotNo2 = ($request->temp_testType2 == "ANTIGEN" && !is_null($request->temp_antigenLotNo2)) ? mb_strtoupper($request->temp_antigenLotNo2) : NULL;
+        $d->testTypeOtherRemarks2 = ($request->temp_testType2 == "OTHERS") ? mb_strtoupper($request->temp_testTypeOtherRemarks2) : NULL;
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->action([FormsController::class, 'index'])
+        ->with('status', "Temporary Swab Schedule on CIF for ".$d->records->getName()." (#".$d->records->id.") has been updated successfully.")
+        ->with('statustype', 'success')
+        ->with('add_note', (isset($add_note)) ? $add_note : NULL);
     }
 }

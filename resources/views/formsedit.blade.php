@@ -11,16 +11,94 @@
                 </div>
             </form>
         @endif
+        @if($records->status == 'paswab_rejected')
+        <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
+        <p>This CIF of the Patient was <b>REJECTED from PA-SWAB</b> on {{date('m/d/Y', strtotime($records->created_at))}}.</p>
+        <p>To make a new swab schedule for this patient, delete this CIF first.</p>
+        @endif
+        @if(!($records->ifCaseFinished()) && $records->ifOldCIf() == false && $records->caseClassification == 'Confirmed')
+        <div class="alert alert-info" role="alert">
+            <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
+            <p>This CIF of the Patient was already marked as <strong class="text-danger">CONFIRMED</strong>.</p>
+            <p>Only an admin can update the details of this record to preserve the details of the case.</p>
+            <hr>
+            <p>Other Options:</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tempsched">Set Temporary Swab Schedule</button>
+        </div>
+        <form action="{{route('forms.setTempSched', ['id' => $records->id])}}" method="POST">
+            @csrf
+            <div class="modal fade" id="tempsched" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Set Temporary Swab Schedule</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-primary" role="alert">
+                            This function allows to set temporary swab schedule for Patients who were recently encoded as <b class="text-danger">Confirmed</b> and were still not yet recovered.
+                        </div>
+                        <div class="form-group">
+                            <label for="temp_testType2"><span class="text-danger font-weight-bold">*</span>Swab Test Type</label>
+                            <select class="form-control" name="temp_testType2" id="temp_testType2" required>
+                                <option value="" disabled {{(is_null(old('temp_testType2', $records->testType2))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="OPS" {{(old('temp_testType2', $records->testType2) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
+                                <option value="NPS" {{(old('temp_testType2', $records->testType2) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
+                                <option value="OPS AND NPS" {{(old('temp_testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                <option value="ANTIGEN" {{(old('temp_testType2', $records->testType2) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
+                                <option value="ANTIBODY" {{(old('temp_testType2', $records->testType2) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                <option value="OTHERS" {{(old('temp_testType2', $records->testType2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                            </select>
+                        </div>
+                        <div id="temp_divTypeOthers2" class="d-none">
+                            <div class="form-group">
+                              <label for="temp_testTypeOtherRemarks2"><span class="text-danger font-weight-bold">*</span>Specify Type/Reason</label>
+                              <input type="text" class="form-control" name="temp_testTypeOtherRemarks2" id="temp_testTypeOtherRemarks2" value="{{old('temp_testTypeOtherRemarks2', ($records->testType2 == "ANTIGEN") ? $records->testTypeAntigenRemarks2 : $records->testResultOtherRemarks2)}}" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div id="temp_ifAntigen2" class="d-none">
+                            <div class="form-group">
+                                <label for="temp_antigen_id2">Antigen Kit</label>
+                                <select class="form-control" name="temp_antigen_id2" id="temp_antigen_id2">
+                                    <option value="" disabled {{(is_null(old('temp_antigen_id2', $records->antigen_id2))) ? 'selected' : ''}}>Choose...</option>
+                                    @foreach($antigen_list as $ai)
+                                    <option value="{{$ai->id}}" {{(old('temp_antigen_id2', $records->antigen_id2) == $ai->id) ? 'selected' : ''}}>{{$ai->antigenKitShortName}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="temp_antigenLotNo2">Antigen Lot No <small>(Leave Blank to use Default)</small></label>
+                                <input type="text" class="form-control" name="temp_antigenLotNo2" id="temp_antigenLotNo2" value="{{old('temp_antigenLotNo2', $records->antigenLotNo2)}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="temp_testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date of Swab</label>
+                            <input type="date" class="form-control" name="temp_testDateCollected2" id="temp_testDateCollected2" min="{{$mindate}}" max="{{$enddate}}" value="{{old('temp_testDateCollected2', $records->testDateCollected2)}}">
+                            <small class="text-muted">Note: This also considered the first day of Quarantine Period.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="temp_oniTimeCollected2">Time of Swab Collection</label>
+                            <input type="time" name="temp_oniTimeCollected2" id="temp_oniTimeCollected2" class="form-control" value="{{old('temp_oniTimeCollected2', $records->oniTimeCollected2)}}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @endif
         @if($records->ifCaseFinished() && $records->ifOldCif() == false)
             <div class="alert alert-info" role="alert">
                 <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
                 @if($records->outcomeCondition == 'Recovered')
-                <p>This CIF of Patient was already marked as <u><strong>RECOVERED</strong></u>.</p>
+                <p>This CIF of the Patient was already marked as <strong class="text-success">RECOVERED</strong>.</p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB OR REINFECTION</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 @elseif($records->caseClassification == 'Non-COVID-19 Case')
-                <p>This CIF of Patient was already marked as <u><strong>NEGATIVE RESULT</strong></u></p>
+                <p>This CIF of the Patient was already marked as <strong>NEGATIVE RESULT</strong></p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
@@ -170,7 +248,7 @@
             </div>
             @endif
         @endif
-        @if(auth()->user()->ifTopAdmin())
+        @if(auth()->user()->ifTopAdmin() || $records->status == 'paswab_rejected')
         <form action="/forms/{{$records->id}}" method="POST">
             @csrf
             @method('delete')
@@ -3967,6 +4045,52 @@
                         $('#antigenExport2').addClass('d-none');
                         $('#ifAntigen2').addClass('d-none');
                         $('#antigen_id2').prop('required', false);
+                    }
+                }
+            }).trigger('change');
+
+            $('#temp_testType2').change(function (e) {
+                e.preventDefault();
+                if($(this).val() === "") {
+                    $('#temp_testDateCollected2').prop('required', false);
+
+                    $('#temp_divTypeOthers2').addClass('d-none');
+                    $('#temp_testTypeOtherRemarks2').empty();
+                    $('#temp_testTypeOtherRemarks2').prop('required', false);
+                    
+                    $('#temp_ifAntigen2').addClass('d-none');
+                    $('#temp_antigen_id2').prop('required', false);
+
+                    $('#temp_testDateCollected2').prop('disabled', true);
+                    $('#temp_oniTimeCollected2').prop('disabled', true);
+                }
+                else {
+                    $('#temp_testDateCollected2').prop('required', true);
+
+                    $('#temp_testDateCollected2').prop('disabled', false);
+                    $('#temp_oniTimeCollected2').prop('disabled', false);
+
+                    if($(this).val() == 'OTHERS' || $(this).val() == 'ANTIGEN') {
+                        $('#temp_divTypeOthers2').removeClass('d-none');
+                        $('#temp_testTypeOtherRemarks2').prop('required', true);
+                        $('#temp_testDateCollected2').prop('required', true);
+
+                        if($(this).val() == 'ANTIGEN') {
+                            $('#temp_ifAntigen2').removeClass('d-none');
+                            $('#temp_antigen_id2').prop('required', true);
+                        }
+                        else {
+                            $('#temp_ifAntigen2').addClass('d-none');
+                            $('#temp_antigen_id2').prop('required', false);
+                        }
+                    }
+                    else {
+                        $('#temp_divTypeOthers2').addClass('d-none');
+                        $('#temp_testTypeOtherRemarks2').empty();
+                        $('#temp_testTypeOtherRemarks2').prop('required', false);
+                        
+                        $('#temp_ifAntigen2').addClass('d-none');
+                        $('#temp_antigen_id2').prop('required', false);
                     }
                 }
             }).trigger('change');
