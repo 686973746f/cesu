@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div>eCIF (version 9) - Create</div>
+                        <div><b>eCIF (version 9) - Create</b></div>
                         <div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#appendix"><i class="fa fa-file mr-2" aria-hidden="true"></i>Appendix</button>
                         </div>

@@ -12,18 +12,18 @@
             </form>
         @endif
         @if($records->status == 'paswab_rejected')
-        <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
+        <h4 class="alert-heading font-weight-bold text-danger">NOTICE:</h4>
         <p>This CIF of the Patient was <b>REJECTED from PA-SWAB</b> on {{date('m/d/Y', strtotime($records->created_at))}}.</p>
         <p>To make a new swab schedule for this patient, delete this CIF first.</p>
         @endif
         @if(!($records->ifCaseFinished()) && $records->ifOldCIf() == false && $records->caseClassification == 'Confirmed')
         <div class="alert alert-info" role="alert">
-            <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
-            <p>This CIF of the Patient was already marked as <strong class="text-danger">CONFIRMED</strong>.</p>
+            <h4 class="alert-heading font-weight-bold text-danger">NOTICE:</h4>
+            <p>This CIF of the Patient was already marked as <strong class="text-danger">CONFIRMED (+)</strong>.</p>
             <p>Only an admin can update the details of this record to preserve the details of the case.</p>
             <hr>
-            <p>Other Options:</p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tempsched">Set Temporary Swab Schedule</button>
+            <p><i>Other Options:</i></p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tempsched">{{(!is_null($records->testDateCollected2)) ? 'Edit' : 'Set'}} Temporary Swab Schedule</button>
         </div>
         <form action="{{route('forms.setTempSched', ['id' => $records->id])}}" method="POST">
             @csrf
@@ -31,12 +31,12 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Set Temporary Swab Schedule</h5>
+                        <h5 class="modal-title">{{(!is_null($records->testDateCollected2)) ? 'Edit' : 'Set'}} Temporary Swab Schedule</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-primary" role="alert">
-                            This function allows to set temporary swab schedule for Patients who were recently encoded as <b class="text-danger">Confirmed</b> and were still not yet recovered.
+                            This function allows to set a temporary swab schedule for Patients even if their CIF was already marked as <b class="text-danger">Confirmed</b> case.
                         </div>
                         <div class="form-group">
                             <label for="temp_testType2"><span class="text-danger font-weight-bold">*</span>Swab Test Type</label>
@@ -44,7 +44,7 @@
                                 <option value="" disabled {{(is_null(old('temp_testType2', $records->testType2))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="OPS" {{(old('temp_testType2', $records->testType2) == 'OPS') ? 'selected' : ''}}>RT-PCR (OPS)</option>
                                 <option value="NPS" {{(old('temp_testType2', $records->testType2) == 'NPS') ? 'selected' : ''}}>RT-PCR (NPS)</option>
-                                <option value="OPS AND NPS" {{(old('temp_testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
+                                <option value="OPS AND NPS" {{(old('temp_testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS+NPS)</option>
                                 <option value="ANTIGEN" {{(old('temp_testType2', $records->testType2) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                 <option value="ANTIBODY" {{(old('temp_testType2', $records->testType2) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
                                 <option value="OTHERS" {{(old('temp_testType2', $records->testType2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label for="temp_testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date of Swab</label>
-                            <input type="date" class="form-control" name="temp_testDateCollected2" id="temp_testDateCollected2" min="{{$mindate}}" max="{{$enddate}}" value="{{old('temp_testDateCollected2', $records->testDateCollected2)}}">
+                            <input type="date" class="form-control" name="temp_testDateCollected2" id="temp_testDateCollected2" min="{{date('Y-m-d')}}" max="{{$enddate}}" value="{{old('temp_testDateCollected2', $records->testDateCollected2)}}">
                             <small class="text-muted">Note: This also considered the first day of Quarantine Period.</small>
                         </div>
                         <div class="form-group">
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">{{(!is_null($records->testDateCollected2)) ? 'Update' : 'Save'}}</button>
                     </div>
                     </div>
                 </div>
@@ -91,14 +91,14 @@
         @endif
         @if($records->ifCaseFinished() && $records->ifOldCif() == false)
             <div class="alert alert-info" role="alert">
-                <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
+                <h4 class="alert-heading font-weight-bold text-danger">NOTICE:</h4>
                 @if($records->outcomeCondition == 'Recovered')
                 <p>This CIF of the Patient was already marked as <strong class="text-success">RECOVERED</strong>.</p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB OR REINFECTION</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
                 @elseif($records->caseClassification == 'Non-COVID-19 Case')
-                <p>This CIF of the Patient was already marked as <strong>NEGATIVE RESULT</strong></p>
+                <p>This CIF of the Patient was already marked as <strong>NON-COVID/NEGATIVE RESULT (-)</strong></p>
                 <p>Only an admin can update the details of this record to preserve the details of the case.</p>
                 <hr>
                 <p>If <strong>FOR RESWAB</strong>, click the <span class="badge badge-success"><i class="far fa-plus-square mr-2"></i>Create New CIF / Reswab</span> Button above.</p>
@@ -108,7 +108,7 @@
                 @endif
                 @if($records->outcomeCondition == 'Recovered' || $records->caseClassification == 'Non-COVID-19 Case')
                 <hr>
-                <p>Other Options:</p>
+                <p><i>Other Options:</i></p>
                 @if($records->is_disobedient == 1)
                 <div class="alert alert-danger" role="alert">
                     <p>The patient cannot be able to process Medical Certifate as it was marked as <strong class="text-danger">DISOBEDIENT/UNCOOPERATIVE</strong></p>
@@ -193,7 +193,7 @@
         @endif
         @if($records->ifOldCif())
         <div class="alert alert-info" role="alert">
-            <h5 class="alert-heading font-weight-bold text-danger">Notice:</h5>
+            <h4 class="alert-heading font-weight-bold text-danger">NOTICE:</h4>
             <p>This is an <strong>OLD CIF Data</strong> of the patient. Only an admin can edit the details of this Patient's Old CIF.</p>
             <p>To view the latest CIF details associated with the patient, click <a href="{{route('forms.edit', ['form' => $records->getNewCif()])}}">HERE</a></p>
         </div>
@@ -203,7 +203,7 @@
                 <div class="card mb-3">
                     <div class="card-header" role="tab" id="oldcifheader">
                         <a data-toggle="collapse" data-parent="#accordianId" href="#oldcifcontent" aria-expanded="true" aria-controls="oldcifcontent">
-                            <i class="fa fa-history mr-2" aria-hidden="true"></i>Previous CIF Record/s of {{$records->records->getName()}}
+                            <i class="fa fa-history mr-2" aria-hidden="true"></i>Show Previous CIF Record/s of {{$records->records->getName()}} (Sorted by Newest to Oldest)
                         </a>
                     </div>
                     <div id="oldcifcontent" class="collapse in" role="tabpanel" aria-labelledby="oldcifheader">
@@ -263,18 +263,37 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div>eCIF (version 9) - Edit</div>
+                        <div><b>eCIF (version 9) - Edit</b></div>
                         <div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#appendix"><i class="fa fa-file mr-2" aria-hidden="true"></i>Appendix</button>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    @if($msheet)
-                    <a href="{{route('msheet.view', ['id' => $msheet->id])}}" class="btn btn-primary btn-block mb-3">View Monitoring Sheet</a>
-                    @else
-                    <button type="button" onclick="event.preventDefault(); document.getElementById('msheetform').submit();" class="btn btn-success btn-block mb-3"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Create Monitoring Sheet</button>
-                    @endif
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="button" onclick="event.preventDefault(); document.getElementById('exportcsvform').submit();" class="btn btn-secondary btn-block mb-3"><i class="fas fa-file-csv mr-2"></i>Export to .CSV</button>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn-group btn-block mb-3">
+                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('exportBtnStk2').click();"><i class="fas fa-print mr-2"></i>Print VTM Sticker (LaSalle)</button>
+                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="exportDropdown">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button type="button" class="dropdown-item" onclick="document.getElementById('exportBtnStk').click();"><i class="fas fa-print mr-2"></i>Print VTM Sticker (ONI & LaSalle)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            @if($msheet)
+                            <a href="{{route('msheet.view', ['id' => $msheet->id])}}" class="btn btn-secondary btn-block mb-3">View Monitoring Sheet</a>
+                            @else
+                            <button type="button" onclick="event.preventDefault(); document.getElementById('msheetform').submit();" class="btn btn-secondary btn-block mb-3"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Create Monitoring Sheet</button>
+                            @endif
+                        </div>
+                    </div>
+                    
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
                         <p>{{Str::plural('Error', $errors->count())}} detected while updating the CIF of the Patient:</p>
@@ -2934,6 +2953,24 @@
 
         <form action="{{route('msheet.create', ['forms_id' => $records->id])}}" method="POST" id="msheetform">
             @csrf
+        </form>
+
+        <form action="{{route('forms.soloprint.cif', ['id' => $records->id])}}" method="POST" id="exportcsvform">
+            @csrf
+        </form>
+
+        <form action="{{route('forms.options')}}" method="POST" class="d-none">
+            @csrf
+            <input type="text" class="form-control d-none" name="listToPrint[]" id="" value="{{$records->id}}">
+            <div class="btn-group mb-3">
+                <button type="submit" class="btn btn-primary" id="exportBtnStk2" name="submit" value="printsticker_alllasalle"><i class="fas fa-print mr-2"></i>Print VTM Sticker (LaSalle)</button>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="exportDropdown">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>Print VTM Sticker (ONI & LaSalle)</button>
+                </div>
+            </div>
         </form>
 
         <form action="/forms/{{$records->id}}/edit" method="POST" enctype="multipart/form-data">
