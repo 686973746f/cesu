@@ -1,4 +1,5 @@
-<?php return array (
+<?php return function ($fontDir, $rootDir) {
+return array (
   'sans-serif' => array(
     'normal' => $rootDir . '/lib/fonts/Helvetica',
     'bold' => $rootDir . '/lib/fonts/Helvetica-Bold',
@@ -78,7 +79,7 @@
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'nunito' => array(
-    'normal' => $fontDir . '/nunito_normal_51ab6e3e316a21ef3af811c849f34cc6',
+    'normal' => $fontDir . '/nunito_normal_586f3f8a461df5c8635a870033365d5e',
   ),
   'font awesome 5 brands' => array(
     'normal' => $fontDir . '/font_awesome__5_brands_normal_7c6eefdd1bdb469f25db9033970de9a5',
@@ -94,4 +95,5 @@
     'normal' => $fontDir . '/font_awesome__5_free_normal_fa38fb7940869fc07d22ec74a739122b',
     '900' => $fontDir . '/font_awesome__5_free_900_60afd6d0c4240b84a4fdce3af015a2ac',
   ),
-) ?>
+);
+}; ?>
