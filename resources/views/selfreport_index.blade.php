@@ -1423,7 +1423,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-primary btn-block" id="verifyButton" data-toggle="modal" data-target="#verifyDetails">Isumite / Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block">Isumite / Submit</button>
                     <hr>
                     <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
                 </div>
@@ -1431,6 +1431,7 @@
             <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
         </div>
         
+        <!--
         <div class="modal fade" id="verifyDetails" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" style="font-family: Arial, Helvetica, sans-serif">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -1470,6 +1471,7 @@
                 </div>
             </div>
         </div>
+        -->
     </form>  
     <script>
         //Patient Location Select2 Init
@@ -1646,6 +1648,7 @@
             this.value = this.value.toUpperCase();
         });
 
+        /*
         $('#verifyButton').click(function (e) { 
             e.preventDefault();
             if($('#pType').val() == 'TESTING') {
@@ -1683,6 +1686,7 @@
             $('#vaddress_houseno').text($('#address_houseno').val().toUpperCase());
             $('#vaddress_street').text($('#address_street').val().toUpperCase());
         });
+        */
 
         $(function(){
             var requiredCheckboxes = $('.comoOpt :checkbox[required]');

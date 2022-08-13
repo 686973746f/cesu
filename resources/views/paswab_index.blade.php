@@ -50,9 +50,9 @@
                                         <label for="pType"><span class="text-danger font-weight-bold">*</span>{{__('paswab.pType')}}</label>
                                         <select class="form-control" name="pType" id="pType" required>
                                             <option value="" disabled selected>{{__('paswab.select.Choose')}}</option>
-                                            <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>Suspected</option>
+                                            <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>Suspected (May Sintomas)</option>
                                             <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
-                                            <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>Not A Case of COVID</option>
+                                            <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>Not A Case of COVID (For Hospitalization/Buntis/Operation/Dialysis)</option>
                                             <option value="FOR TRAVEL" @if(old('pType') == "FOR TRAVEL"){{'selected'}}@endif>For Travel</option>
                                         </select>
                                     </div>
@@ -81,8 +81,8 @@
                                         <label for="forAntigen"><span class="text-danger font-weight-bold">*</span>{{__('paswab.forAntigen')}}</label>
                                         <select class="form-control" name="forAntigen" id="forAntigen" required>
                                             <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
-                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.select.ChooseNo')}}</option>
-                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>{{__('paswab.select.ChooseYes')}}</option>
+                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.forAntigen_yes')}}</option>
+                                            <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>{{__('paswab.forAntigen_no')}}</option>
                                         </select>
                                         <small class="text-muted">{{__('paswab.forAntigenNotice')}}</small>
                                         <!--<small class="text-danger">Selecting "YES" for antigen is temporarily disabled. All Patients are suggested to take RT-PCR Test.</small>-->
@@ -200,8 +200,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number <small>(Format: 09*********)</small></label>
-                                        <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                        <label for="mobile"><span class="text-danger font-weight-bold">*</span>Mobile Number</label>
+                                        <input type="text" class="form-control" id="mobile" name="mobile" value="{{old('mobile', '09')}}" pattern="[0-9]{11}" placeholder="09*********" required>
                                         <small class="text-muted">Note: Please type your CORRECT and ACTIVE Mobile Number as we will use this to contact you regarding on your swab test schedule.</small>
                                         @error('mobile')
                                             <small class="text-danger">{{$message}}</small>
@@ -271,7 +271,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email">Email Address <small><i>{{__('paswab.leaveBlank')}}</i></small></label>
-                                        <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}" placeholder="juandelacruz@example.com">
+                                        <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}" placeholder="someone@example.com">
                                         @error('email')
                                               <small class="text-danger">{{$message}}</small>
                                         @enderror
@@ -1372,7 +1372,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-primary btn-block" id="verifyButton" data-toggle="modal" data-target="#verifyDetails">Isumite / Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block">Isumite / Submit</button>
                     <hr>
                     <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
                 </div>
@@ -1380,6 +1380,7 @@
             <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
         </div>
         
+        <!--
         <div class="modal fade" id="verifyDetails" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" style="font-family: Arial, Helvetica, sans-serif">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -1419,6 +1420,7 @@
                 </div>
             </div>
         </div>
+        -->
     </form>
     
     <div class="modal fade" id="announcement" tabindex="-1" role="dialog" style="font-family: Arial, Helvetica, sans-serif">
@@ -1468,6 +1470,7 @@
         $('#announcement').modal('show');
         @endif
 
+        /*
         $('#proceedbtn').click(function (e) { 
             $('#verifyDetails').modal('hide');
             setTimeout(function(){
@@ -1512,6 +1515,7 @@
             $('#vaddress_houseno').text($('#address_houseno').val().toUpperCase());
             $('#vaddress_street').text($('#address_street').val().toUpperCase());
         });
+        */
 
         $(function(){
             var requiredCheckboxes = $('.comoOpt :checkbox[required]');
@@ -1955,13 +1959,6 @@
 					text: 'Hindi sigurado / Unknown',
 				}));
                 $('#expoitem1').trigger('change');
-            }
-        });
-
-        $('#forAntigen').change(function (e) { 
-            e.preventDefault();
-            if($(this).val() == "1") {
-                alert('You chose "Antigen" as the Type of Test for your COVID-19 Testing. Kindly take note that this is different from RT-PCR Test. To proceed in Antigen Testing, click OK to proceed. But if you want to undergo RT-PCR Testing, change this option to [NO].');
             }
         });
         
