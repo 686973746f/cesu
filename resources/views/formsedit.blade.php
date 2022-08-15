@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label for="temp_testDateCollected2"><span class="text-danger font-weight-bold">*</span>Date of Swab</label>
-                            <input type="date" class="form-control" name="temp_testDateCollected2" id="temp_testDateCollected2" min="{{date('Y-m-d')}}" max="{{$enddate}}" value="{{old('temp_testDateCollected2', $records->testDateCollected2)}}">
+                            <input type="date" class="form-control" name="temp_testDateCollected2" id="temp_testDateCollected2" min="{{date('Y-01-01')}}" max="{{$enddate}}" value="{{old('temp_testDateCollected2', $records->testDateCollected2)}}">
                             <small class="text-muted">Note: This also considered the first day of Quarantine Period.</small>
                         </div>
                         <div class="form-group">
