@@ -556,6 +556,20 @@ class SelfReportController extends Controller
     public function store(SelfReportValidationRequest $request) {
         $request->validated();
 
+        if(mb_strtoupper($request->address_street) == '1' || mb_strtoupper($request->address_street) == '0' || mb_strtoupper($request->address_street) == 'BARANGAY HALL' || mb_strtoupper($request->address_street) == 'BRGY. HALL' || mb_strtoupper($request->address_street) == 'BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_street) == 'NA' || mb_strtoupper($request->address_street) == 'N/A' || mb_strtoupper($request->address_street) == 'NONE' || mb_strtoupper($request->address_street) == $request->address_brgy) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: The Address Street is Invalid.')
+            ->with('msgtype', 'warning');
+        }
+
+        if(mb_strtoupper($request->address_houseno) == '1' || mb_strtoupper($request->address_houseno) == '0' || mb_strtoupper($request->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'NA' || mb_strtoupper($request->address_houseno) == 'N/A' || mb_strtoupper($request->address_houseno) == 'NONE' || mb_strtoupper($request->address_houseno) == $request->address_brgy) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: The Address House No. is Invalid.')
+            ->with('msgtype', 'warning');
+        }
+
         //$newFileName1 = time() . ' - ' . $request->req_file->getClientOriginalName();
         $newFileName2 = 'srfile'.time().Str::random(20).'.'.$request->result_file->getClientOriginalExtension();
         //$newFileName2 = time() . ' - ' . $request->result_file->getClientOriginalName();
@@ -587,12 +601,12 @@ class SelfReportController extends Controller
                 'philhealth' => $request->philhealth,
                 'isPregnant' => ($request->gender == 'FEMALE') ? $request->isPregnant : 0,
                 'ifPregnantLMP' => ($request->gender == 'FEMALE' && $request->isPregnant == 1) ? $request->lmp : NULL,
-                'address_houseno' => strtoupper($request->address_houseno),
-                'address_street' => strtoupper($request->address_street),
-                'address_brgy' => strtoupper($request->address_brgy),
-                'address_city' => strtoupper($request->address_city),
+                'address_houseno' => mb_strtoupper($request->address_houseno),
+                'address_street' => mb_strtoupper($request->address_street),
+                'address_brgy' => mb_strtoupper($request->address_brgy),
+                'address_city' => mb_strtoupper($request->address_city),
                 'address_cityjson' => $request->saddress_city,
-                'address_province' => strtoupper($request->address_province),
+                'address_province' => mb_strtoupper($request->address_province),
                 'address_provincejson' => $request->saddress_province,
 
                 'occupation' => ($request->haveOccupation == 1) ? mb_strtoupper($request->occupation) : NULL,
