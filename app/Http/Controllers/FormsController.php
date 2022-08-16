@@ -1060,6 +1060,20 @@ class FormsController extends Controller
     {
         $rec = Records::findOrFail($id);
 
+        if(mb_strtoupper($rec->address_street) == '1' || mb_strtoupper($rec->address_street) == '0' || mb_strtoupper($rec->address_street) == 'BARANGAY HALL' || mb_strtoupper($rec->address_street) == 'BRGY. HALL' || mb_strtoupper($rec->address_street) == 'BRGY HALL' || mb_strtoupper($rec->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($rec->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->address_street) == 'NA' || mb_strtoupper($rec->address_street) == 'N/A' || mb_strtoupper($rec->address_street) == 'NONE' || mb_strtoupper($rec->address_street) == $rec->address_brgy) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid. Please check and edit the Patient Address first and try again.')
+            ->with('msgType', 'danger');
+        }
+
+        if(mb_strtoupper($rec->address_houseno) == '1' || mb_strtoupper($rec->address_houseno) == '0' || mb_strtoupper($rec->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($rec->address_houseno) == 'BRGY. HALL' || mb_strtoupper($rec->address_houseno) == 'BRGY HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->address_houseno) == 'NA' || mb_strtoupper($rec->address_houseno) == 'N/A' || mb_strtoupper($rec->address_houseno) == 'NONE' || mb_strtoupper($rec->address_houseno) == $rec->address_brgy) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid. Please check and edit the Patient Address first and try again.')
+            ->with('msgType', 'danger');
+        }
+
         $checkform = Forms::where('records_id', $rec->id)
         ->where(function ($q) {
             $q->whereDate('morbidityMonth', date('Y-m-d'))
@@ -1972,6 +1986,20 @@ class FormsController extends Controller
     public function update(FormValidationRequest $request, $id)
     {
         $rec = Forms::findOrFail($id);
+
+        if(mb_strtoupper($rec->records->address_street) == '1' || mb_strtoupper($rec->records->address_street) == '0' || mb_strtoupper($rec->records->address_street) == 'BARANGAY HALL' || mb_strtoupper($rec->records->address_street) == 'BRGY. HALL' || mb_strtoupper($rec->records->address_street) == 'BRGY HALL' || mb_strtoupper($rec->records->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($rec->records->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->records->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->records->address_street) == 'NA' || mb_strtoupper($rec->records->address_street) == 'N/A' || mb_strtoupper($rec->records->address_street) == 'NONE' || mb_strtoupper($rec->records->address_street) == $rec->records->address_brgy) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid. Please check and edit the Patient Address and try again.')
+            ->with('msgType', 'danger');
+        }
+
+        if(mb_strtoupper($rec->records->address_houseno) == '1' || mb_strtoupper($rec->records->address_houseno) == '0' || mb_strtoupper($rec->records->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($rec->records->address_houseno) == 'BRGY. HALL' || mb_strtoupper($rec->records->address_houseno) == 'BRGY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NA' || mb_strtoupper($rec->records->address_houseno) == 'N/A' || mb_strtoupper($rec->records->address_houseno) == 'NONE' || mb_strtoupper($rec->records->address_houseno) == $rec->records->address_brgy) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid. Please check and edit the Patient Address and try again.')
+            ->with('msgType', 'danger');
+        }
 
         if(Records::eligibleToUpdate($rec->records_id)) {
             //Checking Parameters Before Updating
