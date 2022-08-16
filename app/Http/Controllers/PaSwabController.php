@@ -28,10 +28,25 @@ class PaSwabController extends Controller
         if(request()->input('rlink') && request()->input('s')) {
             $checkcode = PaSwabLinks::where('code', mb_strtoupper(request()->input('rlink')))
             ->where('secondary_code', mb_strtoupper(request()->input('s')))
-            ->where('active', 1)
             ->first();
 
             if($checkcode) {
+                if($checkcode->active != 1) {
+                    return view('paswab_index', [
+                        'proceed' => 0,
+                        'msg' => 'The Pa-swab URL you are using is currently DISABLED. Please double check the link and coordinate with CESU Staff for the correct Pa-swab URL.',
+                        'msgtype' => 'warning',
+                    ]);
+                }
+
+                if($checkcode->interviewer->enabled != 1) {
+                    return view('paswab_index', [
+                        'proceed' => 0,
+                        'msg' => 'Interviewer '.$checkcode->interviewer->getCifName().' has been DISABLED. Please double check the link and coordinate with CESU Staff for the correct Pa-swab URL.',
+                        'msgtype' => 'warning',
+                    ]);
+                }
+
                 return view('paswab_index', [
                     'proceed' => 1,
                     'interviewerName' => $checkcode->interviewer->getCifName(),
@@ -44,7 +59,11 @@ class PaSwabController extends Controller
                 ]);
             }
             else {
-                return view('paswab_index', ['proceed' => 0]);
+                return view('paswab_index', [
+                    'proceed' => 0,
+                    'msg' => 'Pa-swab URL does not exist. Please double check the link and coordinate with CESU Staff for the correct Pa-swab URL.',
+                    'msgtype' => 'danger',
+                ]);
             }
         }
         else {

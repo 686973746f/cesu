@@ -1528,9 +1528,28 @@ class FormsController extends Controller
             }
 
             //Auto set Patient type to COVID-19 Case if may Symptoms
+            //And Auto Remote Subgroup D.1 if may Symptoms
             if($request->pType != 'CLOSE CONTACT') {
                 if(!is_null($request->sasCheck)) {
                     $set_ptype = 'PROBABLE';
+
+                    if(in_array('D.1', $testCat)) {
+                        foreach (array_keys($testCat, 'D.1', true) as $key) {
+                            unset($testCat[$key]);
+                        }
+                    }
+
+                    if($rec->getAgeInt() >= 60) {
+                        if(in_array('C', $testCat)) {
+                            foreach (array_keys($testCat, 'C', true) as $key) {
+                                unset($testCat[$key]);
+                            }
+                        }
+
+                        if(!in_array('B', $testCat)) {
+                            array_push('B', $testCat);
+                        }
+                    }
                 }
                 else {
                     $set_ptype = 'TESTING';
@@ -2506,9 +2525,28 @@ class FormsController extends Controller
                 }
 
                 //Auto set Patient type to COVID-19 Case if may Symptoms
+                //And Auto Remote Subgroup D.1 if may Symptoms
                 if($request->pType != 'CLOSE CONTACT') {
                     if(!is_null($request->sasCheck)) {
                         $set_ptype = 'PROBABLE';
+                        
+                        if(in_array('D.1', $testCat)) {
+                            foreach (array_keys($testCat, 'D.1', true) as $key) {
+                                unset($testCat[$key]);
+                            }
+                        }
+
+                        if($rec->records->getAgeInt() >= 60) {
+                            if(in_array('C', $testCat)) {
+                                foreach (array_keys($testCat, 'C', true) as $key) {
+                                    unset($testCat[$key]);
+                                }
+                            }
+
+                            if(!in_array('B', $testCat)) {
+                                array_push('B', $testCat);
+                            }
+                        }
                     }
                     else {
                         $set_ptype = 'TESTING';

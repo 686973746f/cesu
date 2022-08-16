@@ -2147,6 +2147,11 @@
         <div class="card">
             <div class="card-header">Notice</div>
             <div class="card-body text-center">
+                @if($msg)
+                <div class="alert alert-{{$msgtype}}" role="alert">
+                    {{$msg}}
+                </div>
+                @endif
                 <p>As of July 10, 2021, <span class="text-primary">paswab.cesugentri.com</span> will require a valid Referral Code before proceeding into registration.</p>
                 <p>
                     This is to prevent unauthorized and unmonitored patients from barangay to register. This will also provide information on where the patients information is coming from.
