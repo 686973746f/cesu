@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Forms;
 use App\Models\Records;
 use App\Models\LinelistMasters;
 use Illuminate\Database\Eloquent\Model;
@@ -28,5 +29,9 @@ class LinelistSubs extends Model
 
     public function records() {
         return $this->belongsTo(Records::class);
+    }
+
+    public function forms() {
+        return Forms::where('records_id', $this->records_id)->orderBy('created_at', 'DESC')->first();
     }
 }

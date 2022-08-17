@@ -9,6 +9,8 @@ use App\Models\LinelistSubs;
 use Illuminate\Http\Request;
 use App\Models\LinelistMasters;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class LineListController extends Controller
 {
@@ -233,7 +235,41 @@ class LineListController extends Controller
             return $pdf->download('LINELIST_LASALLE_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
         }
         else if($link == 'oni') {
-            return view('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper]);
+            //return view('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper]);
+
+            //New ONI Linelist Submission
+            $spreadsheet = IOFactory::load(storage_path('ONI_LINELIST.xlsx'));
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $num = 3;
+
+            foreach ($list as $l) {
+                $sheet->setCellValue('A'.$num, $l->records->lname);
+                $sheet->setCellValue('B'.$num, $l->records->fname);
+                $sheet->setCellValue('C'.$num, (!is_null($l->records->mname)) ? $l->records->mname : 'N/A');
+                $sheet->setCellValue('D'.$num, date('m/d/Y', strtotime($l->records->bdate)));
+                $sheet->setCellValue('E'.$num, $l->records->gender);
+                $sheet->setCellValue('F'.$num, $l->records->address_province);
+                $sheet->setCellValue('G'.$num, $l->records->address_city);
+                $sheet->setCellValue('H'.$num, $l->records->address_brgy);
+                $sheet->setCellValue('I'.$num, 'CHO GENERAL TRIAS');
+                $sheet->setCellValue('J'.$num, (!is_null($l->forms()->dateOnsetOfIllness)) ? date('m/d/Y', strtotime($l->forms()->dateOnsetOfIllness)) : 'N/A');
+                $sheet->setCellValue('K'.$num, $l->records->address_brgy);
+                $sheet->setCellValue('L'.$num, date('m/d/Y', strtotime($l->forms()->testDateCollected1)));
+                $sheet->setCellValue('M'.$num, $l->forms()->testType1);
+                $sheet->setCellValue('N'.$num, '1ST');
+                $sheet->setCellValue('O'.$num, $l->records->mobile);
+                $sheet->setCellValue('P'.$num, $l->forms()->healthStatus);
+                $sheet->setCellValue('Q'.$num, ($l->forms()->isOFW == 1) ? 'Y' : 'N');
+                $sheet->setCellValue('R'.$num, 'RT-PCR');
+
+                $num++;
+            }
+
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="'. urlencode('ONI_LINELIST_'.date('m_d_Y').'.xlsx').'"');
+            $writer->save('php://output');
         }
     }
 
