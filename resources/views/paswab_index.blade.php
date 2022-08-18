@@ -81,8 +81,8 @@
                                         <label for="forAntigen"><span class="text-danger font-weight-bold">*</span>{{__('paswab.forAntigen')}}</label>
                                         <select class="form-control" name="forAntigen" id="forAntigen" required>
                                             <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
-                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.forAntigen_no')}}</option>
                                             <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>{{__('paswab.forAntigen_yes')}}</option>
+                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.forAntigen_no')}}</option>
                                         </select>
                                         <small class="text-muted">{{__('paswab.forAntigenNotice')}}</small>
                                         <!--<small class="text-danger">Selecting "YES" for antigen is temporarily disabled. All Patients are suggested to take RT-PCR Test.</small>-->
