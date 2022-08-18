@@ -411,6 +411,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    @if(is_null($lock_subd_array))
                                     <div class="form-group">
                                         <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio/Subdivision</label>
                                         <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" maxlength="50" required>
@@ -419,6 +420,17 @@
                                             <small class="text-danger">{{$message}}</small>
                                         @enderror
                                     </div>
+                                    @else
+                                    <div class="form-group">
+                                      <label for="address_street"><span class="text-danger font-weight-bold">*</span>Select Subdivision</label>
+                                      <select class="form-control" name="address_street" id="address_street" required>
+                                        <option value="" disabled {{(is_null(old('address_street'))) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
+                                        @foreach(explode(",", $lock_subd_array) as $s)
+                                        <option value="{{$s}}">{{$s}}</option>
+                                        @endforeach
+                                      </select>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -56,6 +56,7 @@ class PaSwabController extends Controller
                     'lock_city_text' => $checkcode->lock_city_text,
                     'lock_province' => $checkcode->lock_province,
                     'lock_province_text' => $checkcode->lock_province_text,
+                    'lock_subd_array' => $checkcode->lock_subd_array,
                 ]);
             }
             else {
@@ -1249,6 +1250,18 @@ class PaSwabController extends Controller
                 }
 
                 if($finalproceed == 1) {
+                    if(!is_null($check->lock_subd_array)) {
+                        $sarray = explode(',', $check->lock_subd_array);
+                        
+                        if(!in_array(mb_strtoupper($request->address_street), $sarray)) {
+                            return back()
+                            ->withInput()
+                            ->with('msg', 'Invalid Subdivision Selection. Please try again.')
+                            ->with('msgtype', 'danger')
+                            ->with('skipmodal', true);
+                        }
+                    }
+
                     $checku = Records::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->bdate);
                     /*
                     Old Pa-swab duplicate Entry checker

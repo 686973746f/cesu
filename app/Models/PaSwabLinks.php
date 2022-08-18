@@ -20,6 +20,7 @@ class PaSwabLinks extends Model
         'lock_city_text',
         'lock_province',
         'lock_province_text',
+        'lock_subd_array',
     ];
 
     public function user() {

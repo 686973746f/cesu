@@ -152,6 +152,11 @@
                                 <option value="" selected disabled>Choose...</option>
                               </select>
                             </div>
+                            <div class="form-group">
+                              <label for="">Specify Subdivisions <small>(Optional)</small></label>
+                              <input type="text" class="form-control" name="lock_subd_array" id="lock_subd_array">
+                              <small class="text-muted">Note: You can separate Subdivisions using commas (,)</small>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

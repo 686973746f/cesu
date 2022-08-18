@@ -38,6 +38,7 @@ class PaSwabLinksController extends Controller
             'saddress_city' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
             'address_brgy' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
             'taddress_brgy' => ($request->is_lock_code == 'Yes') ? 'required' : 'nullable',
+            'lock_subd_array' => 'nullable',
         ]);
 
         $check = PaSwabLinks::where('code', mb_strtoupper($request->code))->first();
@@ -53,6 +54,7 @@ class PaSwabLinksController extends Controller
                 'lock_city_text' => ($request->is_lock_code == 'Yes') ? mb_strtoupper($request->address_city) : NULL,
                 'lock_province' => ($request->is_lock_code == 'Yes') ? $request->address_provincejson : NULL,
                 'lock_province_text' => ($request->is_lock_code == 'Yes') ? mb_strtoupper($request->address_province) : NULL,
+                'lock_subd_array' => ($request->filled('lock_subd_array')) ? mb_strtoupper($request->lock_subd_array) : NULL,
             ]);
 
             return redirect()->action([PaSwabLinksController::class, 'index'])
