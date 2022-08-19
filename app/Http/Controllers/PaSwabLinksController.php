@@ -76,15 +76,25 @@ class PaSwabLinksController extends Controller
                 $update = PaSwabLinks::where('id', $id)->update([
                     'active' => 0,
                 ]);
+
+                $s = 'Disabled';
             }
             else {
                 $update = PaSwabLinks::where('id', $id)->update([
                     'active' => 1,
                 ]);
+
+                $s = 'Enabled';
             }
 
+            /*
             return redirect()->action([PaSwabLinksController::class, 'index'])
             ->with('msg', 'Pa-Swab Link Code status has been updated successfully.')
+            ->with('msgtype', 'success');
+            */
+            
+            return redirect()->back()
+            ->with('msg', 'Pa-Swab Link Code status has been '.$s.' successfully.')
             ->with('msgtype', 'success');
         }
         else if($request->submit == 'changeSecondaryCode') {
@@ -92,7 +102,7 @@ class PaSwabLinksController extends Controller
                 'secondary_code' => mb_strtoupper(Str::random(6)),
             ]);
 
-            return redirect()->action([PaSwabLinksController::class, 'index'])
+            return redirect()->back()
             ->with('msg', 'Pa-Swab Secondary Link Code for ('.$item->code.') has been updated successfully.')
             ->with('msgtype', 'success');
         }

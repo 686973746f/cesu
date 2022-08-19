@@ -37,14 +37,14 @@
                 @endif
                 @if($data->count())
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <thead class="bg-light text-center">
                             <tr>
                                 <th>#</th>
                                 <th>Code</th>
-                                <th>Status</th>
                                 <th>URL</th>
                                 <th>Date Created</th>
+                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -53,9 +53,9 @@
                             <tr>
                                 <td style="vertical-align: middle;" scope="row" class="text-center">{{$item->id}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$item->code}}</td>
-                                <td style="vertical-align: middle;" class="text-center font-weight-bold text-{{($item->active == 1) ? 'success' : 'danger'}}">{{($item->active == 1) ? 'Enabled' : 'Disabled'}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small><a href="https://paswab.cesugentri.com/?rlink={{$item->code}}&s={{$item->secondary_code}}">https://paswab.cesugentri.com/?rlink={{$item->code}}&s={{$item->secondary_code}}</a></small></td>
                                 <td style="vertical-align: middle;" class="text-center">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold text-{{($item->active == 1) ? 'success' : 'danger'}}">{{($item->active == 1) ? 'Enabled' : 'Disabled'}}</td>
                                 <td style="vertical-align: middle;" class="text-center">
                                     <form action="/admin/paswablinks/{{$item->id}}/options" method="POST">
                                         @csrf

@@ -35,13 +35,14 @@
                     <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>The search returned {{$list->count()}} {{Str::plural('result', $list->count())}}.
                 </div>
                 @endif
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <thead class="text-center bg-light">
                         <tr>
                             <th>#</th>
                             <th>Name</th>
                             <th>Barangay</th>
                             <th>Description</th>
+                            <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -52,6 +53,7 @@
                             <td style="vertical-align: middle;">{{$item->lname.", ".$item->fname." ".$item->mname}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->brgy_id)) ? $item->brgy->brgyName : "N/A"}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{$item->desc}}</td>
+                            <td class="text-center" style="vertical-align: middle;"><span class="{{($item->enabled == 1) ? 'text-success' : 'text-danger'}}">{{($item->enabled == 1) ? 'Enabled' : 'Disabled'}}</span></td>
                             <td class="text-center" style="vertical-align: middle;">
                                 <a href="interviewers/{{$item->id}}/edit" class="btn btn-primary">Edit</a>
                                 <form action="{{route('adminpanel.interviewers.options', ['id' => $item->id])}}" method="POST">

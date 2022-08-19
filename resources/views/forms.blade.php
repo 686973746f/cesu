@@ -215,9 +215,6 @@
                     @endif
                 </div>
                 @endif
-                <div class="alert alert-primary" role="alert">
-                    <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Showing <strong>SUSPECTED and PROBABLE cases ONLY</strong>. CONFIRMED and NEGATIVE Cases will not be displayed on the list.
-                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm" id="table_id">
                         <thead>

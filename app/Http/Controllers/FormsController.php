@@ -820,7 +820,7 @@ class FormsController extends Controller
                 }
             }
 
-            return redirect()->action([FormsController::class, 'index'])->with('status', 'Re-sched successful.')->with('statustype', 'success');
+            return redirect()->back()->with('status', 'CIF of Patient/s has been Re-scheduled successfully.')->with('statustype', 'success');
         }
         else if($request->submit == 'changetype') {
             $request->validate([
@@ -872,7 +872,7 @@ class FormsController extends Controller
                 }
             }
 
-            return redirect()->action([FormsController::class, 'index'])->with('status', 'Change Test Type was successful.')->with('statustype', 'success');
+            return redirect()->back()->with('status', 'Test Type CIF of Patient/s has been Changed successfully.')->with('statustype', 'success');
         }
         else if ($request->submit == 'cancelsched') {
             $models = Forms::whereIn('id', $list)->get();
@@ -909,7 +909,7 @@ class FormsController extends Controller
                 }
             }
 
-            return redirect()->action([FormsController::class, 'index'])->with('status', 'All Selected CIF Schedule Data has been cancelled.')->with('statustype', 'success');
+            return redirect()->back()->with('status', 'All Selected CIF Schedule Data has been cancelled.')->with('statustype', 'success');
         }
     }
 
