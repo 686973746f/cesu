@@ -1438,22 +1438,68 @@
     <div class="modal fade" id="announcement" tabindex="-1" role="dialog" style="font-family: Arial, Helvetica, sans-serif">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Notice</h5>
+                <div class="modal-header text-center">
+                    <h5 class="modal-title"><b class="text-info">Welcome to CESU General Trias Swab Scheduling System (aka Pa-Swab)</b></h5>
                 </div>
-                <div class="modal-body text-center">
-                    <p class="font-weight-bold text-danger">PARA SA MGA NAKAPAG-REHISTRO NA, PAKIBASA PO</p>
-                    <p>Upang makita ang status at kung kailan ka naka-schedule na is-swab, bumisita lamang sa <a href="{{route('main')}}">cesugentri.com</a> at dumako sa [I am a Patient] Section at gamitin ang "Schedule Code" na ibinigay sa iyo ng system.</p>
-                    <p>Ikaw rin ay makakatanggap ng tawag o text mula sa iyong Barangay na kinabibilangan sa <strong>mismong araw ding iyon</strong> kung kailan ka naka-schedule na is-swab.</p>
+                <div class="modal-body">
+                    <p>Ang mga maaari lamang mag-request ng schedule ay ang mga Pasyenteng</p>
+                    <ul>
+                        <li>May Sintomas</li>
+                        <li>Close Contact <i>(May nakasalamuhang nag-positibo sa COVID-19)</i></li>
+                        <li>Buntis</li>
+                        <li>Gagamitin sa Ospital (Operasyon, Dialysis, Chemotherapy, etc.)</li>
+                    </ul>
                     <hr>
-                    <p class="font-weight-bold text-danger">SA MGA MAGR-REHISTRO PA LANG,</p>
-                    <p>Hangga't maaari, isulat ang iyong PhilHealth Number kapag magr-rehistro. Kung ikaw ay menorde-edad pa lang, isulat naman ang PhilHealth Number ng iyong magulang. Ito ay para makaiwas sa mahabang proseso at abala sa araw ng iyong schedule.</p>
-                    <p>Kung walang PhilHealth Number, magdala na lamang ng ibang Valid ID/Birth Certificate na naka-photocopy sa araw ng iyong schedule.</p>
+                    <p>Para sa mga magpapa-request ng RT-PCR Swab Test, narito ang mga requirements:</p>
+                    <p><b>Kung ikaw ay isang Philhealth Member</b></p>
+                    <ul>
+                        <li>Photocopy ng iyong Philhealth ID o MDR (Member Data Record)</li>
+                    </ul>
+                    <p><b>Kung ikaw ay menor de edad pa lamang at Philhealth Member ang iyong Magulang</b></p>
+                    <ul>
+                        <li>Photopopy ng MDR ng iyong Magulang na naka-deklara ang iyong pangalan sa list of dependents</li>
+                        <li>Photocopy ng Valid ID ng iyong Magulang <i>(bilang proof of relationship)</i></li>
+                        <li>Photocopy ng iyong Birth Certificate</li>
+                    </ul>
+                    <p><b>Kung ikaw ay kasal na at ang asawa mo ang Philhealth Member</b></p>
+                    <ul>
+                        <li>Photocopy ng Philhealth MDR ng iyong asawa kung saan naka-deklara ang iyong pangalan sa list of dependents</li>
+                        <li>Photocopy ng Marriage Certificate <i>(bilang proof of relationship)</i></li>
+                        <li>Photocopy ng Valid ID o Birth Certificate ng iyong Asawa</li>
+                    </ul>
+                    <p><b>Kung ikaw ay walang sariling Philhealth ID/MDR</b></p>
+                    <ul>
+                        <li>Photocopy ng Birth Certificate OR Photocopy ng kahit anong Valid IDs</li>
+                    </ul>
+                    <p><b>Kung ikaw ay wala talagang maipapakitang kahit anong Valid ID</b></p>
+                    <ul>
+                        <li>Certificate of Indigency sa inyong Barangay na nakasulat din ang Birthdate/Kaarawan mo.</li>
+                    </ul>
+                    <p>Ito ay pag-sunod sa requirements ng Molecular Laboratory <i>(LaSalle/Imus Molecular Laboratory)</i> upang tanggapin ang inyong request.</p>
+                    <p>Paalala:</p>
+                    <ul>
+                        <li>Sa mga Philhealth Member/Dependent, Maaaring kumuha ng Philhealth MDR sa <a href="https://memberinquiry.philhealth.gov.ph/member/">Philhealth Member Portal</a></li>
+                        <li>Ang resulta ng RT-PCR ay lumalabas makalipas ng 3-5 Araw. Tatawag ang iyong Barangay Health Center para sa iyong resulta.</li>
+                        <li>Ang mga ID katulad ng School ID, Company ID, Barangay ID, TIN ID ay hindi po tinatanggap.</li>
+                        <li>Magdala ng Sariling Black Ballpen</li>
+                        <li>Kung ikaw ay menor de edad, dapat kasama mo ang iyong Magulang/Guardian</li>
+                    </ul>
                     <hr>
-                    <p>Maraming Salamat po!</p>
+                    <p>Kung may mga katanungan o ibang concern, makipag-usap sa inyong Barangay Health Center o maaari kaming ma-kontak sa:</p>
+                    <ul>
+                        <li>Mobile Number (Call/Text)</li>
+                        <ul>
+                            <li>0919 066 4324</li>
+                            <li>0919 066 4325</li>
+                            <li>0919 066 4327</li>
+                        </ul>
+                        <li>Email: <a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></li>
+                        <li><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></li>
+                        <li>Address: City Health Office (3rd Floor CESU Office), Pria Rd., Hospital Area - Main, Brgy. Pinagtipunan, General Trias, Cavite, 4107</li>
+                    </ul>
                 </div>
                 <div class="modal-footer ">
-                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Naiintindihan ko, magpatuloy</button>
                 </div>
             </div>
         </div>
