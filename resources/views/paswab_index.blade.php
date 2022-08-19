@@ -1493,6 +1493,7 @@
                             <li>0919 066 4325</li>
                             <li>0919 066 4327</li>
                         </ul>
+                        <li>Telephone Number: (046) 509 - 5289</li>
                         <li>Email: <a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></li>
                         <li><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></li>
                         <li>Address: City Health Office (3rd Floor CESU Office), Pria Rd., Hospital Area - Main, Brgy. Pinagtipunan, General Trias, Cavite, 4107</li>

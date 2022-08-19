@@ -34,6 +34,10 @@
                             <td>0919 066 4327</td>
                         </tr>
                         <tr>
+                            <td scope="row">Telephone Number</td>
+                            <td>(046) 509 - 5289</td>
+                        </tr>
+                        <tr>
                             <td scope="row"><i class="fas fa-at mr-2"></i>Email Address</td>
                             <td><a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></td>
                         </tr>
