@@ -1461,6 +1461,8 @@ class ReportV2Controller extends Controller
         ->count();
 
         $brgyArray = collect();
+        $brgyArray1 = collect();
+
         $brgyList = Brgy::where('displayInList', 1)
         ->where('city_id', 1)
         ->orderBy('brgyName', 'asc')
@@ -1503,11 +1505,54 @@ class ReportV2Controller extends Controller
             ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
             ->count();
 
+            $brgyConfirmedCount1 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('caseClassification', 'Confirmed')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->count();
+
+            $brgyDeathCount1 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('outcomeCondition', 'Died')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->count();
+
+            $brgyRecoveryCount1 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('outcomeCondition', 'Recovered')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->count();
+
             $brgyArray->push([
                 'name' => $brgy->brgyName,
                 'confirmed' => $brgyConfirmedCount,
                 'deaths' => $brgyDeathCount,
                 'recoveries' => $brgyRecoveryCount,
+            ]);
+
+            $brgyArray1->push([
+                'name' => $brgy->brgyName,
+                'confirmed' => $brgyConfirmedCount1,
+                'deaths' => $brgyDeathCount1,
+                'recoveries' => $brgyRecoveryCount1,
             ]);
         }
 
@@ -1752,6 +1797,268 @@ class ReportV2Controller extends Controller
         ->whereYear('morbidityMonth', date('Y'))
         ->count();
 
+        //Age Group Last 2 Years
+
+        //Under 1 (2 Years Previous)
+        $aga_1 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 1');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+        ->count();
+
+        $aga_2 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 1');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+        ->count();
+        
+        $aga_3 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 1');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Recovered')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+        ->count();
+
+        //Under 1 (1 Years Previous)
+        $aga_4 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 1');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $aga_5 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 1');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+        
+        $aga_6 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 1');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Recovered')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+        //END
+
+        //Age Group 1-4
+        $age_array = [];
+
+        array_push($age_array, [
+            'name' => 'Under 1',
+            'c_l2y' => $aga_1,
+            'd_l2y' => $aga_2,
+            'r_l2y' => $aga_3,
+            'c_l1y' => $aga_4,
+            'd_l1y' => $aga_5,
+            'r_l1y' => $aga_6,
+        ]);
+
+        $g1 = 1;
+        $g2 = 4;
+        
+        for($it=1;$it <= 16;$it++) {
+            //Under 1 (2 Years Previous)
+            $cl1 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($g1, $g2) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw("TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN $g1 and $g2");
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->count();
+
+            $cl2 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($g1, $g2) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw("TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN $g1 and $g2");
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Died')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->count();
+            
+            $cl3 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($g1, $g2) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw("TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN $g1 and $g2");
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Recovered')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->count();
+
+            //Under 1 (1 Years Previous)
+            $cl4 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($g1, $g2) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw("TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN $g1 and $g2");
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+            ->count();
+
+            $cl5 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($g1, $g2) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw("TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN $g1 and $g2");
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Died')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+            ->count();
+            
+            $cl6 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($g1, $g2) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw("TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN $g1 and $g2");
+            })
+            ->where('status', 'approved')
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Recovered')
+            ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+            ->count();
+            //END
+
+            array_push($age_array, [
+                'name' => $g1.' - '.$g2,
+                'c_l2y' => $cl1,
+                'd_l2y' => $cl2,
+                'r_l2y' => $cl3,
+                'c_l1y' => $cl4,
+                'd_l1y' => $cl5,
+                'r_l1y' => $cl6,
+            ]);
+
+            $g1 = $g2 + 1;
+            $g2 = $g2 + 5;
+        }
+
+        //Under 1 (2 Years Previous)
+        $aga_1 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 80');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+        ->count();
+
+        $aga_2 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 80');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+        ->count();
+        
+        $aga_3 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 80');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Recovered')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+        ->count();
+
+        //Under 1 (1 Years Previous)
+        $aga_4 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 80');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $aga_5 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 80');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+        
+        $aga_6 = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 80');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('outcomeCondition', 'Recovered')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+        //END
+
+        array_push($age_array, [
+            'name' => '80 yrs and above',
+            'c_l2y' => $aga_1,
+            'd_l2y' => $aga_2,
+            'r_l2y' => $aga_3,
+            'c_l1y' => $aga_4,
+            'd_l1y' => $aga_5,
+            'r_l1y' => $aga_6,
+        ]);
+
         return view('report_accomplishment', [
             'qstr' => $qstr,
             'count1' => $count1,
@@ -1762,6 +2069,7 @@ class ReportV2Controller extends Controller
             'count6' => $count6,
             'count7' => $count7,
             'brgylist' => $brgyArray,
+            'brgylist1' => $brgyArray1,
             'malecount' => $malecount,
             'femalecount' => $femalecount,
             'currq_active' => $currq_active,
@@ -1773,6 +2081,7 @@ class ReportV2Controller extends Controller
             'cy_hospitalized_partialvacc' => $cy_hospitalized_partialvacc,
             'cy_hospitalized_fullvacc' => $cy_hospitalized_fullvacc,
             'cy_hospitalized_boostered' => $cy_hospitalized_boostered,
+            'age_array' => $age_array,
         ]);
     }
 

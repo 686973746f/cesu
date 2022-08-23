@@ -80,8 +80,8 @@
                         <tr class="thead-light">
                             <th>Barangay</th>
                             <th class="text-danger">Confirmed</th>
-                            <th class="text-success">Recoveries</th>
                             <th>Deaths</th>
+                            <th class="text-success">Recoveries</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,8 +94,8 @@
                         <tr>
                             <td class="font-weight-bold">{{$brgy['name']}}</td>
                             <td class="text-danger text-center">{{number_format($brgy['confirmed'])}}</td>
-                            <td class="text-success text-center">{{number_format($brgy['recoveries'])}}</td>
                             <td class="text-center">{{number_format($brgy['deaths'])}}</td>
+                            <td class="text-success text-center">{{number_format($brgy['recoveries'])}}</td>
                         </tr>
                         @php
                         $totalConfirmed += $brgy['confirmed'];
@@ -108,12 +108,89 @@
                         <tr>
                             <td>TOTAL</td>
                             <td class="text-danger">{{number_format($totalConfirmed)}}</td>
-                            <td class="text-success">{{number_format($totalRecoveries)}}</td>
                             <td>{{number_format($totalDeaths)}}</td>
+                            <td class="text-success">{{number_format($totalRecoveries)}}</td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
+            
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="font-weight-bold text-center">
+                        <tr class="bg-danger text-white">
+                            <th colspan="5">{{date('Y', strtotime('-2 Year'))}} BARANGAY DATA</th>
+                        </tr>
+                        <tr class="thead-light">
+                            <th>Barangay</th>
+                            <th class="text-danger">Confirmed</th>
+                            <th>Deaths</th>
+                            <th class="text-success">Recoveries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                        $totalConfirmed = 0;
+                        $totalDeaths = 0;
+                        $totalRecoveries = 0;
+                        @endphp
+                        @foreach($brgylist1 as $brgy)
+                        <tr>
+                            <td class="font-weight-bold">{{$brgy['name']}}</td>
+                            <td class="text-danger text-center">{{number_format($brgy['confirmed'])}}</td>
+                            <td class="text-center">{{number_format($brgy['deaths'])}}</td>
+                            <td class="text-success text-center">{{number_format($brgy['recoveries'])}}</td>
+                        </tr>
+                        @php
+                        $totalConfirmed += $brgy['confirmed'];
+                        $totalDeaths += $brgy['deaths'];
+                        $totalRecoveries += $brgy['recoveries'];
+                        @endphp
+                        @endforeach
+                    </tbody>
+                    <tfoot class="bg-light text-center font-weight-bold">
+                        <tr>
+                            <td>TOTAL</td>
+                            <td class="text-danger">{{number_format($totalConfirmed)}}</td>
+                            <td>{{number_format($totalDeaths)}}</td>
+                            <td class="text-success">{{number_format($totalRecoveries)}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Age Group</div>
+        <div class="card-body">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Age</th>
+                        <th>Confirmed {{date('Y', strtotime('-2 Year'))}}</th>
+                        <th>Death {{date('Y', strtotime('-2 Year'))}}</th>
+                        <th>Recoveries {{date('Y', strtotime('-2 Year'))}}</th>
+                        <th>Confirmed {{date('Y', strtotime('-1 Year'))}}</th>
+                        <th>Death {{date('Y', strtotime('-1 Year'))}}</th>
+                        <th>Recoveries {{date('Y', strtotime('-1 Year'))}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($age_array as $a)
+                    <tr>
+                        <td scope="row">{{$a['name']}}</td>
+                        <td>{{$a['c_l2y']}}</td>
+                        <td>{{$a['d_l2y']}}</td>
+                        <td>{{$a['r_l2y']}}</td>
+                        <td>{{$a['c_l1y']}}</td>
+                        <td>{{$a['d_l1y']}}</td>
+                        <td>{{$a['r_l1y']}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            
         </div>
     </div>
 </div>
