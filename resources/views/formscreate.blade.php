@@ -1021,7 +1021,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                               <label for="dateOnsetOfIllness"><span class="text-danger font-weight-bold d-none" id="onsetasterisk">*</span>Date of Onset of Illness</label>
-                                              <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" max="{{date('Y-m-d')}}" value="{{old('dateOnsetOfIllness')}}">
+                                              <input type="date" class="form-control" name="dateOnsetOfIllness" id="dateOnsetOfIllness" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}" value="{{old('dateOnsetOfIllness')}}">
                                             </div>
                                             <div class="card">
                                                 <div class="card-header">Signs and Symptoms (Check all that apply)</div>

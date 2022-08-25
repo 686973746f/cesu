@@ -348,6 +348,21 @@
                                     <td class="text-center">{{$records->getReferralCode()}}</td>
                                 </tr>
                                 @endif
+                                @php
+                                if($records->getAttendedOnSwab() == 'PENDING') {
+                                    $atext = 'text-warning';
+                                }
+                                else if($records->getAttendedOnSwab() == 'YES') {
+                                    $atext = 'text-success font-weight-bold';
+                                }
+                                else if($records->getAttendedOnSwab() == 'NO') {
+                                    $atext = 'text-danger font-weight-bold';
+                                }
+                                @endphp
+                                <tr>
+                                    <td class="bg-light">Attended</td>
+                                    <td class="text-center {{$atext}}">{{$records->getAttendedOnSwab()}}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
