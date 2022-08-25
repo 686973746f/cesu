@@ -1891,7 +1891,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress1"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
-                                                                <input class="form-control" type="text" name="locAddress1" id="locAddress1" value="{{old('locAddress1')}}" style="text-transform: uppercase;">
+                                                                <input class="form-control" type="text" name="locAddress1" id="locAddress1" value="{{old('locAddress1', 'GENERAL TRIAS, CAVITE')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1945,7 +1945,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress2"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
-                                                                <input class="form-control" type="text" name="locAddress2" id="locAddress2" value="{{old('locAddress2')}}" style="text-transform: uppercase;">
+                                                                <input class="form-control" type="text" name="locAddress2" id="locAddress2" value="{{old('locAddress2', 'GENERAL TRIAS, CAVITE')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1999,7 +1999,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress3"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
-                                                                <input class="form-control" type="text" name="locAddress3" id="locAddress3" value="{{old('locAddress3')}}" style="text-transform: uppercase;">
+                                                                <input class="form-control" type="text" name="locAddress3" id="locAddress3" value="{{old('locAddress3', 'GENERAL TRIAS, CAVITE')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2053,7 +2053,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress4"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
-                                                                <input class="form-control" type="text" name="locAddress4" id="locAddress4" value="{{old('locAddress4')}}" style="text-transform: uppercase;">
+                                                                <input class="form-control" type="text" name="locAddress4" id="locAddress4" value="{{old('locAddress4', 'GENERAL TRIAS, CAVITE')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2107,7 +2107,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress5"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
-                                                                <input class="form-control" type="text" name="locAddress5" id="locAddress5" value="{{old('locAddress5')}}" style="text-transform: uppercase;">
+                                                                <input class="form-control" type="text" name="locAddress5" id="locAddress5" value="{{old('locAddress5', 'GENERAL TRIAS, CAVITE')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2161,7 +2161,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress6"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
-                                                                <input class="form-control" type="text" name="locAddress6" id="locAddress6" value="{{old('locAddress6')}}" style="text-transform: uppercase;">
+                                                                <input class="form-control" type="text" name="locAddress6" id="locAddress6" value="{{old('locAddress6', 'GENERAL TRIAS, CAVITE')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2215,7 +2215,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="locAddress7"><span class="text-danger font-weight-bold">*</span>Location <small>(Municipality/City, Province, Region)</small></label>
-                                                                <input class="form-control" type="text" name="locAddress7" id="locAddress7" value="{{old('locAddress7')}}" style="text-transform: uppercase;">
+                                                                <input class="form-control" type="text" name="locAddress7" id="locAddress7" value="{{old('locAddress7', 'GENERAL TRIAS, CAVITE')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                     </div>
