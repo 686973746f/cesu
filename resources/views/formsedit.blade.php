@@ -2811,16 +2811,16 @@
                                                         <div class="card-header">Name</div>
                                                         <div class="card-body">
                                                             <div class="form-group">
-                                                              <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{old('contact1Name', $records->contact1Name)}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #1">
+                                                              <input type="text" class="form-control" name="contact1Name" id="contact1Name" value="{{old('contact1Name', $records->contact1Name)}}" minlength="5" maxlength="60" style="text-transform: uppercase;" placeholder="Name of Close Contact #1">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{old('contact2Name', $records->contact2Name)}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #2">
+                                                                <input type="text" class="form-control" name="contact2Name" id="contact2Name" value="{{old('contact2Name', $records->contact2Name)}}" minlength="5" maxlength="60" style="text-transform: uppercase;" placeholder="Name of Close Contact #2">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{old('contact3Name', $records->contact3Name)}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #3">
+                                                                <input type="text" class="form-control" name="contact3Name" id="contact3Name" value="{{old('contact3Name', $records->contact3Name)}}" minlength="5" maxlength="60" style="text-transform: uppercase;" placeholder="Name of Close Contact #3">
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{old('contact4Name', $records->contact4Name)}}" style="text-transform: uppercase;" placeholder="Name of Close Contact #4">
+                                                                <input type="text" class="form-control" name="contact4Name" id="contact4Name" value="{{old('contact4Name', $records->contact4Name)}}" minlength="5" maxlength="60" style="text-transform: uppercase;" placeholder="Name of Close Contact #4">
                                                             </div>
                                                         </div>
                                                     </div>

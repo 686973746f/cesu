@@ -52,16 +52,15 @@
                                             <option value="" disabled selected>{{__('paswab.select.Choose')}}</option>
                                             <option value="PROBABLE" @if(old('pType') == "PROBABLE"){{'selected'}}@endif>Suspected (May Sintomas)</option>
                                             <option value="CLOSE CONTACT" @if(old('pType') == "CLOSE CONTACT"){{'selected'}}@endif>Close Contact</option>
-                                            <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>Not A Case of COVID (For Hospitalization/Buntis/Operation/Dialysis)</option>
-                                            <option value="FOR TRAVEL" @if(old('pType') == "FOR TRAVEL"){{'selected'}}@endif>For Travel</option>
+                                            <option value="TESTING" @if(old('pType') == "TESTING"){{'selected'}}@endif>Hospitalization (Buntis/Operation/Dialysis/Chemotheraphy, etc.)</option>
+                                            <!--<option value="FOR TRAVEL" @if(old('pType') == "FOR TRAVEL"){{'selected'}}@endif>For Travel</option>-->
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="interviewDate"><span class="text-danger font-weight-bold">*</span>{{__('paswab.interviewDate')}}</label>
-                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-7 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate')}}" required>
-                                        <small class="text-muted">Note: This would be also used as the first day of your monitoring.</small>
+                                        <input type="date" name="interviewDate" id="interviewDate" class="form-control" min="{{date('Y-m-d', strtotime("-7 Days"))}}" max="{{date('Y-m-d')}}" value="{{old('interviewDate', date('Y-m-d'))}}" required>
                                     </div>
                                 </div>
                             </div>
@@ -1292,7 +1291,7 @@
                         <div class="card-header font-weight-bold">7. Exposure History</div>
                         <div class="card-body">
                             <div class="alert alert-info" role="alert">
-                                <b class="text-danger">Note:</b> Starting <b>August 09, 2022</b>, Date of Exposure and Names of Close Contact on Home or other places <b>will be required to be filled up</b>. This is to comply with the requirements of the Molecular Laboratory.
+                                <b class="text-danger">Note:</b> Starting <b>August 09, 2022</b>, Date of Exposure and Names of Close Contact on Home or other places <b>will be REQUIRED to be filled up</b>. This is to comply with the requirements of the Molecular Laboratory.
                             </div>
                             <div class="form-group">
                                 <label for="expoitem1"><span class="text-danger font-weight-bold">*</span>Ikaw ba ay na-expose sa taong nag-positibo sa COVID-19 o pumunta sa lugar na may aktibong kaso ng COVID-19 nung nakaraang labing-apat (14) na araw? / Do you have history of exposure to someone who was Confirmed COVID-19 OR went to a place that has active COVID-19 case/s 14 days ago?</label>
@@ -1306,17 +1305,17 @@
                             </div>
                             <div id="divExpoitem1" class="d-none">
                                 <div class="form-group">
-                                    <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose sa tao/lugar na may COVID-19?</label>
+                                    <label for=""><span class="text-danger font-weight-bold">*</span>Kailan na-expose sa nag-positibo o pumunta sa Lugar na may aktibong kaso ng COVID-19?</label>
                                     <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">Contact Tracing - Ilista ang mga pangalan ng mga kasama sa bahay o mga nakasalamuha noong mga nakaraang araw</div>
+                                    <div class="card-header">Contact Tracing - Ilista ang mga pangalan ng mga kasama sa bahay o mga nakasalamuha noong mga nakaraang araw <i>(Atleast One (1) Required, Maximum of Four(4))</i></div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact1Name">Name of Close Contact #1</label>
-                                                  <input type="text" class="form-control" name="contact1Name" id="contact1Name" style="text-transform: uppercase;">
+                                                  <input type="text" class="form-control" name="contact1Name" id="contact1Name" minlength="5" maxlength="60" style="text-transform: uppercase;" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -1326,11 +1325,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row d-none" id="namelist2">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact2Name">Name of Close Contact #2</label>
-                                                  <input type="text" class="form-control" name="contact2Name" id="contact2Name" style="text-transform: uppercase;">
+                                                  <input type="text" class="form-control" name="contact2Name" id="contact2Name" minlength="5" maxlength="60" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -1340,11 +1339,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row d-none" id="namelist3">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact3Name">Name of Close Contact #3</label>
-                                                  <input type="text" class="form-control" name="contact3Name" id="contact3Name" style="text-transform: uppercase;">
+                                                  <input type="text" class="form-control" name="contact3Name" id="contact3Name" minlength="5" maxlength="60" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -1354,11 +1353,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row d-none" id="namelist4">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                   <label for="contact4Name">Name of Close Contact #4</label>
-                                                  <input type="text" class="form-control" name="contact4Name" id="contact4Name" style="text-transform: uppercase;">
+                                                  <input type="text" class="form-control" name="contact4Name" id="contact4Name" minlength="5" maxlength="60" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -1878,6 +1877,7 @@
                 $('#sexpoitem1_unknown').removeClass('d-none');
                 $('#sexpoitem1_choose').removeClass('d-none');
                 $('#pType').val(getCurrentPtype);
+                $('#pType').trigger('change');
             }
             else {
                 $('#ifHaveSymptoms').removeClass('d-none');
@@ -1887,6 +1887,7 @@
                 $('#sexpoitem1_unknown').addClass('d-none');
                 $('#sexpoitem1_choose').addClass('d-none');
                 $('#pType').val('PROBABLE');
+                $('#pType').trigger('change');
             }
         }).trigger('change');
 
@@ -2229,6 +2230,33 @@
                 $('#useHospAlert').addClass('d-none');
             }
         }).trigger('change');
+
+        $('#contact1Name').keyup(function (e) { 
+            if($(this).val().length >= 5) {
+                $('#namelist2').removeClass('d-none');
+            }
+            else {
+                $('#namelist2').addClass('d-none');
+            }
+        });
+
+        $('#contact2Name').keyup(function (e) { 
+            if($(this).val().length >= 5) {
+                $('#namelist3').removeClass('d-none');
+            }
+            else {
+                $('#namelist3').addClass('d-none');
+            }
+        });
+
+        $('#contact3Name').keyup(function (e) { 
+            if($(this).val().length >= 5) {
+                $('#namelist4').removeClass('d-none');
+            }
+            else {
+                $('#namelist4').addClass('d-none');
+            }
+        });
     </script>
     @else
     <div class="container">
