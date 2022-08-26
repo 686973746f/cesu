@@ -1070,6 +1070,9 @@
                             <div class="card mb-3">
                                 <div class="card-header">Comorbidities / Reason for Hospitalization <small><i>(Check all that apply if present)</i></small></div>
                                 <div class="card-body">
+                                    <div class="alert alert-info d-none" id="useHospAlert" role="alert">
+                                        <span><b class="text-danger">Note:</b> You will use the swab for Hospitalization. Please check at least one reason below.</span>
+                                    </div>  
                                     <div class="row comoOpt">
                                         <div class="col-md-6">
                                             <div class="form-check" id="como_none">
@@ -1799,25 +1802,21 @@
             }
         }).trigger('change');
 
-        var isfhosp = $('#isForHospitalization').val();
-
         $('#isPregnant').change(function (e) { 
             e.preventDefault();
-            if($(this).val() == '0' || $(this).val() == null) {
-                $('#ifPregnant').addClass('d-none');
-                $('#lmp').prop('required', false);
-
-                $('#isForHospitalization').val(isfhosp);
-                $('#isForHospitalization').trigger('change');
-                $('#isForHospitalization_sno').removeClass('d-none');
-            }
-            else {
+            if($(this).val() == '1') {
                 $('#ifPregnant').removeClass('d-none');
                 $('#lmp').prop('required', true);
 
-                $('#isForHospitalization').val('1');
-                $('#isForHospitalization').trigger('change');
-                $('#isForHospitalization_sno').addClass('d-none');
+                $('#pType').val('TESTING');
+                $('#pType').trigger('change');
+            }
+            else {
+                $('#ifPregnant').addClass('d-none');
+                $('#lmp').prop('required', false);
+                
+                $('#pType').val(getCurrentPtype);
+                $('#pType').trigger('change');
             }
         }).trigger('change');
 
@@ -1988,6 +1987,19 @@
 
         $('#pType').change(function (e) { 
             e.preventDefault();
+            getCurrentPtype = $(this).val();
+
+            if($(this).val() == 'TESTING') {
+                $('#isForHospitalization').val('1');
+                $('#isForHospitalization').trigger('change');
+                $('#isForHospitalization_sno').addClass('d-none');
+            }
+            else {
+                $('#isForHospitalization').val('');
+                $('#isForHospitalization').trigger('change');
+                $('#isForHospitalization_sno').removeClass('d-none');
+            }
+
             if($(this).val() == "CLOSE CONTACT") {
                 $('#expoitem1').empty();
                 $('#expoitem1').append($('<option>', {
@@ -1998,6 +2010,7 @@
                 $('#expoitem1').trigger('change');    
             }
             else {
+
                 $('#expoitem1').empty();
                 $('#expoitem1').append($('<option>', {
 					value: "",
@@ -2193,13 +2206,29 @@
         $('#isForHospitalization').change(function (e) { 
             e.preventDefault();
             if($(this).val() == '1') {
-                $('#como_none').addClass('d-none');
-                $('#comCheck1').prop('checked', false);
+                if($('#isPregnant').val() == '1') {
+                    $('#como_none').removeClass('d-none');
+                    $('#comCheck1').prop('checked', true);
+                    $('#comCheck1').trigger('change');
+
+                    $('#useHospAlert').addClass('d-none');
+                }
+                else {
+                    $('#como_none').addClass('d-none');
+                    $('#comCheck1').prop('checked', false);
+                    $('#comCheck1').trigger('change');
+
+                    $('#useHospAlert').removeClass('d-none');
+                }
             }
             else {
                 $('#como_none').removeClass('d-none');
+                $('#comCheck1').prop('checked', true);
+                $('#comCheck1').trigger('change');
+
+                $('#useHospAlert').addClass('d-none');
             }
-        });
+        }).trigger('change');
     </script>
     @else
     <div class="container">
