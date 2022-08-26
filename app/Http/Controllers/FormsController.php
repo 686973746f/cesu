@@ -1094,7 +1094,10 @@ class FormsController extends Controller
         */
 
         if($checkform) {
-            return redirect()->route('forms.index')->with('status', 'Error: '.$rec->getName()." CIF Data was already existed and your request was blocked to prevent double entry.")->with('statustype', 'danger');
+            return back()
+            ->withInput()
+            ->with('msg', 'Error: '.$rec->getName()." CIF Data was already existed and your request was blocked to prevent double entry.")
+            ->with('msgType', 'danger');
         }
         else {
             if($rec->gender == 'MALE') {
@@ -2157,7 +2160,12 @@ class FormsController extends Controller
                         ['records_id', $rec->records_id],
                         ['testDateCollected1', $request->testDateCollected1]
                     ])->exists()) {
-                        $proceed = 0;
+                        //$proceed = 0;
+
+                        return back()
+                        ->withInput()
+                        ->with('msg', 'Double Entry Detected! Edit Error: CIF Record for '.$rec->records->getName()." already exists at ".date('m/d/Y', strtotime($request->testDateCollected1)))
+                        ->with('msgType', 'danger');
                     }
                     else {
                         $proceed = 1;
