@@ -141,7 +141,7 @@ class ReportV2Controller extends Controller
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
 
-                $getListName = 'List of Patients Currently Admitted in General Trias Ligtas COVID-19 Facility #2 (Gen. Trias Sports Park, Brgy. Santiago)';
+                $getListName = 'List of Patients Currently Admitted in General Trias Ligtas COVID-19 Facility #1 (Gen. Trias Sports Park (Oval), Brgy. Santiago)';
             }
             else if($opt == 10) {
                 $opt_final_query = $initial_query

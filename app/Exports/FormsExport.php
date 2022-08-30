@@ -109,6 +109,10 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                     $data = $senior_col->merge($pregnant_col)->merge($hospitalization_col)->merge($phfirst_col)->merge($normal_col);
                 }
             }
+            else if($this->type == 'export_brgysort') {
+                //Random Barangay Alphabetic Sort
+
+            }
 
             return $data;
         }
@@ -122,8 +126,15 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         $arr_como = explode(",", $form->COMO);
         $arr_placeVisited = explode(",", $form->placevisited);
 
+        $tempswitch = 1;
+
         if($form->expoitem2 == 0) {
-            $ei2str = "NO";
+            if($tempswitch == 1) {
+                $ei2str = "UNKNOWN"; //Temporary Set to UNKNOWN muna para tanggapin ng Molecular Laboratory
+            }
+            else {
+                $ei2str = "NO"; 
+            }
         }
         else if($form->expoitem2 == 1) {
             $ei2str = "YES, LOCAL";
@@ -267,69 +278,136 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $pv8f = ($form->expoitem2 == 1 && in_array("Transport Service", $arr_placeVisited) && !is_null($form->localDateArrive2)) ? date('m/d/Y', strtotime($form->localDateArrive2)) : "N/A";
         }
         else {
-            $pv1a = "NO";
-            $pv1b = "";
-            $pv1c = "";
-            $pv1d = "";
-            $pv1e = "";
-            $pv1f = "";
+            if($tempswitch == 1) {
+                $pv1a = "NO";
+                $pv1b = "N/A";
+                $pv1c = "N/A";
+                $pv1d = "N/A";
+                $pv1e = "N/A";
+                $pv1f = "N/A";
 
-            $pv2a = "NO";
-            $pv2b = "";
-            $pv2c = "";
-            $pv2d = "";
-            $pv2e = "";
-            $pv2f = "";
+                $pv2a = "YES";
+                $pv2b = "HOME";
+                $pv2c = $form->records->address_city.', '.$form->records->address_province;
+                $pv2d = date('m/d/Y', strtotime($form->morbidityMonth.' -5 Days'));
+                $pv2e = date('m/d/Y', strtotime($form->morbidityMonth));
+                $pv2f = "NO";
 
-            $pv3a = "NO";
-            $pv3b = "";
-            $pv3c = "";
-            $pv3d = "";
-            $pv3e = "";
-            $pv3f = "";
+                $pv3a = "NO";
+                $pv3b = "N/A";
+                $pv3c = "N/A";
+                $pv3d = "N/A";
+                $pv3e = "N/A";
+                $pv3f = "N/A";
 
-            $pv4a = "NO";
-            $pv4b = "";
-            $pv4c = "";
-            $pv4d = "";
-            $pv4e = "";
-            $pv4f = "";
+                $pv4a = "NO";
+                $pv4b = "N/A";
+                $pv4c = "N/A";
+                $pv4d = "N/A";
+                $pv4e = "N/A";
+                $pv4f = "N/A";
 
-            $pv5a = "NO";
-            $pv5b = "";
-            $pv5c = "";
-            $pv5d = "";
-            $pv5e = "";
-            $pv5f = "";
+                $pv5a = "NO";
+                $pv5b = "N/A";
+                $pv5c = "N/A";
+                $pv5d = "N/A";
+                $pv5e = "N/A";
+                $pv5f = "N/A";
 
-            $pv6a = "NO";
-            $pv6b = "";
-            $pv6c = "";
-            $pv6d = "";
-            $pv6e = "";
-            $pv6f = "";
+                $pv6a = "NO";
+                $pv6b = "N/A";
+                $pv6c = "N/A";
+                $pv6d = "N/A";
+                $pv6e = "N/A";
+                $pv6f = "N/A";
 
-            $pv7a = "NO";
-            $pv7b = "";
-            $pv7c = "";
-            $pv7d = "";
-            $pv7e = "";
-            $pv7f = "";
+                $pv7a = "NO";
+                $pv7b = "N/A";
+                $pv7c = "N/A";
+                $pv7d = "N/A";
+                $pv7e = "N/A";
+                $pv7f = "N/A";
 
-            $pv8a = "NO";
-            $pv8b = "";
-            $pv8c = "";
-            $pv8d = "";
-            $pv8e = "";
-            $pv8f = "";
-            $pv8g = "";
+                $pv8a = "NO";
+                $pv8b = "N/A";
+                $pv8c = "N/A";
+                $pv8d = "N/A";
+                $pv8e = "N/A";
+                $pv8f = "N/A";
+                $pv8g = "N/A";
 
-            $pv8a = "";
-            $pv8b = "";
-            $pv8c = "";
-            $pv8d = "";
-            $pv8e = "";
-            $pv8f = "";
+                $pv8a = "N/A";
+                $pv8b = "N/A";
+                $pv8c = "N/A";
+                $pv8d = "N/A";
+                $pv8e = "N/A";
+                $pv8f = "N/A";
+            }
+            else {
+                $pv1a = "NO";
+                $pv1b = "";
+                $pv1c = "";
+                $pv1d = "";
+                $pv1e = "";
+                $pv1f = "";
+
+                $pv2a = "NO";
+                $pv2b = "";
+                $pv2c = "";
+                $pv2d = "";
+                $pv2e = "";
+                $pv2f = "";
+
+                $pv3a = "NO";
+                $pv3b = "";
+                $pv3c = "";
+                $pv3d = "";
+                $pv3e = "";
+                $pv3f = "";
+
+                $pv4a = "NO";
+                $pv4b = "";
+                $pv4c = "";
+                $pv4d = "";
+                $pv4e = "";
+                $pv4f = "";
+
+                $pv5a = "NO";
+                $pv5b = "";
+                $pv5c = "";
+                $pv5d = "";
+                $pv5e = "";
+                $pv5f = "";
+
+                $pv6a = "NO";
+                $pv6b = "";
+                $pv6c = "";
+                $pv6d = "";
+                $pv6e = "";
+                $pv6f = "";
+
+                $pv7a = "NO";
+                $pv7b = "";
+                $pv7c = "";
+                $pv7d = "";
+                $pv7e = "";
+                $pv7f = "";
+
+                $pv8a = "NO";
+                $pv8b = "";
+                $pv8c = "";
+                $pv8d = "";
+                $pv8e = "";
+                $pv8f = "";
+                $pv8g = "";
+
+                $pv8a = "";
+                $pv8b = "";
+                $pv8c = "";
+                $pv8d = "";
+                $pv8e = "";
+                $pv8f = "";
+            }
         }
         
         $ocomo = [];
@@ -350,6 +428,23 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         }
 
         $ocomo_final = implode(',', $ocomo);
+
+        //Exposure Choices Forced to YES Temporarily (Para tanggapin ng Molecular Laboratory)
+        if($form->expoitem1 == 1) {
+            $set_expoitem1_yn = "YES";
+            $set_expoitem1_date = date("m/d/Y", strtotime($form->expoDateLastCont));
+        }
+        else {
+            if($tempswitch == 1) {
+                $set_expoitem1_yn = "YES";
+                $set_expoitem1_date = date('m/d/Y', strtotime($form->morbidityMonth.' -2 Days'));
+            }
+            else {
+                $set_expoitem1_yn = "NO";
+                $set_expoitem1_date = "N/A";
+            }
+        }
+        
 
         return [
             $form->drunit,
@@ -595,8 +690,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($form->outcomeCondition == "Died") ? strtoupper($form->deathUndeCause) : "N/A",
             ($form->outcomeCondition == "Died") ? strtoupper($form->contriCondi) : "N/A",
 
-            ($form->expoitem1 == 1) ? "YES" : "NO",
-            ($form->expoitem1 == 1) ? date("m/d/Y", strtotime($form->expoDateLastCont)) : "N/A",
+            $set_expoitem1_yn,
+            $set_expoitem1_date,
 
             $ei2str,
             ($form->expoitem2 == 2) ? strtoupper($form->intCountry) : 'N/A',
