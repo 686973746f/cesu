@@ -1241,7 +1241,7 @@ class FormsController extends Controller
                 $attended = null;
             }
     
-            if($request->filled('testType2')) {
+            if(!is_null($request->testResult2)) {
                 if($request->testResult2 != "PENDING") {
                     if($request->testResult2 == "POSITIVE") {
                         $caseClassi = 'Confirmed';
@@ -1536,7 +1536,7 @@ class FormsController extends Controller
             //Auto Change to Mild and Probable if May Symptoms
             if(!is_null($request->sasCheck)) {
                 $hs = 'Mild';
-                if($caseClassi != 'Confirmed') {
+                if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
                     $caseClassi = 'Probable';
                 }
             }
@@ -2110,7 +2110,7 @@ class FormsController extends Controller
                     }
                 }
 
-                if($request->filled('testType2')) {
+                if(!is_null($request->testResult2)) {
                     if($request->testResult2 != "PENDING") {
                         if($request->testResult2 == "POSITIVE") {
                             $caseClassi = 'Confirmed';
@@ -2552,7 +2552,7 @@ class FormsController extends Controller
                 //Auto Change to Mild and Probable if May Symptoms
                 if(!is_null($request->sasCheck)) {
                     $hs = 'Mild';
-                    if($caseClassi != 'Confirmed') {
+                    if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case') {
                         $caseClassi = 'Probable';
                     }
                 }
