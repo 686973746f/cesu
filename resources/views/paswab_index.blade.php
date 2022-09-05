@@ -1258,7 +1258,7 @@
                                     <div class="form-group">
                                       <label for="imagingDone"><span class="text-danger font-weight-bold">*</span>Uri ng Chest X-Ray / Chest X-Ray Type</label>
                                       <select class="form-control" name="imagingDone" id="imagingDone" required>
-                                        <option value="None" {{(old('imagingDone') == "None") ? 'selected' : ''}}>None</option>
+                                        <option value="None" {{(old('imagingDone') == "None") ? 'selected' : ''}}>None / Wala</option>
                                         <option value="Chest Radiography" {{(old('imagingDone') == "Chest Radiography") ? 'selected' : ''}}>Chest Radiography</option>
                                         <option value="Chest CT" {{(old('imagingDone') == "Chest CT") ? 'selected' : ''}}>Chest CT</option>
                                         <option value="Lung Ultrasound" {{(old('imagingDone') == "Lung Ultrasound") ? 'selected' : ''}}>Lung Ultrasound</option>
@@ -2001,6 +2001,7 @@
                 $('#isForHospitalization_sno').removeClass('d-none');
             }
 
+            /*
             if($(this).val() == "CLOSE CONTACT") {
                 $('#expoitem1').empty();
                 $('#expoitem1').append($('<option>', {
@@ -2033,6 +2034,7 @@
 				}));
                 $('#expoitem1').trigger('change');
             }
+            */
         });
         
         $('#vaccineq1').change(function (e) { 
