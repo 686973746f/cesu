@@ -41,7 +41,9 @@
                             <td scope="row"><i class="fas fa-at mr-2"></i>Email Address</td>
                             <td><a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></td>
                         </tr>
-                        <tr><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></tr>
+                        <tr>
+                            <td colspan="2"><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></td>
+                        </tr>
                         <tr>
                             <td scope="row">Address</td>
                             <td>City Health Office (3rd Floor CESU Office), Pria Rd., Hospital Area - Main, Brgy. Pinagtipunan, General Trias, Cavite, 4107</td>
