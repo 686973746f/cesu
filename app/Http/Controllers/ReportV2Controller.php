@@ -2118,6 +2118,11 @@ class ReportV2Controller extends Controller
 
     public function wholebrgydata() {
         $brgyArray = collect();
+
+        $brgyList = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
         
         foreach($brgyList as $brgy) {
             $brgyConfirmedCount = Forms::with('records')
@@ -2127,7 +2132,6 @@ class ReportV2Controller extends Controller
                 ->where('records.address_brgy', $brgy->brgyName);
             })
             ->where('status', 'approved')
-            ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('caseClassification', 'Confirmed')
             ->count();
 
@@ -2138,7 +2142,6 @@ class ReportV2Controller extends Controller
                 ->where('records.address_brgy', $brgy->brgyName);
             })
             ->where('status', 'approved')
-            ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('outcomeCondition', 'Died')
             ->count();
 
@@ -2149,7 +2152,7 @@ class ReportV2Controller extends Controller
                 ->where('records.address_brgy', $brgy->brgyName);
             })
             ->where('status', 'approved')
-            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Recovered')
             ->count();
 
