@@ -1309,12 +1309,12 @@
                                     <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">Contact Tracing - Ilista ang mga pangalan ng mga kasama sa bahay o mga nakasalamuha noong mga nakaraang araw <i>(Atleast One (1) Required, Maximum of Four(4))</i></div>
+                                    <div class="card-header"><span class="text-danger font-weight-bold">*</span>Contact Tracing - Ilista ang mga pangalan ng mga kasama sa bahay o mga nakasalamuha noong mga nakaraang araw <i>(Atleast One (1) Required, Maximum of Four(4))</i></div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                  <label for="contact1Name">Name of Close Contact #1</label>
+                                                  <label for="contact1Name"><span class="text-danger font-weight-bold">*</span>Name of Close Contact #1</label>
                                                   <input type="text" class="form-control" name="contact1Name" id="contact1Name" minlength="5" maxlength="60" style="text-transform: uppercase;" required>
                                                 </div>
                                             </div>
@@ -1373,7 +1373,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header font-weight-bold">Data Privacy Statement of General Trias</div>
+                        <div class="card-header font-weight-bold"><span class="text-danger font-weight-bold">*</span>Data Privacy Statement of General Trias</div>
                         <div class="card-body text-center">
                             <p>{{__('paswab.dataPrivacy')}}</p>
                             <div class="form-check">
