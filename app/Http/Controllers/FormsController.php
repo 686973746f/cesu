@@ -2622,7 +2622,7 @@ class FormsController extends Controller
                 }
                 
                 if($proceed == 1) {
-                    if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00')) {
+                    if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00') && !(auth()->user()->ifTopAdmin())) {
                         return back()
                         ->withInput()
                         ->with('msg', 'Warning: Encoding and Editing Active Cases only allowed until 4PM - 12AM Daily. You can change the Morbidity Month to Tomorrow ('.date('m/d/Y', strtotime('+1 Day')).') so that it could be encoded for tomorrow.')
