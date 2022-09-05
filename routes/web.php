@@ -210,6 +210,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/casechecker', [ReportV2Controller::class, 'casechecker_index'])->name('casechecker_index');
     
     Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
+    Route::get('/report/accomplishment1', [ReportV2Controller::class, 'wholebrgydata'])->name('report.accomplishment1');
+
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
