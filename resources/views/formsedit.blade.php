@@ -1267,7 +1267,7 @@
                                             <div id="divYes6">
                                                 <div class="form-group">
                                                     <label for="dispositionDate" id="dispositiondatelabel"></label>
-                                                    <input type="datetime-local" class="form-control" name="dispositionDate" id="dispositionDate" value="{{old('dispositionDate', date('Y-m-d\TH:i', strtotime($records->dispoDate)))}}">
+                                                    <input type="datetime-local" class="form-control" name="dispositionDate" id="dispositionDate" value="{{old('dispositionDate', date('Y-m-d\TH:i', strtotime($records->dispoDate)))}}" max="{{date('Y-m-d').'T23:59'}}">
                                                 </div>
                                             </div>
                                         </div>
