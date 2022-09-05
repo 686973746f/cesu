@@ -26,7 +26,7 @@
             <div class="card-header font-weight-bold">{{$list_name}} | Total: {{number_format($list_count)}}</div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover table-striped">
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th style="vertical-align: middle;">MM/MW <small>(Date Encoded)</small></th>
