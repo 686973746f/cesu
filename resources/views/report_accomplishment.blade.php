@@ -56,7 +56,7 @@
             <p>Last Year Swab Count: {{$lastYearSwab}}</p>
         </div>
     </div>
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header font-weight-bold text-center">Accomplishment Report for PREVIOUS YEAR ({{date('Y', strtotime('-1 Year'))}})</div>
         <div class="card-body">
             <p>{{date('Y', strtotime('-1 Year'))}} Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
@@ -162,10 +162,10 @@
     </div>
 
     <div class="card">
-        <div class="card-header">Age Group</div>
+        <div class="card-header"><b>Age Group</b></div>
         <div class="card-body">
-            <table class="table table-bordered text-center">
-                <thead>
+            <table class="table table-bordered text-center table-striped">
+                <thead class="thead-light">
                     <tr>
                         <th>Age</th>
                         <th>Confirmed {{date('Y', strtotime('-2 Year'))}}</th>
@@ -179,7 +179,7 @@
                 <tbody>
                     @foreach($age_array as $a)
                     <tr>
-                        <td scope="row">{{$a['name']}}</td>
+                        <td scope="row"><b>{{$a['name']}}</b></td>
                         <td>{{$a['c_l2y']}}</td>
                         <td>{{$a['d_l2y']}}</td>
                         <td>{{$a['r_l2y']}}</td>
