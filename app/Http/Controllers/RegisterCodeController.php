@@ -26,7 +26,6 @@ class RegisterCodeController extends Controller
             return view('auth.register', ['item' => $list, 'aType' => 'cesu']);
         }
         else {
-
             $list1 = ReferralCodes::where('refCode', strtoupper($request->refCode))
             ->where('enabled', 1)
             ->first();

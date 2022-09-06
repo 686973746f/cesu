@@ -1462,6 +1462,7 @@ class ReportV2Controller extends Controller
 
         $brgyArray = collect();
         $brgyArray1 = collect();
+        $brgyArray2 = collect();
 
         $brgyList = Brgy::where('displayInList', 1)
         ->where('city_id', 1)
@@ -1541,6 +1542,42 @@ class ReportV2Controller extends Controller
             ->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
             ->count();
 
+            $brgyConfirmedCount2 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('caseClassification', 'Confirmed')
+            ->whereYear('morbidityMonth', date('Y'))
+            ->count();
+
+            $brgyDeathCount2 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('outcomeCondition', 'Died')
+            ->whereYear('morbidityMonth', date('Y'))
+            ->count();
+
+            $brgyRecoveryCount2 = Forms::with('records')
+            ->whereHas('records', function ($q) use ($brgy) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->where('records.address_brgy', $brgy->brgyName);
+            })
+            ->where('status', 'approved')
+            ->where('drunit', 'CHO GENERAL TRIAS')
+            ->where('outcomeCondition', 'Recovered')
+            ->whereYear('morbidityMonth', date('Y'))
+            ->count();
+
             $brgyArray->push([
                 'name' => $brgy->brgyName,
                 'confirmed' => $brgyConfirmedCount,
@@ -1553,6 +1590,13 @@ class ReportV2Controller extends Controller
                 'confirmed' => $brgyConfirmedCount1,
                 'deaths' => $brgyDeathCount1,
                 'recoveries' => $brgyRecoveryCount1,
+            ]);
+
+            $brgyArray2->push([
+                'name' => $brgy->brgyName,
+                'confirmed' => $brgyConfirmedCount2,
+                'deaths' => $brgyDeathCount2,
+                'recoveries' => $brgyRecoveryCount2,
             ]);
         }
 
@@ -2070,6 +2114,7 @@ class ReportV2Controller extends Controller
             'count7' => $count7,
             'brgylist' => $brgyArray,
             'brgylist1' => $brgyArray1,
+            'brgylist2' => $brgyArray2,
             'malecount' => $malecount,
             'femalecount' => $femalecount,
             'currq_active' => $currq_active,
