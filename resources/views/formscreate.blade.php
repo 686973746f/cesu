@@ -69,7 +69,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
-                              <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit', 'CHO GENERAL TRIAS')}}" required>
+                              <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit', 'CHO GENERAL TRIAS')}}" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -77,13 +77,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region</label>
-                                        <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion', '4A')}}" required>
+                                        <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion', '4A')}}" style="text-transform: uppercase;" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="drprovince"><span class="text-danger font-weight-bold">*</span>DRU Province</label>
-                                        <input type="text" class="form-control" name="drprovince" id="drprovince" value="{{old('drprovince', 'CAVITE')}}" required>
+                                        <input type="text" class="form-control" name="drprovince" id="drprovince" value="{{old('drprovince', 'CAVITE')}}" style="text-transform: uppercase;" required>
                                     </div>
                                 </div>
                             </div>

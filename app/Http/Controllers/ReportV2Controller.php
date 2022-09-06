@@ -1461,7 +1461,7 @@ class ReportV2Controller extends Controller
         ->count();
 
         $brgyArray = collect();
-        $brgyArray1 = collect();
+        //$brgyArray1 = collect();
         //$brgyArray2 = collect();
 
         $brgyList = Brgy::where('displayInList', 1)
@@ -1484,7 +1484,6 @@ class ReportV2Controller extends Controller
                 ->where('records.address_brgy', $brgy->brgyName);
             })
             ->where('status', 'approved')
-            ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('caseClassification', 'Confirmed')
             ->whereYear('morbidityMonth', $year)
             ->count();
@@ -1496,7 +1495,6 @@ class ReportV2Controller extends Controller
                 ->where('records.address_brgy', $brgy->brgyName);
             })
             ->where('status', 'approved')
-            ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('outcomeCondition', 'Died')
             ->whereYear('morbidityMonth', $year)
             ->count();
@@ -1508,7 +1506,6 @@ class ReportV2Controller extends Controller
                 ->where('records.address_brgy', $brgy->brgyName);
             })
             ->where('status', 'approved')
-            ->where('drunit', 'CHO GENERAL TRIAS')
             ->where('outcomeCondition', 'Recovered')
             ->whereYear('morbidityMonth', $year)
             ->count();

@@ -405,7 +405,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="drunit"><span class="text-danger font-weight-bold">*</span>Disease Reporting Unit (DRU)</label>
-                                <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit', $records->drunit)}}" required>
+                                <input type="text" class="form-control" name="drunit" id="drunit" value="{{old('drunit', $records->drunit)}}" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -413,13 +413,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="drregion"><span class="text-danger font-weight-bold">*</span>DRU Region</label>
-                                        <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion', $records->drregion)}}" required>
+                                        <input type="text" class="form-control" name="drregion" id="drregion" value="{{old('drregion', $records->drregion)}}" style="text-transform: uppercase;" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="drprovince"><span class="text-danger font-weight-bold">*</span>DRU Province</label>
-                                        <input type="text" class="form-control" name="drprovince" id="drprovince" value="{{old('drprovince', $records->drprovince)}}" required>
+                                        <input type="text" class="form-control" name="drprovince" id="drprovince" value="{{old('drprovince', $records->drprovince)}}" style="text-transform: uppercase;" required>
                                     </div>
                                 </div>
                             </div>
