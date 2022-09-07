@@ -34,7 +34,7 @@
             </form>
             @endif
             @if($records->dispoType == 3)
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cDispoModal">Change Quarantine Status</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cDispoModal">Transfer to Hospital/Facility</button>
             @endif
         </div>
         @if($records->dispoType == 3)
@@ -45,12 +45,15 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Change Confirmed Patient Quarantine Status</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="dType"><span class="text-danger font-weight-bold">*</span>Status</label>
                                 <select class="form-control" name="dType" id="dType">
+                                    <option value="" disabled {{(is_null(old('dType'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="6" {{(old('dType') == 6) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility</option>
                                     <option value="7" {{(old('dType') == 7) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility #2 (Eagle Ridge, Brgy. Javalera)</option>
                                     <option value="1" {{(old('dType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
@@ -96,11 +99,11 @@
                     $('#dName').prop('required', true);
                     $('#dDate').prop('required', false);
                 }
-                else if ($(this).val() == '6') {
+                else if ($(this).val() == '6' || $(this).val() == '7') {
                     $('#dName').prop('required', false);
                     $('#dDate').prop('required', true);
                 }
-                else if($(this).val().length == 0){
+                else {
                     $('#dName').prop('required', false);
                     $('#dDate').prop('required', false);
                 }
@@ -139,13 +142,13 @@
 
                     $('#dLabel').text("State Reason");
                 }
-                else if($(this).val() == '6') {
+                else if($(this).val() == '6' || $(this).val() == '7') {
                     $('#tDiv1').hide();
                     $('#tDiv2').show();
 
                     $('#dDateLabel').text("Date and Time Started");
                 }
-                else if($(this).val().length == 0){
+                else {
                     $('#tDiv1').hide();
                     $('#tDiv2').hide();
                 }
@@ -160,7 +163,9 @@
                     <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">{{(!is_null($records->testDateCollected2)) ? 'Edit' : 'Set'}} Temporary Swab Schedule</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-primary" role="alert">
