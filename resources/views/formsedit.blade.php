@@ -21,10 +21,138 @@
             <h4 class="alert-heading font-weight-bold text-danger">NOTICE:</h4>
             <p>This CIF of the Patient was already marked as <strong class="text-danger">CONFIRMED (+)</strong>.</p>
             <p>Only an admin can update the details of this record to preserve the details of the case.</p>
+            @if($records->dispoType == 6 || $records->dispoType == 7 || $records->dispoType == 2)
+            <p>The patient is currently admitted in Isolation Facility. If the Patient is recovered/already discharged, you can press [Mark as Recovered TODAY] button.</p>
+            @endif
             <hr>
             <p><i>Other Options:</i></p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tempsched">{{(!is_null($records->testDateCollected2)) ? 'Edit' : 'Set'}} Temporary Swab Schedule</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tempsched">{{(!is_null($records->testDateCollected2)) ? 'EDIT' : 'Set'}} Temporary Swab Schedule</button>
+            @if($records->dispoType == 6 || $records->dispoType == 7 || $records->dispoType == 2)
+            <form action="{{route('forms.qSetRecovered', ['id' => $records->id])}}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary mt-3" onclick="return confirm('This will change the Outcome of Patient CIF to Recovered.')">Mark as Recovered TODAY</button>
+            </form>
+            @endif
+            @if($records->dispoType == 3)
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cDispoModal">Change Quarantine Status</button>
+            @endif
         </div>
+        @if($records->dispoType == 3)
+        <form action="{{route('forms.cChangeDispo', ['id' => $records->id])}}" method="POST">
+            @csrf
+            <div class="modal fade" id="cDispoModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Change Confirmed Patient Quarantine Status</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="dType"><span class="text-danger font-weight-bold">*</span>Status</label>
+                                <select class="form-control" name="dType" id="dType">
+                                    <option value="6" {{(old('dType') == 6) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility</option>
+                                    <option value="7" {{(old('dType') == 7) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility #2 (Eagle Ridge, Brgy. Javalera)</option>
+                                    <option value="1" {{(old('dType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
+                                    <option value="2" {{(old('dType') == 2) ? 'selected' : ''}}>Admitted in OTHER isolation/quarantine facility</option>
+                                    <option value="5" {{(old('dType') == 5) ? 'selected' : ''}}>Others</option>
+                                </select>
+                            </div>
+                            <div id="tDiv1">
+                                <div class="form-group">
+                                    <label for="dName" id="dLabel"></label>
+                                    <input type="text" class="form-control" name="dName" id="dName" value="{{old('dName', $records->dispoName)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <div id="tDiv2">
+                                <div class="form-group">
+                                    <label for="dDate" id="dDateLabel"></label>
+                                    <input type="datetime-local" class="form-control" name="dDate" id="dDate" value="{{old('dispositionDate', date('Y-m-d\TH:i', strtotime($records->dispoDate)))}}" max="{{date('Y-m-d').'T23:59'}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            $('#dType').change(function (e) {
+                e.preventDefault();
+                $('#dDate').prop("type", "datetime-local");
+                
+                if($(this).val() == '1' || $(this).val() == '2') {
+                    $('#dName').prop('required', true);
+                    $('#dDate').prop('required', true);
+                }
+                else if ($(this).val() == '3' || $(this).val() == '4') {
+                    $('#dName').prop('required', false);
+                    $('#dDate').prop('required', true);
+                }
+                else if ($(this).val() == '5') {
+                    $('#dName').prop('required', true);
+                    $('#dDate').prop('required', false);
+                }
+                else if ($(this).val() == '6') {
+                    $('#dName').prop('required', false);
+                    $('#dDate').prop('required', true);
+                }
+                else if($(this).val().length == 0){
+                    $('#dName').prop('required', false);
+                    $('#dDate').prop('required', false);
+                }
+
+                if($(this).val() == '1') {
+                    $('#tDiv1').show();
+                    $('#tDiv2').show();
+
+                    $('#dLabel').text("Name of Hospital");
+                    $('#dDateLabel').text("Date and Time Admitted in Hospital");
+                }
+                else if($(this).val() == '2') {
+                    $('#tDiv1').show();
+                    $('#tDiv2').show();
+
+                    $('#dLabel').text("Name of Facility");
+                    $('#dDateLabel').text("Date and Time Admitted in Hospital");
+                }
+                else if($(this).val() == '3') {
+                    $('#tDiv1').hide();
+                    $('#tDiv2').show();
+
+                    $('#dDateLabel').text("Date and Time isolated/quarantined at home");
+                }
+                else if($(this).val() == '4') {
+                    $('#tDiv1').hide();
+                    $('#tDiv2').show();
+
+                    $('#dDate').prop("type", "date");
+
+                    $('#dDateLabel').text("Date of Discharge");
+                }
+                else if($(this).val() == '5') {
+                    $('#tDiv1').show();
+                    $('#tDiv2').hide();
+
+                    $('#dLabel').text("State Reason");
+                }
+                else if($(this).val() == '6') {
+                    $('#tDiv1').hide();
+                    $('#tDiv2').show();
+
+                    $('#dDateLabel').text("Date and Time Started");
+                }
+                else if($(this).val().length == 0){
+                    $('#tDiv1').hide();
+                    $('#tDiv2').hide();
+                }
+            }).trigger('change');
+        </script>
+        @endif
+
         <form action="{{route('forms.setTempSched', ['id' => $records->id])}}" method="POST">
             @csrf
             <div class="modal fade" id="tempsched" tabindex="-1">

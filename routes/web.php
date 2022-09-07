@@ -145,7 +145,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');
     Route::post('/forms/{id}/create', [FormsController::class, 'store']);
     Route::post('/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
-    Route::post('/forms/{id}/edit', [FormsController::class, 'setTempSched'])->name('forms.setTempSched');
+    Route::post('/forms/{id}/edit/qrecovered', [FormsController::class, 'qSetRecovered'])->name('forms.qSetRecovered');
+    Route::post('/forms/{id}/edit/tempsched', [FormsController::class, 'setTempSched'])->name('forms.setTempSched');
+    Route::post('/forms/{id}/edit/changedispo', [FormsController::class, 'cChangeDispo'])->name('forms.cChangeDispo');
+
     Route::get('/forms/download/{id}', [FormsController::class, 'downloadDocs']);
     Route::post('/forms/singleExport/{id}', [FormsController::class, 'soloExport'])->name('forms.soloprint.cif');
     Route::get('/forms/printAntigen/{id}/{testType}', [FormsController::class, 'printAntigen'])->name('forms.soloprint.antigen');

@@ -3032,4 +3032,50 @@ class FormsController extends Controller
         ->with('statustype', 'success')
         ->with('add_note', (isset($add_note)) ? $add_note : NULL);
     }
+
+    public function qSetRecovered($id) {
+        $d = Forms::findOrFail($id);
+
+        if(!($d->ifCaseFinished()) && $d->ifOldCIf() == false && $d->caseClassification == 'Confirmed') {
+            if($d->dispoType == 6 || $d->dispoType == 7 || $d->dispoType == 2) {
+                $d->outcomeCondition = 'Recovered';
+                if(time() >= strtotime('16:00:00')) {
+                    $d->outcomeRecovDate = date('Y-m-d', strtotime('+1 Day'));
+                }
+                else {
+                    $d->outcomeRecovDate = date('Y-m-d');
+                }
+    
+                if($d->isDirty()) {
+                    $d->save();
+                }
+            }
+        }
+
+        return redirect()->action([FormsController::class, 'index'])
+        ->with('status', "Quarantined CIF of Patient ".$d->records->getName()." (#".$d->records->id.") has been updated to Recovered successfully.")
+        ->with('statustype', 'success')
+        ->with('add_note', (isset($add_note)) ? $add_note : NULL);
+    }
+
+    public function cChangeDispo($id, Request $request) {
+        $d = Forms::findOrFail($id);
+
+        if(!($d->ifCaseFinished()) && $d->ifOldCIf() == false && $d->caseClassification == 'Confirmed') {
+            if($d->dispoType == 3) {
+                $d->dispoType = $request->dType;
+                $d->dispoName = $request->dName;
+                $d->dispoDate = $request->dDate;
+
+                if($d->isDirty()) {
+                    $d->save();
+                }
+            }
+        }
+
+        return redirect()->action([FormsController::class, 'index'])
+        ->with('status', "Quarantine Status of CIF for ".$d->records->getName()." (#".$d->records->id.") has been updated successfully.")
+        ->with('statustype', 'success')
+        ->with('add_note', (isset($add_note)) ? $add_note : NULL);
+    }
 }
