@@ -1469,13 +1469,22 @@
                         <li>Photocopy ng Marriage Certificate <i>(bilang proof of relationship)</i></li>
                         <li>Photocopy ng Valid ID o Birth Certificate ng iyong Asawa</li>
                     </ul>
-                    <p><b>Kung ikaw ay walang sariling Philhealth ID/MDR</b></p>
+                    <p><b>Kung ikaw ay hindi pa member ng Philhealth</b></p>
                     <ul>
-                        <li>Photocopy ng Birth Certificate OR Photocopy ng kahit anong Valid IDs</li>
+                        <li>Photocopy ng iyong Birth Certificate</li>
+                        <li>Photocopy ng iyong Valid ID</li>
+                        <li>Filled up Philhealth Member Registration Form (PMRF), pwede makuha <a href="https://bit.ly/3RiBsRt">dito</a> o sa mismong swabbing area.</li>
+                        <ul>
+                            <li>Note: Sagutan lamang ang mga may-check (✓) sa form.</li>
+                        </ul>
                     </ul>
                     <p><b>Kung ikaw ay wala talagang maipapakitang kahit anong Valid ID</b></p>
                     <ul>
                         <li>Certificate of Indigency sa inyong Barangay na nakasulat din ang Birthdate/Kaarawan mo.</li>
+                        <li>Filled up Philhealth Member Registration Form (PMRF), pwede makuha <a href="https://bit.ly/3RiBsRt">dito</a> o sa mismong swabbing area.</li>
+                        <ul>
+                            <li>Note: Sagutan lamang ang mga may-check (✓) sa form.</li>
+                        </ul>
                     </ul>
                     <p>Ito ay pag-sunod sa requirements ng Molecular Laboratory <i>(LaSalle/Imus Molecular Laboratory)</i> upang tanggapin ang inyong request.</p>
                     <p>Paalala:</p>
