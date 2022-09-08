@@ -123,6 +123,50 @@ class CreatePaSwabDetailsTable extends Migration
             $table->text('contact4Name')->nullable();
             $table->text('contact4No', 11)->nullable();
 
+            $table->text('placevisited')->nullable();
+
+            $table->text('locName1')->nullable();
+            $table->text('locAddress1')->nullable();
+            $table->date('locDateFrom1')->nullable();
+            $table->date('locDateTo1')->nullable();
+            $table->enum('locWithOngoingCovid1', ["YES","NO","N/A"])->nullable();
+
+            $table->text('locName2')->nullable();
+            $table->text('locAddress2')->nullable();
+            $table->date('locDateFrom2')->nullable();
+            $table->date('locDateTo2')->nullable();
+            $table->enum('locWithOngoingCovid2', ["YES","NO","N/A"])->nullable();
+            
+            $table->text('locName3')->nullable();
+            $table->text('locAddress3')->nullable();
+            $table->date('locDateFrom3')->nullable();
+            $table->date('locDateTo3')->nullable();
+            $table->enum('locWithOngoingCovid3', ["YES","NO","N/A"])->nullable();
+
+            $table->text('locName4')->nullable();
+            $table->text('locAddress4')->nullable();
+            $table->date('locDateFrom4')->nullable();
+            $table->date('locDateTo4')->nullable();
+            $table->enum('locWithOngoingCovid4', ["YES","NO","N/A"])->nullable();
+
+            $table->text('locName5')->nullable();
+            $table->text('locAddress5')->nullable();
+            $table->date('locDateFrom5')->nullable();
+            $table->date('locDateTo5')->nullable();
+            $table->enum('locWithOngoingCovid5', ["YES","NO","N/A"])->nullable();
+
+            $table->text('locName6')->nullable();
+            $table->text('locAddress6')->nullable();
+            $table->date('locDateFrom6')->nullable();
+            $table->date('locDateTo6')->nullable();
+            $table->enum('locWithOngoingCovid6', ["YES","NO","N/A"])->nullable();
+
+            $table->text('locName7')->nullable();
+            $table->text('locAddress7')->nullable();
+            $table->date('locDateFrom7')->nullable();
+            $table->date('locDateTo7')->nullable();
+            $table->enum('locWithOngoingCovid7', ["YES","NO","N/A"])->nullable();
+
             $table->string('patientmsg')->nullable();
 
             $table->ipAddress('senderIP');
