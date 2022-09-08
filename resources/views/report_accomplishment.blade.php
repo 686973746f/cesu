@@ -14,6 +14,19 @@
         </div>
         <div class="col-md-6">
             <div class="card mb-3">
+                <div class="card-header"><b>{{date('Y', strtotime('-1 Year'))}} Hospitalization</b></div>
+                <div class="card-body">
+                    <p>Number of Confirmed Hospitalized Patients: <b>{{$lastyear_hospitalized}}</b></p>
+                    <p>(Recovered: {{$lastyear_hospitalized_recovered}} | Died: {{$lastyear_hospitalized_died}})</p>
+                    <ul>
+                        <li>Unvaccinated: {{($lastyear_hospitalized - $lastyear_hospitalized_partialvacc - $lastyear_hospitalized_fullvacc - $lastyear_hospitalized_boostered)}}</li>
+                        <li>Partially Vaccinated: {{$lastyear_hospitalized_partialvacc}}</li>
+                        <li>Fully Vaccinated: {{$lastyear_hospitalized_fullvacc}}</li>
+                        <li>Boostered: {{$lastyear_hospitalized_boostered}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card mb-3">
                 <div class="card-header"><b>{{date('Y')}} Hospitalization</b></div>
                 <div class="card-body">
                     <p>Number of Confirmed Hospitalized Patients: <b>{{$cy_hospitalized}}</b></p>

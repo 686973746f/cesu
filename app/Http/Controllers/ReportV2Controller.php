@@ -1757,6 +1757,102 @@ class ReportV2Controller extends Controller
         ->where('isPresentOnSwabDay', 1)
         ->count();
 
+        //Last Year Hospitalization
+        $lastyear_hospitalized = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $lastyear_hospitalized_recovered = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->where('outcomeCondition', 'Recovered')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+        
+        $lastyear_hospitalized_died = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->where('outcomeCondition', 'Died')
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $lastyear_hospitalized_partialvacc = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereNotNull('records.vaccinationDate1')
+            ->whereNull('records.vaccinationDate2')
+            ->where('records.vaccinationName1', '!=', 'JANSSEN')
+            ->whereNull('records.vaccinationDate3');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $lastyear_hospitalized_fullvacc = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereNotNull('records.vaccinationDate2')
+            ->whereRaw('DATE(DATE_ADD(records.vaccinationDate2, INTERVAL 14 DAY)) <= CURDATE()')
+            ->where('records.vaccinationName1', '!=', 'JANSSEN')
+            ->whereNull('records.vaccinationDate3');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $lastyear_hospitalized_fullvacc_janssen = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereNotNull('records.vaccinationDate1')
+            ->whereRaw('DATE(DATE_ADD(records.vaccinationDate1, INTERVAL 14 DAY)) <= CURDATE()')
+            ->where('records.vaccinationName1', 'JANSSEN')
+            ->whereNull('records.vaccinationDate3');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
+        $lastyear_hospitalized_fullvacc += $lastyear_hospitalized_fullvacc_janssen;
+
+        $lastyear_hospitalized_boostered = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->whereNotNull('records.vaccinationDate3')
+            ->whereRaw('DATE(DATE_ADD(records.vaccinationDate3, INTERVAL 14 DAY)) <= CURDATE()');
+        })
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where('dispoType', 1)
+        ->whereYear('morbidityMonth', date('Y', strtotime('-1 Year')))
+        ->count();
+
         //Current Year Hospitalization
         $cy_hospitalized = Forms::with('records')
         ->whereHas('records', function ($q) {
@@ -2139,6 +2235,12 @@ class ReportV2Controller extends Controller
             'cy_hospitalized_partialvacc' => $cy_hospitalized_partialvacc,
             'cy_hospitalized_fullvacc' => $cy_hospitalized_fullvacc,
             'cy_hospitalized_boostered' => $cy_hospitalized_boostered,
+            'lastyear_hospitalized' => $lastyear_hospitalized,
+            'lastyear_hospitalized_recovered' => $lastyear_hospitalized_recovered,
+            'lastyear_hospitalized_died' => $lastyear_hospitalized_died,
+            'lastyear_hospitalized_partialvacc' => $lastyear_hospitalized_partialvacc,
+            'lastyear_hospitalized_fullvacc' => $lastyear_hospitalized_fullvacc,
+            'lastyear_hospitalized_boostered' => $lastyear_hospitalized_boostered,
             'age_array' => $age_array,
         ]);
     }
