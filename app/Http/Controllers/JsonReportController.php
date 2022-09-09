@@ -1067,6 +1067,7 @@ class JsonReportController extends Controller
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
 
+            /*
             $brgyRecoveryCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($brgy) {
                 $q->where('records.address_province', 'CAVITE')
@@ -1077,6 +1078,9 @@ class JsonReportController extends Controller
             ->where('outcomeCondition', 'Recovered')
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
+            */
+
+            $brgyRecoveryCount = $brgyConfirmedCount - $brgyDeathCount;
 
             //Reinfection Count
             /*

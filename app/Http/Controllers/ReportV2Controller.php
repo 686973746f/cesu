@@ -1499,6 +1499,9 @@ class ReportV2Controller extends Controller
             ->whereYear('morbidityMonth', $year)
             ->count();
 
+            $brgyRecoveryCount = $brgyConfirmedCount - $brgyDeathCount;
+
+            /*
             $brgyRecoveryCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($brgy) {
                 $q->where('records.address_province', 'CAVITE')
@@ -1509,6 +1512,7 @@ class ReportV2Controller extends Controller
             ->where('outcomeCondition', 'Recovered')
             ->whereYear('morbidityMonth', $year)
             ->count();
+            */
 
             /*
             $brgyConfirmedCount1 = Forms::with('records')

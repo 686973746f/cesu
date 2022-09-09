@@ -1451,6 +1451,9 @@ class ReportController extends Controller
                 })
                 ->where('status', 'approved');
 
+                $brgyRecoveryCount = 0;
+
+                /*
                 $brgyRecoveryCount = Forms::with('records')
                 ->whereHas('records', function ($q) use ($brgy) {
                     $q->where('records.address_province', 'CAVITE')
@@ -1458,6 +1461,7 @@ class ReportController extends Controller
                     ->where('records.address_brgy', $brgy->brgyName);
                 })
                 ->where('status', 'approved');
+                */
 
                 //Reinfection Count
                 /*
@@ -1488,7 +1492,7 @@ class ReportController extends Controller
                     ->count();
 
                     //Recovery Count Not Included
-                    $brgyRecoveryCount = 0;
+                    $brgyRecoveryCount = $brgyConfirmedCount - $brgyDeathCount;
 
                     $brgySuspectedCount = Forms::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
@@ -1528,9 +1532,13 @@ class ReportController extends Controller
                     ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                     ->count();
 
+                    $brgyRecoveryCount = $brgyConfirmedCount - $brgyDeathCount;
+                    
+                    /*
                     $brgyRecoveryCount = $brgyRecoveryCount->where('outcomeCondition', 'Recovered')
                     ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                     ->count();
+                    */
 
                     /*
                     $brgySuspectedCount = Forms::with('records')
