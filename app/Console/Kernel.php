@@ -36,6 +36,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('compositemeasurev2:on15and30')->monthlyOn(15, '16:05');
         $schedule->command('compositemeasurev2:on15and30')->monthlyOn(date('t'), '16:05');
         $schedule->command('autosendencoderstats:daily')->dailyAt('16:40')->evenInMaintenanceMode();
+        $schedule->command('automw:daily')->dailyAt('16:08')->evenInMaintenanceMode();
+        
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(15, '16:05');
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(date('t'), '16:05');
 

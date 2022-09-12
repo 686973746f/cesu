@@ -53,7 +53,7 @@ class MorbidityWeekController extends Controller
                 $maxweek = date('W', strtotime($year.'-12-31'));
             }
 
-            if(date('W', strtotime($date->format('Y-m-d'))) == 52 && date('m', strtotime($date->format('Y-m-d'))) == 01) {
+            if(date('W', strtotime($date->format('Y-m-d'))) == 52 && date('m', strtotime($date->format('Y-m-d'))) == 01 || date('W', strtotime($date->format('Y-m-d'))) == 53 && date('m', strtotime($date->format('Y-m-d'))) == 01) {
                 $lys = MorbidityWeek::where('year', date('Y', strtotime($date->format('Y-m-d').' - 1 Year')))->first();
 
                 if($lys) {
@@ -66,26 +66,12 @@ class MorbidityWeekController extends Controller
                     $lyd = MorbidityWeek::findOrFail($lys->id);
                 }
 
-                $lyd->mw52 = $lyd->mw52 + $count;
-
-                if($lyd->isDirty()) {
-                    $lyd->save();
+                if(date('W', strtotime($date->format('Y-m-d'))) == 52) {
+                    $lyd->mw52 = $lyd->mw52 + $count;
                 }
-            }
-            else if(date('W', strtotime($date->format('Y-m-d'))) == 53 && date('m', strtotime($date->format('Y-m-d'))) == 01) {
-                $lys = MorbidityWeek::where('year', date('Y', strtotime($date->format('Y-m-d').' - 1 Year')))->first();
-
-                if($lys) {
-                    $lyd = MorbidityWeek::findOrFail($lys->id);
+                else if(date('W', strtotime($date->format('Y-m-d'))) == 53) {
+                    $lyd->mw53 = $lyd->mw53 + $count;
                 }
-                else {
-                    $lydcreate = MorbidityWeek::create(['year' => date('Y', strtotime($date->format('Y-m-d').' - 1 Year'))]);
-        
-                    $lys = MorbidityWeek::where('year', date('Y', strtotime($date->format('Y-m-d').' - 1 Year')))->first();
-                    $lyd = MorbidityWeek::findOrFail($lys->id);
-                }
-
-                $lyd->mw53 = $lyd->mw53 + $count;
 
                 if($lyd->isDirty()) {
                     $lyd->save();
@@ -254,6 +240,6 @@ class MorbidityWeekController extends Controller
             if($d->isDirty()) {
                 $d->save();
             }
-        } 
+        }
     }
 }
