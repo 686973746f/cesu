@@ -69,6 +69,7 @@ class CreateMorbidityWeeksTable extends Migration
             $table->integer('mw50')->nullable();
             $table->integer('mw51')->nullable();
             $table->integer('mw52')->nullable();
+            $table->integer('mw53')->nullable();
         });
     }
 

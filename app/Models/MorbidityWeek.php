@@ -63,5 +63,6 @@ class MorbidityWeek extends Model
         'mw50',
         'mw51',
         'mw52',
+        'mw53',
     ];
 }
