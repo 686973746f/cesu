@@ -1603,8 +1603,14 @@ class JsonReportController extends Controller
         }
 
         for ($i=1;$i<=$max;$i++) {
+            if($i <= 9) {
+                $tstr = '0'.$i;
+            }
+            else {
+                $tstr = $i;
+            }
             $arr->push([
-                'title' => 'MW'.$i,
+                'title' => 'MW'.$tstr,
                 'count' => $d['mw'.$i] ?? null,
             ]);
         }
@@ -1620,8 +1626,15 @@ class JsonReportController extends Controller
         $max = date('W');
 
         for ($i=1;$i<=$max;$i++) {
+            if($i <= 9) {
+                $tstr = '0'.$i;
+            }
+            else {
+                $tstr = $i;
+            }
+
             $arr->push([
-                'title' => 'MW'.$i,
+                'title' => 'MW'.$tstr,
                 'count' => $d['mw'.$i] ?? null,
             ]);
         }
