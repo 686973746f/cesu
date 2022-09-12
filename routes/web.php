@@ -28,6 +28,7 @@ use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
+use App\Http\Controllers\MorbidityWeekController;
 use App\Http\Controllers\OnlineMedCertController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ContactTracingController;
@@ -277,6 +278,10 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/acceptance', [AcceptanceLetterController::class, 'index'])->name('acceptance.index');
     Route::post('/acceptance/store', [AcceptanceLetterController::class, 'store'])->name('acceptance.store');
     Route::get('/acceptance/print/{id}', [AcceptanceLetterController::class, 'printview'])->name('acceptance.print');
+
+    //MW
+    Route::get('/report/mw', [MorbidityWeekController::class, 'index'])->name('mw.index');
+    Route::post('/report/mw/process', [MorbidityWeekController::class, 'process'])->name('mw.process');
 });
 
 //JSON Reports
