@@ -65,4 +65,18 @@ class MorbidityWeek extends Model
         'mw52',
         'mw53',
     ];
+
+    public function ifmw52or53firtdaysofmonth() {
+        if(date('W') == 52 || date('W') == 53) {
+            if(date('m') == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

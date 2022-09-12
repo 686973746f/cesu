@@ -8,6 +8,7 @@ use App\Models\Records;
 use Carbon\CarbonPeriod;
 use App\Models\DailyCases;
 use Illuminate\Http\Request;
+use App\Models\MorbidityWeek;
 use Illuminate\Support\Facades\DB;
 
 class JsonReportController extends Controller
@@ -1585,6 +1586,45 @@ class JsonReportController extends Controller
         $arr->push([
             'currentDate' => date('m/d/Y'),
         ]);
+
+        return response()->json($arr);
+    }
+
+    public function mwly() {
+        $arr = collect();
+
+        $d = MorbidityWeek::where('year', date('Y', strtotime('-1 Year')))->first();
+
+        if(isset($d->mw53)) {
+            $max = 53;
+        }
+        else {
+            $max = 52;
+        }
+
+        for ($i=1;$i<=$max;$i++) {
+            $arr->push([
+                'title' => 'MW'.$i,
+                'count' => $d['mw'.$i] ?? null,
+            ]);
+        }
+
+        return response()->json($arr);
+    }
+
+    public function mwcy() {
+        $arr = collect();
+
+        $d = MorbidityWeek::where('year', '2022')->first();
+
+        $max = date('W');
+
+        for ($i=1;$i<=$max;$i++) {
+            $arr->push([
+                'title' => 'MW'.$i,
+                'count' => $d['mw'.$i] ?? null,
+            ]);
+        }
 
         return response()->json($arr);
     }
