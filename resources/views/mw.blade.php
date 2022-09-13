@@ -3,11 +3,11 @@
 @section('content')
 <div class="container">
     <div class="card">
-        <div class="card-header">Morbidity Week Count Viewer/Updater</div>
+        <div class="card-header"><b>Morbidity Week Count Viewer/Updater</b></div>
         <div class="card-body">
             @if(session('msg'))
-            <div class="alert alert-{{session('msg')}}" role="alert">
-                {{session('msgtype')}}
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
             </div>
             @endif
             <form action="{{route('mw.process')}}" method="POST">
@@ -47,9 +47,9 @@
                         @endphp
                         <tr class="">
                             <td scope="row"><b>MW{{$i}}</b></td>
-                            <td>{{$d['mw'.$i]}}</td>
-                            <td>{{$e['mw'.$i]}}</td>
-                            <td>{{$f['mw'.$i]}}</td>
+                            <td>{{($d['mw'.$i] != 0) ? $d['mw'.$i] : ''}}</td>
+                            <td>{{($e['mw'.$i] != 0) ? $e['mw'.$i] : ''}}</td>
+                            <td>{{($f['mw'.$i] != 0) ? $f['mw'.$i] : ''}}</td>
                         </tr>
                         @endfor
                     </tbody>

@@ -324,33 +324,40 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th></th>
-                                        <th>Count</th>
+                                        <th>Male</th>
+                                        <th>Female</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td scope="row">0 - 17</td>
-                                        <td>{{number_format($active_agegroup1_count)}}</td>
+                                        <td>{{number_format($active_agegroup1_count_male)}}</td>
+                                        <td>{{number_format($active_agegroup1_count_female)}}</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">18 - 25</td>
-                                        <td>{{number_format($active_agegroup2_count)}}</td>
+                                        <td>{{number_format($active_agegroup2_count_male)}}</td>
+                                        <td>{{number_format($active_agegroup2_count_female)}}</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">26 - 35</td>
-                                        <td>{{number_format($active_agegroup3_count)}}</td>
+                                        <td>{{number_format($active_agegroup3_count_male)}}</td>
+                                        <td>{{number_format($active_agegroup3_count_female)}}</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">36 - 45</td>
-                                        <td>{{number_format($active_agegroup4_count)}}</td>
+                                        <td>{{number_format($active_agegroup4_count_male)}}</td>
+                                        <td>{{number_format($active_agegroup4_count_female)}}</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">46 - 59</td>
-                                        <td>{{number_format($active_agegroup5_count)}}</td>
+                                        <td>{{number_format($active_agegroup5_count_male)}}</td>
+                                        <td>{{number_format($active_agegroup5_count_female)}}</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">60 AND UP</td>
-                                        <td>{{number_format($active_agegroup6_count)}}</td>
+                                        <td>{{number_format($active_agegroup6_count_male)}}</td>
+                                        <td>{{number_format($active_agegroup6_count_female)}}</td>
                                     </tr>
                                 </tbody>
                             </table>

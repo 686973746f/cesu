@@ -539,51 +539,111 @@ class ReportController extends Controller
             ->where('status', 'approved');
 
             //Age Group
-            $active_agegroup1_count = Forms::with('records')
+            $active_agegroup1_count_male = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) <= 17');
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) <= 17')
+                ->where('records.gender', 'MALE');
             })
             ->where('status', 'approved');
 
-            $active_agegroup2_count = Forms::with('records')
+            $active_agegroup1_count_female = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 18 AND 25');
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) <= 17')
+                ->where('records.gender', 'FEMALE');
             })
             ->where('status', 'approved');
 
-            $active_agegroup3_count = Forms::with('records')
+            $active_agegroup2_count_male = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 26 AND 35');
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 18 AND 25')
+                ->where('records.gender', 'MALE');
             })
             ->where('status', 'approved');
 
-            $active_agegroup4_count = Forms::with('records')
+            $active_agegroup2_count_female = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 36 AND 45');
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 18 AND 25')
+                ->where('records.gender', 'FEMALE');
             })
             ->where('status', 'approved');
 
-            $active_agegroup5_count = Forms::with('records')
+            $active_agegroup3_count_male = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 46 AND 59');
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 26 AND 35')
+                ->where('records.gender', 'MALE');
             })
             ->where('status', 'approved');
 
-            $active_agegroup6_count = Forms::with('records')
+            $active_agegroup3_count_female = Forms::with('records')
             ->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 60');
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 26 AND 35')
+                ->where('records.gender', 'FEMALE');
+            })
+            ->where('status', 'approved');
+            
+            $active_agegroup4_count_male = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 36 AND 45')
+                ->where('records.gender', 'MALE');
+            })
+            ->where('status', 'approved');
+
+            $active_agegroup4_count_female = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 36 AND 45')
+                ->where('records.gender', 'FEMALE');
+            })
+            ->where('status', 'approved');
+
+            $active_agegroup5_count_male = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 46 AND 59')
+                ->where('records.gender', 'MALE');
+            })
+            ->where('status', 'approved');
+
+            $active_agegroup5_count_female = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) BETWEEN 46 AND 59')
+                ->where('records.gender', 'FEMALE');
+            })
+            ->where('status', 'approved');
+
+            $active_agegroup6_count_male = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 60')
+                ->where('records.gender', 'MALE');
+            })
+            ->where('status', 'approved');
+
+            $active_agegroup6_count_female = Forms::with('records')
+            ->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS')
+                ->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 60')
+                ->where('records.gender', 'FEMALE');
             })
             ->where('status', 'approved');
 
@@ -808,27 +868,51 @@ class ReportController extends Controller
                 ->where('healthStatus', 'Critical')
                 ->count();
 
-                $active_agegroup1_count = $active_agegroup1_count->where('caseClassification', 'Confirmed')
+                $active_agegroup1_count_male = $active_agegroup1_count_male->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
 
-                $active_agegroup2_count = $active_agegroup2_count->where('caseClassification', 'Confirmed')
+                $active_agegroup1_count_female = $active_agegroup1_count_female->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
 
-                $active_agegroup3_count = $active_agegroup3_count->where('caseClassification', 'Confirmed')
+                $active_agegroup2_count_male = $active_agegroup2_count_male->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
 
-                $active_agegroup4_count = $active_agegroup4_count->where('caseClassification', 'Confirmed')
+                $active_agegroup2_count_female = $active_agegroup2_count_female->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
 
-                $active_agegroup5_count = $active_agegroup5_count->where('caseClassification', 'Confirmed')
+                $active_agegroup3_count_male = $active_agegroup3_count_male->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
+                $active_agegroup3_count_female = $active_agegroup3_count_female->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
+                $active_agegroup4_count_male = $active_agegroup4_count_male->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
                 
-                $active_agegroup6_count = $active_agegroup6_count->where('caseClassification', 'Confirmed')
+                $active_agegroup4_count_female = $active_agegroup4_count_female->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
+                $active_agegroup5_count_male = $active_agegroup5_count_male->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
+                $active_agegroup5_count_female = $active_agegroup5_count_female->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+                
+                $active_agegroup6_count_male = $active_agegroup6_count_male->where('caseClassification', 'Confirmed')
+                ->whereBetween('morbidityMonth', [$sDate, $eDate])
+                ->count();
+
+                $active_agegroup6_count_female = $active_agegroup6_count_female->where('caseClassification', 'Confirmed')
                 ->whereBetween('morbidityMonth', [$sDate, $eDate])
                 ->count();
 
@@ -1246,32 +1330,62 @@ class ReportController extends Controller
                 ->where('healthStatus', 'Critical')
                 ->count();
 
-                $active_agegroup1_count = $active_agegroup1_count->where('caseClassification', 'Confirmed')
+                $active_agegroup1_count_male = $active_agegroup1_count_male->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
-                $active_agegroup2_count = $active_agegroup2_count->where('caseClassification', 'Confirmed')
+                $active_agegroup1_count_female = $active_agegroup1_count_female->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
-                $active_agegroup3_count = $active_agegroup3_count->where('caseClassification', 'Confirmed')
+                $active_agegroup2_count_male = $active_agegroup2_count_male->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
-                $active_agegroup4_count = $active_agegroup4_count->where('caseClassification', 'Confirmed')
+                $active_agegroup2_count_female = $active_agegroup2_count_female->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
-                $active_agegroup5_count = $active_agegroup5_count->where('caseClassification', 'Confirmed')
+                $active_agegroup3_count_male = $active_agegroup3_count_male->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $active_agegroup3_count_female = $active_agegroup3_count_female->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $active_agegroup4_count_male = $active_agegroup4_count_male->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
                 
-                $active_agegroup6_count = $active_agegroup6_count->where('caseClassification', 'Confirmed')
+                $active_agegroup4_count_female = $active_agegroup4_count_female->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $active_agegroup5_count_male = $active_agegroup5_count_male->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $active_agegroup5_count_female = $active_agegroup5_count_female->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+                
+                $active_agegroup6_count_male = $active_agegroup6_count_male->where('caseClassification', 'Confirmed')
+                ->where('outcomeCondition', 'Active')
+                ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+                ->count();
+
+                $active_agegroup6_count_female = $active_agegroup6_count_female->where('caseClassification', 'Confirmed')
                 ->where('outcomeCondition', 'Active')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
@@ -2583,12 +2697,18 @@ class ReportController extends Controller
             'active_moderate_count' => $active_moderate_count,
             'active_severe_count' => $active_severe_count,
             'active_critical_count' => $active_critical_count,
-            'active_agegroup1_count' => $active_agegroup1_count,
-            'active_agegroup2_count' => $active_agegroup2_count,
-            'active_agegroup3_count' => $active_agegroup3_count,
-            'active_agegroup4_count' => $active_agegroup4_count,
-            'active_agegroup5_count' => $active_agegroup5_count,
-            'active_agegroup6_count' => $active_agegroup6_count,
+            'active_agegroup1_count_male' => $active_agegroup1_count_male,
+            'active_agegroup1_count_female' => $active_agegroup1_count_female,
+            'active_agegroup2_count_male' => $active_agegroup2_count_male,
+            'active_agegroup2_count_female' => $active_agegroup2_count_female,
+            'active_agegroup3_count_male' => $active_agegroup3_count_male,
+            'active_agegroup3_count_female' => $active_agegroup3_count_female,
+            'active_agegroup4_count_male' => $active_agegroup4_count_male,
+            'active_agegroup4_count_female' => $active_agegroup4_count_female,
+            'active_agegroup5_count_male' => $active_agegroup5_count_male,
+            'active_agegroup5_count_female' => $active_agegroup5_count_female,
+            'active_agegroup6_count_male' => $active_agegroup6_count_male,
+            'active_agegroup6_count_female' => $active_agegroup6_count_female,
             'workdistribution_array' => $workdistribution_array,
             'vc_array' => $vc_array,
             'totalActiveReinfection' => $totalActiveReinfection,
