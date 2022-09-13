@@ -10,7 +10,11 @@ use App\Models\MorbidityWeek;
 class MorbidityWeekController extends Controller
 {
     public function index() {
-        return view('mw');
+        $d = MorbidityWeek::where('year', date('Y'))->first();
+        $e = MorbidityWeek::where('year', date('Y', strtotime('-1 Year')))->first();
+        $f = MorbidityWeek::where('year', date('Y', strtotime('-2 Years')))->first();
+
+        return view('mw', ['d' => $d, 'e' => $e, 'f' => $f]);
     }
 
     public function process(Request $request) {
@@ -241,5 +245,9 @@ class MorbidityWeekController extends Controller
                 $d->save();
             }
         }
+
+        return redirect()->back()
+        ->with('msg', 'Update Finished')
+        ->with('msgtype', 'success');
     }
 }

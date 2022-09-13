@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Forms;
 use App\Models\MorbidityWeek;
 use Illuminate\Console\Command;
 
@@ -61,7 +62,7 @@ class DailyAutoMW extends Command
         })
         ->where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
-        ->whereDate('morbidityMonth', $date->format('Y-m-d'))
+        ->whereDate('morbidityMonth', date('Y-m-d'))
         ->count();
 
         $maxweek = date('W');
