@@ -82,7 +82,9 @@
                             <a href="{{route('report_cm_index')}}" class="btn btn-primary btn-block mt-3">Composite Measure</a>
                             <a href="{{route('clustering_index')}}" class="btn btn-primary btn-block mt-3">Confirmed Cases Clustering</a>
                             @endif
-                            <a href="{{route('report.accomplishment')}}" class="btn btn-primary btn-block mt-3">Accomplishment Report</a>
+                            @if(auth()->user()->ifTopAdmin())
+                            <a href="{{route('mw.index')}}" class="btn btn-primary btn-block mt-3">MW Report</a>
+                            @endif
                             <hr>
                             <form action="{{route('reportv2.dashboard')}}" method="GET">
                                 <label for="">Or View Report per List</label>
