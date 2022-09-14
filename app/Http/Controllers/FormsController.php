@@ -2075,6 +2075,8 @@ class FormsController extends Controller
                 if($request->testResult1 != "PENDING") {
                     if($request->testResult1 == "POSITIVE") {
                         $caseClassi = 'Confirmed';
+
+                        $ldd_result = 'POSITIVE';
                     }
                     else if($request->testResult1 == "NEGATIVE") {
                         /*
@@ -2087,12 +2089,35 @@ class FormsController extends Controller
                         */
 
                         $caseClassi = 'Non-COVID-19 Case';
+
+                        $ldd_result = 'NEGATIVE';
                     }
                     else {
                         $caseClassi = $request->caseClassification;
                     }
 
                     $attended = 1;
+
+                    if($request->testType1 == "OPS" || $request->testType1 == "NPS" || $request->testType1 == "OPS AND NPS") {
+                        if($request->testResult1 == "POSITIVE" || $request->testResult1 == "NEGATIVE") {
+                            //Find and Update Linelist Marking Result
+                            $ld = LinelistSubs::where('records_id', $rec->records->id)
+                            ->whereDate('dateAndTimeCollected', $request->testDateCollected1)
+                            ->where('res_released', 0)
+                            ->first();
+    
+                            if($ld) {
+                                $ldd = LinelistSubs::findOrFail($ld->id);
+    
+                                $ldd->res_released = 1;
+                                $ldd->res_result = $ldd_result;
+
+                                if($ldd->isDirty()) {
+                                    $ldd->save();
+                                }
+                            }
+                        }
+                    }
                 }
                 else {
                     $caseClassi = $request->caseClassification;
@@ -2114,6 +2139,8 @@ class FormsController extends Controller
                     if($request->testResult2 != "PENDING") {
                         if($request->testResult2 == "POSITIVE") {
                             $caseClassi = 'Confirmed';
+
+                            $ldd_result = 'POSITIVE';
                         }
                         else if($request->testResult2 == "NEGATIVE") {
                             /*
@@ -2126,12 +2153,36 @@ class FormsController extends Controller
                             */
                             
                             $caseClassi = 'Non-COVID-19 Case';
+
+                            $ldd_result = 'NEGATIVE';
                         }
                         else {
                             //Equivocal and others will be placed here
                             $caseClassi = $request->caseClassification;
                         }
+
                         $attended = 1;
+
+                        if($request->testType2 == "OPS" || $request->testType2 == "NPS" || $request->testType2 == "OPS AND NPS") {
+                            if($request->testResult2 == "POSITIVE" || $request->testResult2 == "NEGATIVE") {
+                                //Find and Update Linelist Marking Result
+                                $ld = LinelistSubs::where('records_id', $rec->records->id)
+                                ->whereDate('dateAndTimeCollected', $request->testDateCollected2)
+                                ->where('res_released', 0)
+                                ->first();
+        
+                                if($ld) {
+                                    $ldd = LinelistSubs::findOrFail($ld->id);
+        
+                                    $ldd->res_released = 1;
+                                    $ldd->res_result = $ldd_result;
+
+                                    if($ldd->isDirty()) {
+                                        $ldd->save();
+                                    }
+                                }
+                            }
+                        }
                     }
                     else {
                         $caseClassi = $request->caseClassification;

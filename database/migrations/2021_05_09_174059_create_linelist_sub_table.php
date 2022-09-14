@@ -24,6 +24,8 @@ class CreateLinelistSubTable extends Migration
             $table->string('remarks');
             $table->string('oniSpecType')->nullable();
             $table->string('oniReferringHospital')->nullable();
+            $table->tinyInteger('res_released')->default(0);
+            $table->string('res_result')->nullable();
         });
     }
 
