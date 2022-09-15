@@ -64,7 +64,7 @@
                 @for($i=0;$i<=9;$i++)
                     @if($n != $list->count())
                     <tr class="text-center">
-                        <td scope="row">{{($n+1)}}</td>
+                        <td scope="row">{{($n+1)}} {{($list[$n]->res_released == 1) ? 'ok '.$list[$n]->ricon() : ''}}</td>
                         <td>{{$list[$n]->records->lname.", ".$list[$n]->records->fname." "}} {{(!is_null($list[$n]->records->mname)) ? $list[$n]->records->mname : ''}}</td>
                         <td>{{date('m/d/Y', strtotime($list[$n]->records->bdate))}}</td>
                         <td>{{(date_diff(date_create($list[$n]->records->bdate), date_create('now'))->y >= 1) ? date_diff(date_create($list[$n]->records->bdate), date_create('now'))->y : date_diff(date_create($list[$n]->records->bdate), date_create('now'))->m}} ({{(date_diff(date_create($list[$n]->records->bdate), date_create('now'))->y >= 1) ? 'X' : ' '}}) Y.O ({{(date_diff(date_create($list[$n]->records->bdate), date_create('now'))->y >= 1) ? ' ' : 'X'}}) mos.</td>

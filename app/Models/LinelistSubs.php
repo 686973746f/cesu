@@ -34,4 +34,16 @@ class LinelistSubs extends Model
     public function forms() {
         return Forms::where('records_id', $this->records_id)->orderBy('created_at', 'DESC')->first();
     }
+
+    public function ricon() {
+        if($this->res_result == 'POSITIVE') {
+            return '(+)';
+        }
+        else if($this->res_result == 'NEGATIVE') {
+            return '(-)';
+        }
+        else {
+            return '';
+        }
+    }
 }
