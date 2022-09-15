@@ -44,7 +44,7 @@
                     </p>
                     <p>
                         <strong>Quarantine Status:</strong> {{$form->getQuarantineStatus()}} ({{date('m/d/Y - D', strtotime($form->dispoDate))}}) • 
-                        <strong>Outcome:</strong> <span class="{{($form->outcomeCondition == 'Recovered') ? 'font-weight-bold text-success' : ''}}">{{$form->outcomeCondition}} {{(!is_null($form->getOutcomeDate())) ? '('.$form->getOutcomeDate().')' : ''}}</span>
+                        <strong>Outcome:</strong> <span class="{{($form->outcomeCondition == 'Recovered') ? 'font-weight-bold text-success' : ''}}">{{$form->outcomeCondition}} {{(!is_null($form->getOutcomeDate())) ? '('.$form->getOutcomeDate().' - '.date('D', strtotime($form->getOutcomeDate())).')' : ''}}</span>
                     </p>
                     <hr>
                     @if($form->ifScheduled())
