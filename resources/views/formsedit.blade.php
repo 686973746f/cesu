@@ -2483,13 +2483,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom1"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom1" id="locDateFrom1" value="{{old('locDateFrom1', $records->locDateFrom1)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom1" id="locDateFrom1" value="{{old('locDateFrom1', $records->locDateFrom1)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo1"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo1" id="locDateTo1" value="{{old('locDateTo1', $records->locDateTo1)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo1" id="locDateTo1" value="{{old('locDateTo1', $records->locDateTo1)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2537,13 +2537,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom2"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2" value="{{old('locDateFrom2', $records->locDateFrom2)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2" value="{{old('locDateFrom2', $records->locDateFrom2)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo2"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2" value="{{old('locDateTo2', $records->locDateTo2)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2" value="{{old('locDateTo2', $records->locDateTo2)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2591,13 +2591,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom3"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom3" id="locDateFrom3" value="{{old('locDateFrom3', $records->locDateFrom3)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom3" id="locDateFrom3" value="{{old('locDateFrom3', $records->locDateFrom3)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo3"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo3" id="locDateTo3" value="{{old('locDateTo3', $records->locDateTo3)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo3" id="locDateTo3" value="{{old('locDateTo3', $records->locDateTo3)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2645,13 +2645,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom4"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom4" id="locDateFrom4" value="{{old('locDateFrom4', $records->locDateFrom4)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom4" id="locDateFrom4" value="{{old('locDateFrom4', $records->locDateFrom4)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo4"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo4" id="locDateTo4" value="{{old('locDateTo4', $records->locDateTo4)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo4" id="locDateTo4" value="{{old('locDateTo4', $records->locDateTo4)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2699,13 +2699,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom5"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom5" id="locDateFrom5" value="{{old('locDateFrom5', $records->locDateFrom5)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom5" id="locDateFrom5" value="{{old('locDateFrom5', $records->locDateFrom5)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo5"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo5" id="locDateTo5" value="{{old('locDateTo5', $records->locDateTo5)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo5" id="locDateTo5" value="{{old('locDateTo5', $records->locDateTo5)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2753,13 +2753,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom6"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom6" id="locDateFrom6" value="{{old('locDateFrom6', $records->locDateFrom6)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom6" id="locDateFrom6" value="{{old('locDateFrom6', $records->locDateFrom6)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo6"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo6" id="locDateTo6" value="{{old('locDateTo6', $records->locDateTo6)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo6" id="locDateTo6" value="{{old('locDateTo6', $records->locDateTo6)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2807,13 +2807,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom7"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom7" id="locDateFrom7" value="{{old('locDateFrom7', $records->locDateFrom7)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom7" id="locDateFrom7" value="{{old('locDateFrom7', $records->locDateFrom7)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo7"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo7" id="locDateTo7" value="{{old('locDateTo7', $records->locDateTo7)}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo7" id="locDateTo7" value="{{old('locDateTo7', $records->locDateTo7)}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>

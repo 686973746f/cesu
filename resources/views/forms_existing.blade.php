@@ -43,16 +43,16 @@
                         <strong>Classification:</strong> <span class="{{($form->caseClassification == 'Confirmed') ? 'text-danger font-weight-bold' : ''}}">{{$form->caseClassification}}</span>
                     </p>
                     <p>
-                        <strong>Quarantine Status:</strong> {{$form->getQuarantineStatus()}} ({{date('m/d/Y', strtotime($form->dispoDate))}}) • 
+                        <strong>Quarantine Status:</strong> {{$form->getQuarantineStatus()}} ({{date('m/d/Y - D', strtotime($form->dispoDate))}}) • 
                         <strong>Outcome:</strong> <span class="{{($form->outcomeCondition == 'Recovered') ? 'font-weight-bold text-success' : ''}}">{{$form->outcomeCondition}} {{(!is_null($form->getOutcomeDate())) ? '('.$form->getOutcomeDate().')' : ''}}</span>
                     </p>
                     <hr>
                     @if($form->ifScheduled())
-                    <p><strong>Most Recent Swab Date:</strong> {{$form->getLatestTestDate()}} • 
+                    <p><strong>Most Recent Swab Date:</strong> {{$form->getLatestTestDate()}} ({{date('D', strtotime($form->getLatestTestDate()))}}) • 
                         <strong>Test Type:</strong> {{$form->getLatestTestType()}}</p>
                     <p>
                         @if(!is_null($form->getLatestTestDateReleased()))
-                        <strong>Date Released: </strong> {{$form->getLatestTestDateReleased()}} • 
+                        <strong>Date Released: </strong> {{$form->getLatestTestDateReleased()}} ({{date('D', strtotime($form->getLatestTestDateReleased()))}}) • 
                         @endif
                         @if(!is_null($form->getLatestTestLaboratory()))
                         <strong>Laboratory: </strong> {{$form->getLatestTestLaboratory()}} • 
@@ -70,10 +70,7 @@
                         $atext = 'text-danger';
                     }
                     @endphp
-                    <p><strong>Attended: <span class="{{$atext}}">{{$form->getAttendedOnSwab()}}</span></strong></p>
-                    @if($l)
-                    <p><strong>Linelist Last Attended Date:</strong> {{date('m/d/Y', strtotime($l->dateAndTimeCollected))}}</p>
-                    @endif
+                    <p><strong>Attended: <span class="{{$atext}}">{{$form->getAttendedOnSwab()}}</span></strong>@if($l) • <strong>Linelist Last Attended Date:</strong> {{date('m/d/Y', strtotime($l->dateAndTimeCollected))}}@endif</p>
                     @else
                     <p>No Swab Schedule Date found.</p>
                     @endif
