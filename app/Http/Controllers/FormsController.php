@@ -1604,6 +1604,19 @@ class FormsController extends Controller
                     }
                 }
             }
+
+            //Set Created at Date for Encoding Cutoff
+            if($caseClassi == 'Suspect' || $caseClassi == 'Probable') {
+                if(time() >= strtotime('16:00:00')) {
+                    $set_created_at = date('Y-m-d 08:00:00', strtotime("+1 Day"));
+                }
+                else {
+                    $set_created_at = date('Y-m-d H:i:s');
+                }
+            }
+            else {
+                $set_created_at = date('Y-m-d H:i:s');
+            }
     
             if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00') && !(auth()->user()->ifTopAdmin())) {
                 return back()
@@ -1613,6 +1626,7 @@ class FormsController extends Controller
             }
             else {
                 $createform = $request->user()->form()->create([
+                    'created_at' => $set_created_at,
                     'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
                     'morbidityMonth' => $set_mm,
                     'morbidityTime' => $set_mt,
