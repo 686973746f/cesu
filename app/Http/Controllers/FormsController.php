@@ -1265,17 +1265,43 @@ class FormsController extends Controller
             if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
                 $caseClassi = 'Confirmed';
             }
-    
+            
+            $testCat = $request->testingCat;
+
+            if($rec->getAgeInt() >= 60) {
+                $testCat = 'A2';
+            }
+            else if($rec->isPregnant == 1) {
+                $testCat = 'A3';
+            }
+            else if(!is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
+                $testCat = 'ALL';
+            }
+            else if(in_array('Dialysis', $request->comCheck) || in_array('Cancer', $request->comCheck) || in_array('Operation', $request->comCheck) || in_array('Transplant', $request->comCheck)) {
+                $testCat = 'A3';
+            }
+            else if($rec->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                $testCat = 'A1';
+            }
+            else if($rec->natureOfWork == 'MANUFACTURING') {
+                $testCat = 'ALL';
+            }
+            else if($rec->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                $testCat = 'A1';
+            }
+            else {
+                $testCat = $request->testingCat;
+            }
+
+            /*
             //Auto Change Testing Category/Subgroup Base on the patient data
             $testCat = $request->testingCat;
             if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
                 array_push($testCat, "A");
             }
-            /*
             if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
                 array_push($testCat, "D.1");
             }
-            */
             if(!in_array("C", $testCat) && !is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
                 if($rec->getAgeInt() >= 60) {
                     array_push($testCat, "B");
@@ -1308,11 +1334,9 @@ class FormsController extends Controller
             if(!in_array("F.6", $testCat) && in_array('Transplant', $request->comCheck)) {
                 array_push($testCat, "F.6");
             }
-            /*
             if(!in_array("F", $testCat) && $request->isForHospitalization == 1) {
                 array_push($testCat, "F");
             }
-            */
     
             if(!in_array('D.2', $testCat) && $rec->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 array_push($testCat, "D.2");
@@ -1350,6 +1374,7 @@ class FormsController extends Controller
             if(!in_array('J1.11', $testCat) && $rec->natureOfWork == 'MASS MEDIA') {
                 array_push($testCat, "J1.11");
             }
+            */
     
             //Auto Change Case Classification based on symptoms
             if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
@@ -2334,17 +2359,43 @@ class FormsController extends Controller
                 if($currentOutcome != 'Died' && $request->outcomeCondition == 'Died') {
                     $request->morbidityMonth = date('Y-m-d');
                 }
-        
+                
+                $testCat = $request->testingCat;
+
+                if($rec->records->getAgeInt() >= 60) {
+                    $testCat = 'A2';
+                }
+                else if($rec->records->isPregnant == 1) {
+                    $testCat = 'A3';
+                }
+                else if(!is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
+                    $testCat = 'ALL';
+                }
+                else if(in_array('Dialysis', $request->comCheck) || in_array('Cancer', $request->comCheck) || in_array('Operation', $request->comCheck) || in_array('Transplant', $request->comCheck)) {
+                    $testCat = 'A3';
+                }
+                else if($rec->records->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                    $testCat = 'A1';
+                }
+                else if($rec->records->natureOfWork == 'MANUFACTURING') {
+                    $testCat = 'ALL';
+                }
+                else if($rec->records->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
+                    $testCat = 'A1';
+                }
+                else {
+                    $testCat = $request->testingCat;
+                }
+
+                /*
                 //Auto Change Testing Category/Subgroup Base on the patient data
                 $testCat = $request->testingCat;
                 if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
                     array_push($testCat, "A");
                 }
-                /*
                 if(!in_array("D.1", $testCat) && $request->healthStatus == 'Asymptomatic') {
                     array_push($testCat, "D.1");
                 }
-                */
                 if(!in_array("C", $testCat) && !is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
                     if($rec->records->getAgeInt() >= 60) {
                         array_push($testCat, "B");
@@ -2414,6 +2465,7 @@ class FormsController extends Controller
                 if(!in_array('J1.11', $testCat) && $rec->records->natureOfWork == 'MASS MEDIA') {
                     array_push($testCat, "J1.11");
                 }
+                */
         
                 //Auto Change Case Classification based on symptoms
                 if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
