@@ -1575,6 +1575,7 @@ class FormsController extends Controller
                 if(!is_null($request->sasCheck)) {
                     $set_ptype = 'PROBABLE';
 
+                   /*
                     if(in_array('D.1', $testCat)) {
                         foreach (array_keys($testCat, 'D.1', true) as $key) {
                             unset($testCat[$key]);
@@ -1592,6 +1593,7 @@ class FormsController extends Controller
                             array_push('B', $testCat);
                         }
                     }
+                   */
                 }
                 else {
                     $set_ptype = 'TESTING';
@@ -2683,6 +2685,7 @@ class FormsController extends Controller
                     if(!is_null($request->sasCheck)) {
                         $set_ptype = 'PROBABLE';
                         
+                        /*
                         if(in_array('D.1', $testCat)) {
                             foreach (array_keys($testCat, 'D.1', true) as $key) {
                                 unset($testCat[$key]);
@@ -2700,6 +2703,7 @@ class FormsController extends Controller
                                 array_push('B', $testCat);
                             }
                         }
+                        */
                     }
                     else {
                         $set_ptype = 'TESTING';
