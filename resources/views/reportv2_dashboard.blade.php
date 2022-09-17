@@ -35,11 +35,15 @@
                                 <th style="vertical-align: middle;">DRU Region & Mun/City</th>
                                 <th style="vertical-align: middle;">Patient Type</th>
                                 <th style="vertical-align: middle;">Name / ID</th>
-                                <th style="vertical-align: middle;">Age / Sex</th>
+                                <th style="vertical-align: middle;">Age</th>
+                                <th style="vertical-align: middle;">Gender</th>
                                 <th style="vertical-align: middle;">Birthdate</th>
                                 <th style="vertical-align: middle;">House #</th>
                                 <th style="vertical-align: middle;">Street</th>
                                 <th style="vertical-align: middle;">Brgy</th>
+                                <th style="vertical-align: middle;">Occupation</th>
+                                <th style="vertical-align: middle;">Workplace City</th>
+                                <th style="vertical-align: middle;">Workplace Province</th>
                                 <th style="vertical-align: middle;">Case Severity</th>
                                 <th style="vertical-align: middle;">Date of Specimen Collection</th>
                                 <th style="vertical-align: middle;">Classification</th>
@@ -59,11 +63,15 @@
                                 <td class="text-center" style="vertical-align: middle;">{{$item->drregion.' '.$item->drprovince}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->getType()}}</td>
                                 <td style="vertical-align: middle;"><a href="/forms/{{$item->id}}/edit">{{$item->records->getName()}} <small>(#{{$item->id}})</small></a></td>
-                                <td class="text-center" style="vertical-align: middle;">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{$item->records->getAge()}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{substr($item->records->gender,0,1)}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
                                 <td class="text-center" style="vertical-align: middle;"><small>{{$item->records->address_houseno}}</small></td>
                                 <td class="text-center" style="vertical-align: middle;"><small>{{$item->records->address_street}}</small></td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->records->address_brgy}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{($item->records->hasOccupation == 1) ? $item->records->occupation : 'N/A'}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{($item->records->hasOccupation == 1) ? $item->records->occupation_city : 'N/A'}}</td>
+                                <td class="text-center" style="vertical-align: middle;">{{($item->records->hasOccupation == 1) ? $item->records->occupation_province : 'N/A'}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->healthStatus}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->testDateCollected2)) ? date('m/d/Y (D)', strtotime($item->testDateCollected2)) : date('m/d/Y (D)', strtotime($item->testDateCollected1))}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->caseClassification}}</td>
