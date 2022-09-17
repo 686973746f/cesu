@@ -328,4 +328,43 @@ class Forms extends Model
             return 'N/A';
         }
     }
+
+    public function getTravelHistory() {
+        $arr = array();
+        if($this->expoitem2 == 1) {
+            if(!is_null($this->placevisited)) {
+                if(!is_null($this->locName1)) {
+                    array_push($arr, mb_strtoupper($this->locName1).', '.mb_strtoupper($this->locAddress1).' ('.date('m/d/Y', strtotime($this->locDateFrom1)).'-'.date('m/d/Y', strtotime($this->locDateTo1)).')');
+                }
+    
+                if(!is_null($this->locName2)) {
+                    array_push($arr, mb_strtoupper($this->locName2).', '.mb_strtoupper($this->locAddress2).' ('.date('m/d/Y', strtotime($this->locDateFrom2)).'-'.date('m/d/Y', strtotime($this->locDateTo2)).')');
+                }
+    
+                if(!is_null($this->locName3)) {
+                    array_push($arr, mb_strtoupper($this->locName3).', '.mb_strtoupper($this->locAddress3).' ('.date('m/d/Y', strtotime($this->locDateFrom3)).'-'.date('m/d/Y', strtotime($this->locDateTo3)).')');
+                }
+    
+                if(!is_null($this->locName4)) {
+                    array_push($arr, mb_strtoupper($this->locName4).', '.mb_strtoupper($this->locAddress4).' ('.date('m/d/Y', strtotime($this->locDateFrom4)).'-'.date('m/d/Y', strtotime($this->locDateTo4)).')');
+                }
+    
+                if(!is_null($this->locName5)) {
+                    array_push($arr, mb_strtoupper($this->locName5).', '.mb_strtoupper($this->locAddress5).' ('.date('m/d/Y', strtotime($this->locDateFrom5)).'-'.date('m/d/Y', strtotime($this->locDateTo5)).')');
+                }
+    
+                if(!is_null($this->locName6)) {
+                    array_push($arr, mb_strtoupper($this->locName6).', '.mb_strtoupper($this->locAddress6).' ('.date('m/d/Y', strtotime($this->locDateFrom6)).'-'.date('m/d/Y', strtotime($this->locDateTo6)).')');
+                }
+    
+                return implode(" | ", $arr);
+            }
+            else {
+                return 'N/A';
+            }
+        }
+        else {
+            return 'N/A';
+        }
+    }
 }

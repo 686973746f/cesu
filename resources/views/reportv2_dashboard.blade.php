@@ -49,6 +49,7 @@
                                 <th style="vertical-align: middle;">Classification</th>
                                 <th style="vertical-align: middle;">Quarantine Status</th>
                                 <th style="vertical-align: middle;">Vaccine</th>
+                                <th style="vertical-align: middle;">Travel History</th>
                                 @if(request()->input('getOption') == 1 || request()->input('getOption') == 2 || request()->input('getOption') == 6)
                                 <th style="vertical-align: middle;">Date of Possible Recovery</th>
                                 @endif
@@ -77,6 +78,7 @@
                                 <td class="text-center" style="vertical-align: middle;">{{$item->caseClassification}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->getQuarantineStatus()}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{$item->records->showVaxInfo()}}</td>
+                                <td class="text-center" style="vertical-align: middle;"><small>{{$item->getTravelHistory()}}</small></td>
                                 @if(request()->input('getOption') == 1 || request()->input('getOption') == 2 || request()->input('getOption') == 6)
                                 <td class="text-center" style="vertical-align: middle;">{{$item->getPossibleRecoveryDate()}}</td>
                                 @endif
