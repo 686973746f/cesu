@@ -101,32 +101,56 @@
                 <table class="table table-bordered">
                     <thead class="font-weight-bold text-center">
                         <tr class="bg-danger text-white">
-                            <th colspan="5">{{$year}} BARANGAY DATA</th>
+                            <th colspan="10">{{$year}} BARANGAY DATA</th>
                         </tr>
                         <tr class="thead-light">
                             <th>Barangay</th>
                             <th class="text-danger">Confirmed</th>
+                            <th class="text-danger">Confirmed Male</th>
+                            <th class="text-danger">Confirmed Female</th>
                             <th>Deaths</th>
+                            <th>Deaths Male</th>
+                            <th>Deaths Female</th>
                             <th class="text-success">Recoveries</th>
+                            <th class="text-success">Recoveries Male</th>
+                            <th class="text-success">Recoveries Female</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
                         $totalConfirmed = 0;
+                        $totalConfirmed_male = 0;
+                        $totalConfirmed_female = 0;
                         $totalDeaths = 0;
+                        $totalDeaths_male = 0;
+                        $totalDeaths_female = 0;
                         $totalRecoveries = 0;
+                        $totalRecoveries_male = 0;
+                        $totalRecoveries_female = 0;
                         @endphp
                         @foreach($brgylist as $brgy)
                         <tr>
                             <td class="font-weight-bold">{{$brgy['name']}}</td>
                             <td class="text-danger text-center">{{number_format($brgy['confirmed'])}}</td>
+                            <td class="text-danger text-center">{{number_format($brgy['confirmed_male'])}}</td>
+                            <td class="text-danger text-center">{{number_format($brgy['confirmed_female'])}}</td>
                             <td class="text-center">{{number_format($brgy['deaths'])}}</td>
+                            <td class="text-center">{{number_format($brgy['deaths_male'])}}</td>
+                            <td class="text-center">{{number_format($brgy['deaths_female'])}}</td>
                             <td class="text-success text-center">{{number_format($brgy['recoveries'])}}</td>
+                            <td class="text-success text-center">{{number_format($brgy['recoveries_male'])}}</td>
+                            <td class="text-success text-center">{{number_format($brgy['recoveries_female'])}}</td>
                         </tr>
                         @php
                         $totalConfirmed += $brgy['confirmed'];
+                        $totalConfirmed_male += $brgy['confirmed_male'];
+                        $totalConfirmed_female += $brgy['confirmed_female'];
                         $totalDeaths += $brgy['deaths'];
+                        $totalDeaths_male += $brgy['deaths_male'];
+                        $totalDeaths_female += $brgy['deaths_female'];
                         $totalRecoveries += $brgy['recoveries'];
+                        $totalRecoveries_male += $brgy['recoveries_male'];
+                        $totalRecoveries_female += $brgy['recoveries_female'];
                         @endphp
                         @endforeach
                     </tbody>
@@ -134,8 +158,14 @@
                         <tr>
                             <td>TOTAL</td>
                             <td class="text-danger">{{number_format($totalConfirmed)}}</td>
+                            <td class="text-danger">{{number_format($totalConfirmed_male)}}</td>
+                            <td class="text-danger">{{number_format($totalConfirmed_female)}}</td>
                             <td>{{number_format($totalDeaths)}}</td>
+                            <td>{{number_format($totalDeaths_male)}}</td>
+                            <td>{{number_format($totalDeaths_female)}}</td>
                             <td class="text-success">{{number_format($totalRecoveries)}}</td>
+                            <td class="text-success">{{number_format($totalRecoveries_male)}}</td>
+                            <td class="text-success">{{number_format($totalRecoveries_female)}}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -151,11 +181,23 @@
                     <tr>
                         <th>Age</th>
                         <th>Confirmed {{date('Y', strtotime('-2 Year'))}}</th>
+                        <th>Confirmed {{date('Y', strtotime('-2 Year'))}} Male</th>
+                        <th>Confirmed {{date('Y', strtotime('-2 Year'))}} Female</th>
                         <th>Death {{date('Y', strtotime('-2 Year'))}}</th>
+                        <th>Death {{date('Y', strtotime('-2 Year'))}} Male</th>
+                        <th>Death {{date('Y', strtotime('-2 Year'))}} Female</th>
                         <th>Recoveries {{date('Y', strtotime('-2 Year'))}}</th>
+                        <th>Recoveries {{date('Y', strtotime('-2 Year'))}} Male</th>
+                        <th>Recoveries {{date('Y', strtotime('-2 Year'))}} Female</th>
                         <th>Confirmed {{date('Y', strtotime('-1 Year'))}}</th>
+                        <th>Confirmed {{date('Y', strtotime('-1 Year'))}} Male</th>
+                        <th>Confirmed {{date('Y', strtotime('-1 Year'))}} Female</th>
                         <th>Death {{date('Y', strtotime('-1 Year'))}}</th>
+                        <th>Death {{date('Y', strtotime('-1 Year'))}} Male</th>
+                        <th>Death {{date('Y', strtotime('-1 Year'))}} Female</th>
                         <th>Recoveries {{date('Y', strtotime('-1 Year'))}}</th>
+                        <th>Recoveries {{date('Y', strtotime('-1 Year'))}} Male</th>
+                        <th>Recoveries {{date('Y', strtotime('-1 Year'))}} Female</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -163,11 +205,23 @@
                     <tr>
                         <td scope="row"><b>{{$a['name']}}</b></td>
                         <td>{{$a['c_l2y']}}</td>
+                        <td>{{$a['c_l2y_male']}}</td>
+                        <td>{{$a['c_l2y_female']}}</td>
                         <td>{{$a['d_l2y']}}</td>
+                        <td>{{$a['d_l2y_male']}}</td>
+                        <td>{{$a['d_l2y_female']}}</td>
                         <td>{{$a['r_l2y']}}</td>
+                        <td>{{$a['r_l2y_male']}}</td>
+                        <td>{{$a['r_l2y_female']}}</td>
                         <td>{{$a['c_l1y']}}</td>
+                        <td>{{$a['c_l1y_male']}}</td>
+                        <td>{{$a['c_l1y_female']}}</td>
                         <td>{{$a['d_l1y']}}</td>
+                        <td>{{$a['d_l1y_male']}}</td>
+                        <td>{{$a['d_l1y_female']}}</td>
                         <td>{{$a['r_l1y']}}</td>
+                        <td>{{$a['r_l1y_male']}}</td>
+                        <td>{{$a['r_l1y_female']}}</td>
                     </tr>
                     @endforeach
                 </tbody>
