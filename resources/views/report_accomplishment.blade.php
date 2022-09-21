@@ -176,57 +176,58 @@
     <div class="card">
         <div class="card-header"><b>Age Group</b></div>
         <div class="card-body">
-            <table class="table table-bordered text-center table-striped">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Age</th>
-                        <th>Confirmed {{date('Y', strtotime('-2 Year'))}}</th>
-                        <th>Confirmed {{date('Y', strtotime('-2 Year'))}} Male</th>
-                        <th>Confirmed {{date('Y', strtotime('-2 Year'))}} Female</th>
-                        <th>Death {{date('Y', strtotime('-2 Year'))}}</th>
-                        <th>Death {{date('Y', strtotime('-2 Year'))}} Male</th>
-                        <th>Death {{date('Y', strtotime('-2 Year'))}} Female</th>
-                        <th>Recoveries {{date('Y', strtotime('-2 Year'))}}</th>
-                        <th>Recoveries {{date('Y', strtotime('-2 Year'))}} Male</th>
-                        <th>Recoveries {{date('Y', strtotime('-2 Year'))}} Female</th>
-                        <th>Confirmed {{date('Y', strtotime('-1 Year'))}}</th>
-                        <th>Confirmed {{date('Y', strtotime('-1 Year'))}} Male</th>
-                        <th>Confirmed {{date('Y', strtotime('-1 Year'))}} Female</th>
-                        <th>Death {{date('Y', strtotime('-1 Year'))}}</th>
-                        <th>Death {{date('Y', strtotime('-1 Year'))}} Male</th>
-                        <th>Death {{date('Y', strtotime('-1 Year'))}} Female</th>
-                        <th>Recoveries {{date('Y', strtotime('-1 Year'))}}</th>
-                        <th>Recoveries {{date('Y', strtotime('-1 Year'))}} Male</th>
-                        <th>Recoveries {{date('Y', strtotime('-1 Year'))}} Female</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($age_array as $a)
-                    <tr>
-                        <td scope="row"><b>{{$a['name']}}</b></td>
-                        <td>{{$a['c_l2y']}}</td>
-                        <td>{{$a['c_l2y_male']}}</td>
-                        <td>{{$a['c_l2y_female']}}</td>
-                        <td>{{$a['d_l2y']}}</td>
-                        <td>{{$a['d_l2y_male']}}</td>
-                        <td>{{$a['d_l2y_female']}}</td>
-                        <td>{{$a['r_l2y']}}</td>
-                        <td>{{$a['r_l2y_male']}}</td>
-                        <td>{{$a['r_l2y_female']}}</td>
-                        <td>{{$a['c_l1y']}}</td>
-                        <td>{{$a['c_l1y_male']}}</td>
-                        <td>{{$a['c_l1y_female']}}</td>
-                        <td>{{$a['d_l1y']}}</td>
-                        <td>{{$a['d_l1y_male']}}</td>
-                        <td>{{$a['d_l1y_female']}}</td>
-                        <td>{{$a['r_l1y']}}</td>
-                        <td>{{$a['r_l1y_male']}}</td>
-                        <td>{{$a['r_l1y_female']}}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            
+            <div class="table-responsive">
+                <table class="table table-bordered text-center table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Age</th>
+                            <th>Confirmed {{date('Y', strtotime('-2 Year'))}}</th>
+                            <th>Confirmed {{date('Y', strtotime('-2 Year'))}} Male</th>
+                            <th>Confirmed {{date('Y', strtotime('-2 Year'))}} Female</th>
+                            <th>Death {{date('Y', strtotime('-2 Year'))}}</th>
+                            <th>Death {{date('Y', strtotime('-2 Year'))}} Male</th>
+                            <th>Death {{date('Y', strtotime('-2 Year'))}} Female</th>
+                            <th>Recoveries {{date('Y', strtotime('-2 Year'))}}</th>
+                            <th>Recoveries {{date('Y', strtotime('-2 Year'))}} Male</th>
+                            <th>Recoveries {{date('Y', strtotime('-2 Year'))}} Female</th>
+                            <th>Confirmed {{date('Y', strtotime('-1 Year'))}}</th>
+                            <th>Confirmed {{date('Y', strtotime('-1 Year'))}} Male</th>
+                            <th>Confirmed {{date('Y', strtotime('-1 Year'))}} Female</th>
+                            <th>Death {{date('Y', strtotime('-1 Year'))}}</th>
+                            <th>Death {{date('Y', strtotime('-1 Year'))}} Male</th>
+                            <th>Death {{date('Y', strtotime('-1 Year'))}} Female</th>
+                            <th>Recoveries {{date('Y', strtotime('-1 Year'))}}</th>
+                            <th>Recoveries {{date('Y', strtotime('-1 Year'))}} Male</th>
+                            <th>Recoveries {{date('Y', strtotime('-1 Year'))}} Female</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($age_array as $a)
+                        <tr>
+                            <td scope="row"><b>{{$a['name']}}</b></td>
+                            <td>{{$a['c_l2y']}}</td>
+                            <td>{{$a['c_l2y_male']}}</td>
+                            <td>{{$a['c_l2y_female']}}</td>
+                            <td>{{$a['d_l2y']}}</td>
+                            <td>{{$a['d_l2y_male']}}</td>
+                            <td>{{$a['d_l2y_female']}}</td>
+                            <td>{{$a['r_l2y']}}</td>
+                            <td>{{$a['r_l2y_male']}}</td>
+                            <td>{{$a['r_l2y_female']}}</td>
+                            <td>{{$a['c_l1y']}}</td>
+                            <td>{{$a['c_l1y_male']}}</td>
+                            <td>{{$a['c_l1y_female']}}</td>
+                            <td>{{$a['d_l1y']}}</td>
+                            <td>{{$a['d_l1y_male']}}</td>
+                            <td>{{$a['d_l1y_female']}}</td>
+                            <td>{{$a['r_l1y']}}</td>
+                            <td>{{$a['r_l1y_male']}}</td>
+                            <td>{{$a['r_l1y_female']}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
