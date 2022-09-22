@@ -445,6 +445,12 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             }
         }
         
+        if($form->testingCat == 'ALL') {
+            $display_testcat = 'ALL (Except A1, A2, A3) with Symptoms of COVID-19';
+        }
+        else {
+            $display_testcat = $form->testingCat;
+        }
 
         return [
             $form->drunit,
@@ -497,7 +503,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($first_testingcat == "H.1" || $first_testingcat == "H.2") ? "YES" : "NO",
             ($first_testingcat == "I") ? "YES" : "NO",
             ($first_testingcat == "J1.1" || $first_testingcat == "J1.2" || $first_testingcat == "J1.3" || $first_testingcat == "J1.4" || $first_testingcat == "J1.5" || $first_testingcat == "J1.6" || $first_testingcat == "J1.7" || $first_testingcat == "J1.8" || $first_testingcat == "J1.9" || $first_testingcat == "J1.10" || $first_testingcat == "J1.11" || $first_testingcat == "J.2") ? "YES" : "NO",
-            $first_testingcat,
+            $display_testcat,
             
             $form->records->lname,
             $form->records->fname,

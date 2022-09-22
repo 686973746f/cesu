@@ -317,6 +317,48 @@ class PaSwabController extends Controller
                     }
                     */
 
+                    $testCat = '';
+                    $custom_dispo = NULL;
+
+                    if(!is_null($data->SAS)) {
+                        if($data->getAgeInt() >= 60) {
+                            $testCat = 'A2';
+                        }
+                        else {
+                            $testCat = 'ALL';
+                        }
+                    }
+                    else if($data->getAgeInt() >= 60) {
+                        $testCat = 'A2';
+                    }
+                    else if($data->pType == 'CLOSE CONTACT') {
+                        $testCat = 'ALL';
+                    }
+                    else if($data->isPregnant == 1) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'FOR DELIVERY';
+                    }
+                    else if(in_array('Dialysis', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'FOR DIALYSIS';
+                    }
+                    else if(in_array('Cancer', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'CANCER PATIENT';
+                    }
+                    else if(in_array('Operation', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'FOR OPERATION';
+                    }
+                    else if(in_array('Transplant', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'TRANSPLANT';
+                    }
+                    else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                        $testCat = 'A1';
+                    }
+                    
+                    /*
                     $testCat = [];
                     if(!is_null($data->SAS)) {
                         if($data->getAgeInt() >= 60) {
@@ -386,6 +428,7 @@ class PaSwabController extends Controller
                     else {
                         array_push($testCat, "G");
                     }
+                    */
 
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
@@ -420,19 +463,19 @@ class PaSwabController extends Controller
                         'ecOthersRemarks' => NULL,
                         'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                         'isForHospitalization' => $data->isForHospitalization,
-                        'testingCat' => implode(",", $testCat),
+                        'testingCat' => $testCat,
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                         'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                         'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
 
-                        'dispoType' => 3,
-                        'dispoName' => NULL,
+                        'dispoType' => (!is_null($custom_dispo)) ? 5 : 3,
+                        'dispoName' => $custom_dispo,
                         'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                         'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
                         'caseClassification' => $caseClassi,
-                        'isHealthCareWorker' => '0',
-                        'healthCareCompanyName' => NULL,
-                        'healthCareCompanyLocation' => NULL,
+                        'isHealthCareWorker' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? '1' : '0',
+                        'healthCareCompanyName' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_name : NULL,
+                        'healthCareCompanyLocation' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_city.', '.$data->occupation_province : NULL,
                         'isOFW' => '0',
                         'OFWCountyOfOrigin' => NULL,
                         'ofwType' => NULL,
@@ -815,6 +858,48 @@ class PaSwabController extends Controller
                     }
                     */
 
+                    $testCat = '';
+                    $custom_dispo = NULL;
+
+                    if(!is_null($data->SAS)) {
+                        if($data->getAgeInt() >= 60) {
+                            $testCat = 'A2';
+                        }
+                        else {
+                            $testCat = 'ALL';
+                        }
+                    }
+                    else if($data->getAgeInt() >= 60) {
+                        $testCat = 'A2';
+                    }
+                    else if($data->pType == 'CLOSE CONTACT') {
+                        $testCat = 'ALL';
+                    }
+                    else if($data->isPregnant == 1) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'FOR DELIVERY';
+                    }
+                    else if(in_array('Dialysis', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'FOR DIALYSIS';
+                    }
+                    else if(in_array('Cancer', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'CANCER PATIENT';
+                    }
+                    else if(in_array('Operation', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'FOR OPERATION';
+                    }
+                    else if(in_array('Transplant', $comcheck)) {
+                        $testCat = 'A3';
+                        $custom_dispo = 'TRANSPLANT';
+                    }
+                    else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                        $testCat = 'A1';
+                    }
+
+                    /*
                     $testCat = [];
                     if(!is_null($data->SAS)) {
                         if($data->getAgeInt() >= 60) {
@@ -884,6 +969,7 @@ class PaSwabController extends Controller
                     else {
                         array_push($testCat, "G");
                     }
+                    */
 
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
@@ -918,19 +1004,19 @@ class PaSwabController extends Controller
                         'ecOthersRemarks' => NULL,
                         'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                         'isForHospitalization' => $data->isForHospitalization,
-                        'testingCat' => implode(",", $testCat),
+                        'testingCat' => $testCat,
                         'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                         'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                         'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
 
-                        'dispoType' => 3,
-                        'dispoName' => NULL,
+                        'dispoType' => (!is_null($custom_dispo)) ? 5 : 3,
+                        'dispoName' => $custom_dispo,
                         'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                         'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
                         'caseClassification' => $caseClassi,
-                        'isHealthCareWorker' => '0',
-                        'healthCareCompanyName' => NULL,
-                        'healthCareCompanyLocation' => NULL,
+                        'isHealthCareWorker' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? '1' : '0',
+                        'healthCareCompanyName' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_name : NULL,
+                        'healthCareCompanyLocation' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_city.', '.$data->occupation_province : NULL,
                         'isOFW' => '0',
                         'OFWCountyOfOrigin' => NULL,
                         'ofwType' => NULL,
@@ -1746,6 +1832,48 @@ class PaSwabController extends Controller
             }
             */
 
+            $testCat = '';
+            $custom_dispo = NULL;
+
+            if(!is_null($data->SAS)) {
+                if($data->getAgeInt() >= 60) {
+                    $testCat = 'A2';
+                }
+                else {
+                    $testCat = 'ALL';
+                }
+            }
+            else if($data->getAgeInt() >= 60) {
+                $testCat = 'A2';
+            }
+            else if($data->pType == 'CLOSE CONTACT') {
+                $testCat = 'ALL';
+            }
+            else if($data->isPregnant == 1) {
+                $testCat = 'A3';
+                $custom_dispo = 'FOR DELIVERY';
+            }
+            else if(in_array('Dialysis', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'FOR DIALYSIS';
+            }
+            else if(in_array('Cancer', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'CANCER PATIENT';
+            }
+            else if(in_array('Operation', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'FOR OPERATION';
+            }
+            else if(in_array('Transplant', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'TRANSPLANT';
+            }
+            else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                $testCat = 'A1';
+            }
+
+            /*
             $testCat = [];
             if(!is_null($data->SAS)) {
                 if($data->getAgeInt() >= 60) {
@@ -1815,6 +1943,7 @@ class PaSwabController extends Controller
             else {
                 array_push($testCat, "G");
             }
+            */
 
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {
@@ -1849,18 +1978,18 @@ class PaSwabController extends Controller
                 'ecOthersRemarks' => NULL,
                 'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                 'isForHospitalization' => $data->isForHospitalization,
-                'testingCat' => implode(",", $testCat),
+                'testingCat' => $testCat,
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                 'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                 'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
 
-                'dispoType' => 3,
-                'dispoName' => NULL,
+                'dispoType' => (!is_null($custom_dispo)) ? 5 : 3,
+                'dispoName' => $custom_dispo,
                 'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                 'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
-                'caseClassification' => $caseClassi,
-                'healthCareCompanyName' => NULL,
-                'healthCareCompanyLocation' => NULL,
+                'isHealthCareWorker' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? '1' : '0',
+                'healthCareCompanyName' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_name : NULL,
+                'healthCareCompanyLocation' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_city.', '.$data->occupation_province : NULL,
                 'isOFW' => '0',
                 'OFWCountyOfOrigin' => NULL,
                 'ofwType' => NULL,
@@ -2270,6 +2399,48 @@ class PaSwabController extends Controller
             }
             */
 
+            $testCat = '';
+            $custom_dispo = NULL;
+
+            if(!is_null($data->SAS)) {
+                if($data->getAgeInt() >= 60) {
+                    $testCat = 'A2';
+                }
+                else {
+                    $testCat = 'ALL';
+                }
+            }
+            else if($data->getAgeInt() >= 60) {
+                $testCat = 'A2';
+            }
+            else if($data->pType == 'CLOSE CONTACT') {
+                $testCat = 'ALL';
+            }
+            else if($data->isPregnant == 1) {
+                $testCat = 'A3';
+                $custom_dispo = 'FOR DELIVERY';
+            }
+            else if(in_array('Dialysis', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'FOR DIALYSIS';
+            }
+            else if(in_array('Cancer', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'CANCER PATIENT';
+            }
+            else if(in_array('Operation', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'FOR OPERATION';
+            }
+            else if(in_array('Transplant', $comcheck)) {
+                $testCat = 'A3';
+                $custom_dispo = 'TRANSPLANT';
+            }
+            else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                $testCat = 'A1';
+            }
+
+            /*
             $testCat = [];
             if(!is_null($data->SAS)) {
                 if($data->getAgeInt() >= 60) {
@@ -2339,6 +2510,7 @@ class PaSwabController extends Controller
             else {
                 array_push($testCat, "G");
             }
+            */
 
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {
@@ -2373,19 +2545,19 @@ class PaSwabController extends Controller
                 'ecOthersRemarks' => NULL,
                 'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
                 'isForHospitalization' => $data->isForHospitalization,
-                'testingCat' => implode(",", $testCat),
+                'testingCat' => $testCat,
                 'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
                 'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
                 'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
 
-                'dispoType' => 3,
-                'dispoName' => NULL,
+                'dispoType' => (!is_null($custom_dispo)) ? 5 : 3,
+                'dispoName' => $custom_dispo,
                 'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                 'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
                 'caseClassification' => $caseClassi,
-                'isHealthCareWorker' => '0',
-                'healthCareCompanyName' => NULL,
-                'healthCareCompanyLocation' => NULL,
+                'isHealthCareWorker' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? '1' : '0',
+                'healthCareCompanyName' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_name : NULL,
+                'healthCareCompanyLocation' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_city.', '.$data->occupation_province : NULL,
                 'isOFW' => '0',
                 'OFWCountyOfOrigin' => NULL,
                 'ofwType' => NULL,

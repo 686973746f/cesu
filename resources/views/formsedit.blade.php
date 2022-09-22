@@ -58,7 +58,7 @@
                                     <option value="7" {{(old('dType') == 7) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility #2 (Eagle Ridge, Brgy. Javalera)</option>
                                     <option value="1" {{(old('dType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
                                     <option value="2" {{(old('dType') == 2) ? 'selected' : ''}}>Admitted in OTHER isolation/quarantine facility</option>
-                                    <option value="5" {{(old('dType') == 5) ? 'selected' : ''}}>Others</option>
+                                    <option value="5" {{(old('dType') == 5) ? 'selected' : ''}}>Others (For Hospitalization/Pregnant)</option>
                                 </select>
                             </div>
                             <div id="tDiv1">

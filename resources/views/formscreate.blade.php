@@ -925,13 +925,13 @@
                                             <div class="form-group">
                                                 <label for="dispositionType"><span class="text-danger font-weight-bold">*</span>Status</label>
                                                 <select class="form-control" name="dispositionType" id="dispositionType">
-                                                    <option value="1" {{(old('dispositionType') == 1) ? 'selected' : ''}}>Admitted in hospital</option>
-                                                    <option value="6" {{(old('dispositionType') == 6) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility</option>
-                                                    <option value="7" {{(old('dispositionType') == 7) ? 'selected' : ''}}>Admitted in General Trias Isolation Facility #2 (Eagle Ridge Brgy. Javalera)</option>
-                                                    <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}}>Admitted in OTHER isolation/quarantine facility</option>
-                                                    <option value="3" {{(old('dispositionType') == 3 || is_null(old('dispositionType'))) ? 'selected' : ''}}>In home isolation/quarantine</option>
-                                                    <option value="4" {{(old('dispositionType') == 4) ? 'selected' : ''}}>Discharged to home</option>
-                                                    <option value="5" {{(old('dispositionType') == 5) ? 'selected' : ''}}>Others</option>
+                                                    <option value="1" {{(old('dispositionType') == 1) ? 'selected' : ''}} id="disopt1">Admitted in hospital</option>
+                                                    <option value="6" {{(old('dispositionType') == 6) ? 'selected' : ''}} id="disopt6">Admitted in General Trias Isolation Facility</option>
+                                                    <option value="7" {{(old('dispositionType') == 7) ? 'selected' : ''}} id="disopt7">Admitted in General Trias Isolation Facility #2 (Eagle Ridge Brgy. Javalera)</option>
+                                                    <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}} id="disopt2">Admitted in OTHER isolation/quarantine facility</option>
+                                                    <option value="3" {{(old('dispositionType') == 3 || is_null(old('dispositionType'))) ? 'selected' : ''}} id="disopt3">In home isolation/quarantine</option>
+                                                    <option value="4" {{(old('dispositionType') == 4) ? 'selected' : ''}} id="disopt4">Discharged to home</option>
+                                                    <option value="5" {{(old('dispositionType') == 5) ? 'selected' : ''}} id="disopt5">Others (For Hospitalization/Pregnant)</option>
                                                 </select>
                                             </div>
                                             <div id="divYes5">
@@ -3046,9 +3046,39 @@
                 }
             }).trigger('change');
 
+            @if($records->isPregnant == 1)
+            var is_pregnant = 1;
+            @else
+            var is_pregnant = 2;
+            @endif
+
             $('#dispositionType').change(function (e) {
                 e.preventDefault();
                 $('#dispositionDate').prop("type", "datetime-local");
+
+                if(is_pregnant == 1 || $('#isForHospitalization').val() == 1) {
+                    $('#dispositionType').val('5');
+                    $('#disopt1').addClass('d-none');
+                    $('#disopt2').addClass('d-none');
+                    $('#disopt3').addClass('d-none');
+                    $('#disopt4').addClass('d-none');
+                    $('#disopt6').addClass('d-none');
+                    $('#disopt7').addClass('d-none');
+
+                    if(is_pregnant == 1) {
+                        $('#dispositionName').val('FOR DELIVERY');
+                    }
+                }
+                else {
+                    $('#dispositionType').val('3');
+
+                    $('#disopt1').removeClass('d-none');
+                    $('#disopt2').removeClass('d-none');
+                    $('#disopt3').removeClass('d-none');
+                    $('#disopt4').removeClass('d-none');
+                    $('#disopt6').removeClass('d-none');
+                    $('#disopt7').removeClass('d-none');
+                }
                 
                 if($(this).val() == '1' || $(this).val() == '2') {
                     $('#dispositionName').prop('required', true);
