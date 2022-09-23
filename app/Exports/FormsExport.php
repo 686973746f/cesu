@@ -452,6 +452,27 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $display_testcat = $form->testingCat;
         }
 
+        //Auto DispoType
+        $autodispo_name = NULL;
+        $autodispo_date = NULL;
+
+        if($displayFirstTestType == 'OPS' || $displayFirstTestType == 'NPS' || $displayFirstTestType == 'OPS AND NPS') {
+            if($form->records->isPregnant == 1) {
+                $autodispo = 5;
+                $autodispo_name = 'FOR DELIVERY';
+            }
+            else {
+                $autodispo = $form->dispoType;
+                $autodispo_name = strtoupper($form->dispoName);
+                $autodispo_date = date("m/d/Y H:i", strtotime($form->dispoDate));
+            }
+        }
+        else {
+            $autodispo = $form->dispoType;
+            $autodispo_name = strtoupper($form->dispoName);
+            $autodispo_date = date("m/d/Y H:i", strtotime($form->dispoDate));
+        }
+
         return [
             $form->drunit,
             $form->drregion." ".$form->drprovince,
@@ -573,22 +594,22 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->dateOfFirstConsult)) ? date("m/d/Y", strtotime($form->dateOfFirstConsult)) : 'N/A',
             (!is_null($form->facilityNameOfFirstConsult)) ? strtoupper($form->facilityNameOfFirstConsult) : 'N/A',
             
-            ($form->dispoType == 1) ? 'YES' : 'NO',
-            ($form->dispoType == 1) ? strtoupper($form->dispoName) : 'N/A',
-            ($form->dispoType == 1) ? date("m/d/Y H:i", strtotime($form->dispoDate)) : 'N/A',
+            ($autodispo == 1) ? 'YES' : 'NO',
+            ($autodispo == 1) ? $autodispo_name : 'N/A',
+            ($autodispo == 1) ? $autodispo_date : 'N/A',
 
-            ($form->dispoType == 2) ? 'YES' : 'NO',
-            ($form->dispoType == 2) ? strtoupper($form->dispoName) : 'N/A',
-            ($form->dispoType == 2) ? date("m/d/Y H:i", strtotime($form->dispoDate)) : 'N/A',
+            ($autodispo == 2) ? 'YES' : 'NO',
+            ($autodispo == 2) ? $autodispo_name : 'N/A',
+            ($autodispo == 2) ? $autodispo_date : 'N/A',
 
-            ($form->dispoType == 3) ? 'YES' : 'NO',
-            ($form->dispoType == 3) ? date("m/d/Y H:i", strtotime($form->dispoDate)) : 'N/A',
+            ($autodispo == 3) ? 'YES' : 'NO',
+            ($autodispo == 3) ? $autodispo_date : 'N/A',
 
-            ($form->dispoType == 4) ? 'YES' : 'NO',
-            ($form->dispoType == 4) ? date("m/d/Y", strtotime($form->dispoDate)) : 'N/A',
+            ($autodispo == 4) ? 'YES' : 'NO',
+            ($autodispo == 4) ? date("m/d/Y", strtotime($form->dispoDate)) : 'N/A',
 
-            ($form->dispoType == 5) ? 'YES' : 'NO',
-            ($form->dispoType == 5) ? strtoupper($form->dispoName) : 'N/A',
+            ($autodispo == 5) ? 'YES' : 'NO',
+            ($autodispo == 5) ? $autodispo_name : 'N/A',
 
             ($form->healthStatus == "Asymptomatic") ? 'YES' : 'NO',
             ($form->healthStatus == "Mild") ? 'YES' : 'NO',

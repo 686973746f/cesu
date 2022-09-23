@@ -1287,7 +1287,7 @@ class FormsController extends Controller
                 $testCat = 'ALL';
             }
             else if($rec->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
-                $testCat = 'A1';
+                $testCat = 'ALL';
             }
             else {
                 $testCat = $request->testingCat;
@@ -2383,7 +2383,7 @@ class FormsController extends Controller
                     $testCat = 'ALL';
                 }
                 else if($rec->records->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
-                    $testCat = 'A1';
+                    $testCat = 'ALL';
                 }
                 else {
                     $testCat = $request->testingCat;
