@@ -458,8 +458,14 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
 
         if($displayFirstTestType == 'OPS' || $displayFirstTestType == 'NPS' || $displayFirstTestType == 'OPS AND NPS') {
             if($form->records->isPregnant == 1) {
-                $autodispo = 5;
-                $autodispo_name = 'FOR DELIVERY';
+                if($form->dispoType != 5) {
+                    $autodispo = 5;
+                    $autodispo_name = 'FOR DELIVERY';
+                }
+                else {
+                    $autodispo = 5;
+                    $autodispo_name = (!is_null($form->dispoName)) ? strtoupper($form->dispoName) : 'FOR DELIVERY';
+                }
             }
             else {
                 $autodispo = $form->dispoType;
