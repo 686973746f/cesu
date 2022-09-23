@@ -3063,9 +3063,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div>
-                        Documents
-                    </div>
+                    <div><i class="fas fa-file-alt mr-2"></i>Documents</div>
                     <div>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#uploadDoc"><i class="fa fa-upload mr-2" aria-hidden="true"></i>Upload</button>
                     </div>
@@ -3074,8 +3072,8 @@
             <div class="card-body">
                 @if($docs->count())
                 <div class="table-responsive">
-                    <table class="table text-center">
-                        <thead>
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="thead-light">
                             <tr>
                                 <th>#</th>
                                 <th>Type</th>
@@ -3093,7 +3091,7 @@
                                 <td>{{date('m/d/Y h:i A', strtotime($doc->created_at))}}</td>
                                 <td>{{$doc->user->name}}</td>
                                 <td>{{$doc->remarks}}</td>
-                                <td><a href="/forms/download/{{$doc->id}}" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i></a></td>
+                                <td><a href="/forms/download/{{$doc->id}}" class="btn btn-success btn-sm"><i class="fa fa-download" aria-hidden="true"></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -1054,6 +1054,40 @@
                 </div>
             </div>
         </form>
+        
+        <div class="card mt-3">
+            <div class="card-header"><b><i class="fas fa-file-alt mr-2"></i>Patient Docs</b></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">CIF ID</th>
+                                <th scope="col">File Type</th>
+                                <th scope="col">Filename</th>
+                                <th scope="col">Upload Date / By</th>
+                                <th scope="col">Remarks</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($docs_list as $d)
+                            <tr class="">
+                                <td>{{$loop->iteration}}</td>
+                                <td><a href="{{route('forms.edit', ['form' => $d->forms_id])}}">{{$d->forms_id}}</a></td>
+                                <td>{{$d->file_type}}</td>
+                                <td>{{basename($d->filepath)}}</td>
+                                <td>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
+                                <td>{{$d->remarks}}</td>
+                                <td><a href="/forms/download/{{$d->id}}" class="btn btn-success btn-sm"><i class="fa fa-download" aria-hidden="true"></i></a></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>

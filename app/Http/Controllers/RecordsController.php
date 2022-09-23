@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Forms;
 use App\Models\Records;
 use App\Models\Companies;
+use App\Models\CifUploads;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 use Illuminate\Validation\Rule;
@@ -591,6 +592,11 @@ class RecordsController extends Controller
 			->where('id', '!=', auth()->user()->id)
 			->get();
 
+			//Get Docs Uploaded
+			$cif_id_list = Forms::where('records_id', $record->id)->pluck('id')->toArray();
+
+			$docs_list = CifUploads::whereIn('forms_id', $cif_id_list)->get();
+
 			return view('recordsedit', [
 				'record' => $record,
 				'cifcheck' =>$cifcheck,
@@ -599,6 +605,7 @@ class RecordsController extends Controller
 				'haveBooster2' => $haveBooster2,
 				'sharedAccessList' => $sharedAccessList,
 				'sameaddress' => $sameaddress,
+				'docs_list' => $docs_list,
 			]);
 		}
 		else {
