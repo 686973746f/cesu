@@ -1271,6 +1271,9 @@ class FormsController extends Controller
             if($rec->getAgeInt() >= 60) {
                 $testCat = 'A2';
             }
+            else if($rec->isHCW == 1) {
+                $testCat = 'A1';
+            }
             else if($rec->isPregnant == 1) {
                 $testCat = 'A3';
             }
@@ -2362,6 +2365,9 @@ class FormsController extends Controller
 
                 if($rec->records->getAgeInt() >= 60) {
                     $testCat = 'A2';
+                }
+                else if($rec->records->isHCW == 1) {
+                    $testCat = 'A1';
                 }
                 else if($rec->records->isPregnant == 1) {
                     $testCat = 'A3';
