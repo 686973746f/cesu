@@ -93,6 +93,8 @@ class Records extends Model
 
         'remarks',
         'sharedOnId',
+
+        'isHCW',
     ];
 
     public function getAge() {

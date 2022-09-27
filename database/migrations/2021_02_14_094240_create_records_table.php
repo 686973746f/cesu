@@ -104,6 +104,8 @@ class CreateRecordsTable extends Migration
             
             $table->text('remarks')->nullable();
             $table->text('sharedOnId')->nullable();
+
+            $table->tinyInteger('isHCW')->default(0);
         });
     }
 

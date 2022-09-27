@@ -872,7 +872,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label for="occupation_name"><span class="text-danger font-weight-bold">*</span>Name of Workplace</label>
 								<input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name')}}" style="text-transform: uppercase;">
@@ -881,7 +881,7 @@
 								@enderror
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
 								<select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
@@ -892,6 +892,16 @@
 								@error('worksInClosedSetting')
 									<small class="text-danger">{{$message}}</small>
 								@enderror
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="isHCW"><span class="text-danger font-weight-bold">*</span>is Health Care Worker?</label>
+								<select class="form-control" name="isHCW" id="isHCW" required>
+									<option value="" disabled {{(is_null(old('isHCW'))) ? 'selected' : ''}}>Choose...</option>
+									<option value="1" {{(old('isHCW') == "1") ? 'selected' : ''}}>Yes</option>
+									<option value="0" {{(old('isHCW') == "0") ? 'selected' : ''}}>No</option>
+								</select>
 							</div>
 						</div>
 					</div>

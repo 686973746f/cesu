@@ -902,7 +902,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="occupation_name"><span class="text-danger font-weight-bold">*</span>Name of Workplace/Company</label>
                                     <input type="text" class="form-control" name="occupation_name" id="occupation_name" value="{{old('occupation_name', $record->occupation_name)}}" style="text-transform: uppercase;">
@@ -911,13 +911,23 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
-                                    <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
+                                    <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting" required>
                                         <option value="UNKNOWN" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
                                         <option value="YES" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "YES") ? 'selected' : ''}}>Yes</option>
                                         <option value="NO" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "NO") ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="isHCW"><span class="text-danger font-weight-bold">*</span>is Health Care Worker?</label>
+                                    <select class="form-control" name="isHCW" id="isHCW" required>
+                                        <option value="" disabled {{(is_null(old('isHCW', $record->isHCW))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="1" {{(old('isHCW', $record->isHCW) == "1") ? 'selected' : ''}}>Yes</option>
+                                        <option value="0" {{(old('isHCW', $record->isHCW) == "0") ? 'selected' : ''}}>No</option>
                                     </select>
                                 </div>
                             </div>
