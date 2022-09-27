@@ -897,7 +897,7 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label for="isHCW"><span class="text-danger font-weight-bold">*</span>is Health Care Worker?</label>
-								<select class="form-control" name="isHCW" id="isHCW" required>
+								<select class="form-control" name="isHCW" id="isHCW">
 									<option value="" disabled {{(is_null(old('isHCW'))) ? 'selected' : ''}}>Choose...</option>
 									<option value="1" {{(old('isHCW') == "1") ? 'selected' : ''}}>Yes</option>
 									<option value="0" {{(old('isHCW') == "0") ? 'selected' : ''}}>No</option>
@@ -1386,6 +1386,7 @@
 				$('#occupation_street').prop('required', false);
 				$('#worksInClosedSetting').prop('required', false);
 				$('#natureOfWork').prop('required', false);
+				$('#isHCW').prop('required', false);
 			}
 			else {
 				$('#occupation_div').removeClass('d-none');
@@ -1400,6 +1401,7 @@
 				$('#occupation_street').prop('required', true);
 				$('#worksInClosedSetting').prop('required', true);
 				$('#natureOfWork').prop('required', true);
+				$('#isHCW').prop('required', true);
 			}
 		}).trigger('change');
 

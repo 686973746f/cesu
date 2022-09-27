@@ -914,7 +914,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="worksInClosedSetting"><span class="text-danger font-weight-bold">*</span>Works in a closed setting?</label>
-                                    <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting" required>
+                                    <select class="form-control" name="worksInClosedSetting" id="worksInClosedSetting">
                                         <option value="UNKNOWN" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "UNKNOWN") ? 'selected' : ''}}>Unknown</option>
                                         <option value="YES" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "YES") ? 'selected' : ''}}>Yes</option>
                                         <option value="NO" {{(old('worksInClosedSetting', $record->worksInClosedSetting) == "NO") ? 'selected' : ''}}>No</option>
@@ -924,7 +924,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="isHCW"><span class="text-danger font-weight-bold">*</span>is Health Care Worker?</label>
-                                    <select class="form-control" name="isHCW" id="isHCW" required>
+                                    <select class="form-control" name="isHCW" id="isHCW">
                                         <option value="" disabled {{(is_null(old('isHCW', $record->isHCW))) ? 'selected' : ''}}>Choose...</option>
                                         <option value="1" {{(old('isHCW', $record->isHCW) == "1") ? 'selected' : ''}}>Yes</option>
                                         <option value="0" {{(old('isHCW', $record->isHCW) == "0") ? 'selected' : ''}}>No</option>
@@ -1451,6 +1451,7 @@
                     $('#occupation_lotbldg').prop('required', false);
                     $('#occupation_street').prop('required', false);
                     $('#worksInClosedSetting').prop('required', false);
+                    $('#isHCW').prop('required', false);
                 }
                 else {
                     $('#occupation_div').removeClass('d-none');
@@ -1464,6 +1465,7 @@
                     $('#occupation_lotbldg').prop('required', true);
                     $('#occupation_street').prop('required', true);
                     $('#worksInClosedSetting').prop('required', true);
+                    $('#isHCW').prop('required', true);
                 }
             }).trigger('change');
 
