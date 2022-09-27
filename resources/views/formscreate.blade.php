@@ -735,8 +735,8 @@
                                     <div class="form-group">
                                         <label for="isHealthCareWorker"><span class="text-danger font-weight-bold">*</span>Health Care Worker</label>
                                         <select class="form-control" name="isHealthCareWorker" id="isHealthCareWorker" required>
-                                            <option value="1" {{(old('isHealthCareWorker') == 1) ? 'selected' : ''}}>Yes</option>
-                                            <option value="0" {{(old('isHealthCareWorker') == 0 || is_null(old('isHealthCareWorker'))) ? 'selected' : ''}}>No</option>
+                                            <option value="0" {{(old('isHealthCareWorker', $set_ishcw) == 0 || is_null(old('isHealthCareWorker', $set_ishcw))) ? 'selected' : ''}}>No</option>
+                                            <option value="1" {{(old('isHealthCareWorker', $set_ishcw) == 1) ? 'selected' : ''}}>Yes</option>
                                         </select>
                                     </div>
                                     <div id="divisHealthCareWorker">
@@ -744,13 +744,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="healthCareCompanyName"><span class="text-danger font-weight-bold">*</span>Name of Health Facility</label>
-                                                    <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{old('healthCareCompanyName')}}" style="text-transform: uppercase;">
+                                                    <input type="text" class="form-control" name="healthCareCompanyName" id="healthCareCompanyName" value="{{old('healthCareCompanyName', $set_hcwname)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="healthCareCompanyLocation"><span class="text-danger font-weight-bold">*</span>Location</label>
-                                                    <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{old('healthCareCompanyLocation')}}" style="text-transform: uppercase;">
+                                                    <input type="text" class="form-control" name="healthCareCompanyLocation" id="healthCareCompanyLocation" value="{{old('healthCareCompanyLocation', $set_hcwlocation)}}" style="text-transform: uppercase;">
                                                 </div>
                                             </div>
                                         </div>

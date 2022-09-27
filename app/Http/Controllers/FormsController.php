@@ -990,6 +990,19 @@ class FormsController extends Controller
                 $countries = new Countries();
                 $countries = $countries->all()->sortBy('name.common', SORT_NATURAL);
                 $all = $countries->all()->pluck('name.common')->toArray();
+
+                $set_hcwname = NULL;
+                $set_hcwlocation = NULL;
+
+                if($check->isHCW == 1) {
+                    $set_ishcw = 1;
+                    $set_hcwname = $check->occupation_name;
+                    $set_hcwlocation = $check->occupation_city.', '.$check->occupation_province;
+                }
+                else {
+                    $set_ishcw = 0;
+                }
+
                 return view('formscreate', [
                     'countries' => $all,
                     'records' => $check,
@@ -999,6 +1012,9 @@ class FormsController extends Controller
                     'antigen_list' => $antigen_list,
                     'mindate' => $mindate,
                     'enddate' => $enddate,
+                    'set_ishcw' => $set_ishcw,
+                    'set_hcwname' => $set_hcwname,
+                    'set_hcwlocation' => $set_hcwlocation,
                 ]);
             }
         }
@@ -1688,9 +1704,11 @@ class FormsController extends Controller
                 'caseClassification' => $caseClassi,
                 'date_of_positive' => ($caseClassi == 'Confirmed') ? $set_dr : NULL,
                 'confirmedVariantName' => $request->confirmedVariantName,
+
                 'isHealthCareWorker' => $request->isHealthCareWorker,
                 'healthCareCompanyName' => $request->healthCareCompanyName,
                 'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
+
                 'isOFW' => $request->isOFW,
                 'OFWCountyOfOrigin' => ($request->isOFW == 1) ? $request->OFWCountyOfOrigin : NULL,
                 'OFWPassportNo' => ($request->isOFW == 1) ? $request->OFWPassportNo : NULL,
@@ -2786,9 +2804,11 @@ class FormsController extends Controller
                         'caseClassification' => $caseClassi,
                         'date_of_positive' => ($caseClassi == 'Confirmed') ? $set_dr : NULL,
                         'confirmedVariantName' => $request->confirmedVariantName,
+
                         'isHealthCareWorker' => $request->isHealthCareWorker,
                         'healthCareCompanyName' => $request->healthCareCompanyName,
                         'healthCareCompanyLocation' => $request->healthCareCompanyLocation,
+
                         'isOFW' => $request->isOFW,
                         'OFWCountyOfOrigin' => ($request->isOFW == 1) ? $request->OFWCountyOfOrigin : NULL,
                         'OFWPassportNo' => ($request->isOFW == 1) ? $request->OFWPassportNo : NULL,
@@ -3036,6 +3056,18 @@ class FormsController extends Controller
                 $enddate = date('Y-12-31');
             }
 
+            $set_hcwname = NULL;
+            $set_hcwlocation = NULL;
+
+            if($record->isHCW == 1) {
+                $set_ishcw = 1;
+                $set_hcwname = $record->occupation_name;
+                $set_hcwlocation = $record->occupation_city.', '.$record->occupation_province;
+            }
+            else {
+                $set_ishcw = 0;
+            }
+
             return view('formscreate', [
                 'countries' => $all,
                 'records' => $record,
@@ -3045,6 +3077,9 @@ class FormsController extends Controller
                 'antigen_list' => $antigen_list,
                 'mindate' => $mindate,
                 'enddate' => $enddate,
+                'set_ishcw' => $set_ishcw,
+                'set_hcwname' => $set_hcwname,
+                'set_hcwlocation' => $set_hcwlocation,
             ]);
         }
         else {
