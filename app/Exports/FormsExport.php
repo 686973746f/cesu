@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Brgy;
 use App\Models\Forms;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -58,7 +59,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
     
                 $data = $data->sortBy('records.lname');
             }
-            else if($this->type == 'export_alphabetic_withp' || $this->type == 'export_alphabetic_withp2') {
+            else if($this->type == 'export_alphabetic_withp' || $this->type == 'export_alphabetic_withp2' || $this->type == 'export_alphabetic_brgy') {
                 //Get Pregnant
                 $pregnant = Forms::with('records')
                 ->whereIn('id', $list)
@@ -94,6 +95,36 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                     ->get()->sortBy('records.lname');
 
                     $data = $senior_col->merge($pregnant_col)->merge($hospitalization_col)->merge($normal_col);
+                }
+                else if($this->type == 'export_alphabetic_brgy') {
+                    //Brgy Random Sort
+                    $brgyList = Brgy::where('displayInList', 1)
+                    ->where('city_id', 1)
+                    ->inRandomOrder()->get();
+
+                    $pre_merge = $senior_col->merge($pregnant_col)->merge($hospitalization_col);
+
+                    foreach($brgyList as $b) {
+                        $normal_col = Forms::whereIn('id', $list)
+                        ->whereHas('records', function ($q) use ($b) {
+                            $q->where('records.address_province', $b->city->province->provinceName)
+                            ->where('records.address_city', $b->city->cityName)
+                            ->where('records.address_brgy', $b->brgyName);
+                        })
+                        ->get()
+                        ->sortBy('records.lname');
+
+                        if($normal_col->count() != 0) {
+                            $pre_merge = $pre_merge->merge($normal_col);
+
+                            $list = array_diff($list, $normal_col->pluck('id')->toArray());
+                        }
+                    }
+
+                    $not_in_brgylist_patient = Forms::whereIn('id', $list)
+                    ->get()->sortBy('records.lname');
+
+                    $data = $pre_merge->merge($not_in_brgylist_patient);
                 }
                 else {
                     $phfirst_col = Forms::whereIn('id', $list)

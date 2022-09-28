@@ -206,7 +206,8 @@
                         <div class="dropdown-menu">
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic"><i class="fas fa-file-csv mr-2"></i>Export to CSV <i>(Alphabetical)</i> - <b>For Sticker/Habol</b></button>
                             <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp"><i class="fas fa-file-csv mr-2"></i>Export to CSV <i>(Alphabetical w/ Priority)</i> - <b>For CIF</b></button>
-                            <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp2"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical w/ Priority & Philhealth First)</button>
+                            <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_brgy"><i class="fas fa-file-csv mr-2"></i>Export to CSV <i>(Brgy Random Sort)</i> - <b>For CIF [Experimental]</b></button>
+                            <!--<button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp2"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical w/ Priority & Philhealth First)</button>-->
                             <div class="dropdown-divider"></div>
                             <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>VTM Sticker <i>(ONI & LaSalle)</i></button>
                             <button type="submit" class="dropdown-item" id="exportBtnStk2" name="submit" value="printsticker_alllasalle"><i class="fas fa-print mr-2"></i>VTM Sticker <i>(LaSalle)</i> - <b>Paperang</b></button>

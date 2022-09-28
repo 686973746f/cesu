@@ -644,7 +644,7 @@ class FormsController extends Controller
     {
         $list = $request->listToPrint;
 
-        if($request->submit == 'export' || $request->submit == 'export_alphabetic' || $request->submit == 'export_alphabetic_withp' || $request->submit == 'export_alphabetic_withp2') {
+        if($request->submit == 'export' || $request->submit == 'export_alphabetic' || $request->submit == 'export_alphabetic_withp' || $request->submit == 'export_alphabetic_withp2' || $request->submit == 'export_alphabetic_brgy') {
             //Export by Laboratory (ONI first, LaSalle second)
             $request->validate([
                 'listToPrint' => 'required',
