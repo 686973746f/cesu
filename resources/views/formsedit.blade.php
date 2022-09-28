@@ -2416,8 +2416,8 @@
                                                 <div class="form-group">
                                                     <label for="intWithOngoingCovid">With ongoing COVID-19 community transmission?</label>
                                                     <select class="form-control" name="intWithOngoingCovid" id="intWithOngoingCovid">
-                                                      <option value="NO" {{(old('intWithOngoingCovid', $records->intWithOngoingCovid) == "NO") ? 'selected' : ''}}>No</option>
-                                                      <option value="YES" {{(old('intWithOngoingCovid', $records->intWithOngoingCovid) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                        <option value="YES" {{(old('intWithOngoingCovid', $records->intWithOngoingCovid) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                        <option value="NO" {{(old('intWithOngoingCovid', $records->intWithOngoingCovid) == "NO") ? 'selected' : ''}}>No</option> 
                                                     </select>
                                                 </div>
                                             </div>
@@ -2506,8 +2506,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid1"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid1" id="locWithOngoingCovid1">
-                                                                <option value="NO" {{(old('locWithOngoingCovid1', $records->locWithOngoingCovid1) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid1', $records->locWithOngoingCovid1) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid1', $records->locWithOngoingCovid1) == "NO") ? 'selected' : ''}}>No</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -2560,8 +2560,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid2"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid2" id="locWithOngoingCovid2">
-                                                                <option value="NO" {{(old('locWithOngoingCovid2', $records->locWithOngoingCovid2) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid2', $records->locWithOngoingCovid2) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid2', $records->locWithOngoingCovid2) == "NO") ? 'selected' : ''}}>No</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -2614,8 +2614,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid3"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid3" id="locWithOngoingCovid3">
-                                                                <option value="NO" {{(old('locWithOngoingCovid3', $records->locWithOngoingCovid3) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid3', $records->locWithOngoingCovid3) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid3', $records->locWithOngoingCovid3) == "NO") ? 'selected' : ''}}>No</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -2668,8 +2668,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid4"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid4" id="locWithOngoingCovid4">
-                                                                <option value="NO" {{(old('locWithOngoingCovid4', $records->locWithOngoingCovid4) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid4', $records->locWithOngoingCovid4) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid4', $records->locWithOngoingCovid4) == "NO") ? 'selected' : ''}}>No</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -2722,8 +2722,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid5"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid5" id="locWithOngoingCovid5">
-                                                                <option value="NO" {{(old('locWithOngoingCovid5', $records->locWithOngoingCovid5) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid5', $records->locWithOngoingCovid5) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid5', $records->locWithOngoingCovid5) == "NO") ? 'selected' : ''}}>No</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -2776,8 +2776,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid6"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid6" id="locWithOngoingCovid6">
-                                                                <option value="NO" {{(old('locWithOngoingCovid6', $records->locWithOngoingCovid6) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid6', $records->locWithOngoingCovid6) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid6', $records->locWithOngoingCovid6) == "NO") ? 'selected' : ''}}>No</option>
                                                               </select>
                                                             </div>
                                                         </div>
@@ -2830,8 +2830,8 @@
                                                             <div class="form-group">
                                                               <label for="locWithOngoingCovid7"><span class="text-danger font-weight-bold">*</span>With ongoing COVID-19 Community Transmission?</label>
                                                               <select class="form-control" name="locWithOngoingCovid7" id="locWithOngoingCovid7">
-                                                                <option value="NO" {{(old('locWithOngoingCovid7', $records->locWithOngoingCovid7) == "NO") ? 'selected' : ''}}>No</option>
                                                                 <option value="YES" {{(old('locWithOngoingCovid7', $records->locWithOngoingCovid7) == "YES") ? 'selected' : ''}}>Yes</option>
+                                                                <option value="NO" {{(old('locWithOngoingCovid7', $records->locWithOngoingCovid7) == "NO") ? 'selected' : ''}}>No</option>
                                                               </select>
                                                             </div>
                                                         </div>
