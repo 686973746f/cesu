@@ -158,10 +158,10 @@ class AyudaEmail extends Command
                 ];
             });
 
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com'])->send(new SendAyudaList($count));
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'cesugentri2022@yahoo.com'])->send(new SendAyudaList($count));
         }
         else {
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com'])->send(new SendAyudaListEmpty());
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'cesugentri2022@yahoo.com'])->send(new SendAyudaListEmpty());
         }
 
         File::delete(public_path('AyudaList_'.date('F_d_Y', strtotime('-1 Day')).'.xlsx'));
