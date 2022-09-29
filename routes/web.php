@@ -28,6 +28,7 @@ use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
+use App\Http\Controllers\SiteSettingsController;
 use App\Http\Controllers\MorbidityWeekController;
 use App\Http\Controllers\OnlineMedCertController;
 use App\Http\Controllers\ChangePasswordController;
@@ -282,6 +283,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     //MW
     Route::get('/report/mw', [MorbidityWeekController::class, 'index'])->name('mw.index');
     Route::post('/report/mw/process', [MorbidityWeekController::class, 'process'])->name('mw.process');
+
+    //Site Settings
+    Route::get('/settings/site', [SiteSettingsController::class, 'index'])->name('ss.index');
 });
 
 //JSON Reports
