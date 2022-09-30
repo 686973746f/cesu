@@ -9,4 +9,8 @@ class SiteSettingsController extends Controller
     public function index() {
         return view('site_settings');
     }
+
+    public function update(Request $request) {
+        
+    }
 }

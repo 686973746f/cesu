@@ -42,6 +42,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header"><b>Server Settings</b></div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="system_type" class="form-label">System Type</label>
+                                <select class="form-control" name="system_type" id="system_type" required>
+                                  <option value="regional">Regional</option>
+                                  <option value="provincial">Provincial</option>
+                                  <option value="municipal">Municipal</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                              <label for="default_dru_name" class="form-label">Default DRU Name</label>
+                              <input type="text" class="form-control" name="default_dru_name" id="default_dru_name" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
