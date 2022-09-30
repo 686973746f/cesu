@@ -140,10 +140,6 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                     $data = $senior_col->merge($pregnant_col)->merge($hospitalization_col)->merge($phfirst_col)->merge($normal_col);
                 }
             }
-            else if($this->type == 'export_brgysort') {
-                //Random Barangay Alphabetic Sort
-
-            }
 
             return $data;
         }
@@ -322,7 +318,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                 $pv2c = $form->records->address_city.', '.$form->records->address_province;
                 $pv2d = date('m/d/Y', strtotime($form->morbidityMonth.' -5 Days'));
                 $pv2e = date('m/d/Y', strtotime($form->morbidityMonth));
-                $pv2f = "NO";
+                $pv2f = "YES";
 
                 $pv3a = "NO";
                 $pv3b = "N/A";
@@ -513,8 +509,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         return [
             $form->drunit,
             $form->drregion." ".$form->drprovince,
-            '',
-            //(!is_null($form->records->philhealth)) ? $form->records->getPhilhealth() : "N/A",
+            (!is_null($form->records->philhealth)) ? $form->records->getPhilhealth() : "",
             strtoupper($form->interviewerName),
             $form->interviewerMobile,
             date('m/d/Y', strtotime($form->interviewDate)),
