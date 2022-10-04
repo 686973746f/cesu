@@ -509,7 +509,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         //Symptoms Switch
         $tempsx = 1;
 
-        if($tempsx == 1) {
+        if($tempsx == 1 && is_null($form->dateOnsetOfIllness)) {
             $set_asymp = "NO";
             $set_mild = "YES";
             $set_moderate = "NO";
