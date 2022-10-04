@@ -472,11 +472,11 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             }
         }
         
-        if($form->testingCat == 'ALL') {
-            $display_testcat = 'ALL (Except A1, A2, A3) with Symptoms of COVID-19';
+        if($form->testingCat == 'A1' || $form->testingCat == 'A2' || $form->testingCat == 'A3') {
+            $display_testcat = $form->testingCat;
         }
         else {
-            $display_testcat = $form->testingCat;
+            $display_testcat = 'ALL (Except A1, A2, A3) with Symptoms of COVID-19';
         }
 
         //Auto DispoType
@@ -504,6 +504,66 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $autodispo = $form->dispoType;
             $autodispo_name = strtoupper($form->dispoName);
             $autodispo_date = date("m/d/Y H:i", strtotime($form->dispoDate));
+        }
+
+        //Symptoms Switch
+        $tempsx = 1;
+
+        if($tempsx == 1) {
+            $set_asymp = "NO";
+            $set_mild = "YES";
+            $set_moderate = "NO";
+            $set_severe = "NO";
+            $set_critical = "NO";
+
+            $set_donset = date('m/d/Y', strtotime('-2 Days'));
+            $set_sxasymptomatic = "NO";
+            $set_fever = "NO";
+            $set_fever_temp = "";
+            $set_cough = "YES";
+            $set_generalweakness = "NO";
+            $set_fatigue = "NO";
+            $set_headache = "NO";
+            $set_myalgia = "NO";
+            $set_sorethroat = "YES";
+            $set_coryza = "NO";
+            $set_dyspnea = "NO";
+            $set_anorexia = "NO";
+            $set_nausea = "NO";
+            $set_vomiting = "NO";
+            $set_diarrhea = "NO";
+            $set_ams = "NO";
+            $set_anosmia = "NO";
+            $set_ageusia = "NO";
+            $set_sxothers = "NO";
+        }
+        else {
+            $set_asymp = ($form->healthStatus == "Asymptomatic") ? 'YES' : 'NO';
+            $set_mild = ($form->healthStatus == "Mild") ? 'YES' : 'NO';
+            $set_moderate = ($form->healthStatus == "Moderate") ? 'YES' : 'NO';
+            $set_severe = ($form->healthStatus == "Severe") ? 'YES' : 'NO';
+            $set_critical = ($form->healthStatus == "Critical") ? 'YES' : 'NO';
+
+            $set_donset = (!is_null($form->dateOnsetOfIllness)) ? date("m/d/Y", strtotime($form->dateOnsetOfIllness)) : 'N/A';
+            $set_sxasymptomatic = (in_array("Fever", $arr_sas) || in_array("Cough", $arr_sas) || in_array("General Weakness", $arr_sas) || in_array("Fatigue", $arr_sas) || in_array("Headache", $arr_sas) || in_array("Myalgia", $arr_sas) || in_array("Sore throat", $arr_sas) || in_array("Coryza", $arr_sas) || in_array("Dyspnea", $arr_sas) || in_array("Anorexia", $arr_sas) || in_array("Nausea", $arr_sas) || in_array("Vomiting", $arr_sas) || in_array("Diarrhea", $arr_sas) || in_array("Altered Mental Status", $arr_sas) || in_array("Anosmia (Loss of Smell)", $arr_sas) || in_array("Ageusia (Loss of Taste)", $arr_sas) || in_array("Others", $arr_sas) || in_array("Colds", $arr_sas)) ? "NO" : "YES";
+            $set_fever = (in_array("Fever", $arr_sas)) ? "YES" : "NO";
+            $set_fever_temp = (in_array("Fever", $arr_sas)) ? $form->SASFeverDeg : "";
+            $set_cough = (in_array("Cough", $arr_sas)) ? "YES" : "NO";
+            $set_generalweakness = (in_array("General Weakness", $arr_sas)) ? "YES" : "NO";
+            $set_fatigue = (in_array("Fatigue", $arr_sas)) ? "YES" : "NO";
+            $set_headache = (in_array("Headache", $arr_sas)) ? "YES" : "NO";
+            $set_myalgia = (in_array("Myalgia", $arr_sas)) ? "YES" : "NO";
+            $set_sorethroat = (in_array("Sore throat", $arr_sas)) ? "YES" : "NO";
+            $set_coryza = (in_array("Coryza", $arr_sas)) ? "YES" : "NO";
+            $set_dyspnea = (in_array("Dyspnea", $arr_sas)) ? "YES" : "NO";
+            $set_anorexia = (in_array("Anorexia", $arr_sas)) ? "YES" : "NO";
+            $set_nausea = (in_array("Nausea", $arr_sas)) ? "YES" : "NO";
+            $set_vomiting = (in_array("Vomiting", $arr_sas)) ? "YES" : "NO";
+            $set_diarrhea = (in_array("Diarrhea", $arr_sas)) ? "YES" : "NO";
+            $set_ams = (in_array("Altered Mental Status", $arr_sas)) ? "YES" : "NO";
+            $set_anosmia = (in_array("Anosmia (Loss of Smell)", $arr_sas)) ? "YES" : "NO";
+            $set_ageusia = (in_array("Ageusia (Loss of Taste)", $arr_sas)) ? "YES" : "NO";
+            $set_sxothers = (in_array("Others", $arr_sas) || in_array("Colds", $arr_sas)) ? "YES" : "NO";
         }
 
         return [
@@ -643,11 +703,11 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($autodispo == 5) ? 'YES' : 'NO',
             ($autodispo == 5) ? $autodispo_name : 'N/A',
 
-            ($form->healthStatus == "Asymptomatic") ? 'YES' : 'NO',
-            ($form->healthStatus == "Mild") ? 'YES' : 'NO',
-            ($form->healthStatus == "Moderate") ? 'YES' : 'NO',
-            ($form->healthStatus == "Severe") ? 'YES' : 'NO',
-            ($form->healthStatus == "Critical") ? 'YES' : 'NO',
+            $set_asymp,
+            $set_mild,
+            $set_moderate,
+            $set_severe,
+            $set_critical,
 
             ($form->caseClassification == "Suspect") ? 'YES' : 'NO',
             ($form->caseClassification == "Probable") ? 'YES' : 'NO',
@@ -668,26 +728,26 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (!is_null($form->records->vaccinationDate2)) ? mb_strtoupper($form->records->vaccinationRegion2) : 'N/A',
             (!is_null($form->records->vaccinationDate2) && $form->records->haveAdverseEvents2 == 1) ? 'YES' : 'NO',
 
-            (!is_null($form->dateOnsetOfIllness)) ? date("m/d/Y", strtotime($form->dateOnsetOfIllness)) : 'N/A',
-            (in_array("Fever", $arr_sas) || in_array("Cough", $arr_sas) || in_array("General Weakness", $arr_sas) || in_array("Fatigue", $arr_sas) || in_array("Headache", $arr_sas) || in_array("Myalgia", $arr_sas) || in_array("Sore throat", $arr_sas) || in_array("Coryza", $arr_sas) || in_array("Dyspnea", $arr_sas) || in_array("Anorexia", $arr_sas) || in_array("Nausea", $arr_sas) || in_array("Vomiting", $arr_sas) || in_array("Diarrhea", $arr_sas) || in_array("Altered Mental Status", $arr_sas) || in_array("Anosmia (Loss of Smell)", $arr_sas) || in_array("Ageusia (Loss of Taste)", $arr_sas) || in_array("Others", $arr_sas) || in_array("Colds", $arr_sas)) ? "NO" : "YES",
-            (in_array("Fever", $arr_sas)) ? "YES" : "NO",
-            (in_array("Fever", $arr_sas)) ? $form->SASFeverDeg : "",
-            (in_array("Cough", $arr_sas)) ? "YES" : "NO",
-            (in_array("General Weakness", $arr_sas)) ? "YES" : "NO",
-            (in_array("Fatigue", $arr_sas)) ? "YES" : "NO",
-            (in_array("Headache", $arr_sas)) ? "YES" : "NO",
-            (in_array("Myalgia", $arr_sas)) ? "YES" : "NO",
-            (in_array("Sore throat", $arr_sas)) ? "YES" : "NO",
-            (in_array("Coryza", $arr_sas)) ? "YES" : "NO",
-            (in_array("Dyspnea", $arr_sas)) ? "YES" : "NO",
-            (in_array("Anorexia", $arr_sas)) ? "YES" : "NO",
-            (in_array("Nausea", $arr_sas)) ? "YES" : "NO",
-            (in_array("Vomiting", $arr_sas)) ? "YES" : "NO",
-            (in_array("Diarrhea", $arr_sas)) ? "YES" : "NO",
-            (in_array("Altered Mental Status", $arr_sas)) ? "YES" : "NO",
-            (in_array("Anosmia (Loss of Smell)", $arr_sas)) ? "YES" : "NO",
-            (in_array("Ageusia (Loss of Taste)", $arr_sas)) ? "YES" : "NO",
-            (in_array("Others", $arr_sas) || in_array("Colds", $arr_sas)) ? "YES" : "NO",
+            $set_donset,
+            $set_sxasymptomatic,
+            $set_fever,
+            $set_fever_temp,
+            $set_cough,
+            $set_generalweakness,
+            $set_fatigue,
+            $set_headache,
+            $set_myalgia,
+            $set_sorethroat,
+            $set_coryza,
+            $set_dyspnea,
+            $set_anorexia,
+            $set_nausea,
+            $set_vomiting,
+            $set_diarrhea,
+            $set_ams,
+            $set_anosmia,
+            $set_ageusia,
+            $set_sxothers,
             $auto_othersx,
 
             (in_array("None", $arr_como)) ? "YES" : "NO",
