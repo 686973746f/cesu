@@ -1386,6 +1386,8 @@
 				$('#worksInClosedSetting').prop('required', false);
 				$('#natureOfWork').prop('required', false);
 				$('#isHCW').prop('required', false);
+
+				$('#natureOfWork').val('');
 			}
 			else {
 				$('#occupation_div').removeClass('d-none');

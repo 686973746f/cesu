@@ -1076,18 +1076,29 @@ class FormsController extends Controller
     {
         $rec = Records::findOrFail($id);
 
+        //Check Invalid Patient Address
         if(mb_strtoupper($rec->address_street) == '1' || mb_strtoupper($rec->address_street) == '0' || mb_strtoupper($rec->address_street) == 'BARANGAY HALL' || mb_strtoupper($rec->address_street) == 'BRGY. HALL' || mb_strtoupper($rec->address_street) == 'BRGY HALL' || mb_strtoupper($rec->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($rec->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->address_street) == 'NA' || mb_strtoupper($rec->address_street) == 'N/A' || mb_strtoupper($rec->address_street) == 'NONE' || mb_strtoupper($rec->address_street) == $rec->address_brgy) {
             return back()
             ->withInput()
             ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid. Please check and edit the Patient Address first and try again.')
-            ->with('msgType', 'danger');
+            ->with('msgType', 'warning');
         }
 
         if(mb_strtoupper($rec->address_houseno) == '1' || mb_strtoupper($rec->address_houseno) == '0' || mb_strtoupper($rec->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($rec->address_houseno) == 'BRGY. HALL' || mb_strtoupper($rec->address_houseno) == 'BRGY HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->address_houseno) == 'NA' || mb_strtoupper($rec->address_houseno) == 'N/A' || mb_strtoupper($rec->address_houseno) == 'NONE' || mb_strtoupper($rec->address_houseno) == $rec->address_brgy) {
             return back()
             ->withInput()
             ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid. Please check and edit the Patient Address first and try again.')
-            ->with('msgType', 'danger');
+            ->with('msgType', 'warning');
+        }
+
+        //Check Occupation
+        if($rec->hasOccupation == 1) {
+            if(is_null($rec->occupation_lotbldg) || is_null($rec->occupation_street) || is_null($rec->occupation_name)) {
+                return back()
+                ->withInput()
+                ->with('msg', 'Submission of CIF was blocked because the Patient has Occupation but the Workplace Details is Invalid/Incomplete. Please check and edit the Patient Occupation details first before submitting.')
+                ->with('msgType', 'warning');
+            }
         }
 
         $checkform = Forms::where('records_id', $rec->id)
@@ -2052,14 +2063,24 @@ class FormsController extends Controller
             return back()
             ->withInput()
             ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid. Please check and edit the Patient Address and try again.')
-            ->with('msgType', 'danger');
+            ->with('msgType', 'warning');
         }
 
         if(mb_strtoupper($rec->records->address_houseno) == '1' || mb_strtoupper($rec->records->address_houseno) == '0' || mb_strtoupper($rec->records->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($rec->records->address_houseno) == 'BRGY. HALL' || mb_strtoupper($rec->records->address_houseno) == 'BRGY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NA' || mb_strtoupper($rec->records->address_houseno) == 'N/A' || mb_strtoupper($rec->records->address_houseno) == 'NONE' || mb_strtoupper($rec->records->address_houseno) == $rec->records->address_brgy) {
             return back()
             ->withInput()
             ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid. Please check and edit the Patient Address and try again.')
-            ->with('msgType', 'danger');
+            ->with('msgType', 'warning');
+        }
+
+        //Check Occupation
+        if($rec->records->hasOccupation == 1) {
+            if(is_null($rec->records->occupation_lotbldg) || is_null($rec->records->occupation_street) || is_null($rec->records->occupation_name)) {
+                return back()
+                ->withInput()
+                ->with('msg', 'Submission of CIF was blocked because the Patient has Occupation but the Workplace Details is Invalid/Incomplete. Please check and edit the Patient Occupation details first before submitting.')
+                ->with('msgType', 'warning');
+            }
         }
 
         if(Records::eligibleToUpdate($rec->records_id)) {

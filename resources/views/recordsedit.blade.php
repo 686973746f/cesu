@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
                                 <select class="form-control" id="gender" name="gender" required>
-                                    <option value="" disabled selected>Choose</option>
+                                    <option value="" disabled {{(is_null('gender', $record->gender)) ? 'selected' : ''}}>Choose...</option>
                                     <option value="MALE" {{(old('gender', $record->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
                                     <option value="FEMALE" {{(old('gender', $record->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
                                 </select>
@@ -138,7 +138,7 @@
                             <div class="form-group">
                                 <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
                                 <select class="form-control" id="cs" name="cs" required>
-                                    <option value="" disabled selected>Choose</option>
+                                    <option value="" disabled {{(is_null('cs', $record->cs)) ? 'selected' : ''}}>Choose...</option>
                                     <option value="SINGLE" {{(old('cs', $record->cs) == 'SINGLE') ? 'selected' : ''}}>Single</option>
                                     <option value="MARRIED" {{(old('cs', $record->cs) == 'MARRIED') ? 'selected'  : ''}}>Married</option>
                                     <option value="WIDOWED" {{(old('cs', $record->cs) == 'WIDOWED') ? 'selected'  : ''}}>Widowed</option>
@@ -1453,6 +1453,8 @@
                     $('#occupation_street').prop('required', false);
                     $('#worksInClosedSetting').prop('required', false);
                     $('#isHCW').prop('required', false);
+
+                    $('#natureOfWork').val('');
                 }
                 else {
                     $('#occupation_div').removeClass('d-none');
