@@ -138,7 +138,7 @@
                             <div class="form-group">
                                 <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
                                 <select class="form-control" id="cs" name="cs" required>
-                                    <option value="" disabled {{(is_null('cs', $record->cs)) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" disabled {{(is_null(old('cs', $record->cs))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="SINGLE" {{(old('cs', $record->cs) == 'SINGLE') ? 'selected' : ''}}>Single</option>
                                     <option value="MARRIED" {{(old('cs', $record->cs) == 'MARRIED') ? 'selected'  : ''}}>Married</option>
                                     <option value="WIDOWED" {{(old('cs', $record->cs) == 'WIDOWED') ? 'selected'  : ''}}>Widowed</option>
