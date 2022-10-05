@@ -142,7 +142,6 @@
                                     <option value="SINGLE" {{(old('cs', $record->cs) == 'SINGLE') ? 'selected' : ''}}>Single</option>
                                     <option value="MARRIED" {{(old('cs', $record->cs) == 'MARRIED') ? 'selected'  : ''}}>Married</option>
                                     <option value="WIDOWED" {{(old('cs', $record->cs) == 'WIDOWED') ? 'selected'  : ''}}>Widowed</option>
-                                    <option value="N/A" {{(old('cs', $record->cs) == 'N/A') ? 'selected' : ''}}>N/A</option>
                                 </select>
                                 @error('cs')
                                     <small class="text-danger">{{$message}}</small>

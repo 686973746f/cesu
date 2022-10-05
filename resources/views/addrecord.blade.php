@@ -106,7 +106,6 @@
 								<option value="SINGLE" {{(old('cs') == 'SINGLE') ? 'selected' : ''}}>Single</option>
 								<option value="MARRIED" {{(old('cs') == 'MARRIED') ? 'selected' : ''}}>Married</option>
 								<option value="WIDOWED" {{(old('cs') == 'WIDOWED') ? 'selected' : ''}}>Widowed</option>
-								<option value="N/A" {{(old('cs') == 'N/A') ? 'selected' : ''}}>N/A</option>
 							</select>
 							@error('cs')
 								<small class="text-danger">{{$message}}</small>
