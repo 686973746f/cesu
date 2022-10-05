@@ -3040,18 +3040,18 @@
                 <div class="card-footer text-right">
                     @if($records->ifOldCIf())
                         @if(auth()->user()->ifTopAdmin())
-                        <button type="submit" class="btn btn-primary" id="formsubmit" onclick="return confirm('Warning: You are updating an OLD CIF of Patient. Please check the details before proceeding. After checking, Click OK to proceed.')"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                        <button type="submit" class="btn btn-primary btn-block" id="formsubmit" onclick="return confirm('Warning: You are updating an OLD CIF of Patient. Please check the details before proceeding. After checking, Click OK to proceed.')"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                         @else
                         <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="OLD CIF of Patient can only be updated by an admin.">
-                            <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                            <button class="btn btn-primary btn-block" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                         </span>
                         @endif
                     @else
                         @if($records->ifEligibleToUpdate())
-                        <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                        <button type="submit" class="btn btn-primary btn-block" id="formsubmit"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                         @else
                         <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cannot Update this CIF of Patient. This CIF was already finished.">
-                            <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                            <button class="btn btn-primary btn-block" style="pointer-events: none;" type="button" disabled><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                         </span>
                         @endif
                     @endif

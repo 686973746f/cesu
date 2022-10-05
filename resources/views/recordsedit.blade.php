@@ -1059,7 +1059,7 @@
                     @endif
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn"><i class="fas fa-edit mr-2"></i>Update (CTRL + S)</button>
                 </div>
             </div>
         </form>

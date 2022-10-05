@@ -2418,7 +2418,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary" id="formsubmit"><i class="fas fa-save mr-2"></i>Save (CTRL + S)</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="formsubmit"><i class="fas fa-save mr-2"></i>Save (CTRL + S)</button>
                 </div>
             </div>
         </form>
