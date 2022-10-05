@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
                                 <select class="form-control" id="gender" name="gender" required>
-                                    <option value="" disabled {{(is_null('gender', $record->gender)) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" disabled {{(is_null(old('gender', $record->gender))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="MALE" {{(old('gender', $record->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
                                     <option value="FEMALE" {{(old('gender', $record->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
                                 </select>
