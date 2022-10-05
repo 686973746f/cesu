@@ -403,6 +403,20 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <p>{{Str::plural('Error', $errors->count())}} detected while updating the CIF of the Patient:</p>
+                        <hr>
+                        @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </div>
+                    @endif
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgType')}}" role="alert">
+                        {{session('msg')}}
+                    </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-4">
                             <button type="button" onclick="event.preventDefault(); document.getElementById('exportcsvform').submit();" class="btn btn-secondary btn-block mb-3"><i class="fas fa-file-csv mr-2"></i>Export to .CSV</button>
@@ -426,27 +440,12 @@
                             @endif
                         </div>
                     </div>
-                    
-                    @if($errors->any())
-                    <div class="alert alert-danger" role="alert">
-                        <p>{{Str::plural('Error', $errors->count())}} detected while updating the CIF of the Patient:</p>
-                        <hr>
-                        @foreach ($errors->all() as $error)
-                            <li>{{$error}}</li>
-                        @endforeach
-                    </div>
-                    @endif
                     <div class="alert alert-info" role="alert">
                         <p>1.) The Case Investigation Form (CIF) is meant to be administered as an interview by a health care worker or any personnel of the DRU. <b>This is not a self-administered questionnaire.</b></p>
                         <p>2.) Please be advised that DRUs are only allowed to obtain <b>1 copy of accomplished CIF</b> from a patient.</p>
                         <p>3.) Please fill out all blanks and put a check mark on the appropriate box. <b>Items with asterisk mark <span class="text-danger">(*)</span> are required fields.</b></p>
                     </div>
                     <hr>
-                    @if(session('msg'))
-                    <div class="alert alert-{{session('msgType')}}" role="alert">
-                        {{session('msg')}}
-                    </div>
-                    @endif
                     <label for=""><span class="text-danger font-weight-bold">*</span>Selected CIF Information to Edit</label>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" value="#{{$records->records->id}} - {{$records->records->lname}}, {{$records->records->fname}} {{$records->records->mname}} | {{$records->records->getAge()}} / {{substr($records->records->gender,0,1)}} | {{date("m/d/Y", strtotime($records->records->bdate))}}" disabled>

@@ -14,12 +14,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-info" role="alert">
-                        <p>1.) The Case Investigation Form (CIF) is meant to be administered as an interview by a health care worker or any personnel of the DRU. <b>This is not a self-administered questionnaire.</b></p>
-                        <p>2.) Please be advised that DRUs are only allowed to obtain <b>1 copy of accomplished CIF</b> from a patient.</p>
-                        <p>3.) Please fill out all blanks and put a check mark on the appropriate box. <b>Items with asterisk mark <span class="text-danger">(*)</span> are required fields.</b></p>
-                    </div>
-                    <hr>
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
                         <p>{{Str::plural('Error', $errors->count())}} detected while creating the CIF of the Patient:</p>
@@ -34,6 +28,12 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    <div class="alert alert-info" role="alert">
+                        <p>1.) The Case Investigation Form (CIF) is meant to be administered as an interview by a health care worker or any personnel of the DRU. <b>This is not a self-administered questionnaire.</b></p>
+                        <p>2.) Please be advised that DRUs are only allowed to obtain <b>1 copy of accomplished CIF</b> from a patient.</p>
+                        <p>3.) Please fill out all blanks and put a check mark on the appropriate box. <b>Items with asterisk mark <span class="text-danger">(*)</span> are required fields.</b></p>
+                    </div>
+                    <hr>
                     <label for=""><span class="text-danger font-weight-bold">*</span>Currently Creating CIF record for</label>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" value="#{{$records->id}} - {{$records->lname}}, {{$records->fname}} {{$records->mname}} | {{$records->getAge().'/'.substr($records->gender, 0, 1)}} | {{date('m/d/Y', strtotime($records->bdate))}}" disabled>
