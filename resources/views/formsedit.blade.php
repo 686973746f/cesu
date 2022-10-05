@@ -4151,6 +4151,7 @@
                         $('#testLaboratory1').prop('required', true);
                     }
                     else {
+                        $('#testDateReleased1').val('');
                         $('#testDateReleased1').prop('required', false);
                         $('#asterisk_date_released1').addClass('d-none');
                         $('#ifDateReleased1').addClass('d-none');
@@ -4301,6 +4302,7 @@
                         $('#testLaboratory2').prop('required', true);
                     }
                     else {
+                        $('#testDateReleased2').val('');
                         $('#testDateReleased2').prop('required', false);
                         $('#ifDateReleased2').addClass('d-none');
 
