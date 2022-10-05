@@ -1387,7 +1387,7 @@
 				$('#natureOfWork').prop('required', false);
 				$('#isHCW').prop('required', false);
 
-				$('#natureOfWork').val('');
+				$('#natureOfWork').val('').change();
 			}
 			else {
 				$('#occupation_div').removeClass('d-none');
