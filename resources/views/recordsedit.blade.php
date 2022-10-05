@@ -1454,7 +1454,7 @@
                     $('#worksInClosedSetting').prop('required', false);
                     $('#isHCW').prop('required', false);
 
-                    $('#natureOfWork').val('');
+                    $('#natureOfWork:selected').removeAttr('selected');
                 }
                 else {
                     $('#occupation_div').removeClass('d-none');
