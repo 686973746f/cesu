@@ -127,9 +127,6 @@ class AyudaEmail extends Command
 
                 return [
                     'DATE REPORTED' => date('m/d/Y', strtotime($form->dateReported)),
-                    'DRU' => $form->drunit,
-                    'REGION OF DRU' => $form->drregion,
-                    'MUNCITY OF DRU' => $form->drprovince,
                     'LAST NAME' => $form->records->lname,
                     'FIRST NAME' => $form->records->fname,
                     'MIDDLE NAME' => (!is_null($form->records->mname)) ? $form->records->mname : "N/A",
@@ -148,6 +145,10 @@ class AyudaEmail extends Command
             });
 
             /*
+            'DRU' => $form->drunit,
+            'REGION OF DRU' => $form->drregion,
+            'MUNCITY OF DRU' => $form->drprovince,
+
             'SEVERITY OF THE CASE (ASYMPTOMATIC, MILD, MODERATE, SEVERE, CRITICAL)' => $form->healthStatus,
             'PREGNANT (Y/N)' => ($form->records->isPregnant == 1) ? 'Y' : 'N',
             'ONSET OF ILLNESS' => (!is_null($form->dateOnsetOfIllness)) ? date('m/d/Y', strtotime($form->dateOnsetOfIllness)) : 'N/A',
