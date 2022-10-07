@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 class SiteSettingsController extends Controller
 {
     public function index() {
-        return view('site_settings');
+        $b = SiteSettings::find(1);
+
+        return view('site_settings', [
+            'b' => $b,
+        ]);
     }
 
     public function update(Request $request) {
@@ -53,7 +57,7 @@ class SiteSettingsController extends Controller
 
         return back()
         ->withInput()
-        ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid. Please check and edit the Patient Address first and try again.')
-        ->with('msgType', 'warning');
+        ->with('msg', 'Saved.')
+        ->with('msgType', 'success');
     }
 }

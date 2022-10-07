@@ -20,25 +20,25 @@
                                 <div class="mb-3">
                                     <label for="system_type" class="form-label">System Type</label>
                                     <select class="form-control" name="system_type" id="system_type" required>
-                                      <option value="regional">Regional</option>
-                                      <option value="provincial">Provincial</option>
-                                      <option value="municipal">Municipal</option>
+                                      <option value="regional" {{($b->system_type == 'regional') ? 'selected' : ''}}>Regional</option>
+                                      <option value="provincial" {{($b->system_type == 'provincial') ? 'selected' : ''}}>Provincial</option>
+                                      <option value="municipal" {{($b->system_type == 'municipal') ? 'selected' : ''}}>Municipal</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                   <label for="default_dru_name" class="form-label">Default DRU Name</label>
-                                  <input type="text" class="form-control" name="default_dru_name" id="default_dru_name" required>
+                                  <input type="text" class="form-control" name="default_dru_name" id="default_dru_name" value="{{$b->default_dru_name}}" required>
                                 </div>
                                 <div id="address_text" class="d-none">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text')}}" readonly>
+                                            <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text', $b->default_dru_region)}}" readonly>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text')}}" readonly>
+                                            <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text', $b->default_dru_province)}}" readonly>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text')}}" readonly>
+                                            <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text', $b->default_dru_citymun)}}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -60,24 +60,24 @@
                                 <hr>
                                 <div class="mb-3">
                                   <label for="listMobiles" class="form-label">List Mobile Number/s <i>(Separated by Commas)</i></label>
-                                  <input type="text" class="form-control" name="listMobiles" id="listMobiles" required>
+                                  <input type="text" class="form-control" name="listMobiles" id="listMobiles" value="{{$b->listMobiles}}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="listTelephone" class="form-label">List Mobile Number/s <i>(Separated by Commas)</i></label>
-                                    <input type="text" class="form-control" name="listTelephone" id="listTelephone" required>
+                                    <label for="listTelephone" class="form-label">List Telephone Number/s <i>(Separated by Commas)</i></label>
+                                    <input type="text" class="form-control" name="listTelephone" id="listTelephone" value="{{$b->listTelephone}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="listEmail" class="form-label">List Email Addresses <i>(Separated by Commas)</i></label>
-                                    <input type="text" class="form-control" name="listEmail" id="listEmail" required>
+                                    <input type="text" class="form-control" name="listEmail" id="listEmail" value="{{$b->listEmail}}" required>
                                 </div>
                                 <hr>
                                 <div class="mb-3">
-                                    <label for="listMobiles" class="form-label">DILG Responder Name</label>
-                                    <input type="text" class="form-control" name="listMobiles" id="listMobiles" required>
+                                    <label for="dilgCustomRespondentName" class="form-label">DILG Responder Name</label>
+                                    <input type="text" class="form-control" name="dilgCustomRespondentName" id="dilgCustomRespondentName" value="{{$b->dilgCustomRespondentName}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="dilgCustomOfficeName" class="form-label">DILG Office Name</label>
-                                    <input type="text" class="form-control" name="dilgCustomOfficeName" id="dilgCustomOfficeName" required>
+                                    <input type="text" class="form-control" name="dilgCustomOfficeName" id="dilgCustomOfficeName" value="{{$b->dilgCustomOfficeName}}" required>
                                 </div>
                             </div>
                         </div>
@@ -88,71 +88,71 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label for="paswab_enabled" class="form-label">Pa-swab Status</label>
-                                    <select class="form-control" name="paswab_enabled" id="paswab_enabled">
-                                        <option value="1">Enabled</option>
-                                        <option value="0">Disabled</option>
+                                    <select class="form-control" name="paswab_enabled" id="paswab_enabled" required>
+                                        <option value="1" {{($b->paswab_enabled == 1) ? 'selected' : ''}}>Enabled</option>
+                                        <option value="0" {{($b->paswab_enabled == 0) ? 'selected' : ''}}>Disabled</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="paswab_antigen_enabled" class="form-label">Pa-swab Antigen Mode</label>
-                                    <select class="form-control" name="paswab_antigen_enabled" id="paswab_antigen_enabled">
-                                        <option value="1">Enabled</option>
-                                        <option value="0">Disabled</option>
+                                    <select class="form-control" name="paswab_antigen_enabled" id="paswab_antigen_enabled" required>
+                                        <option value="1" {{($b->paswab_antigen_enabled == 1) ? 'selected' : ''}}>Enabled</option>
+                                        <option value="0" {{($b->paswab_antigen_enabled == 0) ? 'selected' : ''}}>Disabled</option>
                                     </select>
                                 </div>
                                 <hr>
                                 <div class="mb-3">
                                     <label for="lockencode_enabled" class="form-label">Lock Encode Status <i>(Suspected/Probable)</i></label>
-                                    <select class="form-control" name="lockencode_enabled" id="lockencode_enabled">
-                                        <option value="1">Enabled</option>
-                                        <option value="0">Disabled</option>
+                                    <select class="form-control" name="lockencode_enabled" id="lockencode_enabled" required>
+                                        <option value="1" {{($b->lockencode_enabled == 1) ? 'selected' : ''}}>Enabled</option>
+                                        <option value="0" {{($b->lockencode_enabled == 0) ? 'selected' : ''}}>Disabled</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lockencode_start_time" class="form-label">Lock Encode (Suspected/Probable) Start Time</label>
-                                    <input type="time" class="form-control" name="lockencode_start_time" id="lockencode_start_time">
+                                    <input type="time" class="form-control" name="lockencode_start_time" id="lockencode_start_time" value="{{$b->lockencode_start_time}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lockencode_end_time" class="form-label">Lock Encode (Suspected/Probable) End Time</label>
-                                    <input type="time" class="form-control" name="lockencode_end_time" id="lockencode_end_time">
+                                    <input type="time" class="form-control" name="lockencode_end_time" id="lockencode_end_time" value="{{$b->lockencode_end_time}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lockencode_positive_enabled" class="form-label">Lock Encode Status <i>(CONFIRMED)</i></label>
-                                    <select class="form-control" name="lockencode_positive_enabled" id="lockencode_positive_enabled">
-                                        <option value="1">Enabled</option>
-                                        <option value="0">Disabled</option>
+                                    <select class="form-control" name="lockencode_positive_enabled" id="lockencode_positive_enabled" required>
+                                        <option value="1" {{($b->lockencode_positive_enabled == 1) ? 'selected' : ''}}>Enabled</option>
+                                        <option value="0" {{($b->lockencode_positive_enabled == 1) ? 'selected' : ''}}>Disabled</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lockencode_positive_start_time" class="form-label">Lock Encode (CONFIRMED) Start Time</label>
-                                    <input type="time" class="form-control" name="lockencode_positive_start_time" id="lockencode_positive_start_time">
+                                    <input type="time" class="form-control" name="lockencode_positive_start_time" id="lockencode_positive_start_time" value="{{$b->lockencode_positive_start_time}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lockencode_positive_end_time" class="form-label">Lock Encode (CONFIRMED) End Time</label>
-                                    <input type="time" class="form-control" name="lockencode_positive_end_time" id="lockencode_positive_end_time">
+                                    <input type="time" class="form-control" name="lockencode_positive_end_time" id="lockencode_positive_end_time" value="{{$b->lockencode_positive_end_time}}" required>
                                 </div>
                                 <hr>
                                 <div class="mb-3">
                                     <label for="oniStartTime_am" class="form-label">CIF Autotime Start (AM)</label>
-                                    <input type="time" class="form-control" name="oniStartTime_am" id="oniStartTime_am">
+                                    <input type="time" class="form-control" name="oniStartTime_am" id="oniStartTime_am" value="{{$b->oniStartTime_am}}" required>
                                 </div>
                                 <div class="mb-3">
                                   <label for="oniStartTime_pm" class="form-label">CIF Autotime Start (PM)</label>
-                                  <input type="time" class="form-control" name="oniStartTime_pm" id="oniStartTime_pm">
+                                  <input type="time" class="form-control" name="oniStartTime_pm" id="oniStartTime_pm" value="{{$b->oniStartTime_pm}}" required>
                                 </div>
                                 <hr>
                                 <div class="mb-3">
                                     <label for="paswab_auto_schedule_if_symptomatic" class="form-label">Auto Schedule Pa-swab if Symptomatic</label>
                                     <select class="form-control" name="paswab_auto_schedule_if_symptomatic" id="paswab_auto_schedule_if_symptomatic">
-                                        <option value="1">Enabled</option>
-                                        <option value="0">Disabled</option>
+                                        <option value="1" {{($b->paswab_auto_schedule_if_symptomatic == 1) ? 'selected' : ''}}>Enabled</option>
+                                        <option value="0" {{($b->paswab_auto_schedule_if_symptomatic == 1) ? 'selected' : ''}}>Disabled</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="cifpage_auto_schedule_if_symptomatic" class="form-label">Auto Schedule CIF Encode if Symptomatic</label>
                                     <select class="form-control" name="cifpage_auto_schedule_if_symptomatic" id="cifpage_auto_schedule_if_symptomatic">
-                                        <option value="1">Enabled</option>
-                                        <option value="0">Disabled</option>
+                                        <option value="1" {{($b->cifpage_auto_schedule_if_symptomatic == 1) ? 'selected' : ''}}>Enabled</option>
+                                        <option value="0" {{($b->cifpage_auto_schedule_if_symptomatic == 1) ? 'selected' : ''}}>Disabled</option>
                                     </select>
                                 </div>
                             </div>
@@ -164,27 +164,27 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label for="unvaccinated_days_of_recovery" class="form-label">Days of Recovery - Unvaccinated</label>
-                                    <input type="number" class="form-control" name="unvaccinated_days_of_recovery" id="unvaccinated_days_of_recovery" min="1" max="100" required>
+                                    <input type="number" class="form-control" name="unvaccinated_days_of_recovery" id="unvaccinated_days_of_recovery" min="1" max="100" value="{{$b->unvaccinated_days_of_recovery}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="partialvaccinated_days_of_recovery" class="form-label">Days of Recovery - Partial Vaccinated</label>
-                                    <input type="number" class="form-control" name="partialvaccinated_days_of_recovery" id="partialvaccinated_days_of_recovery" min="1" max="100" required>
+                                    <input type="number" class="form-control" name="partialvaccinated_days_of_recovery" id="partialvaccinated_days_of_recovery" min="1" max="100" value="{{$b->partialvaccinated_days_of_recovery}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="fullyvaccinated_days_of_recovery" class="form-label">Days of Recovery - Fully Vaccinated</label>
-                                    <input type="number" class="form-control" name="fullyvaccinated_days_of_recovery" id="fullyvaccinated_days_of_recovery" min="1" max="100" required>
+                                    <input type="number" class="form-control" name="fullyvaccinated_days_of_recovery" id="fullyvaccinated_days_of_recovery" min="1" max="100" value="{{$b->fullyvaccinated_days_of_recovery}}"required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="booster_days_of_recovery" class="form-label">Days of Recovery - Boostered</label>
-                                    <input type="number" class="form-control" name="booster_days_of_recovery" id="booster_days_of_recovery" min="1" max="100" required>
+                                    <input type="number" class="form-control" name="booster_days_of_recovery" id="booster_days_of_recovery" min="1" max="100" value="{{$b->booster_days_of_recovery}}"required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="in_hospital_days_of_recovery" class="form-label">Days of Recovery - In Hospital</label>
-                                    <input type="number" class="form-control" name="in_hospital_days_of_recovery" id="in_hospital_days_of_recovery" min="1" max="100" required>
+                                    <input type="number" class="form-control" name="in_hospital_days_of_recovery" id="in_hospital_days_of_recovery" min="1" max="100" value="{{$b->in_hospital_days_of_recovery}}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="severe_days_of_recovery" class="form-label">Days of Recovery - Severe</label>
-                                    <input type="number" class="form-control" name="severe_days_of_recovery" id="severe_days_of_recovery" min="1" max="100" required>
+                                    <input type="number" class="form-control" name="severe_days_of_recovery" id="severe_days_of_recovery" min="1" max="100" value="{{$b->severe_days_of_recovery}}"required>
                                 </div>
                             </div>
                         </div>
