@@ -296,7 +296,7 @@
                                     </a>
                                 </td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->testingCat}}</td>
-                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->records->mobile}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{($form->records->mobile == '09190664324') ? 'N/A' : $form->records->mobile}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{substr($form->records->gender,0,1)}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->records->showVaxInfo()}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->records->address_street}}</small></td>
