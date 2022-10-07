@@ -109,6 +109,14 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="lockencode_start_time" class="form-label">Lock Encode (Suspected/Probable) Start Time</label>
+                                    <input type="time" class="form-control" name="lockencode_start_time" id="lockencode_start_time">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="lockencode_end_time" class="form-label">Lock Encode (Suspected/Probable) End Time</label>
+                                    <input type="time" class="form-control" name="lockencode_end_time" id="lockencode_end_time">
+                                </div>
+                                <div class="mb-3">
                                     <label for="lockencode_positive_enabled" class="form-label">Lock Encode Status <i>(CONFIRMED)</i></label>
                                     <select class="form-control" name="lockencode_positive_enabled" id="lockencode_positive_enabled">
                                         <option value="1">Enabled</option>
@@ -184,7 +192,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                
+                <button type="submit" class="btn btn-success btn-block">Save</button>
             </div>
         </div>
     </form>

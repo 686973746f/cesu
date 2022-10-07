@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 
 class SiteSettingsController extends Controller
@@ -42,12 +43,12 @@ class SiteSettingsController extends Controller
             'cifpage_auto_schedule_if_symptomatic' => $request->cifpage_auto_schedule_if_symptomatic,
             'system_type' => $request->system_type,
             'default_dru_name' => $request->default_dru_name,
-            'default_dru_region' => $request->default_dru_region,
-            'default_dru_region_json' => $request->default_dru_region_json,
-            'default_dru_province' => $request->default_dru_province_json,
-            'default_dru_citymun' => $request->default_dru_citymun,
-            'default_dru_citymun_json' => $request->default_dru_citymun_json,
-
+            'default_dru_region' => $request->address_region_text,
+            'default_dru_region_json' => $request->address_region_code,
+            'default_dru_province' => $request->address_province_text,
+            'default_dru_province_json' => $request->address_province_code,
+            'default_dru_citymun' => $request->address_muncity_text,
+            'default_dru_citymun_json' => $request->address_muncity_code,
         ]);
 
         return back()

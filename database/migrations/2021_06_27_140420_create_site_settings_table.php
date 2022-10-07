@@ -27,7 +27,6 @@ class CreateSiteSettingsTable extends Migration
             $table->tinyInteger('lockencode_positive_enabled')->default(0);
             $table->time('lockencode_positive_start_time')->default('16:00');
             $table->time('lockencode_positive_end_time')->default('00:00');
-            $table->time('encodeActiveCasesCutoff')->default('16:00');
             $table->text('listMobiles')->nullable();
             $table->text('listTelephone')->nullable();
             $table->text('listEmail')->nullable();

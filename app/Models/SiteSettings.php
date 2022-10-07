@@ -22,7 +22,6 @@ class SiteSettings extends Model
         'lockencode_positive_enabled',
         'lockencode_positive_start_time',
         'lockencode_positive_end_time',
-        'encodeActiveCasesCutoff',
         'listMobiles',
         'listTelephone',
         'listEmail',
