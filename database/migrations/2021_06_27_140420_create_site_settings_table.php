@@ -31,6 +31,8 @@ class CreateSiteSettingsTable extends Migration
             $table->text('listMobiles')->nullable();
             $table->text('listTelephone')->nullable();
             $table->text('listEmail')->nullable();
+            $table->text('listLinkNames')->nullable();
+            $table->text('listLinkURL')->nullable();
             $table->text('dilgCustomRespondentName')->nullable();
             $table->text('dilgCustomOfficeName')->nullable();
             $table->tinyInteger('unvaccinated_days_of_recovery')->default(10);
