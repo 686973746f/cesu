@@ -289,7 +289,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
-							<input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+							<input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" minlength="4" required>
 							@error('address_street')
 								<small class="text-danger">{{$message}}</small>
 							@enderror
@@ -595,7 +595,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="permaaddress_street"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
-								<input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{old('permaaddress_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+								<input type="text" class="form-control" id="permaaddress_street" name="permaaddress_street" value="{{old('permaaddress_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" minlength="4" style="text-transform: uppercase;">
 								@error('permaaddress_street')
 									<small class="text-danger">{{$message}}</small>
 								@enderror

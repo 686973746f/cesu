@@ -413,7 +413,7 @@
                                     @if(is_null($lock_subd_array))
                                     <div class="form-group">
                                         <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Purok/Sitio/Subdivision</label>
-                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" maxlength="50" required>
+                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" minlength="4" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" maxlength="50" required>
                                         <small class="text-muted">{{__('paswab.street.notice')}}</small>
                                         @error('address_street')
                                             <small class="text-danger">{{$message}}</small>
