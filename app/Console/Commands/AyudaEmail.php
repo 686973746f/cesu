@@ -144,19 +144,22 @@ class AyudaEmail extends Command
                     'HOUSE N. AND STREET OR NEAREST LANDMARK' => $form->records->address_houseno.', '.$form->records->address_street,
                     'CONTACT N.' => ($form->records->mobile != '09190664324') ? $form->records->mobile : 'N/A',
                     'QUARANTINE STATUS (ADMITTED, HOME QUARANTINE, TTMF, CLEARED, DISCHARGED)' => $dispo,
-                    'SEVERITY OF THE CASE (ASYMPTOMATIC, MILD, MODERATE, SEVERE, CRITICAL)' => $form->healthStatus,
-                    'PREGNANT (Y/N)' => ($form->records->isPregnant == 1) ? 'Y' : 'N',
-                    'ONSET OF ILLNESS' => (!is_null($form->dateOnsetOfIllness)) ? date('m/d/Y', strtotime($form->dateOnsetOfIllness)) : 'N/A',
-                    'FEVER (Y/N)' => (in_array('Fever', $arr_sas)) ? 'Y' : 'N',
-                    'COUGH (Y/N)' => (in_array('Cough', $arr_sas)) ? 'Y' : 'N',
-                    'DOB (Y/N)' => (in_array('DOB', $arr_othersas) || in_array('DIFFICULTY IN BREATHING', $arr_othersas) || in_array('NAHIHIRAPANG HUMINGA', $arr_othersas)) ? 'Y' : 'N',
-                    'LOSS OF SMELL (Y/N)' => (in_array('Anosmia (Loss of Smell)', $arr_sas)) ? 'Y' : 'N',
-                    'LOSS OF TASTE (Y/N)' => (in_array('Ageusia (Loss of Taste)', $arr_sas)) ? 'Y' : 'N',
-                    'SORE THROAT (Y/N)' => (in_array('Sore throat', $arr_sas)) ? 'Y' : 'N',
-                    'DIARRHEA (Y/N)' => (in_array('Diarrhea', $arr_sas)) ? 'Y' : 'N',
-                    'OTHER SYMPTOMS' => (!is_null($form->SASOtherRemarks)) ? mb_strtoupper($form->SASOtherRemarks) : 'N/A',
                 ];
             });
+
+            /*
+            'SEVERITY OF THE CASE (ASYMPTOMATIC, MILD, MODERATE, SEVERE, CRITICAL)' => $form->healthStatus,
+            'PREGNANT (Y/N)' => ($form->records->isPregnant == 1) ? 'Y' : 'N',
+            'ONSET OF ILLNESS' => (!is_null($form->dateOnsetOfIllness)) ? date('m/d/Y', strtotime($form->dateOnsetOfIllness)) : 'N/A',
+            'FEVER (Y/N)' => (in_array('Fever', $arr_sas)) ? 'Y' : 'N',
+            'COUGH (Y/N)' => (in_array('Cough', $arr_sas)) ? 'Y' : 'N',
+            'DOB (Y/N)' => (in_array('DOB', $arr_othersas) || in_array('DIFFICULTY IN BREATHING', $arr_othersas) || in_array('NAHIHIRAPANG HUMINGA', $arr_othersas)) ? 'Y' : 'N',
+            'LOSS OF SMELL (Y/N)' => (in_array('Anosmia (Loss of Smell)', $arr_sas)) ? 'Y' : 'N',
+            'LOSS OF TASTE (Y/N)' => (in_array('Ageusia (Loss of Taste)', $arr_sas)) ? 'Y' : 'N',
+            'SORE THROAT (Y/N)' => (in_array('Sore throat', $arr_sas)) ? 'Y' : 'N',
+            'DIARRHEA (Y/N)' => (in_array('Diarrhea', $arr_sas)) ? 'Y' : 'N',
+            'OTHER SYMPTOMS' => (!is_null($form->SASOtherRemarks)) ? mb_strtoupper($form->SASOtherRemarks) : 'N/A',
+            */
 
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me'])->send(new SendAyudaList($count));
         }
