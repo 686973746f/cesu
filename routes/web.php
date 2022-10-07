@@ -286,6 +286,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 
     //Site Settings
     Route::get('/settings/site', [SiteSettingsController::class, 'index'])->name('ss.index');
+    Route::post('/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
 });
 
 //JSON Reports

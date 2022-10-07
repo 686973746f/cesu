@@ -14,6 +14,7 @@ class CreateSiteSettingsTable extends Migration
     public function up()
     {
         Schema::create('site_settings', function (Blueprint $table) {
+            $table->id();
             $table->tinyInteger('paswab_enabled')->default(1);
             $table->tinyInteger('paswab_antigen_enabled')->default(1);
             $table->text('paswab_message_en')->nullable();
@@ -48,6 +49,8 @@ class CreateSiteSettingsTable extends Migration
             $table->text('default_dru_province_json')->nullable();
             $table->text('default_dru_citymun')->nullable();
             $table->text('default_dru_citymun_json')->nullable();
+
+            $table->timestamps();
         });
     }
 
