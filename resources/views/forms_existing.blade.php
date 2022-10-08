@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="card border-warning mb-3">
-            <div class="card-header text-center bg-warning text-danger font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>CIF Already Exists for {{$form->records->getName()}} <small>(Patient ID: #{{$form->records->id}} | CIF ID: #{{$form->id}})</small></div>
+            <div class="card-header text-center bg-warning text-danger font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>CIF Already Exists for <a href="{{route('records.edit', ['record' => $form->records->id])}}">{{$form->records->getName()}}</a> <small>(Patient ID: #{{$form->records->id}} | CIF ID: #{{$form->id}})</small></div>
             <div class="card-body text-center">
                 @if(auth()->user()->isCesuAccount())
                 <form action="{{route('forms.soloprint.cif', ['id' => $form->id])}}" method="POST" class="mb-3">
