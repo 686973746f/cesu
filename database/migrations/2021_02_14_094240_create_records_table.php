@@ -106,6 +106,7 @@ class CreateRecordsTable extends Migration
             $table->text('sharedOnId')->nullable();
 
             $table->tinyInteger('isHCW')->default(0);
+            $table->tinyInteger('isPriority')->default(0);
         });
     }
 
