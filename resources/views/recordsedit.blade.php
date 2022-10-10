@@ -317,7 +317,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_houseno"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno', $record->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" value="{{old('address_houseno', $record->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;" placeholder="ex. S1 B2 L3 PHASE 4 JUAN ST / #0465" required>
                                 @error('address_houseno')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
@@ -326,7 +326,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_street"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
-                                <input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street', $record->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" minlength="4" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="address_street" name="address_street" value="{{old('address_street', $record->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" minlength="4" style="text-transform: uppercase;" placeholder="ex. CAMELLA HOMES / PUROK 1 / SITIO LUNA" required>
                                 @error('address_street')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
