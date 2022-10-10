@@ -1080,14 +1080,14 @@ class FormsController extends Controller
         if(mb_strtoupper($rec->address_street) == '1' || mb_strtoupper($rec->address_street) == '0' || mb_strtoupper($rec->address_street) == 'BARANGAY HALL' || mb_strtoupper($rec->address_street) == 'BRGY. HALL' || mb_strtoupper($rec->address_street) == 'BRGY HALL' || mb_strtoupper($rec->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($rec->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->address_street) == 'NA' || mb_strtoupper($rec->address_street) == 'N/A' || mb_strtoupper($rec->address_street) == 'NONE' || mb_strtoupper($rec->address_street) == 'GTC' || mb_strtoupper($rec->address_street) == $rec->address_brgy) {
             return back()
             ->withInput()
-            ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid (Street: '.$rec->address_street.'). Please check and edit the Patient Address first and submit again.')
+            ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid (Street: '.$rec->address_street.'). Please check and edit the Patient Address first and try submitting again.')
             ->with('msgType', 'warning');
         }
 
         if(mb_strtoupper($rec->address_houseno) == '1' || mb_strtoupper($rec->address_houseno) == '0' || mb_strtoupper($rec->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($rec->address_houseno) == 'BRGY. HALL' || mb_strtoupper($rec->address_houseno) == 'BRGY HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->address_houseno) == 'NA' || mb_strtoupper($rec->address_houseno) == 'N/A' || mb_strtoupper($rec->address_houseno) == 'NONE' || mb_strtoupper($rec->address_houseno) == 'GTC' || mb_strtoupper($rec->address_houseno) == $rec->address_brgy) {
             return back()
             ->withInput()
-            ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid. (House No: '.$rec->address_houseno.'). Please check and edit the Patient Address first and submit again.')
+            ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid. (House No: '.$rec->address_houseno.'). Please check and edit the Patient Address first and try submitting again.')
             ->with('msgType', 'warning');
         }
 
@@ -2062,14 +2062,14 @@ class FormsController extends Controller
         if(mb_strtoupper($rec->records->address_street) == '1' || mb_strtoupper($rec->records->address_street) == '0' || mb_strtoupper($rec->records->address_street) == 'BARANGAY HALL' || mb_strtoupper($rec->records->address_street) == 'BRGY. HALL' || mb_strtoupper($rec->records->address_street) == 'BRGY HALL' || mb_strtoupper($rec->records->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($rec->records->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->records->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->records->address_street) == 'NA' || mb_strtoupper($rec->records->address_street) == 'N/A' || mb_strtoupper($rec->records->address_street) == 'NONE' || mb_strtoupper($rec->records->address_street) == 'GTC' || mb_strtoupper($rec->records->address_street) == $rec->records->address_brgy) {
             return back()
             ->withInput()
-            ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid (Street: '.$rec->records->address_street.'). Please check and edit the Patient Address and try again.')
+            ->with('msg', 'Encoding Error: The Address Street of the Patient is Invalid (Street: '.$rec->records->address_street.'). Please check and edit the Patient Address and try submitting again.')
             ->with('msgType', 'warning');
         }
 
         if(mb_strtoupper($rec->records->address_houseno) == '1' || mb_strtoupper($rec->records->address_houseno) == '0' || mb_strtoupper($rec->records->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($rec->records->address_houseno) == 'BRGY. HALL' || mb_strtoupper($rec->records->address_houseno) == 'BRGY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($rec->records->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($rec->records->address_houseno) == 'NA' || mb_strtoupper($rec->records->address_houseno) == 'N/A' || mb_strtoupper($rec->records->address_houseno) == 'NONE' || mb_strtoupper($rec->records->address_houseno) == 'GTC' || mb_strtoupper($rec->records->address_houseno) == $rec->records->address_brgy) {
             return back()
             ->withInput()
-            ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid (House No: '.$rec->records->address_houseno.'). Please check and edit the Patient Address and try again.')
+            ->with('msg', 'Encoding Error: The Address House No. of the Patient is Invalid (House No: '.$rec->records->address_houseno.'). Please check and edit the Patient Address and try submitting again.')
             ->with('msgType', 'warning');
         }
 
