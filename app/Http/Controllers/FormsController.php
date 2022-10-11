@@ -1409,6 +1409,8 @@ class FormsController extends Controller
             if(!in_array('J1.11', $testCat) && $rec->natureOfWork == 'MASS MEDIA') {
                 array_push($testCat, "J1.11");
             }
+
+            $testCat = implode(',', $testCat);
     
             //Auto Change Case Classification based on symptoms
             if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
@@ -2515,6 +2517,8 @@ class FormsController extends Controller
                 if(!in_array('J1.11', $testCat) && $rec->records->natureOfWork == 'MASS MEDIA') {
                     array_push($testCat, "J1.11");
                 }
+
+                $testCat = implode(',', $testCat);
         
                 //Auto Change Case Classification based on symptoms
                 if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
