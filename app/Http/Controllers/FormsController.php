@@ -1288,11 +1288,16 @@ class FormsController extends Controller
                 }
             }
     
+            
             //Auto Change Classification kung Recovered or Patay na ang pasyente
             if($request->outcomeCondition == 'Recovered' || $request->outcomeCondition == 'Died') {
                 $caseClassi = 'Confirmed';
             }
-            
+
+            /*
+
+            NEW SUBGROUP PERO DI DAW MUNA GAGAMITIN
+
             $testCat = $request->testingCat;
 
             if($rec->getAgeInt() >= 60) {
@@ -1322,9 +1327,9 @@ class FormsController extends Controller
             else {
                 $testCat = $request->testingCat;
             }
+            */
 
-            /*
-            //Auto Change Testing Category/Subgroup Base on the patient data
+            //OLD SUBGROUP - Auto Change Testing Category/Subgroup Base on the patient data
             $testCat = $request->testingCat;
             if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
                 array_push($testCat, "A");
@@ -1404,7 +1409,6 @@ class FormsController extends Controller
             if(!in_array('J1.11', $testCat) && $rec->natureOfWork == 'MASS MEDIA') {
                 array_push($testCat, "J1.11");
             }
-            */
     
             //Auto Change Case Classification based on symptoms
             if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
@@ -2400,6 +2404,9 @@ class FormsController extends Controller
                     $request->morbidityMonth = date('Y-m-d');
                 }
                 
+                /*
+                NEW SUBGROUP WAG DAW MUNA GAMITIN
+
                 $testCat = $request->testingCat;
 
                 if($rec->records->getAgeInt() >= 60) {
@@ -2429,8 +2436,8 @@ class FormsController extends Controller
                 else {
                     $testCat = $request->testingCat;
                 }
+                */
 
-                /*
                 //Auto Change Testing Category/Subgroup Base on the patient data
                 $testCat = $request->testingCat;
                 if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
@@ -2508,7 +2515,6 @@ class FormsController extends Controller
                 if(!in_array('J1.11', $testCat) && $rec->records->natureOfWork == 'MASS MEDIA') {
                     array_push($testCat, "J1.11");
                 }
-                */
         
                 //Auto Change Case Classification based on symptoms
                 if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {

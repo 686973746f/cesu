@@ -317,6 +317,7 @@ class PaSwabController extends Controller
                     }
                     */
 
+                    /*
                     $testCat = '';
                     $custom_dispo = NULL;
 
@@ -336,7 +337,7 @@ class PaSwabController extends Controller
                     }
                     else if($data->isPregnant == 1) {
                         $testCat = 'A3';
-                        $custom_dispo = 'FOR DELIVERY';
+                        //$custom_dispo = 'FOR DELIVERY';
                     }
                     else if(in_array('Dialysis', $comcheck)) {
                         $testCat = 'A3';
@@ -357,9 +358,10 @@ class PaSwabController extends Controller
                     else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         $testCat = 'A1';
                     }
+                    */
                     
-                    /*
                     $testCat = [];
+                    $custom_dispo = NULL;
                     if(!is_null($data->SAS)) {
                         if($data->getAgeInt() >= 60) {
                             array_push($testCat, "B");
@@ -379,15 +381,18 @@ class PaSwabController extends Controller
                     }
                     else if(in_array('Dialysis', $comcheck)) {
                         array_push($testCat, "F.2");
+                        $custom_dispo = 'DIALYSIS PATIENT';
                     }
                     else if(in_array('Cancer', $comcheck)) {
                         array_push($testCat, "F.4");
+                        $custom_dispo = 'CANCER PATIENT';
                     }
                     else if(in_array('Operation', $comcheck)) {
                         array_push($testCat, "F.5");
                     }
                     else if(in_array('Transplant', $comcheck)) {
                         array_push($testCat, "F.6");
+                        $custom_dispo = 'FOR TRANSPLANT';
                     }
                     else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         array_push($testCat, "D.2");
@@ -428,7 +433,6 @@ class PaSwabController extends Controller
                     else {
                         array_push($testCat, "G");
                     }
-                    */
 
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
@@ -858,6 +862,7 @@ class PaSwabController extends Controller
                     }
                     */
 
+                    /*
                     $testCat = '';
                     $custom_dispo = NULL;
 
@@ -898,9 +903,10 @@ class PaSwabController extends Controller
                     else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         $testCat = 'A1';
                     }
+                    */
 
-                    /*
                     $testCat = [];
+                    $custom_dispo = NULL;
                     if(!is_null($data->SAS)) {
                         if($data->getAgeInt() >= 60) {
                             array_push($testCat, "B");
@@ -920,15 +926,18 @@ class PaSwabController extends Controller
                     }
                     else if(in_array('Dialysis', $comcheck)) {
                         array_push($testCat, "F.2");
+                        $custom_dispo = 'DIALYSIS PATIENT';
                     }
                     else if(in_array('Cancer', $comcheck)) {
                         array_push($testCat, "F.4");
+                        $custom_dispo = 'CANCER PATIENT';
                     }
                     else if(in_array('Operation', $comcheck)) {
                         array_push($testCat, "F.5");
                     }
                     else if(in_array('Transplant', $comcheck)) {
                         array_push($testCat, "F.6");
+                        $custom_dispo = 'FOR TRANSPLANT';
                     }
                     else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         array_push($testCat, "D.2");
@@ -969,7 +978,6 @@ class PaSwabController extends Controller
                     else {
                         array_push($testCat, "G");
                     }
-                    */
 
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
@@ -1832,6 +1840,7 @@ class PaSwabController extends Controller
             }
             */
 
+            /*
             $testCat = '';
             $custom_dispo = NULL;
 
@@ -1872,9 +1881,10 @@ class PaSwabController extends Controller
             else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 $testCat = 'A1';
             }
+            */
 
-            /*
             $testCat = [];
+            $custom_dispo = NULL;
             if(!is_null($data->SAS)) {
                 if($data->getAgeInt() >= 60) {
                     array_push($testCat, "B");
@@ -1894,15 +1904,18 @@ class PaSwabController extends Controller
             }
             else if(in_array('Dialysis', $comcheck)) {
                 array_push($testCat, "F.2");
+                $custom_dispo = 'DIALYSIS PATIENT';
             }
             else if(in_array('Cancer', $comcheck)) {
                 array_push($testCat, "F.4");
+                $custom_dispo = 'CANCER PATIENT';
             }
             else if(in_array('Operation', $comcheck)) {
                 array_push($testCat, "F.5");
             }
             else if(in_array('Transplant', $comcheck)) {
                 array_push($testCat, "F.6");
+                $custom_dispo = 'FOR TRANSPLANT';
             }
             else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 array_push($testCat, "D.2");
@@ -1924,7 +1937,7 @@ class PaSwabController extends Controller
             else if($data->natureOfWork == 'CONSTRUCTION' || $data->natureOfWork == 'ELECTRICITY') {
                 if(!in_array('J1.8', $testCat)) {
                     array_push($testCat, "J1.8");
-                }  
+                }
             }
             else if($data->natureOfWork == 'HOTEL AND RESTAURANT' || $data->natureOfWork == 'WHOLESALE AND RETAIL TRADE') {
                 if(!in_array('J1.2', $testCat)) {
@@ -1943,7 +1956,6 @@ class PaSwabController extends Controller
             else {
                 array_push($testCat, "G");
             }
-            */
 
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {
@@ -2399,6 +2411,7 @@ class PaSwabController extends Controller
             }
             */
 
+            /*
             $testCat = '';
             $custom_dispo = NULL;
 
@@ -2439,9 +2452,10 @@ class PaSwabController extends Controller
             else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 $testCat = 'A1';
             }
+            */
 
-            /*
             $testCat = [];
+            $custom_dispo = NULL;
             if(!is_null($data->SAS)) {
                 if($data->getAgeInt() >= 60) {
                     array_push($testCat, "B");
@@ -2510,7 +2524,6 @@ class PaSwabController extends Controller
             else {
                 array_push($testCat, "G");
             }
-            */
 
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {

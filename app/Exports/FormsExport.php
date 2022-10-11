@@ -471,13 +471,17 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                 $set_expoitem1_date = "N/A";
             }
         }
+
+        $display_testcat = $form->testingCat;
         
+        /*
         if($form->testingCat == 'A1' || $form->testingCat == 'A2' || $form->testingCat == 'A3') {
             $display_testcat = $form->testingCat;
         }
         else {
             $display_testcat = 'ALL (Except A1, A2, A3) with Symptoms of COVID-19';
         }
+        */
 
         //Auto DispoType
         $autodispo_name = NULL;

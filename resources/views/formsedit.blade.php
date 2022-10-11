@@ -739,14 +739,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="testingCat"><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup <i>(Select all that apply)</i></label>
-                      <select class="form-control" name="testingCat" id="testingCat" required>
+                      <label for="testingCat"><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup</label>
+                      <select class="form-control" name="testingCat" id="testingCat" multiple required>
+                        <!--
                         <option value="A1" {{(old('testingCat', $records->testingCat) == 'A1') ? 'selected' : ''}}>A1 - Frontline Workers in Health Facilities</option>
                         <option value="A2" {{(old('testingCat', $records->testingCat) == 'A2') ? 'selected' : ''}}>A2 - Senior Citizens/Persons Aged 60 and above</option>
                         <option value="A3" {{(old('testingCat', $records->testingCat) == 'A3') ? 'selected' : ''}}>A3 - Hospitalization/Pregnant/Operation/Comorbidities</option>
                         <option value="ALL" {{(old('testingCat', $records->testingCat) == 'ALL') ? 'selected' : ''}}>ALL (Except A1, A2 and A3) with Symptoms of COVID-19</option>
-                        <!--
-                            <option value="A" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('A')) ? 'selected' : ''}}>A. With Severe/Critical Symptoms</option>
+                        -->
+                        <option value="A" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('A')) ? 'selected' : ''}}>A. With Severe/Critical Symptoms</option>
                         <option value="B" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('B')) ? 'selected' : ''}}>B. With Mild Symptoms (Senior Citizens / Patients w. Comorbidity)</option>
                         <option value="C" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('C')) ? 'selected' : ''}}>C. With Mild Symptoms Only</option>
                         <optgroup label="Category D - No Symptoms but with Relevant History of Travel or Contact">
@@ -803,8 +804,6 @@
                             <option value="J1.11" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('J1.11')) ? 'selected' : ''}}>J1.11 Mass Media</option>
                             <option value="J.2" {{(collect(old('testingCat', explode(',', $records->testingCat)))->contains('J.2')) ? 'selected' : ''}}>J.2 Other Employee not Covered in J.1 Category but required to undergo testing every quarter</option>
                         </optgroup>
-                        <option></option>
-                        -->
                       </select>
                       <small class="text-muted">Refer to Appendix 2 for more details (Button in top-right corner of this page)</small>
                     </div>
