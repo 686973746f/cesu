@@ -740,7 +740,7 @@
                     </div>
                     <div class="form-group">
                       <label for="testingCat"><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup</label>
-                      <select class="form-control" name="testingCat" id="testingCat" multiple required>
+                      <select class="form-control" name="testingCat[]" id="testingCat" multiple required>
                         <!--
                         <option value="A1" {{(old('testingCat', $records->testingCat) == 'A1') ? 'selected' : ''}}>A1 - Frontline Workers in Health Facilities</option>
                         <option value="A2" {{(old('testingCat', $records->testingCat) == 'A2') ? 'selected' : ''}}>A2 - Senior Citizens/Persons Aged 60 and above</option>
