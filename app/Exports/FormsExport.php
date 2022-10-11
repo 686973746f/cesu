@@ -491,6 +491,8 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         $autodispo_name = NULL;
         $autodispo_date = NULL;
 
+        /*
+        NEW DISPO
         if($displayFirstTestType == 'OPS' || $displayFirstTestType == 'NPS' || $displayFirstTestType == 'OPS AND NPS') {
             if($form->records->isPregnant == 1) {
                 if($form->dispoType != 5) {
@@ -513,6 +515,12 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $autodispo_name = strtoupper($form->dispoName);
             $autodispo_date = date("m/d/Y H:i", strtotime($form->dispoDate));
         }
+        */
+
+        //OLD DISPO
+        $autodispo = $form->dispoType;
+        $autodispo_name = strtoupper($form->dispoName);
+        $autodispo_date = date("m/d/Y H:i", strtotime($form->dispoDate));
 
         //Symptoms Switch
         $tempsx = 1;
