@@ -471,10 +471,14 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                 $set_expoitem1_date = "N/A";
             }
         }
-
-        $display_testcat = $form->testingCat;
+        
+        //OLD SUBGROUPING
+        $display_testcat = $first_testingcat;
         
         /*
+
+        NEW SUBGROUPING 
+
         if($form->testingCat == 'A1' || $form->testingCat == 'A2' || $form->testingCat == 'A3') {
             $display_testcat = $form->testingCat;
         }
