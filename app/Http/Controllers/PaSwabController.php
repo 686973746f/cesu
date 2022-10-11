@@ -979,6 +979,8 @@ class PaSwabController extends Controller
                         array_push($testCat, "G");
                     }
 
+                    $testCat = implode(',', $testCat);
+
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
                         if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
@@ -1957,6 +1959,8 @@ class PaSwabController extends Controller
                 array_push($testCat, "G");
             }
 
+            $testCat = implode(',', $testCat);
+
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {
                 if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
@@ -2524,6 +2528,8 @@ class PaSwabController extends Controller
             else {
                 array_push($testCat, "G");
             }
+
+            $testCat = implode(',', $testCat);
 
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {
