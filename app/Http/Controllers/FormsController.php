@@ -422,6 +422,32 @@ class FormsController extends Controller
         return response()->json($list);
     }
 
+    public function recordajaxlist($current_record_id, Request $request) {
+        $list = [];
+
+        if($request->has('q') && strlen($request->input('q')) > 1) {
+            $search = mb_strtoupper($request->q);
+
+            $data = Records::where(function ($query) use ($search, $current_record_id) {
+                $query->where('id','!=', $current_record_id)
+                ->where(function ($r) use ($search) {
+                    $r->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere('id', $search);
+                });
+            })->get();
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->id,
+                    'text' => '#'.$item->id.' - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                ]);
+            }
+        }
+        
+        return response()->json($list);
+    }
+
     public function ajaxcclist(Request $request) {
         $list = [];
         $self_id = request()->input('self_id');
@@ -3262,5 +3288,22 @@ class FormsController extends Controller
         ->with('status', "Quarantine Status of CIF for ".$d->records->getName()." (#".$d->records->id.") has been updated successfully.")
         ->with('statustype', 'success')
         ->with('add_note', (isset($add_note)) ? $add_note : NULL);
+    }
+
+    public function transfercif($id, Request $request) {
+        $transfer_to = $request->newList;
+
+        $d = Forms::findOrFail($id);
+
+        $d->records_id = $transfer_to;
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return back()
+        ->withInput()
+        ->with('msg', 'CIF Transfer to Other Patient Successful.')
+        ->with('msgType', 'success');
     }
 }

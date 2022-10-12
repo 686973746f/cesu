@@ -390,6 +390,59 @@
             </div>
         </form>
         @endif
+        @if(auth()->user()->ifTopAdmin())
+        <div class="text-right mb-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#transferModal">Transfer CIF to Other Patient</button>
+        </div>
+        
+        <form action="{{route('forms.transfercif', ['id' => $records->id])}}" method="POST">
+            @csrf
+            <div class="modal fade" id="transferModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Transfer CIF to other Patient</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="newList">Transfer CIF to Patient</label>
+                            <select class="form-control" name="newList" id="newList"></select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Proceed</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            $('#newList').select2({
+            theme: "bootstrap",
+            placeholder: 'Search by Name / Patient ID ...',
+            ajax: {
+                url: "{{route('forms.ajaxRecordList', ['current_record_id' => $records->records->id])}}",
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results:  $.map(data, function (item) {
+                            return {
+                                text: item.text,
+                                id: item.id,
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+        </script>
+        @endif
         <form action="/forms/{{$records->id}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
             @csrf
             @method('PUT')
