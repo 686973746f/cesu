@@ -1662,9 +1662,9 @@ class JsonReportController extends Controller
 
             $arr->push([
                 'title' => 'MW'.$tstr,
-                'y2022' => $d1['mw'.$i] ?? null,
-                'y2021' => $d2['mw'.$i] ?? null,
-                'y2020' => $d3['mw'.$i] ?? null,
+                'y'.date('Y') => $d1['mw'.$i] ?? null,
+                'y'.date('Y', strtotime('-1 Year')) => $d2['mw'.$i] ?? null,
+                'y'.date('Y', strtotime('-2 Years')) => $d3['mw'.$i] ?? null,
             ]);
         }
 
