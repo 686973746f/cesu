@@ -363,7 +363,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                   <label for="reschedDate">Specify date where CIF will be re-scheduled</label>
-                                  <input type="date" class="form-control" name="reschedDate" id="reschedDate">
+                                  <input type="date" class="form-control" name="reschedDate" id="reschedDate" min="{{date('Y-m-d')}}" max="{{(date('m') == 12) ? date('Y-m-d', strtotime('+1 Year')) : date('Y-12-31')}}">
                                 </div>
                                 <div class="form-check">
                                   <label class="form-check-label">
