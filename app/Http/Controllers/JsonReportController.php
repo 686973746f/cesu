@@ -1650,6 +1650,8 @@ class JsonReportController extends Controller
         $d2 = MorbidityWeek::where('year', '2021')->first();
         $d3 = MorbidityWeek::where('year', '2020')->first();
 
+        $max = 53;
+
         for ($i=1;$i<=$max;$i++) {
             if($i <= 9) {
                 $tstr = '0'.$i;
