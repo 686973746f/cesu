@@ -392,7 +392,7 @@
         @endif
         @if(auth()->user()->ifTopAdmin())
         <div class="text-right mb-3">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#transferModal">Transfer CIF to Other Patient</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#transferModal"><i class="far fa-sort-alt mr-2"></i>Transfer CIF to Other Patient</button>
         </div>
         
         <form action="{{route('forms.transfercif', ['id' => $records->id])}}" method="POST">
