@@ -158,93 +158,53 @@ class Records extends Model
         $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
         $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
 
+        $check = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        });
+
         if(!is_null($mname)) {
             $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
-            
-            $check = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-            ->where(function($q) use ($fname) {
-                $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-            })
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)
-            ->first();
 
-            if($check) {
-                /*
-                $checkwbdate = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }
-                */
-                
-                return $check;
-            }
-            else {
-                $check1 = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-                ->where(function($q) use ($fname) {
-                    $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-                })
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
-            }
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)->first();
         }
         else {
-            $check = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+            $check = $check->whereNull('mname')->first();
+        }
+
+        if($check) {
+            /*
+            $checkwbdate = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
+            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
+            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
+            ->whereDate('bdate', $bdate)
+            ->first();
+
+            if($checkwbdate) {
+                return $checkwbdate;
+            }
+            else {
+                return $check;
+            }
+            */
+            
+            return $check;
+        }
+        else {
+            $check1 = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
             ->where(function($q) use ($fname) {
                 $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
                 ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
             })
-            ->whereNull('mname')
+            ->whereDate('bdate', $bdate)
             ->first();
-            
-            if($check) {
-                $checkwbdate = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-                ->where(function($q) use ($fname) {
-                    $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-                })
-                ->whereNull('mname')
-                ->whereDate('bdate', $bdate)
-                ->first();
 
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }
+            if($check1) {
+                return $check1;
             }
             else {
-                $check1 = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-                ->where(function($q) use ($fname) {
-                    $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-                })
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
+                return NULL;
             }
         }
     }
@@ -252,99 +212,56 @@ class Records extends Model
     public static function detectChangeName($lname, $fname, $mname, $bdate, $id) {
         $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
         $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
-        
+
+        $check = Records::where('id', '!=', $id)
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        });
+
         if(!is_null($mname)) {
             $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
 
-            $check = Records::where('id', '!=', $id)
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-            ->where(function($q) use ($fname) {
-                $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-            })
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)
-            ->first();
-
-            if($check) {
-                /*
-                $checkwbdate = Records::where('id', '!=', $id)
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }
-                */
-                return $check;
-            }
-            else {
-                $check1 = Records::where('id', '!=', $id)
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-                ->where(function($q) use ($fname) {
-                    $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-                })
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
-            }
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)->first();
         }
         else {
-            $check = Records::where('id', '!=', $id)
+            $check = $check->whereNull('mname')->first();
+        }
+
+        if($check) {
+            /*
+            $checkwbdate = Records::where('id', '!=', $id)
+            ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
+            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
+            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
+            ->whereDate('bdate', $bdate)
+            ->first();
+
+            if($checkwbdate) {
+                return $checkwbdate;
+            }
+            else {
+                return $check;
+            }
+            */
+            return $check;
+        }
+        else {
+            $check1 = Records::where('id', '!=', $id)
             ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
             ->where(function($q) use ($fname) {
                 $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
                 ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
             })
-            ->whereNull('mname')
+            ->whereDate('bdate', $bdate)
             ->first();
-            
-            if($check) {
-                $checkwbdate = Records::where('id', '!=', $id)
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-                ->where(function($q) use ($fname) {
-                    $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-                })
-                ->whereNull('mname')
-                ->whereDate('bdate', $bdate)
-                ->first();
 
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }
+            if($check1) {
+                return $check1;
             }
             else {
-                $check1 = Records::where('id', '!=', $id)
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-                ->where(function($q) use ($fname) {
-                    $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-                })
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
+                return NULL;
             }
         }
     }

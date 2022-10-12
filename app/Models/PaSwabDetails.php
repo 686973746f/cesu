@@ -170,78 +170,60 @@ class PaSwabDetails extends Model
     }
 
     public static function ifDuplicateFound($lname, $fname, $mname, $bdate) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+
+        $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function ($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->where('status', 'pending');
+
         if(!is_null($mname)) {
-            $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-            ->where('status', 'pending')
-            ->first();
-
-            if($check) {
-                $checkwbdate = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-                ->whereDate('bdate', $bdate)
-                ->where('status', 'pending')
-                ->first();
-
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }  
-            }
-            else {
-                $check1 = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->whereDate('bdate', $bdate)
-                ->where('status', 'pending')
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
-            }
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)->first();
         }
         else {
-            $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->whereNull('mname')
+            $check = $check->whereNull('mname')->first();
+        }
+
+        if($check) {
+            /*
+            $checkwbdate = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+            ->where(function ($q) use ($fname) {
+                $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+                ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+            })
+            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)
+            ->whereDate('bdate', $bdate)
             ->where('status', 'pending')
             ->first();
 
-            if($check) {
-                $checkwbdate = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->whereNull('mname')
-                ->whereDate('bdate', $bdate)
-                ->where('status', 'pending')
-                ->first();
-
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }
+            if($checkwbdate) {
+                return $checkwbdate;
             }
             else {
-                $check1 = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->whereDate('bdate', $bdate)
-                ->where('status', 'pending')
-                ->first();
+                return $check;
+            }  
+            */
 
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
+            return $check;
+        }
+        else {
+            $check1 = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+            ->where(function ($q) use ($fname) {
+                $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+                ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+            })
+            ->whereDate('bdate', $bdate)
+            ->where('status', 'pending')
+            ->first();
+
+            if($check1) {
+                return $check1;
+            }
+            else {
+                return NULL;
             }
         }
     }
