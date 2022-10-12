@@ -81,7 +81,7 @@
                                         <select class="form-control" name="forAntigen" id="forAntigen" required>
                                             <option value="" disabled {{is_null(old('forAntigen')) ? 'selected' : ''}}>{{__('paswab.select.Choose')}}</option>
                                             <option value="1" {{(old('forAntigen') == '1') ? 'selected' : ''}}>{{__('paswab.forAntigen_yes')}}</option>
-                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}}>{{__('paswab.forAntigen_no')}}</option>
+                                            <option value="0" {{(old('forAntigen') == '0') ? 'selected' : ''}} id="forAntigen_no">{{__('paswab.forAntigen_no')}}</option>
                                         </select>
                                         <small class="text-muted">{{__('paswab.forAntigenNotice')}}</small>
                                         <!--<small class="text-danger">Selecting "YES" for antigen is temporarily disabled. All Patients are suggested to take RT-PCR Test.</small>-->
@@ -175,7 +175,6 @@
                                             <option value="SINGLE" @if(old('cs') == 'SINGLE') {{'selected'}} @endif>{{__('paswab.single')}}</option>
                                             <option value="MARRIED" @if(old('cs') == 'MARRIED') {{'selected'}} @endif>{{__('paswab.married')}}</option>
                                             <option value="WIDOWED" @if(old('cs') == 'WIDOWED') {{'selected'}} @endif>{{__('paswab.widowed')}}</option>
-                                            <option value="N/A" @if(old('cs') == 'N/A') {{'selected'}} @endif>{{__('paswab.na')}}</option>
                                         </select>
                                         @error('cs')
                                             <small class="text-danger">{{$message}}</small>
@@ -1446,10 +1445,10 @@
                 <div class="modal-body">
                     <p>Ang mga maaari lamang mag-request ng schedule ay ang mga Pasyenteng</p>
                     <ul>
-                        <li>May Sintomas</li>
+                        <li>May Sintomas ng COVID-19 <i>(Ubo, sipon, makating lalamunan, nahihirapan huminga, walang pang-amoy/pang-lasa, atbp.)</i></li>
                         <li>Close Contact <i>(May nakasalamuhang nag-positibo sa COVID-19)</i></li>
                         <li>Buntis</li>
-                        <li>Gagamitin sa Ospital (Operasyon, Dialysis, Chemotherapy, etc.)</li>
+                        <li>Gagamitin sa Ospital <i>(Operasyon, Dialysis, Chemotherapy, etc.)</i></li>
                     </ul>
                     <hr>
                     <p>Para sa mga magpapa-request ng RT-PCR Swab Test, narito ang mga requirements:</p>
@@ -1461,36 +1460,32 @@
                     <ul>
                         <li>Photopopy ng MDR ng iyong Magulang na naka-deklara ang iyong pangalan sa list of dependents</li>
                         <li>Photocopy ng Valid ID ng iyong Magulang <i>(bilang proof of relationship)</i></li>
-                        <li>Photocopy ng iyong Birth Certificate</li>
+                        <li>Photocopy ng iyong Birth Certificate o Baptismal Certificate</li>
                     </ul>
                     <p><b>Kung ikaw ay kasal na at ang asawa mo ang Philhealth Member</b></p>
                     <ul>
+                        <li>Photocopy ng Valid ID ng iyong Asawa</li>
+                        <li>Photocopy ng iyong Valid ID o Birth/Baptismal Certificate</li>
                         <li>Photocopy ng Philhealth MDR ng iyong asawa kung saan naka-deklara ang iyong pangalan sa list of dependents</li>
                         <li>Photocopy ng Marriage Certificate <i>(bilang proof of relationship)</i></li>
-                        <li>Photocopy ng Valid ID o Birth Certificate ng iyong Asawa</li>
                     </ul>
                     <p><b>Kung ikaw ay hindi pa member ng Philhealth</b></p>
                     <ul>
-                        <li>Photocopy ng iyong Birth Certificate</li>
-                        <li>Photocopy ng iyong Valid ID</li>
+                        <li>Photocopy ng iyong Birth/Baptismal Certificate o Dalawang (2) Valid IDs</li>
                         <li>Filled up Philhealth Member Registration Form (PMRF), pwede makuha <a href="https://bit.ly/3RiBsRt">dito</a> o sa mismong swabbing area.</li>
                         <ul>
                             <li>Note: Sagutan lamang ang mga may-check (✓) sa form.</li>
                         </ul>
                     </ul>
-                    <p><b>Kung ikaw ay wala talagang maipapakitang kahit anong Valid ID</b></p>
+                    <p><b>Kung ikaw ay wala talagang maipapakitang kahit na anong patunay</b></p>
                     <ul>
-                        <li>Certificate of Indigency sa inyong Barangay na nakasulat din ang Birthdate/Kaarawan mo.</li>
-                        <li>Filled up Philhealth Member Registration Form (PMRF), pwede makuha <a href="https://bit.ly/3RiBsRt">dito</a> o sa mismong swabbing area.</li>
-                        <ul>
-                            <li>Note: Sagutan lamang ang mga may-check (✓) sa form.</li>
-                        </ul>
+                        <li>Hindi ka makakapag RT-PCR Test at ikaw na lang ay inaanyayahan namin na magpa-Antigen Test <i>(Kung gagamitin sa hospital, tanungin kung natanggap sila ng Antigen)</i></li>
                     </ul>
                     <p>Ito ay pag-sunod sa requirements ng Molecular Laboratory <i>(LaSalle/Imus Molecular Laboratory)</i> upang tanggapin ang inyong request.</p>
                     <p>Paalala:</p>
                     <ul>
                         <li>Sa mga Philhealth Member/Dependent, Maaaring kumuha ng Philhealth MDR sa <a href="https://memberinquiry.philhealth.gov.ph/member/">Philhealth Member Portal</a></li>
-                        <li>Ang resulta ng RT-PCR ay lumalabas makalipas ng 3-5 Araw. Tatawag ang iyong Barangay Health Center para sa iyong resulta.</li>
+                        <li>Ang resulta ng RT-PCR ay lumalabas makalipas ng 3-5 Araw. Tatawag ang iyong Barangay Health Center upang makuha sa kanila ang iyong resulta.</li>
                         <li>Ang mga ID katulad ng School ID, Company ID, Barangay ID, TIN ID ay hindi po tinatanggap.</li>
                         <li>Magdala ng Sariling Black Ballpen</li>
                         <li>Kung ikaw ay menor de edad, dapat kasama mo ang iyong Magulang/Guardian</li>
@@ -1510,8 +1505,9 @@
                         <li>Address: City Health Office (3rd Floor CESU Office), Pria Rd., Hospital Area - Main, Brgy. Pinagtipunan, General Trias, Cavite, 4107</li>
                     </ul>
                 </div>
-                <div class="modal-footer ">
-                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Naiintindihan ko, magpatuloy</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal"><b class="text-success">MAYROON AKONG REQUIREMENTS</b></button>
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="walarequirements"><b class="text-danger">WALA AKONG REQUIREMENTS, MAGPAPA-ANTIGEN TEST NA LANG AKO</b></button>
                 </div>
             </div>
         </div>
@@ -2268,13 +2264,19 @@
                 $('#namelist4').addClass('d-none');
             }
         });
+
+        $('#walarequirements').click(function (e) { 
+            e.preventDefault();
+            $('#forAntigen_no').addClass('d-none');
+            $('#forAntigen').val('1').change();
+        });
     </script>
     @else
     <div class="container">
         <div class="card">
             <div class="card-header">Notice</div>
             <div class="card-body text-center">
-                @if($msg)
+                @if(isset($msg))
                 <div class="alert alert-{{$msgtype}}" role="alert">
                     {{$msg}}
                 </div>
