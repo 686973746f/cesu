@@ -178,6 +178,7 @@ class PaSwabDetails extends Model
             $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
             ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
         })
+        ->whereDate('bdate', $bdate)
         ->where('status', 'pending');
 
         if(!is_null($mname)) {
@@ -188,28 +189,10 @@ class PaSwabDetails extends Model
         }
 
         if($check) {
-            /*
-            $checkwbdate = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-            ->where(function ($q) use ($fname) {
-                $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-            })
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)
-            ->whereDate('bdate', $bdate)
-            ->where('status', 'pending')
-            ->first();
-
-            if($checkwbdate) {
-                return $checkwbdate;
-            }
-            else {
-                return $check;
-            }  
-            */
-
             return $check;
         }
         else {
+            /*
             $check1 = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
             ->where(function ($q) use ($fname) {
                 $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
@@ -225,6 +208,8 @@ class PaSwabDetails extends Model
             else {
                 return NULL;
             }
+            */
+            return NULL;
         }
     }
 

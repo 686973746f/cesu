@@ -204,6 +204,17 @@ class RecordsController extends Controller
 		//Kailangan manggaling sa check function para gumana
 		if(request()->input('lname') && request()->input('fname') && request()->input('bdate')) {
 			$list = Companies::find(auth()->user()->company_id);
+
+			//List Possible Double Entries
+			$de_lname = mb_strtoupper(str_replace([' ','-'], '', request()->input('lname')));
+        	$de_fname = mb_strtoupper(str_replace([' ','-'], '', request()->input('fname')));
+
+			$de_list = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $de_lname)
+			->where(function($q) use ($de_fname) {
+				$q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $de_fname)
+				->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$de_fname%");
+			})
+			->get();
 			
 			return view ('addrecord', [
 				'list' => $list,
@@ -211,6 +222,7 @@ class RecordsController extends Controller
 				'fname' => mb_strtoupper(request()->input('fname')),
 				'mname' => (!is_null(request()->input('mname'))) ? mb_strtoupper(request()->input('mname')) : NULL,
 				'bdate' => (request()->input('bdate')),
+				'de_list' => $de_list,
 			]);
 		}
 		else {
@@ -618,6 +630,18 @@ class RecordsController extends Controller
 
 			$docs_list = CifUploads::whereIn('forms_id', $cif_id_list)->get();
 
+			//List Possible Double Entries
+			$de_lname = mb_strtoupper(str_replace([' ','-'], '', $record->lname));
+        	$de_fname = mb_strtoupper(str_replace([' ','-'], '', $record->fname));
+
+			$de_list = Records::where('id', '!=', $record->id)
+			->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $de_lname)
+			->where(function($q) use ($de_fname) {
+				$q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $de_fname)
+				->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$de_fname%");
+			})
+			->get();
+
 			return view('recordsedit', [
 				'record' => $record,
 				'cifcheck' =>$cifcheck,
@@ -627,6 +651,7 @@ class RecordsController extends Controller
 				'sharedAccessList' => $sharedAccessList,
 				'sameaddress' => $sameaddress,
 				'docs_list' => $docs_list,
+				'de_list' => $de_list,
 			]);
 		}
 		else {

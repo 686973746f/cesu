@@ -21,9 +21,47 @@
 					@endforeach
 				</div>
 				@endif
+				
+				@if($de_list->count() != 0)
+				<div class="alert alert-warning" role="alert">
+					<h5><b>Warning: Possible Duplicate Entries Detected</b></h5>
+					<p>Please see and check carefully the patient list below:</p>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-sm text-center">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Age/Gender</th>
+									<th scope="col">Birthdate</th>
+									<th scope="col">Mobile Number</th>
+									<th scope="col">Address</th>
+									<th scope="col">Date Encoded</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach($de_list as $d)
+								<tr class="">
+									<td><a href="{{route('records.edit', ['record' => $d->id])}}">#{{$d->id}}</a></td>
+									<td>{{$d->getName()}}</td>
+									<td>{{$d->getAge()}}/{{substr($d->gender,0,1)}}</td>
+									<td>{{date('m/d/Y', strtotime($d->bdate))}}</td>
+									<td>{{$d->mobile}}</td>
+									<td><small>{{$d->getAddress()}}</small></td>
+									<td>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+					<p>If the new patient was one on the list, do not proceed on encoding and click the existing patient name on the list.</p>
+					<p>If NOT, ignore the warning and continue encoding.</p>
+				</div>
+				@else
 				<div class="alert alert-success" role="alert">
 					The record is not yet existing in the database. You can now proceed filling other required details.
 				</div>
+				@endif
 				<hr>
 				<h5 class="font-weight-bold">Patient Information</h5>
 				<hr>
