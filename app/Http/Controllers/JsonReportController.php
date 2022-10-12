@@ -1635,7 +1635,34 @@ class JsonReportController extends Controller
 
             $arr->push([
                 'title' => 'MW'.$tstr,
-                'count' => $d['mw'.$i] ?? null,
+                '' => $d['mw'.$i] ?? null,
+                ''
+            ]);
+        }
+
+        return response()->json($arr);
+    }
+
+    public function mwcombine() {
+        $arr = collect();
+
+        $d1 = MorbidityWeek::where('year', '2022')->first();
+        $d2 = MorbidityWeek::where('year', '2021')->first();
+        $d3 = MorbidityWeek::where('year', '2020')->first();
+
+        for ($i=1;$i<=$max;$i++) {
+            if($i <= 9) {
+                $tstr = '0'.$i;
+            }
+            else {
+                $tstr = $i;
+            }
+
+            $arr->push([
+                'title' => 'MW'.$tstr,
+                'y2022' => $d1['mw'.$i] ?? null,
+                'y2021' => $d2['mw'.$i] ?? null,
+                'y2020' => $d3['mw'.$i] ?? null,
             ]);
         }
 

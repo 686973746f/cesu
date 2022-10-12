@@ -303,6 +303,7 @@ Route::get('json/activeVaccineList', [JsonReportController::class, 'activeVaccin
 Route::get('json/currentDate', [JsonReportController::class, 'currentDate']);
 Route::get('json/mwly', [JsonReportController::class, 'mwly']);
 Route::get('json/mwcy', [JsonReportController::class, 'mwcy']);
+Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
 
 //Main landing page
 Route::get('/', function () {
