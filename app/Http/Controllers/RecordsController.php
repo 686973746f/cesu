@@ -247,14 +247,14 @@ class RecordsController extends Controller
 			],
 		]);
 
-		if(mb_strtoupper($request->address_street) == '1' || mb_strtoupper($request->address_street) == '0' || mb_strtoupper($request->address_street) == 'BARANGAY HALL' || mb_strtoupper($request->address_street) == 'BRGY. HALL' || mb_strtoupper($request->address_street) == 'BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_street) == 'NA' || mb_strtoupper($request->address_street) == 'N/A' || mb_strtoupper($request->address_street) == 'NONE' || mb_strtoupper($request->address_street) == $request->address_brgy) {
+		if(mb_strtoupper($request->address_street) == '1' || mb_strtoupper($request->address_street) == '0' || mb_strtoupper($request->address_street) == 'BARANGAY HALL' || mb_strtoupper($request->address_street) == 'BRGY. HALL' || mb_strtoupper($request->address_street) == 'BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_street) == 'NA' || mb_strtoupper($request->address_street) == 'N/A' || mb_strtoupper($request->address_street) == 'NONE' || mb_strtoupper($request->address_street) == 'GTC' || strlen($request->address_street) <= 3 || mb_strtoupper($request->address_street) == $request->address_brgy) {
 			return back()
 			->withInput()
 			->with('msg', 'Encoding Error: The Address Street is Invalid.')
 			->with('msgtype', 'warning');
 		}
 
-		if(mb_strtoupper($request->address_houseno) == '1' || mb_strtoupper($request->address_houseno) == '0' || mb_strtoupper($request->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'NA' || mb_strtoupper($request->address_houseno) == 'N/A' || mb_strtoupper($request->address_houseno) == 'NONE' || mb_strtoupper($request->address_houseno) == $request->address_brgy) {
+		if(mb_strtoupper($request->address_houseno) == '1' || mb_strtoupper($request->address_houseno) == '0' || mb_strtoupper($request->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'NA' || mb_strtoupper($request->address_houseno) == 'N/A' || mb_strtoupper($request->address_houseno) == 'NONE' || mb_strtoupper($request->address_houseno) == 'GTC' || mb_strtoupper($request->address_houseno) == $request->address_brgy) {
 			return back()
 			->withInput()
 			->with('msg', 'Encoding Error: The Address House No. is Invalid.')
@@ -361,12 +361,32 @@ class RecordsController extends Controller
 			$param2 = 0;
 		}
 
+		//Avoid Duplicate Entry v2
+		$dee = Records::whereDate('created_at', date('Y-m-d'))
+		->where('lname', mb_strtoupper($request->lname))
+		->where('fname', mb_strtoupper($request->fname))
+		->where('bdate', $request->bdate);
+
+		if($request->filled('mname')) {
+			$dee = $dee->where('mname', $request->mname)->first();
+		}
+		else {
+			$dee = $dee->whereNull('mname')->first();
+		}
+
+		if($dee) {
+			return back()
+			->withInput()
+			->with('msg', 'Double Entry Error: Patient record already exists in the database.')
+			->with('msgtype', 'danger');
+		}
+
 		if($param1 == 1 || $param2 == 1) {
 			if($param1 == 1 && $check1->user->isCesuAccount() == true && auth()->user()->isCesuAccount() == false) {
-				$msg = 'Double Entry Error. Patient Record already exists and it was already created by CESU Staff/Encoders; hence you cannot see the record on your list.';
+				$msg = 'Double Entry Error: Patient Record already exists and it was already created by CESU Staff/Encoders; hence you cannot see the record on your list.';
 			}
 			else {
-				$msg = 'Double Entry Error. Patient Record already exists.';
+				$msg = 'Double Entry Error: Patient Record already exists in the database.';
 			}
 
 			return back()
