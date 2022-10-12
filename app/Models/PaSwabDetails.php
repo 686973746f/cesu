@@ -228,39 +228,37 @@ class PaSwabDetails extends Model
         }
     }
 
-    public static function ifEntryPending ($lname, $fname, $mname) {
+    public static function ifEntryPending($lname, $fname, $mname) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+        
+        $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function ($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->where('status', 'pending');
+
         if(!is_null($mname)) {
-            $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-            ->where('status', 'pending')
-            ->first();
+            $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
 
-            if($check) {
-                return $check;
-            }
-            else {
-                $check1 = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where('status', 'pending')
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
-            }
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)->first();
         }
         else {
-            $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
+            $check = $check->whereNull('mname')->first();
+        }
+
+        if($check) {
+            return $check;
+        }
+        else {
+            $check1 = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
             ->where('status', 'pending')
             ->first();
 
-            if($check) {
-                return $check;
+            if($check1) {
+                return $check1;
             }
             else {
                 return NULL;
@@ -269,41 +267,41 @@ class PaSwabDetails extends Model
     }
 
     public static function ifHaveEntryToday ($lname, $fname, $mname) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+        
+        $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function ($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->whereIn('status', ['pending', 'approved'])
+        ->whereDate('created_at', date('Y-m-d'));
+        
         if(!is_null($mname)) {
-            $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-            ->whereIn('status', ['pending', 'approved'])
-            ->whereDate('created_at', date('Y-m-d'))
-            ->first();
+            $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
 
-            if($check) {
-                return $check;
-            }
-            else {
-                $check1 = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->whereIn('status', ['pending', 'approved'])
-                ->whereDate('created_at', date('Y-m-d'))
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
-            }
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname)->first();
         }
         else {
-            $check = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
+            $check = $check->whereNull('mname')->first();
+        }
+
+        if($check) {
+            return $check;
+        }
+        else {
+            $check1 = PaSwabDetails::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+            ->where(function ($q) use ($fname) {
+                $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+                ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+            })
             ->whereIn('status', ['pending', 'approved'])
             ->whereDate('created_at', date('Y-m-d'))
             ->first();
 
-            if($check) {
-                return $check;
+            if($check1) {
+                return $check1;
             }
             else {
                 return NULL;
