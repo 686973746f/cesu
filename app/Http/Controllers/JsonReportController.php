@@ -1646,9 +1646,9 @@ class JsonReportController extends Controller
     public function mwcombine() {
         $arr = collect();
 
-        $d1 = MorbidityWeek::where('year', '2022')->first();
-        $d2 = MorbidityWeek::where('year', '2021')->first();
-        $d3 = MorbidityWeek::where('year', '2020')->first();
+        $d1 = MorbidityWeek::where('year', date('Y'))->first();
+        $d2 = MorbidityWeek::where('year', date('Y', strtotime('-1 Year')))->first();
+        $d3 = MorbidityWeek::where('year', date('Y', strtotime('-2 Year')))->first();
 
         $max = 53;
 
