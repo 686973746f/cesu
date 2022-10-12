@@ -2003,6 +2003,7 @@ class PaSwabController extends Controller
                 'dispoName' => $custom_dispo,
                 'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
                 'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
+                'caseClassification' => $caseClassi,
                 'isHealthCareWorker' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? '1' : '0',
                 'healthCareCompanyName' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_name : NULL,
                 'healthCareCompanyLocation' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_city.', '.$data->occupation_province : NULL,
