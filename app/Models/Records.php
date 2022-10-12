@@ -162,7 +162,8 @@ class Records extends Model
         ->where(function($q) use ($fname) {
             $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
             ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-        });
+        })
+        ->whereDate('bdate', $bdate);
 
         if(!is_null($mname)) {
             $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
@@ -174,24 +175,10 @@ class Records extends Model
         }
 
         if($check) {
-            /*
-            $checkwbdate = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-            ->whereDate('bdate', $bdate)
-            ->first();
-
-            if($checkwbdate) {
-                return $checkwbdate;
-            }
-            else {
-                return $check;
-            }
-            */
-            
             return $check;
         }
         else {
+            /*
             $check1 = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
             ->where(function($q) use ($fname) {
                 $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
@@ -206,6 +193,8 @@ class Records extends Model
             else {
                 return NULL;
             }
+            */
+            return NULL;
         }
     }
 
@@ -218,7 +207,8 @@ class Records extends Model
         ->where(function($q) use ($fname) {
             $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
             ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-        });
+        })
+        ->whereDate('bdate', $bdate);
 
         if(!is_null($mname)) {
             $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
@@ -230,24 +220,10 @@ class Records extends Model
         }
 
         if($check) {
-            /*
-            $checkwbdate = Records::where('id', '!=', $id)
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-            ->whereDate('bdate', $bdate)
-            ->first();
-
-            if($checkwbdate) {
-                return $checkwbdate;
-            }
-            else {
-                return $check;
-            }
-            */
             return $check;
         }
         else {
+            /*
             $check1 = Records::where('id', '!=', $id)
             ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
             ->where(function($q) use ($fname) {
@@ -263,6 +239,8 @@ class Records extends Model
             else {
                 return NULL;
             }
+            */
+            return NULL;
         }
     }
 
