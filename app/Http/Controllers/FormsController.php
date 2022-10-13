@@ -1117,6 +1117,13 @@ class FormsController extends Controller
             ->with('msgType', 'warning');
         }
 
+        if($rec->mobile == '09190664324') { //Block Hotline
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: Invalid Mobile Number, please change the mobile number of the patient and re-submit again.')
+            ->with('msgType', 'warning');
+        }
+
         //Check Occupation
         if($rec->hasOccupation == 1) {
             if(is_null($rec->occupation_lotbldg) || is_null($rec->occupation_street) || is_null($rec->occupation_name)) {
@@ -2102,6 +2109,13 @@ class FormsController extends Controller
             return back()
             ->withInput()
             ->with('msg', 'Encoding Error: The Address HOUSE NO. of the Patient is Invalid (House No: '.$rec->records->address_houseno.'). Please check and edit the Patient Address and try submitting again.')
+            ->with('msgType', 'warning');
+        }
+
+        if($rec->records->mobile == '09190664324') { //Block Hotline
+            return back()
+            ->withInput()
+            ->with('msg', 'Encoding Error: Invalid Mobile Number, please change the mobile number of the patient and re-submit again.')
             ->with('msgType', 'warning');
         }
 
