@@ -473,19 +473,25 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         }
         
         //OLD SUBGROUPING
-        $display_testcat = $first_testingcat;
+        //$display_testcat = $first_testingcat;
         
-        /*
 
-        NEW SUBGROUPING 
+        //NEW SUBGROUPING 
 
-        if($form->testingCat == 'A1' || $form->testingCat == 'A2' || $form->testingCat == 'A3') {
-            $display_testcat = $form->testingCat;
+        $display_testcat = $form->testingCat;
+
+        if($form->testingCat == 'A1') {
+            $sg_a_specify = '1';
+        }
+        else if($form->testingCat == 'A2') {
+            $sg_a_specify = '2';
+        }
+        else if($form->testingCat == 'A3') {
+            $sg_a_specify = '3';
         }
         else {
-            $display_testcat = 'ALL (Except A1, A2, A3) with Symptoms of COVID-19';
+            $sg_a_specify = '';
         }
-        */
 
         //Auto DispoType
         $autodispo_name = NULL;
@@ -922,6 +928,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($first_testingcat == "F.1" || $first_testingcat == "F.2" || $first_testingcat == "F.3" || $first_testingcat == "F.4" || $first_testingcat == "F.5" || $first_testingcat == "F.6" || $first_testingcat == "F.7") ? $first_testingcat : 'F', //F
             ($first_testingcat == "H.1" || $first_testingcat == "H.2") ? $first_testingcat : 'H', //H
             ($first_testingcat == "J1.1" || $first_testingcat == "J1.2" || $first_testingcat == "J1.3" || $first_testingcat == "J1.4" || $first_testingcat == "J1.5" || $first_testingcat == "J1.6" || $first_testingcat == "J1.7" || $first_testingcat == "J1.8" || $first_testingcat == "J1.9" || $first_testingcat == "J1.10" || $first_testingcat == "J1.11" || $first_testingcat == "J.2") ? $first_testingcat : 'J', //J
+            $sg_a_specify,
         ];
     }
 
@@ -1243,6 +1250,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'sg_f_specify',
             'sg_h_specify',
             'sg_j_specify',
+            'sg_a_specify',
         ];
     }
 }

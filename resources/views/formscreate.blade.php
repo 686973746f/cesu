@@ -280,69 +280,69 @@
                     </div>
                     <div class="form-group">
                         <label for="testingCat"><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup</label>
-                        <select class="form-control" name="testingCat[]" id="testingCat" multiple required>
-                            <!--
-                            <option value="A1" {{(old('testingCat') == 'A1') ? 'selected' : ''}}>A1 - Frontline Workers in Health Facilities</option>
-                            <option value="A2" {{(old('testingCat') == 'A2') ? 'selected' : ''}}>A2 - Senior Citizens/Persons Aged 60 and above</option>
-                            <option value="A3" {{(old('testingCat') == 'A3') ? 'selected' : ''}}>A3 - Hospitalization/Pregnant/Operation/Comorbidities</option>
-                            <option value="ALL" {{(old('testingCat') == 'ALL') ? 'selected' : ''}}>ALL (Except A1, A2 and A3) with Symptoms of COVID-19</option>
-                            -->
-                            <option value="A" {{(collect(old('testingCat'))->contains("A")) ? 'selected' : ''}}>A. With Severe/Critical Symptoms</option>
-                            <option value="B" {{(collect(old('testingCat'))->contains("B")) ? 'selected' : ''}}>B. With Mild Symptoms (Senior Citizens / Patients w. Comorbidity)</option>
-                            <option value="C" {{(collect(old('testingCat'))->contains("C")) ? 'selected' : ''}}>C. With Mild Symptoms Only</option>
-                            <optgroup label="Category D - No Symptoms but with Relevant History of Travel or Contact">
-                                <option value="D.1" {{(collect(old('testingCat'))->contains("D.1")) ? 'selected' : ''}}>D.1 Contact Traced Individuals</option>
-                                <option value="D.2" {{(collect(old('testingCat'))->contains("D.2")) ? 'selected' : ''}}>D.2 Health Care Workers</option>
-                                <option value="D.3" {{(collect(old('testingCat'))->contains("D.3")) ? 'selected' : ''}}>D.3 Returning Overseas Filipino</option>
-                                <option value="D.4" {{(collect(old('testingCat'))->contains("D.4")) ? 'selected' : ''}}>D.4 Locally Stranded Individuals (LSI)</option>
+                        <select class="form-control" name="testingCat" id="testingCat" required>
+                        <option value="A1" {{(old('testingCat') == 'A1') ? 'selected' : ''}}>A1 - Frontline Workers in Health Facilities</option>
+                        <option value="A2" {{(old('testingCat') == 'A2') ? 'selected' : ''}}>A2 - Senior Citizens/Persons Aged 60 and above</option>
+                        <option value="A3" {{(old('testingCat') == 'A3') ? 'selected' : ''}}>A3 - Hospitalization/Pregnant/Operation/Comorbidities</option>
+                        <option value="ALL (Except A1, A2 and A3) with Symptoms of COVID-19" {{(old('testingCat') == 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19') ? 'selected' : ''}}>ALL (Except A1, A2 and A3) with Symptoms of COVID-19</option>
+                        <!--
+                        <option value="A" {{(collect(old('testingCat'))->contains("A")) ? 'selected' : ''}}>A. With Severe/Critical Symptoms</option>
+                        <option value="B" {{(collect(old('testingCat'))->contains("B")) ? 'selected' : ''}}>B. With Mild Symptoms (Senior Citizens / Patients w. Comorbidity)</option>
+                        <option value="C" {{(collect(old('testingCat'))->contains("C")) ? 'selected' : ''}}>C. With Mild Symptoms Only</option>
+                        <optgroup label="Category D - No Symptoms but with Relevant History of Travel or Contact">
+                            <option value="D.1" {{(collect(old('testingCat'))->contains("D.1")) ? 'selected' : ''}}>D.1 Contact Traced Individuals</option>
+                            <option value="D.2" {{(collect(old('testingCat'))->contains("D.2")) ? 'selected' : ''}}>D.2 Health Care Workers</option>
+                            <option value="D.3" {{(collect(old('testingCat'))->contains("D.3")) ? 'selected' : ''}}>D.3 Returning Overseas Filipino</option>
+                            <option value="D.4" {{(collect(old('testingCat'))->contains("D.4")) ? 'selected' : ''}}>D.4 Locally Stranded Individuals (LSI)</option>
+                        </optgroup>
+                        <optgroup label="Category E - Frontliners Indirectly Involved in Healthcare Provision">
+                            <optgroup label="E1 - High Direct Exposure to COVID-19 Regardless of Location">
+                                <option value="E1.1" {{(collect(old('testingCat'))->contains("E1.1")) ? 'selected' : ''}}>E1.1 Quarantine Facilities</option>
+                                <option value="E1.2" {{(collect(old('testingCat'))->contains("E1.2")) ? 'selected' : ''}}>E1.2 COVID-19 Swabbing Center</option>
+                                <option value="E1.3" {{(collect(old('testingCat'))->contains("E1.3")) ? 'selected' : ''}}>E1.3 Contact Tracing</option>
+                                <option value="E1.4" {{(collect(old('testingCat'))->contains("E1.4")) ? 'selected' : ''}}>E1.4 Personnel Conducting Swabbing</option>
                             </optgroup>
-                            <optgroup label="Category E - Frontliners Indirectly Involved in Healthcare Provision">
-                                <optgroup label="E1 - High Direct Exposure to COVID-19 Regardless of Location">
-                                    <option value="E1.1" {{(collect(old('testingCat'))->contains("E1.1")) ? 'selected' : ''}}>E1.1 Quarantine Facilities</option>
-                                    <option value="E1.2" {{(collect(old('testingCat'))->contains("E1.2")) ? 'selected' : ''}}>E1.2 COVID-19 Swabbing Center</option>
-                                    <option value="E1.3" {{(collect(old('testingCat'))->contains("E1.3")) ? 'selected' : ''}}>E1.3 Contact Tracing</option>
-                                    <option value="E1.4" {{(collect(old('testingCat'))->contains("E1.4")) ? 'selected' : ''}}>E1.4 Personnel Conducting Swabbing</option>
-                                </optgroup>
-                                <optgroup label="E2 - Not High or Indirect Exposure to COVID-19">
-                                    <option value="E2.1" {{(collect(old('testingCat'))->contains("E2.1")) ? 'selected' : ''}}>E2.1 Quarantine Control Points (eg. AFP, BFP, etc.)</option>
-                                    <option value="E2.2" {{(collect(old('testingCat'))->contains("E2.2")) ? 'selected' : ''}}>E2.2 National/regional/local risk of reduction management</option>
-                                    <option value="E2.3" {{(collect(old('testingCat'))->contains("E2.3")) ? 'selected' : ''}}>E2.3 Government Employees</option>
-                                    <option value="E2.4" {{(collect(old('testingCat'))->contains("E2.4")) ? 'selected' : ''}}>E2.4 BHERTs</option>
-                                    <option value="E2.5" {{(collect(old('testingCat'))->contains("E2.5")) ? 'selected' : ''}}>E2.5 Bureau of Corrections & Bureau of Jail Penology and Management</option>
-                                    <option value="E2.6" {{(collect(old('testingCat'))->contains("E2.6")) ? 'selected' : ''}}>E2.6 One-Stop-Shop in the Management of the Returning Overseas Filipinos</option>
-                                    <option value="E2.7" {{(collect(old('testingCat'))->contains("E2.7")) ? 'selected' : ''}}>E2.7 Border Control or Patrol Officer (eg. Coast Guard)</option>
-                                    <option value="E2.8" {{(collect(old('testingCat'))->contains("E2.8")) ? 'selected' : ''}}>E2.8 Social Workers</option>
-                                </optgroup>
+                            <optgroup label="E2 - Not High or Indirect Exposure to COVID-19">
+                                <option value="E2.1" {{(collect(old('testingCat'))->contains("E2.1")) ? 'selected' : ''}}>E2.1 Quarantine Control Points (eg. AFP, BFP, etc.)</option>
+                                <option value="E2.2" {{(collect(old('testingCat'))->contains("E2.2")) ? 'selected' : ''}}>E2.2 National/regional/local risk of reduction management</option>
+                                <option value="E2.3" {{(collect(old('testingCat'))->contains("E2.3")) ? 'selected' : ''}}>E2.3 Government Employees</option>
+                                <option value="E2.4" {{(collect(old('testingCat'))->contains("E2.4")) ? 'selected' : ''}}>E2.4 BHERTs</option>
+                                <option value="E2.5" {{(collect(old('testingCat'))->contains("E2.5")) ? 'selected' : ''}}>E2.5 Bureau of Corrections & Bureau of Jail Penology and Management</option>
+                                <option value="E2.6" {{(collect(old('testingCat'))->contains("E2.6")) ? 'selected' : ''}}>E2.6 One-Stop-Shop in the Management of the Returning Overseas Filipinos</option>
+                                <option value="E2.7" {{(collect(old('testingCat'))->contains("E2.7")) ? 'selected' : ''}}>E2.7 Border Control or Patrol Officer (eg. Coast Guard)</option>
+                                <option value="E2.8" {{(collect(old('testingCat'))->contains("E2.8")) ? 'selected' : ''}}>E2.8 Social Workers</option>
                             </optgroup>
-                            <optgroup label="Category F - Other vulnerable patients and those living in confined spaces">
-                                <option value="F.1" {{(collect(old('testingCat'))->contains("F.1")) ? 'selected' : ''}}>F.1 Pregnant Patients</option>
-                                <option value="F.2" {{(collect(old('testingCat'))->contains("F.2")) ? 'selected' : ''}}>F.2 Dialysis Patients</option>
-                                <option value="F.3" {{(collect(old('testingCat'))->contains("F.3")) ? 'selected' : ''}}>F.3 Immunocompromised (HIV/AIDS)</option>
-                                <option value="F.4" {{(collect(old('testingCat'))->contains("F.4")) ? 'selected' : ''}}>F.4 Chemo and radiotherapy patient</option>
-                                <option value="F.5" {{(collect(old('testingCat'))->contains("F.5")) ? 'selected' : ''}}>F.5 Elective surgical procedures with high risk transmission</option>
-                                <option value="F.6" {{(collect(old('testingCat'))->contains("F.6")) ? 'selected' : ''}}>F.6 Organ/Bone Marrow/Stem Cell Transplant</option>
-                                <option value="F.7" {{(collect(old('testingCat'))->contains("F.7")) ? 'selected' : ''}}>F.7 Persons in Jail and Penitentiaries</option>
-                            </optgroup>
-                            <option value="G" {{(collect(old('testingCat'))->contains("G")) ? 'selected' : ''}}>G. Residents, occupants, or workes in a localized area with an active COVID-19 cluster</option>
-                            <optgroup label="Category H - Frontliners in Tourist Zones">
-                                <option value="H.1" {{(collect(old('testingCat'))->contains("H.1")) ? 'selected' : ''}}>H.1 Workers/Employees in the Hospitality and Tourism Sectors</option>
-                                <option value="H.2" {{(collect(old('testingCat'))->contains("H.2")) ? 'selected' : ''}}>H.2 Travelers</option>
-                            </optgroup>
-                            <option value="I" {{(collect(old('testingCat'))->contains("I")) ? 'selected' : ''}}>I. Employees of Manufacturing Companies and Public Service Providers Registered in Economic Zones</option>
-                            <optgroup label="Category J - Economy Workers">
-                                <option value="J1.1" {{(collect(old('testingCat'))->contains('J1.1')) ? 'selected' : ''}}>J1.1 Transport and Logistics</option>
-                                <option value="J1.2" {{(collect(old('testingCat'))->contains('J1.2')) ? 'selected' : ''}}>J1.2 Food Retails</option>
-                                <option value="J1.3" {{(collect(old('testingCat'))->contains('J1.3')) ? 'selected' : ''}}>J1.3 Education</option>
-                                <option value="J1.4" {{(collect(old('testingCat'))->contains('J1.4')) ? 'selected' : ''}}>J1.4 Financial Services</option>
-                                <option value="J1.5" {{(collect(old('testingCat'))->contains('J1.5')) ? 'selected' : ''}}>J1.5 Non-food Retail</option>
-                                <option value="J1.6" {{(collect(old('testingCat'))->contains('J1.6')) ? 'selected' : ''}}>J1.6 Services <small>(Hairdressers, manicurist, embalmers, security guards, messengers, massage therapists, etc.)</small></option>
-                                <option value="J1.7" {{(collect(old('testingCat'))->contains('J1.7')) ? 'selected' : ''}}>J1.7 Market Vendors</option>
-                                <option value="J1.8" {{(collect(old('testingCat'))->contains('J1.8')) ? 'selected' : ''}}>J1.8 Construction</option>
-                                <option value="J1.9" {{(collect(old('testingCat'))->contains('J1.9')) ? 'selected' : ''}}>J1.9 Water Supply, Sewerage, Waste Management</option>
-                                <option value="J1.10" {{(collect(old('testingCat'))->contains('J1.10')) ? 'selected' : ''}}>J1.10 Public Sector</option>
-                                <option value="J1.11" {{(collect(old('testingCat'))->contains('J1.11')) ? 'selected' : ''}}>J1.11 Mass Media</option>
-                                <option value="J.2" {{(collect(old('testingCat'))->contains('J.2')) ? 'selected' : ''}}>J.2 Other Employee not Covered in J.1 Category but required to undergo testing every quarter</option>
-                            </optgroup>
+                        </optgroup>
+                        <optgroup label="Category F - Other vulnerable patients and those living in confined spaces">
+                            <option value="F.1" {{(collect(old('testingCat'))->contains("F.1")) ? 'selected' : ''}}>F.1 Pregnant Patients</option>
+                            <option value="F.2" {{(collect(old('testingCat'))->contains("F.2")) ? 'selected' : ''}}>F.2 Dialysis Patients</option>
+                            <option value="F.3" {{(collect(old('testingCat'))->contains("F.3")) ? 'selected' : ''}}>F.3 Immunocompromised (HIV/AIDS)</option>
+                            <option value="F.4" {{(collect(old('testingCat'))->contains("F.4")) ? 'selected' : ''}}>F.4 Chemo and radiotherapy patient</option>
+                            <option value="F.5" {{(collect(old('testingCat'))->contains("F.5")) ? 'selected' : ''}}>F.5 Elective surgical procedures with high risk transmission</option>
+                            <option value="F.6" {{(collect(old('testingCat'))->contains("F.6")) ? 'selected' : ''}}>F.6 Organ/Bone Marrow/Stem Cell Transplant</option>
+                            <option value="F.7" {{(collect(old('testingCat'))->contains("F.7")) ? 'selected' : ''}}>F.7 Persons in Jail and Penitentiaries</option>
+                        </optgroup>
+                        <option value="G" {{(collect(old('testingCat'))->contains("G")) ? 'selected' : ''}}>G. Residents, occupants, or workes in a localized area with an active COVID-19 cluster</option>
+                        <optgroup label="Category H - Frontliners in Tourist Zones">
+                            <option value="H.1" {{(collect(old('testingCat'))->contains("H.1")) ? 'selected' : ''}}>H.1 Workers/Employees in the Hospitality and Tourism Sectors</option>
+                            <option value="H.2" {{(collect(old('testingCat'))->contains("H.2")) ? 'selected' : ''}}>H.2 Travelers</option>
+                        </optgroup>
+                        <option value="I" {{(collect(old('testingCat'))->contains("I")) ? 'selected' : ''}}>I. Employees of Manufacturing Companies and Public Service Providers Registered in Economic Zones</option>
+                        <optgroup label="Category J - Economy Workers">
+                            <option value="J1.1" {{(collect(old('testingCat'))->contains('J1.1')) ? 'selected' : ''}}>J1.1 Transport and Logistics</option>
+                            <option value="J1.2" {{(collect(old('testingCat'))->contains('J1.2')) ? 'selected' : ''}}>J1.2 Food Retails</option>
+                            <option value="J1.3" {{(collect(old('testingCat'))->contains('J1.3')) ? 'selected' : ''}}>J1.3 Education</option>
+                            <option value="J1.4" {{(collect(old('testingCat'))->contains('J1.4')) ? 'selected' : ''}}>J1.4 Financial Services</option>
+                            <option value="J1.5" {{(collect(old('testingCat'))->contains('J1.5')) ? 'selected' : ''}}>J1.5 Non-food Retail</option>
+                            <option value="J1.6" {{(collect(old('testingCat'))->contains('J1.6')) ? 'selected' : ''}}>J1.6 Services <small>(Hairdressers, manicurist, embalmers, security guards, messengers, massage therapists, etc.)</small></option>
+                            <option value="J1.7" {{(collect(old('testingCat'))->contains('J1.7')) ? 'selected' : ''}}>J1.7 Market Vendors</option>
+                            <option value="J1.8" {{(collect(old('testingCat'))->contains('J1.8')) ? 'selected' : ''}}>J1.8 Construction</option>
+                            <option value="J1.9" {{(collect(old('testingCat'))->contains('J1.9')) ? 'selected' : ''}}>J1.9 Water Supply, Sewerage, Waste Management</option>
+                            <option value="J1.10" {{(collect(old('testingCat'))->contains('J1.10')) ? 'selected' : ''}}>J1.10 Public Sector</option>
+                            <option value="J1.11" {{(collect(old('testingCat'))->contains('J1.11')) ? 'selected' : ''}}>J1.11 Mass Media</option>
+                            <option value="J.2" {{(collect(old('testingCat'))->contains('J.2')) ? 'selected' : ''}}>J.2 Other Employee not Covered in J.1 Category but required to undergo testing every quarter</option>
+                        </optgroup>
+                        -->
                         </select>
                         <small class="text-muted">Refer to Appendix 2 for more details (Button in top-right corner of this page)</small>
                     </div>
@@ -3056,7 +3056,7 @@
                 e.preventDefault();
                 $('#dispositionDate').prop("type", "datetime-local");
 
-                if(is_pregnant == 1 || $('#isForHospitalization').val() == 1) {
+                if($('#isForHospitalization').val() == 1) {
                     $('#dispositionType').val('5');
                     $('#disopt1').addClass('d-none');
                     $('#disopt2').addClass('d-none');
@@ -3065,9 +3065,11 @@
                     $('#disopt6').addClass('d-none');
                     $('#disopt7').addClass('d-none');
 
+                    /*
                     if(is_pregnant == 1) {
                         $('#dispositionName').val('FOR DELIVERY');
                     }
+                    */
                 }
                 else {
                     $('#dispositionType').val('3');

@@ -317,7 +317,6 @@ class PaSwabController extends Controller
                     }
                     */
 
-                    /*
                     $testCat = '';
                     $custom_dispo = NULL;
 
@@ -358,8 +357,8 @@ class PaSwabController extends Controller
                     else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         $testCat = 'A1';
                     }
-                    */
                     
+                    /*
                     $testCat = [];
                     $custom_dispo = NULL;
                     if(!is_null($data->SAS)) {
@@ -435,6 +434,7 @@ class PaSwabController extends Controller
                     }
 
                     $testCat = implode(',', $testCat);
+                    */
 
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
@@ -864,7 +864,6 @@ class PaSwabController extends Controller
                     }
                     */
 
-                    /*
                     $testCat = '';
                     $custom_dispo = NULL;
 
@@ -905,8 +904,8 @@ class PaSwabController extends Controller
                     else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                         $testCat = 'A1';
                     }
-                    */
 
+                    /*
                     $testCat = [];
                     $custom_dispo = NULL;
                     if(!is_null($data->SAS)) {
@@ -982,6 +981,7 @@ class PaSwabController extends Controller
                     }
 
                     $testCat = implode(',', $testCat);
+                    */
 
                     //Auto Change Case Classification to Probable Based on Symptoms
                     if(!is_null($data->SAS)) {
@@ -1844,7 +1844,6 @@ class PaSwabController extends Controller
             }
             */
 
-            /*
             $testCat = '';
             $custom_dispo = NULL;
 
@@ -1885,8 +1884,8 @@ class PaSwabController extends Controller
             else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 $testCat = 'A1';
             }
-            */
 
+            /*
             $testCat = [];
             $custom_dispo = NULL;
             if(!is_null($data->SAS)) {
@@ -1962,6 +1961,7 @@ class PaSwabController extends Controller
             }
 
             $testCat = implode(',', $testCat);
+            */
 
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {
@@ -2418,7 +2418,6 @@ class PaSwabController extends Controller
             }
             */
 
-            /*
             $testCat = '';
             $custom_dispo = NULL;
 
@@ -2459,8 +2458,8 @@ class PaSwabController extends Controller
             else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
                 $testCat = 'A1';
             }
-            */
 
+            /*
             $testCat = [];
             $custom_dispo = NULL;
             if(!is_null($data->SAS)) {
@@ -2533,6 +2532,7 @@ class PaSwabController extends Controller
             }
 
             $testCat = implode(',', $testCat);
+            */
 
             //Auto Change Case Classification to Probable Based on Symptoms
             if(!is_null($data->SAS)) {

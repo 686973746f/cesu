@@ -1327,9 +1327,7 @@ class FormsController extends Controller
                 $caseClassi = 'Confirmed';
             }
 
-            /*
-
-            NEW SUBGROUP PERO DI DAW MUNA GAGAMITIN
+            //NEW SUBGROUP PERO DI DAW MUNA GAGAMITIN
 
             $testCat = $request->testingCat;
 
@@ -1360,9 +1358,8 @@ class FormsController extends Controller
             else {
                 $testCat = $request->testingCat;
             }
-            */
 
-            //OLD SUBGROUP - Auto Change Testing Category/Subgroup Base on the patient data
+            /*OLD SUBGROUP - Auto Change Testing Category/Subgroup Base on the patient data
             $testCat = $request->testingCat;
             if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
                 array_push($testCat, "A");
@@ -1444,6 +1441,7 @@ class FormsController extends Controller
             }
 
             $testCat = implode(',', $testCat);
+            */
     
             //Auto Change Case Classification based on symptoms
             if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
@@ -2446,8 +2444,7 @@ class FormsController extends Controller
                     $request->morbidityMonth = date('Y-m-d');
                 }
                 
-                /*
-                NEW SUBGROUP WAG DAW MUNA GAMITIN
+                //NEW SUBGROUP WAG DAW MUNA GAMITIN
 
                 $testCat = $request->testingCat;
 
@@ -2478,9 +2475,9 @@ class FormsController extends Controller
                 else {
                     $testCat = $request->testingCat;
                 }
-                */
 
                 //Auto Change Testing Category/Subgroup Base on the patient data
+                /*
                 $testCat = $request->testingCat;
                 if(!in_array("A", $testCat) && in_array($request->healthStatus, ['Severe','Critical'])) {
                     array_push($testCat, "A");
@@ -2559,6 +2556,7 @@ class FormsController extends Controller
                 }
 
                 $testCat = implode(',', $testCat);
+                */
         
                 //Auto Change Case Classification based on symptoms
                 if($caseClassi != 'Confirmed' && $caseClassi != 'Non-COVID-19 Case' && !is_null($request->sasCheck)) {
