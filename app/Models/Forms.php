@@ -367,4 +367,13 @@ class Forms extends Model
             return 'N/A';
         }
     }
+
+    public function getSubgroup() {
+        if($this->testingCat != 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19)') {
+            return $this->testingCat;
+        }
+        else {
+            return 'ALL';
+        }
+    }
 }

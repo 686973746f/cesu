@@ -358,17 +358,19 @@ class FormsController extends Controller
 
         if($request->has('q') && strlen($request->input('q')) > 1) {
             $search = mb_strtoupper($request->q);
+            
+            $search_rep = str_replace(',','', $search);
 
             if(auth()->user()->isCesuAccount()) {
-                $data = Records::where(function ($query) use ($search) {
-                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                $data = Records::where(function ($query) use ($search, $search_rep) {
+                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search_rep%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search_rep%")
                     ->orWhere('id', $search);
                 })->get();
 
-                $paswab = PaSwabDetails::where(function ($query) use ($search) {
-                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',$search)."%")
-                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',$search)."%");
+                $paswab = PaSwabDetails::where(function ($query) use ($search, $search_rep) {
+                    $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search_rep%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search_rep%");
                 })->where('status', 'pending')->get();
 
                 foreach($paswab as $item) {
@@ -382,9 +384,9 @@ class FormsController extends Controller
             else {
                 if(auth()->user()->isBrgyAccount()) {
                     $data = Records::with('user')
-                    ->where(function ($query) use ($search) {
-                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                    ->where(function ($query) use ($search, $search_rep) {
+                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search_rep%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search_rep%");
                     })
                     ->where(function($sq) {
 						$sq->whereHas('user', function($q) {
@@ -402,8 +404,8 @@ class FormsController extends Controller
                 else if(auth()->user()->isCompanyAccount()) {
                     $data = Records::with('user')
                     ->where(function ($query) use ($search) {
-                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
-                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%");
+                        $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%$search_rep%")
+                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%$search_rep%");
                     })->whereHas('user', function($q) {
                         $q->where('company_id', auth()->user()->company_id);
                     })->get();
