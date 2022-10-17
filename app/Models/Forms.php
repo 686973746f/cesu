@@ -369,7 +369,7 @@ class Forms extends Model
     }
 
     public function getSubgroup() {
-        if($this->testingCat != 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19)') {
+        if($this->testingCat != 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19') {
             return $this->testingCat;
         }
         else {
