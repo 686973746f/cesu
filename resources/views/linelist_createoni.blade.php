@@ -80,8 +80,9 @@
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="oniSpecType[]" id="oniSpecType" required>
-                                          <option value="OPS">OPS</option>
-                                          <option value="NPS">NPS</option>
+                                            <option value="NPS">NPS</option>
+                                            <option value="OPS">OPS</option>
+                                            <option value="OPS+NPS">OPS+NPS</option>
                                         </select>
                                     </div>
                                 </td>
