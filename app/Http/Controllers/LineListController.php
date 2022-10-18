@@ -244,6 +244,16 @@ class LineListController extends Controller
             $num = 3;
 
             foreach ($list as $l) {
+
+                if(!is_null($l->forms()->testDateCollected2)) {
+                    $labdate = $l->forms()->testDateCollected2;
+                    $labtype = $l->forms()->testType2;
+                }
+                else {
+                    $labdate = $l->forms()->testDateCollected1;
+                    $labtype = $l->forms()->testType1;
+                }
+
                 $sheet->setCellValue('A'.$num, $l->records->lname);
                 $sheet->setCellValue('B'.$num, $l->records->fname);
                 $sheet->setCellValue('C'.$num, (!is_null($l->records->mname)) ? $l->records->mname : 'N/A');
@@ -254,10 +264,10 @@ class LineListController extends Controller
                 $sheet->setCellValue('H'.$num, $l->records->address_brgy);
                 $sheet->setCellValue('I'.$num, 'CHO GENERAL TRIAS');
                 $sheet->setCellValue('J'.$num, (!is_null($l->forms()->dateOnsetOfIllness)) ? date('m/d/Y', strtotime($l->forms()->dateOnsetOfIllness)) : 'N/A');
-                $sheet->setCellValue('K'.$num, $l->records->address_brgy);
-                $sheet->setCellValue('L'.$num, date('m/d/Y', strtotime($l->forms()->testDateCollected1)));
-                $sheet->setCellValue('M'.$num, $l->forms()->testType1);
-                $sheet->setCellValue('N'.$num, '1ST');
+                $sheet->setCellValue('K'.$num, date('m/d/Y', strtotime($labdate)));
+                $sheet->setCellValue('L'.$num, $labtype);
+                $sheet->setCellValue('M'.$num, '1ST');
+                $sheet->setCellValue('N'.$num, $l->records->address_houseno.', '.$l->records->address_street);
                 $sheet->setCellValue('O'.$num, $l->records->mobile);
                 $sheet->setCellValue('P'.$num, $l->forms()->healthStatus);
                 $sheet->setCellValue('Q'.$num, ($l->forms()->isOFW == 1) ? 'Y' : 'N');
