@@ -244,6 +244,23 @@ class LineListController extends Controller
             $num = 3;
 
             foreach ($list as $l) {
+                //Count number of Swab based on the number of linelist done to the record id
+                $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
+                    $q->where('type', 1)
+                    ->where('is_override', 0);
+                })
+                ->where('records_id', $l->records->id)
+                ->count();
+                
+                if($rctr <= 0) {
+                    $fcount = '1ST'; 
+                }
+                else if($rctr == 1) {
+                    $fcount = '2ND'; 
+                }
+                else if($rctr >= 2) {
+                    $fcount = '3RD'; 
+                }
 
                 if(!is_null($l->forms()->testDateCollected2)) {
                     $labdate = $l->forms()->testDateCollected2;
@@ -266,7 +283,7 @@ class LineListController extends Controller
                 $sheet->setCellValue('J'.$num, (!is_null($l->forms()->dateOnsetOfIllness)) ? date('m/d/Y', strtotime($l->forms()->dateOnsetOfIllness)) : 'N/A');
                 $sheet->setCellValue('K'.$num, date('m/d/Y', strtotime($labdate)));
                 $sheet->setCellValue('L'.$num, $labtype);
-                $sheet->setCellValue('M'.$num, '1ST');
+                $sheet->setCellValue('M'.$num, $fcount);
                 $sheet->setCellValue('N'.$num, $l->records->address_houseno.', '.$l->records->address_street);
                 $sheet->setCellValue('O'.$num, $l->records->mobile);
                 $sheet->setCellValue('P'.$num, $l->forms()->healthStatus);
