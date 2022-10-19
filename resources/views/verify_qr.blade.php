@@ -34,7 +34,7 @@
                             </tr>
                             <tr class="">
                                 <td>Name</td>
-                                <td>{{substr($c->records->fname, 0, 1) . preg_replace('/[^@]/', '*', substr($c->records->fname, 1))}} {{(!is_null($c->records->mname)) ? substr($c->records->mname, 0, 1) . preg_replace('/[^@]/', '*', substr($c->records->mname, 1)) : ''}} {{substr($c->records->lname, 0, 1) . preg_replace('/[^@]/', '*', substr($c->records->lname, 1))}}</td>
+                                <td>{{substr($c->records->lname, 0, 1) . preg_replace('/[^@]/', '*', substr($c->records->lname, 1))}}, {{substr($c->records->fname, 0, 1) . preg_replace('/[^@]/', '*', substr($c->records->fname, 1))}} {{(!is_null($c->records->mname)) ? substr($c->records->mname, 0, 1) . preg_replace('/[^@]/', '*', substr($c->records->mname, 1)) : ''}} </td>
                             </tr>
                             <tr class="">
                                 <td>Birth Year</td>
