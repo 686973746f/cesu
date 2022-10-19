@@ -102,7 +102,7 @@ else {
                 <td>
                     <div class="text-center">
                         <p>Performed By:</p>
-                        <img src="{{storage_path('PIRMA_MACALFRED.png')}}" style="width: 16rem; margin-bottom: -30px; margin-top: 60px;" alt="">
+                        <img src="{{asset('assets/images/PIRMA_MACALFRED.png')}}" style="width: 16rem; margin-bottom: -30px; margin-top: 60px;" alt="">
                         <p style="margin-bottom: 1px;"><b><u>MACK ALFRED L. CHICO, RMT</u></b></p>
                         <p style="margin-bottom: 1px;">Medical Technologist I</p>
                         <p>License No. 0082495</p>
