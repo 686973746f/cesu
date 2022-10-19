@@ -16,6 +16,7 @@ use App\Http\Controllers\PaSwabController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AntigenController;
 use App\Http\Controllers\OptionsController;
+use App\Http\Controllers\OutsideController;
 use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\LineListController;
@@ -52,6 +53,8 @@ use App\Http\Controllers\SecondaryTertiaryRecordsController;
 Auth::routes(['verify' => true]);
 Route::get('/referral', [RegisterCodeController::class, 'index'])->name('rcode.index');
 Route::get('/referral/check', [RegisterCodeController::class, 'refCodeCheck'])->name('rcode.check');
+
+Route::get('/verify/{qr}', [OutsideController::class, 'qrcodeverify'])->name('qrcodeverify.index');
 
 //Route::get('/test', [TestController::class, 'index']);
 

@@ -406,4 +406,18 @@ class Records extends Model
             return false;
         }
     }
+
+    public function isPregnant() {
+        if($this->gender != 'MALE') {
+            if($this->isPregnant == 1) {
+                return 'Y';
+            }
+            else {
+                return 'N';
+            }
+        }
+        else {
+            return 'N';
+        }
+    }
 }

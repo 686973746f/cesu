@@ -1718,6 +1718,24 @@ class FormsController extends Controller
                 $set_mm = date('Y-m-d', strtotime('+1 Day'));
             }
 
+            //Antigen QR
+            if($request->testType2 == 'ANTIGEN' || $request->testType1 == 'ANTIGEN') {
+                $foundunique = false;
+                while(!$foundunique) {
+                    $majik = Str::random(10);
+                    
+                    $qr_search = Forms::where('antigenqr', $majik);
+                    if($qr_search->count() == 0) {
+                        $foundunique = true;
+                    }
+                }
+
+                $antigenqr = $majik;
+            }
+            else {
+                $antigenqr = NULL;
+            }
+
             $createform = $request->user()->form()->create([
                 'created_at' => $set_created_at,
                 'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
@@ -1907,6 +1925,7 @@ class FormsController extends Controller
                 'contact4No' => $request->contact4No,
 
                 'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
+                'antigenqr' => $antigenqr,
             ]);
 
             //Create Monitoring Sheet

@@ -443,7 +443,7 @@
         });
         </script>
         @endif
-        <form action="/forms/{{$records->id}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
+        <form action="{{route('forms.update', ['form' => $records->id])}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
             @csrf
             @method('PUT')
             <div class="card mb-3">

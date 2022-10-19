@@ -9,10 +9,11 @@
         <tr>
             <th>No.</th>
             <th>Name / Test Type</th>
-            <th>Philhealth</th>
             <th>Client Type</th>
+            <th>Philhealth</th>
             <th>Birthdate</th>
             <th>Age / Sex</th>
+            <th>Pregnant</th>
             <th>Address</th>
             <th>Contact No.</th>
             <th>Remarks</th>
@@ -55,10 +56,11 @@
         <tr>
             <td scope="row" class="text-center">{{$loop->iteration}}</td>
             <td class="font-weight-bold" style="vertical-align: middle;">{{$item->records->getName()}}<span class="text-primary">{{$showType}}</span></td>
-            <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->records->philhealth)) ? $item->records->philhealth : "N/A"}}</td>
             <td class="text-center" style="vertical-align: middle;">{{$pTypeStr}}</td>
+            <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->records->philhealth)) ? $item->records->getPhilhealth() : "N/A"}}</td>
             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y', strtotime($item->records->bdate))}}</td>
             <td class="text-center" style="vertical-align: middle;">{{$item->records->getAge()}} / {{substr($item->records->gender,0,1)}}</td>
+            <td class="text-center" style="vertical-align: middle;">{{$item->records->isPregnant()}}</td>
             <td style="vertical-align: middle;"><small>{{$item->records->address_street}}, BRGY. {{$item->records->address_brgy}}, {{$item->records->address_city}}, {{$item->records->address_province}}</small></td>
             <td class="text-center" style="vertical-align: middle;">{{$item->records->mobile}}</td>
             <td></td>

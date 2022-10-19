@@ -24,9 +24,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div class="font-weight-bold">
-                Case Investigation Form List
-                </div>
+                <div class="font-weight-bold">Swab Test Schedule List</div>
                 <div>
                     @if(($forms->where('testDateCollected1', date('Y-m-d'))->merge($forms->where('testDateCollected2', date('Y-m-d')))->count()) > 0)
                     <a href="{{route('forms.ciflist.print')}}" class="btn btn-primary mb-2">Print CIF List</a>
