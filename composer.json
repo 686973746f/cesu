@@ -22,7 +22,8 @@
         "phpoffice/phpspreadsheet": "^1.22",
         "phpoffice/phpword": "^0.18.3",
         "pragmarx/countries": "^0.7.2",
-        "rap2hpoutre/fast-excel": "^3.1"
+        "rap2hpoutre/fast-excel": "^3.1",
+        "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -117,6 +117,11 @@ else {
                         <p>License No. 102377</p>
                     </div>
                 </td>
+                <td>
+                    <div class="text-center">
+                        {!! QrCode::size(150)->generate(route('qrcodeverify.index', ['qr' => $details->antigenqr])) !!}
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
