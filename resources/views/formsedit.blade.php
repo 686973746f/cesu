@@ -2247,7 +2247,7 @@
                                             </div>
                                             @if($records->testType1 == "ANTIGEN")
                                             <div id="antigenExport1" class="d-none">
-                                                <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/1"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
+                                                <a class="btn btn-primary btn-block" href="{{route('forms.soloprint.antigen', ['id' => $records->id, 'testType' => 1])}}"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                             </div>
                                             @endif
                                         </div>
@@ -2337,7 +2337,7 @@
                                             </div>
                                             @if($records->testType2 == "ANTIGEN")
                                             <div id="antigenExport2" class="d-none">
-                                                <a class="btn btn-primary btn-block" href="/forms/printAntigen/{{$records->id}}/2"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
+                                                <a class="btn btn-primary btn-block" href="{{route('forms.soloprint.antigen', ['id' => $records->id, 'testType' => 2])}}"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print Antigen Result</a>
                                             </div>
                                             @endif
                                         </div>

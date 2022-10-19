@@ -647,6 +647,7 @@ class FormsController extends Controller
             }
 
             if($details->testType1 == "ANTIGEN" || $details->testType2 == "ANTIGEN") {
+                /*
                 $pdf = PDF::loadView('pdf_antigen', [
                     'details' => $details,
                     'testType' => $testType,
@@ -654,6 +655,14 @@ class FormsController extends Controller
                     'alot' => $alot,
                 ])->setPaper('a4', 'portrait');
                 return $pdf->download('ANTIGEN_RESULT_'.$details->records->lname.'.pdf');
+                */
+
+                return view('pdf_antigen', [
+                    'details' => $details,
+                    'testType' => $testType,
+                    'aname' => $aname,
+                    'alot' => $alot,
+                ]);
             }
             else {
                 return redirect()->back()

@@ -1,4 +1,5 @@
-@extends('layouts.app_pdf')
+@extends('layouts.app')
+@section('content')
 <style>
     #divToPrint {
         background-image: url("{{asset('assets/images/gentri_icon_large_watermark.png')}}");
@@ -6,8 +7,36 @@
         background-position: center;
         background-size: 50%;
     }
+    
+    @media print {
+        #PrintBtn, #titleBody {
+            display: none;
+        }
+
+        @page {
+            margin: 0;
+        }
+
+        body {
+            background-color: white;
+            margin-top: 0;
+        }
+        
+        body * {
+        visibility: hidden;
+        }
+
+        #divToPrint, #divToPrint * {
+            visibility: visible;
+        }
+
+        #divToPrint {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
 </style>
-@section('content')
 @php
 if($testType == 1) {
     $dateCollected = date('m/d/Y', strtotime($details->testDateCollected1));
@@ -38,92 +67,87 @@ else {
     $resultColor = ($details->testResult2 == "POSITIVE") ? 'text-danger font-weight-bold' : '';
 }
 @endphp
-<div class="container-fluid" style="font-family: Arial, Helvetica, sans-serif" id="divToPrint">
-    <div class="text-center">
-        <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
-    </div>
-    <p class="text-center mt-3"><b>LABORATORY RESULT FORM FOR COVID-19 ANTIGEN RAPID TEST</b></p>
-    
-    <table cellspacing="0" cellpadding="0" class="mt-3 mb-3">
-        <tbody>
-            <tr>
-                <td>Name: <u>{{$details->records->lname.", ".$details->records->fname." ".$details->records->mname}}</u></td>
-                <td>Date Requested: <u>{{date('m/d/Y', strtotime($details->interviewDate))}}</u></td>
-            </tr>
-            <tr style="vertical-align: top;">
-                <td>Address: <u><small>{{$details->records->address_street.", BRGY.".$details->records->address_brgy.", ".$details->records->address_city.", ".$details->records->address_province}}</small></u></td>
-                <td style="width: 200px;">Age & Gender: <u>{{$details->records->getAge()." / ".$details->records->gender}}</u></td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <table class="table table-bordered text-center">
-        <thead>
-            <tr>
-                <th>KIT/REAGENT USED</th>
-                <th>LOT #</th>
-                <th style="width: 150px">TIME</th>
-                <th style="width: 200px">RESULT</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="vertical-align: middle;">{{$aname}}</td>
-                <td style="vertical-align: middle;">{{$alot}}</td>
-                <td style="vertical-align: middle;">{{$time}}</td>
-                <td style="vertical-align: middle;" class="{{$resultColor}}">{{$result}}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="row">
-        <div class="col-md-6 text-center">
-            
-        </div>
-        <div class="col-md-6 text-center">
-            
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 text-center">
-            
-        </div>
-        <div class="col-md-6 text-center">
-            
-        </div>
-    </div>
-    <table class="table table-borderless">
-        <tbody>
-            <tr>
-                <td class="text-center"><p>Date Performed: <u>{{$dateCollected}}</u></p></td>
-                <td class="text-center"><p>Date Released: <u>{{$dateReleased}}</u></p></td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="text-center">
-                        <p>Performed By:</p>
-                        <img src="{{storage_path('PIRMA_MACALFRED.png')}}" style="width: 16rem; margin-bottom: -30px; margin-top: 60px;" alt="">
-                        <p style="margin-bottom: 1px;"><b><u>MACK ALFRED L. CHICO, RMT</u></b></p>
-                        <p style="margin-bottom: 1px;">Medical Technologist I</p>
-                        <p>License No. 0082495</p>
+<div class="container" style="font-family: Arial, Helvetica, sans-serif">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header" id="titleBody">
+                    <div class="d-flex justify-content-between">
+                        <div>Antigen Result Form</div>
+                        <div><button type="button" class="btn btn-primary" id="PrintBtn" onclick="window.print()"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button></div>
                     </div>
-                </td>
-                <td>
+                </div>
+                <div class="card-body" id="divToPrint">
                     <div class="text-center">
-                        <p>Verified By:</p>
-                        <img src="{{asset('assets/images/signatureonly_docathan.png')}}" style="width: 9rem; margin-bottom: -30px;" alt="">
-                        <p style="margin-bottom: 1px;"><b><u>JONATHAN P. LUSECO, M.D</u></b></p>
-                        <p style="margin-bottom: 1px;">City Health Officer II</p>
-                        <p>License No. 102377</p>
+                        <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid">
                     </div>
-                </td>
-                <td>
-                    <div class="text-center">
-                        {!! QrCode::size(150)->generate(route('qrcodeverify.index', ['qr' => $details->antigenqr])) !!}
+                    <p class="text-center mt-3"><b>LABORATORY RESULT FORM FOR COVID-19 ANTIGEN RAPID TEST</b></p>
+                    <div class="row my-3">
+                        <div class="col-sm-8">
+                            <p style="margin-bottom: 0px;">Name: <u>{{$details->records->lname.", ".$details->records->fname." ".$details->records->mname}}</u></p>
+                            <p>Address: <u><small>{{$details->records->address_street.", BRGY.".$details->records->address_brgy.", ".$details->records->address_city.", ".$details->records->address_province}}</small></u></p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p style="margin-bottom: 0px;">Date Requested: <u>{{date('m/d/Y', strtotime($details->interviewDate))}}</u></p>
+                            <p>Age / Gender: <u>{{$details->records->getAge()." / ".$details->records->gender}}</u></p>
+                        </div>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    
+                    <table class="table table-bordered text-center" id="mainTbl">
+                        <thead>
+                            <tr>
+                                <th>KIT/REAGENT USED</th>
+                                <th>LOT #</th>
+                                <th style="width: 150px">TIME</th>
+                                <th style="width: 200px">RESULT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="vertical-align: middle;"><p class="my-3">{{$aname}}</p></td>
+                                <td style="vertical-align: middle;">{{$alot}}</td>
+                                <td style="vertical-align: middle;">{{$time}}</td>
+                                <td style="vertical-align: middle;" class="{{$resultColor}}">{{$result}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row text-center">
+                        <div class="col-sm-6">
+                            <p>Date Performed: <u>{{$dateCollected}}</u></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>Date Released: <u>{{$dateReleased}}</u></p>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-sm-4">
+                            <div class="text-center">
+                                <p>Performed By:</p>
+                                <img src="{{storage_path('PIRMA_MACALFRED.png')}}" style="width: 16rem; margin-bottom: -30px; margin-top: 60px;" alt="">
+                                <p style="margin-bottom: 1px;"><b><u>MACK ALFRED L. CHICO, RMT</u></b></p>
+                                <p style="margin-bottom: 1px;">Medical Technologist I</p>
+                                <p>License No. 0082495</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-center">
+                                <p>Verified By:</p>
+                                <img src="{{asset('assets/images/signatureonly_docathan.png')}}" style="width: 9rem; margin-bottom: -30px;" alt="">
+                                <p style="margin-bottom: 1px;"><b><u>JONATHAN P. LUSECO, M.D</u></b></p>
+                                <p style="margin-bottom: 1px;">City Health Officer II</p>
+                                <p>License No. 102377</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <td class="text-center">
+                                <div>{!! QrCode::size(130)->generate(route('qrcodeverify.index', ['qr' => $details->antigenqr])) !!}</div>
+                                <span>SCAN TO VERIFY RESULT</span>
+                            </td>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
 </div>
 @endsection
