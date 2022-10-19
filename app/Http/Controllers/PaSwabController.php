@@ -449,6 +449,24 @@ class PaSwabController extends Controller
                         $caseClassi = 'Suspect';
                     }
 
+                    //Antigen QR
+                    if($data->forAntigen == 1) {
+                        $foundunique = false;
+                        while(!$foundunique) {
+                            $majik = Str::random(10);
+                            
+                            $qr_search = Forms::where('antigenqr', $majik);
+                            if($qr_search->count() == 0) {
+                                $foundunique = true;
+                            }
+                        }
+    
+                        $antigenqr = $majik;
+                    }
+                    else {
+                        $antigenqr = NULL;
+                    }
+
                     $createform = $request->user()->form()->create([
                         'morbidityMonth' => date('Y-m-d'),
                         'dateReported' => date('Y-m-d'),
@@ -625,6 +643,7 @@ class PaSwabController extends Controller
                         'contact4No' => $data->contact4No,
 
                         'remarks' => $data->patientmsg,
+                        'antigenqr' => $antigenqr,
                     ]);
 
                     //Create Monitoring Sheet
@@ -996,6 +1015,9 @@ class PaSwabController extends Controller
                         $caseClassi = 'Suspect';
                     }
 
+                    //Antigen QR
+                    $antigenqr = NULL;
+
                     $request->user()->form()->create([
                         'morbidityMonth' => date('Y-m-d'),
                         'dateReported' => date('Y-m-d'),
@@ -1172,6 +1194,7 @@ class PaSwabController extends Controller
                         'contact4No' => $data->contact4No,
 
                         'remarks' => $data->patientmsg,
+                        'antigenqr' => $antigenqr,
                     ]);
                     
                     //UPDATE PARAMETERS
@@ -1976,6 +1999,24 @@ class PaSwabController extends Controller
                 $caseClassi = 'Suspect';
             }
 
+            //Antigen QR
+            if($data->forAntigen == 1) {
+                $foundunique = false;
+                while(!$foundunique) {
+                    $majik = Str::random(10);
+                    
+                    $qr_search = Forms::where('antigenqr', $majik);
+                    if($qr_search->count() == 0) {
+                        $foundunique = true;
+                    }
+                }
+
+                $antigenqr = $majik;
+            }
+            else {
+                $antigenqr = NULL;
+            }
+
             $createform = $request->user()->form()->create([
                 'morbidityMonth' => date('Y-m-d'),
                 'dateReported' => date('Y-m-d'),
@@ -2152,6 +2193,7 @@ class PaSwabController extends Controller
                 'contact4No' => $data->contact4No,
 
                 'remarks' => $data->patientmsg,
+                'antigenqr' => $antigenqr,
             ]);
 
             //Create Monitoring Sheet
@@ -2547,6 +2589,9 @@ class PaSwabController extends Controller
                 $caseClassi = 'Suspect';
             }
 
+            //Antigen QR
+            $antigenqr = NULL;
+
             $request->user()->form()->create([
                 'morbidityMonth' => date('Y-m-d'),
                 'dateReported' => date('Y-m-d'),
@@ -2723,6 +2768,7 @@ class PaSwabController extends Controller
                 'contact4No' => $data->contact4No,
 
                 'remarks' => $data->patientmsg,
+                'antigenqr' => $antigenqr,
             ]);
             
             //UPDATE PARAMETERS
