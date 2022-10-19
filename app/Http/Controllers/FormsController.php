@@ -2851,6 +2851,30 @@ class FormsController extends Controller
                         }
                     }
                 }
+
+                //Antigen QR
+                if(is_null($rec->antigenqr)) {
+                    if($request->testType2 == 'ANTIGEN' || $request->testType1 == 'ANTIGEN') {
+                        $foundunique = false;
+                        while(!$foundunique) {
+                            $majik = Str::random(10);
+                            
+                            $qr_search = Forms::where('antigenqr', $majik);
+                            if($qr_search->count() == 0) {
+                                $foundunique = true;
+                            }
+                        }
+    
+                        $antigenqr = $majik;
+                    }
+                    else {
+                        $antigenqr = NULL;
+                    }
+                }
+                else {
+                    $antigenqr = NULL;
+                }
+                
                 
                 if($proceed == 1) {
                     if($set_mm == date('Y-m-d') && $caseClassi == 'Confirmed' && time() >= strtotime('16:00:00') && !(auth()->user()->ifTopAdmin())) {
@@ -3050,6 +3074,7 @@ class FormsController extends Controller
 
                         'is_disobedient' => $form_is_disobedient,
                         'disobedient_remarks' => $form_disobedient_remarks,
+                        'antigenqr' => $antigenqr,
                     ]);
         
                     if(request()->input('fromView') && request()->input('sdate') && request()->input('edate')) {
