@@ -111,7 +111,7 @@ else {
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row text-center">
+                    <div class="row text-center my-5">
                         <div class="col-sm-6">
                             <p>Date Performed: <u>{{$dateCollected}}</u></p>
                         </div>
