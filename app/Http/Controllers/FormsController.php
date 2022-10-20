@@ -2881,7 +2881,7 @@ class FormsController extends Controller
                     }
                 }
                 else {
-                    $antigenqr = NULL;
+                    $antigenqr = $rec->antigenqr;
                 }
                 
                 
