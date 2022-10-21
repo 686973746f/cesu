@@ -787,7 +787,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("Neurological Disease", $arr_como)) ? "YES" : "NO",
             (in_array("Cancer", $arr_como)) ? "YES" : "NO",
             (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como) || $form->records->isPregnant == 1) ? "YES" : "NO",
-            (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como)) ? $ocomo_final : "N/A",
+            (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como) || $form->records->isPregnant == 1) ? $ocomo_final : "N/A",
 
             ($form->records->isPregnant == 1) ? "YES" : "NO",
             ($form->records->isPregnant == 1) ? date('m/d/Y', strtotime($form->PregnantLMP)) : "N/A",
