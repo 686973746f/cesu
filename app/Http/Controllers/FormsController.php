@@ -621,6 +621,31 @@ class FormsController extends Controller
 
         $details = Forms::find($id);
 
+        if(is_null($details->antigenqr)) {
+            //Antigen QR
+            if($details->testType2 == 'ANTIGEN' || $details->testType1 == 'ANTIGEN') {
+                $foundunique = false;
+                while(!$foundunique) {
+                    $majik = Str::random(10);
+                    
+                    $qr_search = Forms::where('antigenqr', $majik);
+                    if($qr_search->count() == 0) {
+                        $foundunique = true;
+                    }
+                }
+
+                $antigenqr = $majik;
+            }
+            else {
+                $antigenqr = NULL;
+            }
+
+            $details->antigenqr = $antigenqr;
+            if($details->isDirty()) {
+                $details->save();
+            }
+        }
+
         if(auth()->user()->isCesuAccount()) {
             if($testType == 1) {
                 $aname = Antigen::where('id', $details->antigen_id1)->value('antigenKitName');
