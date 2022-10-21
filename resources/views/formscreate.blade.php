@@ -931,7 +931,7 @@
                                                     <option value="2" {{(old('dispositionType') == 2) ? 'selected' : ''}} id="disopt2">Admitted in OTHER isolation/quarantine facility</option>
                                                     <option value="3" {{(old('dispositionType') == 3 || is_null(old('dispositionType'))) ? 'selected' : ''}} id="disopt3">In home isolation/quarantine</option>
                                                     <option value="4" {{(old('dispositionType') == 4) ? 'selected' : ''}} id="disopt4">Discharged to home</option>
-                                                    <option value="5" {{(old('dispositionType') == 5) ? 'selected' : ''}} id="disopt5">Others (For Hospitalization/Pregnant)</option>
+                                                    <option value="5" {{(old('dispositionType') == 5) ? 'selected' : ''}} id="disopt5">Others</option>
                                                 </select>
                                             </div>
                                             <div id="divYes5">
