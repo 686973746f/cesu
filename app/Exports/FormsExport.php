@@ -454,6 +454,11 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             array_push($ocomo, 'TRANSPLANT');
         }
 
+        //Auto Comorbid Pregnant Patients
+        if($form->records->isPregnant == 1) {
+            array_push($ocomo, 'PREGNANT');
+        }
+
         $ocomo_final = implode(',', $ocomo);
 
         //Exposure Choices Forced to YES Temporarily (Para tanggapin ng Molecular Laboratory)
@@ -772,7 +777,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $set_sxothers,
             $auto_othersx,
 
-            (in_array("None", $arr_como)) ? "YES" : "NO",
+            (in_array("None", $arr_como) || $form->records->isPregnant != 1) ? "YES" : "NO",
             (in_array("Hypertension", $arr_como)) ? "YES" : "NO",
             (in_array("Diabetes", $arr_como)) ? "YES" : "NO",
             (in_array("Heart Disease", $arr_como)) ? "YES" : "NO",
@@ -781,7 +786,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("Genito-urinary", $arr_como)) ? "YES" : "NO",
             (in_array("Neurological Disease", $arr_como)) ? "YES" : "NO",
             (in_array("Cancer", $arr_como)) ? "YES" : "NO",
-            (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como)) ? "YES" : "NO",
+            (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como) || $form->records->isPregnant == 1) ? "YES" : "NO",
             (in_array("Others", $arr_como) || in_array("Dialysis", $arr_como) || in_array("Operation", $arr_como) || in_array("Transplant", $arr_como)) ? $ocomo_final : "N/A",
 
             ($form->records->isPregnant == 1) ? "YES" : "NO",
