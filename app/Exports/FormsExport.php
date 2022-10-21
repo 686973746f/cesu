@@ -777,7 +777,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             $set_sxothers,
             $auto_othersx,
 
-            (in_array("None", $arr_como) || $form->records->isPregnant != 1) ? "YES" : "NO",
+            (in_array("None", $arr_como) && $form->records->isPregnant != 1) ? "YES" : "NO",
             (in_array("Hypertension", $arr_como)) ? "YES" : "NO",
             (in_array("Diabetes", $arr_como)) ? "YES" : "NO",
             (in_array("Heart Disease", $arr_como)) ? "YES" : "NO",
