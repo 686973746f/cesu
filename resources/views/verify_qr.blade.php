@@ -12,18 +12,7 @@
                 <hr>
                 @if($c)
                 @php
-                if($c->getLatestTestResult() == 'POSITIVE') {
-                    $txtc = 'text-danger';
-                }
-                else if($c->getLatestTestResult() == 'NEGATIVE') {
-                    $txtc = 'text-success';
-                }
-                else if($c->getLatestTestResult() == 'PENDING') {
-                    $txtc = 'text-warning';
-                }
-                else {
-                    $txtc = '';
-                }
+                
                 @endphp
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -41,22 +30,27 @@
                                 <td>{{date('Y', strtotime($c->records->bdate))}}</td>
                             </tr>
                             <tr class="">
+                                <td>Specimen Type</td>
+                                <td>{{$sType}}</td>
+                            </tr>
+                            <tr class="">
                                 <td>Specimen Collection</td>
-                                <td>{{date('d-M-Y', strtotime($c->getLatestTestDate()))}}</td>
+                                <td>{{$sDate}}</td>
                             </tr>
                             <tr class="">
                                 <td>Result Released</td>
-                                <td>{{(!is_null($c->getLatestTestDateReleased())) ? date('d-M-Y', strtotime($c->getLatestTestDateReleased())) : 'N/A'}}</td>
+                                <td>{{$sDateReleased}}</td>
                             </tr>
                             <tr class="font-weight-bold">
                                 <td>Result</td>
-                                <td class="{{$txtc}}">{{$c->getLatestTestResult()}}</td>
+                                <td class="{{$txtc}}">{{$sResult}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 @else
-                <h3 class="text-danger">NO RESULTS FOUND</h3>
+                <h3 class="text-danger">INVALID QR CODE</h3>
+                <p>Sorry, your QR Code is invalid.</p>
                 @endif
                 <div class="mt-3">
                     <code class="text-center text-muted">CESU General Trias Result Verification System. Developed by Christian James Historillo.</code>
