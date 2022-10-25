@@ -22,6 +22,7 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\ReportV2Controller;
 use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\MonkeyPoxController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\BulkUpdateController;
 use App\Http\Controllers\JsonReportController;
@@ -220,6 +221,12 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/casechecker', [ReportV2Controller::class, 'casechecker_index'])->name('casechecker_index');
     
     Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
+
+    //Monkeypox
+    Route::get('/monkeypox', [MonkeyPoxController::class, 'home'])->name('mp.home');
+    Route::get('/monkeypox/ajaxlist', [MonkeyPoxController::class, 'ajaxlist'])->name('mp.ajaxlist');
+    Route::get('/monkeypox/cif/{record_id}/new', [MonkeyPoxController::class, 'create_cif'])->name('mp.newcif');
+    Route::post('/monkeypox/cif/{record_id}/new', [MonkeyPoxController::class, 'store_cif'])->name('mp.storecif');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

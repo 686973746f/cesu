@@ -20,10 +20,11 @@ class CreateMonkeyPoxesTable extends Migration
             $table->date('date_reported');
             $table->text('epid_number')->nullable();
             $table->date('date_investigation');
-            $table->string('dru_name');
-            $table->string('dru_region');
-            $table->string('dru_province');
-            $table->text('dru_address');
+            $table->text('dru_name');
+            $table->text('dru_region');
+            $table->text('dru_province');
+            $table->text('dru_muncity');
+            $table->text('dru_street');
 
             $table->text('type');
             $table->text('laboratory_id')->nullable();
@@ -36,7 +37,7 @@ class CreateMonkeyPoxesTable extends Migration
             $table->text('admission_er');
             $table->text('admission_ward');
             $table->text('admission_icu');
-            $table->date('date_discharge')->nullable();
+            //$table->date('date_discharge')->nullable();
 
             $table->text('ifhashistory_blooddonation_transfusion')->nullable();
             $table->text('ifhashistory_blooddonation_transfusion_place')->nullable();
@@ -103,27 +104,27 @@ class CreateMonkeyPoxesTable extends Migration
             $table->string('history9_choice');
             $table->text('history9_choice_othercountry')->nullable();
 
-            $table->tinyInt('test_npsops');
+            $table->tinyInteger('test_npsops');
             $table->date('test_npsops_date_collected')->nullable();
             $table->text('test_npsops_laboratory')->nullable();
             $table->text('test_npsops_result')->nullable();
             $table->date('test_npsops_date_released')->nullable();
-            $table->tinyInt('test_lesionfluid');
+            $table->tinyInteger('test_lesionfluid');
             $table->date('test_lesionfluid_date_collected')->nullable();
             $table->text('test_lesionfluid_laboratory')->nullable();
             $table->text('test_lesionfluid_result')->nullable();
             $table->date('test_lesionfluid_date_released')->nullable();
-            $table->tinyInt('test_lesionroof');
+            $table->tinyInteger('test_lesionroof');
             $table->date('test_lesionroof_date_collected')->nullable();
             $table->text('test_lesionroof_laboratory')->nullable();
             $table->text('test_lesionroof_result')->nullable();
             $table->date('test_lesionroof_date_released')->nullable();
-            $table->tinyInt('test_lesioncrust');
+            $table->tinyInteger('test_lesioncrust');
             $table->date('test_lesioncrust_date_collected')->nullable();
             $table->text('test_lesioncrust_laboratory')->nullable();
             $table->text('test_lesioncrust_result')->nullable();
             $table->date('test_lesioncrust_date_released')->nullable();
-            $table->tinyInt('test_serum');
+            $table->tinyInteger('test_serum');
             $table->date('test_serum_date_collected')->nullable();
             $table->text('test_serum_laboratory')->nullable();
             $table->text('test_serum_result')->nullable();

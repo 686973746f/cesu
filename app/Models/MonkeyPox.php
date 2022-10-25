@@ -18,8 +18,8 @@ class MonkeyPox extends Model
         'date_investigation',
         'dru_name',
         'dru_region',
-        'dru_province',
-        'dru_address',
+        'dru_muncity',
+        'dru_street',
 
         'type',
         'laboratory_id',
@@ -32,7 +32,7 @@ class MonkeyPox extends Model
         'admission_er',
         'admission_ward',
         'admission_icu',
-        'date_discharge',
+        //'date_discharge',
 
         'ifhashistory_blooddonation_transfusion',
         'ifhashistory_blooddonation_transfusion_place',
