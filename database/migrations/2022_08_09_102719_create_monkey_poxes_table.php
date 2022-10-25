@@ -25,64 +25,120 @@ class CreateMonkeyPoxesTable extends Migration
             $table->string('dru_province');
             $table->text('dru_address');
 
-            $table->text('criteria');
-            $table->text('source');
             $table->text('type');
             $table->text('laboratory_id')->nullable();
 
-            $table->date('date_onset');
-            $table->date('date_admitted');
+            $table->text('informant_name')->nullable();
+            $table->text('informant_relationship')->nullable();
+            $table->text('informant_contactnumber')->nullable();
 
-            $table->string('admission_er');
-            $table->date('admission_er_date')->nullable();
-            $table->string('admission_ward');
-            $table->date('admission_ward_date')->nullable();
-            $table->string('admission_icu');
-            $table->date('admission_icu_date')->nullable();
+            $table->date('date_admitted')->nullable();
+            $table->text('admission_er');
+            $table->text('admission_ward');
+            $table->text('admission_icu');
             $table->date('date_discharge')->nullable();
 
-            $table->string('q1_yn');
-            $table->string('q1_specify')->nullable();
-            $table->date('q1_date_travel')->nullable();
-            $table->string('q1_flightno')->nullable();
-            $table->date('q1_date_arrival')->nullable();
-            $table->string('q1_pointandexitentry')->nullable();
+            $table->text('ifhashistory_blooddonation_transfusion')->nullable();
+            $table->text('ifhashistory_blooddonation_transfusion_place')->nullable();
+            $table->date('ifhashistory_blooddonation_transfusion_date')->nullable();
 
-            $table->string('q2_yn');
-            $table->string('q2_specify')->nullable();
-            $table->date('q2_date_travel')->nullable();
-            $table->string('q2_flightno')->nullable();
-            $table->date('q2_date_arrival')->nullable();
-            $table->string('q2_pointandexitentry')->nullable();
+            $table->text('other_medicalinformation')->nullable();
 
-            $table->string('q3_yn');
-            $table->date('q3_date_onset')->nullable();
+            $table->date('date_onsetofillness');
 
-            $table->string('q4_yn');
-            $table->date('q4_date_onset')->nullable();
-            $table->string('q4_days_duration')->nullable();
+            $table->tinyInteger('have_cutaneous_rash');
+            $table->date('have_cutaneous_rash_date')->nullable();
 
-            $table->text('q5_list')->nullable();
-            $table->string('q51_yn');
-            $table->string('q52_yn');
-            $table->string('q53_yn');
-            $table->string('q54_yn');
+            $table->tinyInteger('have_fever');
+            $table->date('have_fever_date')->nullable();
+            $table->integer('have_fever_days_duration')->nullable();
 
-            $table->text('q6_localisaiton');
-            $table->text('q6_otherareas')->nullable();
-
+            $table->tinyInteger('have_activedisease_lesion_samestate');
+            $table->tinyInteger('have_activedisease_lesion_samesize');
+            $table->tinyInteger('have_activedisease_lesion_deep');
+            $table->tinyInteger('have_activedisease_develop_ulcers');
+            $table->text('have_activedisease_lesion_type')->nullable();
+            $table->text('have_activedisease_lesion_localization')->nullable();
+            $table->text('have_activedisease_lesion_localization_otherareas')->nullable();
+            
             $table->text('symptoms_list')->nullable();
+            $table->text('symptoms_lymphadenopathy_localization')->nullable();
 
-            $table->string('hexp_i1_yn');
-            $table->string('hexp_i1_lname')->nullable();
-            $table->string('hexp_i1_fname')->nullable();
-            $table->string('hexp_i1_relationship')->nullable();
+            $table->string('history1_yn');
+            $table->string('history1_specify')->nullable();
+            $table->date('history1_date_travel')->nullable();
+            $table->string('history1_flightno')->nullable();
+            $table->date('history1_date_arrival')->nullable();
+            $table->string('history1_pointandexitentry')->nullable();
 
-            $table->string('hexp_i2_yn');
-            $table->string('hexx_i2_specify')->nullable();
-            $table->date('hexp_i2_date')->nullable();
-            $table->text('hexp_i2_type_of_contact')->nullable();
-            $table->text('hexp_i2_type_of_contact_ifothers')->nullable();
+            $table->string('history2_yn');
+            $table->string('history2_specify')->nullable();
+            $table->date('history2_date_travel')->nullable();
+            $table->string('history2_flightno')->nullable();
+            $table->date('history2_date_arrival')->nullable();
+            $table->string('history2_pointandexitentry')->nullable();
+
+            $table->string('history3_yn');
+
+            $table->string('history4_yn');
+            $table->text('history4_typeofanimal')->nullable();
+            $table->date('history4_firstexposure')->nullable();
+            $table->date('history4_lastexposure')->nullable();
+            $table->text('history4_type')->nullable();
+
+            $table->text('history5_genderidentity');
+
+            $table->string('history6_yn');
+            $table->tinyInteger('history6_mtm')->nullable();
+            $table->integer('history6_mtm_nosp')->nullable();
+            $table->tinyInteger('history6_mtf')->nullable();
+            $table->integer('history6_mtf_nosp')->nullable();
+            $table->tinyInteger('history6_uknown')->nullable();
+            $table->integer('history6_uknown_nosp')->nullable();
+
+            $table->string('history7_yn');
+
+            $table->string('history8_yn');
+
+            $table->string('history9_choice');
+            $table->text('history9_choice_othercountry')->nullable();
+
+            $table->tinyInt('test_npsops');
+            $table->date('test_npsops_date_collected')->nullable();
+            $table->text('test_npsops_laboratory')->nullable();
+            $table->text('test_npsops_result')->nullable();
+            $table->date('test_npsops_date_released')->nullable();
+            $table->tinyInt('test_lesionfluid');
+            $table->date('test_lesionfluid_date_collected')->nullable();
+            $table->text('test_lesionfluid_laboratory')->nullable();
+            $table->text('test_lesionfluid_result')->nullable();
+            $table->date('test_lesionfluid_date_released')->nullable();
+            $table->tinyInt('test_lesionroof');
+            $table->date('test_lesionroof_date_collected')->nullable();
+            $table->text('test_lesionroof_laboratory')->nullable();
+            $table->text('test_lesionroof_result')->nullable();
+            $table->date('test_lesionroof_date_released')->nullable();
+            $table->tinyInt('test_lesioncrust');
+            $table->date('test_lesioncrust_date_collected')->nullable();
+            $table->text('test_lesioncrust_laboratory')->nullable();
+            $table->text('test_lesioncrust_result')->nullable();
+            $table->date('test_lesioncrust_date_released')->nullable();
+            $table->tinyInt('test_serum');
+            $table->date('test_serum_date_collected')->nullable();
+            $table->text('test_serum_laboratory')->nullable();
+            $table->text('test_serum_result')->nullable();
+            $table->date('test_serum_date_released')->nullable();
+
+            $table->text('health_status');
+            $table->date('health_status_date_discharged')->nullable();
+            $table->text('health_status_final_diagnosis')->nullable();
+
+            $table->text('outcome')->nullable();
+            $table->text('outcome_unknown_type')->nullable();
+            $table->date('outcome_date_recovered')->nullable();
+            $table->date('outcome_date_died')->nullable();
+            $table->text('outcome_causeofdeath')->nullable();
+            $table->text('case_classification');
 
             $table->string('remarks')->nullable();
 
