@@ -272,7 +272,37 @@
                 <div class="card mb-3">
                     <div class="card-header"><b>IV. HISTORY OF EXPOSURE</b></div>
                     <div class="card-body">
+                        <div class="form-group">
+                            <label for="history1_yn">1. Did the patient travel anytime in the three weeks before becoming ill?</label>
+                            <select class="form-control" name="history1_yn" id="history1_yn" required>
+                                <option value="N" {{(old('history1_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history1_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                            </select>
+                        </div>
+                        <div id="div_history1" class="d-none">
 
+                        </div>
+                        <div class="form-group">
+                            <label for="history2_yn">2. Did the patient travel during illness?</label>
+                            <select class="form-control" name="history2_yn" id="history2_yn" required>
+                                <option value="N" {{(old('history2_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="history2_yn">3. Within 21 days befores symptom onset, did the patient have contact with one or more persons who had similar symptoms?</label>
+                            <select class="form-control" name="history2_yn" id="history2_yn" required>
+                                <option value="N" {{(old('history2_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="history2_yn">4. Did the patient touch a domestic or wild animal within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history2_yn" id="history2_yn" required>
+                                <option value="N" {{(old('history2_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="card mb-3">
