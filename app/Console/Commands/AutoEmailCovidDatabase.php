@@ -261,7 +261,7 @@ class AutoEmailCovidDatabase extends Command
             }
 
             return [
-                'MM (Morbidity Month)' => date('m/d/Y', strtotime($form->morbidityMonth)),
+                'MM (Morbidity Month)' => mb_strtoupper(date('F', strtotime($form->morbidityMonth))),
                 'MW (Morbidity Week)' => Carbon::parse($form->morbidityMonth)->format('W'),
                 'DATE REPORTED' => date('m/d/Y', strtotime($form->dateReported)),
                 'DRU' => $form->drunit,
@@ -271,7 +271,7 @@ class AutoEmailCovidDatabase extends Command
                 'FIRST NAME' => $form->records->fname,
                 'MIDDLE NAME' => (!is_null($form->records->mname)) ? $form->records->mname : "N/A",
                 'DOB' => date('m/d/Y', strtotime($form->records->bdate)),
-                'AGE (AGE IN YEARS)' => $form->records->getAge(),
+                'AGE (AGE IN YEARS)' => $form->records->getAgeInt(),
                 'SEX(M/F)' => substr($form->records->gender,0,1),
                 'NATIONALITY' => $form->records->nationality,
                 'REGION' => 'IV A',
@@ -327,11 +327,11 @@ class AutoEmailCovidDatabase extends Command
                 '1ST DOSE (DATE)' => (!is_null($form->records->vaccinationDate1)) ? date('m/d/Y', strtotime($form->records->vaccinationDate1)) : 'N/A',
                 '2ND DOSE (DATE)' => (!is_null($form->records->vaccinationDate2)) ? date('m/d/Y', strtotime($form->records->vaccinationDate2)) : 'N/A',
                 'NAME OF FACILITY' => $vFacility,
+                'YEAR' => date('Y', strtotime($form->dateReported)),
                 '1ST BOOSTER NAME' => (!is_null($form->records->vaccinationDate3)) ? $form->records->vaccinationName3 : 'N/A',
                 '1ST BOOSTER DATE' => (!is_null($form->records->vaccinationDate3)) ? $form->records->vaccinationDate3 : 'N/A',
                 '2ND BOOSTER NAME' => (!is_null($form->records->vaccinationDate4)) ? $form->records->vaccinationName4 : 'N/A',
                 '2ND BOOSTER DATE' => (!is_null($form->records->vaccinationDate4)) ? $form->records->vaccinationDate4 : 'N/A',
-                'YEAR' => date('Y', strtotime($form->dateReported)),
             ];
         });
 
