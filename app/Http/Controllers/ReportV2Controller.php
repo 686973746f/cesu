@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Brgy;
 use App\Models\City;
 use App\Models\Forms;
@@ -2618,6 +2619,287 @@ class ReportV2Controller extends Controller
         }
         else {
             return view('casechecker_index');
+        }
+    }
+
+    public function m2fhsis() {
+        if(request()->input('year') && request()->input('month')) {
+            $brgy = Brgy::where('city_id', 1)
+            ->where('displayInList', 1)
+            ->orderBy('brgyName', 'ASC')
+            ->get();
+            
+            $y = request()->input('year');
+            $m = request()->input('month');
+
+            $collect1 = [];
+            $collect2 = [];
+            $collect3 = [];
+
+            foreach ($brgy as $b) {
+                $rq = Forms::whereHas('records', function ($q) use ($b) {
+                    $q->where('records.address_province', $b->city->province->provinceName)
+                    ->where('records.address_city', $b->city->cityName)
+                    ->where('records.address_brgy', $b->brgyName);
+                })
+                ->where('status', 'approved')
+                ->where('caseClassification', 'Confirmed')
+                ->whereMonth('morbidityMonth', $m)
+                ->whereYear('morbidityMonth', $y)
+                ->get();
+
+                $r1_male = 0; //0-6 Days
+                $r1_female = 0; //0-6 Days
+                $r2_male = 0; //7-28 Days
+                $r2_female = 0; //7-28 Days
+                $r3_male = 0; //29 Days - 11 Months
+                $r3_female = 0; //29 Days - 11 Months
+                $r4_male = 0; //1-4 y/o
+                $r4_female = 0; //1-4 y/o
+                $r5_male = 0; //5-9 y/o
+                $r5_female = 0; //5-9 y/o
+                $r6_male = 0; //10-14 y/o
+                $r6_female = 0; //10-14 y/o
+                $r7_male = 0; //15-19 y/o
+                $r7_female = 0; //15-19 y/o
+                $r8_male = 0; //20-24 y/o
+                $r8_female = 0; //20-24 y/o
+                $r9_male = 0; //25-29 y/o
+                $r9_female = 0; //25-29 y/o
+                $r10_male = 0; //30-34 y/o
+                $r10_female = 0; //30-34 y/o
+                $r11_male = 0; //35-39 y/o
+                $r11_female = 0; //35-39 y/o
+                $r12_male = 0; //40-44 y/o
+                $r12_female = 0; //40-44 y/o
+                $r13_male = 0; //45-49 y/o
+                $r13_female = 0; //45-49 y/o
+                $r14_male = 0; //50-54 y/o
+                $r14_female = 0; //50-54 y/o
+                $r15_male = 0; //55-59 y/o
+                $r15_female = 0; //55-59 y/o
+                $r16_male = 0; //60-64 y/o
+                $r16_female = 0; //60-64 y/o
+                $r17_male = 0; //65-69 y/o
+                $r17_female = 0; //65-69 y/o
+                $r18_male = 0; //>= 70 y/o
+                $r18_female = 0; //>= 70 y/o
+                $r19_male = 0; //Total
+                $r19_female = 0; //Total
+                $r20 = 0; //TOTAL Both Sex
+
+
+                foreach ($rq as $d) {
+                    $inyear = $d->records->getAgeInt();
+                    if($inyear == 0) {
+                        $inmonth = Carbon::parse($d->records->bdate)->diff(\Carbon\Carbon::now())->format('%m');
+                        if($inmonth == 0 || $inmonth <= 11) {
+                            $indays = Carbon::parse($d->records->bdate)->diff(\Carbon\Carbon::now())->format('%d');
+
+                            if($indays >= 0 && $indays <= 6) {
+                                if($d->records->gender == 'MALE') {
+                                    $r1_male++;
+                                }
+                                else {
+                                    $r1_female++;
+                                }
+                            }
+                            else if($indays >= 7 && $indays <= 28) {
+                                if($d->records->gender == 'MALE') {
+                                    $r2_male++;
+                                }
+                                else {
+                                    $r2_female++;
+                                }
+                            }
+                            else if($indays >= 29 && $inmonth <= 11) {
+                                if($d->records->gender == 'MALE') {
+                                    $r3_male++;
+                                }
+                                else {
+                                    $r3_female++;
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        if($inyear >= 1 && $inyear <= 4) {
+                            if($d->records->gender == 'MALE') {
+                                $r4_male++;
+                            }
+                            else {
+                                $r4_female++;
+                            }
+                        }
+                        else if($inyear >= 5 && $inyear <= 9) {
+                            if($d->records->gender == 'MALE') {
+                                $r5_male++;
+                            }
+                            else {
+                                $r5_female++;
+                            }
+                        }
+                        else if($inyear >= 10 && $inyear <= 14) {
+                            if($d->records->gender == 'MALE') {
+                                $r6_male++;
+                            }
+                            else {
+                                $r6_female++;
+                            }
+                        }
+                        else if($inyear >= 15 && $inyear <= 19) {
+                            if($d->records->gender == 'MALE') {
+                                $r7_male++;
+                            }
+                            else {
+                                $r7_female++;
+                            }
+                        }
+                        else if($inyear >= 20 && $inyear <= 24) {
+                            if($d->records->gender == 'MALE') {
+                                $r8_male++;
+                            }
+                            else {
+                                $r8_female++;
+                            }
+                        }
+                        else if($inyear >= 25 && $inyear <= 29) {
+                            if($d->records->gender == 'MALE') {
+                                $r9_male++;
+                            }
+                            else {
+                                $r9_female++;
+                            }
+                        }
+                        else if($inyear >= 30 && $inyear <= 34) {
+                            if($d->records->gender == 'MALE') {
+                                $r10_male++;
+                            }
+                            else {
+                                $r10_female++;
+                            }
+                        }
+                        else if($inyear >= 35 && $inyear <= 39) {
+                            if($d->records->gender == 'MALE') {
+                                $r11_male++;
+                            }
+                            else {
+                                $r11_female++;
+                            }
+                        }
+                        else if($inyear >= 40 && $inyear <= 44) {
+                            if($d->records->gender == 'MALE') {
+                                $r12_male++;
+                            }
+                            else {
+                                $r12_female++;
+                            }
+                        }
+                        else if($inyear >= 45 && $inyear <= 49) {
+                            if($d->records->gender == 'MALE') {
+                                $r13_male++;
+                            }
+                            else {
+                                $r13_female++;
+                            }
+                        }
+                        else if($inyear >= 50 && $inyear <= 54) {
+                            if($d->records->gender == 'MALE') {
+                                $r14_male++;
+                            }
+                            else {
+                                $r14_female++;
+                            }
+                        }
+                        else if($inyear >= 55 && $inyear <= 59) {
+                            if($d->records->gender == 'MALE') {
+                                $r15_male++;
+                            }
+                            else {
+                                $r15_female++;
+                            }
+                        }
+                        else if($inyear >= 60 && $inyear <= 64) {
+                            if($d->records->gender == 'MALE') {
+                                $r16_male++;
+                            }
+                            else {
+                                $r16_female++;
+                            }
+                        }
+                        else if($inyear >= 65 && $inyear <= 69) {
+                            if($d->records->gender == 'MALE') {
+                                $r17_male++;
+                            }
+                            else {
+                                $r17_female++;
+                            }
+                        }
+                        else if($inyear >= 70) {
+                            if($d->records->gender == 'MALE') {
+                                $r18_male++;
+                            }
+                            else {
+                                $r18_female++;
+                            }
+                        }
+                    }
+
+                    $r19_male = $r1_male + $r2_male + $r3_male + $r4_male + $r5_male + $r6_male + $r7_male + $r8_male + $r9_male + $r10_male + $r11_male + $r12_male + $r13_male + $r14_male + $r15_male + $r16_male + $r17_male + $r18_male;
+                    $r19_female = $r1_female + $r2_female + $r3_female + $r4_female + $r5_female + $r6_female + $r7_female + $r8_female + $r9_female + $r10_female + $r11_female + $r12_female + $r13_female + $r14_female + $r15_female + $r16_female + $r17_female + $r18_female;
+                    $r20 = $r19_male + $r19_female;
+                }
+
+                array_push($collect1, [
+                    'brgy' => $b->brgyName,
+                    'item1_male' => $r1_male,
+                    'item1_female' => $r1_female,
+                    'item2_male' => $r2_male,
+                    'item2_female' => $r2_female,
+                    'item3_male' => $r3_male,
+                    'item3_female' => $r3_female,
+                    'item4_male' => $r4_male,
+                    'item4_female' => $r4_female,
+                    'item5_male' => $r5_male,
+                    'item5_female' => $r5_female,
+                    'item6_male' => $r6_male,
+                    'item6_female' => $r6_female,
+                    'item7_male' => $r7_male,
+                    'item7_female' => $r7_female,
+                    'item8_male' => $r8_male,
+                    'item8_female' => $r8_female,
+                    'item9_male' => $r9_male,
+                    'item9_female' => $r9_female,
+                    'item10_male' => $r10_male,
+                    'item10_female' => $r10_female,
+                    'item11_male' => $r11_male,
+                    'item11_female' => $r11_female,
+                    'item12_male' => $r12_male,
+                    'item12_female' => $r12_female,
+                    'item13_male' => $r13_male,
+                    'item13_female' => $r13_female,
+                    'item14_male' => $r14_male,
+                    'item14_female' => $r14_female,
+                    'item15_male' => $r15_male,
+                    'item15_female' => $r15_female,
+                    'item16_male' => $r16_male,
+                    'item16_female' => $r16_female,
+                    'item17_male' => $r17_male,
+                    'item17_female' => $r17_female,
+                    'item18_male' => $r18_male,
+                    'item18_female' => $r18_female,
+                    'item19_male' => $r19_male,
+                    'item19_female' => $r19_female,
+                    'item20' => $r20,
+                ]);
+            }
+
+            return view('report_fhsism2', [
+                'collect1' => $collect1,
+            ]);
+        }
+        else {
+            return view('report_fhsism2');
         }
     }
 }

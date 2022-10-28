@@ -221,6 +221,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/casechecker', [ReportV2Controller::class, 'casechecker_index'])->name('casechecker_index');
     
     Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
+    Route::get('/report/fhsis', [ReportV2Controller::class, 'm2fhsis'])->name('report.fhsis');
 
     //Monkeypox
     Route::get('/monkeypox', [MonkeyPoxController::class, 'home'])->name('mp.home');
