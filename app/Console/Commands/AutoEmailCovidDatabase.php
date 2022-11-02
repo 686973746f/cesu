@@ -309,7 +309,7 @@ class AutoEmailCovidDatabase extends Command
                 'HOUSE N. AND STREET OR NEAREST LANDMARK' => $form->records->address_houseno.', '.$form->records->address_street,
                 'CONTACT N.' => ($form->records->mobile != '09190664324') ? $form->records->mobile : 'N/A',
                 'OCCUPATION' => (!is_null($form->records->occupation)) ? $form->records->occupation : "N/A",
-                'HEALTHCARE WORKER(Y/N)' => ($form->isHealthCareWorker == 1) ? 'Y' : 'N',
+                'HEALTHCARE WORKER(Y/N)' => ($form->recods->isHCW == 1) ? 'Y' : 'N',
                 'PLACE OF WORK' => ($form->isHealthCareWorker == 1) ? $form->healthCareCompanyLocation : 'N/A',
                 'SEVERITY OF THE CASE (ASYMTOMATIC,MILD,MODERATE,SEVERE,CRITICAL)' => $form->healthStatus,
                 'PREGNANT (Y/N)' => ($form->records->isPregnant == 1) ? 'Y' : 'N',
