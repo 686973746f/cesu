@@ -76,10 +76,25 @@ class AutoEmailCovidDatabase extends Command
         ->where('outcomeCondition', 'Active')
         ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-7 Days')), date('Y-m-d')]);
 
+        $confirmedQuery_previous = Forms::with('records')
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where(function ($q) {
+            $q->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->orWhereYear('morbidityMonth', date('Y', strtotime('-1 Year')));
+        });
+        
+        /*
         $confirmedQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+        */
+
+        $confirmedQuery = Forms::with('records')
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', date('Y'));
 
         $negativeQuery = Forms::with('records')
         ->where('status', 'approved')
@@ -97,6 +112,11 @@ class AutoEmailCovidDatabase extends Command
             ->where('records.address_city', 'GENERAL TRIAS');
         });
 
+        $confirmedQuery_previous = $confirmedQuery_previous->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        });
+
         $confirmedQuery = $confirmedQuery->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
@@ -109,6 +129,7 @@ class AutoEmailCovidDatabase extends Command
 
         $suspectedQuery = $suspectedQuery->orderby('morbidityMonth', 'asc');
         $probableQuery = $probableQuery->orderby('morbidityMonth', 'asc');
+        $confirmedQuery_previous = $confirmedQuery_previous->orderby('morbidityMonth', 'asc');
         $confirmedQuery = $confirmedQuery->orderby('morbidityMonth', 'asc');
         $negativeQuery = $negativeQuery->orderby('morbidityMonth', 'asc');
         
@@ -120,6 +141,12 @@ class AutoEmailCovidDatabase extends Command
 
         function probableGenerator($probableQuery) {
             foreach ($probableQuery->cursor() as $user) {
+                yield $user;
+            }
+        }
+
+        function confirmedPreviousGenerator($confirmedPreviousQuery) {
+            foreach ($confirmedPreviousQuery->cursor() as $user) {
                 yield $user;
             }
         }
@@ -139,7 +166,8 @@ class AutoEmailCovidDatabase extends Command
         $sheets = new SheetCollection([
             'Suspected' => suspectedGenerator($suspectedQuery),
             'Probable' => probableGenerator($probableQuery),
-            'Confirmed' => confirmedGenerator($confirmedQuery),
+            ''.date('Y', strtotime('-2 Years')).'-'.date('Y',strtotime('-1 Year')).' Confirmed' => confirmedPreviousGenerator($confirmedQuery_previous),
+            ''.date('Y').' Confirmed' => confirmedGenerator($confirmedQuery),
             'Negative' => negativeGenerator($negativeQuery),
         ]);
 
@@ -327,7 +355,7 @@ class AutoEmailCovidDatabase extends Command
                 '1ST DOSE (DATE)' => (!is_null($form->records->vaccinationDate1)) ? date('m/d/Y', strtotime($form->records->vaccinationDate1)) : 'N/A',
                 '2ND DOSE (DATE)' => (!is_null($form->records->vaccinationDate2)) ? date('m/d/Y', strtotime($form->records->vaccinationDate2)) : 'N/A',
                 'NAME OF FACILITY' => $vFacility,
-                'YEAR' => date('Y', strtotime($form->dateReported)),
+                'YEAR' => date('Y', strtotime($form->morbidityMonth)),
                 '1ST BOOSTER NAME' => (!is_null($form->records->vaccinationDate3)) ? $form->records->vaccinationName3 : 'N/A',
                 '1ST BOOSTER DATE' => (!is_null($form->records->vaccinationDate3)) ? $form->records->vaccinationDate3 : 'N/A',
                 '2ND BOOSTER NAME' => (!is_null($form->records->vaccinationDate4)) ? $form->records->vaccinationName4 : 'N/A',

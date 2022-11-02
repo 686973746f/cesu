@@ -2856,10 +2856,25 @@ class ReportController extends Controller
         }
         */
 
+        /*
         $confirmedQuery = Forms::with('records')
         ->where('status', 'approved')
         ->where('caseClassification', 'Confirmed')
         ->whereDate('morbidityMonth', '<=', date('Y-m-d'));
+        */
+
+        $confirmedQuery_previous = Forms::with('records')
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->where(function ($q) {
+            $q->whereYear('morbidityMonth', date('Y', strtotime('-2 Years')))
+            ->orWhereYear('morbidityMonth', date('Y', strtotime('-1 Year')));
+        });
+
+        $confirmedQuery = Forms::with('records')
+        ->where('status', 'approved')
+        ->where('caseClassification', 'Confirmed')
+        ->whereYear('morbidityMonth', date('Y'));
 
         $negativeQuery = Forms::with('records')
         ->where('status', 'approved')
@@ -2874,6 +2889,11 @@ class ReportController extends Controller
             });
 
             $probableQuery = $probableQuery->whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            });
+
+            $confirmedQuery_previous = $confirmedQuery_previous->whereHas('records', function ($q) {
                 $q->where('records.address_province', 'CAVITE')
                 ->where('records.address_city', 'GENERAL TRIAS');
             });
@@ -2901,6 +2921,12 @@ class ReportController extends Controller
                 ->where('records.address_brgy', auth()->user()->brgy->brgyName);
             });
 
+            $confirmedQuery_previous = $confirmedQuery_previous->whereHas('records', function ($q) {
+                $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
+                ->where('records.address_city', auth()->user()->brgy->city->cityName)
+                ->where('records.address_brgy', auth()->user()->brgy->brgyName);
+            });
+
             $confirmedQuery = $confirmedQuery->whereHas('records', function ($q) {
                 $q->where('records.address_province', auth()->user()->brgy->city->province->provinceName)
                 ->where('records.address_city', auth()->user()->brgy->city->cityName)
@@ -2917,6 +2943,7 @@ class ReportController extends Controller
         if($year) {
             $suspectedQuery = $suspectedQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
             $probableQuery = $probableQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
+            $confirmedQuery_previous = $confirmedQuery_previous->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
             $confirmedQuery = $confirmedQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
             $negativeQuery = $negativeQuery->whereYear('morbidityMonth', $year)->orderby('morbidityMonth', 'asc');
 
@@ -2930,6 +2957,7 @@ class ReportController extends Controller
         else {
             $suspectedQuery = $suspectedQuery->orderby('morbidityMonth', 'asc');
             $probableQuery = $probableQuery->orderby('morbidityMonth', 'asc');
+            $confirmedQuery_previous = $confirmedQuery_previous->orderby('morbidityMonth', 'asc');
             $confirmedQuery = $confirmedQuery->orderby('morbidityMonth', 'asc');
             $negativeQuery = $negativeQuery->orderby('morbidityMonth', 'asc');
 
@@ -2944,6 +2972,12 @@ class ReportController extends Controller
 
         function probableGenerator($probableQuery) {
             foreach ($probableQuery->cursor() as $user) {
+                yield $user;
+            }
+        }
+
+        function confirmedPreviousGenerator($confirmedPreviousQuery) {
+            foreach ($confirmedPreviousQuery->cursor() as $user) {
                 yield $user;
             }
         }
@@ -2963,7 +2997,8 @@ class ReportController extends Controller
         $sheets = new SheetCollection([
             'Suspected' => suspectedGenerator($suspectedQuery),
             'Probable' => probableGenerator($probableQuery),
-            'Confirmed' => confirmedGenerator($confirmedQuery),
+            ''.date('Y', strtotime('-2 Years')).'-'.date('Y',strtotime('-1 Year')).' Confirmed' => confirmedPreviousGenerator($confirmedQuery_previous),
+            ''.date('Y').' Confirmed' => confirmedGenerator($confirmedQuery),
             'Negative' => negativeGenerator($negativeQuery),
         ]);
 
@@ -3151,7 +3186,7 @@ class ReportController extends Controller
                 '1ST DOSE (DATE)' => (!is_null($form->records->vaccinationDate1)) ? date('m/d/Y', strtotime($form->records->vaccinationDate1)) : 'N/A',
                 '2ND DOSE (DATE)' => (!is_null($form->records->vaccinationDate2)) ? date('m/d/Y', strtotime($form->records->vaccinationDate2)) : 'N/A',
                 'NAME OF FACILITY' => $vFacility,
-                'YEAR' => date('Y', strtotime($form->dateReported)),
+                'YEAR' => date('Y', strtotime($form->morbidityMonth)),
                 '1ST BOOSTER NAME' => (!is_null($form->records->vaccinationDate3)) ? $form->records->vaccinationName3 : 'N/A',
                 '1ST BOOSTER DATE' => (!is_null($form->records->vaccinationDate3)) ? $form->records->vaccinationDate3 : 'N/A',
                 '2ND BOOSTER NAME' => (!is_null($form->records->vaccinationDate4)) ? $form->records->vaccinationName4 : 'N/A',

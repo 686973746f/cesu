@@ -112,8 +112,6 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAcc
     Route::get('/ct/report', [ReportV2Controller::class, 'viewCtReport'])->name('report.ct.index');
 
     Route::get('/check_pending', [HomeController::class, 'pendingSchedChecker'])->name('pendingshedchecker.index');
-
-    Route::get('/temprec', [ReportV2Controller::class, 'temprec'])->name('temprec');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
