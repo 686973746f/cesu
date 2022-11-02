@@ -1729,7 +1729,7 @@
                                     <div id="ifOutcomeRecovered">
                                         <div class="form-group">
                                           <label for="outcomeRecovDate"><span class="text-danger font-weight-bold">*</span>Date of Recovery</label>
-                                          <input type="date" class="form-control" name="outcomeRecovDate" id="outcomeRecovDate" max="{{date('Y-m-d')}}" value="{{old('outcomeRecovDate')}}">
+                                          <input type="date" class="form-control" name="outcomeRecovDate" id="outcomeRecovDate" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('outcomeRecovDate')}}">
                                         </div>
                                     </div>
                                     <div id="ifOutcomeDied">
@@ -1737,7 +1737,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="outcomeDeathDate"><span class="text-danger font-weight-bold">*</span>Date of Death</label>
-                                                    <input type="date" class="form-control" name="outcomeDeathDate" id="outcomeDeathDate" max="{{date('Y-m-d')}}" value="{{old('outcomeDeathDate')}}">
+                                                    <input type="date" class="form-control" name="outcomeDeathDate" id="outcomeDeathDate" min="2020-01-01" max="{{date('Y-m-d')}}" value="{{old('outcomeDeathDate')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
