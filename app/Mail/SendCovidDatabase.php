@@ -33,6 +33,6 @@ class SendCovidDatabase extends Mailable
         return $this->view('email.coviddb')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
         ->subject('CHO General Trias - COVID-19 Database for '.date('F d, Y'))
-        ->attach(public_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y').'.xlsx'));
+        ->attach(storage_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y').'.xlsx'));
     }
 }

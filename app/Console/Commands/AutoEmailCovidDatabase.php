@@ -177,7 +177,7 @@ class AutoEmailCovidDatabase extends Command
         $exp = (new FastExcel($sheets))
         ->headerStyle($header_style)
         ->rowsStyle($rows_style)
-        ->export(public_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y').'.xlsx'), function ($form) {
+        ->export(storage_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y').'.xlsx'), function ($form) {
             $arr_sas = explode(",", $form->SAS);
             $arr_othersas = explode(",", $form->SASOtherRemarks);
             $arr_como = explode(",", $form->COMO);
@@ -309,7 +309,7 @@ class AutoEmailCovidDatabase extends Command
                 'HOUSE N. AND STREET OR NEAREST LANDMARK' => $form->records->address_houseno.', '.$form->records->address_street,
                 'CONTACT N.' => ($form->records->mobile != '09190664324') ? $form->records->mobile : 'N/A',
                 'OCCUPATION' => (!is_null($form->records->occupation)) ? $form->records->occupation : "N/A",
-                'HEALTHCARE WORKER(Y/N)' => ($form->recods->isHCW == 1) ? 'Y' : 'N',
+                'HEALTHCARE WORKER(Y/N)' => ($form->records->isHCW == 1) ? 'Y' : 'N',
                 'PLACE OF WORK' => ($form->isHealthCareWorker == 1) ? $form->healthCareCompanyLocation : 'N/A',
                 'SEVERITY OF THE CASE (ASYMTOMATIC,MILD,MODERATE,SEVERE,CRITICAL)' => $form->healthStatus,
                 'PREGNANT (Y/N)' => ($form->records->isPregnant == 1) ? 'Y' : 'N',
@@ -365,6 +365,6 @@ class AutoEmailCovidDatabase extends Command
 
         Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'resu4a@gmail.com', 'ludettelontoc@gmail.com', 'macvillaviray.doh@gmail.com', 'cavitecovid19labresults@gmail.com'])->send(new SendCovidDatabase($newlyencoded_count));
 
-        File::delete(public_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y', strtotime('-1 Day')).'.xlsx'));
+        File::delete(storage_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y', strtotime('-1 Day')).'.xlsx'));
     }
 }
