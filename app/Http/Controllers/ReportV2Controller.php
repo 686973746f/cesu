@@ -2909,6 +2909,8 @@ class ReportV2Controller extends Controller
         ->whereDate('outcomeRecovDate', '1970-01-01')
         ->get();
 
+        $dateToday = Carbon::parse(date('Y-m-d'));
+
         foreach($l as $item) {
             if($item->dispoType != 6 && $item->dispoType != 7) {
                 if(!is_null($item->testDateCollected2)) {
