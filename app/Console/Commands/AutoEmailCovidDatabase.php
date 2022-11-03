@@ -255,7 +255,7 @@ class AutoEmailCovidDatabase extends Command
             //Vaccination Facility
             if(!is_null($form->records->vaccinationDate2)) {
                 if($form->records->vaccinationFacility2) {
-                    $vFacility = $form->records->vaccinationFacility2;
+                    $vFacility = mb_strtoupper($form->records->vaccinationFacility2);
                 }
                 else {
                     $vFacility = 'N/A';
@@ -263,7 +263,7 @@ class AutoEmailCovidDatabase extends Command
             }
             else {
                 if($form->records->vaccinationFacility1) {
-                    $vFacility = $form->records->vaccinationFacility1;
+                    $vFacility = mb_strtoupper($form->records->vaccinationFacility1);
                 }
                 else {
                     $vFacility = 'N/A';

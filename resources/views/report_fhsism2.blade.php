@@ -31,8 +31,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-            <hr>
             @if(isset($collect1))
+            <hr>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light text-centered">
