@@ -9,24 +9,24 @@
                 <label for="year">Year</label>
                 <select class="form-control" name="year" id="year" required>
                     @foreach(range(date('Y'), 2019) as $y)
-                    <option value="{{$y}}">{{$y}}</option>
+                    <option value="{{$y}}" {{(request()->input('year') == $y) ? 'selected' : ''}}>{{$y}}</option>
                     @endforeach
                 </select>
                 <div class="form-group">
                   <label for="month">Month</label>
                   <select class="form-control" name="month" id="month">
-                    <option value="1">JANUARY</option>
-                    <option value="2">FEBRUARY</option>
-                    <option value="3">MARCH</option>
-                    <option value="4">APRIL</option>
-                    <option value="5">MAY</option>
-                    <option value="6">JUNE</option>
-                    <option value="7">JULY</option>
-                    <option value="8">AUGUST</option>
-                    <option value="9">SEPTEMBER</option>
-                    <option value="10">OCTOBER</option>
-                    <option value="11">NOVEMBER</option>
-                    <option value="12">DECEMBER</option>
+                    <option value="1" {{(request()->input('month') == 1) ? 'selected' : ''}}>JANUARY</option>
+                    <option value="2" {{(request()->input('month') == 2) ? 'selected' : ''}}>FEBRUARY</option>
+                    <option value="3" {{(request()->input('month') == 3) ? 'selected' : ''}}>MARCH</option>
+                    <option value="4" {{(request()->input('month') == 4) ? 'selected' : ''}}>APRIL</option>
+                    <option value="5" {{(request()->input('month') == 5) ? 'selected' : ''}}>MAY</option>
+                    <option value="6" {{(request()->input('month') == 6) ? 'selected' : ''}}>JUNE</option>
+                    <option value="7" {{(request()->input('month') == 7) ? 'selected' : ''}}>JULY</option>
+                    <option value="8" {{(request()->input('month') == 8) ? 'selected' : ''}}>AUGUST</option>
+                    <option value="9" {{(request()->input('month') == 9) ? 'selected' : ''}}>SEPTEMBER</option>
+                    <option value="10" {{(request()->input('month') == 10) ? 'selected' : ''}}>OCTOBER</option>
+                    <option value="11" {{(request()->input('month') == 11) ? 'selected' : ''}}>NOVEMBER</option>
+                    <option value="12" {{(request()->input('month') == 12) ? 'selected' : ''}}>DECEMBER</option>
                   </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -85,6 +85,7 @@
                             @endif
                             @if(auth()->user()->ifTopAdmin())
                             <a href="{{route('mw.index')}}" class="btn btn-primary btn-block mt-3">MW Report</a>
+                            <a href="{{route('acceptance.index')}}" class="btn btn-primary btn-block">FHSIS M2 Monthly</a>
                             @endif
                             <hr>
                             <form action="{{route('reportv2.dashboard')}}" method="GET">
