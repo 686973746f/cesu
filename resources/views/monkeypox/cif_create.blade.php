@@ -10,35 +10,35 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                          <label for="dru_name">Name of DRU</label>
+                          <label for="dru_name"><span class="text-danger font-weight-bold">*</span>Name of DRU</label>
                           <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', 'CHO GENERAL TRIAS')}}" style="text-transform: uppercase;" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="dru_region">Region of DRU</label>
+                            <label for="dru_region"><span class="text-danger font-weight-bold">*</span>Region of DRU</label>
                             <input type="text"class="form-control" name="dru_region" id="dru_region" value="{{old('dru_region', 'IV-A')}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
-                            <label for="dru_province">Province of DRU</label>
+                            <label for="dru_province"><span class="text-danger font-weight-bold">*</span>Province of DRU</label>
                             <input type="text"class="form-control" name="dru_province" id="dru_province" value="{{old('dru_province', 'CAVITE')}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
-                            <label for="dru_muncity">Municipality/City of DRU</label>
+                            <label for="dru_muncity"><span class="text-danger font-weight-bold">*</span>Municipality/City of DRU</label>
                             <input type="text"class="form-control" name="dru_muncity" id="dru_muncity" value="{{old('dru_muncity', 'GENERAL TRIAS')}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
-                            <label for="dru_street">Street of DRU</label>
+                            <label for="dru_street"><span class="text-danger font-weight-bold">*</span>Street of DRU</label>
                             <input type="text"class="form-control" name="dru_street" id="dru_street" value="{{old('dru_street', 'PRIA RD')}}" style="text-transform: uppercase;" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="date_investigation">Date of Investigation</label>
+                            <label for="date_investigation"><span class="text-danger font-weight-bold">*</span>Date of Investigation</label>
                             <input type="date"class="form-control" name="date_investigation" id="date_investigation" value="{{old('date_investigation')}}" max="{{date('Y-m-d')}}" required>
                         </div>
                         <div class="form-group">
-                            <label for="type">Type of DRU</label>
+                            <label for="type"><span class="text-danger font-weight-bold">*</span>Type of DRU</label>
                             <select class="form-control" name="type" id="type" required>
                                 <option value="C/MHO" {{(old('type') == 'C/MHO') ? 'selected' : ''}}>C/MHO</option>
                                 <option value="GOVT HOSPITAL" {{(old('type') == 'GOVT HOSPITAL') ? 'selected' : ''}}>GOVT HOSPITAL</option>
@@ -289,6 +289,9 @@
                                 <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
+                        <div id="div_history2" class="d-none">
+
+                        </div>
                         <div class="form-group">
                             <label for="history2_yn">3. Within 21 days befores symptom onset, did the patient have contact with one or more persons who had similar symptoms?</label>
                             <select class="form-control" name="history2_yn" id="history2_yn" required>
@@ -303,12 +306,213 @@
                                 <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
+                        <div id="div_history4" class="d-none">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="history5_genderidentity">5. Patients Gender Identity</label>
+                            <select class="form-control" name="history5_genderidentity" id="history5_genderidentity" required>
+                                <option value="MAN" {{(old('history5_genderidentity') == 'MAN') ? 'selected' : ''}}>MAN</option>
+                                <option value="WOMAN" {{(old('history5_genderidentity') == 'WOMAN') ? 'selected' : ''}}>WOMAN</option>
+                                <option value="IN THE MIDDLE" {{(old('history5_genderidentity') == 'IN THE MIDDLE') ? 'selected' : ''}}>IN THE MIDDLE</option>
+                                <option value="NON BINARY" {{(old('history5_genderidentity') == 'NON BINARY') ? 'selected' : ''}}>NON BINARY</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="card mb-3">
                     <div class="card-header"><b>V. LABORATORY TEST</b> <small><i>(Note: Collect at least two types of specimens from each patient. For each specimen: place a label on this form and a label on the specimen tube. Ensure that the two labels have the same name/number of the specimen.)</i></small></div>
                     <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead class="thead-light text-center">
+                                <tr>
+                                    <th><span class="text-danger font-weight-bold">*</span>Test Done <i>(Select all that apply)</i></th>
+                                    <th>Date Collected</th>
+                                    <th>Laboratory</th>
+                                    <th>Results</th>
+                                    <th>Date Released</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                          <label for="test_npsops">Nasopharyngeal Swab (NPS) or Oropharyngeal Swab (OPS)</label>
+                                          <select class="form-control" name="test_npsops" id="test_npsops">
+                                            <option value="N" {{(old('test_npsops') == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_npsops') == 'Y') ? 'selected' : ''}}>YES</option>
+                                          </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_npsops_date_collected" id="test_npsops_date_collected" value="{{old('test_npsops_date_collected')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text"class="form-control" name="test_npsops_laboratory" id="test_npsops_laboratory" value="{{old('test_npsops_laboratory')}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" name="test_npsops_result" id="test_npsops_result">
+                                              <option value="PENDING" {{(old('test_npsops_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_npsops_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_npsops_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_npsops_date_released" id="test_npsops_date_released" value="{{old('test_npsops_date_released')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                </tr>
 
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                          <label for="test_lesionfluid">Lesion Fluid</label>
+                                          <select class="form-control" name="test_lesionfluid" id="test_lesionfluid">
+                                            <option value="N" {{(old('test_lesionfluid') == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_lesionfluid') == 'Y') ? 'selected' : ''}}>YES</option>
+                                          </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_lesionfluid_date_collected" id="test_lesionfluid_date_collected" value="{{old('test_lesionfluid_date_collected')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text"class="form-control" name="test_lesionfluid_laboratory" id="test_lesionfluid_laboratory" value="{{old('test_lesionfluid_laboratory')}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" name="test_lesionfluid_result" id="test_lesionfluid_result">
+                                              <option value="PENDING" {{(old('test_lesionfluid_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_lesionfluid_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_lesionfluid_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_lesionfluid_date_released" id="test_lesionfluid_date_released" value="{{old('test_lesionfluid_date_released')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                          <label for="test_lesionroof">Lesion Roof</label>
+                                          <select class="form-control" name="test_lesionroof" id="test_lesionroof">
+                                            <option value="N" {{(old('test_lesionroof') == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_lesionroof') == 'Y') ? 'selected' : ''}}>YES</option>
+                                          </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_lesionroof_date_collected" id="test_lesionroof_date_collected" value="{{old('test_lesionroof_date_collected')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text"class="form-control" name="test_lesionroof_laboratory" id="test_lesionroof_laboratory" value="{{old('test_lesionroof_laboratory')}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" name="test_lesionroof_result" id="test_lesionroof_result">
+                                              <option value="PENDING" {{(old('test_lesionroof_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_lesionroof_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_lesionroof_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_lesionroof_date_released" id="test_lesionroof_date_released" value="{{old('test_lesionroof_date_released')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                          <label for="test_lesioncrust">Lesion Crust</label>
+                                          <select class="form-control" name="test_lesioncrust" id="test_lesioncrust">
+                                            <option value="N" {{(old('test_lesioncrust') == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_lesioncrust') == 'Y') ? 'selected' : ''}}>YES</option>
+                                          </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_lesioncrust_date_collected" id="test_lesioncrust_date_collected" value="{{old('test_lesioncrust_date_collected')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text"class="form-control" name="test_lesioncrust_laboratory" id="test_lesioncrust_laboratory" value="{{old('test_lesioncrust_laboratory')}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" name="test_lesioncrust_result" id="test_lesioncrust_result">
+                                              <option value="PENDING" {{(old('test_lesioncrust_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_lesioncrust_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_lesioncrust_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_lesioncrust_date_released" id="test_lesioncrust_date_released" value="{{old('test_lesioncrust_date_released')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                          <label for="test_serum">Serum</label>
+                                          <select class="form-control" name="test_serum" id="test_serum">
+                                            <option value="N" {{(old('test_serum') == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_serum') == 'Y') ? 'selected' : ''}}>YES</option>
+                                          </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_serum_date_collected" id="test_serum_date_collected" value="{{old('test_serum_date_collected')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text"class="form-control" name="test_serum_laboratory" id="test_serum_laboratory" value="{{old('test_serum_laboratory')}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" name="test_serum_result" id="test_serum_result">
+                                              <option value="PENDING" {{(old('test_serum_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_serum_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_serum_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date"class="form-control" name="test_serum_date_released" id="test_serum_date_released" value="{{old('test_serum_date_released')}}" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="card mb-3">
@@ -424,5 +628,175 @@
             $('#health_status_date_discharged').prop('required', true);
         }
     });
+
+    $('#test_npsops').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#test_npsops_date_collected').prop('disabled', false);
+            $('#test_npsops_laboratory').prop('disabled', false);
+            $('#test_npsops_result').prop('disabled', false);
+
+            $('#test_npsops_date_collected').prop('required', true);
+            $('#test_npsops_laboratory').prop('required', true);
+            $('#test_npsops_result').prop('required', true);
+        }
+        else {
+            $('#test_npsops_date_collected').prop('disabled', true);
+            $('#test_npsops_laboratory').prop('disabled', true);
+            $('#test_npsops_result').prop('disabled', true);
+
+            $('#test_npsops_date_collected').prop('required', false);
+            $('#test_npsops_laboratory').prop('required', false);
+            $('#test_npsops_result').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#test_npsops_result').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'PENDING') {
+            $('#test_npsops_date_released').prop('disabled', true);
+            $('#test_npsops_date_released').prop('required', false);
+        }
+        else {
+            $('#test_npsops_date_released').prop('disabled', false);
+            $('#test_npsops_date_released').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#test_lesionfluid').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#test_lesionfluid_date_collected').prop('disabled', false);
+            $('#test_lesionfluid_laboratory').prop('disabled', false);
+            $('#test_lesionfluid_result').prop('disabled', false);
+
+            $('#test_npsops_date_collected').prop('required', true);
+            $('#test_lesionfluid_laboratory').prop('required', true);
+            $('#test_lesionfluid_result').prop('required', true);
+        }
+        else {
+            $('#test_lesionfluid_date_collected').prop('disabled', true);
+            $('#test_lesionfluid_laboratory').prop('disabled', true);
+            $('#test_lesionfluid_result').prop('disabled', true);
+
+            $('#test_lesionfluid_date_collected').prop('required', false);
+            $('#test_lesionfluid_laboratory').prop('required', false);
+            $('#test_lesionfluid_result').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#test_lesionfluid_result').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'PENDING') {
+            $('#test_lesionfluid_date_released').prop('disabled', true);
+            $('#test_lesionfluid_date_released').prop('required', false);
+        }
+        else {
+            $('#test_lesionfluid_date_released').prop('disabled', false);
+            $('#test_lesionfluid_date_released').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#test_lesionroof').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#test_lesionroof_date_collected').prop('disabled', false);
+            $('#test_lesionroof_laboratory').prop('disabled', false);
+            $('#test_lesionroof_result').prop('disabled', false);
+
+            $('#test_lesionroof_date_collected').prop('required', true);
+            $('#test_lesionroof_laboratory').prop('required', true);
+            $('#test_lesionroof_result').prop('required', true);
+        }
+        else {
+            $('#test_lesionroof_date_collected').prop('disabled', true);
+            $('#test_lesionroof_laboratory').prop('disabled', true);
+            $('#test_lesionroof_result').prop('disabled', true);
+
+            $('#test_lesionroof_date_collected').prop('required', false);
+            $('#test_lesionroof_laboratory').prop('required', false);
+            $('#test_lesionroof_result').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#test_lesionroof_result').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'PENDING') {
+            $('#test_lesionroof_date_released').prop('disabled', true);
+            $('#test_lesionroof_date_released').prop('required', false);
+        }
+        else {
+            $('#test_lesionroof_date_released').prop('disabled', false);
+            $('#test_lesionroof_date_released').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#test_lesioncrust').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#test_lesioncrust_date_collected').prop('disabled', false);
+            $('#test_lesioncrust_laboratory').prop('disabled', false);
+            $('#test_lesioncrust_result').prop('disabled', false);
+
+            $('#test_lesioncrust_date_collected').prop('required', true);
+            $('#test_lesioncrust_laboratory').prop('required', true);
+            $('#test_lesioncrust_result').prop('required', true);
+        }
+        else {
+            $('#test_lesioncrust_date_collected').prop('disabled', true);
+            $('#test_lesioncrust_laboratory').prop('disabled', true);
+            $('#test_lesioncrust_result').prop('disabled', true);
+
+            $('#test_lesioncrust_date_collected').prop('required', false);
+            $('#test_lesioncrust_laboratory').prop('required', false);
+            $('#test_lesioncrust_result').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#test_lesioncrust_result').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'PENDING') {
+            $('#test_lesioncrust_date_released').prop('disabled', true);
+            $('#test_lesioncrust_date_released').prop('required', false);
+        }
+        else {
+            $('#test_lesioncrust_date_released').prop('disabled', false);
+            $('#test_lesioncrust_date_released').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#test_serum').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#test_serum_date_collected').prop('disabled', false);
+            $('#test_serum_laboratory').prop('disabled', false);
+            $('#test_serum_result').prop('disabled', false);
+
+            $('#test_serum_date_collected').prop('required', true);
+            $('#test_serum_laboratory').prop('required', true);
+            $('#test_serum_result').prop('required', true);
+        }
+        else {
+            $('#test_serum_date_collected').prop('disabled', true);
+            $('#test_serum_laboratory').prop('disabled', true);
+            $('#test_serum_result').prop('disabled', true);
+
+            $('#test_serum_date_collected').prop('required', false);
+            $('#test_serum_laboratory').prop('required', false);
+            $('#test_serum_result').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#test_serum_result').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'PENDING') {
+            $('#test_serum_date_released').prop('disabled', true);
+            $('#test_serum_date_released').prop('required', false);
+        }
+        else {
+            $('#test_serum_date_released').prop('disabled', false);
+            $('#test_serum_date_released').prop('required', true);
+        }
+    }).trigger('change');
 </script>
 @endsection
