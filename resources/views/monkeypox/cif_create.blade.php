@@ -280,7 +280,26 @@
                             </select>
                         </div>
                         <div id="div_history1" class="d-none">
-
+                            <div class="form-group">
+                                <label for="history1_specify">Specify</label>
+                                <input type="text"class="form-control" name="history1_specify" id="history1_specify" value="{{old('history1_specify')}}" style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label for="history1_date_travel">Date of Travel</label>
+                                <input type="date"class="form-control" name="history1_date_travel" id="history1_date_travel" value="{{old('history1_date_travel')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="history1_flightno">Flight/Vessel #</label>
+                                <input type="text"class="form-control" name="history1_flightno" id="history1_flightno" value="{{old('history1_flightno')}}" style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label for="history1_date_arrival">Date of Arrival</label>
+                                <input type="date"class="form-control" name="history1_date_arrival" id="history1_date_arrival" value="{{old('history1_date_arrival')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="history1_pointandexitentry">Point of entry and exit</label>
+                                <input type="text"class="form-control" name="history1_pointandexitentry" id="history1_pointandexitentry" value="{{old('history1_pointandexitentry')}}" style="text-transform: uppercase;">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="history2_yn">2. Did the patient travel during illness?</label>
@@ -290,7 +309,26 @@
                             </select>
                         </div>
                         <div id="div_history2" class="d-none">
-
+                            <div class="form-group">
+                                <label for="history2_specify">Specify</label>
+                                <input type="text"class="form-control" name="history2_specify" id="history2_specify" value="{{old('history2_specify')}}" style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label for="history2_date_travel">Date of Travel</label>
+                                <input type="date"class="form-control" name="history2_date_travel" id="history2_date_travel" value="{{old('history2_date_travel')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="history2_flightno">Flight/Vessel #</label>
+                                <input type="text"class="form-control" name="history2_flightno" id="history2_flightno" value="{{old('history2_flightno')}}" style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label for="history2_date_arrival">Date of Arrival</label>
+                                <input type="date"class="form-control" name="history2_date_arrival" id="history2_date_arrival" value="{{old('history2_date_arrival')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="history2_pointandexitentry">Point of entry and exit</label>
+                                <input type="text"class="form-control" name="history2_pointandexitentry" id="history2_pointandexitentry" value="{{old('history2_pointandexitentry')}}" style="text-transform: uppercase;">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="history2_yn">3. Within 21 days befores symptom onset, did the patient have contact with one or more persons who had similar symptoms?</label>
@@ -316,6 +354,41 @@
                                 <option value="WOMAN" {{(old('history5_genderidentity') == 'WOMAN') ? 'selected' : ''}}>WOMAN</option>
                                 <option value="IN THE MIDDLE" {{(old('history5_genderidentity') == 'IN THE MIDDLE') ? 'selected' : ''}}>IN THE MIDDLE</option>
                                 <option value="NON BINARY" {{(old('history5_genderidentity') == 'NON BINARY') ? 'selected' : ''}}>NON BINARY</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="history6_yn">6. Did the patient engage in sex (vaginal, oral, or anal) within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history6_yn" id="history6_yn" required>
+                                <option value="N" {{(old('history6_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history6_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                            </select>
+                        </div>
+                        <div id="div_history6" class="d-none">
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="history7_yn">6. Did the patient experience close intimate contact (cuddling, kissing, mutual masturbation, sharing sex toys) within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history7_yn" id="history7_yn" required>
+                                <option value="N" {{(old('history7_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history7_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="history7_yn">8. Sharing of items (e.g towels, beddings, food, utensils, etc.) with your sexual partners within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history7_yn" id="history7_yn" required>
+                                <option value="N" {{(old('history7_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history7_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="R" {{(old('history7_yn') == 'r') ? 'selected' : ''}}>REFUSE TO ANSWER</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="history7_yn">9. Did the patient have sex and/or close intimate contact with some one who had recently traveled outside of your city or community within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history7_yn" id="history7_yn" required>
+                                <option value="NO" {{(old('history7_yn') == 'NO') ? 'selected' : ''}}>NO</option>
+                                <option value="YES, TO ANOTHER COUNTRY" {{(old('history7_yn') == 'YES, TO ANOTHER COUNTRY') ? 'selected' : ''}}>YES, TO ANOTHER COUNTRY</option>
+                                <option value="YES, TO ANOTHER PROVINCE" {{(old('history7_yn') == 'YES, TO ANOTHER PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER PROVINCE</option>
+                                <option value="YES, TO ANOTHER CITY WITHIN MY PROVINCE" {{(old('history7_yn') == 'YES, TO ANOTHER CITY WITHIN MY PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER CITY WITHIN MY PROVINCE</option>
+                                <option value="UNKNOWN" {{(old('history7_yn') == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
                             </select>
                         </div>
                     </div>
