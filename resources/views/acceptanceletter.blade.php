@@ -75,19 +75,19 @@
                         </div>
                         <div class="form-group">
                             <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-                            <input type="text"class="form-control" name="lname" id="lname" value="{{old('lname')}}" maxlength="50">
+                            <input type="text"class="form-control" name="lname" id="lname" value="{{old('lname')}}" maxlength="50" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                             <label for="fname"><span class="text-danger font-weight-bold">*</span>First Name</label>
-                            <input type="text"class="form-control" name="fname" id="fname" value="{{old('fname')}}" maxlength="50">
+                            <input type="text"class="form-control" name="fname" id="fname" value="{{old('fname')}}" maxlength="50" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                             <label for="mname">Middle Name <small><i>(If Applicable)</i></small></label>
-                            <input type="text"class="form-control" name="mname" id="mname" value="{{old('mname')}}" maxlength="50">
+                            <input type="text"class="form-control" name="mname" id="mname" value="{{old('mname')}}" style="text-transform: uppercase;" maxlength="50">
                         </div>
                         <div class="form-group">
                             <label for="suffix">Suffix <small><i>(e.g Jr, Sr, III, IV)</i></small></label>
-                            <input type="text"class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" maxlength="4">
+                            <input type="text"class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" style="text-transform: uppercase;" maxlength="4">
                         </div>
                         <div class="form-group">
                           <label for="sex"><span class="text-danger font-weight-bold">*</span>Gender</label>
@@ -138,7 +138,7 @@
                         <hr>
                         <div class="form-group">
                             <label for="travelto"><span class="text-danger font-weight-bold">*</span>Will Travel To (Hotel/Isolation Facility Name)</label>
-                            <input type="text"class="form-control" name="travelto" id="travelto" value="{{old('travelto')}}" maxlength="50" required>
+                            <input type="text"class="form-control" name="travelto" id="travelto" value="{{old('travelto')}}" maxlength="50" style="text-transform: uppercase;" required>
                         </div>
                     </div>
                     <div class="modal-footer">
