@@ -32,6 +32,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <hr>
+            @if(isset($collect1))
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light text-centered">
@@ -152,6 +153,7 @@
                     </tbody>
                 </table>
             </div>
+            @endif
         </div>
     </div>
 </div>
