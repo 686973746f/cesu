@@ -2648,6 +2648,28 @@ class ReportV2Controller extends Controller
                 ->whereYear('morbidityMonth', $y)
                 ->get();
 
+                $rr = Forms::whereHas('records', function ($q) use ($b) {
+                    $q->where('records.address_province', $b->city->province->provinceName)
+                    ->where('records.address_city', $b->city->cityName)
+                    ->where('records.address_brgy', $b->brgyName);
+                })
+                ->where('status', 'approved')
+                ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                ->whereMonth('morbidityMonth', $m)
+                ->whereYear('morbidityMonth', $y)
+                ->get();
+                
+                $rs = Forms::whereHas('records', function ($q) use ($b) {
+                    $q->where('records.address_province', $b->city->province->provinceName)
+                    ->where('records.address_city', $b->city->cityName)
+                    ->where('records.address_brgy', $b->brgyName);
+                })
+                ->where('status', 'approved')
+                ->whereIn('caseClassification', ['Suspect', 'Probable'])
+                ->whereMonth('morbidityMonth', $m)
+                ->whereYear('morbidityMonth', $y)
+                ->get();
+
                 $r1_male = 0; //0-6 Days
                 $r1_female = 0; //0-6 Days
                 $r2_male = 0; //7-28 Days

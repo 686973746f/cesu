@@ -718,7 +718,14 @@ class FormsController extends Controller
                 'exportedDate' => NOW(),
             ]);
 
-            return Excel::download(new FormsExport($list, $request->submit), 'CIF_'.date("m_d_Y").'.csv');
+            if($request->submit == 'export_alphabetic') {
+                $fname = 'CIF_'.date("m_d_Y").'_sticker.csv';
+            }
+            else {
+                $fname = 'CIF_'.date("m_d_Y").'_cif.csv';
+            }
+            
+            return Excel::download(new FormsExport($list, $request->submit), $fname);
         }
         else if($request->submit == 'export_type1') {
             
