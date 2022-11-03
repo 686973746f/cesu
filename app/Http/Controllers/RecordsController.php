@@ -516,7 +516,7 @@ class RecordsController extends Controller
 				'vaccinationRegion4' => ($request->haveBooster2 == 1 && $request->filled('vaccinationRegion4')) ? mb_strtoupper($request->vaccinationRegion4) : NULL,
 
 				'is_confidential' => ($request->is_confidential) ? 1 : 0,
-				'isHCW' => $request->isHCW,
+				'isHCW' => (!is_null($request->isHCW)) ? $request->isHCW : 0,
 			]);
 			
 			if(auth()->user()->option_enableAutoRedirectToCif == 1) {
@@ -1050,7 +1050,7 @@ class RecordsController extends Controller
 					'sharedOnId' => $shareAccountList,
 					'is_confidential' => $is_confidential,
 
-					'isHCW' => $request->isHCW,
+					'isHCW' => (!is_null($request->isHCW)) ? $request->isHCW : 0,
 				]);
 	
 				$record = Records::findOrFail($id);
