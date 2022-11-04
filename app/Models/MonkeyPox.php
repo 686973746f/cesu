@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Records;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,7 @@ class MonkeyPox extends Model
         'date_investigation',
         'dru_name',
         'dru_region',
+        'dru_province',
         'dru_muncity',
         'dru_street',
 
@@ -143,4 +145,8 @@ class MonkeyPox extends Model
         'records_id',
         'updated_by',
     ];
+
+    public function records() {
+        return $this->belongsTo(Records::class);
+    }
 }

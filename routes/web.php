@@ -228,6 +228,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/monkeypox/ajaxlist', [MonkeyPoxController::class, 'ajaxlist'])->name('mp.ajaxlist');
     Route::get('/monkeypox/cif/{record_id}/new', [MonkeyPoxController::class, 'create_cif'])->name('mp.newcif');
     Route::post('/monkeypox/cif/{record_id}/new', [MonkeyPoxController::class, 'store_cif'])->name('mp.storecif');
+    Route::get('/monkeypox/cif/{mk}/edit', [MonkeyPoxController::class, 'edit_cif'])->name('mp.editcif');
+    Route::post('/monkeypox/cif/{mk}/update', [MonkeyPoxController::class, 'update_cif'])->name('mp.updatecif');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

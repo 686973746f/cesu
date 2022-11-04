@@ -61,13 +61,18 @@ class MonkeyPoxController extends Controller
         $d = MonkeyPox::where('records_id', $id)->first();
 
         if($d) {
-
+            return view('monkeypox.cif_exist', ['d' => $d]);
         }
         else {
             $r = Records::findOrFail($record_id);
 
-            return view('monkeypox.cif_create', ['d' => $r]);
+            return $this->edit_cif(new MonkeyPox())->with('d', $r);
         }
+    }
+
+    public function edit_cif(MonkeyPox $mk) {
+
+        return view('monkeypox.cif_form', ['c' => $mk]);
     }
 
     public function store_cif($record_id, Request $request) {
@@ -93,6 +98,7 @@ class MonkeyPoxController extends Controller
     
                 'dru_name' => $request->dru_name,
                 'dru_region' => $request->dru_region,
+                'dru_province' => $request->dru_province,
                 'dru_muncity' => $request->dru_muncity,
                 'dru_street' => $request->dru_street,
                 'epid_number' => $request->epid_number,
@@ -219,10 +225,6 @@ class MonkeyPoxController extends Controller
             return redirect()->route('mp.home')->with('msg', 'Monkeypox CIF has been created successfully.')
             ->with('msgtype', 'sucess');
         }
-    }
-
-    public function edit_cif($cif_id) {
-
     }
 
     public function update_cif($cif_id, Request $request) {

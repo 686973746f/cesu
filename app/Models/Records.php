@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Forms;
+use App\Models\MonkeyPox;
 use App\Models\LinelistSubs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -135,6 +136,10 @@ class Records extends Model
 
     public function form(){
         return $this->hasOne(Forms::class);
+    }
+
+    public function monkeypox() {
+        return $this->hasOne(MonkeyPox::class);
     }
 
     public function user() {
