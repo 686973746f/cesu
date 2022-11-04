@@ -47,17 +47,17 @@ class CreateMonkeyPoxesTable extends Migration
 
             $table->date('date_onsetofillness');
 
-            $table->tinyInteger('have_cutaneous_rash');
+            $table->string('have_cutaneous_rash');
             $table->date('have_cutaneous_rash_date')->nullable();
 
-            $table->tinyInteger('have_fever');
+            $table->string('have_fever');
             $table->date('have_fever_date')->nullable();
             $table->integer('have_fever_days_duration')->nullable();
 
-            $table->tinyInteger('have_activedisease_lesion_samestate');
-            $table->tinyInteger('have_activedisease_lesion_samesize');
-            $table->tinyInteger('have_activedisease_lesion_deep');
-            $table->tinyInteger('have_activedisease_develop_ulcers');
+            $table->string('have_activedisease_lesion_samestate');
+            $table->string('have_activedisease_lesion_samesize');
+            $table->string('have_activedisease_lesion_deep');
+            $table->string('have_activedisease_develop_ulcers');
             $table->text('have_activedisease_lesion_type')->nullable();
             $table->text('have_activedisease_lesion_localization')->nullable();
             $table->text('have_activedisease_lesion_localization_otherareas')->nullable();
@@ -91,11 +91,11 @@ class CreateMonkeyPoxesTable extends Migration
             $table->text('history5_genderidentity');
 
             $table->string('history6_yn');
-            $table->tinyInteger('history6_mtm')->nullable();
+            $table->string('history6_mtm')->nullable();
             $table->integer('history6_mtm_nosp')->nullable();
-            $table->tinyInteger('history6_mtf')->nullable();
+            $table->string('history6_mtf')->nullable();
             $table->integer('history6_mtf_nosp')->nullable();
-            $table->tinyInteger('history6_uknown')->nullable();
+            $table->string('history6_uknown')->nullable();
             $table->integer('history6_uknown_nosp')->nullable();
 
             $table->string('history7_yn');
@@ -105,27 +105,27 @@ class CreateMonkeyPoxesTable extends Migration
             $table->string('history9_choice');
             $table->text('history9_choice_othercountry')->nullable();
 
-            $table->tinyInteger('test_npsops');
+            $table->string('test_npsops');
             $table->date('test_npsops_date_collected')->nullable();
             $table->text('test_npsops_laboratory')->nullable();
             $table->text('test_npsops_result')->nullable();
             $table->date('test_npsops_date_released')->nullable();
-            $table->tinyInteger('test_lesionfluid');
+            $table->string('test_lesionfluid');
             $table->date('test_lesionfluid_date_collected')->nullable();
             $table->text('test_lesionfluid_laboratory')->nullable();
             $table->text('test_lesionfluid_result')->nullable();
             $table->date('test_lesionfluid_date_released')->nullable();
-            $table->tinyInteger('test_lesionroof');
+            $table->string('test_lesionroof');
             $table->date('test_lesionroof_date_collected')->nullable();
             $table->text('test_lesionroof_laboratory')->nullable();
             $table->text('test_lesionroof_result')->nullable();
             $table->date('test_lesionroof_date_released')->nullable();
-            $table->tinyInteger('test_lesioncrust');
+            $table->string('test_lesioncrust');
             $table->date('test_lesioncrust_date_collected')->nullable();
             $table->text('test_lesioncrust_laboratory')->nullable();
             $table->text('test_lesioncrust_result')->nullable();
             $table->date('test_lesioncrust_date_released')->nullable();
-            $table->tinyInteger('test_serum');
+            $table->string('test_serum');
             $table->date('test_serum_date_collected')->nullable();
             $table->text('test_serum_laboratory')->nullable();
             $table->text('test_serum_result')->nullable();

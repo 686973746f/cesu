@@ -7,6 +7,11 @@
         <div class="card">
             <div class="card-header"><b>New Monkeypox Case Investigation Form (CIF) [ICD 10 - CM Code: B04]</b></div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="text-center alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -26,6 +31,10 @@
                             <input type="text"class="form-control" name="epid_number" id="epid_number" value="{{old('epid_number')}}" style="text-transform: uppercase;">
                         </div>
                     </div>
+                </div>
+                <div class="form-group">
+                  <label for="remarks">Remarks</label>
+                  <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks')}}</textarea>
                 </div>
                 <hr>
                 <div class="row">
@@ -430,7 +439,7 @@
                                         <td>Male to male</td>
                                         <td>
                                             <div class="form-group">
-                                                <select class="form-control" name="history6_mtm" id="history6_mtm" required>
+                                                <select class="form-control" name="history6_mtm" id="history6_mtm">
                                                     <option value="" disabled {{(old('history6_mtm') == '') ? 'selected' : ''}}>Choose...</option>
                                                     <option value="N" {{(old('history6_mtm') == 'N') ? 'selected' : ''}}>NO</option>
                                                     <option value="Y" {{(old('history6_mtm') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -447,7 +456,7 @@
                                         <td>Male to female</td>
                                         <td>
                                             <div class="form-group">
-                                                <select class="form-control" name="history6_mtf" id="history6_mtf" required>
+                                                <select class="form-control" name="history6_mtf" id="history6_mtf">
                                                     <option value="" disabled {{(old('history6_mtf') == '') ? 'selected' : ''}}>Choose...</option>
                                                     <option value="N" {{(old('history6_mtf') == 'N') ? 'selected' : ''}}>NO</option>
                                                     <option value="Y" {{(old('history6_mtf') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -464,7 +473,7 @@
                                         <td>Unknown</td>
                                         <td>
                                             <div class="form-group">
-                                                <select class="form-control" name="history6_uknown" id="history6_uknown" required>
+                                                <select class="form-control" name="history6_uknown" id="history6_uknown">
                                                     <option value="" disabled {{(old('history6_uknown') == '') ? 'selected' : ''}}>Choose...</option>
                                                     <option value="N" {{(old('history6_uknown') == 'N') ? 'selected' : ''}}>NO</option>
                                                     <option value="Y" {{(old('history6_uknown') == 'Y') ? 'selected' : ''}}>YES</option>
