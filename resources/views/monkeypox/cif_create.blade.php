@@ -5,8 +5,29 @@
     @csrf
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>New Monkeypox Case Investigation Form (CIF)</b></div>
+            <div class="card-header"><b>New Monkeypox Case Investigation Form (CIF) [ICD 10 - CM Code: B04]</b></div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="morbidity_month"><span class="text-danger font-weight-bold">*</span>Morbidity Month</label>
+                            <input type="date"class="form-control" name="morbidity_month" id="morbidity_month" value="{{old('morbidity_month', date('Y-m-d'))}}" max="{{date('Y-m-d')}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="date_reported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
+                            <input type="date"class="form-control" name="date_reported" id="date_reported" value="{{old('date_reported', date('Y-m-d'))}}" max="{{date('Y-m-d')}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="epid_number">EPID Number</label>
+                            <input type="text"class="form-control" name="epid_number" id="epid_number" value="{{old('epid_number')}}" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -77,11 +98,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="date_admitted">Date Admitted/Seen/Consult</label>
+                                    <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted/Seen/Consult</label>
                                     <input type="date"class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted')}}" max="{{date('Y-m-d')}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="admission_er">Admitted ER</label>
+                                    <label for="admission_er"><span class="text-danger font-weight-bold">*</span>Admitted ER</label>
                                     <select class="form-control" name="admission_er" id="admission_er" required>
                                         <option value="N" {{(old('admission_er') == 'N') ? 'selected' : ''}}>NO</option>
                                         <option value="Y" {{(old('admission_er') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -89,7 +110,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="admission_ward">Admitted Ward</label>
+                                    <label for="admission_ward"><span class="text-danger font-weight-bold">*</span>Admitted Ward</label>
                                     <select class="form-control" name="admission_ward" id="admission_ward" required>
                                         <option value="N" {{(old('admission_ward') == 'N') ? 'selected' : ''}}>NO</option>
                                         <option value="Y" {{(old('admission_ward') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -97,7 +118,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="admission_icu">Admitted ER</label>
+                                    <label for="admission_icu"><span class="text-danger font-weight-bold">*</span>Admitted ER</label>
                                     <select class="form-control" name="admission_icu" id="admission_icu" required>
                                         <option value="N" {{(old('admission_icu') == 'N') ? 'selected' : ''}}>NO</option>
                                         <option value="Y" {{(old('admission_icu') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -112,20 +133,22 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="ifhashistory_blooddonation_transfusion">Blood Donation/Transfusion History</label>
+                                    <label for="ifhashistory_blooddonation_transfusion"><span class="text-danger font-weight-bold">*</span>Blood Donation/Transfusion History</label>
                                     <select class="form-control" name="ifhashistory_blooddonation_transfusion" id="ifhashistory_blooddonation_transfusion">
                                         <option value="" {{(old('ifhashistory_blooddonation_transfusion') == '') ? 'selected' : ''}}>N/A</option>
                                         <option value="DONOR" {{(old('ifhashistory_blooddonation_transfusion') == 'DONOR') ? 'selected' : ''}}>DONOR</option>
                                         <option value="RECIPIENT" {{(old('ifhashistory_blooddonation_transfusion') == 'RECIPIENT') ? 'selected' : ''}}>RECIPIENT</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="ifhashistory_blooddonation_transfusion_place">Place of Donation/Transfusion</label>
-                                    <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_place" id="ifhashistory_blooddonation_transfusion_place" value="{{old('ifhashistory_blooddonation_transfusion_place')}}" style="text-transform: uppercase;">
-                                </div>
-                                <div class="form-group">
-                                    <label for="ifhashistory_blooddonation_transfusion_date">Date of Donation/Transfusion</label>
-                                    <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_date" id="ifhashistory_blooddonation_transfusion_date" value="{{old('ifhashistory_blooddonation_transfusion_date')}}" max="{{date('Y-m-d')}}" style="text-transform: uppercase;">
+                                <div id="blooddono_div" class="d-none">
+                                    <div class="form-group">
+                                        <label for="ifhashistory_blooddonation_transfusion_place"><span class="text-danger font-weight-bold">*</span>Place of Donation/Transfusion</label>
+                                        <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_place" id="ifhashistory_blooddonation_transfusion_place" value="{{old('ifhashistory_blooddonation_transfusion_place')}}" style="text-transform: uppercase;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ifhashistory_blooddonation_transfusion_date"><span class="text-danger font-weight-bold">*</span>Date of Donation/Transfusion</label>
+                                        <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_date" id="ifhashistory_blooddonation_transfusion_date" value="{{old('ifhashistory_blooddonation_transfusion_date')}}" max="{{date('Y-m-d')}}" style="text-transform: uppercase;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -137,23 +160,23 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="date_onsetofillness">Date onset of illness</label>
+                                    <label for="date_onsetofillness"><span class="text-danger font-weight-bold">*</span>Date onset of illness</label>
                                     <input type="date"class="form-control" name="date_onsetofillness" id="date_onsetofillness" value="{{old('date_onsetofillness')}}" max="{{date('Y-m-d')}}" required>
                                 </div>
                                 <hr>
                                 <div class="form-group">
-                                    <label for="have_cutaneous_rash">1. Does the patient have a cutaneous rash?</label>
+                                    <label for="have_cutaneous_rash"><span class="text-danger font-weight-bold">*</span>1. Does the patient have a cutaneous rash?</label>
                                     <select class="form-control" name="have_cutaneous_rash" id="have_cutaneous_rash" required>
                                         <option value="N" {{(old('have_cutaneous_rash') == 'N') ? 'selected' : ''}}>NO</option>
                                         <option value="Y" {{(old('have_cutaneous_rash') == 'Y') ? 'selected' : ''}}>YES</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="div_have_cutaneous_rash">
-                                    <label for="have_cutaneous_rash_date">If yes, date of onset for the rash</label>
+                                    <label for="have_cutaneous_rash_date"><span class="text-danger font-weight-bold">*</span>If yes, date of onset for the rash</label>
                                     <input type="date"class="form-control" name="have_cutaneous_rash_date" id="have_cutaneous_rash_date" value="{{old('have_cutaneous_rash_date')}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="have_fever">2. Did the patient have fever?</label>
+                                    <label for="have_fever"><span class="text-danger font-weight-bold">*</span>2. Did the patient have fever?</label>
                                     <select class="form-control" name="have_fever" id="have_fever" required>
                                         <option value="N" {{(old('have_fever') == 'N') ? 'selected' : ''}}>NO</option>
                                         <option value="Y" {{(old('have_fever') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -161,19 +184,19 @@
                                 </div>
                                 <div id="div_have_fever" class="d-none">
                                     <div class="form-group">
-                                        <label for="have_fever_date">If yes, date of onset for the fever</label>
-                                        <input type="date"class="form-control" name="have_fever_date" id="have_fever_date" value="{{old('have_fever_date')}}" max="{{date('Y-m-d')}}">
+                                        <label for="have_fever_date"><span class="text-danger font-weight-bold">*</span>If yes, date of onset for the fever</label>
+                                        <input type="date" class="form-control" name="have_fever_date" id="have_fever_date" value="{{old('have_fever_date')}}" max="{{date('Y-m-d')}}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="have_fever_days_duration">Duration of fever (Days)</label>
-                                        <input type="date"class="form-control" name="have_fever_days_duration" id="have_fever_days_duration" value="{{old('have_fever_days_duration')}}" min="1" max="99">
+                                        <label for="have_fever_days_duration"><span class="text-danger font-weight-bold">*</span>Duration of fever (Days)</label>
+                                        <input type="date" class="form-control" name="have_fever_days_duration" id="have_fever_days_duration" value="{{old('have_fever_days_duration')}}" min="1" max="99">
                                     </div>
                                 </div>
                                 <label for="have_fever_date">3. If there is active disease,</label>
                                 <ul>
                                     <li>
                                         <div class="form-group">
-                                            <label for="have_activedisease_lesion_samestate">3.1 Lesions are in the same state of development on the body?</label>
+                                            <label for="have_activedisease_lesion_samestate"><span class="text-danger font-weight-bold">*</span>3.1 Lesions are in the same state of development on the body?</label>
                                             <select class="form-control" name="have_activedisease_lesion_samestate" id="have_activedisease_lesion_samestate" required>
                                                 <option value="N" {{(old('have_activedisease_lesion_samestate') == 'N') ? 'selected' : ''}}>NO</option>
                                                 <option value="Y" {{(old('have_activedisease_lesion_samestate') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -182,7 +205,7 @@
                                     </li>
                                     <li>
                                         <div class="form-group">
-                                            <label for="have_activedisease_lesion_samesize">3.2 Are all of the lesions the same size?</label>
+                                            <label for="have_activedisease_lesion_samesize"><span class="text-danger font-weight-bold">*</span>3.2 Are all of the lesions the same size?</label>
                                             <select class="form-control" name="have_activedisease_lesion_samesize" id="have_activedisease_lesion_samesize" required>
                                                 <option value="N" {{(old('have_activedisease_lesion_samesize') == 'N') ? 'selected' : ''}}>NO</option>
                                                 <option value="Y" {{(old('have_activedisease_lesion_samesize') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -191,7 +214,7 @@
                                     </li>
                                     <li>
                                         <div class="form-group">
-                                            <label for="have_activedisease_lesion_deep">3.3 Are the lesions deep and profound?</label>
+                                            <label for="have_activedisease_lesion_deep"><span class="text-danger font-weight-bold">*</span>3.3 Are the lesions deep and profound?</label>
                                             <select class="form-control" name="have_activedisease_lesion_deep" id="have_activedisease_lesion_deep" required>
                                                 <option value="N" {{(old('have_activedisease_lesion_deep') == 'N') ? 'selected' : ''}}>NO</option>
                                                 <option value="Y" {{(old('have_activedisease_lesion_deep') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -200,7 +223,7 @@
                                     </li>
                                     <li>
                                         <div class="form-group">
-                                            <label for="have_activedisease_develop_ulcers">3.4. Did the patient develop ulcers?</label>
+                                            <label for="have_activedisease_develop_ulcers"><span class="text-danger font-weight-bold">*</span>3.4. Did the patient develop ulcers?</label>
                                             <select class="form-control" name="have_activedisease_develop_ulcers" id="have_activedisease_develop_ulcers" required>
                                                 <option value="N" {{(old('have_activedisease_develop_ulcers') == 'N') ? 'selected' : ''}}>NO</option>
                                                 <option value="Y" {{(old('have_activedisease_develop_ulcers') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -209,7 +232,7 @@
                                     </li>
                                 </ul>
                                 <div class="form-group">
-                                    <label for="have_activedisease_lesion_type">4. Type of lesions</label>
+                                    <label for="have_activedisease_lesion_type"><span class="text-danger font-weight-bold">*</span>4. Type of lesions</label>
                                     <select class="form-control" name="have_activedisease_lesion_type[]" id="have_activedisease_lesion_type" multiple required>
                                         <option value="" disabled {{(old('have_activedisease_lesion_type') == '') ? 'selected' : ''}}>N/A</option>
                                         <option value="MACULE" {{(old('have_activedisease_lesion_type') == 'MACULE') ? 'selected' : ''}}>MACULE</option>
@@ -220,7 +243,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="have_activedisease_lesion_localization">5. Localization of the lesions</label>
+                                    <label for="have_activedisease_lesion_localization"><span class="text-danger font-weight-bold">*</span>5. Localization of the lesions</label>
                                     <select class="form-control" name="have_activedisease_lesion_localization" id="have_activedisease_lesion_localization" multiple required>
                                         <option value="" disabled {{(old('have_activedisease_lesion_localization') == '') ? 'selected' : ''}}>N/A</option>
                                         <option value="FACE" {{(old('have_activedisease_lesion_localization') == 'FACE') ? 'selected' : ''}}>FACE</option>
@@ -234,13 +257,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="have_activedisease_lesion_localization_otherareas">List other Areas</label>
+                                    <label for="have_activedisease_lesion_localization_otherareas">List other areas of the lesions</label>
                                     <input type="text"class="form-control" name="have_activedisease_lesion_localization_otherareas" id="have_activedisease_lesion_localization_otherareas" value="{{old('have_activedisease_lesion_localization_otherareas')}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="symptoms_list">Signs and Symptoms (Select all that apply)</label>
+                                    <label for="symptoms_list"><span class="text-danger font-weight-bold">*</span>Signs and Symptoms (Select all that apply)</label>
                                     <select class="form-control" name="symptoms_list[]" id="symptoms_list" multiple required>
                                         <option value="" disabled {{(old('symptoms_list') == '') ? 'selected' : ''}}>N/A</option>
                                         <option value="VOMITING/NAUSEA" {{(old('symptoms_list') == 'VOMITING/NAUSEA') ? 'selected' : ''}}>VOMITING/NAUSEA</option>
@@ -257,13 +280,16 @@
                                         <option value="LYMPHADENOPATHY" {{(old('symptoms_list') == 'LYMPHADENOPATHY') ? 'selected' : ''}}>LYMPHADENOPATHY (SPECIFY LOCALIZATION)</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="symptoms_lymphadenopathy_localization">Signs and Symptoms (Select all that apply)</label>
-                                    <select class="form-control" name="symptoms_lymphadenopathy_localization[]" id="symptoms_lymphadenopathy_localization" multiple required>
-                                        <option value="CERVICAL" {{(old('symptoms_lymphadenopathy_localization') == 'CERVICAL') ? 'selected' : ''}}>CERVICAL</option>
-                                        <option value="AXILLARY" {{(old('symptoms_lymphadenopathy_localization') == 'AXILLARY') ? 'selected' : ''}}>AXILLARY</option>
-                                        <option value="INGUINAL" {{(old('symptoms_lymphadenopathy_localization') == 'INGUINAL') ? 'selected' : ''}}>INGUINAL</option>
-                                    </select>
+                                <div id="div_lymp" class="d-none">
+                                    <div class="form-group">
+                                        <label for="symptoms_lymphadenopathy_localization"><span class="text-danger font-weight-bold">*</span>Specify Localiztion of Lymphadenopathy</label>
+                                        <select class="form-control" name="symptoms_lymphadenopathy_localization[]" id="symptoms_lymphadenopathy_localization" multiple>
+                                            <option value="" disabled {{(old('symptoms_lymphadenopathy_localization') == '') ? 'selected' : ''}}>Choose...</option>
+                                            <option value="CERVICAL" {{(old('symptoms_lymphadenopathy_localization') == 'CERVICAL') ? 'selected' : ''}}>CERVICAL</option>
+                                            <option value="AXILLARY" {{(old('symptoms_lymphadenopathy_localization') == 'AXILLARY') ? 'selected' : ''}}>AXILLARY</option>
+                                            <option value="INGUINAL" {{(old('symptoms_lymphadenopathy_localization') == 'INGUINAL') ? 'selected' : ''}}>INGUINAL</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -273,7 +299,7 @@
                     <div class="card-header"><b>IV. HISTORY OF EXPOSURE</b></div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="history1_yn">1. Did the patient travel anytime in the three weeks before becoming ill?</label>
+                            <label for="history1_yn"><span class="text-danger font-weight-bold">*</span>1. Did the patient travel anytime in the three weeks before becoming ill?</label>
                             <select class="form-control" name="history1_yn" id="history1_yn" required>
                                 <option value="N" {{(old('history1_yn') == 'N') ? 'selected' : ''}}>NO</option>
                                 <option value="Y" {{(old('history1_yn') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -281,28 +307,28 @@
                         </div>
                         <div id="div_history1" class="d-none">
                             <div class="form-group">
-                                <label for="history1_specify">Specify</label>
+                                <label for="history1_specify"><span class="text-danger font-weight-bold">*</span>Specify</label>
                                 <input type="text"class="form-control" name="history1_specify" id="history1_specify" value="{{old('history1_specify')}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
-                                <label for="history1_date_travel">Date of Travel</label>
+                                <label for="history1_date_travel"><span class="text-danger font-weight-bold">*</span>Date of Travel</label>
                                 <input type="date"class="form-control" name="history1_date_travel" id="history1_date_travel" value="{{old('history1_date_travel')}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                                <label for="history1_flightno">Flight/Vessel #</label>
+                                <label for="history1_flightno"><span class="text-danger font-weight-bold">*</span>Flight/Vessel #</label>
                                 <input type="text"class="form-control" name="history1_flightno" id="history1_flightno" value="{{old('history1_flightno')}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
-                                <label for="history1_date_arrival">Date of Arrival</label>
+                                <label for="history1_date_arrival"><span class="text-danger font-weight-bold">*</span>Date of Arrival</label>
                                 <input type="date"class="form-control" name="history1_date_arrival" id="history1_date_arrival" value="{{old('history1_date_arrival')}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                                <label for="history1_pointandexitentry">Point of entry and exit</label>
+                                <label for="history1_pointandexitentry"><span class="text-danger font-weight-bold">*</span>Point of entry and exit</label>
                                 <input type="text"class="form-control" name="history1_pointandexitentry" id="history1_pointandexitentry" value="{{old('history1_pointandexitentry')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="history2_yn">2. Did the patient travel during illness?</label>
+                            <label for="history2_yn"><span class="text-danger font-weight-bold">*</span>2. Did the patient travel during illness?</label>
                             <select class="form-control" name="history2_yn" id="history2_yn" required>
                                 <option value="N" {{(old('history2_yn') == 'N') ? 'selected' : ''}}>NO</option>
                                 <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
@@ -310,46 +336,73 @@
                         </div>
                         <div id="div_history2" class="d-none">
                             <div class="form-group">
-                                <label for="history2_specify">Specify</label>
+                                <label for="history2_specify"><span class="text-danger font-weight-bold">*</span>Specify</label>
                                 <input type="text"class="form-control" name="history2_specify" id="history2_specify" value="{{old('history2_specify')}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
-                                <label for="history2_date_travel">Date of Travel</label>
+                                <label for="history2_date_travel"><span class="text-danger font-weight-bold">*</span>Date of Travel</label>
                                 <input type="date"class="form-control" name="history2_date_travel" id="history2_date_travel" value="{{old('history2_date_travel')}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                                <label for="history2_flightno">Flight/Vessel #</label>
+                                <label for="history2_flightno"><span class="text-danger font-weight-bold">*</span>Flight/Vessel #</label>
                                 <input type="text"class="form-control" name="history2_flightno" id="history2_flightno" value="{{old('history2_flightno')}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
-                                <label for="history2_date_arrival">Date of Arrival</label>
+                                <label for="history2_date_arrival"><span class="text-danger font-weight-bold">*</span>Date of Arrival</label>
                                 <input type="date"class="form-control" name="history2_date_arrival" id="history2_date_arrival" value="{{old('history2_date_arrival')}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                                <label for="history2_pointandexitentry">Point of entry and exit</label>
+                                <label for="history2_pointandexitentry"><span class="text-danger font-weight-bold">*</span>Point of entry and exit</label>
                                 <input type="text"class="form-control" name="history2_pointandexitentry" id="history2_pointandexitentry" value="{{old('history2_pointandexitentry')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="history2_yn">3. Within 21 days befores symptom onset, did the patient have contact with one or more persons who had similar symptoms?</label>
+                            <label for="history2_yn"><span class="text-danger font-weight-bold">*</span>3. Within 21 days befores symptom onset, did the patient have contact with one or more persons who had similar symptoms?</label>
                             <select class="form-control" name="history2_yn" id="history2_yn" required>
                                 <option value="N" {{(old('history2_yn') == 'N') ? 'selected' : ''}}>NO</option>
                                 <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="history2_yn">4. Did the patient touch a domestic or wild animal within 21 days before symptom onset?</label>
-                            <select class="form-control" name="history2_yn" id="history2_yn" required>
-                                <option value="N" {{(old('history2_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                            <label for="history4_yn"><span class="text-danger font-weight-bold">*</span>4. Did the patient touch a domestic or wild animal within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history4_yn" id="history4_yn" required>
+                                <option value="N" {{(old('history4_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history4_yn') == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
+                            <small class="text-muted">If Yes, accomplish  Appendix A "Monkepox Contact listing Form"</small>
                         </div>
                         <div id="div_history4" class="d-none">
-
+                            <div class="form-group">
+                                <label for="history4_typeofanimal"><span class="text-danger font-weight-bold">*</span>What kind of animal</label>
+                                <input type="text" class="form-control" name="history4_typeofanimal" id="history4_typeofanimal" value="{{old('history4_typeofanimal')}}" style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label for="history4_firstexposure"><span class="text-danger font-weight-bold">*</span>Date of FIRST exposure/contact</label>
+                                <input type="date" class="form-control" name="history4_firstexposure" id="history4_firstexposure" value="{{old('history4_firstexposure')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="history4_lastexposure"><span class="text-danger font-weight-bold">*</span>Date of LAST exposure/contact</label>
+                                <input type="date" class="form-control" name="history4_lastexposure" id="history4_lastexposure" value="{{old('history4_lastexposure')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                              <label for="history4_type"><span class="text-danger font-weight-bold">*</span>Type of contact (Select all that apply)</label>
+                              <select class="form-control" name="history4_type[]" id="history4_type" multiple>
+                                <option value="Rodents alive in the house">Rodents alive in the house</option>
+                                <option value="Dead animal found in the forest">Dead animal found in the forest</option>
+                                <option value="Alive animal living in the forest">Alive animal living in the forest</option>
+                                <option value="Animal bought for meat">Animal bought for meat</option>
+                                <option value="Others">Others</option>
+                              </select>
+                            </div>
+                            <div class="form-group d-none" id="div_history4_type_others">
+                                <label for="history4_type_others"><span class="text-danger font-weight-bold">*</span>Specify</label>
+                                <input type="text" class="form-control" name="history4_type_others" id="history4_type_others" value="{{old('history4_type_others')}}" style="text-transform: uppercase;">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="history5_genderidentity">5. Patients Gender Identity</label>
+                            <label for="history5_genderidentity"><span class="text-danger font-weight-bold">*</span>5. Patients Gender Identity</label>
                             <select class="form-control" name="history5_genderidentity" id="history5_genderidentity" required>
+                                <option value="" disabled {{(old('history5_genderidentity') == '') ? 'selected' : ''}}>Choose...</option>
                                 <option value="MAN" {{(old('history5_genderidentity') == 'MAN') ? 'selected' : ''}}>MAN</option>
                                 <option value="WOMAN" {{(old('history5_genderidentity') == 'WOMAN') ? 'selected' : ''}}>WOMAN</option>
                                 <option value="IN THE MIDDLE" {{(old('history5_genderidentity') == 'IN THE MIDDLE') ? 'selected' : ''}}>IN THE MIDDLE</option>
@@ -357,39 +410,104 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="history6_yn">6. Did the patient engage in sex (vaginal, oral, or anal) within 21 days before symptom onset?</label>
+                            <label for="history6_yn"><span class="text-danger font-weight-bold">*</span>6. Did the patient engage in sex (vaginal, oral, or anal) within 21 days before symptom onset?</label>
                             <select class="form-control" name="history6_yn" id="history6_yn" required>
                                 <option value="N" {{(old('history6_yn') == 'N') ? 'selected' : ''}}>NO</option>
                                 <option value="Y" {{(old('history6_yn') == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div id="div_history6" class="d-none">
-                            
+                            <table class="table table-bordered">
+                                <thead class="text-center thead-light">
+                                    <tr>
+                                        <th></th>
+                                        <th>History of sexual activity or close initmate contact</th>
+                                        <th>No. of Sexual Partners</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Male to male</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="form-control" name="history6_mtm" id="history6_mtm" required>
+                                                    <option value="" disabled {{(old('history6_mtm') == '') ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="N" {{(old('history6_mtm') == 'N') ? 'selected' : ''}}>NO</option>
+                                                    <option value="Y" {{(old('history6_mtm') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="history6_mtm_nosp" id="history6_mtm_nosp" value="{{old('history6_mtm_nosp')}}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Male to female</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="form-control" name="history6_mtf" id="history6_mtf" required>
+                                                    <option value="" disabled {{(old('history6_mtf') == '') ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="N" {{(old('history6_mtf') == 'N') ? 'selected' : ''}}>NO</option>
+                                                    <option value="Y" {{(old('history6_mtf') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="history6_mtf_nosp" id="history6_mtf_nosp" value="{{old('history6_mtf_nosp')}}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unknown</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="form-control" name="history6_uknown" id="history6_uknown" required>
+                                                    <option value="" disabled {{(old('history6_uknown') == '') ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="N" {{(old('history6_uknown') == 'N') ? 'selected' : ''}}>NO</option>
+                                                    <option value="Y" {{(old('history6_uknown') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="history6_uknown_nosp" id="history6_uknown_nosp" value="{{old('history6_uknown_nosp')}}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="form-group">
-                            <label for="history7_yn">6. Did the patient experience close intimate contact (cuddling, kissing, mutual masturbation, sharing sex toys) within 21 days before symptom onset?</label>
+                            <label for="history7_yn"><span class="text-danger font-weight-bold">*</span>7. Did the patient experience close intimate contact (cuddling, kissing, mutual masturbation, sharing sex toys) within 21 days before symptom onset?</label>
                             <select class="form-control" name="history7_yn" id="history7_yn" required>
                                 <option value="N" {{(old('history7_yn') == 'N') ? 'selected' : ''}}>NO</option>
                                 <option value="Y" {{(old('history7_yn') == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="history7_yn">8. Sharing of items (e.g towels, beddings, food, utensils, etc.) with your sexual partners within 21 days before symptom onset?</label>
-                            <select class="form-control" name="history7_yn" id="history7_yn" required>
-                                <option value="N" {{(old('history7_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history7_yn') == 'Y') ? 'selected' : ''}}>YES</option>
-                                <option value="R" {{(old('history7_yn') == 'r') ? 'selected' : ''}}>REFUSE TO ANSWER</option>
+                            <label for="history8_yn"><span class="text-danger font-weight-bold">*</span>8. Sharing of items (e.g towels, beddings, food, utensils, etc.) with your sexual partners within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history8_yn" id="history8_yn" required>
+                                <option value="N" {{(old('history8_yn') == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history8_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="R" {{(old('history8_yn') == 'r') ? 'selected' : ''}}>REFUSE TO ANSWER</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="history7_yn">9. Did the patient have sex and/or close intimate contact with some one who had recently traveled outside of your city or community within 21 days before symptom onset?</label>
-                            <select class="form-control" name="history7_yn" id="history7_yn" required>
-                                <option value="NO" {{(old('history7_yn') == 'NO') ? 'selected' : ''}}>NO</option>
-                                <option value="YES, TO ANOTHER COUNTRY" {{(old('history7_yn') == 'YES, TO ANOTHER COUNTRY') ? 'selected' : ''}}>YES, TO ANOTHER COUNTRY</option>
-                                <option value="YES, TO ANOTHER PROVINCE" {{(old('history7_yn') == 'YES, TO ANOTHER PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER PROVINCE</option>
-                                <option value="YES, TO ANOTHER CITY WITHIN MY PROVINCE" {{(old('history7_yn') == 'YES, TO ANOTHER CITY WITHIN MY PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER CITY WITHIN MY PROVINCE</option>
-                                <option value="UNKNOWN" {{(old('history7_yn') == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
+                            <label for="history9_choice"><span class="text-danger font-weight-bold">*</span>9. Did the patient have sex and/or close intimate contact with some one who had recently traveled outside of your city or community within 21 days before symptom onset?</label>
+                            <select class="form-control" name="history9_choice" id="history9_choice" required>
+                                <option value="NO" {{(old('history9_choice') == 'NO') ? 'selected' : ''}}>NO</option>
+                                <option value="YES, TO ANOTHER COUNTRY" {{(old('history9_choice') == 'YES, TO ANOTHER COUNTRY') ? 'selected' : ''}}>YES, TO ANOTHER COUNTRY</option>
+                                <option value="YES, TO ANOTHER PROVINCE" {{(old('history9_choice') == 'YES, TO ANOTHER PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER PROVINCE</option>
+                                <option value="YES, TO ANOTHER CITY WITHIN MY PROVINCE" {{(old('history9_choice') == 'YES, TO ANOTHER CITY WITHIN MY PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER CITY WITHIN MY PROVINCE</option>
+                                <option value="UNKNOWN" {{(old('history9_choice') == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
                             </select>
+                        </div>
+                        <div class="form-group d-none" id="history9_choice_div">
+                            <label for="history9_choice_othercountry"><span class="text-danger font-weight-bold">*</span>Specify Country</label>
+                            <input type="text" class="form-control" name="history9_choice_othercountry" id="history9_choice_othercountry" value="{{old('history9_choice_othercountry')}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                 </div>
@@ -419,12 +537,12 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_npsops_date_collected" id="test_npsops_date_collected" value="{{old('test_npsops_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_npsops_date_collected" id="test_npsops_date_collected" value="{{old('test_npsops_date_collected')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text"class="form-control" name="test_npsops_laboratory" id="test_npsops_laboratory" value="{{old('test_npsops_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_npsops_laboratory" id="test_npsops_laboratory" value="{{old('test_npsops_laboratory')}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
@@ -438,7 +556,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_npsops_date_released" id="test_npsops_date_released" value="{{old('test_npsops_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_npsops_date_released" id="test_npsops_date_released" value="{{old('test_npsops_date_released')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -455,12 +573,12 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_lesionfluid_date_collected" id="test_lesionfluid_date_collected" value="{{old('test_lesionfluid_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionfluid_date_collected" id="test_lesionfluid_date_collected" value="{{old('test_lesionfluid_date_collected')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text"class="form-control" name="test_lesionfluid_laboratory" id="test_lesionfluid_laboratory" value="{{old('test_lesionfluid_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_lesionfluid_laboratory" id="test_lesionfluid_laboratory" value="{{old('test_lesionfluid_laboratory')}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
@@ -474,7 +592,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_lesionfluid_date_released" id="test_lesionfluid_date_released" value="{{old('test_lesionfluid_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionfluid_date_released" id="test_lesionfluid_date_released" value="{{old('test_lesionfluid_date_released')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -491,12 +609,12 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_lesionroof_date_collected" id="test_lesionroof_date_collected" value="{{old('test_lesionroof_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionroof_date_collected" id="test_lesionroof_date_collected" value="{{old('test_lesionroof_date_collected')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text"class="form-control" name="test_lesionroof_laboratory" id="test_lesionroof_laboratory" value="{{old('test_lesionroof_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_lesionroof_laboratory" id="test_lesionroof_laboratory" value="{{old('test_lesionroof_laboratory')}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
@@ -510,7 +628,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_lesionroof_date_released" id="test_lesionroof_date_released" value="{{old('test_lesionroof_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionroof_date_released" id="test_lesionroof_date_released" value="{{old('test_lesionroof_date_released')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -526,12 +644,12 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_lesioncrust_date_collected" id="test_lesioncrust_date_collected" value="{{old('test_lesioncrust_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesioncrust_date_collected" id="test_lesioncrust_date_collected" value="{{old('test_lesioncrust_date_collected')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text"class="form-control" name="test_lesioncrust_laboratory" id="test_lesioncrust_laboratory" value="{{old('test_lesioncrust_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_lesioncrust_laboratory" id="test_lesioncrust_laboratory" value="{{old('test_lesioncrust_laboratory')}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
@@ -545,7 +663,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_lesioncrust_date_released" id="test_lesioncrust_date_released" value="{{old('test_lesioncrust_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesioncrust_date_released" id="test_lesioncrust_date_released" value="{{old('test_lesioncrust_date_released')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -561,12 +679,12 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_serum_date_collected" id="test_serum_date_collected" value="{{old('test_serum_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_serum_date_collected" id="test_serum_date_collected" value="{{old('test_serum_date_collected')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text"class="form-control" name="test_serum_laboratory" id="test_serum_laboratory" value="{{old('test_serum_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_serum_laboratory" id="test_serum_laboratory" value="{{old('test_serum_laboratory')}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
@@ -580,7 +698,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date"class="form-control" name="test_serum_date_released" id="test_serum_date_released" value="{{old('test_serum_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_serum_date_released" id="test_serum_date_released" value="{{old('test_serum_date_released')}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -594,14 +712,14 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="health_status">Current Health Status</label>
+                                    <label for="health_status"><span class="text-danger font-weight-bold">*</span>Current Health Status</label>
                                     <select class="form-control" name="health_status" id="health_status" required>
                                         <option value="ACTIVE" {{(old('health_status') == 'ACTIVE') ? 'selected' : ''}}>ACTIVE</option>
                                         <option value="DISCHARGED" {{(old('health_status') == 'DISCHARGED') ? 'selected' : ''}}>DISCHARGED</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="div_health_status_date_discharged">
-                                    <label for="health_status_date_discharged">Date Discharged</label>
+                                    <label for="health_status_date_discharged"><span class="text-danger font-weight-bold">*</span>Date Discharged</label>
                                     <input type="date"class="form-control" name="health_status_date_discharged" id="health_status_date_discharged" value="{{old('health_status_date_discharged')}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
@@ -611,8 +729,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="outcome">Current Health Status</label>
-                                    <select class="form-control" name="outcome" id="outcome" required>
+                                    <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
+                                    <select class="form-control" name="outcome" id="outcome">
+                                        <option value="" {{(old('outcome') == '') ? 'selected' : ''}}>N/A</option>
                                         <option value="RECOVERED" {{(old('outcome') == 'RECOVERED') ? 'selected' : ''}}>RECOVERED</option>
                                         <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>DIED</option>
                                         <option value="UNKNOWN" {{(old('outcome') == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
@@ -620,22 +739,22 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="div_outcome_date_recovered">
-                                    <label for="outcome_date_recovered">Date Recovered</label>
+                                    <label for="outcome_date_recovered"><span class="text-danger font-weight-bold">*</span>Date Recovered</label>
                                     <input type="date"class="form-control" name="outcome_date_recovered" id="outcome_date_recovered" value="{{old('outcome_date_recovered')}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div id="div_outcome_date_died" class="d-none">
                                     <div class="form-group">
-                                        <label for="outcome_date_died">Date Died</label>
+                                        <label for="outcome_date_died"><span class="text-danger font-weight-bold">*</span>Date Died</label>
                                         <input type="date"class="form-control" name="outcome_date_died" id="outcome_date_died" value="{{old('outcome_date_recovered')}}" max="{{date('Y-m-d')}}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="outcome_causeofdeath">Cause of death</label>
+                                        <label for="outcome_causeofdeath"><span class="text-danger font-weight-bold">*</span>Cause of death</label>
                                         <input type="text"class="form-control" name="outcome_causeofdeath" id="outcome_causeofdeath" value="{{old('outcome_causeofdeath')}}" style="text-transform: uppercase;">
                                     </div>
                                 </div>
                                 <div id="div_outcome_unknown_type" class="d-none">
                                     <div class="form-group">
-                                        <label for="outcome_unknown_type">Type</label>
+                                        <label for="outcome_unknown_type"><span class="text-danger font-weight-bold">*</span>Type</label>
                                         <select class="form-control" name="outcome_unknown_type" id="outcome_unknown_type" required>
                                             <option value="HAMA" {{(old('outcome_unknown_type') == 'HAMA') ? 'selected' : ''}}>HAMA</option>
                                             <option value="LOST TO FOLLOW-UP" {{(old('outcome_unknown_type') == 'LOST TO FOLLOW-UP') ? 'selected' : ''}}>LOST TO FOLLOW-UP</option>
@@ -645,7 +764,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="case_classification">Case Classification</label>
+                                    <label for="case_classification"><span class="text-danger font-weight-bold">*</span>Case Classification</label>
                                     <select class="form-control" name="case_classification" id="case_classification" required>
                                         <option value="SUSPECT" {{(old('case_classification') == 'SUSPECT') ? 'selected' : ''}}>SUSPECT</option>
                                         <option value="PROBABLE" {{(old('case_classification') == 'PROBABLE') ? 'selected' : ''}}>PROBABLE</option>
@@ -658,6 +777,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
             </div>
         </div>
     </div>
@@ -871,5 +993,213 @@
             $('#test_serum_date_released').prop('required', true);
         }
     }).trigger('change');
+
+    $('#history1_yn').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#div_history1').removeClass('d-none');
+            $('#history1_specify').prop('required', true);
+            $('#history1_date_travel').prop('required', true);
+            $('#history1_flightno').prop('required', true);
+            $('#history1_date_arrival').prop('required', true);
+            $('#history1_pointandexitentry').prop('required', true);
+        }
+        else {
+            $('#div_history1').addClass('d-none');
+            $('#history1_specify').prop('required', false);
+            $('#history1_date_travel').prop('required', false);
+            $('#history1_flightno').prop('required', false);
+            $('#history1_date_arrival').prop('required', false);
+            $('#history1_pointandexitentry').prop('required', false);
+        }
+    });
+
+    $('#history2_yn').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#div_history2').removeClass('d-none');
+            $('#history2_specify').prop('required', true);
+            $('#history2_date_travel').prop('required', true);
+            $('#history2_flightno').prop('required', true);
+            $('#history2_date_arrival').prop('required', true);
+            $('#history2_pointandexitentry').prop('required', true);
+        }
+        else {
+            $('#div_history2').addClass('d-none');
+            $('#history2_specify').prop('required', false);
+            $('#history2_date_travel').prop('required', false);
+            $('#history2_flightno').prop('required', false);
+            $('#history2_date_arrival').prop('required', false);
+            $('#history2_pointandexitentry').prop('required', false);
+        }
+    });
+
+    $('#history4_yn').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#div_history4').removeClass('d-none');
+            $('#history4_typeofanimal').prop('required', true);
+            $('#history4_firstexposure').prop('required', true);
+            $('#history4_lastexposure').prop('required', true);
+            $('#history4_type').prop('required', true);
+        }
+        else {
+            $('#div_history4').addClass('d-none');
+            $('#history4_typeofanimal').prop('required', false);
+            $('#history4_firstexposure').prop('required', false);
+            $('#history4_lastexposure').prop('required', false);
+            $('#history4_type').prop('required', false);
+        }
+    });
+
+    $('#ifhashistory_blooddonation_transfusion').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'DONOR' || $(this).val() == 'RECIPIENT') {
+            $('#blooddono_div').removeClass('d-none');
+            
+            $('#ifhashistory_blooddonation_transfusion').prop('required', true);
+            $('#ifhashistory_blooddonation_transfusion_place').prop('required', true);
+            $('#ifhashistory_blooddonation_transfusion_date').prop('required', true);
+        }
+        else {
+            $('#blooddono_div').addClass('d-none');
+
+            $('#ifhashistory_blooddonation_transfusion').prop('required', false);
+            $('#ifhashistory_blooddonation_transfusion_place').prop('required', false);
+            $('#ifhashistory_blooddonation_transfusion_date').prop('required', false);
+        }
+    });
+
+    $('#outcome').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'RECOVERED') {
+            $('#div_outcome_date_recovered').removeClass('d-none');
+            $('#div_outcome_date_died').addClass('d-none');
+            $('#div_outcome_unknown_type').addClass('d-none');
+
+            $('#outcome_unknown_type').prop('required', false);
+            $('#outcome_date_recovered').prop('required', true);
+            $('#outcome_date_died').prop('required', false);
+            $('#outcome_causeofdeath').prop('required', false);
+        }
+        else if($(this).val() == 'DIED') {
+            $('#div_outcome_date_recovered').addClass('d-none');
+            $('#div_outcome_date_died').removeClass('d-none');
+            $('#div_outcome_unknown_type').addClass('d-none');
+
+            $('#outcome_unknown_type').prop('required', false);
+            $('#outcome_date_recovered').prop('required', false);
+            $('#outcome_date_died').prop('required', true);
+            $('#outcome_causeofdeath').prop('required', true);
+        }
+        else if($(this).val() == 'UNKNOWN') {
+            $('#div_outcome_date_recovered').addClass('d-none');
+            $('#div_outcome_date_died').addClass('d-none');
+            $('#div_outcome_unknown_type').removeClass('d-none');
+
+            $('#outcome_unknown_type').prop('required', true);
+            $('#outcome_date_recovered').prop('required', false);
+            $('#outcome_date_died').prop('required', false);
+            $('#outcome_causeofdeath').prop('required', false);
+        }
+        else {
+            $('#div_outcome_date_recovered').addClass('d-none');
+            $('#div_outcome_date_died').addClass('d-none');
+            $('#div_outcome_unknown_type').addClass('d-none');
+
+            $('#outcome_unknown_type').prop('required', false);
+            $('#outcome_date_recovered').prop('required', false);
+            $('#outcome_date_died').prop('required', false);
+            $('#outcome_causeofdeath').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#history6_yn').change(function (e) { 
+        e.preventDefault();
+        
+        if($(this).val() == 'Y') {
+            $('#div_history6').removeClass('d-none');
+        }
+        else {
+            $('#div_history6').addClass('d-none');
+        }
+    });
+
+    $('#history6_mtm').change(function (e) { 
+        e.preventDefault();
+        
+        if($(this).val() == 'Y') {
+            $("#history6_mtm_nosp").prop('required', true);
+            $("#history6_mtm_nosp").prop('disabled', false);
+        }
+        else {
+            $("#history6_mtm_nosp").prop('required', false);
+            $("#history6_mtm_nosp").prop('disabled', true);
+        }
+    }).trigger('change');
+
+    $('#history6_mtf').change(function (e) { 
+        e.preventDefault();
+        
+        if($(this).val() == 'Y') {
+            $("#history6_mtf_nosp").prop('required', true);
+            $("#history6_mtf_nosp").prop('disabled', false);
+        }
+        else {
+            $("#history6_mtf_nosp").prop('required', false);
+            $("#history6_mtf_nosp").prop('disabled', true);
+        }
+    }).trigger('change');
+
+    $('#history6_uknown').change(function (e) { 
+        e.preventDefault();
+        
+        if($(this).val() == 'Y') {
+            $("#history6_uknown_nosp").prop('required', true);
+            $("#history6_uknown_nosp").prop('disabled', false);
+        }
+        else {
+            $("#history6_uknown_nosp").prop('required', false);
+            $("#history6_uknown_nosp").prop('disabled', true);
+        }
+    }).trigger('change');
+
+    $('#history4_type').change(function (e) { 
+        e.preventDefault();
+        if($(this).val().includes('Others')) {
+            $('#div_history4_type_others').removeClass('d-none');
+            $('#history4_type_others').prop('required', true);
+        }
+        else {
+            $('#div_history4_type_others').addClass('d-none');
+            $('#history4_type_others').prop('required', false);
+        }
+    });
+
+    $('#history9_choice').change(function (e) { 
+        e.preventDefault();
+        
+        if($(this).val() == 'YES, TO ANOTHER COUNTRY') {
+            $('#history9_choice_div').removeClass('d-none');
+            $('#history9_choice_othercountry').prop('required', true);
+        }
+        else {
+            $('#history9_choice_div').addClass('d-none');
+            $('#history9_choice_othercountry').prop('required', false);
+        }
+    });
+
+    $('#symptoms_list').change(function (e) { 
+        e.preventDefault();
+
+        if($(this).val().includes('LYMPHADENOPATHY')) {
+            $('#div_lymp').removeClass('d-none');
+            $('#symptoms_lymphadenopathy_localization').prop('required', true);
+        }
+        else {
+            $('#div_lymp').addClass('d-none');
+            $('#symptoms_lymphadenopathy_localization').prop('required', false);
+        }
+    });
 </script>
 @endsection

@@ -86,6 +86,7 @@ class CreateMonkeyPoxesTable extends Migration
             $table->date('history4_firstexposure')->nullable();
             $table->date('history4_lastexposure')->nullable();
             $table->text('history4_type')->nullable();
+            $table->text('history4_type_others')->nullable();
 
             $table->text('history5_genderidentity');
 

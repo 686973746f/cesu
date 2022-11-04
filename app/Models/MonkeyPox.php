@@ -81,6 +81,7 @@ class MonkeyPox extends Model
         'history4_firstexposure',
         'history4_lastexposure',
         'history4_type',
+        'history4_type_others',
 
         'history5_genderidentity',
 
