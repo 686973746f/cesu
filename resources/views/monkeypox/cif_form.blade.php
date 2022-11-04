@@ -9,7 +9,11 @@
     $date_reported = $c->date_reported;
     $epid_number = $c->epid_number;
 
-    $dru_name
+    $dru_name = $c->dru_name;
+    $dru_region = $c->dru_region;
+    $dru_province = $c->dru_province;
+    $dru_muncity = $c->dru_muncity;
+    $dru_street = $c->dru_street;
     @endphp
 @else
 <!--Create Page-->
@@ -18,6 +22,12 @@
     $morbidity_month = date('Y-m-d');
     $date_reported = date('Y-m-d');
     $epid_number = NULL;
+
+    $dru_name = 'CHO GENERAL TRIAS';
+    $dru_region = 'IV-A';
+    $dru_province = 'CAVITE';
+    $dru_muncity = 'GENERAL TRIAS';
+    $dru_street = 'PRIA RD';
     @endphp
 @endif
     @csrf
@@ -60,42 +70,42 @@
                     <div class="col-md-4">
                         <div class="form-group">
                           <label for="dru_name"><span class="text-danger font-weight-bold">*</span>Name of DRU</label>
-                          <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', 'CHO GENERAL TRIAS')}}" style="text-transform: uppercase;" required>
+                          <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', $dru_name)}}" style="text-transform: uppercase;" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="dru_region"><span class="text-danger font-weight-bold">*</span>Region of DRU</label>
-                            <input type="text"class="form-control" name="dru_region" id="dru_region" value="{{old('dru_region', 'IV-A')}}" style="text-transform: uppercase;" required>
+                            <input type="text"class="form-control" name="dru_region" id="dru_region" value="{{old('dru_region', $dru_region)}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                             <label for="dru_province"><span class="text-danger font-weight-bold">*</span>Province of DRU</label>
-                            <input type="text"class="form-control" name="dru_province" id="dru_province" value="{{old('dru_province', 'CAVITE')}}" style="text-transform: uppercase;" required>
+                            <input type="text"class="form-control" name="dru_province" id="dru_province" value="{{old('dru_province', $dru_province)}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                             <label for="dru_muncity"><span class="text-danger font-weight-bold">*</span>Municipality/City of DRU</label>
-                            <input type="text"class="form-control" name="dru_muncity" id="dru_muncity" value="{{old('dru_muncity', 'GENERAL TRIAS')}}" style="text-transform: uppercase;" required>
+                            <input type="text"class="form-control" name="dru_muncity" id="dru_muncity" value="{{old('dru_muncity', $dru_muncity)}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                             <label for="dru_street"><span class="text-danger font-weight-bold">*</span>Street of DRU</label>
-                            <input type="text"class="form-control" name="dru_street" id="dru_street" value="{{old('dru_street', 'PRIA RD')}}" style="text-transform: uppercase;" required>
+                            <input type="text"class="form-control" name="dru_street" id="dru_street" value="{{old('dru_street', $dru_street)}}" style="text-transform: uppercase;" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="date_investigation"><span class="text-danger font-weight-bold">*</span>Date of Investigation</label>
-                            <input type="date"class="form-control" name="date_investigation" id="date_investigation" value="{{old('date_investigation')}}" max="{{date('Y-m-d')}}" required>
+                            <input type="date"class="form-control" name="date_investigation" id="date_investigation" value="{{old('date_investigation', $c->date_investigation)}}" max="{{date('Y-m-d')}}" required>
                         </div>
                         <div class="form-group">
                             <label for="type"><span class="text-danger font-weight-bold">*</span>Type of DRU</label>
                             <select class="form-control" name="type" id="type" required>
-                                <option value="C/MHO" {{(old('type') == 'C/MHO') ? 'selected' : ''}}>C/MHO</option>
-                                <option value="GOVT HOSPITAL" {{(old('type') == 'GOVT HOSPITAL') ? 'selected' : ''}}>GOVT HOSPITAL</option>
-                                <option value="PRIVATE HOSPITAL" {{(old('type') == 'PRIVATE HOSPITAL') ? 'selected' : ''}}>PRIVATE HOSPITAL</option>
-                                <option value="AIRPORT" {{(old('type') == 'AIRPORT') ? 'selected' : ''}}>AIRPORT</option>
-                                <option value="SEAPORT" {{(old('type') == 'SEAPORT') ? 'selected' : ''}}>SEAPORT</option>
-                                <option value="GOVT LABORATORY" {{(old('type') == 'GOVT LABORATORY') ? 'selected' : ''}}>GOVT LABORATORY</option>
-                                <option value="PRIVATE LABORATORY" {{(old('type') == 'PRIVATE LABORATORY') ? 'selected' : ''}}>PRIVATE LABORATORY</option>
+                                <option value="C/MHO" {{(old('type', $c->type) == 'C/MHO') ? 'selected' : ''}}>C/MHO</option>
+                                <option value="GOVT HOSPITAL" {{(old('type', $c->type) == 'GOVT HOSPITAL') ? 'selected' : ''}}>GOVT HOSPITAL</option>
+                                <option value="PRIVATE HOSPITAL" {{(old('type', $c->type) == 'PRIVATE HOSPITAL') ? 'selected' : ''}}>PRIVATE HOSPITAL</option>
+                                <option value="AIRPORT" {{(old('type', $c->type) == 'AIRPORT') ? 'selected' : ''}}>AIRPORT</option>
+                                <option value="SEAPORT" {{(old('type', $c->type) == 'SEAPORT') ? 'selected' : ''}}>SEAPORT</option>
+                                <option value="GOVT LABORATORY" {{(old('type', $c->type) == 'GOVT LABORATORY') ? 'selected' : ''}}>GOVT LABORATORY</option>
+                                <option value="PRIVATE LABORATORY" {{(old('type', $c->type) == 'PRIVATE LABORATORY') ? 'selected' : ''}}>PRIVATE LABORATORY</option>
                             </select>
                         </div>
                     </div>
@@ -104,19 +114,19 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="informant_name">Name of Informant</label>
-                            <input type="text"class="form-control" name="informant_name" id="informant_name" value="{{old('informant_name')}}" style="text-transform: uppercase;">
+                            <input type="text"class="form-control" name="informant_name" id="informant_name" value="{{old('informant_name', $c->informant_name)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="informant_relationship">Relationship with Patient</label>
-                            <input type="text"class="form-control" name="informant_relationship" id="informant_relationship" value="{{old('informant_relationship')}}" style="text-transform: uppercase;">
+                            <input type="text"class="form-control" name="informant_relationship" id="informant_relationship" value="{{old('informant_relationship', $c->informant_relationship)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="informant_contactnumber">Contact No. of Informant</label>
-                            <input type="text"class="form-control" name="informant_contactnumber" id="informant_contactnumber" value="{{old('informant_contactnumber')}}" style="text-transform: uppercase;">
+                            <input type="text"class="form-control" name="informant_contactnumber" id="informant_contactnumber" value="{{old('informant_contactnumber', $c->informant_contactnumber)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                 </div>
@@ -127,55 +137,55 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted/Seen/Consult</label>
-                                    <input type="date"class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted')}}" max="{{date('Y-m-d')}}" required>
+                                    <input type="date"class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted', $c->date_admitted)}}" max="{{date('Y-m-d')}}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="admission_er"><span class="text-danger font-weight-bold">*</span>Admitted ER</label>
                                     <select class="form-control" name="admission_er" id="admission_er" required>
-                                        <option value="N" {{(old('admission_er') == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('admission_er') == 'Y') ? 'selected' : ''}}>YES</option>
-                                        <option value="U" {{(old('admission_er') == 'U') ? 'selected' : ''}}>UNKNOWN</option>
+                                        <option value="N" {{(old('admission_er', $c->admission_er) == 'N') ? 'selected' : ''}}>NO</option>
+                                        <option value="Y" {{(old('admission_er', $c->admission_er) == 'Y') ? 'selected' : ''}}>YES</option>
+                                        <option value="U" {{(old('admission_er', $c->admission_er) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="admission_ward"><span class="text-danger font-weight-bold">*</span>Admitted Ward</label>
                                     <select class="form-control" name="admission_ward" id="admission_ward" required>
-                                        <option value="N" {{(old('admission_ward') == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('admission_ward') == 'Y') ? 'selected' : ''}}>YES</option>
-                                        <option value="U" {{(old('admission_ward') == 'U') ? 'selected' : ''}}>UNKNOWN</option>
+                                        <option value="N" {{(old('admission_ward', $c->admission_ward) == 'N') ? 'selected' : ''}}>NO</option>
+                                        <option value="Y" {{(old('admission_ward', $c->admission_ward) == 'Y') ? 'selected' : ''}}>YES</option>
+                                        <option value="U" {{(old('admission_ward', $c->admission_ward) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="admission_icu"><span class="text-danger font-weight-bold">*</span>Admitted ER</label>
                                     <select class="form-control" name="admission_icu" id="admission_icu" required>
-                                        <option value="N" {{(old('admission_icu') == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('admission_icu') == 'Y') ? 'selected' : ''}}>YES</option>
-                                        <option value="U" {{(old('admission_icu') == 'U') ? 'selected' : ''}}>UNKNOWN</option>
+                                        <option value="N" {{(old('admission_icu', $c->admission_icu) == 'N') ? 'selected' : ''}}>NO</option>
+                                        <option value="Y" {{(old('admission_icu', $c->admission_icu) == 'Y') ? 'selected' : ''}}>YES</option>
+                                        <option value="U" {{(old('admission_icu', $c->admission_icu) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
                                     </select>
                                 </div>
                                 <hr>
                                 <div class="form-group">
                                     <label for="other_medicalinformation">Any other known medical information</label>
-                                    <input type="text"class="form-control" name="other_medicalinformation" id="other_medicalinformation" value="{{old('other_medicalinformation')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="other_medicalinformation" id="other_medicalinformation" value="{{old('other_medicalinformation', $c->other_medicalinformation)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="ifhashistory_blooddonation_transfusion"><span class="text-danger font-weight-bold">*</span>Blood Donation/Transfusion History</label>
                                     <select class="form-control" name="ifhashistory_blooddonation_transfusion" id="ifhashistory_blooddonation_transfusion">
-                                        <option value="" {{(old('ifhashistory_blooddonation_transfusion') == '') ? 'selected' : ''}}>N/A</option>
-                                        <option value="DONOR" {{(old('ifhashistory_blooddonation_transfusion') == 'DONOR') ? 'selected' : ''}}>DONOR</option>
-                                        <option value="RECIPIENT" {{(old('ifhashistory_blooddonation_transfusion') == 'RECIPIENT') ? 'selected' : ''}}>RECIPIENT</option>
+                                        <option value="" {{(old('ifhashistory_blooddonation_transfusion', $c->ifhashistory_blooddonation_transfusion) == '') ? 'selected' : ''}}>N/A</option>
+                                        <option value="DONOR" {{(old('ifhashistory_blooddonation_transfusion', $c->ifhashistory_blooddonation_transfusion) == 'DONOR') ? 'selected' : ''}}>DONOR</option>
+                                        <option value="RECIPIENT" {{(old('ifhashistory_blooddonation_transfusion', $c->ifhashistory_blooddonation_transfusion) == 'RECIPIENT') ? 'selected' : ''}}>RECIPIENT</option>
                                     </select>
                                 </div>
                                 <div id="blooddono_div" class="d-none">
                                     <div class="form-group">
                                         <label for="ifhashistory_blooddonation_transfusion_place"><span class="text-danger font-weight-bold">*</span>Place of Donation/Transfusion</label>
-                                        <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_place" id="ifhashistory_blooddonation_transfusion_place" value="{{old('ifhashistory_blooddonation_transfusion_place')}}" style="text-transform: uppercase;">
+                                        <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_place" id="ifhashistory_blooddonation_transfusion_place" value="{{old('ifhashistory_blooddonation_transfusion_place', $c->ifhashistory_blooddonation_transfusion_place)}}" style="text-transform: uppercase;">
                                     </div>
                                     <div class="form-group">
                                         <label for="ifhashistory_blooddonation_transfusion_date"><span class="text-danger font-weight-bold">*</span>Date of Donation/Transfusion</label>
-                                        <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_date" id="ifhashistory_blooddonation_transfusion_date" value="{{old('ifhashistory_blooddonation_transfusion_date')}}" max="{{date('Y-m-d')}}" style="text-transform: uppercase;">
+                                        <input type="text"class="form-control" name="ifhashistory_blooddonation_transfusion_date" id="ifhashistory_blooddonation_transfusion_date" value="{{old('ifhashistory_blooddonation_transfusion_date', $c->ifhashistory_blooddonation_transfusion_date)}}" max="{{date('Y-m-d')}}" style="text-transform: uppercase;">
                                     </div>
                                 </div>
                             </div>
@@ -189,35 +199,35 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="date_onsetofillness"><span class="text-danger font-weight-bold">*</span>Date onset of illness</label>
-                                    <input type="date"class="form-control" name="date_onsetofillness" id="date_onsetofillness" value="{{old('date_onsetofillness')}}" max="{{date('Y-m-d')}}" required>
+                                    <input type="date"class="form-control" name="date_onsetofillness" id="date_onsetofillness" value="{{old('date_onsetofillness', $c->date_onsetofillness)}}" max="{{date('Y-m-d')}}" required>
                                 </div>
                                 <hr>
                                 <div class="form-group">
                                     <label for="have_cutaneous_rash"><span class="text-danger font-weight-bold">*</span>1. Does the patient have a cutaneous rash?</label>
                                     <select class="form-control" name="have_cutaneous_rash" id="have_cutaneous_rash" required>
-                                        <option value="N" {{(old('have_cutaneous_rash') == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('have_cutaneous_rash') == 'Y') ? 'selected' : ''}}>YES</option>
+                                        <option value="N" {{(old('have_cutaneous_rash', $c->have_cutaneous_rash) == 'N') ? 'selected' : ''}}>NO</option>
+                                        <option value="Y" {{(old('have_cutaneous_rash', $c->have_cutaneous_rash) == 'Y') ? 'selected' : ''}}>YES</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="div_have_cutaneous_rash">
                                     <label for="have_cutaneous_rash_date"><span class="text-danger font-weight-bold">*</span>If yes, date of onset for the rash</label>
-                                    <input type="date"class="form-control" name="have_cutaneous_rash_date" id="have_cutaneous_rash_date" value="{{old('have_cutaneous_rash_date')}}" max="{{date('Y-m-d')}}">
+                                    <input type="date"class="form-control" name="have_cutaneous_rash_date" id="have_cutaneous_rash_date" value="{{old('have_cutaneous_rash_date', $c->have_cutaneous_rash_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="have_fever"><span class="text-danger font-weight-bold">*</span>2. Did the patient have fever?</label>
                                     <select class="form-control" name="have_fever" id="have_fever" required>
-                                        <option value="N" {{(old('have_fever') == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('have_fever') == 'Y') ? 'selected' : ''}}>YES</option>
+                                        <option value="N" {{(old('have_fever', $c->have_fever) == 'N') ? 'selected' : ''}}>NO</option>
+                                        <option value="Y" {{(old('have_fever', $c->have_fever) == 'Y') ? 'selected' : ''}}>YES</option>
                                     </select>
                                 </div>
                                 <div id="div_have_fever" class="d-none">
                                     <div class="form-group">
                                         <label for="have_fever_date"><span class="text-danger font-weight-bold">*</span>If yes, date of onset for the fever</label>
-                                        <input type="date" class="form-control" name="have_fever_date" id="have_fever_date" value="{{old('have_fever_date')}}" max="{{date('Y-m-d')}}">
+                                        <input type="date" class="form-control" name="have_fever_date" id="have_fever_date" value="{{old('have_fever_date', $c->have_fever_date)}}" max="{{date('Y-m-d')}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="have_fever_days_duration"><span class="text-danger font-weight-bold">*</span>Duration of fever (Days)</label>
-                                        <input type="date" class="form-control" name="have_fever_days_duration" id="have_fever_days_duration" value="{{old('have_fever_days_duration')}}" min="1" max="99">
+                                        <input type="date" class="form-control" name="have_fever_days_duration" id="have_fever_days_duration" value="{{old('have_fever_days_duration', $c->have_fever_days_duration)}}" min="1" max="99">
                                     </div>
                                 </div>
                                 <label for="have_fever_date">3. If there is active disease,</label>
@@ -226,8 +236,8 @@
                                         <div class="form-group">
                                             <label for="have_activedisease_lesion_samestate"><span class="text-danger font-weight-bold">*</span>3.1 Lesions are in the same state of development on the body?</label>
                                             <select class="form-control" name="have_activedisease_lesion_samestate" id="have_activedisease_lesion_samestate" required>
-                                                <option value="N" {{(old('have_activedisease_lesion_samestate') == 'N') ? 'selected' : ''}}>NO</option>
-                                                <option value="Y" {{(old('have_activedisease_lesion_samestate') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                <option value="N" {{(old('have_activedisease_lesion_samestate', $c->have_activedisease_lesion_samestate) == 'N') ? 'selected' : ''}}>NO</option>
+                                                <option value="Y" {{(old('have_activedisease_lesion_samestate', $c->have_activedisease_lesion_samestate) == 'Y') ? 'selected' : ''}}>YES</option>
                                             </select>
                                         </div>
                                     </li>
@@ -235,8 +245,8 @@
                                         <div class="form-group">
                                             <label for="have_activedisease_lesion_samesize"><span class="text-danger font-weight-bold">*</span>3.2 Are all of the lesions the same size?</label>
                                             <select class="form-control" name="have_activedisease_lesion_samesize" id="have_activedisease_lesion_samesize" required>
-                                                <option value="N" {{(old('have_activedisease_lesion_samesize') == 'N') ? 'selected' : ''}}>NO</option>
-                                                <option value="Y" {{(old('have_activedisease_lesion_samesize') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                <option value="N" {{(old('have_activedisease_lesion_samesize', $c->have_activedisease_lesion_samesize) == 'N') ? 'selected' : ''}}>NO</option>
+                                                <option value="Y" {{(old('have_activedisease_lesion_samesize', $c->have_activedisease_lesion_samesize) == 'Y') ? 'selected' : ''}}>YES</option>
                                             </select>
                                         </div>
                                     </li>
@@ -244,8 +254,8 @@
                                         <div class="form-group">
                                             <label for="have_activedisease_lesion_deep"><span class="text-danger font-weight-bold">*</span>3.3 Are the lesions deep and profound?</label>
                                             <select class="form-control" name="have_activedisease_lesion_deep" id="have_activedisease_lesion_deep" required>
-                                                <option value="N" {{(old('have_activedisease_lesion_deep') == 'N') ? 'selected' : ''}}>NO</option>
-                                                <option value="Y" {{(old('have_activedisease_lesion_deep') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                <option value="N" {{(old('have_activedisease_lesion_deep', $c->have_activedisease_lesion_samesize) == 'N') ? 'selected' : ''}}>NO</option>
+                                                <option value="Y" {{(old('have_activedisease_lesion_deep', $c->have_activedisease_lesion_samesize) == 'Y') ? 'selected' : ''}}>YES</option>
                                             </select>
                                         </div>
                                     </li>
@@ -253,8 +263,8 @@
                                         <div class="form-group">
                                             <label for="have_activedisease_develop_ulcers"><span class="text-danger font-weight-bold">*</span>3.4. Did the patient develop ulcers?</label>
                                             <select class="form-control" name="have_activedisease_develop_ulcers" id="have_activedisease_develop_ulcers" required>
-                                                <option value="N" {{(old('have_activedisease_develop_ulcers') == 'N') ? 'selected' : ''}}>NO</option>
-                                                <option value="Y" {{(old('have_activedisease_develop_ulcers') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                <option value="N" {{(old('have_activedisease_develop_ulcers', $c->have_activedisease_develop_ulcers) == 'N') ? 'selected' : ''}}>NO</option>
+                                                <option value="Y" {{(old('have_activedisease_develop_ulcers', $c->have_activedisease_develop_ulcers) == 'Y') ? 'selected' : ''}}>YES</option>
                                             </select>
                                         </div>
                                     </li>
@@ -262,60 +272,60 @@
                                 <div class="form-group">
                                     <label for="have_activedisease_lesion_type"><span class="text-danger font-weight-bold">*</span>4. Type of lesions</label>
                                     <select class="form-control" name="have_activedisease_lesion_type[]" id="have_activedisease_lesion_type" multiple required>
-                                        <option value="" disabled {{(old('have_activedisease_lesion_type') == '') ? 'selected' : ''}}>N/A</option>
-                                        <option value="MACULE" {{(old('have_activedisease_lesion_type') == 'MACULE') ? 'selected' : ''}}>MACULE</option>
-                                        <option value="PAPULE" {{(old('have_activedisease_lesion_type') == 'PAPULE') ? 'selected' : ''}}>PAPULE</option>
-                                        <option value="VESICLE" {{(old('have_activedisease_lesion_type') == 'VESICLE') ? 'selected' : ''}}>VESICLE</option>
-                                        <option value="PUSTULE" {{(old('have_activedisease_lesion_type') == 'PUSTULE') ? 'selected' : ''}}>PUSTULE</option>
-                                        <option value="SCAB" {{(old('have_activedisease_lesion_type') == 'SCAB') ? 'selected' : ''}}>SCAB</option>
+                                        <option value="" disabled {{(old('have_activedisease_lesion_type', $c->have_activedisease_lesion_type) == '') ? 'selected' : ''}}>N/A</option>
+                                        <option value="MACULE" {{(old('have_activedisease_lesion_type', $c->have_activedisease_lesion_type) == 'MACULE') ? 'selected' : ''}}>MACULE</option>
+                                        <option value="PAPULE" {{(old('have_activedisease_lesion_type', $c->have_activedisease_lesion_type) == 'PAPULE') ? 'selected' : ''}}>PAPULE</option>
+                                        <option value="VESICLE" {{(old('have_activedisease_lesion_type', $c->have_activedisease_lesion_type) == 'VESICLE') ? 'selected' : ''}}>VESICLE</option>
+                                        <option value="PUSTULE" {{(old('have_activedisease_lesion_type', $c->have_activedisease_lesion_type) == 'PUSTULE') ? 'selected' : ''}}>PUSTULE</option>
+                                        <option value="SCAB" {{(old('have_activedisease_lesion_type', $c->have_activedisease_lesion_type) == 'SCAB') ? 'selected' : ''}}>SCAB</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="have_activedisease_lesion_localization"><span class="text-danger font-weight-bold">*</span>5. Localization of the lesions</label>
                                     <select class="form-control" name="have_activedisease_lesion_localization" id="have_activedisease_lesion_localization" multiple required>
-                                        <option value="" disabled {{(old('have_activedisease_lesion_localization') == '') ? 'selected' : ''}}>N/A</option>
-                                        <option value="FACE" {{(old('have_activedisease_lesion_localization') == 'FACE') ? 'selected' : ''}}>FACE</option>
-                                        <option value="PALMS OF THE HANDS" {{(old('have_activedisease_lesion_localization') == 'PALMS OF THE HANDS') ? 'selected' : ''}}>PALMS OF THE HANDS</option>
-                                        <option value="THORAX" {{(old('have_activedisease_lesion_localization') == 'THORAX') ? 'selected' : ''}}>THORAX</option>
-                                        <option value="ARMS" {{(old('have_activedisease_lesion_localization') == 'ARMS') ? 'selected' : ''}}>ARMS</option>
-                                        <option value="LEGS" {{(old('have_activedisease_lesion_localization') == 'LEGS') ? 'selected' : ''}}>LEGS</option>
-                                        <option value="SOLES OF THE FEET" {{(old('have_activedisease_lesion_localization') == 'SOLES OF THE FEET') ? 'selected' : ''}}>SOLES OF THE FEET</option>
-                                        <option value="GENITALS" {{(old('have_activedisease_lesion_localization') == 'GENITALS') ? 'selected' : ''}}>GENITALS</option>
-                                        <option value="ALL OVER THE BODY" {{(old('have_activedisease_lesion_localization') == 'ALL OVER THE BODY') ? 'selected' : ''}}>ALL OVER THE BODY</option>
+                                        <option value="" disabled {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == '') ? 'selected' : ''}}>N/A</option>
+                                        <option value="FACE" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'FACE') ? 'selected' : ''}}>FACE</option>
+                                        <option value="PALMS OF THE HANDS" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'PALMS OF THE HANDS') ? 'selected' : ''}}>PALMS OF THE HANDS</option>
+                                        <option value="THORAX" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'THORAX') ? 'selected' : ''}}>THORAX</option>
+                                        <option value="ARMS" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'ARMS') ? 'selected' : ''}}>ARMS</option>
+                                        <option value="LEGS" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'LEGS') ? 'selected' : ''}}>LEGS</option>
+                                        <option value="SOLES OF THE FEET" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'SOLES OF THE FEET') ? 'selected' : ''}}>SOLES OF THE FEET</option>
+                                        <option value="GENITALS" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'GENITALS') ? 'selected' : ''}}>GENITALS</option>
+                                        <option value="ALL OVER THE BODY" {{(old('have_activedisease_lesion_localization', $c->have_activedisease_lesion_localization) == 'ALL OVER THE BODY') ? 'selected' : ''}}>ALL OVER THE BODY</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="have_activedisease_lesion_localization_otherareas">List other areas of the lesions</label>
-                                    <input type="text"class="form-control" name="have_activedisease_lesion_localization_otherareas" id="have_activedisease_lesion_localization_otherareas" value="{{old('have_activedisease_lesion_localization_otherareas')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="have_activedisease_lesion_localization_otherareas" id="have_activedisease_lesion_localization_otherareas" value="{{old('have_activedisease_lesion_localization_otherareas', $c->have_activedisease_lesion_localization_otherareas)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="symptoms_list"><span class="text-danger font-weight-bold">*</span>Signs and Symptoms (Select all that apply)</label>
                                     <select class="form-control" name="symptoms_list[]" id="symptoms_list" multiple required>
-                                        <option value="" disabled {{(old('symptoms_list') == '') ? 'selected' : ''}}>N/A</option>
-                                        <option value="VOMITING/NAUSEA" {{(old('symptoms_list') == 'VOMITING/NAUSEA') ? 'selected' : ''}}>VOMITING/NAUSEA</option>
-                                        <option value="HEADACHE" {{(old('symptoms_list') == 'HEADACHE') ? 'selected' : ''}}>HEADACHEA</option>
-                                        <option value="COUGH" {{(old('symptoms_list') == 'COUGH') ? 'selected' : ''}}>COUGH</option>
-                                        <option value="MUSCLE PAIN (MYALGIA)" {{(old('symptoms_list') == 'MUSCLE PAIN (MYALGIA)') ? 'selected' : ''}}>MUSCLE PAIN (MYALGIA)</option>
-                                        <option value="ASTHENIA (WEAKNESS)" {{(old('symptoms_list') == 'ASTHENIA (WEAKNESS)') ? 'selected' : ''}}>ASTHENIA (WEAKNESS)</option>
-                                        <option value="FATIGUE" {{(old('symptoms_list') == 'FATIGUE') ? 'selected' : ''}}>FATIGUE</option>
-                                        <option value="CONJUNCTIVITIS" {{(old('symptoms_list') == 'CONJUNCTIVITIS') ? 'selected' : ''}}>CONJUNCTIVITIS</option>
-                                        <option value="CHILLS OR SWEATS" {{(old('symptoms_list') == 'CHILLS OR SWEATS') ? 'selected' : ''}}>CHILLS OR SWEATS</option>
-                                        <option value="SENSITIVITY TO LIGHT" {{(old('symptoms_list') == 'SENSITIVITY TO LIGHT') ? 'selected' : ''}}>SENSITIVITY TO LIGHT</option>
-                                        <option value="SORE THROAT WHEN SWALLOWING" {{(old('symptoms_list') == 'SORE THROAT WHEN SWALLOWING') ? 'selected' : ''}}>SORE THROAT WHEN SWALLOWING</option>
-                                        <option value="ORAL ULCERS" {{(old('symptoms_list') == 'ORAL ULCERS') ? 'selected' : ''}}>ORAL ULCERS</option>
-                                        <option value="LYMPHADENOPATHY" {{(old('symptoms_list') == 'LYMPHADENOPATHY') ? 'selected' : ''}}>LYMPHADENOPATHY (SPECIFY LOCALIZATION)</option>
+                                        <option value="" disabled {{(old('symptoms_list', $c->symptoms_list) == '') ? 'selected' : ''}}>N/A</option>
+                                        <option value="VOMITING/NAUSEA" {{(old('symptoms_list', $c->symptoms_list) == 'VOMITING/NAUSEA') ? 'selected' : ''}}>VOMITING/NAUSEA</option>
+                                        <option value="HEADACHE" {{(old('symptoms_list', $c->symptoms_list) == 'HEADACHE') ? 'selected' : ''}}>HEADACHEA</option>
+                                        <option value="COUGH" {{(old('symptoms_list', $c->symptoms_list) == 'COUGH') ? 'selected' : ''}}>COUGH</option>
+                                        <option value="MUSCLE PAIN (MYALGIA)" {{(old('symptoms_list', $c->symptoms_list) == 'MUSCLE PAIN (MYALGIA)') ? 'selected' : ''}}>MUSCLE PAIN (MYALGIA)</option>
+                                        <option value="ASTHENIA (WEAKNESS)" {{(old('symptoms_list', $c->symptoms_list) == 'ASTHENIA (WEAKNESS)') ? 'selected' : ''}}>ASTHENIA (WEAKNESS)</option>
+                                        <option value="FATIGUE" {{(old('symptoms_list', $c->symptoms_list) == 'FATIGUE') ? 'selected' : ''}}>FATIGUE</option>
+                                        <option value="CONJUNCTIVITIS" {{(old('symptoms_list', $c->symptoms_list) == 'CONJUNCTIVITIS') ? 'selected' : ''}}>CONJUNCTIVITIS</option>
+                                        <option value="CHILLS OR SWEATS" {{(old('symptoms_list', $c->symptoms_list) == 'CHILLS OR SWEATS') ? 'selected' : ''}}>CHILLS OR SWEATS</option>
+                                        <option value="SENSITIVITY TO LIGHT" {{(old('symptoms_list', $c->symptoms_list) == 'SENSITIVITY TO LIGHT') ? 'selected' : ''}}>SENSITIVITY TO LIGHT</option>
+                                        <option value="SORE THROAT WHEN SWALLOWING" {{(old('symptoms_list', $c->symptoms_list) == 'SORE THROAT WHEN SWALLOWING') ? 'selected' : ''}}>SORE THROAT WHEN SWALLOWING</option>
+                                        <option value="ORAL ULCERS" {{(old('symptoms_list', $c->symptoms_list) == 'ORAL ULCERS') ? 'selected' : ''}}>ORAL ULCERS</option>
+                                        <option value="LYMPHADENOPATHY" {{(old('symptoms_list', $c->symptoms_list) == 'LYMPHADENOPATHY') ? 'selected' : ''}}>LYMPHADENOPATHY (SPECIFY LOCALIZATION)</option>
                                     </select>
                                 </div>
                                 <div id="div_lymp" class="d-none">
                                     <div class="form-group">
                                         <label for="symptoms_lymphadenopathy_localization"><span class="text-danger font-weight-bold">*</span>Specify Localiztion of Lymphadenopathy</label>
                                         <select class="form-control" name="symptoms_lymphadenopathy_localization[]" id="symptoms_lymphadenopathy_localization" multiple>
-                                            <option value="" disabled {{(old('symptoms_lymphadenopathy_localization') == '') ? 'selected' : ''}}>Choose...</option>
-                                            <option value="CERVICAL" {{(old('symptoms_lymphadenopathy_localization') == 'CERVICAL') ? 'selected' : ''}}>CERVICAL</option>
-                                            <option value="AXILLARY" {{(old('symptoms_lymphadenopathy_localization') == 'AXILLARY') ? 'selected' : ''}}>AXILLARY</option>
-                                            <option value="INGUINAL" {{(old('symptoms_lymphadenopathy_localization') == 'INGUINAL') ? 'selected' : ''}}>INGUINAL</option>
+                                            <option value="" disabled {{(old('symptoms_lymphadenopathy_localization', $c->symptoms_lymphadenopathy_localization) == '') ? 'selected' : ''}}>Choose...</option>
+                                            <option value="CERVICAL" {{(old('symptoms_lymphadenopathy_localization', $c->symptoms_lymphadenopathy_localization) == 'CERVICAL') ? 'selected' : ''}}>CERVICAL</option>
+                                            <option value="AXILLARY" {{(old('symptoms_lymphadenopathy_localization', $c->symptoms_lymphadenopathy_localization) == 'AXILLARY') ? 'selected' : ''}}>AXILLARY</option>
+                                            <option value="INGUINAL" {{(old('symptoms_lymphadenopathy_localization', $c->symptoms_lymphadenopathy_localization) == 'INGUINAL') ? 'selected' : ''}}>INGUINAL</option>
                                         </select>
                                     </div>
                                 </div>
@@ -329,102 +339,102 @@
                         <div class="form-group">
                             <label for="history1_yn"><span class="text-danger font-weight-bold">*</span>1. Did the patient travel anytime in the three weeks before becoming ill?</label>
                             <select class="form-control" name="history1_yn" id="history1_yn" required>
-                                <option value="N" {{(old('history1_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history1_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="N" {{(old('history1_yn', $c->history1_yn) == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history1_yn', $c->history1_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div id="div_history1" class="d-none">
                             <div class="form-group">
                                 <label for="history1_specify"><span class="text-danger font-weight-bold">*</span>Specify</label>
-                                <input type="text"class="form-control" name="history1_specify" id="history1_specify" value="{{old('history1_specify')}}" style="text-transform: uppercase;">
+                                <input type="text"class="form-control" name="history1_specify" id="history1_specify" value="{{old('history1_specify', $c->history1_specify)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
                                 <label for="history1_date_travel"><span class="text-danger font-weight-bold">*</span>Date of Travel</label>
-                                <input type="date"class="form-control" name="history1_date_travel" id="history1_date_travel" value="{{old('history1_date_travel')}}" max="{{date('Y-m-d')}}">
+                                <input type="date"class="form-control" name="history1_date_travel" id="history1_date_travel" value="{{old('history1_date_travel', $c->history1_date_travel)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                                 <label for="history1_flightno"><span class="text-danger font-weight-bold">*</span>Flight/Vessel #</label>
-                                <input type="text"class="form-control" name="history1_flightno" id="history1_flightno" value="{{old('history1_flightno')}}" style="text-transform: uppercase;">
+                                <input type="text"class="form-control" name="history1_flightno" id="history1_flightno" value="{{old('history1_flightno', $c->history1_flightno)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
                                 <label for="history1_date_arrival"><span class="text-danger font-weight-bold">*</span>Date of Arrival</label>
-                                <input type="date"class="form-control" name="history1_date_arrival" id="history1_date_arrival" value="{{old('history1_date_arrival')}}" max="{{date('Y-m-d')}}">
+                                <input type="date"class="form-control" name="history1_date_arrival" id="history1_date_arrival" value="{{old('history1_date_arrival', $c->history1_date_arrival)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                                 <label for="history1_pointandexitentry"><span class="text-danger font-weight-bold">*</span>Point of entry and exit</label>
-                                <input type="text"class="form-control" name="history1_pointandexitentry" id="history1_pointandexitentry" value="{{old('history1_pointandexitentry')}}" style="text-transform: uppercase;">
+                                <input type="text"class="form-control" name="history1_pointandexitentry" id="history1_pointandexitentry" value="{{old('history1_pointandexitentry', $c->history1_pointandexitentry)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="history2_yn"><span class="text-danger font-weight-bold">*</span>2. Did the patient travel during illness?</label>
                             <select class="form-control" name="history2_yn" id="history2_yn" required>
-                                <option value="N" {{(old('history2_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history2_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="N" {{(old('history2_yn', $c->history2_yn) == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history2_yn', $c->history2_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div id="div_history2" class="d-none">
                             <div class="form-group">
                                 <label for="history2_specify"><span class="text-danger font-weight-bold">*</span>Specify</label>
-                                <input type="text"class="form-control" name="history2_specify" id="history2_specify" value="{{old('history2_specify')}}" style="text-transform: uppercase;">
+                                <input type="text"class="form-control" name="history2_specify" id="history2_specify" value="{{old('history2_specify', $c->history2_specify)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
                                 <label for="history2_date_travel"><span class="text-danger font-weight-bold">*</span>Date of Travel</label>
-                                <input type="date"class="form-control" name="history2_date_travel" id="history2_date_travel" value="{{old('history2_date_travel')}}" max="{{date('Y-m-d')}}">
+                                <input type="date"class="form-control" name="history2_date_travel" id="history2_date_travel" value="{{old('history2_date_travel', $c->history2_date_travel)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                                 <label for="history2_flightno"><span class="text-danger font-weight-bold">*</span>Flight/Vessel #</label>
-                                <input type="text"class="form-control" name="history2_flightno" id="history2_flightno" value="{{old('history2_flightno')}}" style="text-transform: uppercase;">
+                                <input type="text"class="form-control" name="history2_flightno" id="history2_flightno" value="{{old('history2_flightno', $c->history2_flightno)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
                                 <label for="history2_date_arrival"><span class="text-danger font-weight-bold">*</span>Date of Arrival</label>
-                                <input type="date"class="form-control" name="history2_date_arrival" id="history2_date_arrival" value="{{old('history2_date_arrival')}}" max="{{date('Y-m-d')}}">
+                                <input type="date"class="form-control" name="history2_date_arrival" id="history2_date_arrival" value="{{old('history2_date_arrival', $c->history2_date_arrival)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                                 <label for="history2_pointandexitentry"><span class="text-danger font-weight-bold">*</span>Point of entry and exit</label>
-                                <input type="text"class="form-control" name="history2_pointandexitentry" id="history2_pointandexitentry" value="{{old('history2_pointandexitentry')}}" style="text-transform: uppercase;">
+                                <input type="text"class="form-control" name="history2_pointandexitentry" id="history2_pointandexitentry" value="{{old('history2_pointandexitentry', $c->history2_pointandexitentry)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="history3_yn"><span class="text-danger font-weight-bold">*</span>3. Within 21 days befores symptom onset, did the patient have contact with one or more persons who had similar symptoms?</label>
                             <select class="form-control" name="history3_yn" id="history3_yn" required>
-                                <option value="N" {{(old('history3_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history3_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="N" {{(old('history3_yn', $c->history3_yn) == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history3_yn', $c->history3_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="history4_yn"><span class="text-danger font-weight-bold">*</span>4. Did the patient touch a domestic or wild animal within 21 days before symptom onset?</label>
                             <select class="form-control" name="history4_yn" id="history4_yn" required>
-                                <option value="N" {{(old('history4_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history4_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="N" {{(old('history4_yn', $c->history4_yn) == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history4_yn', $c->history4_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                             <small class="text-muted">If Yes, accomplish  Appendix A "Monkepox Contact listing Form"</small>
                         </div>
                         <div id="div_history4" class="d-none">
                             <div class="form-group">
                                 <label for="history4_typeofanimal"><span class="text-danger font-weight-bold">*</span>What kind of animal</label>
-                                <input type="text" class="form-control" name="history4_typeofanimal" id="history4_typeofanimal" value="{{old('history4_typeofanimal')}}" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="history4_typeofanimal" id="history4_typeofanimal" value="{{old('history4_typeofanimal', $c->history4_typeofanimal)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
                                 <label for="history4_firstexposure"><span class="text-danger font-weight-bold">*</span>Date of FIRST exposure/contact</label>
-                                <input type="date" class="form-control" name="history4_firstexposure" id="history4_firstexposure" value="{{old('history4_firstexposure')}}" max="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control" name="history4_firstexposure" id="history4_firstexposure" value="{{old('history4_firstexposure', $c->history4_firstexposure)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                                 <label for="history4_lastexposure"><span class="text-danger font-weight-bold">*</span>Date of LAST exposure/contact</label>
-                                <input type="date" class="form-control" name="history4_lastexposure" id="history4_lastexposure" value="{{old('history4_lastexposure')}}" max="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control" name="history4_lastexposure" id="history4_lastexposure" value="{{old('history4_lastexposure', $c->history4_lastexposure)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="history4_type"><span class="text-danger font-weight-bold">*</span>Type of contact (Select all that apply)</label>
                               <select class="form-control" name="history4_type[]" id="history4_type" multiple>
-                                <option value="Rodents alive in the house">Rodents alive in the house</option>
-                                <option value="Dead animal found in the forest">Dead animal found in the forest</option>
-                                <option value="Alive animal living in the forest">Alive animal living in the forest</option>
-                                <option value="Animal bought for meat">Animal bought for meat</option>
-                                <option value="Others">Others</option>
+                                <option value="Rodents alive in the house" {{(old('history4_type', $c->history4_type) == 'Rodents alive in the house') ? 'selected' : ''}}>Rodents alive in the house</option>
+                                <option value="Dead animal found in the forest" {{(old('history4_type', $c->history4_type) == 'Dead animal found in the forest') ? 'selected' : ''}}>Dead animal found in the forest</option>
+                                <option value="Alive animal living in the forest" {{(old('history4_type', $c->history4_type) == 'Alive animal living in the forest') ? 'selected' : ''}}>Alive animal living in the forest</option>
+                                <option value="Animal bought for meat" {{(old('history4_type', $c->history4_type) == 'Animal bought for meat') ? 'selected' : ''}}>Animal bought for meat</option>
+                                <option value="Others" {{(old('history4_type', $c->history4_type) == 'Others') ? 'selected' : ''}}>Others</option>
                               </select>
                             </div>
                             <div class="form-group d-none" id="div_history4_type_others">
                                 <label for="history4_type_others"><span class="text-danger font-weight-bold">*</span>Specify</label>
-                                <input type="text" class="form-control" name="history4_type_others" id="history4_type_others" value="{{old('history4_type_others')}}" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="history4_type_others" id="history4_type_others" value="{{old('history4_type_others', $c->history4_type_others)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group">
