@@ -440,18 +440,18 @@
                         <div class="form-group">
                             <label for="history5_genderidentity"><span class="text-danger font-weight-bold">*</span>5. Patients Gender Identity</label>
                             <select class="form-control" name="history5_genderidentity" id="history5_genderidentity" required>
-                                <option value="" disabled {{(old('history5_genderidentity') == '') ? 'selected' : ''}}>Choose...</option>
-                                <option value="MAN" {{(old('history5_genderidentity') == 'MAN') ? 'selected' : ''}}>MAN</option>
-                                <option value="WOMAN" {{(old('history5_genderidentity') == 'WOMAN') ? 'selected' : ''}}>WOMAN</option>
-                                <option value="IN THE MIDDLE" {{(old('history5_genderidentity') == 'IN THE MIDDLE') ? 'selected' : ''}}>IN THE MIDDLE</option>
-                                <option value="NON BINARY" {{(old('history5_genderidentity') == 'NON BINARY') ? 'selected' : ''}}>NON BINARY</option>
+                                <option value="" disabled {{(old('history5_genderidentity', $c->history5_genderidentity) == '') ? 'selected' : ''}}>Choose...</option>
+                                <option value="MAN" {{(old('history5_genderidentity', $c->history5_genderidentity) == 'MAN') ? 'selected' : ''}}>MAN</option>
+                                <option value="WOMAN" {{(old('history5_genderidentity', $c->history5_genderidentity) == 'WOMAN') ? 'selected' : ''}}>WOMAN</option>
+                                <option value="IN THE MIDDLE" {{(old('history5_genderidentity', $c->history5_genderidentity) == 'IN THE MIDDLE') ? 'selected' : ''}}>IN THE MIDDLE</option>
+                                <option value="NON BINARY" {{(old('history5_genderidentity', $c->history5_genderidentity) == 'NON BINARY') ? 'selected' : ''}}>NON BINARY</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="history6_yn"><span class="text-danger font-weight-bold">*</span>6. Did the patient engage in sex (vaginal, oral, or anal) within 21 days before symptom onset?</label>
                             <select class="form-control" name="history6_yn" id="history6_yn" required>
-                                <option value="N" {{(old('history6_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history6_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="N" {{(old('history6_yn', $c->history6_yn) == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history6_yn', $c->history6_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div id="div_history6" class="d-none">
@@ -469,15 +469,15 @@
                                         <td>
                                             <div class="form-group">
                                                 <select class="form-control" name="history6_mtm" id="history6_mtm">
-                                                    <option value="" disabled {{(old('history6_mtm') == '') ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="N" {{(old('history6_mtm') == 'N') ? 'selected' : ''}}>NO</option>
-                                                    <option value="Y" {{(old('history6_mtm') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                    <option value="" disabled {{(old('history6_mtm', $c->history6_mtm) == '') ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="N" {{(old('history6_mtm', $c->history6_mtm) == 'N') ? 'selected' : ''}}>NO</option>
+                                                    <option value="Y" {{(old('history6_mtm', $c->history6_mtm) == 'Y') ? 'selected' : ''}}>YES</option>
                                                 </select>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" name="history6_mtm_nosp" id="history6_mtm_nosp" value="{{old('history6_mtm_nosp')}}">
+                                                <input type="number" class="form-control" name="history6_mtm_nosp" id="history6_mtm_nosp" value="{{old('history6_mtm_nosp', $c->history6_mtm_nosp)}}">
                                             </div>
                                         </td>
                                     </tr>
@@ -486,15 +486,15 @@
                                         <td>
                                             <div class="form-group">
                                                 <select class="form-control" name="history6_mtf" id="history6_mtf">
-                                                    <option value="" disabled {{(old('history6_mtf') == '') ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="N" {{(old('history6_mtf') == 'N') ? 'selected' : ''}}>NO</option>
-                                                    <option value="Y" {{(old('history6_mtf') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                    <option value="" disabled {{(old('history6_mtf', $c->history6_mtf) == '') ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="N" {{(old('history6_mtf', $c->history6_mtf) == 'N') ? 'selected' : ''}}>NO</option>
+                                                    <option value="Y" {{(old('history6_mtf', $c->history6_mtf) == 'Y') ? 'selected' : ''}}>YES</option>
                                                 </select>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" name="history6_mtf_nosp" id="history6_mtf_nosp" value="{{old('history6_mtf_nosp')}}">
+                                                <input type="number" class="form-control" name="history6_mtf_nosp" id="history6_mtf_nosp" value="{{old('history6_mtf_nosp', $c->history6_mtf_nosp)}}">
                                             </div>
                                         </td>
                                     </tr>
@@ -503,15 +503,15 @@
                                         <td>
                                             <div class="form-group">
                                                 <select class="form-control" name="history6_uknown" id="history6_uknown">
-                                                    <option value="" disabled {{(old('history6_uknown') == '') ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="N" {{(old('history6_uknown') == 'N') ? 'selected' : ''}}>NO</option>
-                                                    <option value="Y" {{(old('history6_uknown') == 'Y') ? 'selected' : ''}}>YES</option>
+                                                    <option value="" disabled {{(old('history6_uknown', $c->history6_uknown) == '') ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="N" {{(old('history6_uknown', $c->history6_uknown) == 'N') ? 'selected' : ''}}>NO</option>
+                                                    <option value="Y" {{(old('history6_uknown', $c->history6_uknown) == 'Y') ? 'selected' : ''}}>YES</option>
                                                 </select>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" name="history6_uknown_nosp" id="history6_uknown_nosp" value="{{old('history6_uknown_nosp')}}">
+                                                <input type="number" class="form-control" name="history6_uknown_nosp" id="history6_uknown_nosp" value="{{old('history6_uknown_nosp', $c->history6_uknown_nosp)}}">
                                             </div>
                                         </td>
                                     </tr>
@@ -521,31 +521,31 @@
                         <div class="form-group">
                             <label for="history7_yn"><span class="text-danger font-weight-bold">*</span>7. Did the patient experience close intimate contact (cuddling, kissing, mutual masturbation, sharing sex toys) within 21 days before symptom onset?</label>
                             <select class="form-control" name="history7_yn" id="history7_yn" required>
-                                <option value="N" {{(old('history7_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history7_yn') == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="N" {{(old('history7_yn', $c->history7_yn) == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history7_yn', $c->history7_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="history8_yn"><span class="text-danger font-weight-bold">*</span>8. Sharing of items (e.g towels, beddings, food, utensils, etc.) with your sexual partners within 21 days before symptom onset?</label>
                             <select class="form-control" name="history8_yn" id="history8_yn" required>
-                                <option value="N" {{(old('history8_yn') == 'N') ? 'selected' : ''}}>NO</option>
-                                <option value="Y" {{(old('history8_yn') == 'Y') ? 'selected' : ''}}>YES</option>
-                                <option value="R" {{(old('history8_yn') == 'r') ? 'selected' : ''}}>REFUSE TO ANSWER</option>
+                                <option value="N" {{(old('history8_yn', $c->history8_yn) == 'N') ? 'selected' : ''}}>NO</option>
+                                <option value="Y" {{(old('history8_yn', $c->history8_yn) == 'Y') ? 'selected' : ''}}>YES</option>
+                                <option value="R" {{(old('history8_yn', $c->history8_yn) == 'r') ? 'selected' : ''}}>REFUSE TO ANSWER</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="history9_choice"><span class="text-danger font-weight-bold">*</span>9. Did the patient have sex and/or close intimate contact with some one who had recently traveled outside of your city or community within 21 days before symptom onset?</label>
                             <select class="form-control" name="history9_choice" id="history9_choice" required>
                                 <option value="NO" {{(old('history9_choice') == 'NO') ? 'selected' : ''}}>NO</option>
-                                <option value="YES, TO ANOTHER COUNTRY" {{(old('history9_choice') == 'YES, TO ANOTHER COUNTRY') ? 'selected' : ''}}>YES, TO ANOTHER COUNTRY</option>
-                                <option value="YES, TO ANOTHER PROVINCE" {{(old('history9_choice') == 'YES, TO ANOTHER PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER PROVINCE</option>
-                                <option value="YES, TO ANOTHER CITY WITHIN MY PROVINCE" {{(old('history9_choice') == 'YES, TO ANOTHER CITY WITHIN MY PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER CITY WITHIN MY PROVINCE</option>
-                                <option value="UNKNOWN" {{(old('history9_choice') == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
+                                <option value="YES, TO ANOTHER COUNTRY" {{(old('history9_choice', $c->history9_choice) == 'YES, TO ANOTHER COUNTRY') ? 'selected' : ''}}>YES, TO ANOTHER COUNTRY</option>
+                                <option value="YES, TO ANOTHER PROVINCE" {{(old('history9_choice', $c->history9_choice) == 'YES, TO ANOTHER PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER PROVINCE</option>
+                                <option value="YES, TO ANOTHER CITY WITHIN MY PROVINCE" {{(old('history9_choice', $c->history9_choice) == 'YES, TO ANOTHER CITY WITHIN MY PROVINCE') ? 'selected' : ''}}>YES, TO ANOTHER CITY WITHIN MY PROVINCE</option>
+                                <option value="UNKNOWN" {{(old('history9_choice', $c->history9_choice) == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
                             </select>
                         </div>
                         <div class="form-group d-none" id="history9_choice_div">
                             <label for="history9_choice_othercountry"><span class="text-danger font-weight-bold">*</span>Specify Country</label>
-                            <input type="text" class="form-control" name="history9_choice_othercountry" id="history9_choice_othercountry" value="{{old('history9_choice_othercountry')}}" style="text-transform: uppercase;">
+                            <input type="text" class="form-control" name="history9_choice_othercountry" id="history9_choice_othercountry" value="{{old('history9_choice_othercountry', $c->history9_choice)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                 </div>
@@ -568,33 +568,33 @@
                                         <div class="form-group">
                                           <label for="test_npsops">Nasopharyngeal Swab (NPS) or Oropharyngeal Swab (OPS)</label>
                                           <select class="form-control" name="test_npsops" id="test_npsops">
-                                            <option value="N" {{(old('test_npsops') == 'N') ? 'selected' : ''}}>NO</option>
-                                            <option value="Y" {{(old('test_npsops') == 'Y') ? 'selected' : ''}}>YES</option>
+                                            <option value="N" {{(old('test_npsops', $c->test_npsops) == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_npsops', $c->test_npsops) == 'Y') ? 'selected' : ''}}>YES</option>
                                           </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_npsops_date_collected" id="test_npsops_date_collected" value="{{old('test_npsops_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_npsops_date_collected" id="test_npsops_date_collected" value="{{old('test_npsops_date_collected', $c->test_npsops_date_collected)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="test_npsops_laboratory" id="test_npsops_laboratory" value="{{old('test_npsops_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_npsops_laboratory" id="test_npsops_laboratory" value="{{old('test_npsops_laboratory', $c->test_npsops_laboratory)}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="test_npsops_result" id="test_npsops_result">
-                                              <option value="PENDING" {{(old('test_npsops_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
-                                              <option value="POSITIVE" {{(old('test_npsops_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
-                                              <option value="NEGATIVE" {{(old('test_npsops_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                              <option value="PENDING" {{(old('test_npsops_result', $c->test_npsops_result) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_npsops_result', $c->test_npsops_result) == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_npsops_result', $c->test_npsops_result) == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_npsops_date_released" id="test_npsops_date_released" value="{{old('test_npsops_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_npsops_date_released" id="test_npsops_date_released" value="{{old('test_npsops_date_released', $c->test_npsops_date_released)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -604,33 +604,33 @@
                                         <div class="form-group">
                                           <label for="test_lesionfluid">Lesion Fluid</label>
                                           <select class="form-control" name="test_lesionfluid" id="test_lesionfluid">
-                                            <option value="N" {{(old('test_lesionfluid') == 'N') ? 'selected' : ''}}>NO</option>
-                                            <option value="Y" {{(old('test_lesionfluid') == 'Y') ? 'selected' : ''}}>YES</option>
+                                            <option value="N" {{(old('test_lesionfluid', $c->test_lesionfluid) == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_lesionfluid', $c->test_lesionfluid) == 'Y') ? 'selected' : ''}}>YES</option>
                                           </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_lesionfluid_date_collected" id="test_lesionfluid_date_collected" value="{{old('test_lesionfluid_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionfluid_date_collected" id="test_lesionfluid_date_collected" value="{{old('test_lesionfluid_date_collected', $c->test_lesionfluid_date_collected)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="test_lesionfluid_laboratory" id="test_lesionfluid_laboratory" value="{{old('test_lesionfluid_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_lesionfluid_laboratory" id="test_lesionfluid_laboratory" value="{{old('test_lesionfluid_laboratory', $c->test_lesionfluid_laboratory)}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="test_lesionfluid_result" id="test_lesionfluid_result">
-                                              <option value="PENDING" {{(old('test_lesionfluid_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
-                                              <option value="POSITIVE" {{(old('test_lesionfluid_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
-                                              <option value="NEGATIVE" {{(old('test_lesionfluid_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                              <option value="PENDING" {{(old('test_lesionfluid_result', $c->test_lesionfluid_result) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_lesionfluid_result', $c->test_lesionfluid_result) == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_lesionfluid_result', $c->test_lesionfluid_result) == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_lesionfluid_date_released" id="test_lesionfluid_date_released" value="{{old('test_lesionfluid_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionfluid_date_released" id="test_lesionfluid_date_released" value="{{old('test_lesionfluid_date_released', $c->test_lesionfluid_date_released)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -640,33 +640,33 @@
                                         <div class="form-group">
                                           <label for="test_lesionroof">Lesion Roof</label>
                                           <select class="form-control" name="test_lesionroof" id="test_lesionroof">
-                                            <option value="N" {{(old('test_lesionroof') == 'N') ? 'selected' : ''}}>NO</option>
-                                            <option value="Y" {{(old('test_lesionroof') == 'Y') ? 'selected' : ''}}>YES</option>
+                                            <option value="N" {{(old('test_lesionroof', $c->test_lesionroof) == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_lesionroof', $c->test_lesionroof) == 'Y') ? 'selected' : ''}}>YES</option>
                                           </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_lesionroof_date_collected" id="test_lesionroof_date_collected" value="{{old('test_lesionroof_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionroof_date_collected" id="test_lesionroof_date_collected" value="{{old('test_lesionroof_date_collected', $c->test_lesionroof_date_collected)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="test_lesionroof_laboratory" id="test_lesionroof_laboratory" value="{{old('test_lesionroof_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_lesionroof_laboratory" id="test_lesionroof_laboratory" value="{{old('test_lesionroof_laboratory', $c->test_lesionroof_laboratory)}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="test_lesionroof_result" id="test_lesionroof_result">
-                                              <option value="PENDING" {{(old('test_lesionroof_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
-                                              <option value="POSITIVE" {{(old('test_lesionroof_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
-                                              <option value="NEGATIVE" {{(old('test_lesionroof_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                              <option value="PENDING" {{(old('test_lesionroof_result', $c->test_lesionroof_result) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_lesionroof_result', $c->test_lesionroof_result) == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_lesionroof_result', $c->test_lesionroof_result) == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_lesionroof_date_released" id="test_lesionroof_date_released" value="{{old('test_lesionroof_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesionroof_date_released" id="test_lesionroof_date_released" value="{{old('test_lesionroof_date_released', $c->test_lesionroof_date_released)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -675,33 +675,33 @@
                                         <div class="form-group">
                                           <label for="test_lesioncrust">Lesion Crust</label>
                                           <select class="form-control" name="test_lesioncrust" id="test_lesioncrust">
-                                            <option value="N" {{(old('test_lesioncrust') == 'N') ? 'selected' : ''}}>NO</option>
-                                            <option value="Y" {{(old('test_lesioncrust') == 'Y') ? 'selected' : ''}}>YES</option>
+                                            <option value="N" {{(old('test_lesioncrust', $c->test_lesioncrust) == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_lesioncrust', $c->test_lesioncrust) == 'Y') ? 'selected' : ''}}>YES</option>
                                           </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_lesioncrust_date_collected" id="test_lesioncrust_date_collected" value="{{old('test_lesioncrust_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesioncrust_date_collected" id="test_lesioncrust_date_collected" value="{{old('test_lesioncrust_date_collected', $c->test_lesioncrust_date_collected)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="test_lesioncrust_laboratory" id="test_lesioncrust_laboratory" value="{{old('test_lesioncrust_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_lesioncrust_laboratory" id="test_lesioncrust_laboratory" value="{{old('test_lesioncrust_laboratory', $c->test_lesioncrust_laboratory)}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="test_lesioncrust_result" id="test_lesioncrust_result">
-                                              <option value="PENDING" {{(old('test_lesioncrust_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
-                                              <option value="POSITIVE" {{(old('test_lesioncrust_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
-                                              <option value="NEGATIVE" {{(old('test_lesioncrust_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                              <option value="PENDING" {{(old('test_lesioncrust_result', $c->test_lesioncrust_result) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_lesioncrust_result', $c->test_lesioncrust_result) == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_lesioncrust_result', $c->test_lesioncrust_result) == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_lesioncrust_date_released" id="test_lesioncrust_date_released" value="{{old('test_lesioncrust_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_lesioncrust_date_released" id="test_lesioncrust_date_released" value="{{old('test_lesioncrust_date_released', $c->test_lesioncrust_date_released)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
@@ -710,33 +710,33 @@
                                         <div class="form-group">
                                           <label for="test_serum">Serum</label>
                                           <select class="form-control" name="test_serum" id="test_serum">
-                                            <option value="N" {{(old('test_serum') == 'N') ? 'selected' : ''}}>NO</option>
-                                            <option value="Y" {{(old('test_serum') == 'Y') ? 'selected' : ''}}>YES</option>
+                                            <option value="N" {{(old('test_serum', $c->test_serum) == 'N') ? 'selected' : ''}}>NO</option>
+                                            <option value="Y" {{(old('test_serum', $c->test_serum) == 'Y') ? 'selected' : ''}}>YES</option>
                                           </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_serum_date_collected" id="test_serum_date_collected" value="{{old('test_serum_date_collected')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_serum_date_collected" id="test_serum_date_collected" value="{{old('test_serum_date_collected', $c->test_serum_date_collected)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="test_serum_laboratory" id="test_serum_laboratory" value="{{old('test_serum_laboratory')}}" style="text-transform: uppercase;">
+                                            <input type="text" class="form-control" name="test_serum_laboratory" id="test_serum_laboratory" value="{{old('test_serum_laboratory', $c->test_serum_laboratory)}}" style="text-transform: uppercase;">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="test_serum_result" id="test_serum_result">
-                                              <option value="PENDING" {{(old('test_serum_result') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
-                                              <option value="POSITIVE" {{(old('test_serum_result') == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
-                                              <option value="NEGATIVE" {{(old('test_serum_result') == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
+                                              <option value="PENDING" {{(old('test_serum_result', $c->test_serum_result) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                              <option value="POSITIVE" {{(old('test_serum_result', $c->test_serum_result) == 'POSITIVE') ? 'selected' : ''}}>POSITIVE</option>
+                                              <option value="NEGATIVE" {{(old('test_serum_result', $c->test_serum_result) == 'NEGATIVE') ? 'selected' : ''}}>NEGATIVE</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="test_serum_date_released" id="test_serum_date_released" value="{{old('test_serum_date_released')}}" max="{{date('Y-m-d')}}">
+                                            <input type="date" class="form-control" name="test_serum_date_released" id="test_serum_date_released" value="{{old('test_serum_date_released', $c->test_serum_date_released)}}" max="{{date('Y-m-d')}}">
                                         </div>
                                     </td>
                                 </tr>
