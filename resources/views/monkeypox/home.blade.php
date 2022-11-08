@@ -24,6 +24,7 @@
                     @endif
                     <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#quicksearch"><i class="fas fa-search mr-2"></i>Patient Quick Search</button>
                     <hr>
+                    <a href="{{route('records.index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Records</a>
                     <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#reportColl">
                         Others
                     </button>

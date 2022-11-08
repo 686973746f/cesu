@@ -134,12 +134,12 @@ class MonkeyPoxController extends Controller
                 'have_activedisease_lesion_samesize' => $request->have_activedisease_lesion_samesize,
                 'have_activedisease_lesion_deep' => $request->have_activedisease_lesion_deep,
                 'have_activedisease_develop_ulcers' => $request->have_activedisease_develop_ulcers,
-                'have_activedisease_lesion_type' => $request->have_activedisease_lesion_type,
-                'have_activedisease_lesion_localization' => $request->have_activedisease_lesion_localization,
+                'have_activedisease_lesion_type' => implode(',', $request->have_activedisease_lesion_type),
+                'have_activedisease_lesion_localization' => implode(',', $request->have_activedisease_lesion_localization),
                 'have_activedisease_lesion_localization_otherareas' => $request->have_activedisease_lesion_localization_otherareas,
     
                 'symptoms_list' => (!is_null($request->symptoms_list)) ? implode(',', $request->symptoms_list) : NULL,
-                'symptoms_lymphadenopathy_localization' => $request->symptoms_lymphadenopathy_localization,
+                'symptoms_lymphadenopathy_localization' => (!is_null($request->symptoms_lymphadenopathy_localization)) ? implode(',', $request->symptoms_lymphadenopathy_localization) : NULL,
                 
                 'history1_yn' => $request->history1_yn,
                 'history1_specify' => $request->history1_specify,
@@ -161,7 +161,7 @@ class MonkeyPoxController extends Controller
                 'history4_typeofanimal' => $request->history4_typeofanimal,
                 'history4_firstexposure' => $request->history4_firstexposure,
                 'history4_lastexposure' => $request->history4_lastexposure,
-                'history4_type' => $request->history4_type,
+                'history4_type' => (!is_null($request->history4_type)) ? implode(',', $request->history4_type) : NULL,
                 'history4_type_others' => $request->history4_type_others,
     
                 'history5_genderidentity' => $request->history5_genderidentity,

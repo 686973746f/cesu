@@ -36,7 +36,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     @if($c->exists)
-                    <div><b>Edit Monkeypox CIF of <a href="">{{$c->records->getName()}} | {{$c->records->getAge()}}/{{substr($c->records->gender,0,1)}} | {{date('m/d/Y', strtotime($c->records->bdate))}}</a> [ICD 10 - CM Code: B04]</b></div>
+                    <div><b>Edit Monkeypox CIF of <a href="{{route('records.edit', $c->records->id)}}">{{$c->records->getName()}} | {{$c->records->getAge()}}/{{substr($c->records->gender,0,1)}} | {{date('m/d/Y', strtotime($c->records->bdate))}}</a> [ICD 10 - CM Code: B04]</b></div>
                     @else
                     <div><b>New Monkeypox Case Investigation Form (CIF) [ICD 10 - CM Code: B04]</b></div>
                     @endif
@@ -410,6 +410,7 @@
                                 <option value="N" {{(old('history3_yn', $c->history3_yn) == 'N') ? 'selected' : ''}}>NO</option>
                                 <option value="Y" {{(old('history3_yn', $c->history3_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
+                            <small class="text-muted d-none" id="div_history3">If YES, accomplish  Appendix A "Monkepox Contact listing Form" than can be downloaded <a href="{{asset('MONKEYPOX_APPENDIXA.pdf')}}" target="_blank">HERE</a></small>
                         </div>
                         <div class="form-group">
                             <label for="history4_yn"><span class="text-danger font-weight-bold">*</span>4. Did the patient touch a domestic or wild animal within 21 days before symptom onset?</label>
@@ -417,7 +418,6 @@
                                 <option value="N" {{(old('history4_yn', $c->history4_yn) == 'N') ? 'selected' : ''}}>NO</option>
                                 <option value="Y" {{(old('history4_yn', $c->history4_yn) == 'Y') ? 'selected' : ''}}>YES</option>
                             </select>
-                            <small class="text-muted">If Yes, accomplish  Appendix A "Monkepox Contact listing Form"</small>
                         </div>
                         <div id="div_history4" class="d-none">
                             <div class="form-group">
@@ -833,8 +833,8 @@
     </div>
 </form>
 
-<div class="modal fade" id="appendix" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" id="appendix" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Monkeypox Appendix</h5>
@@ -843,7 +843,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <img src="{{storage_path('MONKEYPOX_APPENDIX.jpg')}}" class="img-fluid" alt="">
+            <img src="{{asset('MONKEYPOX_APPENDIX.jpg')}}" class="img-fluid" alt="">
         </div>
         </div>
     </div>
@@ -1263,6 +1263,16 @@
         else {
             $('#div_lymp').addClass('d-none');
             $('#symptoms_lymphadenopathy_localization').prop('required', false);
+        }
+    });
+
+    $('#history3_yn').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#div_history3').removeClass('d-none');
+        }
+        else {
+            $('#div_history3').addClass('d-none');
         }
     });
 </script>
