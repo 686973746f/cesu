@@ -33,8 +33,16 @@
     @csrf
     <div class="container">
         <div class="card">
-            
-            <div class="card-header"><b>New Monkeypox Case Investigation Form (CIF) [ICD 10 - CM Code: B04]</b></div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    @if($c->exists)
+                    <div><b>Edit Monkeypox CIF of <a href="">{{$c->records->getName()}} | {{$c->records->getAge()}}/{{substr($c->records->gender,0,1)}} | {{date('m/d/Y', strtotime($c->records->bdate))}}</a> [ICD 10 - CM Code: B04]</b></div>
+                    @else
+                    <div><b>New Monkeypox Case Investigation Form (CIF) [ICD 10 - CM Code: B04]</b></div>
+                    @endif
+                    <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#appendix">Appendix</div>
+                </div>
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="text-center alert alert-{{session('msgtype')}}" role="alert">
@@ -42,22 +50,24 @@
                 </div>
                 @endif
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="morbidity_month"><span class="text-danger font-weight-bold">*</span>Morbidity Month</label>
+                            <label for="morbidity_month"><span class="text-danger font-weight-bold">*</span>Morbidity Month [MM] <i>(Kung kailan na-encode)</i></label>
                             <input type="date"class="form-control" name="morbidity_month" id="morbidity_month" value="{{old('morbidity_month', $morbidity_month)}}" max="{{date('Y-m-d')}}" required>
                         </div>
-                    </div>
-                    <div class="col-md-4">
                         <div class="form-group">
-                            <label for="date_reported"><span class="text-danger font-weight-bold">*</span>Date Reported</label>
+                            <label for="date_reported"><span class="text-danger font-weight-bold">*</span>Date Reported <i>(Kung kailan lumabas ang Swab Test Result)</i></label>
                             <input type="date"class="form-control" name="date_reported" id="date_reported" value="{{old('date_reported', $date_reported)}}" max="{{date('Y-m-d')}}" required>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="epid_number">EPID Number</label>
                             <input type="text"class="form-control" name="epid_number" id="epid_number" value="{{old('epid_number', $epid_number)}}" style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                            <label for="laboratory_id">Laboratory ID</label>
+                            <input type="text"class="form-control" name="laboratory_id" id="laboratory_id" value="{{old('laboratory_id', $c->laboratory_id)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                 </div>
@@ -822,6 +832,22 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="appendix" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Monkeypox Appendix</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <img src="{{storage_path('MONKEYPOX_APPENDIX.jpg')}}" class="img-fluid" alt="">
+        </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $('#have_cutaneous_rash').change(function (e) { 

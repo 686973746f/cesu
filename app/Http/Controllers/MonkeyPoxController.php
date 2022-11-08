@@ -223,7 +223,7 @@ class MonkeyPoxController extends Controller
             ]);
 
             return redirect()->route('mp.home')->with('msg', 'Monkeypox CIF has been created successfully.')
-            ->with('msgtype', 'sucess');
+            ->with('msgtype', 'success');
         }
     }
 
