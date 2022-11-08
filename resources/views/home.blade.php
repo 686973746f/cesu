@@ -11,6 +11,11 @@
                         <div>Welcome: {{strtoupper(auth()->user()->name)}}</div>
                         <div>Morbidity Week: {{$currentWeek}}</div>
                     </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div><b>COVID-19 Menu</b></div>
+                        <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changemenu">Change</button></div>
+                    </div>
                 </div>
                 <div class="card-body">
                     
@@ -178,6 +183,22 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="changemenu" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Menu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a href="{{route('mp.home')}}" class="btn btn-primary btn-block">Monkeypox</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $('#newList').select2({

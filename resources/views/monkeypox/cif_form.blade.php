@@ -752,50 +752,50 @@
                                 <div class="form-group">
                                     <label for="health_status"><span class="text-danger font-weight-bold">*</span>Current Health Status</label>
                                     <select class="form-control" name="health_status" id="health_status" required>
-                                        <option value="ACTIVE" {{(old('health_status') == 'ACTIVE') ? 'selected' : ''}}>ACTIVE</option>
-                                        <option value="DISCHARGED" {{(old('health_status') == 'DISCHARGED') ? 'selected' : ''}}>DISCHARGED</option>
+                                        <option value="ACTIVE" {{(old('health_status', $c->health_status) == 'ACTIVE') ? 'selected' : ''}}>ACTIVE</option>
+                                        <option value="DISCHARGED" {{(old('health_status', $c->health_status) == 'DISCHARGED') ? 'selected' : ''}}>DISCHARGED</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="div_health_status_date_discharged">
                                     <label for="health_status_date_discharged"><span class="text-danger font-weight-bold">*</span>Date Discharged</label>
-                                    <input type="date"class="form-control" name="health_status_date_discharged" id="health_status_date_discharged" value="{{old('health_status_date_discharged')}}" max="{{date('Y-m-d')}}">
+                                    <input type="date"class="form-control" name="health_status_date_discharged" id="health_status_date_discharged" value="{{old('health_status_date_discharged', $c->health_status_date_discharged)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="health_status_final_diagnosis">Final Diagnosis</label>
-                                    <input type="text"class="form-control" name="health_status_final_diagnosis" id="health_status_final_diagnosis" value="{{old('health_status_final_diagnosis')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="health_status_final_diagnosis" id="health_status_final_diagnosis" value="{{old('health_status_final_diagnosis', $c->health_status_final_diagnosis)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                                     <select class="form-control" name="outcome" id="outcome">
-                                        <option value="" {{(old('outcome') == '') ? 'selected' : ''}}>N/A</option>
-                                        <option value="RECOVERED" {{(old('outcome') == 'RECOVERED') ? 'selected' : ''}}>RECOVERED</option>
-                                        <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>DIED</option>
-                                        <option value="UNKNOWN" {{(old('outcome') == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
-                                        <option value="TRANSFERRED TO OTHER HEALTHCARE SETTING" {{(old('outcome') == 'TRANSFERRED TO OTHER HEALTHCARE SETTING') ? 'selected' : ''}}>TRANSFERRED TO OTHER HEALTHCARE SETTING</option>
+                                        <option value="" {{(old('outcome', $c->outcome) == '') ? 'selected' : ''}}>N/A</option>
+                                        <option value="RECOVERED" {{(old('outcome', $c->outcome) == 'RECOVERED') ? 'selected' : ''}}>RECOVERED</option>
+                                        <option value="DIED" {{(old('outcome', $c->outcome) == 'DIED') ? 'selected' : ''}}>DIED</option>
+                                        <option value="UNKNOWN" {{(old('outcome', $c->outcome) == 'UNKNOWN') ? 'selected' : ''}}>UNKNOWN</option>
+                                        <option value="TRANSFERRED TO OTHER HEALTHCARE SETTING" {{(old('outcome', $c->outcome) == 'TRANSFERRED TO OTHER HEALTHCARE SETTING') ? 'selected' : ''}}>TRANSFERRED TO OTHER HEALTHCARE SETTING</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="div_outcome_date_recovered">
                                     <label for="outcome_date_recovered"><span class="text-danger font-weight-bold">*</span>Date Recovered</label>
-                                    <input type="date"class="form-control" name="outcome_date_recovered" id="outcome_date_recovered" value="{{old('outcome_date_recovered')}}" max="{{date('Y-m-d')}}">
+                                    <input type="date"class="form-control" name="outcome_date_recovered" id="outcome_date_recovered" value="{{old('outcome_date_recovered', $c->outcome_date_recovered)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div id="div_outcome_date_died" class="d-none">
                                     <div class="form-group">
                                         <label for="outcome_date_died"><span class="text-danger font-weight-bold">*</span>Date Died</label>
-                                        <input type="date"class="form-control" name="outcome_date_died" id="outcome_date_died" value="{{old('outcome_date_recovered')}}" max="{{date('Y-m-d')}}">
+                                        <input type="date"class="form-control" name="outcome_date_died" id="outcome_date_died" value="{{old('outcome_date_recovered', $c->outcome_date_recovered)}}" max="{{date('Y-m-d')}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="outcome_causeofdeath"><span class="text-danger font-weight-bold">*</span>Cause of death</label>
-                                        <input type="text"class="form-control" name="outcome_causeofdeath" id="outcome_causeofdeath" value="{{old('outcome_causeofdeath')}}" style="text-transform: uppercase;">
+                                        <input type="text"class="form-control" name="outcome_causeofdeath" id="outcome_causeofdeath" value="{{old('outcome_causeofdeath', $c->outcome_causeofdeath)}}" style="text-transform: uppercase;">
                                     </div>
                                 </div>
                                 <div id="div_outcome_unknown_type" class="d-none">
                                     <div class="form-group">
                                         <label for="outcome_unknown_type"><span class="text-danger font-weight-bold">*</span>Type</label>
                                         <select class="form-control" name="outcome_unknown_type" id="outcome_unknown_type" required>
-                                            <option value="HAMA" {{(old('outcome_unknown_type') == 'HAMA') ? 'selected' : ''}}>HAMA</option>
-                                            <option value="LOST TO FOLLOW-UP" {{(old('outcome_unknown_type') == 'LOST TO FOLLOW-UP') ? 'selected' : ''}}>LOST TO FOLLOW-UP</option>
+                                            <option value="HAMA" {{(old('outcome_unknown_type', $c->outcome_unknown_type) == 'HAMA') ? 'selected' : ''}}>HAMA</option>
+                                            <option value="LOST TO FOLLOW-UP" {{(old('outcome_unknown_type', $c->outcome_unknown_type) == 'LOST TO FOLLOW-UP') ? 'selected' : ''}}>LOST TO FOLLOW-UP</option>
                                         </select>
                                     </div>
                                 </div>
@@ -804,11 +804,11 @@
                                 <div class="form-group">
                                     <label for="case_classification"><span class="text-danger font-weight-bold">*</span>Case Classification</label>
                                     <select class="form-control" name="case_classification" id="case_classification" required>
-                                        <option value="SUSPECT" {{(old('case_classification') == 'SUSPECT') ? 'selected' : ''}}>SUSPECT</option>
-                                        <option value="PROBABLE" {{(old('case_classification') == 'PROBABLE') ? 'selected' : ''}}>PROBABLE</option>
-                                        <option value="CONFIRMED" {{(old('case_classification') == 'CONFIRMED') ? 'selected' : ''}}>CONFIRMED</option>
-                                        <option value="CONTACT" {{(old('case_classification') == 'CONTACT') ? 'selected' : ''}}>CONTACT</option>
-                                        <option value="DISCARDED" {{(old('case_classification') == 'HAMA') ? 'selected' : ''}}>DISCARDED</option>
+                                        <option value="SUSPECT" {{(old('case_classification', $c->case_classification) == 'SUSPECT') ? 'selected' : ''}}>SUSPECT</option>
+                                        <option value="PROBABLE" {{(old('case_classification', $c->case_classification) == 'PROBABLE') ? 'selected' : ''}}>PROBABLE</option>
+                                        <option value="CONFIRMED" {{(old('case_classification', $c->case_classification) == 'CONFIRMED') ? 'selected' : ''}}>CONFIRMED</option>
+                                        <option value="CONTACT" {{(old('case_classification', $c->case_classification) == 'CONTACT') ? 'selected' : ''}}>CONTACT</option>
+                                        <option value="DISCARDED" {{(old('case_classification', $c->case_classification) == 'DISCARDED') ? 'selected' : ''}}>DISCARDED</option>
                                     </select>
                                 </div>
                             </div>

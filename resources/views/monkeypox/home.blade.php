@@ -6,11 +6,14 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="text-center"><b>MONKEYPOX</b></h4>
-                    <hr>
                     <div class="d-flex justify-content-between">
                         <div>Welcome: {{strtoupper(auth()->user()->name)}}</div>
                         <div>Morbidity Week: {{date('W')}}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div><b>Monkeypox Menu</b></div>
+                        <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changemenu">Change</button></div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -20,6 +23,7 @@
                     </div>
                     @endif
                     <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#quicksearch"><i class="fas fa-search mr-2"></i>Patient Quick Search</button>
+                    <hr>
                     <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#reportColl">
                         Others
                     </button>
@@ -28,8 +32,10 @@
                             <a href="#" class="btn btn-primary btn-block">View Report</a>
                             <a href="#" class="btn btn-primary btn-block">Export Monkeypox Database</a>
                         </div>
-                    </div>
-                    
+                    </div> 
+                </div>
+                <div class="card-footer">
+                    <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
                 </div>
             </div>
         </div>
@@ -54,6 +60,23 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="changemenu" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Menu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a href="{{route('home')}}" class="btn btn-primary btn-block">COVID-19</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $('#newList').select2({
         theme: "bootstrap",
