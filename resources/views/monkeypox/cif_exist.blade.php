@@ -16,29 +16,29 @@
 <script>
 
     async function fillForm() {
-    // Fetch the PDF with form fields
-    const formUrl = '{{asset("MONKEYPOX_CIF.pdf")}}'
-    const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
+        // Fetch the PDF with form fields
+        const formUrl = '{{asset("MONKEYPOX_CIF.pdf")}}'
+        const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
 
-    // Load a PDF with form fields
-    const pdfDoc = await PDFDocument.load(formPdfBytes)
+        // Load a PDF with form fields
+        const pdfDoc = await PDFDocument.load(formPdfBytes)
 
-    // Get the form containing all the fields
-    const form = pdfDoc.getForm()
+        // Get the form containing all the fields
+        const form = pdfDoc.getForm()
 
-    const dru_name = form.getTextField('untitled1')
-    const dru_address1 = form.getTextField('untitled2')
-    const dru_address2 = form.getTextField('untitled3')
+        const dru_name = form.getTextField('untitled1')
+        const dru_address1 = form.getTextField('untitled2')
+        const dru_address2 = form.getTextField('untitled3')
 
-    dru_name.setText('{{$d->dru_name}}')
-    dru_address1.setText('{{$d->dru_street}}, {{$d->dru_muncity}}')
-    dru_address2.setText('{{$d->dru_province}}, REGION {{$d->dru_region}}')
-    
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfDoc.save()
+        dru_name.setText('{{$d->dru_name}}')
+        dru_address1.setText('{{$d->dru_street}}, {{$d->dru_muncity}}')
+        dru_address2.setText('{{$d->dru_province}}, REGION {{$d->dru_region}}')
+        
+        // Serialize the PDFDocument to bytes (a Uint8Array)
+        const pdfBytes = await pdfDoc.save()
 
-    // Trigger the browser to download the PDF document
-    download(pdfBytes, "{{$d->records->lname}}_{{$d->records->fname}}_MONKEYPOX_CIF", "application/pdf");
+        // Trigger the browser to download the PDF document
+        download(pdfBytes, "{{$d->records->lname}}_{{$d->records->fname}}_MONKEYPOX_CIF", "application/pdf");
     }
 </script>
 @endsection
