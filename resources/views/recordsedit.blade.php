@@ -12,7 +12,7 @@
         </form>
         @endif
 
-        <form action="/records/{{$record->id}}{{(request()->input('fromFormsPage') == 'true') ? '?fromFormsPage=true' : ''}}" method="POST">
+        <form action="{{route('records.update', $record->id)}}{{(request()->input('fromFormsPage') == 'true') ? '?fromFormsPage=true' : ''}}" method="POST">
             @csrf
             @method('PUT')
             <div class="card">
@@ -214,7 +214,7 @@
                             <div id="div_indg" class="d-none">
                                 <div class="form-group">
                                   <label for="indg_specify"><span class="text-danger font-weight-bold">*</span>Specify Group</label>
-                                  <input type="text" class="form-control" name="indg_specify" id="indg_specify" style="text-transform: uppercase;">
+                                  <input type="text" class="form-control" name="indg_specify" id="indg_specify" style="text-transform: uppercase;" value="{{old('indg_specify', $record->indg_specify)}}">
                                 </div>
                             </div>
                         </div>
@@ -1648,6 +1648,6 @@
                 $('#div_indg').addClass('d-none');
                 $('#indg_specify').prop('required', false);
             }
-        }).trigge('change');
+        }).trigger('change');
     </script>
 @endsection
