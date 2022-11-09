@@ -134,8 +134,8 @@ class MonkeyPoxController extends Controller
                 'have_activedisease_lesion_samesize' => $request->have_activedisease_lesion_samesize,
                 'have_activedisease_lesion_deep' => $request->have_activedisease_lesion_deep,
                 'have_activedisease_develop_ulcers' => $request->have_activedisease_develop_ulcers,
-                'have_activedisease_lesion_type' => implode(',', $request->have_activedisease_lesion_type),
-                'have_activedisease_lesion_localization' => implode(',', $request->have_activedisease_lesion_localization),
+                'have_activedisease_lesion_type' => (!is_null($request->have_activedisease_lesion_type)) ? implode(',', $request->have_activedisease_lesion_type) : NULL,
+                'have_activedisease_lesion_localization' => (!is_null($request->have_activedisease_lesion_localization)) ? implode(',', $request->have_activedisease_lesion_localization) : NULL,
                 'have_activedisease_lesion_localization_otherareas' => $request->have_activedisease_lesion_localization_otherareas,
     
                 'symptoms_list' => (!is_null($request->symptoms_list)) ? implode(',', $request->symptoms_list) : NULL,
@@ -273,8 +273,8 @@ class MonkeyPoxController extends Controller
             'have_activedisease_lesion_samesize' => $request->have_activedisease_lesion_samesize,
             'have_activedisease_lesion_deep' => $request->have_activedisease_lesion_deep,
             'have_activedisease_develop_ulcers' => $request->have_activedisease_develop_ulcers,
-            'have_activedisease_lesion_type' => implode(',', $request->have_activedisease_lesion_type),
-            'have_activedisease_lesion_localization' => implode(',', $request->have_activedisease_lesion_localization),
+            'have_activedisease_lesion_type' => (!is_null($request->have_activedisease_lesion_type)) ? implode(',', $request->have_activedisease_lesion_type) : NULL,
+            'have_activedisease_lesion_localization' => (!is_null($request->have_activedisease_lesion_localization)) ? implode(',', $request->have_activedisease_lesion_localization) : NULL,
             'have_activedisease_lesion_localization_otherareas' => $request->have_activedisease_lesion_localization_otherareas,
 
             'symptoms_list' => (!is_null($request->symptoms_list)) ? implode(',', $request->symptoms_list) : NULL,
@@ -358,7 +358,6 @@ class MonkeyPoxController extends Controller
             'case_classification' => $request->case_classification,
 
             'remarks' => $request->remarks,
-            'user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('mp.home')->with('msg', 'Monkeypox CIF was updated successfully.')

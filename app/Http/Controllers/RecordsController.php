@@ -517,6 +517,8 @@ class RecordsController extends Controller
 
 				'is_confidential' => ($request->is_confidential) ? 1 : 0,
 				'isHCW' => (!is_null($request->isHCW)) ? $request->isHCW : 0,
+				'isindg' => $request->isindg,
+				'indg_specify' => ($request->isindg == 1) ? mb_strtoupper($request->indg_specify) : NULL,
 			]);
 			
 			if(auth()->user()->option_enableAutoRedirectToCif == 1) {
@@ -1051,6 +1053,8 @@ class RecordsController extends Controller
 					'is_confidential' => $is_confidential,
 
 					'isHCW' => (!is_null($request->isHCW)) ? $request->isHCW : 0,
+					'isindg' => $request->isindg,
+					'indg_specify' => ($request->isindg == 1) ? mb_strtoupper($request->indg_specify) : NULL,
 				]);
 	
 				$record = Records::findOrFail($id);

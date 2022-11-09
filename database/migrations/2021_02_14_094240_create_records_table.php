@@ -107,6 +107,8 @@ class CreateRecordsTable extends Migration
 
             $table->tinyInteger('isHCW')->default(0);
             $table->tinyInteger('isPriority')->default(0);
+            $table->tinyInteger('isindg')->default(0);
+            $table->string('indg_specify')->nullable();
         });
     }
 

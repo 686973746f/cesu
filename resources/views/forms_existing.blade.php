@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="card border-warning mb-3">
-            <div class="card-header text-center bg-warning text-danger font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>CIF Already Exists for <a href="{{route('records.edit', ['record' => $form->records->id])}}">{{$form->records->getName()}}</a> <small>(Patient ID: #{{$form->records->id}} | CIF ID: #{{$form->id}})</small></div>
+            <div class="card-header text-center bg-warning text-danger font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>COVID-19 CIF Already Exists for <a href="{{route('records.edit', ['record' => $form->records->id])}}">{{$form->records->getName()}}</a> <small>(Patient ID: #{{$form->records->id}} | COVID-19 CIF ID: #{{$form->id}})</small></div>
             <div class="card-body text-center">
                 @if(auth()->user()->isCesuAccount())
                 <form action="{{route('forms.soloprint.cif', ['id' => $form->id])}}" method="POST" class="mb-3">
@@ -81,7 +81,7 @@
                     @endif
             </div>
             <div class="card-footer text-center">
-                To edit or view more details about the existing CIF of the Patient, click <strong><a href="{{route('forms.edit', ['form' => $form->id])}}">HERE</a></strong>
+                <a href="{{route('forms.edit', ['form' => $form->id])}}" class="btn btn-primary btn-block">View / Edit</a>
             </div>
         </div>
         <div class="card">

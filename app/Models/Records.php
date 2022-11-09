@@ -96,6 +96,9 @@ class Records extends Model
         'sharedOnId',
 
         'isHCW',
+        'isPriority',
+        'isindg',
+        'indg_specify',
     ];
 
     public function getAge() {

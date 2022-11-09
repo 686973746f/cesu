@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
                                 <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $record->bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
@@ -138,23 +138,23 @@
                                 @enderror
                             </div>
                         </div>
-                        @php
-                        if(\Carbon\Carbon::parse(old('bdate', $record->bdate))->age > 0) {
-                            $getAge = \Carbon\Carbon::parse(old('bdate', $record->bdate))->age.' Y';
-                        }
-                        else {
-                            if (\Carbon\Carbon::parse(old('bdate', $record->bdate))->diff(\Carbon\Carbon::now())->format('%m') == 0) {
-                                $getAge = \Carbon\Carbon::parse(old('bdate', $record->bdate))->diff(\Carbon\Carbon::now())->format('%d D');
+                        <div class="col-md-2">
+                            @php
+                            if(\Carbon\Carbon::parse(old('bdate', $record->bdate))->age > 0) {
+                                $getAge = \Carbon\Carbon::parse(old('bdate', $record->bdate))->age.' Y';
                             }
                             else {
-                                $getAge = \Carbon\Carbon::parse(old('bdate', $record->bdate))->diff(\Carbon\Carbon::now())->format('%m M');
+                                if (\Carbon\Carbon::parse(old('bdate', $record->bdate))->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+                                    $getAge = \Carbon\Carbon::parse(old('bdate', $record->bdate))->diff(\Carbon\Carbon::now())->format('%d D');
+                                }
+                                else {
+                                    $getAge = \Carbon\Carbon::parse(old('bdate', $record->bdate))->diff(\Carbon\Carbon::now())->format('%m M');
+                                }
                             }
-                        }
-                        @endphp
-                        <div class="col-md-2">
+                            @endphp
                             <div class="form-group">
-                              <label><span class="text-danger font-weight-bold">*</span>Age</label>
-                              <input type="text" class="form-control" value="{{$getAge}}" disabled>
+                                <label><span class="text-danger font-weight-bold">*</span>Age</label>
+                                <input type="text" class="form-control" value="{{$getAge}}" disabled>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -165,12 +165,18 @@
                                     <option value="MALE" {{(old('gender', $record->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
                                     <option value="FEMALE" {{(old('gender', $record->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
                                 </select>
-                                @error('gender')
-                                    <small class="text-danger">{{$message}}</small>
-                                @enderror
+                                <div id="pdiv" class="d-none">
+                                    <div class="form-group">
+                                        <label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
+                                        <select class="form-control" name="pregnant" id="pregnant" required>
+                                          <option value="0" {{(old('pregnant', $record->isPregnant) == 0) ? 'selected' : ''}}>No</option>
+                                          <option value="1" {{(old('pregnant', $record->isPregnant) == 1) ? 'selected' : ''}}>Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
                                 <select class="form-control" id="cs" name="cs" required>
@@ -197,20 +203,20 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div id="pdiv" class="mb-3 d-none">
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="isindg"><span class="text-danger font-weight-bold">*</span>Indigenous Person</label>
+                                <select class="form-control" id="isindg" name="isindg" required>
+                                    <option value="0" {{(old('isindg', $record->isindg) == '0') ? 'selected' : ''}}>No</option>
+                                    <option value="1" {{(old('isindg', $record->isindg) == '1') ? 'selected' : ''}}>Yes</option>
+                                </select>
+                            </div>
+                            <div id="div_indg" class="d-none">
                                 <div class="form-group">
-                                    <label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
-                                    <select class="form-control" name="pregnant" id="pregnant" required>
-                                      <option value="0" {{(old('pregnant', $record->isPregnant) == 0) ? 'selected' : ''}}>No</option>
-                                      <option value="1" {{(old('pregnant', $record->isPregnant) == 1) ? 'selected' : ''}}>Yes</option>
-                                    </select>
+                                  <label for="indg_specify"><span class="text-danger font-weight-bold">*</span>Specify Group</label>
+                                  <input type="text" class="form-control" name="indg_specify" id="indg_specify" style="text-transform: uppercase;">
                                 </div>
                             </div>
-                            <div class="col-md-6"></div>
                         </div>
                     </div>
                     <div class="row">
@@ -1631,5 +1637,17 @@
                 }
             }).trigger('change');
         });
+
+        $('#isindg').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 1) {
+                $('#div_indg').removeClass('d-none');
+                $('#indg_specify').prop('required', true);
+            }
+            else {
+                $('#div_indg').addClass('d-none');
+                $('#indg_specify').prop('required', false);
+            }
+        }).trigge('change');
     </script>
 @endsection

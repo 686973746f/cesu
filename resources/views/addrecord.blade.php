@@ -98,7 +98,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<div class="form-group">
 							<label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
 							<input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" readonly required>
@@ -106,24 +106,24 @@
 								<small class="text-danger">{{$message}}</small>
 							@enderror
 						</div>
-					</div>
-					@php
-					if(\Carbon\Carbon::parse(old('bdate', $bdate))->age > 0) {
-						$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->age.' Y';
-					}
-					else {
-						if (\Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%m') == 0) {
-							$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%d D');
+						@php
+						if(\Carbon\Carbon::parse(old('bdate', $bdate))->age > 0) {
+							$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->age.' Y';
 						}
 						else {
-							$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%m M');
+							if (\Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+								$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%d D');
+							}
+							else {
+								$getAge = \Carbon\Carbon::parse(old('bdate', $bdate))->diff(\Carbon\Carbon::now())->format('%m M');
+							}
 						}
-					}
-					@endphp
+						@endphp
+					</div>
 					<div class="col-md-2">
 						<div class="form-group">
-						  <label><span class="text-danger font-weight-bold">*</span>Age</label>
-						  <input type="text" class="form-control" value="{{$getAge}}" disabled>
+							<label><span class="text-danger font-weight-bold">*</span>Age</label>
+							<input type="text" class="form-control" value="{{$getAge}}" disabled>
 						</div>
 					</div>
 					<div class="col-md-2">
@@ -135,8 +135,17 @@
 								  <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
 						  	</select>
 						</div>
+						<div id="pdiv" class="mb-3 d-none">
+							<div class="form-group">
+								<label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
+								<select class="form-control" name="pregnant" id="pregnant" required>
+								  <option value="0" @if(old('pregnant') == 0) {{'selected'}} @endif>No</option>
+								  <option value="1" @if(old('pregnant') == 1) {{'selected'}} @endif>Yes</option>
+								</select>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<div class="form-group">
 							<label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
 							<select class="form-control" id="cs" name="cs" required>
@@ -162,20 +171,20 @@
 							@enderror
 						</div>
 					</div>
-				</div>
-				<div id="pdiv" class="mb-3 d-none">
-					<div class="row">
-						<div class="col-md-3"></div>
-						<div class="col-md-3">
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="isindg"><span class="text-danger font-weight-bold">*</span>Indigenous Person</label>
+							<select class="form-control" id="isindg" name="isindg" required>
+								<option value="0" {{(old('isindg') == '0') ? 'selected' : ''}}>No</option>
+								<option value="1" {{(old('isindg') == '1') ? 'selected' : ''}}>Yes</option>
+							</select>
+						</div>
+						<div id="div_indg" class="d-none">
 							<div class="form-group">
-								<label for="pregnant"><span class="text-danger font-weight-bold">*</span>Is the Patient Pregnant?</label>
-								<select class="form-control" name="pregnant" id="pregnant" required>
-								  <option value="0" @if(old('pregnant') == 0) {{'selected'}} @endif>No</option>
-								  <option value="1" @if(old('pregnant') == 1) {{'selected'}} @endif>Yes</option>
-								</select>
+							  <label for="indg_specify"><span class="text-danger font-weight-bold">*</span>Specify Group</label>
+							  <input type="text" class="form-control" name="indg_specify" id="indg_specify" style="text-transform: uppercase;">
 							</div>
 						</div>
-						<div class="col-md-6"></div>
 					</div>
 				</div>
 				<div class="row">
@@ -208,7 +217,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="philhealth">Philhealth No. <small><i>(Leave blank if N/A)</i></small></label>
+							<label for="philhealth">Philhealth No.</label>
 							<input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
 							<small class="text-muted">Note: Please type the Complete Philhealth # (12 Digits, No Dashes)</small>
 							@error('philhealth')
@@ -1558,5 +1567,17 @@
             }
         }).trigger('change');
 	});
+
+	$('#isindg').change(function (e) { 
+		e.preventDefault();
+		if($(this).val() == 1) {
+			$('#div_indg').removeClass('d-none');
+			$('#indg_specify').prop('required', true);
+		}
+		else {
+			$('#div_indg').addClass('d-none');
+			$('#indg_specify').prop('required', false);
+		}
+	}).trigge('change');
 </script>
 @endsection
