@@ -1206,10 +1206,14 @@ class PaSwabController extends Controller
 
                     $upd->save();
 
-                    if($data->isNewRecord == 0 && $oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
-                        //hayaan munang naka-disable para di mag-overlap sa existing data
+                    if($data->isNewRecord == 0) {
+                        if($oldform) {
+                            if($oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case'){
+                                //hayaan munang naka-disable para di mag-overlap sa existing data
                         
-                        //$fcheck = Forms::where('id', $oldform->id)->delete();
+                                //$fcheck = Forms::where('id', $oldform->id)->delete();
+                            }
+                        }
                     }
                 }
             }
@@ -2068,8 +2072,10 @@ class PaSwabController extends Controller
                             ]);
                 
                             if($data->isNewRecord == 0) {
-                                if($oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
-                                    $fcheck = Forms::where('id', $oldform->id)->delete();
+                                if($oldform) {
+                                    if($oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
+                                        $fcheck = Forms::where('id', $oldform->id)->delete();
+                                    }
                                 }
                             }
                         }
@@ -2765,8 +2771,12 @@ class PaSwabController extends Controller
                 'status' => 'approved'
             ]);
 
-            if($data->isNewRecord == 0 && $oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
-                $fcheck = Forms::where('id', $oldform->id)->delete();
+            if($data->isNewRecord == 0) {
+                if($oldform) {
+                    if($oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
+                        $fcheck = Forms::where('id', $oldform->id)->delete();
+                    }
+                }
             }
             
             return redirect()->action([PaSwabController::class, 'view'])
