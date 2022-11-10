@@ -2001,7 +2001,7 @@
                 $('#isForHospitalization_sno').addClass('d-none');
             }
             else {
-                $('#isForHospitalization').val('');
+                $('#isForHospitalization').val('0');
                 $('#isForHospitalization').trigger('change');
                 $('#isForHospitalization_sno').removeClass('d-none');
             }
