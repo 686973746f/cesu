@@ -1260,7 +1260,7 @@ class PaSwabController extends Controller
             ],
         ]);
 
-        if(mb_strtoupper($request->address_street) == '1' || mb_strtoupper($request->address_street) == '0' || mb_strtoupper($request->address_street) == 'BARANGAY HALL' || mb_strtoupper($request->address_street) == 'BRGY. HALL' || mb_strtoupper($request->address_street) == 'BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_street) == 'NA' || mb_strtoupper($request->address_street) == 'N/A' || mb_strtoupper($request->address_street) == 'NONE' || mb_strtoupper($request->address_street) == $request->address_brgy) {
+        if(mb_strtoupper($request->address_street) == '1' || mb_strtoupper($request->address_street) == '0' || mb_strtoupper($request->address_street) == 'BARANGAY HALL' || mb_strtoupper($request->address_street) == 'BRGY. HALL' || mb_strtoupper($request->address_street) == 'BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_street) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_street) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_street) == 'NA' || mb_strtoupper($request->address_street) == 'N/A' || mb_strtoupper($request->address_street) == 'NONE' || mb_strtoupper($request->address_street) == $request->address_brgy || mb_strtoupper($request->address_street) == 'PROPER') {
 			return back()
 			->withInput()
 			->with('msg', 'Encoding Error: The Address Street is Invalid.')
@@ -1268,7 +1268,7 @@ class PaSwabController extends Controller
             ->with('skipmodal', true);
 		}
 
-		if(mb_strtoupper($request->address_houseno) == '1' || mb_strtoupper($request->address_houseno) == '0' || mb_strtoupper($request->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'NA' || mb_strtoupper($request->address_houseno) == 'N/A' || mb_strtoupper($request->address_houseno) == 'NONE' || mb_strtoupper($request->address_houseno) == $request->address_brgy) {
+		if(mb_strtoupper($request->address_houseno) == '1' || mb_strtoupper($request->address_houseno) == '0' || mb_strtoupper($request->address_houseno) == 'BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BRGY. HALL' || mb_strtoupper($request->address_houseno) == 'NEAR BARANGAY HALL' || mb_strtoupper($request->address_houseno) == 'NA' || mb_strtoupper($request->address_houseno) == 'N/A' || mb_strtoupper($request->address_houseno) == 'NONE' || mb_strtoupper($request->address_houseno) == $request->address_brgy || mb_strtoupper($request->address_houseno) == 'PROPER') {
 			return back()
 			->withInput()
 			->with('msg', 'Encoding Error: The Address House No. is Invalid.')
@@ -1533,6 +1533,546 @@ class PaSwabController extends Controller
             
                             'senderIP' => request()->ip(),
                         ]);
+
+                        $auto_switch = 1;
+
+                        if($auto_switch == 1) {
+                            if($data->forAntigen == 1) {
+                                $d_type = 'ANTIGEN';
+                            }
+                            else {
+                                $d_type = 'NPS';
+                            }
+
+                            /*
+                            NOTE :
+                            0 => Sunday
+                            1 => Monday
+                            2 => Tuesday
+                            3 => Wednesday
+                            4 => Thursday
+                            5 => Friday
+                            6 => Saturday
+                            */
+
+                            $weekday = date('w', strtotime('+1 Day'));
+                            if($weekday == 3) {
+                                $d_date = date('Y-m-d', strtotime('+2 Days'));
+                            }
+                            else if($weekday == 6) {
+                                $d_date = date('Y-m-d', strtotime('+3 Days'));
+                            }
+                            else if($weekday == 0) {
+                                $d_date = date('Y-m-d', strtotime('+2 Days'));
+                            }
+                            else {
+                                $d_date = date('Y-m-d', strtotime('+1 Day'));
+                            }
+                            
+                            //Auto Accept
+                            //create record data first
+                            if($data->isNewRecord == 1) {
+                                $rec = Records::create([
+                                    'user_id' => 42, //CESU Bot
+                                    'status' => 'approved',
+                                    'lname' => mb_strtoupper($data->lname),
+                                    'fname' => mb_strtoupper($data->fname),
+                                    'mname' => (!is_null($data->mname)) ? mb_strtoupper($data->mname) : null,
+                                    'gender' => strtoupper($data->gender),
+                                    'isPregnant' => $data->isPregnant,
+                                    'cs' => strtoupper($data->cs),
+                                    'nationality' => strtoupper($data->nationality),
+                                    'bdate' => $data->bdate,
+                                    'mobile' => $data->mobile,
+                                    'phoneno' => (!is_null($data->phoneno)) ? $data->phoneno : NULL,
+                                    'email' => $data->email,
+                                    'philhealth' => $data->philhealth,
+                                    'address_houseno' => strtoupper($data->address_houseno),
+                                    'address_street' => strtoupper($data->address_street),
+                                    'address_brgy' => strtoupper($data->address_brgy),
+                                    'address_city' => strtoupper($data->address_city),
+                                    'address_cityjson' => $data->address_cityjson,
+                                    'address_province' => strtoupper($data->address_province),
+                                    'address_provincejson' => $data->address_provincejson,
+                    
+                                    'permaaddressDifferent' => 0,
+                                    'permaaddress_houseno' => strtoupper($data->address_houseno),
+                                    'permaaddress_street' => strtoupper($data->address_street),
+                                    'permaaddress_brgy' => strtoupper($data->address_brgy),
+                                    'permaaddress_city' => strtoupper($data->address_city),
+                                    'permaaddress_cityjson' => $data->address_cityjson,
+                                    'permaaddress_province' => strtoupper($data->address_province),
+                                    'permaaddress_provincejson' => $data->address_provincejson,
+                                    'permamobile' => $data->mobile,
+                                    'permaphoneno' => (!is_null($data->phoneno)) ? $data->phoneno : NULL,
+                                    'permaemail' => $data->email,
+                    
+                                    'hasOccupation' => (!is_null($data->occupation)) ? 1 : 0,
+                                    'occupation' => $data->occupation,
+                                    'worksInClosedSetting' => $data->worksInClosedSetting,
+                                    'occupation_lotbldg' => $data->occupation_lotbldg,
+                                    'occupation_street' => $data->occupation_street,
+                                    'occupation_brgy' => $data->occupation_brgy,
+                                    'occupation_city' => $data->occupation_city,
+                                    'occupation_cityjson' => $data->occupation_cityjson,
+                                    'occupation_province' => $data->occupation_province,
+                                    'occupation_provincejson' => $data->occupation_provincejson,
+                                    'occupation_name' => $data->occupation_name,
+                                    'occupation_mobile' => $data->occupation_mobile,
+                                    'occupation_email' => $data->occupation_email,
+                    
+                                    'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
+                                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
+                
+                                    'vaccinationDate1' => $data->vaccinationDate1,
+                                    'vaccinationName1' => $data->vaccinationName1,
+                                    'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                                    'vaccinationFacility1' => $data->vaccinationFacility1,
+                                    'vaccinationRegion1' => $data->vaccinationRegion1,
+                                    'haveAdverseEvents1' => $data->haveAdverseEvents1,
+                
+                                    'vaccinationDate2' => $data->vaccinationDate2,
+                                    'vaccinationName2' => $data->vaccinationName2,
+                                    'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                                    'vaccinationFacility2' => $data->vaccinationFacility2,
+                                    'vaccinationRegion2' => $data->vaccinationRegion2,
+                                    'haveAdverseEvents2' => $data->haveAdverseEvents2,
+                
+                                    'vaccinationDate3' => $data->vaccinationDate3,
+                                    'vaccinationName3' => $data->vaccinationName3,
+                                    'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                                    'vaccinationFacility3' => $data->vaccinationFacility3,
+                                    'vaccinationRegion3' => $data->vaccinationRegion3,
+                                    'haveAdverseEvents3' => $data->haveAdverseEvents3,
+                
+                                    'vaccinationDate4' => $data->vaccinationDate4,
+                                    'vaccinationName4' => $data->vaccinationName4,
+                                    'vaccinationNoOfDose4' => $data->vaccinationNoOfDose4,
+                                    'vaccinationFacility4' => $data->vaccinationFacility4,
+                                    'vaccinationRegion4' => $data->vaccinationRegion4,
+                                    'haveAdverseEvents4' => $data->haveAdverseEvents4,
+                                ]);
+                            }
+                            else {
+                                $rec = Records::findOrFail($data->records_id);
+                
+                                $rec->update([
+                                    'status' => 'approved',
+                                    'isPregnant' => $data->isPregnant,
+                                    'cs' => strtoupper($data->cs),
+                                    'nationality' => strtoupper($data->nationality),
+                                    'mobile' => $data->mobile,
+                                    'phoneno' => (!is_null($data->phoneno)) ? $data->phoneno : NULL,
+                                    'email' => $data->email,
+                                    'philhealth' => $data->philhealth,
+                                    'address_houseno' => strtoupper($data->address_houseno),
+                                    'address_street' => strtoupper($data->address_street),
+                                    'address_brgy' => strtoupper($data->address_brgy),
+                                    'address_city' => strtoupper($data->address_city),
+                                    'address_cityjson' => $data->address_cityjson,
+                                    'address_province' => strtoupper($data->address_province),
+                                    'address_provincejson' => $data->address_provincejson,
+                    
+                                    'permaaddressDifferent' => 0,
+                                    'permaaddress_houseno' => strtoupper($data->address_houseno),
+                                    'permaaddress_street' => strtoupper($data->address_street),
+                                    'permaaddress_brgy' => strtoupper($data->address_brgy),
+                                    'permaaddress_city' => strtoupper($data->address_city),
+                                    'permaaddress_cityjson' => $data->address_cityjson,
+                                    'permaaddress_province' => strtoupper($data->address_province),
+                                    'permaaddress_provincejson' => $data->address_provincejson,
+                                    'permamobile' => $data->mobile,
+                                    'permaphoneno' => (!is_null($data->phoneno)) ? $data->phoneno : NULL,
+                                    'permaemail' => $data->email,
+                    
+                                    'hasOccupation' => (!is_null($data->occupation)) ? 1 : 0,
+                                    'occupation' => $data->occupation,
+                                    'worksInClosedSetting' => $data->worksInClosedSetting,
+                                    'occupation_lotbldg' => $data->occupation_lotbldg,
+                                    'occupation_street' => $data->occupation_street,
+                                    'occupation_brgy' => $data->occupation_brgy,
+                                    'occupation_city' => $data->occupation_city,
+                                    'occupation_cityjson' => $data->occupation_cityjson,
+                                    'occupation_province' => $data->occupation_province,
+                                    'occupation_provincejson' => $data->occupation_provincejson,
+                                    'occupation_name' => $data->occupation_name,
+                                    'occupation_mobile' => $data->occupation_mobile,
+                                    'occupation_email' => $data->occupation_email,
+                    
+                                    'natureOfWork' => (!is_null($data->occupation)) ? mb_strtoupper($data->natureOfWork) : NULL,
+                                    'natureOfWorkIfOthers' => (!is_null($data->occupation) && $data->natureOfWork == 'OTHERS') ? mb_strtoupper($data->natureOfWorkIfOthers) : NULL,
+                
+                                    'vaccinationDate1' => $data->vaccinationDate1,
+                                    'vaccinationName1' => $data->vaccinationName1,
+                                    'vaccinationNoOfDose1' => $data->vaccinationNoOfDose1,
+                                    'vaccinationFacility1' => $data->vaccinationFacility1,
+                                    'vaccinationRegion1' => $data->vaccinationRegion1,
+                                    'haveAdverseEvents1' => $data->haveAdverseEvents1,
+                
+                                    'vaccinationDate2' => $data->vaccinationDate2,
+                                    'vaccinationName2' => $data->vaccinationName2,
+                                    'vaccinationNoOfDose2' => $data->vaccinationNoOfDose2,
+                                    'vaccinationFacility2' => $data->vaccinationFacility2,
+                                    'vaccinationRegion2' => $data->vaccinationRegion2,
+                                    'haveAdverseEvents2' => $data->haveAdverseEvents2,
+                
+                                    'vaccinationDate3' => $data->vaccinationDate3,
+                                    'vaccinationName3' => $data->vaccinationName3,
+                                    'vaccinationNoOfDose3' => $data->vaccinationNoOfDose3,
+                                    'vaccinationFacility3' => $data->vaccinationFacility3,
+                                    'vaccinationRegion3' => $data->vaccinationRegion3,
+                                    'haveAdverseEvents3' => $data->haveAdverseEvents3,
+                
+                                    'vaccinationDate4' => $data->vaccinationDate4,
+                                    'vaccinationName4' => $data->vaccinationName4,
+                                    'vaccinationNoOfDose4' => $data->vaccinationNoOfDose4,
+                                    'vaccinationFacility4' => $data->vaccinationFacility4,
+                                    'vaccinationRegion4' => $data->vaccinationRegion4,
+                                    'haveAdverseEvents4' => $data->haveAdverseEvents4,
+
+                                    'updated_by' => 42, //CESU Bot
+                                ]);
+                
+                                $oldform = Forms::where('records_id', $rec->id)->first();
+                            }
+                
+                            if(!is_null($rec->philhealth)) {
+                                if($ttype == "OPS" || $ttype == "NPS" || $ttype == "OPS AND NPS") {
+                                    $trigger = 0;
+                                    $addMinutes = 0;
+                
+                                    while ($trigger != 1) {
+                                        $oniStartTime = date('H:i:s', strtotime('14:00:00 + '. $addMinutes .' minutes'));
+                
+                                        $query = Forms::with('records')
+                                        ->where('testDateCollected1', $d_date)
+                                        ->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                                        ->whereHas('records', function ($q) {
+                                            $q->whereNotNull('philhealth');
+                                        })
+                                        ->where('oniTimeCollected1', $oniStartTime)->get();
+                
+                                        if($query->count()) {
+                                            if($query->count() < 5) {
+                                                $oniTimeFinal = $oniStartTime;
+                                                $trigger = 1;
+                                            }
+                                            else {
+                                                $addMinutes = $addMinutes + 5;
+                                            }
+                                        }
+                                        else {
+                                            $oniTimeFinal = $oniStartTime;
+                                            $trigger = 1;
+                                        }
+                                    }
+                                }
+                                else {
+                                    $oniTimeFinal = NULL;
+                                }
+                            }
+                            else {
+                                $oniTimeFinal = NULL;
+                            }
+                
+                            $comcheck = explode(',', $data->COMO);
+                
+                            //Auto Change Testing Category/Subgroup Base on the patient data
+                            /*
+                            if($rec->isForHospitalization == 1) {
+                                array_push($testCat, "F.3");
+                            }
+                            */
+                
+                            $testCat = '';
+                            $custom_dispo = NULL;
+                
+                            if(!is_null($data->SAS)) {
+                                if($data->getAgeInt() >= 60) {
+                                    $testCat = 'A2';
+                                }
+                                else {
+                                    $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                                }
+                            }
+                            else if($data->getAgeInt() >= 60) {
+                                $testCat = 'A2';
+                            }
+                            else if($data->pType == 'CLOSE CONTACT') {
+                                $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                            }
+                            else if($data->isPregnant == 1) {
+                                $testCat = 'A3';
+                                $custom_dispo = 'FOR DELIVERY';
+                            }
+                            else if(in_array('Dialysis', $comcheck)) {
+                                $testCat = 'A3';
+                                $custom_dispo = 'FOR DIALYSIS';
+                            }
+                            else if(in_array('Cancer', $comcheck)) {
+                                $testCat = 'A3';
+                                $custom_dispo = 'CANCER PATIENT';
+                            }
+                            else if(in_array('Operation', $comcheck)) {
+                                $testCat = 'A3';
+                                $custom_dispo = 'FOR OPERATION';
+                            }
+                            else if(in_array('Transplant', $comcheck)) {
+                                $testCat = 'A3';
+                                $custom_dispo = 'TRANSPLANT';
+                            }
+                            else if($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') {
+                                $testCat = 'A1';
+                            }
+                
+                            //Auto Change Case Classification to Probable Based on Symptoms
+                            if(!is_null($data->SAS)) {
+                                if(in_array('Anosmia (Loss of Smell)', explode(",", $data->SAS)) || in_array('Ageusia (Loss of Taste)', explode(",", $data->SAS))) {
+                                    $caseClassi = 'Probable';
+                                }
+                                else {
+                                    $caseClassi = 'Suspect';
+                                }
+                            }
+                            else {
+                                $caseClassi = 'Suspect';
+                            }
+                
+                            //Antigen QR
+                            if($data->forAntigen == 1) {
+                                $foundunique = false;
+                                while(!$foundunique) {
+                                    $majik = Str::random(10);
+                                    
+                                    $qr_search = Forms::where('antigenqr', $majik);
+                                    if($qr_search->count() == 0) {
+                                        $foundunique = true;
+                                    }
+                                }
+                
+                                $antigenqr = $majik;
+                            }
+                            else {
+                                $antigenqr = NULL;
+                            }
+                
+                            $createform = Forms::create([
+                                'user_id' => 42,
+                                'morbidityMonth' => date('Y-m-d'),
+                                'dateReported' => date('Y-m-d'),
+                                'majikCode' => $data->majikCode,
+                                'status' => 'approved',
+                                'isPresentOnSwabDay' => NULL,
+                                'records_id' => $rec->id,
+                                'drunit' => 'CHO GENERAL TRIAS',
+                                'drregion' => '4A',
+                                'drprovince' => 'CAVITE',
+                                'interviewerName' => $data->getDefaultInterviewerName(),
+                                'interviewerMobile' => '09190664324',
+                                'interviewDate' => $data->interviewDate,
+                                'informantName' => NULL,
+                                'informantRelationship' => NULL,
+                                'informantMobile' => NULL,
+                                'existingCaseList' => '1',
+                                'ecOthersRemarks' => NULL,
+                                'pType' => ($data->pType == 'FOR TRAVEL') ? 'TESTING' : $data->pType,
+                                'isForHospitalization' => $data->isForHospitalization,
+                                'testingCat' => $testCat,
+                                'havePreviousCovidConsultation' => ($data->isNewRecord == 0) ? '1' : '0',
+                                'dateOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->interviewDate : NULL : NULL,
+                                'facilityNameOfFirstConsult' => ($data->isNewRecord == 0) ? ($oldform) ? $oldform->drunit : NULL : NULL,
+                
+                                'dispoType' => (!is_null($custom_dispo)) ? 5 : 3,
+                                'dispoName' => $custom_dispo,
+                                'dispoDate' => date('Y-m-d 08:00:00', strtotime($data->interviewDate)),
+                                'healthStatus' => (!is_null($data->SAS)) ? 'Mild' : 'Asymptomatic',
+                                'caseClassification' => $caseClassi,
+                                'isHealthCareWorker' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? '1' : '0',
+                                'healthCareCompanyName' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_name : NULL,
+                                'healthCareCompanyLocation' => ($data->natureOfWork == 'MEDICAL AND HEALTH SERVICES') ? $data->occupation_city.', '.$data->occupation_province : NULL,
+                                'isOFW' => '0',
+                                'OFWCountyOfOrigin' => NULL,
+                                'ofwType' => NULL,
+                                'isFNT' => '0',
+                                'lsiType' => NULL,
+                                'FNTCountryOfOrigin' => NULL,
+                                'isLSI' => '0',
+                                'LSICity' => NULL,
+                                'LSIProvince' => NULL,
+                                'isLivesOnClosedSettings' => '0',
+                                'institutionType' => NULL,
+                                'institutionName' => NULL,
+                                'indgSpecify' => NULL,
+                                'dateOnsetOfIllness' => $data->dateOnsetOfIllness,
+                                'SAS' => $data->SAS,
+                                'SASFeverDeg' => $data->SASFeverDeg,
+                                'SASOtherRemarks' => $data->SASOtherRemarks,
+                                'COMO' => $data->COMO,
+                                'COMOOtherRemarks' => $data->COMOOtherRemarks,
+                                'PregnantLMP' => $data->ifPregnantLMP,
+                                'PregnantHighRisk' => ($data->isPregnant == 1) ? '1' : '0',
+                                'diagWithSARI' => '0',
+                                'imagingDoneDate' => $data->imagingDoneDate,
+                                'imagingDone' => $data->imagingDone,
+                                'imagingResult' => $data->imagingResult,
+                                'imagingOtherFindings' => $data->imagingOtherFindings,
+                
+                                'testedPositiveUsingRTPCRBefore' => '0',
+                                'testedPositiveNumOfSwab' => '0',
+                                'testedPositiveLab' => NULL,
+                                'testedPositiveSpecCollectedDate' => NULL,
+                
+                                'testDateCollected1' => $d_date,
+                                'oniTimeCollected1' => $oniTimeFinal,
+                                'testDateReleased1' => NULL,
+                                'testLaboratory1' => NULL,
+                                'testType1' => $d_type,
+                                'testTypeAntigenRemarks1' => ($d_type == "ANTIGEN") ? 'CONFIRMATORY' : NULL,
+                                'antigenKit1' => ($d_type == "ANTIGEN") ? 'WONDFO' : NULL,
+                                'testTypeOtherRemarks1' => ($d_type == "OTHERS") ? mb_strtoupper($request->testTypeOtherRemarks1) : NULL,
+                                'testResult1' => 'PENDING',
+                                'testResultOtherRemarks1' => NULL,
+                
+                                'testDateCollected2' => NULL,
+                                'oniTimeCollected2' => NULL,
+                                'testDateReleased2' => NULL,
+                                'testLaboratory2' => NULL,
+                                'testType2' => NULL,
+                                'testTypeAntigenRemarks2' => NULL,
+                                'antigenKit2' => NULL,
+                                'testTypeOtherRemarks2' => NULL,
+                                'testResult2' => NULL,
+                                'testResultOtherRemarks2' => NULL,
+                
+                                'outcomeCondition' => 'Active',
+                                'outcomeRecovDate' => NULL,
+                                'outcomeDeathDate' => NULL,
+                                'deathImmeCause' => NULL,
+                                'deathAnteCause' => NULL,
+                                'deathUndeCause' => NULL,
+                                'contriCondi' => NULL,
+                
+                                'expoitem1' => $data->expoitem1,
+                                'expoDateLastCont' => $data->expoDateLastCont,
+                
+                                'expoitem2' => '0',
+                                'intCountry' => NULL,
+                                'intDateFrom' => NULL,
+                                'intDateTo' => NULL,
+                                'intWithOngoingCovid' => 'N/A',
+                                'intVessel' => NULL,
+                                'intVesselNo' => NULL,
+                                'intDateDepart' => NULL,
+                                'intDateArrive' => NULL,
+                
+                                'placevisited' => NULL,
+                
+                                'locName1' => NULL,
+                                'locAddress1' => NULL,
+                                'locDateFrom1' => NULL,
+                                'locDateTo1' => NULL,
+                                'locWithOngoingCovid1' => 'N/A',
+                
+                                'locName2' => NULL,
+                                'locAddress2' => NULL,
+                                'locDateFrom2' => NULL,
+                                'locDateTo2' => NULL,
+                                'locWithOngoingCovid2' => 'N/A',
+                                
+                                'locName3' => NULL,
+                                'locAddress3' => NULL,
+                                'locDateFrom3' => NULL,
+                                'locDateTo3' => NULL,
+                                'locWithOngoingCovid3' => 'N/A',
+                                
+                                'locName4' => NULL,
+                                'locAddress4' => NULL,
+                                'locDateFrom4' => NULL,
+                                'locDateTo4' => NULL,
+                                'locWithOngoingCovid4' => 'N/A',
+                
+                                'locName5' => NULL,
+                                'locAddress5' => NULL,
+                                'locDateFrom5' => NULL,
+                                'locDateTo5' => NULL,
+                                'locWithOngoingCovid5' => 'N/A',
+                
+                                'locName6' => NULL,
+                                'locAddress6' => NULL,
+                                'locDateFrom6' => NULL,
+                                'locDateTo6' => NULL,
+                                'locWithOngoingCovid6' => 'N/A',
+                
+                                'locName7' => NULL,
+                                'locAddress7' => NULL,
+                                'locDateFrom7' => NULL,
+                                'locDateTo7' => NULL,
+                                'locWithOngoingCovid7' => 'N/A',
+                
+                                'localVessel1' => NULL,
+                                'localVesselNo1' => NULL,
+                                'localOrigin1' => NULL,
+                                'localDateDepart1' => NULL,
+                                'localDest1' => NULL,
+                                'localDateArrive1' => NULL,
+                
+                                'localVessel2' => NULL,
+                                'localVesselNo2' => NULL,
+                                'localOrigin2' => NULL,
+                                'localDateDepart2' => NULL,
+                                'localDest2' => NULL,
+                                'localDateArrive2' => NULL,
+                
+                                'contact1Name' => $data->contact1Name,
+                                'contact1No' => $data->contact1No,
+                                'contact2Name' => $data->contact2Name,
+                                'contact2No' => $data->contact2No,
+                                'contact3Name' => $data->contact3Name,
+                                'contact3No' => $data->contact3No,
+                                'contact4Name' => $data->contact4Name,
+                                'contact4No' => $data->contact4No,
+                
+                                'remarks' => $data->patientmsg,
+                                'antigenqr' => $antigenqr,
+                            ]);
+                
+                            //Create Monitoring Sheet
+                            /*
+                            $msheet_search = MonitoringSheetMaster::where('forms_id', $createform->id)->first();
+                            if(!$msheet_search) {
+                                $foundunique = false;
+                                while(!$foundunique) {
+                                    $majik = Str::random(30);
+                                    
+                                    $search = MonitoringSheetMaster::where('magicURL', $majik);
+                                    if($search->count() == 0) {
+                                        $foundunique = true;
+                                    }
+                                }
+                
+                                $newmsheet = new MonitoringSheetMaster;
+                
+                                $newmsheet->forms_id = $createform->id;
+                                $newmsheet->region = '4A';
+                                $newmsheet->date_lastexposure = (!is_null($createform->expoDateLastCont)) ? $createform->expoDateLastCont : $createform->interviewDate;
+                                $newmsheet->date_startquarantine = $createform->interviewDate;
+                                $newmsheet->date_endquarantine = Carbon::parse($createform->interviewDate)->addDays(13)->format('Y-m-d');
+                                $newmsheet->magicURL = $majik;
+                
+                                $newmsheet->save();
+                            }
+                            */
+                            
+                            $upd = PaSwabDetails::where('id', $data->id)->update([
+                                'status' => 'approved',
+                            ]);
+                
+                            if($data->isNewRecord == 0) {
+                                if($oldform->caseClassification != 'Confirmed' && $oldform->caseClassification != 'Non-COVID-19 Case') {
+                                    $fcheck = Forms::where('id', $oldform->id)->delete();
+                                }
+                            }
+                        }
                         
                         return redirect()->route('paswab.complete', ['locale' => $locale])
                         ->with('majik', $majik)

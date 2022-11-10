@@ -30,13 +30,10 @@ class HomeController extends Controller
     public function index()
     {
         if(auth()->user()->isLevel1()) {
-            $currentWeek = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('W');
-
             $paswabctr = PaSwabDetails::where('status', 'pending')->count();
             $selfreport_count = SelfReports::where('status', 'pending')->count();
             
             return view('home', [
-                'currentWeek' => $currentWeek,
                 'paswabctr' => $paswabctr,
                 'selfreport_count' => $selfreport_count,
             ]);
