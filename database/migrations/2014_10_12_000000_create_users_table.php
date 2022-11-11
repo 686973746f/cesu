@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->tinyInteger('option_enableAutoRedirectToCif')->default(0);
+            $table->tinyInteger('encoder_stats_visible')->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -30,7 +30,7 @@ class SendEncoderStatus extends Mailable
      */
     public function build()
     {
-        $list = User::where('isAdmin', 2)
+        $list = User::where('encoder_stats_visible', 1)
         ->where('enabled', 1)
         ->get();
         
