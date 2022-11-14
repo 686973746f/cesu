@@ -1559,20 +1559,39 @@ class PaSwabController extends Controller
                             6 => Saturday
                             */
 
-                            $weekday = date('w', strtotime('+1 Day'));
-                            if($weekday == 3) {
-                                $d_date = date('Y-m-d', strtotime('+2 Days'));
-                            }
-                            else if($weekday == 6) {
-                                $d_date = date('Y-m-d', strtotime('+3 Days'));
-                            }
-                            else if($weekday == 0) {
-                                $d_date = date('Y-m-d', strtotime('+2 Days'));
+                            if(time() >= strtotime('00:00') && time() <= ('13:00')) {
+                                $weekday = date('w');
+
+                                if($weekday == 3) {
+                                    $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                }
+                                else if($weekday == 6) {
+                                    $d_date = date('Y-m-d', strtotime('+2 Days'));
+                                }
+                                else if($weekday == 0) {
+                                    $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                }
+                                else {
+                                    $d_date = date('Y-m-d');
+                                }
                             }
                             else {
-                                $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                $weekday = date('w', strtotime('+1 Day'));
+
+                                if($weekday == 3) {
+                                    $d_date = date('Y-m-d', strtotime('+2 Days'));
+                                }
+                                else if($weekday == 6) {
+                                    $d_date = date('Y-m-d', strtotime('+3 Days'));
+                                }
+                                else if($weekday == 0) {
+                                    $d_date = date('Y-m-d', strtotime('+2 Days'));
+                                }
+                                else {
+                                    $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                }
                             }
-                            
+
                             //Auto Accept
                             //create record data first
                             if($data->isNewRecord == 1) {
