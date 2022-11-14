@@ -1559,7 +1559,7 @@ class PaSwabController extends Controller
                             6 => Saturday
                             */
 
-                            if(time() >= strtotime('00:00') && time() <= ('13:00')) {
+                            if(time() >= strtotime('00:00:00') && time() <= strtotime('13:00:00')) {
                                 $weekday = date('w');
 
                                 if($weekday == 3) {
