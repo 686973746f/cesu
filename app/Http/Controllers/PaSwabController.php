@@ -1741,7 +1741,7 @@ class PaSwabController extends Controller
                             }
                 
                             if(!is_null($rec->philhealth)) {
-                                if($ttype == "OPS" || $ttype == "NPS" || $ttype == "OPS AND NPS") {
+                                if($d_type == "OPS" || $d_type == "NPS" || $d_type == "OPS AND NPS") {
                                     $trigger = 0;
                                     $addMinutes = 0;
                 
