@@ -1443,7 +1443,8 @@
                     <h5 class="modal-title"><b class="text-info">Welcome to CESU General Trias Swab Scheduling System (aka Pa-Swab)</b></h5>
                 </div>
                 <div class="modal-body">
-                    <p>Ang mga maaari lamang mag-request ng schedule ay ang mga Pasyenteng</p>
+                    <h4 class="text-danger text-center"><b>PAKIBASA</b></h4>
+                    <p><b>ANG MGA MAAARI LAMANG MAG-REQUEST NG SWAB TEST SCHEDULE AY ANG MGA PASYENTENG:</b></p>
                     <ul>
                         <li>May Sintomas ng COVID-19 <i>(Ubo, sipon, makating lalamunan, nahihirapan huminga, walang pang-amoy/pang-lasa, atbp.)</i></li>
                         <li>Close Contact <i>(May nakasalamuhang nag-positibo sa COVID-19)</i></li>
@@ -1451,63 +1452,87 @@
                         <li>Gagamitin sa Ospital <i>(Operasyon, Dialysis, Chemotherapy, etc.)</i></li>
                     </ul>
                     <hr>
-                    <p>Para sa mga magpapa-request ng RT-PCR Swab Test, narito ang mga requirements:</p>
-                    <p><b>Kung ikaw ay isang Philhealth Member</b></p>
-                    <ul>
-                        <li>Photocopy ng iyong Philhealth ID o MDR (Member Data Record)</li>
-                    </ul>
-                    <p><b>Kung ikaw ay menor de edad pa lamang at Philhealth Member ang iyong Magulang</b></p>
-                    <ul>
-                        <li>Photopopy ng MDR ng iyong Magulang na naka-deklara ang iyong pangalan sa list of dependents</li>
-                        <li>Photocopy ng Valid ID ng iyong Magulang <i>(bilang proof of relationship)</i></li>
-                        <li>Photocopy ng iyong Birth Certificate o Baptismal Certificate</li>
-                    </ul>
-                    <p><b>Kung ikaw ay kasal na at ang asawa mo ang Philhealth Member</b></p>
-                    <ul>
-                        <li>Photocopy ng Valid ID ng iyong Asawa</li>
-                        <li>Photocopy ng iyong Valid ID o Birth/Baptismal Certificate</li>
-                        <li>Photocopy ng Philhealth MDR ng iyong asawa kung saan naka-deklara ang iyong pangalan sa list of dependents</li>
-                        <li>Photocopy ng Marriage Certificate <i>(bilang proof of relationship)</i></li>
-                    </ul>
-                    <p><b>Kung ikaw ay hindi pa member ng Philhealth</b></p>
-                    <ul>
-                        <li>Photocopy ng iyong Birth/Baptismal Certificate o Dalawang (2) Valid IDs</li>
-                        <li>Filled up Philhealth Member Registration Form (PMRF), pwede makuha <a href="https://bit.ly/3RiBsRt">dito</a> o sa mismong swabbing area.</li>
+                    <div id="btlist">
+                        <p class="text-center">Pumili upang magpatuloy:</p>
+                        <button class="btn btn-primary btn-lg btn-block" id="dd1">Ako ay miyembro na ng Philhealth</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="dd2">Ako ay Kasal na at hindi pa miyembro ng Philhealth, pero naka-deklara ako bilang dependent sa Philhealth ng Asawa ko</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="dd3">Ako ay Menor de Edad pa lamang <i>(17 taong gulang pababa)</i> at hindi pa miyembro ng Philhealth, pero naka-deklara ako bilang dependent sa Philhealth ng Magulang ko</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="dd4">Ako ay hindi pa talaga miyembro ng Philhealth, at may nakahanda akong Birth/Baptismal Certificate</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="dd5">Wala sa mga nabanggit</button>
+                    </div>
+                    <div id="dc1" class="d-none">
+                        <p><b>Kung ikaw ay isang miyembro na ng Philhealth, paki-handa ang sumusunod:</b></p>
                         <ul>
-                            <li>Note: Sagutan lamang ang mga may-check (✓) sa form.</li>
+                            <li>Photocopy ng iyong Philhealth ID o MDR (Member Data Record)</li>
                         </ul>
-                    </ul>
-                    <p><b>Kung ikaw ay wala talagang maipapakitang kahit na anong patunay</b></p>
-                    <ul>
-                        <li>Hindi ka makakapag RT-PCR Test at ikaw na lang ay inaanyayahan namin na magpa-Antigen Test <i>(Kung gagamitin sa hospital, tanungin kung natanggap sila ng Antigen)</i></li>
-                    </ul>
-                    <p>Ito ay pag-sunod sa requirements ng Molecular Laboratory <i>(LaSalle/Imus Molecular Laboratory)</i> upang tanggapin ang inyong request.</p>
-                    <p>Paalala:</p>
-                    <ul>
-                        <li>Sa mga Philhealth Member/Dependent, Maaaring kumuha ng Philhealth MDR sa <a href="https://memberinquiry.philhealth.gov.ph/member/">Philhealth Member Portal</a></li>
-                        <li>Ang resulta ng RT-PCR ay lumalabas makalipas ng 3-5 Araw. Tatawag ang iyong Barangay Health Center upang makuha sa kanila ang iyong resulta.</li>
-                        <li>Ang mga ID katulad ng School ID, Company ID, Barangay ID, TIN ID ay hindi po tinatanggap.</li>
-                        <li>Magdala ng Sariling Black Ballpen</li>
-                        <li>Kung ikaw ay menor de edad, dapat kasama mo ang iyong Magulang/Guardian</li>
-                    </ul>
-                    <hr>
-                    <p>Kung may mga katanungan o ibang concern, makipag-usap sa inyong Barangay Health Center o maaari kaming ma-kontak sa:</p>
-                    <ul>
-                        <li>Mobile Number (Call/Text)</li>
+                    </div>
+                    <div id="dc2" class="d-none">
+                        <p><b>Kung ikaw ay kasal na at hindi pa miyembro ng Philhealth, pero naka-deklara bilang DEPENDENT sa Philhealth ng Asawa, paki-handa ang mga sumusunod:</b></p>
                         <ul>
-                            <li>0919 066 4324</li>
-                            <li>0919 066 4325</li>
-                            <li>0919 066 4327</li>
+                            <li>Photocopy ng Valid ID ng iyong Asawa</li>
+                            <li>Photocopy ng iyong Valid ID o Birth/Baptismal Certificate</li>
+                            <li>Photocopy ng Philhealth MDR (Member Data Record) ng iyong asawa kung saan naka-deklara ang iyong pangalan sa list of dependents</li>
+                            <li>Photocopy ng Marriage Certificate <i>(bilang proof of relationship)</i></li>
                         </ul>
-                        <li>Telephone Number: (046) 509 - 5289</li>
-                        <li>Email: <a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></li>
-                        <li><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></li>
-                        <li>Address: City Health Office (3rd Floor CESU Office), Pria Rd., Hospital Area - Main, Brgy. Pinagtipunan, General Trias, Cavite, 4107</li>
-                    </ul>
+                    </div>
+                    <div id="dc3" class="d-none">
+                        <p><b>Kung ikaw ay Menor de Edad pa lamang <i>(17 taon gulang pababa)</i> at hindi pa miyembro ng Philhealth, pero naka-deklara bilang DEPENDENT sa Philhealth ng Magulang, paki-handa ang mga sumusunod:</b></p>
+                        <ul>
+                            <li>Photopopy ng Philhealth MDR (Member Data Record) ng iyong Magulang na naka-deklara ang iyong pangalan sa list of dependents</li>
+                            <li>Photocopy ng Valid ID ng iyong Magulang <i>(bilang proof of relationship)</i></li>
+                            <li>Photocopy ng iyong Birth Certificate o Baptismal Certificate</li>
+                        </ul>
+                    </div>
+                    <div id="dc4" class="d-none">
+                        <p><b>Kung ikaw ay hindi pa talaga miyembro ng Philhealth, paki-handa ang mga sumusunod:</b></p>
+                        <ul>
+                            <li>Photocopy ng iyong Birth/Baptismal Certificate o Dalawang (2) Valid IDs</li>
+                            <li>Filled up Philhealth Member Registration Form (PMRF), na pwedeng <a href="https://bit.ly/3RiBsRt">MA-DOWNLOAD DITO</a> o sa mismong swabbing area.</li>
+                            <ul>
+                                <li>Note: Sagutan lamang ang mga may-check (✓) sa form.</li>
+                            </ul>
+                        </ul>
+                    </div>
+                    <div id="dc5" class="d-none">
+                        <p><b>Kung ikaw ay wala talagang maipapakitang kahit na anong patunay</b></p>
+                        <ul>
+                            <li>Hindi ka makakapag RT-PCR Test at ikaw na lang ay inaanyayahan namin na magpa-Antigen Test <i>(Kung gagamitin sa hospital, tanungin kung natanggap sila ng Antigen)</i></li>
+                            <ul>
+                                <li>Accredited ng Department of Health (DOH) ang Antigen Kit na ginagamit - Wondfo/Abbott/SD Biosensor</li>
+                            </ul>
+                        </ul>
+                    </div>
+                    <div id="cmode" class="d-none">
+                        <div class="d-none" id="cmr1"><p>Ito ay pag-sunod lamang sa requirements na kailangangan ng mga Molecular Laboratory <i>(LaSalle/Imus Molecular Laboratory)</i> upang tanggapin ang inyong request at upang ilabas nila ang iyong resulta.</p></div>
+                        <p>Paalala:</p>
+                        <ul>
+                            <div id="cmr2" class="d-none">
+                                <li>Sa mga Philhealth Member/Dependent, Maaaring kumuha ng Philhealth MDR sa <a href="https://memberinquiry.philhealth.gov.ph/member/">PHILHEALTH MEMBER PORTAL</a></li>
+                                <li>Ang resulta ng RT-PCR ay lumalabas makalipas ng 2-3 Araw. Tatawag ang iyong Barangay Health Center upang makuha sa kanila ang iyong resulta kapag ito ay nailabas na ng Molecular Laboratory.</li>
+                                <li>Ang mga ID katulad ng School ID, Company ID, Barangay ID, TIN ID ay hindi po tinatanggap.</li>
+                            </div>
+                            <li>Magdala ng Sariling Black Ballpen.</li>
+                            <li>Kung ikaw ay menor de edad, hanggat maaari ay kasama mo dapat ang iyong Magulang/Guardian sa pagpunta sa swabbing area.</li>
+                        </ul>
+                        <hr>
+                        <p>Kung may mga katanungan o ibang concern, makipag-usap sa inyong Barangay Health Center o maaari kaming ma-kontak sa:</p>
+                        <ul>
+                            <li>Mobile Number (Call/Text)</li>
+                            <ul>
+                                <li>0919 066 4324</li>
+                                <li>0919 066 4325</li>
+                                <li>0919 066 4327</li>
+                            </ul>
+                            <li>Telephone Number: (046) 509 - 5289</li>
+                            <li>Email: <a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></li>
+                            <li><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></li>
+                            <li>Address: City Health Office (3rd Floor CESU Office), Pria Rd., Hospital Area - Main, Brgy. Pinagtipunan, General Trias, Cavite, 4107</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal"><b class="text-success">MAYROON AKONG REQUIREMENTS</b></button>
-                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="walarequirements"><b class="text-danger">WALA AKONG REQUIREMENTS, MAGPAPA-ANTIGEN TEST NA LANG AKO</b></button>
+                <div class="modal-footer d-none" id="dfooter">
+                    <button type="button" class="btn btn-success btn-block d-none" data-dismiss="modal" id="forrtpcr"><b>Naiintindihan ko, magpatuloy</b></button>
+                    <button type="button" class="btn btn-success btn-block d-none" data-dismiss="modal" id="walarequirements"><b>Naiintindihan ko, magpapa-Antigen Test na lang ako, magpatuloy</b></button>
                 </div>
             </div>
         </div>
@@ -1516,6 +1541,64 @@
     <script>
         var getCurrentPtype = $('#pType').val();
         var getCurrentExpo1 = $('#expoitem1').val();
+
+        $('#dd1').click(function (e) { 
+            e.preventDefault();
+            $('#btlist').addClass('d-none');
+            $('#dc1').removeClass('d-none');
+            $('#cmode').removeClass('d-none');
+            $('#dfooter').removeClass('d-none');
+            $('#cmr1').removeClass('d-none');
+            $('#cmr2').removeClass('d-none');
+            
+            $('#forrtpcr').removeClass('d-none');
+        });
+
+        $('#dd2').click(function (e) { 
+            e.preventDefault();
+            $('#btlist').addClass('d-none');
+            $('#dc2').removeClass('d-none');
+            $('#cmode').removeClass('d-none');
+            $('#dfooter').removeClass('d-none');
+            $('#cmr1').removeClass('d-none');
+            $('#cmr2').removeClass('d-none');
+
+            $('#forrtpcr').removeClass('d-none');
+        });
+
+        $('#dd3').click(function (e) { 
+            e.preventDefault();
+            $('#btlist').addClass('d-none');
+            $('#dc3').removeClass('d-none');
+            $('#cmode').removeClass('d-none');
+            $('#dfooter').removeClass('d-none');
+            $('#cmr1').removeClass('d-none');
+            $('#cmr2').removeClass('d-none');
+
+            $('#forrtpcr').removeClass('d-none');
+        });
+
+        $('#dd4').click(function (e) { 
+            e.preventDefault();
+            $('#btlist').addClass('d-none');
+            $('#dc4').removeClass('d-none');
+            $('#cmode').removeClass('d-none');
+            $('#dfooter').removeClass('d-none');
+            $('#cmr1').removeClass('d-none');
+            $('#cmr2').removeClass('d-none');
+
+            $('#forrtpcr').removeClass('d-none');
+        });
+
+        $('#dd5').click(function (e) { 
+            e.preventDefault();
+            $('#btlist').addClass('d-none');
+            $('#dc5').removeClass('d-none');
+            $('#cmode').removeClass('d-none');
+            $('#dfooter').removeClass('d-none');
+
+            $('#walarequirements').removeClass('d-none');
+        });
 
         $(document).ready(function () {
             @if($enableLockAddress != 1)
