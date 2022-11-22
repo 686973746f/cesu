@@ -617,7 +617,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             (in_array("11", $arr_existingCase)) ? "YES" : "NO",
             (in_array("11", $arr_existingCase)) ? mb_strtoupper($form->ecOthersRemarks) : "N/A",
             
-            $form->pType,
+            'PROBABLE', //$form->pType
             $form->caseClassification,
             /*
             Old Subgroup, Maramihan
