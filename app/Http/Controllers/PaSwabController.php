@@ -1561,6 +1561,27 @@ class PaSwabController extends Controller
 
                             if(time() >= strtotime('00:00:00') && time() <= strtotime('13:00:00')) {
                                 $weekday = date('w');
+                                
+                                //MWF
+
+                                if($weekday == 2) {
+                                    $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                }
+                                else if ($weekday == 4) {
+                                    $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                }
+                                else if($weekday == 6) {
+                                    $d_date = date('Y-m-d', strtotime('+2 Days'));
+                                }
+                                else if($weekday == 0) {
+                                    $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                }
+                                else {
+                                    $d_date = date('Y-m-d');
+                                }
+
+                                /*
+                                MTWTF
 
                                 if($weekday == 3) {
                                     $d_date = date('Y-m-d', strtotime('+1 Day'));
@@ -1574,9 +1595,30 @@ class PaSwabController extends Controller
                                 else {
                                     $d_date = date('Y-m-d');
                                 }
+                                */
                             }
                             else {
                                 $weekday = date('w', strtotime('+1 Day'));
+
+                                //MWF
+                                if($weekday == 2) {
+                                    $d_date = date('Y-m-d', strtotime('+2 Days'));
+                                }
+                                else if($weekday == 4) {
+                                    $d_date = date('Y-m-d', strtotime('+2 Days'));
+                                }
+                                else if($weekday == 6) {
+                                    $d_date = date('Y-m-d', strtotime('+3 Days'));
+                                }
+                                else if($weekday == 0) {
+                                    $d_date = date('Y-m-d', strtotime('+2 Days'));
+                                }
+                                else {
+                                    $d_date = date('Y-m-d', strtotime('+1 Day'));
+                                }
+
+                                /*
+                                MTWTF
 
                                 if($weekday == 3) {
                                     $d_date = date('Y-m-d', strtotime('+2 Days'));
@@ -1590,6 +1632,7 @@ class PaSwabController extends Controller
                                 else {
                                     $d_date = date('Y-m-d', strtotime('+1 Day'));
                                 }
+                                */
                             }
 
                             //Auto Accept
