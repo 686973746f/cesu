@@ -9,7 +9,9 @@
             <div class="card-body">
                 <button type="submit" name="choice" value="c1"  class="btn btn-primary">GET TOTAL ACTIVE CASES & HOSPITALIZATION</button>
                 <button type="submit" name="choice" value="c2"  class="btn btn-primary">GET PREVIOUS YEAR ACCOMPLISHMENT COUNT</button>
+                <button type="submit" name="choice" value="c4"  class="btn btn-primary">GET PREVIOUS YEAR PER BRGY COUNT</button>
                 <button type="submit" name="choice" value="c3"  class="btn btn-primary">GET SWAB COUNT</button>
+                <button type="submit" name="choice" value="c5"  class="btn btn-primary">GET AGE GROUP</button>
             </div>
         </div>
     </form>
@@ -55,17 +57,21 @@
             </div>
         </div>
         @elseif(request()->input('choice') == 'c2')
-        <p>{{date('Y', strtotime('-1 Year'))}} Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
-        <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Average: {{number_format($count2)}}</p>
-        <p>{{date('Y', strtotime('-1 Year'))}} Number of Recoveries: {{number_format($count3)}}</p>
-        <p>{{date('Y', strtotime('-1 Year'))}} Number of Deaths: {{number_format($count4)}}</p>
-        <hr>
-        <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Male Total/Percentage: {{number_format($malecount)}} / {{round(($malecount/$count1) * 100)}}%</p>
-        <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Female Total/Percentage: {{number_format($femalecount)}} / {{round(($femalecount/$count1) * 100)}}%</p>
-        <hr>
-        <p>{{date('Y', strtotime('-1 Year'))}} Suspected: {{number_format($count5)}}</p>
-        <p>{{date('Y', strtotime('-1 Year'))}} Probable: {{number_format($count6)}}</p>
-        <p>{{date('Y', strtotime('-1 Year'))}} Close Contact: {{number_format($count7)}}</p>
+        <div class="card">
+            <div class="card-body">
+                <p>{{date('Y', strtotime('-1 Year'))}} Total Confirmed Swabbed by CHO: {{number_format($count1)}}</p>
+                <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Average: {{number_format($count2)}}</p>
+                <p>{{date('Y', strtotime('-1 Year'))}} Number of Recoveries: {{number_format($count3)}}</p>
+                <p>{{date('Y', strtotime('-1 Year'))}} Number of Deaths: {{number_format($count4)}}</p>
+                <hr>
+                <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Male Total/Percentage: {{number_format($malecount)}} / {{round(($malecount/$count1) * 100)}}%</p>
+                <p>{{date('Y', strtotime('-1 Year'))}} Confirmed Female Total/Percentage: {{number_format($femalecount)}} / {{round(($femalecount/$count1) * 100)}}%</p>
+                <hr>
+                <p>{{date('Y', strtotime('-1 Year'))}} Suspected: {{number_format($count5)}}</p>
+                <p>{{date('Y', strtotime('-1 Year'))}} Probable: {{number_format($count6)}}</p>
+                <p>{{date('Y', strtotime('-1 Year'))}} Close Contact: {{number_format($count7)}}</p>
+            </div>
+        </div>
         @elseif(request()->input('choice') == 'c3')
         <div class="card mb-3">
             <div class="card-header"><b>Swab Count</b></div>
@@ -95,12 +101,10 @@
                 <p>Last Year Swab Count: {{$lastYearSwab}}</p>
             </div>
         </div>
-        @else
-        
+        @elseif(request()->input('choice') == 'c4')
         <div class="card mb-3">
             <div class="card-header font-weight-bold text-center">Accomplishment Report for PREVIOUS YEAR ({{date('Y', strtotime('-1 Year'))}})</div>
             <div class="card-body">
-                
                 <form action="{{route('report.accomplishment')}}" method="GET">
                     <div class="input-group mb-3">
                         <select class="custom-select" name="year" id="year" required>
@@ -189,7 +193,7 @@
                 </div>
             </div>
         </div>
-    
+        @elseif(request()->input('choice') == 'c5')
         <div class="card">
             <div class="card-header"><b>Age Group</b></div>
             <div class="card-body">
