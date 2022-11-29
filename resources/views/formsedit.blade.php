@@ -270,21 +270,21 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                           <label for="qDateStart">Quarantine Date Start</label>
-                                          <input type="date" class="form-control" name="qDateStart" id="qDateStart" required>
+                                          <input type="date" class="form-control" name="qDateStart" id="qDateStart" value="{{old('qDateStart', $records->testDateCollected1)}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="qDateEnd">Quarantine Date End</label>
-                                            <input type="date" class="form-control" name="qDateEnd" id="qDateEnd" required>
+                                            <input type="date" class="form-control" name="qDateEnd" id="qDateEnd" value="{{old('qDateEnd', $records->outcomeRecovDate)}}" required>
                                           </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                   <label for="purpose">Purpose</label>
                                   <select class="form-control" name="purpose" id="purpose" required>
-                                      <option value="Fit to Travel">Fit to Travel</option>
-                                      <option value="Fit to Work">Fit to Work</option>
+                                        <option value="Fit to Work">Fit to Work</option>
+                                        <option value="Fit to Travel">Fit to Travel</option>
                                   </select>
                                 </div>
                                 <div class="form-group">
