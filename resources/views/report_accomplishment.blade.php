@@ -9,7 +9,7 @@
             <div class="card-body">
                 <button type="submit" name="choice" value="c1"  class="btn btn-primary">GET TOTAL ACTIVE CASES & HOSPITALIZATION</button>
                 <button type="submit" name="choice" value="c2"  class="btn btn-primary">GET PREVIOUS YEAR ACCOMPLISHMENT COUNT</button>
-                <button type="submit" name="choice" value="c4"  class="btn btn-primary">GET PREVIOUS YEAR PER BRGY COUNT</button>
+                <button type="submit" name="choice" value="c4"  class="btn btn-primary">GET PREVIOUS/CURRENT YEAR PER BRGY COUNT</button>
                 <button type="submit" name="choice" value="c3"  class="btn btn-primary">GET SWAB COUNT</button>
                 <button type="submit" name="choice" value="c5"  class="btn btn-primary">GET AGE GROUP</button>
             </div>
@@ -114,7 +114,7 @@
                             @endforeach
                         </select>
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="submit">Filter</button>
+                            <button class="btn btn-outline-secondary" type="submit" name="choice" value="c4">Filter</button>
                         </div>
                     </div>
                 </form>
