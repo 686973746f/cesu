@@ -317,7 +317,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
                 $pv2b = "HOME";
                 $pv2c = $form->records->address_city.', '.$form->records->address_province;
                 $pv2d = date('m/d/Y', strtotime($form->morbidityMonth.' -5 Days'));
-                $pv2e = date('m/d/Y', strtotime($form->morbidityMonth));
+                $pv2e = date('m/d/Y', strtotime($form->morbidityMonth.' -1 Day'));
                 $pv2f = "YES";
 
                 $pv3a = "NO";
@@ -529,9 +529,16 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         */
 
         //OLD DISPO
-        $autodispo = $form->dispoType;
-        $autodispo_name = strtoupper($form->dispoName);
-        $autodispo_date = date("m/d/Y H:i", strtotime($form->dispoDate));
+        if($form->records->isPregnant == 1 && $form->dispoType == 5) {
+            $autodispo = 3;
+            $autodispo_name = NULL;
+            $autodispo_date = date("m/d/Y H:i", strtotime('-1 Day'));
+        }
+        else {
+            $autodispo = $form->dispoType;
+            $autodispo_name = strtoupper($form->dispoName);
+            $autodispo_date = date("m/d/Y H:i", strtotime($form->dispoDate));
+        }
 
         //Symptoms Switch
         $tempsx = 1;
