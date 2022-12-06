@@ -29,15 +29,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('autorecoveredactivecases:daily')->dailyAt('06:00')->evenInMaintenanceMode();
         $schedule->command('dailycaseslogging:daily')->dailyAt('13:00')->evenInMaintenanceMode();
         $schedule->command('dailycaseslogging:daily')->dailyAt('16:00')->evenInMaintenanceMode();
-        $schedule->command('autoemailctreport:daily')->dailyAt('16:05')->evenInMaintenanceMode();
-        $schedule->command('autoemailreport:daily')->dailyAt('16:10')->evenInMaintenanceMode();
-        $schedule->command('ayudaemail:daily')->dailyAt('16:15')->evenInMaintenanceMode();
-        $schedule->command('autoemailcoviddatabase:daily')->dailyAt('16:20')->evenInMaintenanceMode();
-        $schedule->command('compositemeasurev2:on15and30')->monthlyOn(15, '16:05');
-        $schedule->command('compositemeasurev2:on15and30')->monthlyOn(date('t'), '16:05');
+        $schedule->command('automw:daily')->dailyAt('16:03')->evenInMaintenanceMode();
+        $schedule->command('autoemailreport:daily')->dailyAt('16:06')->evenInMaintenanceMode();
+        $schedule->command('ayudaemail:daily')->dailyAt('16:09')->evenInMaintenanceMode();
+        $schedule->command('autoemailcoviddatabase:daily')->dailyAt('16:15')->evenInMaintenanceMode();
         $schedule->command('autosendencoderstats:daily')->dailyAt('16:40')->evenInMaintenanceMode();
-        $schedule->command('automw:daily')->dailyAt('16:08')->evenInMaintenanceMode();
-        
+        $schedule->command('autoemailctreport:daily')->dailyAt('16:45')->evenInMaintenanceMode();
+        $schedule->command('compositemeasurev2:on15and30')->monthlyOn(15, '16:50');
+        $schedule->command('compositemeasurev2:on15and30')->monthlyOn(date('t'), '16:50');
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(15, '16:05');
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(date('t'), '16:05');
 

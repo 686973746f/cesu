@@ -255,6 +255,7 @@ class CreateFormsTable extends Migration
             $table->text('disobedient_remarks')->nullable();
 
             $table->text('antigenqr')->nullable();
+            $table->tinyInteger('sent')->default(0);
         });
     }
 
