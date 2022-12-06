@@ -1588,7 +1588,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="">Time Collected</label>
+                                                <label for=""><span class="text-danger font-weight-bold d-none" id="reqtc1">*</span>Time Collected</label>
                                                 <input type="time" name="oniTimeCollected1" id="oniTimeCollected1" class="form-control" value="{{old('oniTimeCollected1')}}">
                                             </div>
                                         </div>
@@ -1596,7 +1596,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testLaboratory1">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
+                                                <label for="testLaboratory1"><span class="text-danger font-weight-bold d-none" id="reql1">*</span>Laboratory</label>
                                                 <input type="text" class="form-control" name="testLaboratory1" id="testLaboratory1" value="{{old('testLaboratory1')}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
@@ -1673,7 +1673,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="oniTimeCollected2">Time Collected</label>
+                                                <label for="oniTimeCollected2"><span class="text-danger font-weight-bold d-none" id="reql2">*</span>Time Collected</label>
                                                 <input type="time" name="oniTimeCollected2" id="oniTimeCollected2" class="form-control" value="{{old('oniTimeCollected2')}}">
                                             </div>
                                         </div>
@@ -1681,7 +1681,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="testLaboratory2">Laboratory <small><i>(Leave Blank if N/A)</i></small></label>
+                                                <label for="testLaboratory2"><span class="text-danger font-weight-bold d-none" id="reqtc2">*</span>Laboratory</label>
                                                 <input type="text" class="form-control" name="testLaboratory2" id="testLaboratory2" value="{{old('testLaboratory2')}}" style="text-transform: uppercase;">
                                             </div>
                                         </div>
@@ -3413,6 +3413,7 @@
                         $('#ifDateReleased1').removeClass('d-none');
 
                         $('#testLaboratory1').prop('required', true);
+                        $('#reql1').removeClass('d-none');
                     }
                     else {
                         $('#testDateReleased1').val('');
@@ -3420,7 +3421,24 @@
                         $('#ifDateReleased1').addClass('d-none');
 
                         $('#testLaboratory1').prop('required', false);
+                        $('#reql1').addClass('d-none');
                     }
+                }
+
+                //Antigen Required Fields
+                if($('#testType1').val() == 'ANTIGEN') {
+                    if($(this).val() != 'PENDING') {
+                        $('#reqtc1').removeClass('d-none');
+                        $('#oniTimeCollected1').prop('required', true);
+                    }
+                    else {
+                        $('#reqtc1').addClass('d-none');
+                        $('#oniTimeCollected1').prop('required', false);
+                    }
+                }
+                else {
+                    $('#reqtc1').addClass('d-none');
+                    $('#oniTimeCollected1').prop('required', false);
                 }
 
                 if($(this).val() == 'POSITIVE') {
@@ -3519,6 +3537,7 @@
                         $('#ifDateReleased2').removeClass('d-none');
 
                         $('#testLaboratory2').prop('required', true);
+                        $('#reql2').removeClass('d-none');
                     }
                     else {
                         $('#testDateReleased2').val('');
@@ -3526,7 +3545,24 @@
                         $('#ifDateReleased2').addClass('d-none');
 
                         $('#testLaboratory2').prop('required', false);
+                        $('#reql2').addClass('d-none');
                     }
+                }
+
+                //Antigen Required Fields
+                if($('#testType2').val() == 'ANTIGEN') {
+                    if($(this).val() != 'PENDING') {
+                        $('#reqtc2').removeClass('d-none');
+                        $('#oniTimeCollected2').prop('required', true);
+                    }
+                    else {
+                        $('#reqtc2').addClass('d-none');
+                        $('#oniTimeCollected2').prop('required', false);
+                    }
+                }
+                else {
+                    $('#reqtc1').addClass('d-none');
+                    $('#oniTimeCollected2').prop('required', false);
                 }
 
                 if($(this).val() == 'POSITIVE') {
