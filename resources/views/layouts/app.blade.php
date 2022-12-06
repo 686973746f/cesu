@@ -59,6 +59,11 @@
                         </li>
                         @endif
                         @endif
+                        @if(auth()->check())
+                        <li class="nav-item">
+                            <span class="text-white nav-link"><b>MW: {{date('W')}}</b></span>
+                        </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -71,7 +76,7 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                    <i class="fa fa-user mr-2" aria-hidden="true"></i> {{ Auth::user()->name }}
                                 </a>
-
+                                
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{route('changepw.index')}}"><i class="fa fa-key mr-2" aria-hidden="true"></i>Change Password</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -85,6 +90,7 @@
                                     </form>
                                 </div>
                             </li>
+                            
                         @endguest
                     </ul>
                 </div>
