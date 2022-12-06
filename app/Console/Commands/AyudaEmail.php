@@ -53,7 +53,8 @@ class AyudaEmail extends Command
         ->where('status', 'approved')
         ->whereDate('morbidityMonth', date('Y-m-d'))
         ->where('outcomeCondition', 'Active')
-        ->where('caseClassification', 'Confirmed');
+        ->where('caseClassification', 'Confirmed')
+        ->where('sent', 0);
 
         $count = $query->count();
 
@@ -63,7 +64,7 @@ class AyudaEmail extends Command
                     yield $user;
                 }
             }
-    
+            
             $sheets = new SheetCollection([
                 'Ayuda List '.date('m-d-Y') => suspectedGenerator($query),
             ]);
@@ -163,6 +164,8 @@ class AyudaEmail extends Command
             */
 
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me'])->send(new SendAyudaList($count));
+
+            $j = $query->update(['sent' => 1]);
         }
         else {
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me'])->send(new SendAyudaListEmpty());
