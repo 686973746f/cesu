@@ -221,7 +221,6 @@
                                 <th></th>
                                 <th style="vertical-align: middle;"><input type="checkbox" class="checks mx-2" name="" id="select_all"></th>
                                 <th style="vertical-align: middle;">Name</th>
-                                <th style="vertical-align: middle;">Subgroup</th>
                                 <th style="vertical-align: middle;">Mobile</th>
                                 <th style="vertical-align: middle;">Age/Sex</th>
                                 <th style="vertical-align: middle;">Vax Info</th>
@@ -230,10 +229,10 @@
                                 <th style="vertical-align: middle;">City/Province</th>
                                 <th style="vertical-align: middle;">Type of Client</th>
                                 <th style="vertical-align: middle;">Health Status</th>
-                                <th style="vertical-align: middle;">Ref. Code</th>
+                                <th style="vertical-align: middle;">Paswab Code</th>
                                 <th style="vertical-align: middle;">Date of Collection</th>
                                 <th style="vertical-align: middle;">Test Type</th>
-                                <th style="vertical-align: middle;">Status</th>
+                                <th style="vertical-align: middle;">Result</th>
                                 <th style="vertical-align: middle;">Enc./Edited By</th>
                                 <th style="vertical-align: middle;">Date Created/Edited</th>
                                 <th style="vertical-align: middle;">Printed? / Time</th>
@@ -293,7 +292,6 @@
                                         @if($form->getOldCif()->count() > 0)<span class="badge" style="background-color: orange;">RESWAB</span>@endif
                                     </a>
                                 </td>
-                                <td style="vertical-align: middle;" class="text-center">{{$form->getSubgroup()}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{($form->records->mobile == '09190664324') ? 'N/A' : $form->records->mobile}}</td>
                                 <td style="vertical-align: middle;" class="text-center">{{$form->records->getAge()}} / {{substr($form->records->gender,0,1)}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->records->showVaxInfo()}}</small></td>
