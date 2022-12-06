@@ -3629,15 +3629,15 @@
                     $('#confirmedVariant').hide();
 
                     $('#testType1').prop('required', false);
-                    $('#testResult1').val("PENDING");
-                    $('#testResult1').trigger('change');
+                    //$('#testResult1').val("PENDING");
+                    //$('#testResult1').trigger('change');
                     $('#tro1_pending').removeClass('d-none');
                     $('#tro1_positive').removeClass('d-none');
                     $('#tro1_negative').removeClass('d-none');
                     $('#tro1_equivocal').removeClass('d-none');
                     $('#tro1_others').removeClass('d-none');
                     
-                    $('#testResult2').val("PENDING");
+                    //$('#testResult2').val("PENDING");
                     $('#tro2_pending').removeClass('d-none');
                     $('#tro2_positive').removeClass('d-none');
                     $('#tro2_negative').removeClass('d-none');
@@ -4214,7 +4214,12 @@
 
                 if($(this).val() == 'POSITIVE') {
                     if($('#caseClassification').val() != 'Confirmed') {
-                        $('#caseClassification').val('Confirmed');
+                        if($('#testType1').val() != 'ANTIGEN') {
+                            $('#caseClassification').val('Confirmed');
+                        }
+                        else {
+                            $('#caseClassification').val('Probable');
+                        }
                         $('#caseClassification').trigger('change');
                     } 
                 }
@@ -4364,7 +4369,12 @@
 
                 if($(this).val() == 'POSITIVE') {
                     if($('#caseClassification').val() != 'Confirmed') {
-                        $('#caseClassification').val('Confirmed');
+                        if($('#testType2').val() != 'ANTIGEN') {
+                            $('#caseClassification').val('Confirmed');
+                        }
+                        else {
+                            $('#caseClassification').val('Probable');
+                        }
                         $('#caseClassification').trigger('change');
                     }
                 }
