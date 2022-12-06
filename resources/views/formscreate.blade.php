@@ -281,7 +281,7 @@
                     <div class="form-group">
                         <label for="testingCat"><span class="text-danger font-weight-bold">*</span>Testing Category/Subgroup</label>
                         <select class="form-control" name="testingCat" id="testingCat" required>
-                        <option value="ALL (Except A1, A2 and A3) with Symptoms of COVID-19" {{(old('testingCat') == 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19') ? 'selected' : ''}}>ALL (Except A1, A2 and A3) with Symptoms of COVID-19</option>
+                        <option value="A4" {{(old('testingCat') == 'A4') ? 'selected' : ''}}>A4</option>
                         <option value="A1" {{(old('testingCat') == 'A1') ? 'selected' : ''}}>A1 - Frontline Workers in Health Facilities</option>
                         <option value="A2" {{(old('testingCat') == 'A2') ? 'selected' : ''}}>A2 - Senior Citizens/Persons Aged 60 and above</option>
                         <option value="A3" {{(old('testingCat') == 'A3') ? 'selected' : ''}}>A3 - Hospitalization/Pregnant/Operation/Comorbidities</option>

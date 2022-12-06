@@ -325,14 +325,14 @@ class PaSwabController extends Controller
                             $testCat = 'A2';
                         }
                         else {
-                            $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                            $testCat = 'A4';
                         }
                     }
                     else if($data->getAgeInt() >= 60) {
                         $testCat = 'A2';
                     }
                     else if($data->pType == 'CLOSE CONTACT') {
-                        $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                        $testCat = 'A4';
                     }
                     else if($data->isPregnant == 1) {
                         $testCat = 'A3';
@@ -891,14 +891,14 @@ class PaSwabController extends Controller
                             $testCat = 'A2';
                         }
                         else {
-                            $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                            $testCat = 'A4';
                         }
                     }
                     else if($data->getAgeInt() >= 60) {
                         $testCat = 'A2';
                     }
                     else if($data->pType == 'CLOSE CONTACT') {
-                        $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                        $testCat = 'A4';
                     }
                     else if($data->isPregnant == 1) {
                         $testCat = 'A3';
@@ -1858,14 +1858,14 @@ class PaSwabController extends Controller
                                     $testCat = 'A2';
                                 }
                                 else {
-                                    $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                                    $testCat = 'A4';
                                 }
                             }
                             else if($data->getAgeInt() >= 60) {
                                 $testCat = 'A2';
                             }
                             else if($data->pType == 'CLOSE CONTACT') {
-                                $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                                $testCat = 'A4';
                             }
                             else if($data->isPregnant == 1) {
                                 $testCat = 'A3';
@@ -2483,14 +2483,14 @@ class PaSwabController extends Controller
                     $testCat = 'A2';
                 }
                 else {
-                    $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                    $testCat = 'A4';
                 }
             }
             else if($data->getAgeInt() >= 60) {
                 $testCat = 'A2';
             }
             else if($data->pType == 'CLOSE CONTACT') {
-                $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                $testCat = 'A4';
             }
             else if($data->isPregnant == 1) {
                 $testCat = 'A3';
@@ -3080,14 +3080,14 @@ class PaSwabController extends Controller
                     $testCat = 'A2';
                 }
                 else {
-                    $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                    $testCat = 'A4';
                 }
             }
             else if($data->getAgeInt() >= 60) {
                 $testCat = 'A2';
             }
             else if($data->pType == 'CLOSE CONTACT') {
-                $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                $testCat = 'A4';
             }
             else if($data->isPregnant == 1) {
                 $testCat = 'A3';

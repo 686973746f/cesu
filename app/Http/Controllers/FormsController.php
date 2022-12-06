@@ -1394,7 +1394,7 @@ class FormsController extends Controller
                 $testCat = 'A3';
             }
             else if(!is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
-                $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                $testCat = 'A4';
             }
             else if(in_array('Dialysis', $request->comCheck) || in_array('Cancer', $request->comCheck) || in_array('Operation', $request->comCheck) || in_array('Transplant', $request->comCheck)) {
                 $testCat = 'A3';
@@ -1403,10 +1403,10 @@ class FormsController extends Controller
                 $testCat = 'A1';
             }
             else if($rec->natureOfWork == 'MANUFACTURING') {
-                $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                $testCat = 'A4';
             }
             else if($rec->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
-                $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                $testCat = 'A4';
             }
             else {
                 $testCat = $request->testingCat;
@@ -2547,7 +2547,7 @@ class FormsController extends Controller
                     $testCat = 'A3';
                 }
                 else if(!is_null($request->sasCheck) && !in_array("Asymptomatic", $request->sasCheck)) {
-                    $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                    $testCat = 'A4';
                 }
                 else if(in_array('Dialysis', $request->comCheck) || in_array('Cancer', $request->comCheck) || in_array('Operation', $request->comCheck) || in_array('Transplant', $request->comCheck)) {
                     $testCat = 'A3';
@@ -2556,10 +2556,10 @@ class FormsController extends Controller
                     $testCat = 'A1';
                 }
                 else if($rec->records->natureOfWork == 'MANUFACTURING') {
-                    $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                    $testCat = 'A4';
                 }
                 else if($rec->records->natureOfWork == 'GOVERNMENT UNITS/ORGANIZATIONS') {
-                    $testCat = 'ALL (Except A1, A2 and A3) with Symptoms of COVID-19';
+                    $testCat = 'A4';
                 }
                 else {
                     $testCat = $request->testingCat;

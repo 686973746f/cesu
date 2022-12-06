@@ -494,6 +494,9 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         else if($form->testingCat == 'A3') {
             $sg_a_specify = '3';
         }
+        else if($form->testingCat == 'A4') {
+            $sg_a_specify = '4';
+        }
         else {
             $sg_a_specify = '';
         }
