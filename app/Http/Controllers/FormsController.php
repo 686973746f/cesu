@@ -1328,7 +1328,12 @@ class FormsController extends Controller
             //For late encoding ng CIF, automatic ilalagay sa tamang Case Classification base sa Resulta ng Test Type
             if($request->testResult1 != "PENDING") {
                 if($request->testResult1 == "POSITIVE") {
-                    $caseClassi = 'Confirmed';
+                    if($request->testType1 != 'ANTIGEN') {
+                        $caseClassi = 'Confirmed';
+                    }
+                    else {
+                        $caseClassi = 'Probable';
+                    }
                 }
                 else if($request->testResult1 == "NEGATIVE") {
                     $caseClassi = 'Non-COVID-19 Case';
@@ -1347,7 +1352,12 @@ class FormsController extends Controller
             if(!is_null($request->testResult2)) {
                 if($request->testResult2 != "PENDING") {
                     if($request->testResult2 == "POSITIVE") {
-                        $caseClassi = 'Confirmed';
+                        if($request->testType2 != 'ANTIGEN') {
+                            $caseClassi = 'Confirmed';
+                        }
+                        else {
+                            $caseClassi = 'Probable';
+                        }
                     }
                     else if($request->testResult2 == "NEGATIVE") {
                         $caseClassi = 'Non-COVID-19 Case';
@@ -2106,24 +2116,31 @@ class FormsController extends Controller
             $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
 
             //Adjust Max Date of Swab
-            if(date('m') == 01) {
-                $mindate = date('Y-12-01', strtotime('-1 Year'));
-                $enddate = date('Y-12-31');
-            }
-            else if(date('m') == 12) {
-                $mindate = date('Y-01-01');
-                $enddate = date('Y-01-31', strtotime('+1 Year'));
+            if(date('Y', strtotime($records->created_at)) != date('Y')) {
+                $mindate = '2020-01-01';
+                $enddate = date('Y-m-d');
             }
             else {
-                if(date('Y', strtotime($records->testDateCollected1)) != date('Y')) {
-                    $mindate = date('Y-01-01', strtotime($records->testDateCollected1));
+                if(date('m') == 01) {
+                    $mindate = date('Y-12-01', strtotime('-1 Year'));
                     $enddate = date('Y-12-31');
+                }
+                else if(date('m') == 12) {
+                    $mindate = date('Y-01-01');
+                    $enddate = date('Y-01-31', strtotime('+1 Year'));
                 }
                 else {
-                    $mindate = date('Y-01-01');
-                    $enddate = date('Y-12-31');
+                    if(date('Y', strtotime($records->testDateCollected1)) != date('Y')) {
+                        $mindate = date('Y-01-01', strtotime($records->testDateCollected1));
+                        $enddate = date('Y-12-31');
+                    }
+                    else {
+                        $mindate = date('Y-01-01');
+                        $enddate = date('Y-12-31');
+                    }
                 }
             }
+            
 
             return view('formsedit', [
                 'countries' => $all,
@@ -2259,7 +2276,12 @@ class FormsController extends Controller
 
                 if($request->testResult1 != "PENDING") {
                     if($request->testResult1 == "POSITIVE") {
-                        $caseClassi = 'Confirmed';
+                        if($request->testType1 != 'ANTIGEN') {
+                            $caseClassi = 'Confirmed';
+                        }
+                        else {
+                            $caseClassi = 'Probable';
+                        }
 
                         $ldd_result = 'POSITIVE';
                     }
@@ -2323,7 +2345,12 @@ class FormsController extends Controller
                 if(!is_null($request->testResult2)) {
                     if($request->testResult2 != "PENDING") {
                         if($request->testResult2 == "POSITIVE") {
-                            $caseClassi = 'Confirmed';
+                            if($request->testType2 != 'ANTIGEN') {
+                                $caseClassi = 'Confirmed';
+                            }
+                            else {
+                                $caseClassi = 'Probable';
+                            }
 
                             $ldd_result = 'POSITIVE';
                         }
