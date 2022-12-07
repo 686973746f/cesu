@@ -1660,6 +1660,10 @@ class FormsController extends Controller
 
             $get_previousswab_positive = Forms::where('records_id', $rec->id)
             ->where('caseClassification', 'Confirmed')
+            ->where(function ($q) {
+                $q->whereIn('testType1', ['OPS', 'NPS', 'OPS AND NPS'])
+                ->orWhereIn('testType2', ['OPS', 'NPS', 'OPS AND NPS']);
+            })
             ->orderBy('created_at', 'DESC')
             ->first();
 
