@@ -45,7 +45,7 @@ class AyudaEmail extends Command
      */
     public function handle()
     {
-        $query = Forms::with('records')
+        $query = tap(Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
@@ -54,7 +54,8 @@ class AyudaEmail extends Command
         ->whereDate('morbidityMonth', date('Y-m-d'))
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
-        ->where('sent', 0);
+        ->where('sent', 0))
+        ->update(['sent' => 1]);
 
         $count = $query->count();
 
@@ -164,18 +165,6 @@ class AyudaEmail extends Command
             */
 
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me'])->send(new SendAyudaList($count));
-
-            $j = Forms::with('records')
-            ->whereHas('records', function ($q) {
-                $q->where('records.address_province', 'CAVITE')
-                ->where('records.address_city', 'GENERAL TRIAS');
-            })
-            ->where('status', 'approved')
-            ->whereDate('morbidityMonth', date('Y-m-d'))
-            ->where('outcomeCondition', 'Active')
-            ->where('caseClassification', 'Confirmed')
-            ->where('sent', 0)
-            ->update(['sent' => 1]);
         }
         else {
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me'])->send(new SendAyudaListEmpty());
