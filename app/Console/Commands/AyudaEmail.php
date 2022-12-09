@@ -66,7 +66,7 @@ class AyudaEmail extends Command
             }
             
             $sheets = new SheetCollection([
-                'Ayuda List '.date('m-d-Y') => suspectedGenerator(tap($query)->update(['sent' => 1])),
+                'Ayuda List '.date('m-d-Y') => suspectedGenerator($query),
             ]);
     
             $header_style = (new StyleBuilder())->setFontBold()->build();
