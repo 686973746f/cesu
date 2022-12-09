@@ -45,7 +45,7 @@ class AyudaEmail extends Command
      */
     public function handle()
     {
-        $query = tap(Forms::with('records')
+        $query = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
             ->where('records.address_city', 'GENERAL TRIAS');
@@ -54,8 +54,7 @@ class AyudaEmail extends Command
         ->whereDate('morbidityMonth', date('Y-m-d'))
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
-        ->where('sent', 0))
-        ->update(['sent' => 1]);
+        ->where('sent', 0);
 
         $count = $query->count();
 
@@ -67,7 +66,7 @@ class AyudaEmail extends Command
             }
             
             $sheets = new SheetCollection([
-                'Ayuda List '.date('m-d-Y') => suspectedGenerator($query),
+                'Ayuda List '.date('m-d-Y') => suspectedGenerator(tap($query)->update(['sent' => 1])),
             ]);
     
             $header_style = (new StyleBuilder())->setFontBold()->build();
