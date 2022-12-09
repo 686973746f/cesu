@@ -54,8 +54,8 @@ class AyudaEmail extends Command
         ->whereDate('morbidityMonth', date('Y-m-d'))
         ->where('outcomeCondition', 'Active')
         ->where('caseClassification', 'Confirmed')
-        ->where('sent', 0);
-
+        ->where('sent', 0); 
+        
         $count = $query->count();
 
         if($count != 0) {
