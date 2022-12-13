@@ -163,6 +163,8 @@ class AyudaEmail extends Command
             'OTHER SYMPTOMS' => (!is_null($form->SASOtherRemarks)) ? mb_strtoupper($form->SASOtherRemarks) : 'N/A',
             */
 
+            $exec = $query->update(['sent' => 1]);
+
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'glorybemendez06@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me'])->send(new SendAyudaList($count));
         }
         else {
