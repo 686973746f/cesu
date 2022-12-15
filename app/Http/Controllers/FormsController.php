@@ -648,6 +648,12 @@ class FormsController extends Controller
 
         if(auth()->user()->isCesuAccount()) {
             if($testType == 1) {
+                if(is_null($details->antigen_id1)) {
+                    return redirect()->back()
+                    ->with('msg', 'Antigen Kit is Empty.')
+                    ->with('msgType', 'warning');
+                }
+
                 $aname = Antigen::where('id', $details->antigen_id1)->value('antigenKitName');
                 
                 if(!is_null($details->antigenLotNo1)) {
@@ -656,8 +662,20 @@ class FormsController extends Controller
                 else {
                     $alot = Antigen::where('id', $details->antigen_id1)->value('lotNo');
                 }
+
+                if(is_null($details->oniTimeCollected1)) {
+                    return redirect()->back()
+                    ->with('msg', 'Antigen Time is Empty.')
+                    ->with('msgType', 'warning');
+                }
             }
             else if($testType == 2) {
+                if(is_null($details->antigen_id2)) {
+                    return redirect()->back()
+                    ->with('msg', 'Antigen Kit is Empty.')
+                    ->with('msgType', 'warning');
+                }
+
                 $aname = Antigen::where('id', $details->antigen_id2)->value('antigenKitName');
 
                 if(!is_null($details->antigenLotNo2)) {
@@ -665,6 +683,12 @@ class FormsController extends Controller
                 }
                 else {
                     $alot = Antigen::where('id', $details->antigen_id2)->value('lotNo');
+                }
+
+                if(is_null($details->oniTimeCollected2)) {
+                    return redirect()->back()
+                    ->with('msg', 'Antigen Time is Empty.')
+                    ->with('msgType', 'warning');
                 }
             }
             else {
