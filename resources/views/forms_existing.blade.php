@@ -5,6 +5,11 @@
         <div class="card border-warning mb-3">
             <div class="card-header text-center bg-warning text-danger font-weight-bold"><i class="fas fa-exclamation-triangle mr-2"></i>COVID-19 CIF Already Exists for <a href="{{route('records.edit', ['record' => $form->records->id])}}">{{$form->records->getName()}}</a> <small>(Patient ID: #{{$form->records->id}} | COVID-19 CIF ID: #{{$form->id}})</small></div>
             <div class="card-body text-center">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgType')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 @if(auth()->user()->isCesuAccount())
                 <form action="{{route('forms.soloprint.cif', ['id' => $form->id])}}" method="POST" class="mb-3">
                     @csrf
