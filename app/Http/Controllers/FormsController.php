@@ -650,7 +650,7 @@ class FormsController extends Controller
             if($testType == 1) {
                 if(is_null($details->antigen_id1)) {
                     return redirect()->back()
-                    ->with('msg', 'Antigen Kit is Empty.')
+                    ->with('msg', 'Error: Name of Antigen Kit is not yet specified.')
                     ->with('msgType', 'warning');
                 }
 
@@ -665,14 +665,14 @@ class FormsController extends Controller
 
                 if(is_null($details->oniTimeCollected1)) {
                     return redirect()->back()
-                    ->with('msg', 'Antigen Time is Empty.')
+                    ->with('msg', 'Error: Antigen Time Collected is not yet specified.')
                     ->with('msgType', 'warning');
                 }
             }
             else if($testType == 2) {
                 if(is_null($details->antigen_id2)) {
                     return redirect()->back()
-                    ->with('msg', 'Antigen Kit is Empty.')
+                    ->with('msg', 'Error: Name of Antigen Kit is not yet specified.')
                     ->with('msgType', 'warning');
                 }
 
@@ -687,7 +687,7 @@ class FormsController extends Controller
 
                 if(is_null($details->oniTimeCollected2)) {
                     return redirect()->back()
-                    ->with('msg', 'Antigen Time is Empty.')
+                    ->with('msg', 'Error: Antigen Time Collected is not yet specified.')
                     ->with('msgType', 'warning');
                 }
             }
