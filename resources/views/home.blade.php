@@ -196,6 +196,7 @@
             </div>
             <div class="modal-body">
                 <a href="{{route('mp.home')}}" class="btn btn-primary btn-block">Monkeypox</a>
+                <a href="{{route('dg.home')}}" class="btn btn-primary btn-block">Dengue</a>
             </div>
         </div>
     </div>
