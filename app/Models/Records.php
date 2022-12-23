@@ -115,6 +115,18 @@ class Records extends Model
         }
     }
 
+    public function getAgeMonths() {
+        $months = Carbon::parse($this->bdate)->diffInMonths(Carbon::now());
+
+        return $months;
+    }
+
+    public function getAgeDays() {
+        $months = Carbon::parse($this->bdate)->diffInDays(Carbon::now());
+
+        return $months;
+    }
+
     public function getAgeInt() {
         return Carbon::parse($this->attributes['bdate'])->age;
     }
