@@ -1068,12 +1068,12 @@ class FormsController extends Controller
 
                 //Adjust Max Date of Swab
                 if(date('m') == 01) {
-                    $mindate = date('Y-12-01', strtotime('-1 Year'));
+                    $mindate = date('Y-m-01', strtotime('-1 Month'));
                     $enddate = date('Y-12-31');
                 }
                 else if(date('m') == 12) {
                     $mindate = date('Y-01-01');
-                    $enddate = date('Y-01-31', strtotime('+1 Year'));
+                    $enddate = date('Y-m-t', strtotime('+1 Month'));
                 }
                 else {
                     $mindate = date('Y-01-01');
@@ -2146,16 +2146,22 @@ class FormsController extends Controller
             //Adjust Max Date of Swab
             if(date('Y', strtotime($records->created_at)) != date('Y')) {
                 $mindate = '2020-01-01';
-                $enddate = date('Y-m-d');
+        
+                if(date('m') == 12) {
+                    $enddate = date('Y-m-t', strtotime('+1 Month'));
+                }
+                else {
+                    $enddate = date('Y-m-d');
+                }
             }
             else {
                 if(date('m') == 01) {
-                    $mindate = date('Y-12-01', strtotime('-1 Year'));
+                    $mindate = date('Y-12-01', strtotime('-1 Month'));
                     $enddate = date('Y-12-31');
                 }
                 else if(date('m') == 12) {
                     $mindate = date('Y-01-01');
-                    $enddate = date('Y-01-31', strtotime('+1 Year'));
+                    $enddate = date('Y-m-t', strtotime('+1 Month'));
                 }
                 else {
                     if(date('Y', strtotime($records->testDateCollected1)) != date('Y')) {
@@ -3254,18 +3260,20 @@ class FormsController extends Controller
             $antigen_list = Antigen::orderBy('antigenKitShortName', 'ASC')->get();
 
             //Adjust Max Date of Swab
+            
             if(date('m') == 01) {
-                $mindate = date('Y-12-01', strtotime('-1 Year'));
+                $mindate = date('Y-m-01', strtotime('-1 Month'));
                 $enddate = date('Y-12-31');
             }
             else if(date('m') == 12) {
                 $mindate = date('Y-01-01');
-                $enddate = date('Y-01-31', strtotime('+1 Year'));
+                $enddate = date('Y-m-t', strtotime('+1 Month'));
             }
             else {
                 $mindate = date('Y-01-01');
                 $enddate = date('Y-12-31');
             }
+            
 
             $set_hcwname = NULL;
             $set_hcwlocation = NULL;
