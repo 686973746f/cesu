@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AbtcVaccineBrand extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'brand_name',
+        'generic_name',
+        'enabled',
+    ];
 }

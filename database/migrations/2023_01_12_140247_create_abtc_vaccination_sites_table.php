@@ -15,6 +15,9 @@ class CreateAbtcVaccinationSitesTable extends Migration
     {
         Schema::create('abtc_vaccination_sites', function (Blueprint $table) {
             $table->id();
+            $table->string('site_name');
+            $table->text('referral_code');
+            $table->tinyInteger('enabled')->default(1);
             $table->timestamps();
         });
     }

@@ -339,3 +339,54 @@ Route::get('/', function () {
     }
     
 })->name('main');
+
+//ANIMAL BITE ROUTES
+Route::group(['middleware' => ['auth', 'verified', 'IsStaff']], function () {
+    Route::get('/patient', [PatientController::class, 'index'])->name('patient_index');
+    Route::get('/patient/create', [PatientController::class, 'create'])->name('patient_create');
+    Route::post('/patient/create', [PatientController::class, 'store'])->name('patient_store');
+    Route::get('/patient/{id}/edit', [PatientController::class, 'edit'])->name('patient_edit');
+    Route::post('/patient/{id}/edit', [PatientController::class, 'update'])->name('patient_update');
+    Route::get('/patient/ajaxList', [PatientController::class, 'ajaxList'])->name('patient_ajaxlist');
+    
+    Route::get('/patient/bakuna_records/{id}', [PatientController::class, 'patient_viewbakunarecords'])->name('patient_viewbakunarecords');
+    Route::post('/patient/quickscan', [VaccinationController::class, 'qr_quicksearch'])->name('qr_quicksearch');
+
+    Route::get('/vaccination_site', [AdminController::class, 'vaccinationsite_index'])->name('vaccinationsite_index');
+    Route::post('/vaccination_site', [AdminController::class, 'vaccinationsite_store'])->name('vaccinationsite_store');
+
+    Route::get('/vaccine_brand', [AdminController::class, 'vaccinebrand_index'])->name('vaccinebrand_index');
+    Route::post('/vaccine_brand', [AdminController::class, 'vaccinebrand_store'])->name('vaccinebrand_store');
+
+    Route::post('/encode_search', [VaccinationController::class, 'search_init'])->name('search_init');
+    Route::get('/encode/existing/{id}', [VaccinationController::class, 'encode_existing'])->name('encode_existing');
+    
+    Route::get('/encode/new/{id}', [VaccinationController::class, 'create_new'])->name('encode_create_new');
+    Route::post('/encode/new/{id}', [VaccinationController::class, 'create_store'])->name('encode_store');
+
+    Route::get('/encode/edit/{br_id}', [VaccinationController::class, 'encode_edit'])->name('encode_edit');
+    Route::post('/encode/edit/{br_id}', [VaccinationController::class, 'encode_update'])->name('encode_update');
+
+    Route::get('/encode/edit/{br_id}/override_schedule', [VaccinationController::class, 'override_schedule'])->name('override_schedule');
+    Route::post('/encode/edit/{br_id}/override_schedule', [VaccinationController::class, 'override_schedule_process'])->name('override_schedule_process');
+
+    Route::get('/encode/process_vaccination/{br_id}/{dose}', [VaccinationController::class, 'encode_process'])->name('encode_process');
+
+    Route::get('/encode/rebakuna/{patient_id}', [VaccinationController::class, 'bakuna_again'])->name('bakuna_again');
+
+    Route::get('/report/linelist', [ReportController::class, 'linelist_index'])->name('report_linelist_index');
+    Route::get('/report/linelist2', [ReportController::class, 'linelist2'])->name('report_linelist2_index');
+    Route::get('/report/cho', [ReportController::class, 'choreport1'])->name('report_cho');
+    Route::post('/report/export1', [ReportController::class, 'export1'])->name('report_export1');
+
+    Route::post('/settings/save', [UserSettingsController::class, 'save_settings'])->name('save_settings');
+
+    Route::get('/account/changepw', [AccountController::class, 'changepw'])->name('changepw.index');
+    Route::post('/account/changepw', [AccountController::class, 'changepw_store'])->name('changepw.init');
+});
+
+Route::group(['middleware' => ['guest']], function() {
+    Route::get('/walkin', [WalkInRegistrationController::class, 'walkin_part1'])->name('walkin_part1');
+    Route::get('/walkin/register', [WalkInRegistrationController::class, 'walkin_part2'])->name('walkin_part2');
+    Route::post('/walkin/register', [WalkInRegistrationController::class, 'walkin_part3'])->name('walkin_part3');
+});

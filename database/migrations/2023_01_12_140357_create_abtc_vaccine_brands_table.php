@@ -15,6 +15,9 @@ class CreateAbtcVaccineBrandsTable extends Migration
     {
         Schema::create('abtc_vaccine_brands', function (Blueprint $table) {
             $table->id();
+            $table->string('brand_name');
+            $table->string('generic_name')->nullable();
+            $table->tinyInteger('enabled')->default(1);
             $table->timestamps();
         });
     }
