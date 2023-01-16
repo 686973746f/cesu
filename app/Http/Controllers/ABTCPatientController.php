@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Patient;
+use App\Models\AbtcPatient;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\BakunaRecords;
+use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\DB;
 
-class PatientController extends Controller
+class ABTCPatientController extends Controller
 {
+    public function home() {
+        return view('abtc.home');
+    }
+
     public function index() {
         if(request()->input('q')) {
-            $list = Patient::where(function ($q) {
+            $list = AbtcPatient::where(function ($q) {
                 $q->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
                 ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper(request()->input('q')))."%")
                 ->orWhere('id', request()->input('q'));
@@ -22,16 +26,16 @@ class PatientController extends Controller
             ->paginate(10);
         }
         else {
-            $list = Patient::orderBy('lname', 'ASC')->paginate(10);
+            $list = AbtcPatient::orderBy('lname', 'ASC')->paginate(10);
         }
         
-        return view('patientlist_index', [
+        return view('abtc.patientlist_index', [
             'list' => $list,
         ]);
     }
 
     public function create() {
-        return view('patientlist_create');
+        return view('abtc.patientlist_create');
     }
 
     public function store(Request $request) {
@@ -39,7 +43,7 @@ class PatientController extends Controller
 
         ]);
         
-        if(Patient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->bdate)) {
+        if(AbtcPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->bdate)) {
             return back()->with('msg', 'Unable to register new patient. Patient details already exists on the server.')
             ->with('msgtype', 'danger');
         }
@@ -49,7 +53,7 @@ class PatientController extends Controller
             while(!$foundunique) {
                 $for_qr = Str::random(20);
                 
-                $search = Patient::where('qr', $for_qr)->first();
+                $search = AbtcPatient::where('qr', $for_qr)->first();
                 if(!$search) {
                     $foundunique = true;
                 }
@@ -87,7 +91,7 @@ class PatientController extends Controller
                 'ip' => request()->ip(),
             ]);
     
-            return redirect()->route('patient_index')
+            return redirect()->route('abtc_patient_index')
             ->with('msg', 'Patient was added successfully.')
             ->with('pid', $create->id)
             ->with('msgtype', 'success');
@@ -95,22 +99,22 @@ class PatientController extends Controller
     }
 
     public function edit($id) {
-        $data = Patient::findOrFail($id);
+        $data = AbtcPatient::findOrFail($id);
 
-        $bcheck = BakunaRecords::where('patient_id', $data->id)->first();
+        $bcheck = AbtcBakunaRecords::where('patient_id', $data->id)->first();
 
-        return view('patientlist_edit', [
+        return view('abtc.patientlist_edit', [
             'd' => $data,
             'bcheck' => $bcheck,
         ]);
     }
 
     public function patient_viewbakunarecords($id) {
-        $p = Patient::findOrFail($id);
+        $p = AbtcPatient::findOrFail($id);
 
-        $list = BakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $list = AbtcBakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->paginate(10);
 
-        return view('patientlist_bakunarecords', [
+        return view('abtc.patientlist_bakunarecords', [
             'p' => $p,
             'list' => $list,
         ]);
@@ -121,9 +125,9 @@ class PatientController extends Controller
 
         ]);
 
-        $p = Patient::findOrFail($id);
+        $p = AbtcPatient::findOrFail($id);
 
-        if(Patient::detectChangeName($request->lname, $request->fname, $request->mname, $request->suffix, $request->bdate, $p->id)) {
+        if(AbtcPatient::detectChangeName($request->lname, $request->fname, $request->mname, $request->suffix, $request->bdate, $p->id)) {
             return redirect()->back()
             ->with('msg', 'Unable to update. Patient already exists.')
             ->with('msgtype', 'warning');
@@ -161,7 +165,7 @@ class PatientController extends Controller
                 $p->save();
             }
 
-            return redirect()->route('patient_index')
+            return redirect()->route('abtc_patient_index')
             ->with('msg', 'Patient ['.$p->getName().' - #'.$p->id.'] was updated successfully.')
             ->with('msgtype', 'success');
         }
@@ -172,7 +176,7 @@ class PatientController extends Controller
         if($request->has('q') && strlen($request->input('q')) > 1) {
             $search = mb_strtoupper($request->q);
 
-            $data = Patient::where(function ($query) use ($search) {
+            $data = AbtcPatient::where(function ($query) use ($search) {
                 $query->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
                 ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
                 ->orWhere('id', $search);

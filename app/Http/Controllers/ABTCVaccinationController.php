@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Patient;
+use App\Models\AbtcPatient;
 use App\Models\VaccineBrand;
 use Illuminate\Http\Request;
 use App\Models\BakunaRecords;
@@ -18,9 +18,9 @@ class VaccinationController extends Controller
 
         $id = $request->patient_id;
 
-        $p = Patient::findOrFail($id);
+        $p = AbtcPatient::findOrFail($id);
 
-        $data = BakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
+        $data = AbtcBakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
 
         if($data) {
             return redirect()->route('encode_existing', ['id' => $data->patient->id]);
@@ -35,21 +35,21 @@ class VaccinationController extends Controller
     }
 
     public function encode_existing($id) {
-        $p = Patient::findOrFail($id);
+        $p = AbtcPatient::findOrFail($id);
 
-        $data = BakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
+        $data = AbtcBakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
 
         return view('encode_existing', ['d' => $data]);
     }
 
     public function create_new($id) {
-        $p = Patient::findOrFail($id);
+        $p = AbtcPatient::findOrFail($id);
 
-        $data = BakunaRecords::where('patient_id', $p->id)->first();
+        $data = AbtcBakunaRecords::where('patient_id', $p->id)->first();
 
         if(!$data) {
-            $vblist = VaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
-            $vslist = VaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
+            $vblist = AbtcVaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
+            $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
 
             return view('encode_new', [
                 'd' => $p,
@@ -82,7 +82,7 @@ class VaccinationController extends Controller
             'remarks' => 'nullable',
         ]);
 
-        $check = BakunaRecords::where('patient_id', $id)
+        $check = AbtcBakunaRecords::where('patient_id', $id)
         ->where(function($q) use ($request) {
             $q->whereDate('created_at', date('Y-m-d'))
             ->orWhereDate('d0_date', $request->d0_date);
@@ -90,7 +90,7 @@ class VaccinationController extends Controller
 
         if(!($check)) {
             //Check if Booster Dose (If May Case na dati)
-            $booster_check = BakunaRecords::where('patient_id', $id)->where('outcome', 'C')->first();
+            $booster_check = AbtcBakunaRecords::where('patient_id', $id)->where('outcome', 'C')->first();
             if($booster_check) {
                 $is_booster = 1;
             }
@@ -98,7 +98,7 @@ class VaccinationController extends Controller
                 $is_booster = 0;
             }
 
-            $case_id = date('Y').'-'.(BakunaRecords::whereYear('created_at', date('Y'))->count() + 1);
+            $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y'))->count() + 1);
 
             //Days Calculation (Skip and Wednesdays, Saturdays and Sundays due to Government Office Hours)
             $base_date = $request->d0_date;
@@ -181,26 +181,26 @@ class VaccinationController extends Controller
                 'remarks' => $request->remarks,
             ]);
 
-            return view('encode_finished', [
+            return view('abtc.encode_finished', [
                 'f' => $f,
             ])
             ->with('msg', 'You have finished your 1st Dose of your Anti-Rabies Vaccine.')
             ->with('dose', 1);
         }
         else {
-            return redirect()->route('home')
+            return redirect()->route('abtc.home')
             ->with('msg', 'You are not allowed to do that')
             ->with('msgtype', 'warning');
         }
     }
 
     public function encode_edit($bakuna_id) {
-        $p = BakunaRecords::findOrFail($bakuna_id);
+        $p = AbtcBakunaRecords::findOrFail($bakuna_id);
 
-        $vblist = VaccineBrand::orderBy('brand_name', 'ASC')->get();
-        $vslist = VaccinationSite::orderBy('id', 'ASC')->get();
+        $vblist = AbtcVaccineBrand::orderBy('brand_name', 'ASC')->get();
+        $vslist = AbtcVaccinationSite::orderBy('id', 'ASC')->get();
 
-        return view('encode_edit', [
+        return view('abtc.encode_edit', [
             'd' => $p,
             'vblist' => $vblist,
             'vslist' => $vslist,
@@ -227,7 +227,7 @@ class VaccinationController extends Controller
             'remarks' => 'nullable',
         ]);
 
-        $b = BakunaRecords::findOrFail($bakuna_id);
+        $b = AbtcBakunaRecords::findOrFail($bakuna_id);
 
         $b->vaccination_site_id = $request->vaccination_site_id;
         $b->case_date = $request->case_date;
@@ -263,11 +263,11 @@ class VaccinationController extends Controller
     }
 
     public function bakuna_again($patient_id) {
-        $b = BakunaRecords::where('patient_id', $patient_id)->whereIn('outcome', ['C', 'INC'])->orderBy('created_at', 'DESC')->first();
+        $b = AbtcBakunaRecords::where('patient_id', $patient_id)->whereIn('outcome', ['C', 'INC'])->orderBy('created_at', 'DESC')->first();
 
         if($b) {
-            $vblist = VaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
-            $vslist = VaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
+            $vblist = AbtcVaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
+            $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
             
             //Check duration 3 months
             $bcheck = BakunaRecords::whereDate('case_date', '=>', date('Y-m-d', strtotime('-3 Months')))->first();
@@ -277,7 +277,7 @@ class VaccinationController extends Controller
                 ->with('msgtype', 'warning');
             }
             else {
-                return view('encode_new', [
+                return view('abtc.encode_new', [
                     'd' => $b->patient,
                     'vblist' => $vblist,
                     'vslist' => $vslist,
@@ -290,7 +290,7 @@ class VaccinationController extends Controller
     }
 
     public function encode_process($br_id, $dose) {
-        $get_br = BakunaRecords::findOrFail($br_id);
+        $get_br = AbtcBakunaRecords::findOrFail($br_id);
 
         if(!is_null($get_br->brand_name)) {
             if($dose == 1) {
@@ -302,7 +302,7 @@ class VaccinationController extends Controller
                 }
 
                 if($get_br->patient->register_status == 'PENDING') {
-                    $c = Patient::findOrFail($get_br->patient_id);
+                    $c = AbtcPatient::findOrFail($get_br->patient_id);
                     
                     $c->register_status = 'VERIFIED';
                     $c->save();
@@ -407,7 +407,7 @@ class VaccinationController extends Controller
     
             $get_br->save();
     
-            return view('encode_finished', [
+            return view('abtc.encode_finished', [
                 'f' => $get_br,
             ])
             ->with('msg', $msg)
@@ -423,14 +423,14 @@ class VaccinationController extends Controller
     public function qr_quicksearch(Request $request) {
         $sqr = $request->qr;
 
-        $search = Patient::where('qr', $sqr)->first();
+        $search = AbtcPatient::where('qr', $sqr)->first();
 
         if($search) {
             //load latest bakuna record
 
-            $b = BakunaRecords::where('patient_id', $search->id)->orderBy('created_at', 'DESC')->first();
+            $b = AbtcBakunaRecords::where('patient_id', $search->id)->orderBy('created_at', 'DESC')->first();
             if($b) {
-                return redirect()->route('encode_existing', ['id' => $search->id]);
+                return redirect()->route('abtc_encode_existing', ['id' => $search->id]);
             }
             else {
                 return redirect()->back()
@@ -446,15 +446,15 @@ class VaccinationController extends Controller
     }
 
     public function override_schedule($id) {
-        $d = BakunaRecords::findOrFail($id);
+        $d = AbtcBakunaRecords::findOrFail($id);
 
-        return view('encode_schedule_override', [
+        return view('abtc.encode_schedule_override', [
             'd' => $d,
         ]);
     }
 
     public function override_schedule_process($id, Request $request) {
-        $d = BakunaRecords::findOrFail($id);
+        $d = AbtcBakunaRecords::findOrFail($id);
 
         $request->validate([
             
@@ -528,7 +528,7 @@ class VaccinationController extends Controller
             $d->save();
         }
 
-        return redirect()->route('encode_edit', ['br_id' => $d->id])
+        return redirect()->route('abtc_encode_edit', ['br_id' => $d->id])
         ->with('msg', 'Schedule has been manually changed successfully.')
         ->with('msgtype', 'success');
     }

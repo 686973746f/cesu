@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\VaccineBrand;
+use App\Models\AbtcVaccineBrand;
 use Illuminate\Http\Request;
-use App\Models\VaccinationSite;
+use App\Models\AbtcVaccinationSite;
 
 class AdminController extends Controller
 {
     public function vaccinationsite_index() {
-        $list = VaccinationSite::orderBy('site_name', 'ASC')->paginate(10);
+        $list = AbtcVaccinationSite::orderBy('site_name', 'ASC')->paginate(10);
 
-        return view('vaccinationsite_index', [
+        return view('abtc.vaccinationsite_index', [
             'list' => $list,
         ]);
     }
@@ -25,15 +25,15 @@ class AdminController extends Controller
             'site_name' => $request->site_name,
         ]);
 
-        return redirect()->route('vaccinationsite_index')
+        return redirect()->route('abtc_vaccinationsite_index')
         ->with('msg', 'Vaccination Site was added successfully.')
         ->with('msgtype', 'success');
     }
 
     public function vaccinebrand_index() {
-        $list = VaccineBrand::orderBy('brand_name', 'ASC')->paginate(10);
+        $list = AbtcVaccineBrand::orderBy('brand_name', 'ASC')->paginate(10);
 
-        return view('vaccinebrand_index', [
+        return view('abtc.vaccinebrand_index', [
             'list' => $list,
         ]);
     }
@@ -44,12 +44,12 @@ class AdminController extends Controller
             'generic_name' => 'required',
         ]);
 
-        VaccineBrand::create([
+        AbtcVaccineBrand::create([
             'brand_name' => mb_strtoupper($request->brand_name),
             'generic_name' => mb_strtoupper($request->generic_name),
         ]);
 
-        return redirect()->route('vaccinebrand_index')
+        return redirect()->route('abtc_vaccinebrand_index')
         ->with('msg', 'Anti-Rabies Brand '.strtoupper($request->brand_name).' was successfully added.')
         ->with('msgtype', 'success');
     }

@@ -20,7 +20,7 @@
             <div class="d-grid gap-2">
               <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fa-solid fa-qrcode me-2"></i>Quick Search via QR</button>
               <hr>
-              <a href="{{route('patient_index')}}" class="btn btn-primary btn-lg"><i class="fa-solid fa-users me-2"></i>Patient Lists</a>
+              <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg"><i class="fa-solid fa-users me-2"></i>Patient Lists</a>
               <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#nvm"><i class="fa-solid fa-syringe me-2"></i>New Vaccination</button>
               <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#reportpanel"><i class="fa-solid fa-chart-pie me-2"></i>Report</button>
               @if(auth()->user()->is_admin == 1)
@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<form action="{{route('qr_quicksearch')}}" method="POST" autocomplete="off">
+<form action="{{route('abtc_qr_quicksearch')}}" method="POST" autocomplete="off">
   @csrf
   <div class="modal fade" id="qs" tabindex="-1">
     <div class="modal-dialog">
@@ -59,7 +59,7 @@
   </div>
 </form>
 
-<form action="{{route('search_init')}}" method="POST">
+<form action="{{route('abtc_search_init')}}" method="POST">
   @csrf
   <div class="modal fade" id="nvm" tabindex="-1">
       <div class="modal-dialog">
@@ -92,8 +92,8 @@
         </div>
         <div class="modal-body">
             <div class="d-grid gap-2">
-                <a href="{{route('vaccinationsite_index')}}" class="btn btn-primary">Vaccination Sites</a>
-                <a href="{{route('vaccinebrand_index')}}" class="btn btn-primary">Vaccine Brands</a>
+                <a href="{{route('abtc_vaccinationsite_index')}}" class="btn btn-primary">Vaccination Sites</a>
+                <a href="{{route('abtc_vaccinebrand_index')}}" class="btn btn-primary">Vaccine Brands</a>
                 <a href="" class="btn btn-primary">Site Settings</a>
             </div>
         </div>
@@ -110,11 +110,11 @@
       </div>
       <div class="modal-body">
           <div class="d-grid gap-2">
-            <a href="{{route('report_linelist_index')}}" class="btn btn-primary mb-3">View Linelist</a>
-            <a href="{{route('report_cho')}}" class="btn btn-primary mb-3">View CHO Monthly Report</a>
+            <a href="{{route('abtc_report_linelist_index')}}" class="btn btn-primary mb-3">View Linelist</a>
+            <a href="{{route('abtc_report_cho')}}" class="btn btn-primary mb-3">View CHO Monthly Report</a>
           </div>
           <p class="text-center">---------- OR ----------</p>
-          <form action="{{route('report_export1')}}" method="POST">
+          <form action="{{route('abtc_report_export1')}}" method="POST">
             @csrf
             <div class="row">
               <div class="col-md-6">
@@ -140,7 +140,7 @@
   </div>
 </div>
 
-<form action="{{route('save_settings')}}" method="POST">
+<form action="{{route('abtc_save_settings')}}" method="POST">
   @csrf
   <div class="modal fade" id="uop" tabindex="-1">
     <div class="modal-dialog">
@@ -185,7 +185,7 @@
           theme: "bootstrap",
           placeholder: 'Search by Name / Patient ID ...',
           ajax: {
-              url: "{{route('patient_ajaxlist')}}",
+              url: "{{route('abtc_patient_ajaxlist')}}",
               dataType: 'json',
               delay: 250,
               processResults: function (data) {

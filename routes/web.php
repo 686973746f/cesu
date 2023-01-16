@@ -22,12 +22,15 @@ use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\LineListController;
 use App\Http\Controllers\ReportV2Controller;
+use App\Http\Controllers\ABTCAdminController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\MonkeyPoxController;
+use App\Http\Controllers\ABTCReportController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\BulkUpdateController;
 use App\Http\Controllers\JsonReportController;
 use App\Http\Controllers\SelfReportController;
+use App\Http\Controllers\ABTCPatientController;
 use App\Http\Controllers\PaSwabLinksController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
@@ -36,9 +39,12 @@ use App\Http\Controllers\MorbidityWeekController;
 use App\Http\Controllers\OnlineMedCertController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ContactTracingController;
+use App\Http\Controllers\ABTCVaccinationController;
 use App\Http\Controllers\MonitoringSheetController;
+use App\Http\Controllers\ABTCUserSettingsController;
 use App\Http\Controllers\AcceptanceLetterController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 
 /*
@@ -239,6 +245,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/dengue/cif/{record_id}/new', [DengueController::class, 'store_cif'])->name('dg.storecif');
     Route::get('/dengue/cif/{cif_id}/edit', [DengueController::class, 'edit_cif'])->name('dg.editcif');
     Route::post('/dengue/cif/{cif_id}/update', [DengueController::class, 'update_cif'])->name('dg.updatecif');
+
+    //ANIMAL BITE ABTC ROUTES
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
@@ -313,6 +321,55 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::post('/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
 });
 
+//ANIMAL BITE ROUTES
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1']], function () {
+    Route::get('/abtc/home', [ABTCPatientController::class, 'home'])->name('abtc_home');
+    Route::get('/abtc/patient', [ABTCPatientController::class, 'index'])->name('abtc_patient_index');
+    Route::get('/abtc/patient/create', [ABTCPatientController::class, 'create'])->name('abtc_patient_create');
+    Route::post('/abtc/patient/create', [ABTCPatientController::class, 'store'])->name('abtc_patient_store');
+    Route::get('/abtc/patient/{id}/edit', [ABTCPatientController::class, 'edit'])->name('abtc_patient_edit');
+    Route::post('/abtc/patient/{id}/edit', [ABTCPatientController::class, 'update'])->name('abtc_patient_update');
+    Route::get('/abtc/patient/ajaxList', [ABTCPatientController::class, 'ajaxList'])->name('abtc_patient_ajaxlist');
+    
+    Route::get('/abtc/patient/bakuna_records/{id}', [ABTCPatientController::class, 'patient_viewbakunarecords'])->name('abtc_patient_viewbakunarecords');
+    Route::post('/abtc/patient/quickscan', [ABTCVaccinationController::class, 'qr_quicksearch'])->name('abtc_qr_quicksearch');
+
+    Route::get('/abtc/vaccination_site', [ABTCAdminController::class, 'vaccinationsite_index'])->name('abtc_vaccinationsite_index');
+    Route::post('/abtc/vaccination_site', [ABTCAdminController::class, 'vaccinationsite_store'])->name('abtc_vaccinationsite_store');
+
+    Route::get('/abtc/vaccine_brand', [ABTCAdminController::class, 'vaccinebrand_index'])->name('abtc_vaccinebrand_index');
+    Route::post('/abtc/vaccine_brand', [ABTCAdminController::class, 'vaccinebrand_store'])->name('abtc_vaccinebrand_store');
+
+    Route::post('/abtc/encode_search', [ABTCVaccinationController::class, 'search_init'])->name('abtc_search_init');
+    Route::get('/abtc/encode/existing/{id}', [ABTCVaccinationController::class, 'encode_existing'])->name('abtc_encode_existing');
+    
+    Route::get('/abtc/encode/new/{id}', [ABTCVaccinationController::class, 'create_new'])->name('abtc_encode_create_new');
+    Route::post('/abtc/encode/new/{id}', [ABTCVaccinationController::class, 'create_store'])->name('abtc_encode_store');
+
+    Route::get('/abtc/encode/edit/{br_id}', [ABTCVaccinationController::class, 'encode_edit'])->name('abtc_encode_edit');
+    Route::post('/abtc/encode/edit/{br_id}', [ABTCVaccinationController::class, 'encode_update'])->name('abtc_encode_update');
+
+    Route::get('/abtc/encode/edit/{br_id}/override_schedule', [ABTCVaccinationController::class, 'override_schedule'])->name('abtc_override_schedule');
+    Route::post('/abtc/encode/edit/{br_id}/override_schedule', [ABTCVaccinationController::class, 'override_schedule_process'])->name('abtc_override_schedule_process');
+
+    Route::get('/abtc/encode/process_vaccination/{br_id}/{dose}', [ABTCVaccinationController::class, 'encode_process'])->name('abtc_encode_process');
+
+    Route::get('/abtc/encode/rebakuna/{patient_id}', [ABTCVaccinationController::class, 'bakuna_again'])->name('abtc_bakuna_again');
+
+    Route::get('/abtc/report/linelist', [ABTCReportController::class, 'linelist_index'])->name('abtc_report_linelist_index');
+    Route::get('/abtc/report/linelist2', [ABTCReportController::class, 'linelist2'])->name('abtc_report_linelist2_index');
+    Route::get('/abtc/report/cho', [ABTCReportController::class, 'choreport1'])->name('abtc_report_cho');
+    Route::post('/abtc/report/export1', [ABTCReportController::class, 'export1'])->name('abtc_report_export1');
+
+    Route::post('/abtc/settings/save', [ABTCUserSettingsController::class, 'save_settings'])->name('abtc_save_settings');
+});
+
+Route::group(['middleware' => ['guest']], function() {
+    Route::get('/abtc/walkin', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('abtc_walkin_part1');
+    Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
+    Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
+});
+
 //JSON Reports
 Route::get('/json/brgy', [JsonReportController::class, 'brgyCases']);
 Route::get('/json/totalCases', [JsonReportController::class, 'totalCases']);
@@ -339,51 +396,3 @@ Route::get('/', function () {
     }
     
 })->name('main');
-
-//ANIMAL BITE ROUTES
-Route::group(['middleware' => ['auth', 'verified', 'IsStaff']], function () {
-    Route::get('/abtc/patient', [PatientController::class, 'index'])->name('patient_index');
-    Route::get('/abtc/patient/create', [PatientController::class, 'create'])->name('patient_create');
-    Route::post('/abtc/patient/create', [PatientController::class, 'store'])->name('patient_store');
-    Route::get('/abtc/patient/{id}/edit', [PatientController::class, 'edit'])->name('patient_edit');
-    Route::post('/abtc/patient/{id}/edit', [PatientController::class, 'update'])->name('patient_update');
-    Route::get('/abtc/patient/ajaxList', [PatientController::class, 'ajaxList'])->name('patient_ajaxlist');
-    
-    Route::get('/abtc/patient/bakuna_records/{id}', [PatientController::class, 'patient_viewbakunarecords'])->name('patient_viewbakunarecords');
-    Route::post('/abtc/patient/quickscan', [VaccinationController::class, 'qr_quicksearch'])->name('qr_quicksearch');
-
-    Route::get('/abtc/vaccination_site', [AdminController::class, 'vaccinationsite_index'])->name('vaccinationsite_index');
-    Route::post('/abtc/vaccination_site', [AdminController::class, 'vaccinationsite_store'])->name('vaccinationsite_store');
-
-    Route::get('/abtc/vaccine_brand', [AdminController::class, 'vaccinebrand_index'])->name('vaccinebrand_index');
-    Route::post('/abtc/vaccine_brand', [AdminController::class, 'vaccinebrand_store'])->name('vaccinebrand_store');
-
-    Route::post('/abtc/encode_search', [VaccinationController::class, 'search_init'])->name('search_init');
-    Route::get('/abtc/encode/existing/{id}', [VaccinationController::class, 'encode_existing'])->name('encode_existing');
-    
-    Route::get('/abtc/encode/new/{id}', [VaccinationController::class, 'create_new'])->name('encode_create_new');
-    Route::post('/abtc/encode/new/{id}', [VaccinationController::class, 'create_store'])->name('encode_store');
-
-    Route::get('/abtc/encode/edit/{br_id}', [VaccinationController::class, 'encode_edit'])->name('encode_edit');
-    Route::post('/abtc/encode/edit/{br_id}', [VaccinationController::class, 'encode_update'])->name('encode_update');
-
-    Route::get('/abtc/encode/edit/{br_id}/override_schedule', [VaccinationController::class, 'override_schedule'])->name('override_schedule');
-    Route::post('/abtc/encode/edit/{br_id}/override_schedule', [VaccinationController::class, 'override_schedule_process'])->name('override_schedule_process');
-
-    Route::get('/abtc/encode/process_vaccination/{br_id}/{dose}', [VaccinationController::class, 'encode_process'])->name('encode_process');
-
-    Route::get('/abtc/encode/rebakuna/{patient_id}', [VaccinationController::class, 'bakuna_again'])->name('bakuna_again');
-
-    Route::get('/abtc/report/linelist', [ReportController::class, 'linelist_index'])->name('report_linelist_index');
-    Route::get('/abtc/report/linelist2', [ReportController::class, 'linelist2'])->name('report_linelist2_index');
-    Route::get('/abtc/report/cho', [ReportController::class, 'choreport1'])->name('report_cho');
-    Route::post('/abtc/report/export1', [ReportController::class, 'export1'])->name('report_export1');
-
-    Route::post('/abtc/settings/save', [UserSettingsController::class, 'save_settings'])->name('save_settings');
-});
-
-Route::group(['middleware' => ['guest']], function() {
-    Route::get('/abtc/walkin', [WalkInRegistrationController::class, 'walkin_part1'])->name('walkin_part1');
-    Route::get('/abtc/walkin/register', [WalkInRegistrationController::class, 'walkin_part2'])->name('walkin_part2');
-    Route::post('/abtc/walkin/register', [WalkInRegistrationController::class, 'walkin_part3'])->name('walkin_part3');
-});
