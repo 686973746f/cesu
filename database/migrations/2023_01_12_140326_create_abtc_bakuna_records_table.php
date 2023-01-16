@@ -15,8 +15,8 @@ class CreateAbtcBakunaRecordsTable extends Migration
     {
         Schema::create('abtc_bakuna_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
-            $table->foreignId('vaccination_site_id')->constrained('vaccination_sites')->onDelete('cascade');
+            $table->foreignId('abtc_patients_id')->constrained('abtc_patients')->onDelete('cascade');
+            $table->foreignId('abtc_vaccination_site_id')->constrained('abtc_vaccination_sites')->onDelete('cascade');
             $table->text('case_id');
             $table->tinyInteger('is_booster')->default(0);
             $table->date('case_date');
