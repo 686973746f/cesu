@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="gender" class="form-label"><span class="text-danger font-weight-bold">*</span>Gender</label>
+                                    <label for="gender" class="form-label"><span class="text-danger font-weight-bold">*</span>Gender/Kasarian</label>
                                     <select class="form-select" name="gender" id="gender" required>
                                         <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Pumili...</option>
                                         <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Lalaki/Male</option>
@@ -161,13 +161,13 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Kailan nakagat/nakalmot?</label>
-                                    <input type="date" class="form-control" name="bite_date" id="bite_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('bite_date')}}" required>
+                                    <input type="date" class="form-control" name="bite_date" id="bite_date" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}" value="{{old('bite_date')}}" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="case_location" class="form-label"><strong id="case_location_ast" class="text-danger">*</strong>Saang lugar nangyari ang pangangagat/pangangalmot?</label>
-                                    <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location')}}" placeholder="ex: Loob ng bahay, Kalsada, Gusali, Gubat, atbp." required>
+                                    <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location')}}" placeholder="ex: Loob ng bahay, Kalsada, Gusali, Gubat, atbp." style="text-transform: uppercase;" required>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="body_site" class="form-label"><strong id="body_site_ast" class="text-danger">*</strong>Parte ng katawan na nasugatan/nakagat</label>
-                                    <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site')}}" placeholder="ex: Kamay, Paa, Hita, atbp." required>
+                                    <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site')}}" placeholder="ex: Kamay, Paa, Hita, atbp." style="text-transform: uppercase;" required>
                                 </div>
                             </div>
                             <div class="col-md-4">

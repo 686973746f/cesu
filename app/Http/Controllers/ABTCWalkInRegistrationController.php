@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Patient;
+use App\Models\AbtcPatient;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
@@ -20,6 +20,7 @@ class ABTCWalkInRegistrationController extends Controller
 
             Session::put('vaccination_site_name', $vid->site_name);
             Session::put('vaccination_site_id', $vid->id);
+            Session::put('regisphase', 'notyet');
             
             return view('abtc.walkin_part1');
         }
@@ -37,7 +38,7 @@ class ABTCWalkInRegistrationController extends Controller
         $suffix = mb_strtoupper(request()->input('suffix'));
         $bdate = request()->input('bdate');
 
-        $b = Patient::where('lname', $lname)
+        $b = AbtcPatient::where('lname', $lname)
         ->where('fname', $fname)
         ->where(function ($q) use ($mname) {
             $q->where('mname', $mname)
@@ -249,5 +250,8 @@ class ABTCWalkInRegistrationController extends Controller
         return view('abtc.walkin_part3', [
             'd' => $br,
         ]);
+
+        Session::put('regisphase', 'done');
+        Session::put('regisid', $br->id);
     }
 }

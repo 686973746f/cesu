@@ -6,10 +6,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="card">
-            <img class="card-img-top" src="holder.js/100x180/" alt="Title">
             <div class="card-body">
                 <div class="alert alert-success" role="alert">
-                    Kumpleto na ang iyong registration.
+                    Kumpleto na ang iyong registration. Paki-screenshot ang pahinang ito at maaari nang pumila.
                 </div>
                 <div id="divToPrint">
                     <table class="table table-bordered">

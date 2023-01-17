@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="bdate" class="form-label"><b class="text-danger">*</b>Birthdate</label>
+                            <label for="bdate" class="form-label"><b class="text-danger">*</b>Birthdate/Araw ng Kapanganakan</label>
                             <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                         </div>
                     </div>
