@@ -283,7 +283,7 @@ class AdminPanelController extends Controller
     }
 
     public function encoderStatsIndex() {
-        $list = User::where('isAdmin', 2)
+        $list = User::where('encoder_stats_visible', 1)
         ->where('enabled', 1)
         ->get();
 

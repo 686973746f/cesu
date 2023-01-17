@@ -63,7 +63,7 @@
                     <div class="col-md">
                         <div>
                             <label for="case_date" class="form-label"><strong class="text-danger">*</strong>Registration Date</label>
-                            <input type="date" class="form-control" name="case_date" id="case_date" min="{{date('Y-01-01')}}" max="{{date('Y-m-d')}}" value="{{old('case_date')}}" required>
+                            <input type="date" class="form-control" name="case_date" id="case_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('case_date')}}" required>
                             <small class="text-muted">Date patient was first seen, regardless whether patient was given PEP or not.</small>
                         </div>
                     </div>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="d0_date" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
-                    <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{date('Y-01-01')}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
+                    <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
                     <small class="text-muted">Schedule date for Day 3, Day 7 onwards will be automatically given after you finish the encoding.</small>
                 </div>
                 <div class="row">
