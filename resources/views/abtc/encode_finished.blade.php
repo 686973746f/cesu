@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -68,9 +70,9 @@
                     </ul>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{route('home')}}" class="btn btn-link"><i class="fa-solid fa-house me-2"></i>Back to Home</a>
+                    <a href="{{route('abtc_home')}}" class="btn btn-link"><i class="fa-solid fa-house me-2"></i>Back to Home</a>
                     <hr>
-                    <a href="{{route('encode_edit', ['br_id' => $f->id])}}">Back to Patient Animal Bite Record</a>
+                    <a href="{{route('abtc_encode_edit', ['br_id' => $f->id])}}">Back to Patient Animal Bite Record</a>
                 </div>
             </div>
         </div>

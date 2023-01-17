@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserSettingsController extends Controller
+class ABTCUserSettingsController extends Controller
 {
     public function save_settings(Request $request) {
         $u = User::findOrFail(auth()->user()->id);

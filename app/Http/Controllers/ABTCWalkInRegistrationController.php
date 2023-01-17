@@ -6,20 +6,22 @@ use Carbon\Carbon;
 use App\Models\Patient;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\BakunaRecords;
-use App\Models\VaccinationSite;
+use App\Models\AbtcBakunaRecords;
+use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Session;
 
-class WalkInRegistrationController extends Controller
+class ABTCWalkInRegistrationController extends Controller
 {
     public function walkin_part1() {
         if(request()->input('v')) {
-            $vid = VaccinationSite::findOrFail(request()->input('v'));
+            $c = request()->input('v');
+
+            $vid = AbtcVaccinationSite::where('referral_code', $c)->first();
 
             Session::put('vaccination_site_name', $vid->site_name);
             Session::put('vaccination_site_id', $vid->id);
             
-            return view('walkin_part1');
+            return view('abtc.walkin_part1');
         }
         else {
             return abort(401);
@@ -27,7 +29,7 @@ class WalkInRegistrationController extends Controller
     }
 
     public function walkin_part2() {
-        $v = VaccinationSite::findOrFail(session('vaccination_site_id'));
+        $v = AbtcVaccinationSite::findOrFail(session('vaccination_site_id'));
 
         $lname = mb_strtoupper(request()->input('lname'));
         $fname = mb_strtoupper(request()->input('fname'));
@@ -49,12 +51,12 @@ class WalkInRegistrationController extends Controller
         ->first();
 
         if($b) {
-            $br = BakunaRecords::where('patient_id', $b->id)->orderBy('created_at', 'DESC')->first();
+            $br = AbtcBakunaRecords::where('patient_id', $b->id)->orderBy('created_at', 'DESC')->first();
             
             if($br) {
                 if($br->outcome == 'C') {
                     if(date('Y-m-d') > Carbon::parse($br->d0_date)->addDays(90)) {
-                        return view('walkin_part2');
+                        return view('abtc.walkin_part2');
                     }
                     else {
                         return redirect()->back()
@@ -69,16 +71,16 @@ class WalkInRegistrationController extends Controller
                 }
             }
             else {
-                return view('walkin_part2');
+                return view('abtc.walkin_part2');
             }
         }
         else {
-            return view('walkin_part2');
+            return view('abtc.walkin_part2');
         }
     }
 
     public function walkin_part3(Request $request) {
-        $v = VaccinationSite::findOrFail(session('vaccination_site_id'));
+        $v = AbtcVaccinationSite::findOrFail(session('vaccination_site_id'));
 
         $request->validate([
 
@@ -92,7 +94,7 @@ class WalkInRegistrationController extends Controller
             $base_date = date('Y-m-d');
         }
 
-        $b = Patient::where('lname', $request->lname)
+        $b = AbtcPatient::where('lname', $request->lname)
         ->where('fname', $request->fname)
         ->where(function ($q) use ($request) {
             $q->where('mname', $request->mname)
@@ -107,7 +109,7 @@ class WalkInRegistrationController extends Controller
 
         if($b) {
             $p = $b;
-            $data = BakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
+            $data = AbtcBakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
 
             if($data) {
                 if($data->outcome == 'C') {
@@ -136,13 +138,13 @@ class WalkInRegistrationController extends Controller
             while(!$foundunique) {
                 $for_qr = Str::random(20);
                 
-                $search = Patient::where('qr', $for_qr)->first();
+                $search = AbtcPatient::where('qr', $for_qr)->first();
                 if(!$search) {
                     $foundunique = true;
                 }
             }
 
-            $p = Patient::create([
+            $p = AbtcPatient::create([
                 'register_status' => 'PENDING',
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
@@ -167,7 +169,7 @@ class WalkInRegistrationController extends Controller
             ]);
         }
 
-        $case_id = date('Y').'-'.(BakunaRecords::whereYear('created_at', date('Y'))->count() + 1);
+        $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y'))->count() + 1);
 
         $set_d3_date = Carbon::parse($base_date)->addDays(3);
 
@@ -217,7 +219,7 @@ class WalkInRegistrationController extends Controller
             $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
         }
 
-        $br = BakunaRecords::create([
+        $br = AbtcBakunaRecords::create([
             'patient_id' => $p->id,
             'vaccination_site_id' => session('vaccination_site_id'),
             'case_id' => $case_id,
@@ -244,7 +246,7 @@ class WalkInRegistrationController extends Controller
             'biting_animal_status' => 'N/A',
         ]);
 
-        return view('walkin_part3', [
+        return view('abtc.walkin_part3', [
             'd' => $br,
         ]);
     }

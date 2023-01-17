@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\AbtcPatient;
-use App\Models\VaccineBrand;
+use App\Models\AbtcVaccineBrand;
 use Illuminate\Http\Request;
-use App\Models\BakunaRecords;
-use App\Models\VaccinationSite;
+use App\Models\AbtcVaccinationSite;
+use App\Models\AbtcBakunaRecords;
 
-class VaccinationController extends Controller
+class ABTCVaccinationController extends Controller
 {
     public function search_init(Request $request) {
         $request->validate([
@@ -23,10 +23,10 @@ class VaccinationController extends Controller
         $data = AbtcBakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
 
         if($data) {
-            return redirect()->route('encode_existing', ['id' => $data->patient->id]);
+            return redirect()->route('abtc_encode_existing', ['id' => $data->patient->id]);
         }
         else {
-            return redirect()->route('encode_create_new', [
+            return redirect()->route('abtc_encode_create_new', [
                 'id' => $p->id,
             ])
             ->with('msg', 'No Existing Vaccination Records found. You may continue encoding.')
@@ -39,7 +39,7 @@ class VaccinationController extends Controller
 
         $data = AbtcBakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
 
-        return view('encode_existing', ['d' => $data]);
+        return view('abtc.encode_existing', ['d' => $data]);
     }
 
     public function create_new($id) {
@@ -51,7 +51,7 @@ class VaccinationController extends Controller
             $vblist = AbtcVaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
             $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
 
-            return view('encode_new', [
+            return view('abtc.encode_new', [
                 'd' => $p,
                 'vblist' => $vblist,
                 'vslist' => $vslist,
@@ -151,7 +151,7 @@ class VaccinationController extends Controller
                 $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
             }
 
-            $f = $request->user()->bakunarecord()->create([
+            $f = $request->user()->abtcbakunarecord()->create([
                 'patient_id' => $id,
                 'vaccination_site_id' => $request->vaccination_site_id,
                 'case_id' => $case_id,
@@ -160,6 +160,7 @@ class VaccinationController extends Controller
                 'case_location' => ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL,
                 'animal_type' => $request->animal_type,
                 'animal_type_others' => ($request->animal_type == 'O') ? mb_strtoupper($request->animal_type_others) : NULL,
+                'if_animal_vaccinated' => ($request->if_animal_vaccinated == 'Y') ? 1 : 0,
                 'bite_date' => $request->bite_date,
                 'bite_type' => $request->bite_type,
                 'body_site' => ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL,
@@ -188,7 +189,7 @@ class VaccinationController extends Controller
             ->with('dose', 1);
         }
         else {
-            return redirect()->route('abtc.home')
+            return redirect()->route('abtc_home')
             ->with('msg', 'You are not allowed to do that')
             ->with('msgtype', 'warning');
         }
@@ -234,6 +235,7 @@ class VaccinationController extends Controller
         $b->case_location = ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL;
         $b->animal_type = $request->animal_type;
         $b->animal_type_others = ($request->animal_type == 'O') ? mb_strtoupper($request->animal_type_others) : NULL;
+        $b->if_animal_vaccinated = ($request->if_animal_vaccinated == 'Y') ? 1 : 0;
         $b->bite_date = $request->bite_date;
         $b->bite_type = $request->bite_type;
         $b->body_site = ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL;

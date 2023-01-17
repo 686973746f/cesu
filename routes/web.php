@@ -246,7 +246,6 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/dengue/cif/{cif_id}/edit', [DengueController::class, 'edit_cif'])->name('dg.editcif');
     Route::post('/dengue/cif/{cif_id}/update', [DengueController::class, 'update_cif'])->name('dg.updatecif');
 
-    //ANIMAL BITE ABTC ROUTES
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
@@ -323,7 +322,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 
 //ANIMAL BITE ROUTES
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1']], function () {
-    Route::get('/abtc/home', [ABTCPatientController::class, 'home'])->name('abtc_home');
+    Route::get('/abtc', [ABTCPatientController::class, 'home'])->name('abtc_home');
     Route::get('/abtc/patient', [ABTCPatientController::class, 'index'])->name('abtc_patient_index');
     Route::get('/abtc/patient/create', [ABTCPatientController::class, 'create'])->name('abtc_patient_create');
     Route::post('/abtc/patient/create', [ABTCPatientController::class, 'store'])->name('abtc_patient_store');

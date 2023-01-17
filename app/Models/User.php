@@ -6,9 +6,11 @@ use App\Models\Brgy;
 use App\Models\Antigen;
 use App\Models\Records;
 use App\Models\CifUploads;
+use App\Models\AbtcPatient;
 use App\Models\PaSwabLinks;
 use App\Models\LinelistMaster;
 use App\Models\AcceptanceLetter;
+use App\Models\AbtcBakunaRecords;
 use App\Models\SecondaryTertiaryRecords;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -201,5 +203,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function antigen() {
         return $this->hasMany(Antigen::class);
+    }
+
+    public function abtcpatient() {
+        return $this->hasMany(AbtcPatient::class, 'created_by');
+    }
+
+    public function abtcbakunarecord() {
+        return $this->hasMany(AbtcBakunaRecords::class, 'created_by');
     }
 }

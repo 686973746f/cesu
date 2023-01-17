@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,7 @@ class AbtcBakunaRecords extends Model
         'case_location',
         'animal_type',
         'animal_type_others',
+        'if_animal_vaccinated',
         'bite_date',
         'bite_type',
         'body_site',
@@ -42,20 +44,20 @@ class AbtcBakunaRecords extends Model
     ];
 
     public function patient() {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(AbtcPatient::class, 'patient_id');
     }
 
     public function patients() {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(AbtcPatient::class, 'patient_id');
     }
 
     public function vaccinationsite() {
-        return $this->belongsTo(VaccinationSite::class, 'vaccination_site_id');
+        return $this->belongsTo(AbtcVaccinationSite::class, 'vaccination_site_id');
     }
 
     public function ifOldCase() {
         //fetch latest and compare to id
-        $latest = BakunaRecords::where('patient_id', $this->patient->id)->orderBy('created_at', 'DESC')->first();
+        $latest = AbtcBakunaRecords::where('patient_id', $this->patient->id)->orderBy('created_at', 'DESC')->first();
 
         if($latest->id == $this->id) {
             return false;

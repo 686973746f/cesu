@@ -1,15 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <div class="container">
     <div class="card">
-        <div class="card-header"></div>
+        <div class="card-header">Monthly Report</div>
         <div class="card-body">
+            <form action="" method="GET">
+                <div class="input-group">
+                    <select class="custom-select" name="sy" id="sy" required>
+                        @foreach(range(date('Y'), 2021) as $y)
+                        <option value="{{$y}}">{{$y}}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+            <hr>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="text-center">
                         <tr>
-                            <th scope="col">Animal Bite Cases ({{date('Y')}})</th>
+                            <th scope="col">Animal Bite Cases ({{$sy}})</th>
                             <th scope="col">JAN</th>
                             <th scope="col">FEB</th>
                             <th scope="col">MAR</th>

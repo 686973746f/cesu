@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{route('encode_update', ['br_id' => $d->id])}}" method="POST">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<form action="{{route('abtc_encode_update', ['br_id' => $d->id])}}" method="POST">
     @csrf
     <div class="container">
         @if($d->ifOldCase())
@@ -14,7 +16,7 @@
                 <div class="alert alert-info" role="alert">
                     <h4>This case was marked as <b class="text-success">FINISHED</b></h4>
                     <hr>
-                    <p>To create another case for this Patient, Click <b><a href="{{route('bakuna_again', ['patient_id' => $d->patient->id])}}">HERE</a></b></p>
+                    <p>To create another case for this Patient, Click <b><a href="{{route('abtc_bakuna_again', ['patient_id' => $d->patient->id])}}">HERE</a></b></p>
                 </div>
                 @elseif($d->outcome == 'D')
                 <div class="alert alert-info" role="alert">
@@ -50,7 +52,7 @@
                     <tbody class="text-center">
                         <tr>
                             <td class="bg-light"><strong>Name / ID</strong></td>
-                            <td><a href="{{route('patient_edit', ['id' => $d->patient->id])}}">{{$d->patient->getName()}} (#{{$d->patient->id}})</a></td>
+                            <td><a href="{{route('abtc_patient_edit', ['id' => $d->patient->id])}}">{{$d->patient->getName()}} (#{{$d->patient->id}})</a></td>
                         </tr>
                         <tr>
                             <td class="bg-light"><strong>Birthdate/Age/Gender</strong></td>
@@ -88,7 +90,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Type of Animal</label>
                             <select class="form-select" name="animal_type" id="animal_type" required>
@@ -106,12 +108,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Bite</label>
                             <select class="form-select" name="bite_type" id="bite_type" required>
                                 <option value="B" {{(old('bite_type', $d->bite_type) == 'B') ? 'selected' : ''}}>Bite (B)</option>
                                 <option value="NB" {{(old('bite_type', $d->bite_type) == 'NB') ? 'selected' : ''}}>None Bite (NB)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated?</label>
+                            <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
+                                <option value="" disabled {{is_null(old('if_animal_vaccinated', $d)) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('if_animal_vaccinated', $d) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('if_animal_vaccinated', $d) == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                     </div>
@@ -193,7 +205,7 @@
                 <table class="table table-bordered table-striped text-center">
                     <thead class="bg-light">
                         <tr class="text-end">
-                            <th colspan="3"><a class="btn btn-primary" href="{{route('override_schedule', ['br_id' => $d->id])}}" role="button"><i class="fa-solid fa-clock-rotate-left me-2"></i>Manually Change Schedule</a></th>
+                            <th colspan="3"><a class="btn btn-primary" href="{{route('abtc_override_schedule', ['br_id' => $d->id])}}" role="button"><i class="fa-solid fa-clock-rotate-left me-2"></i>Manually Change Schedule</a></th>
                         </tr>
                         <tr>
                             <th>Schedule</th>
@@ -210,7 +222,7 @@
                                 <strong class="text-success">DONE</strong>
                                 @else
                                     @if($d->ifAbleToProcessD0() == 'Y')
-                                    <a href="{{route('encode_process', ['br_id' => $d->id, 'dose' => 1])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 0 Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 1])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 0 Day Dose. Click OK to Continue.')">Mark as Done</a>
                                     @elseif($d->ifAbleToProcessD0() == 'D')
                                     <p class="text-danger"><b>DID NOT ARRIVED</b></p>
                                     @endif
@@ -225,7 +237,7 @@
                                 <strong class="text-success">DONE</strong>
                                 @else
                                     @if($d->ifAbleToProcessD3() == 'Y')
-                                    <a href="{{route('encode_process', ['br_id' => $d->id, 'dose' => 2])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 3rd Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 2])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 3rd Day Dose. Click OK to Continue.')">Mark as Done</a>
                                     @elseif($d->ifAbleToProcessD3() == 'D')
                                     <p class="text-danger"><b>DID NOT ARRIVED</b></p>
                                     @endif
@@ -241,7 +253,7 @@
                                 <strong class="text-success">DONE</strong>
                                 @else
                                     @if($d->ifAbleToProcessD7() == 'Y')
-                                    <a href="{{route('encode_process', ['br_id' => $d->id, 'dose' => 3])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 7th Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 3])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 7th Day Dose. Click OK to Continue.')">Mark as Done</a>
                                     @elseif($d->ifAbleToProcessD7() == 'D')
                                     <p class="text-danger"><b>DID NOT ARRIVED</b></p>
                                     @endif
@@ -257,7 +269,7 @@
                                 <strong class="text-success">DONE</strong>
                                 @else
                                     @if($d->ifAbleToProcessD14() == 'Y')
-                                    <a href="{{route('encode_process', ['br_id' => $d->id, 'dose' => 4])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 14th Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 4])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 14th Day Dose. Click OK to Continue.')">Mark as Done</a>
                                     @elseif($d->ifAbleToProcessD14() == 'D')
                                     <p class="text-danger"><b>DID NOT ARRIVED</b></p>
                                     @endif
@@ -273,7 +285,7 @@
                                 <strong class="text-success">DONE</strong>
                                 @else
                                     @if($d->ifAbleToProcessD28() == 'Y')
-                                    <a href="{{route('encode_process', ['br_id' => $d->id, 'dose' => 5])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 28th Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 5])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 28th Day Dose. Click OK to Continue.')">Mark as Done</a>
                                     @elseif($d->ifAbleToProcessD28() == 'D')
                                     <p class="text-danger"><b>DID NOT ARRIVED</b></p>
                                     @endif

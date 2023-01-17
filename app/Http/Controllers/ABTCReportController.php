@@ -3,822 +3,829 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\BakunaRecords;
-use App\Models\VaccinationSite;
+use App\Models\AbtcBakunaRecords;
+use App\Models\AbtcVaccinationSite;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class ReportController extends Controller
+class ABTCReportController extends Controller
 {
     public function linelist_index() {
         if(request()->input('fyear')) {
-            $get = BakunaRecords::whereYear('case_date', request()->input('fyear'))->orderBy('case_date', 'ASC')->get();
+            $get = AbtcBakunaRecords::whereYear('case_date', request()->input('fyear'))->orderBy('case_date', 'ASC')->get();
 
             $alt = 'Showing Records Encoded for Year - '.request()->input('fyear');
         }
         else {
-            //$get = BakunaRecords::whereYear('case_date', date('Y'))->get();
+            //$get = AbtcBakunaRecords::whereYear('case_date', date('Y'))->get();
             
-            $get = BakunaRecords::whereDate('created_at', date('Y-m-d'))->orderBy('case_date', 'ASC')->get();
+            $get = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))->orderBy('case_date', 'ASC')->get();
             $alt = 'Showing Records Encoded for Today - '.date('m/d/Y');
         }
         
-        return view('report_linelist', [
+        return view('abtc.report_linelist', [
             'list' => $get,
             'alt' => $alt,
         ]);
     }
 
     public function linelist2() {
-        $get = BakunaRecords::whereYear('case_date', date('Y'))->get();
+        $get = AbtcBakunaRecords::whereYear('case_date', date('Y'))->get();
 
-        return view('report_linelist2', [
+        return view('abtc.report_linelist2', [
             'list' => $get,
         ]);
     }
 
     public function choreport1() {
-        $m1 = BakunaRecords::whereYear('case_date', date('Y'))
+        if(request()->input('sy')) {
+            $sy = request()->input('sy');
+        }
+        else {
+            $sy = date('Y');
+        }
+
+        $m1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '01')->count();
 
-        $m2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '02')->count();
 
-        $m3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '03')->count();
 
-        $m4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '04')->count();
 
-        $m5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '05')->count();
 
-        $m6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '06')->count();
 
-        $m7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '07')->count();
 
-        $m8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '08')->count();
 
-        $m9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '09')->count();
 
-        $m10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '10')->count();
 
-        $m11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '11')->count();
 
-        $m12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $m12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'MALE');
         })->whereMonth('case_date', '12')->count();
 
-        $f1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '01')->count();
 
-        $f2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '02')->count();
 
-        $f3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '03')->count();
 
-        $f4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '04')->count();
 
-        $f5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '05')->count();
 
-        $f6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '06')->count();
 
-        $f7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '07')->count();
 
-        $f8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '08')->count();
 
-        $f9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '09')->count();
 
-        $f10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '10')->count();
 
-        $f11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '11')->count();
 
-        $f12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $f12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('gender', 'FEMALE');
         })->whereMonth('case_date', '12')->count();
 
-        $co1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->where('category_level', '1')
         ->count();
 
-        $co2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->where('category_level', '1')
         ->count();
 
-        $co3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->where('category_level', '1')
         ->count();
 
-        $co4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->where('category_level', '1')
         ->count();
 
-        $co5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->where('category_level', '1')
         ->count();
 
-        $co6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->where('category_level', '1')
         ->count();
 
-        $co7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->where('category_level', '1')
         ->count();
 
-        $co8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->where('category_level', '1')
         ->count();
 
-        $co9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->where('category_level', '1')
         ->count();
 
-        $co10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->where('category_level', '1')
         ->count();
 
-        $co11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->where('category_level', '1')
         ->count();
 
-        $co12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $co12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->where('category_level', '1')
         ->count();
 
-        $ct1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->where('category_level', '2')
         ->count();
 
-        $ct2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->where('category_level', '2')
         ->count();
 
-        $ct3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->where('category_level', '2')
         ->count();
 
-        $ct4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->where('category_level', '2')
         ->count();
 
-        $ct5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->where('category_level', '2')
         ->count();
 
-        $ct6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->where('category_level', '2')
         ->count();
 
-        $ct7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->where('category_level', '2')
         ->count();
 
-        $ct8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->where('category_level', '2')
         ->count();
 
-        $ct9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->where('category_level', '2')
         ->count();
 
-        $ct10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->where('category_level', '2')
         ->count();
 
-        $ct11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->where('category_level', '2')
         ->count();
 
-        $ct12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ct12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->where('category_level', '2')
         ->count();
 
-        $ch1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->where('category_level', '3')
         ->count();
 
-        $ch2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->where('category_level', '3')
         ->count();
 
-        $ch3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->where('category_level', '3')
         ->count();
 
-        $ch4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->where('category_level', '3')
         ->count();
 
-        $ch5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->where('category_level', '3')
         ->count();
 
-        $ch6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->where('category_level', '3')
         ->count();
 
-        $ch7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->where('category_level', '3')
         ->count();
 
-        $ch8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->where('category_level', '3')
         ->count();
 
-        $ch9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->where('category_level', '3')
         ->count();
 
-        $ch10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->where('category_level', '3')
         ->count();
 
-        $ch11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->where('category_level', '3')
         ->count();
 
-        $ch12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ch12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->where('category_level', '3')
         ->count();
         
-        $oe1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '1')->count();
 
-        $oe2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '2')->count();
 
-        $oe3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '3')->count();
 
-        $oe4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '4')->count();
 
-        $oe5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '5')->count();
 
-        $oe6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '6')->count();
 
-        $oe7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '7')->count();
 
-        $oe8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '8')->count();
 
-        $oe9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '9')->count();
 
-        $oe10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '10')->count();
 
-        $oe11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '11')->count();
 
-        $oe12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oe12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '>=', 18);
         })->whereMonth('case_date', '12')->count();
 
-        $ue1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '1')->count();
 
-        $ue2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '2')->count();
 
-        $ue3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '3')->count();
 
-        $ue4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '4')->count();
 
-        $ue5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '5')->count();
 
-        $ue6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '6')->count();
 
-        $ue7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '7')->count();
 
-        $ue8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '8')->count();
 
-        $ue9= BakunaRecords::whereYear('case_date', date('Y'))
+        $ue9= AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '9')->count();
 
-        $ue10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '10')->count();
 
-        $ue11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '11')->count();
 
-        $ue12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $ue12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereHas('patients', function ($q) {
             $q->where('age', '<', 18);
         })->whereMonth('case_date', '12')->count();
 
-        $er1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $er12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $er12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->whereNotNull('rig_date_given')
         ->count();
 
-        $oc1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->where('outcome', 'C')
         ->count();
 
-        $oc2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->where('outcome', 'C')
         ->count();
 
-        $oc3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->where('outcome', 'C')
         ->count();
 
-        $oc4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->where('outcome', 'C')
         ->count();
 
-        $oc5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->where('outcome', 'C')
         ->count();
 
-        $oc6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->where('outcome', 'C')
         ->count();
 
-        $oc7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->where('outcome', 'C')
         ->count();
 
-        $oc8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->where('outcome', 'C')
         ->count();
 
-        $oc9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->where('outcome', 'C')
         ->count();
 
-        $oc10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->where('outcome', 'C')
         ->count();
 
-        $oc11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->where('outcome', 'C')
         ->count();
 
-        $oc12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oc12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->where('outcome', 'C')
         ->count();
         
-        $oi1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->where('outcome', 'INC')
         ->count();
 
-        $oi12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $oi12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->where('outcome', 'INC')
         ->count();
 
-        $bo1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->where('is_booster', 1)
         ->count();
 
-        $bo2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->where('is_booster', 1)
         ->count();
 
-        $bo3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->where('is_booster', 1)
         ->count();
 
-        $bo4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->where('is_booster', 1)
         ->count();
 
-        $bo5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->where('is_booster', 1)
         ->count();
 
-        $bo6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->where('is_booster', 1)
         ->count();
 
-        $bo7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->where('is_booster', 1)
         ->count();
 
-        $bo8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->where('is_booster', 1)
         ->count();
 
-        $bo9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->where('is_booster', 1)
         ->count();
 
-        $bo10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->where('is_booster', 1)
         ->count();
 
-        $bo11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->where('is_booster', 1)
         ->count();
 
-        $bo12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $bo12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->where('is_booster', 1)
         ->count();
 
-        $dog1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
         
-        $dog2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
         
-        $dog3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
         
-        $dog4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $dog12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $dog12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->whereIn('animal_type', ['PD', 'SD'])
         ->count();
 
-        $cat1 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat2 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat3 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat4 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat5 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat6 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat7 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat8 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat9 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat10 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat11 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
         ->where('animal_type', 'C')
         ->count();
 
-        $cat12 = BakunaRecords::whereYear('case_date', date('Y'))
+        $cat12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
         ->where('animal_type', 'C')
         ->count();
 
-        return view('report_cho', [
+        return view('abtc.report_cho', [
             'm1' => $m1,
             'm2' => $m2,
             'm3' => $m3,
@@ -975,6 +982,7 @@ class ReportController extends Controller
             'cat10' => $cat10,
             'cat11' => $cat11,
             'cat12' => $cat12,
+            'sy' => $sy,
         ]);
     }
 
@@ -987,12 +995,12 @@ class ReportController extends Controller
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A6', date('Y').' Quarter Accomplishment Reports from '.date('M d, Y', strtotime($request->start_date)).' to '.date('M d, Y', strtotime($request->end_date)));
             
-            $vslist = VaccinationSite::get();
+            $vslist = AbtcVaccinationSite::get();
 
             foreach($vslist as $i => $v) {
                 $i = $i + 11; //Row 11 Start ng pag-fill ng Values
 
-                $male_count = BakunaRecords::whereHas('patient', function($q) {
+                $male_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('gender', 'MALE')
                     ->where('register_status', 'VERIFIED');
                 })
@@ -1000,7 +1008,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $female_count = BakunaRecords::whereHas('patient', function($q) {
+                $female_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('gender', 'FEMALE')
                     ->where('register_status', 'VERIFIED');
                 })
@@ -1008,7 +1016,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $less15 = BakunaRecords::whereHas('patient', function($q) {
+                $less15 = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where(function ($r) {
                         $r->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 15')
                         ->orWhere('age', '<', 15);
@@ -1019,7 +1027,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $great15 = BakunaRecords::whereHas('patient', function($q) {
+                $great15 = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where(function ($r) {
                         $r->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 15')
                         ->orWhere('age', '>=', 15);
@@ -1030,7 +1038,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat1_count = BakunaRecords::whereHas('patient', function($q) {
+                $cat1_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 1)
@@ -1038,7 +1046,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat2_count = BakunaRecords::whereHas('patient', function($q) {
+                $cat2_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
@@ -1046,7 +1054,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat3_count = BakunaRecords::whereHas('patient', function($q) {
+                $cat3_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 3)
@@ -1054,7 +1062,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $dog_count = BakunaRecords::whereHas('patient', function($q) {
+                $dog_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->whereIn('animal_type', ['PD', 'SD'])
@@ -1062,7 +1070,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat_count = BakunaRecords::whereHas('patient', function($q) {
+                $cat_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('animal_type', 'C')
@@ -1070,7 +1078,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $others_count = BakunaRecords::whereHas('patient', function($q) {
+                $others_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('animal_type', 'O')
@@ -1078,7 +1086,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $tcv_count = BakunaRecords::whereHas('patient', function($q) {
+                $tcv_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('outcome', 'C')
@@ -1088,7 +1096,7 @@ class ReportController extends Controller
 
                 $hrig = 0;
 
-                $erig = BakunaRecords::whereHas('patient', function($q) {
+                $erig = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('outcome', 'C')
@@ -1098,7 +1106,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $booster_count = BakunaRecords::where('vaccination_site_id', $v->id)
+                $booster_count = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
                 ->where('is_booster', 1)
                 ->where('outcome', 'C')
                 ->whereBetween('case_date', [$sd, $ed])
@@ -1151,12 +1159,12 @@ class ReportController extends Controller
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A1', 'CY: '.date('M d, Y', strtotime($sd)).' - '.date('M d, Y', strtotime($ed)));
             
-            $vslist = VaccinationSite::get();
+            $vslist = AbtcVaccinationSite::get();
 
             foreach($vslist as $i => $v) {
                 $i = $i + 6; //Row 6 Start ng pag-fill ng Values
 
-                $cat2_total = BakunaRecords::whereHas('patient', function($q) {
+                $cat2_total = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
@@ -1164,7 +1172,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat2_rig = BakunaRecords::whereHas('patient', function($q) {
+                $cat2_rig = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
@@ -1173,7 +1181,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat2_complete = BakunaRecords::whereHas('patient', function($q) {
+                $cat2_complete = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
@@ -1182,7 +1190,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat2_incomplete = BakunaRecords::whereHas('patient', function($q) {
+                $cat2_incomplete = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
@@ -1191,7 +1199,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
                 
-                $cat2_none = BakunaRecords::whereHas('patient', function($q) {
+                $cat2_none = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
@@ -1200,7 +1208,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat2_died = BakunaRecords::whereHas('patient', function($q) {
+                $cat2_died = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
@@ -1209,7 +1217,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat3_total = BakunaRecords::whereHas('patient', function($q) {
+                $cat3_total = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 3)
@@ -1217,7 +1225,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat3_rig = BakunaRecords::whereHas('patient', function($q) {
+                $cat3_rig = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 3)
@@ -1226,7 +1234,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat3_complete = BakunaRecords::whereHas('patient', function($q) {
+                $cat3_complete = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 3)
@@ -1235,7 +1243,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat3_incomplete = BakunaRecords::whereHas('patient', function($q) {
+                $cat3_incomplete = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 3)
@@ -1244,7 +1252,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
                 
-                $cat3_none = BakunaRecords::whereHas('patient', function($q) {
+                $cat3_none = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 3)
@@ -1253,7 +1261,7 @@ class ReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
-                $cat3_died = BakunaRecords::whereHas('patient', function($q) {
+                $cat3_died = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 3)

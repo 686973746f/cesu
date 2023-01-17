@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{route('encode_store', ['id' => $d->id])}}" method="POST">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<form action="{{route('abtc_encode_store', ['id' => $d->id])}}" method="POST">
     @csrf
     <div class="container">
         <div class="card">
@@ -29,7 +31,7 @@
                     <tbody class="text-center">
                         <tr>
                             <td><strong>Name / ID</strong></td>
-                            <td><a href="{{route('patient_edit', ['id' => $d->id])}}">{{$d->getName()}} (#{{$d->id}})</a></td>
+                            <td><a href="{{route('abtc_patient_edit', ['id' => $d->id])}}">{{$d->getName()}} (#{{$d->id}})</a></td>
                         </tr>
                         <tr>
                             <td><strong>Birthdate/Age/Gender</strong></td>
@@ -68,7 +70,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Type of Animal</label>
                             <select class="form-select" name="animal_type" id="animal_type" required>
@@ -86,12 +88,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Bite</label>
                             <select class="form-select" name="bite_type" id="bite_type" required>
                                 <option value="B" {{(old('bite_type') == 'B') ? 'selected' : ''}}>Bite (B)</option>
                                 <option value="NB" {{(old('bite_type') == 'NB') ? 'selected' : ''}}>None Bite (NB)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated?</label>
+                            <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
+                                <option value="" disabled {{is_null(old('if_animal_vaccinated')) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('if_animal_vaccinated') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('if_animal_vaccinated') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                     </div>

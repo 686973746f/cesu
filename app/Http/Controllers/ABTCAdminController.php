@@ -6,7 +6,7 @@ use App\Models\AbtcVaccineBrand;
 use Illuminate\Http\Request;
 use App\Models\AbtcVaccinationSite;
 
-class AdminController extends Controller
+class ABTCAdminController extends Controller
 {
     public function vaccinationsite_index() {
         $list = AbtcVaccinationSite::orderBy('site_name', 'ASC')->paginate(10);
@@ -21,7 +21,7 @@ class AdminController extends Controller
             'site_name' => 'required',
         ]);
 
-        VaccinationSite::create([
+        AbtcVaccinationSite::create([
             'site_name' => $request->site_name,
         ]);
 

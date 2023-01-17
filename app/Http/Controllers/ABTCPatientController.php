@@ -8,11 +8,16 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\DB;
+use App\Models\AbtcVaccinationSite;
 
 class ABTCPatientController extends Controller
 {
     public function home() {
-        return view('abtc.home');
+        $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
+
+        return view('abtc.home', [
+            'vslist' => $vslist,
+        ]);
     }
 
     public function index() {
@@ -66,7 +71,7 @@ class ABTCPatientController extends Controller
                 $get_age = $request->age;
             }
 
-            $create = $request->user()->patient()->create([
+            $create = $request->user()->abtcpatient()->create([
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
                 'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
