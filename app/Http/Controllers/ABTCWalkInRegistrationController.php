@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 class ABTCWalkInRegistrationController extends Controller
 {
     public function walkin_part1() {
+        //LAGYAN TIME LIMIT
+        
         if(request()->input('v')) {
             $c = request()->input('v');
 
@@ -30,6 +32,12 @@ class ABTCWalkInRegistrationController extends Controller
     }
 
     public function walkin_part2() {
+        if(session('regisphase') == 'done') {
+            return view('abtc.walkin_part3', [
+                'd' => AbtcBakunaRecords::findOrFail(session('regisid')),
+            ]);
+        }
+
         $v = AbtcVaccinationSite::findOrFail(session('vaccination_site_id'));
 
         $lname = mb_strtoupper(request()->input('lname'));
@@ -81,6 +89,12 @@ class ABTCWalkInRegistrationController extends Controller
     }
 
     public function walkin_part3(Request $request) {
+        if(session('regisphase') == 'done') {
+            return view('abtc.walkin_part3', [
+                'd' => AbtcBakunaRecords::findOrFail(session('regisid')),
+            ]);
+        }
+
         $v = AbtcVaccinationSite::findOrFail(session('vaccination_site_id'));
 
         $request->validate([
@@ -162,8 +176,8 @@ class ABTCWalkInRegistrationController extends Controller
                 'address_muncity_text' => $request->address_muncity_text,
                 'address_brgy_code' => $request->address_brgy_text,
                 'address_brgy_text' => $request->address_brgy_text,
-                'address_street' => $request->address_street,
-                'address_houseno' => $request->address_houseno,
+                'address_street' => mb_strtoupper($request->address_street),
+                'address_houseno' => mb_strtoupper($request->address_houseno),
     
                 'qr' => $for_qr,
                 'ip' => request()->ip(),
@@ -247,11 +261,11 @@ class ABTCWalkInRegistrationController extends Controller
             'biting_animal_status' => 'N/A',
         ]);
 
+        Session::put('regisphase', 'done');
+        Session::put('regisid', $br->id);
+
         return view('abtc.walkin_part3', [
             'd' => $br,
         ]);
-
-        Session::put('regisphase', 'done');
-        Session::put('regisid', $br->id);
     }
 }
