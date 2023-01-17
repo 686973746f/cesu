@@ -272,7 +272,7 @@ class ABTCVaccinationController extends Controller
             $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
             
             //Check duration 3 months
-            $bcheck = BakunaRecords::whereDate('case_date', '=>', date('Y-m-d', strtotime('-3 Months')))->first();
+            $bcheck = AbtcBakunaRecords::whereDate('case_date', '=>', date('Y-m-d', strtotime('-3 Months')))->first();
             if($bcheck) {
                 return redirect()->back()
                 ->with('msg', 'Unable to process. Patient was vaccinated 90 Days (3 Months) ago. Booster is not required')
