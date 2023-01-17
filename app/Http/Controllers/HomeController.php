@@ -8,6 +8,7 @@ use Carbon\CarbonPeriod;
 use App\Models\SelfReports;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -30,6 +31,9 @@ class HomeController extends Controller
     public function index()
     {
         if(auth()->user()->isLevel1()) {
+            Session::put('default_menu', 'COVID');
+            Session::put('default_home_url', route('main'));
+
             $paswabctr = PaSwabDetails::where('status', 'pending')->count();
             $selfreport_count = SelfReports::where('status', 'pending')->count();
             

@@ -25,7 +25,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-success shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{session('default_home_url')}}">
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -35,6 +35,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @if(session('default_menu') == 'COVID')
                     <ul class="navbar-nav mr-auto">
                         @if(auth()->check() && auth()->user()->isLevel1())
                         <li class="nav-item">
@@ -70,7 +71,9 @@
                         </li>
                         @endif
                     </ul>
-
+                    @elseif(session('default_menu') == 'ABTC')
+                    
+                    @endif
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

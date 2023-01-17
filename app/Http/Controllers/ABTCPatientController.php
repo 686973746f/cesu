@@ -9,10 +9,15 @@ use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use Illuminate\Support\Facades\Session;
 
 class ABTCPatientController extends Controller
 {
     public function home() {
+
+        Session::put('default_menu', 'ABTC');
+        Session::put('default_home_url', route('abtc_home'));
+
         $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
 
         return view('abtc.home', [
