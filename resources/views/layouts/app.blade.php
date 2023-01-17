@@ -35,45 +35,49 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    @if(session('default_menu') == 'COVID')
                     <ul class="navbar-nav mr-auto">
-                        @if(auth()->check() && auth()->user()->isLevel1())
+                        @if(session('default_menu') == 'COVID')
+                            @if(auth()->check() && auth()->user()->isLevel1())
+                            <li class="nav-item">
+                                <a class="nav-link {{Request::is('records*') ? 'active' : ''}}" href="{{route('records.index')}}">Patients</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{Request::is('forms*') ? 'active' : ''}}" href="{{route('forms.index')}}">CIFs</a>
+                            </li>
+                            @if(auth()->user()->isCesuAccount())
+                            <li class="nav-item">
+                                <a class="nav-link {{Request::is('selfreport*') ? 'active' : ''}}" href="{{route('selfreport.view')}}">Self-Report</a>
+                            </li>
+                            @endif
+                            @if(auth()->user()->canUseLinelist())
+                            <li class="nav-item">
+                                <a class="nav-link {{Request::is('linelist*') ? 'active' : ''}}" href="{{route('linelist.index')}}">Line Lists</a>
+                            </li>
+                            @endif
+                            @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
+                            <li class="nav-item">
+                                <a class="nav-link {{Request::is('report*') ? 'active' : ''}}" href="{{route('report.index')}}">Reports</a>
+                            </li>
+                            @endif
+                            @if(auth()->user()->isAdmin == 1)
+                            <li class="nav-item">
+                                <a class="nav-link {{Request::is('admin*') ? 'active' : ''}}" href="{{route('adminpanel.index')}}">Admin Panel</a>
+                            </li>
+                            @endif
+                            @endif
+                        @elseif(session('default_menu') == 'ABTC')
                         <li class="nav-item">
-                            <a class="nav-link {{Request::is('records*') ? 'active' : ''}}" href="{{route('records.index')}}">Patients</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{Request::is('forms*') ? 'active' : ''}}" href="{{route('forms.index')}}">CIFs</a>
-                        </li>
-                        @if(auth()->user()->isCesuAccount())
-                        <li class="nav-item">
-                            <a class="nav-link {{Request::is('selfreport*') ? 'active' : ''}}" href="{{route('selfreport.view')}}">Self-Report</a>
+                            <a class="nav-link {{Request::is('abtc/patient/*') ? 'active' : ''}}" href="{{route('abtc_patient_index')}}">Patients</a>
                         </li>
                         @endif
-                        @if(auth()->user()->canUseLinelist())
-                        <li class="nav-item">
-                            <a class="nav-link {{Request::is('linelist*') ? 'active' : ''}}" href="{{route('linelist.index')}}">Line Lists</a>
-                        </li>
-                        @endif
-                        @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
-                        <li class="nav-item">
-                            <a class="nav-link {{Request::is('report*') ? 'active' : ''}}" href="{{route('report.index')}}">Reports</a>
-                        </li>
-                        @endif
-                        @if(auth()->user()->isAdmin == 1)
-                        <li class="nav-item">
-                            <a class="nav-link {{Request::is('admin*') ? 'active' : ''}}" href="{{route('adminpanel.index')}}">Admin Panel</a>
-                        </li>
-                        @endif
-                        @endif
+
                         @if(auth()->check())
                         <li class="nav-item">
                             <span class="text-white nav-link"><b>MW: {{date('W')}}</b></span>
                         </li>
                         @endif
                     </ul>
-                    @elseif(session('default_menu') == 'ABTC')
-                    
-                    @endif
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

@@ -10,8 +10,13 @@
         <div class="card-header">
           <div class="d-flex justify-content-between">
             <div>Welcome, {{auth()->user()->name}}</div>
-            <div>Date: {{date('m/d/Y')}} - Week {{date('W')}}</div>
+            <div>Date: {{date('m/d/Y (D)')}} | Morbidity Week: {{date('W')}}</div>
           </div>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <div><b>ABTC Menu</b></div>
+            <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changemenu">Change</button></div>
+        </div>
         </div>
         <div class="card-body">
             @if(session('msg'))
@@ -32,6 +37,9 @@
               <hr>
               <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#uop"><i class="fa-solid fa-gear me-2"></i>Account Options</button>
             </div>
+        </div>
+        <div class="card-footer">
+          <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
         </div>
       </div>
     </div>
@@ -153,11 +161,11 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="default_vaccinationsite_id" class="form-label">Default Vaccination Site</label>
+            <label for="default_vaccinationsite_id" class="form-label">Change Default Vaccination Site</label>
             <select class="form-select" name="default_vaccinationsite_id" id="default_vaccinationsite_id" required>
-              <option value="" {{is_null(auth()->user()->default_vaccinationsite_id) ? 'selected' : ''}}>None</option>
+              <option value="" {{is_null(auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>None</option>
               @foreach($vslist as $v)
-              <option value="{{$v->id}}" {{($v->id == auth()->user()->default_vaccinationsite_id) ? 'selected' : ''}}>{{$v->site_name}}</option>
+              <option value="{{$v->id}}" {{($v->id == auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>{{$v->site_name}}</option>
               @endforeach
             </select>
           </div>
@@ -169,6 +177,25 @@
     </div>
   </div>
 </form>
+
+<div class="modal fade" id="changemenu" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Change Menu</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <a href="{{route('main')}}" class="btn btn-primary btn-block">COVID-19</a>
+            <hr>
+            <a href="{{route('mp.home')}}" class="btn btn-primary btn-block">Monkeypox</a>
+            <a href="{{route('dg.home')}}" class="btn btn-primary btn-block">Dengue</a>
+          </div>
+      </div>
+  </div>
+</div>
 
 <script>
   //Select2 Autofocus QR Modal
