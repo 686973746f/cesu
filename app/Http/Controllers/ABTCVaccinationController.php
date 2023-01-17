@@ -492,6 +492,10 @@ class ABTCVaccinationController extends Controller
                     $d->d0_done = 1;
                     $d->d3_done = 1;
                     $d->d7_done = 1;
+
+                    if($d->outcome == 'INC' && $d->is_booster == 0) {
+                        $d->outcome = 'C';
+                    }
                 }
             }
     
