@@ -10,7 +10,7 @@ class ABTCUserSettingsController extends Controller
     public function save_settings(Request $request) {
         $u = User::findOrFail(auth()->user()->id);
 
-        $u->default_vaccinationsite_id = $request->default_vaccinationsite_id;
+        $u->abtc_default_vaccinationsite_id  = $request->default_vaccinationsite_id;
 
         if($u->isDirty()) {
             $u->save();
