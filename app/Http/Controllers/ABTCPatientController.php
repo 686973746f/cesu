@@ -50,7 +50,9 @@ class ABTCPatientController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-
+            'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
         ]);
         
         if(AbtcPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->bdate)) {
@@ -100,11 +102,17 @@ class ABTCPatientController extends Controller
                 'remarks' => ($request->filled('remarks')) ? $request->remarks : NULL,
                 'ip' => request()->ip(),
             ]);
-    
+            
+            return redirect()->route('abtc_encode_create_new', ['id' => $create->id])
+            ->with('msg', 'Patient '.$create->getName().' was successfully registered. You may continue filling up anti-rabies vaccination details of the patient.')
+            ->with('msgtype', 'success');
+
+            /*
             return redirect()->route('abtc_patient_index')
             ->with('msg', 'Patient was added successfully.')
             ->with('pid', $create->id)
             ->with('msgtype', 'success');
+            */
         }
     }
 
