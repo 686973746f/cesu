@@ -9,6 +9,7 @@ use App\Models\Forms;
 use App\Models\BrgyCodes;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
+use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
 
@@ -382,12 +383,17 @@ class AdminPanelController extends Controller
             ->where('caseClassification', 'Non-COVID-19 Case')
             ->count();
 
+            $abtc_count = AbtcBakunaRecords::where('created_by', $item->id)
+            ->whereDate('created_at', date('Y-m-d'))
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
                 'confirmed_count' => $confirmed_count,
                 'recovered_count' => $recovered_count,
                 'negative_count' => $negative_count,
+                'abtc_count' => $abtc_count,
             ]);
         }
 

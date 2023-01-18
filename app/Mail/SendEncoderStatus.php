@@ -129,12 +129,17 @@ class SendEncoderStatus extends Mailable
             ->where('caseClassification', 'Non-COVID-19 Case')
             ->count();
 
+            $abtc_count = AbtcBakunaRecords::where('created_by', $item->id)
+            ->whereDate('created_at', date('Y-m-d'))
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
                 'confirmed_count' => $confirmed_count,
                 'recovered_count' => $recovered_count,
                 'negative_count' => $negative_count,
+                'abtc_count' => $abtc_count,
             ]);
         }
         

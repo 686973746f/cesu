@@ -6,19 +6,21 @@
         $gt_confirmed = 0;
         $gt_negative = 0;
         $gt_recovered = 0;
+        $gt_abtc = 0;
         @endphp
-        | # | Name | No. of Suspected/Probable Patient Encoded | No. of Confirmed Patient Encoded | No. of Recovered Patient Encoded | No. of Negative Patient Encoded | Total |
-        | - |:----:| :----------------------------------------:|:--------------------------------:|:--------------------------------:|:-------------------------------:|------:|
+        | # | Name | Suspected/Probable | Confirmed | Recovered | Negative Result | ABTC | Total |
+        | - |:----:| :-----------------:|:---------:|:---------:|:---------------:|:----:|------:|
         @foreach($arr as $i)
-        | {{$loop->iteration}} | {{$i['name']}} | {{$i['suspected_count']}} | {{$i['confirmed_count']}} | {{$i['recovered_count']}} | {{$i['negative_count']}} | {{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count']}} |
+        | {{$loop->iteration}} | {{$i['name']}} | {{$i['suspected_count']}} | {{$i['confirmed_count']}} | {{$i['recovered_count']}} | {{$i['negative_count']}} | {{$i['abtc_count']}} | {{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count']}} |
         @php
         $gt_suspected += $i['suspected_count'];
         $gt_confirmed += $i['confirmed_count'];
         $gt_negative += $i['negative_count'];
         $gt_recovered += $i['recovered_count'];
+        $gt_abtc += $i['abtc_count'];
         @endphp
         @endforeach
-        | _ | TOTAL | {{$gt_suspected}} | {{$gt_confirmed}} | {{$gt_recovered}} | {{$gt_negative}} | {{$gt_suspected + $gt_confirmed + $gt_negative + $gt_recovered}} |
+        | _ | TOTAL | {{$gt_suspected}} | {{$gt_confirmed}} | {{$gt_recovered}} | {{$gt_negative}} | {{$gt_abtc}} | {{$gt_suspected + $gt_confirmed + $gt_negative + $gt_recovered + $gt_abtc}} |
         @endcomponent
     </div>
 @endcomponent
