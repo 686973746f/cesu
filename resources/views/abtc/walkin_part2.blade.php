@@ -7,7 +7,7 @@
     @csrf
     <div class="container">
         <div class="card">
-            <div class="card-header">Anti-Rabies Vaccination - Walk in Registration ({{session('vaccination_site_name')}})</div>
+            <div class="card-header"><b>Anti-Rabies Vaccination - Walk in Registration ({{session('vaccination_site_name')}})</b></div>
             <div class="card-body">
                 <div class="alert alert-info" role="alert">
                     <b>Note:</b> All Fields marked with an asterisk (<strong class="text-danger">*</strong>) are required fields.
@@ -18,7 +18,7 @@
                 </div>
                 @endif
                 <div class="card mb-3">
-                    <div class="card-header">Personal information</div>
+                    <div class="card-header"><b>Personal information</b></div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
@@ -35,25 +35,25 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="mname" class="form-label">Middle Name <i><small>(If Applicable)</small></i></label>
+                                    <label for="mname" class="form-label">Middle Name</label>
                                     <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', request()->input('mname'))}}" maxlength="50" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="suffix" class="form-label">Suffix <i><small>(If Applicable)</small></i></label>
+                                    <label for="suffix" class="form-label">Suffix</label>
                                     <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix', request()->input('suffix'))}}" maxlength="3" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-3">
                                   <label for="bdate" class="form-label"><b class="text-danger">*</b>Birthdate</label>
                                   <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate', request()->input('bdate'))}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" readonly required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="gender" class="form-label"><span class="text-danger font-weight-bold">*</span>Gender/Kasarian</label>
                                     <select class="form-select" name="gender" id="gender" required>
@@ -63,17 +63,23 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="contact_number" class="form-label"><span class="text-danger font-weight-bold">*</span>Contact Number (Mobile)</label>
                                     <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', '09')}}" pattern="[0-9]{11}" placeholder="09xxxxxxxxx" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="philhealth" class="form-label">Philhealth <small><i>(Optional)</i></small></label>
+                                    <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card mb-3">
-                    <div class="card-header">Address</div>
+                    <div class="card-header"><b>Address</b></div>
                     <div class="card-body">
                         <div id="address_text" class="d-none">
                             <div class="row">
@@ -137,10 +143,10 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header">Case Information</div>
+                    <div class="card-header"><b>Case Information</b></div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Uri ng Hayop na Kumagat</label>
                                     <select class="form-select" name="animal_type" id="animal_type" required>
@@ -158,24 +164,34 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Kailan nakagat/nakalmot?</label>
                                     <input type="date" class="form-control" name="bite_date" id="bite_date" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}" value="{{old('bite_date')}}" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="case_location" class="form-label"><strong id="case_location_ast" class="text-danger">*</strong>Saang lugar nangyari ang pangangagat/pangangalmot?</label>
+                                    <label for="case_location" class="form-label"><strong id="case_location_ast" class="text-danger">*</strong>Saang lugar nangyari ang pangangagat o pangangalmot?</label>
                                     <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location')}}" placeholder="ex: Loob ng bahay, Kalsada, Gusali, Gubat, atbp." style="text-transform: uppercase;" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="body_site" class="form-label"><strong id="body_site_ast" class="text-danger">*</strong>Parte ng katawan na nasugatan/nakagat</label>
+                                    <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site')}}" placeholder="ex: Kamay, Paa, Hita, atbp." style="text-transform: uppercase;" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="body_site" class="form-label"><strong id="body_site_ast" class="text-danger">*</strong>Parte ng katawan na nasugatan/nakagat</label>
-                                    <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site')}}" placeholder="ex: Kamay, Paa, Hita, atbp." style="text-transform: uppercase;" required>
+                                    <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Bakunado ba ang hayop na kumagat/kumalmot sa'yo?</label>
+                                    <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
+                                        <option value="" disabled {{is_null(old('if_animal_vaccinated')) ? 'selected' : ''}}>Pumili...</option>
+                                        <option value="Y" {{(old('if_animal_vaccinated') == 'Y') ? 'selected' : ''}}>Oo / Yes</option>
+                                        <option value="N" {{(old('if_animal_vaccinated') == 'N') ? 'selected' : ''}}>Hindi / No</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-4">

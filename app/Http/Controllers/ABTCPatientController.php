@@ -84,6 +84,7 @@ class ABTCPatientController extends Controller
                 'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
                 'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
                 'bdate' => $request->bdate,
+                'philhealth' => $request->philhealth,
                 'age' => $get_age,
                 'gender' => $request->gender,
                 'contact_number' => $request->contact_number,
@@ -166,6 +167,7 @@ class ABTCPatientController extends Controller
             $p->age = $get_age;
             $p->gender = $request->gender;
             $p->contact_number = $request->contact_number;
+            $p->philhealth = $request->philhealth;
             $p->address_region_code = $request->address_region_code;
             $p->address_region_text = $request->address_region_text;
             $p->address_province_code = $request->address_province_code;

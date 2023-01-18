@@ -7,8 +7,12 @@
     <div class="row justify-content-center">
         <div class="card">
             <div class="card-body">
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-success text-center" role="alert">
                     Kumpleto na ang iyong registration. Paki-screenshot ang pahinang ito at maaari nang pumila.
+                </div>
+                <div class="text-center">
+                    <h4>Ang bilang mo sa pila:</h4>
+                    <h1><b>#{{$pila_count}}</b></h1>
                 </div>
                 <div id="divToPrint">
                     <table class="table table-bordered">

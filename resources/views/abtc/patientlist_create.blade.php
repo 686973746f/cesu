@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="mb-3">
                           <label for="has_bday" class="form-label"><span class="text-danger font-weight-bold">*</span>Has Birthday</label>
                           <select class="form-select" name="has_bday" id="has_bday" required>
@@ -61,7 +61,7 @@
                             <input type="number" class="form-control" name="age" id="age" value="{{old('age')}}" min="0" max="150">  
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="mb-3">
                             <label for="gender" class="form-label"><span class="text-danger font-weight-bold">*</span>Gender</label>
                             <select class="form-select" name="gender" id="gender" required>
@@ -71,10 +71,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="mb-3">
                             <label for="contact_number" class="form-label">Contact Number <small><i>(If Applicable)</i></small></label>
                             <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09xxxxxxxxx">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="philhealth" class="form-label">Philhealth <small><i>(If Applicable)</i></small></label>
+                            <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
                         </div>
                     </div>
                 </div>

@@ -14,7 +14,15 @@ class ABTCWalkInRegistrationController extends Controller
 {
     public function walkin_part1() {
         //LAGYAN TIME LIMIT
-        
+        /*
+        if(time() >= strtotime('00:00:00') && time() <= strtotime('06:30:00')) {
+            return 'Registration starts at 06:30 AM. Please come back later.';
+        }
+        else if(time() >= strtotime('16:00:00') && time() <= strtotime('23:59:59')) {
+            return 'Registration starts tomorrow ('.date('m/d/Y').') at 06:30 AM. Please come back later.';
+        }
+        */
+
         if(request()->input('v')) {
             $c = request()->input('v');
 
@@ -35,6 +43,7 @@ class ABTCWalkInRegistrationController extends Controller
         if(session('regisphase') == 'done') {
             return view('abtc.walkin_part3', [
                 'd' => AbtcBakunaRecords::findOrFail(session('regisid')),
+                'pila_count' => session('pila_count'),
             ]);
         }
 
@@ -92,6 +101,7 @@ class ABTCWalkInRegistrationController extends Controller
         if(session('regisphase') == 'done') {
             return view('abtc.walkin_part3', [
                 'd' => AbtcBakunaRecords::findOrFail(session('regisid')),
+                'pila_count' => session('pila_count'),
             ]);
         }
 
@@ -168,6 +178,7 @@ class ABTCWalkInRegistrationController extends Controller
                 'bdate' => $request->bdate,
                 'gender' => $request->gender,
                 'contact_number' => $request->contact_number,
+                'philhealth' => $request->philhealth,
                 'address_region_code' => $request->address_region_code,
                 'address_region_text' => $request->address_region_text,
                 'address_province_code' => $request->address_province_code,
@@ -243,6 +254,7 @@ class ABTCWalkInRegistrationController extends Controller
             'case_location' => ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL,
             'animal_type' => $request->animal_type,
             'animal_type_others' => ($request->animal_type == 'O') ? mb_strtoupper($request->animal_type_others) : NULL,
+            'if_animal_vaccinated' => ($request->if_animal_vaccinated == 'Y') ? 1 : 0,
             'bite_date' => $request->bite_date,
             'bite_type' => 'B',
             'body_site' => $request->body_site,
@@ -261,11 +273,19 @@ class ABTCWalkInRegistrationController extends Controller
             'biting_animal_status' => 'N/A',
         ]);
 
+        $pila_count = AbtcBakunaRecords::where('created_at', '<', date('Y-m-d'))
+        ->whereDate('d0_date', $base_date)
+        ->count();
+
+        $pila_count = $pila_count + 1;
+
         Session::put('regisphase', 'done');
         Session::put('regisid', $br->id);
+        Session::put('pila_count', $pila_count);
 
         return view('abtc.walkin_part3', [
             'd' => $br,
+            'pila_count' => $pila_count,
         ]);
     }
 }

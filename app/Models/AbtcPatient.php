@@ -24,6 +24,7 @@ class AbtcPatient extends Model
         'age',
         'gender',
         'contact_number',
+        'philhealth',
         'address_region_code',
         'address_region_text',
         'address_province_code',
