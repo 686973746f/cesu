@@ -35,7 +35,7 @@ class ABTCWalkInRegistrationController extends Controller
             return view('abtc.walkin_part1');
         }
         else {
-            return abort(401);
+            return 'Referral Code required in order to proceed. Please go to the nearest ABTC for the link.';
         }
     }
 
