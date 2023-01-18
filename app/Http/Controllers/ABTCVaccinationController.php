@@ -566,8 +566,6 @@ class ABTCVaccinationController extends Controller
                 ->with('msgtype', 'warning');
             }
 
-            if($request->d0_date)
-
             $d->save();
         }
 
