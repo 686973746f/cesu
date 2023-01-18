@@ -273,7 +273,7 @@ class ABTCWalkInRegistrationController extends Controller
             'biting_animal_status' => 'N/A',
         ]);
 
-        $pila_count = AbtcBakunaRecords::where('created_at', '<', date('Y-m-d'))
+        $pila_count = AbtcBakunaRecords::where('created_at', '<', $br->created_at)
         ->whereDate('d0_date', $base_date)
         ->count();
 
