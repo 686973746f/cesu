@@ -42,22 +42,22 @@
                                 <td>{{date('m/d/Y (l)', strtotime($f->d0_date))}} @if($f->d0_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             <tr>
-                                <td><strong>3rd Day</strong></td>
+                                <td><strong>Day 3</strong></td>
                                 <td>{{date('m/d/Y (l)', strtotime($f->d3_date))}} @if($f->d3_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @if($f->is_booster == 0)
                             <tr>
-                                <td><strong>7th Day</strong></td>
+                                <td><strong>Day 7</strong></td>
                                 <td>{{date('m/d/Y (l)', strtotime($f->d7_date))}} @if($f->d7_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @if($f->pep_route != 'ID')
                             <tr>
-                                <td><strong>14th Day</strong></td>
+                                <td><strong>Day 14</strong></td>
                                 <td>{{date('m/d/Y (l)', strtotime($f->d14_date))}} @if($f->d14_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @endif
                             <tr>
-                                <td><strong>28th Day</strong></td>
+                                <td><strong>Day 28</strong> <i>(Optional)</i></td>
                                 <td>{{date('m/d/Y (l)', strtotime($f->d28_date))}} @if($f->d28_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @endif
@@ -70,9 +70,9 @@
                     </ul>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{route('abtc_home')}}" class="btn btn-link"><i class="fa-solid fa-house me-2"></i>Back to Home</a>
+                    <a href="{{route('abtc_schedule_index')}}" class="btn btn-link"><i class="fa-solid fa-house me-2"></i>Back to Todays Schedule</a>
                     <hr>
-                    <a href="{{route('abtc_encode_edit', ['br_id' => $f->id])}}">Back to Patient Animal Bite Record</a>
+                    <a href="{{route('abtc_encode_edit', ['br_id' => $f->id])}}">Back to Patient Details</a>
                 </div>
             </div>
         </div>

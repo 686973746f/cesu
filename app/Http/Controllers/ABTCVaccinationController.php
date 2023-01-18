@@ -306,6 +306,7 @@ class ABTCVaccinationController extends Controller
                 if($get_br->patient->register_status == 'PENDING') {
                     $c = AbtcPatient::findOrFail($get_br->patient_id);
                     
+                    $c->created_by = auth()->user()->id;
                     $c->register_status = 'VERIFIED';
                     $c->save();
                 }
@@ -535,6 +536,38 @@ class ABTCVaccinationController extends Controller
         }
 
         if($d->isDirty()) {
+            if(is_null($d->created_by)) {
+                $d->created_by = auth()->user()->id;
+            }
+
+            if($request->d0_date > date('Y-m-d') && $request->d0_ostatus == 'C') {
+                return redirect()->back()
+                ->with('msg', 'Day 0 cannot be marked as completed because the date is ahead the present date.')
+                ->with('msgtype', 'warning');
+            }
+            if($request->d3_date > date('Y-m-d') && $request->d3_ostatus == 'C') {
+                return redirect()->back()
+                ->with('msg', 'Day 3 cannot be marked as completed because the date is ahead the present date.')
+                ->with('msgtype', 'warning');
+            }
+            if($request->d7_date > date('Y-m-d') && $request->d7_ostatus == 'C') {
+                return redirect()->back()
+                ->with('msg', 'Day 7 cannot be marked as completed because the date is ahead the present date.')
+                ->with('msgtype', 'warning');
+            }
+            if($request->d14_date > date('Y-m-d') && $request->d14_ostatus == 'C') {
+                return redirect()->back()
+                ->with('msg', 'Day 14 cannot be marked as completed because the date is ahead the present date.')
+                ->with('msgtype', 'warning');
+            }
+            if($request->d28_date > date('Y-m-d') && $request->d28_ostatus == 'C') {
+                return redirect()->back()
+                ->with('msg', 'Day 28 cannot be marked as completed because the date is ahead the present date.')
+                ->with('msgtype', 'warning');
+            }
+
+            if($request->d0_date)
+
             $d->save();
         }
 
@@ -545,6 +578,7 @@ class ABTCVaccinationController extends Controller
 
     public function schedule_index() {
         $new = AbtcBakunaRecords::whereDate('d0_date', date('Y-m-d'))
+        ->where('d0_done', 0)
         ->orderBy('created_at', 'ASC')
         ->get();
 
