@@ -211,4 +211,31 @@ class AbtcBakunaRecords extends Model
             }
         }
     }
+
+    public function getschedtype() {
+        if($this->d0_date == date('Y-m-d')) {
+            return 'NEW';
+        }
+        else {
+            return 'FOLLOW-UP';
+        }
+    }
+
+    public function getlatestday() {
+        if($this->d0_done == 0) {
+            return 'D0';
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 0) {
+            return 'D3';
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
+            return 'D7';
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM') {
+            return 'D14';
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d14_done == 0) {
+            return 'D28';
+        }
+    }
 }

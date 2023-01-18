@@ -361,6 +361,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/abtc/report/export1', [ABTCReportController::class, 'export1'])->name('abtc_report_export1');
 
     Route::post('/abtc/settings/save', [ABTCUserSettingsController::class, 'save_settings'])->name('abtc_save_settings');
+
+    Route::get('/abtc/sched', [ABTCVaccinationController::class, 'schedule_index'])->name('abtc_schedule_index');
 });
 
 Route::group(['middleware' => ['guest']], function() {

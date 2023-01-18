@@ -65,26 +65,29 @@
                                 <td>Category {{$d->category_level}}</td>
                             </tr>
                             <tr>
-                                <td class="bg-light"><strong>1st Vaccine/Day 0 Date</strong></td>
+                                <td class="bg-light"><strong>Day 0</strong></td>
                                 <td>{{date('m/d/Y (l)', strtotime($d->d0_date))}} @if($d->d0_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             <tr>
-                                <td class="bg-light"><strong>Day 3 Date</strong></td>
+                                <td class="bg-light"><strong>Day 3</strong></td>
                                 <td>{{date('m/d/Y (l)', strtotime($d->d3_date))}} @if($d->d3_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @if($d->is_booster == 0)
                             <tr>
-                                <td class="bg-light"><strong>Day 7 Date</strong></td>
+                                <td class="bg-light"><strong>Day 7</strong></td>
                                 <td>{{date('m/d/Y (l)', strtotime($d->d7_date))}} @if($d->d7_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @if($d->pep_route != 'ID')
                             <tr>
-                                <td class="bg-light"><strong>Day 14 Date</strong></td>
+                                <td class="bg-light"><strong>Day 14</strong></td>
                                 <td>{{date('m/d/Y (l)', strtotime($d->d14_date))}} @if($d->d14_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @endif
                             <tr>
-                                <td class="bg-light"><strong>Date 28 Date</strong></td>
+                                <td class="bg-light">
+                                    <p><strong>Day 28</strong> <i>(Opsyonal)</i></p>
+                                    <!-- <small><i>Kapag namatay ang hayop makalipas ng 14 na araw. O kapag gala ang hayop at hindi na makita kung saan.</i></small> -->
+                                </td>
                                 <td>{{date('m/d/Y (l)', strtotime($d->d28_date))}} @if($d->d28_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
                             </tr>
                             @endif

@@ -154,6 +154,9 @@ class ABTCWalkInRegistrationController extends Controller
                     ->with('msgtype', 'danger');
                 }
             }
+            else {
+                $is_booster = 0;
+            }
         }
         else {
             $is_booster = 0;
@@ -196,6 +199,20 @@ class ABTCWalkInRegistrationController extends Controller
         }
 
         $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y'))->count() + 1);
+
+        $set_d0_date = Carbon::parse($base_date);
+        
+        if($set_d0_date->dayOfWeek == Carbon::WEDNESDAY) {
+            $set_d0_date = Carbon::parse($set_d0_date)->addDays(1);
+        }
+        else if($set_d0_date->dayOfWeek == Carbon::SATURDAY) {
+            $set_d0_date = Carbon::parse($set_d0_date)->addDays(2);
+        }
+        else if($set_d0_date->dayOfWeek == Carbon::SUNDAY) {
+            $set_d0_date = Carbon::parse($set_d0_date)->addDays(1);
+        }
+
+        $base_date = Carbon::parse($set_d0_date)->format('Y-m-d');
 
         $set_d3_date = Carbon::parse($base_date)->addDays(3);
 

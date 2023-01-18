@@ -29,6 +29,8 @@
               <hr>
               <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg"><i class="fa-solid fa-users me-2"></i>Patient Lists</a>
               <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#nvm"><i class="fa-solid fa-syringe me-2"></i>New Vaccination</button>
+              <a href="{{route('abtc_schedule_index')}}" class="btn btn-primary btn-lg">Todays Schedule</a>
+              <hr>
               <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#reportpanel"><i class="fa-solid fa-chart-pie me-2"></i>Report</button>
               @if(auth()->user()->is_admin == 1)
               <hr>

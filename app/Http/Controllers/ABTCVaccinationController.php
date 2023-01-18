@@ -542,4 +542,24 @@ class ABTCVaccinationController extends Controller
         ->with('msg', 'Schedule has been manually changed successfully.')
         ->with('msgtype', 'success');
     }
+
+    public function schedule_index() {
+        $new = AbtcBakunaRecords::whereDate('d0_date', date('Y-m-d'))
+        ->orderBy('created_at', 'ASC')
+        ->get();
+
+        $ff = AbtcBakunaRecords::where(function ($q) {
+            $q->whereDate('d3_date', date('Y-m-d'))
+            ->orWhereDate('d7_date', date('Y-m-d'))
+            ->orWhereDate('d14_date', date('Y-m-d'))
+            ->orWhereDate('d28_date', date('Y-m-d'));
+        })
+        ->orderBy('created_at', 'ASC')
+        ->get();
+
+        return view('abtc.schedule_index', [
+            'new' => $new,
+            'ff' => $ff,
+        ]);
+    }
 }
