@@ -5,6 +5,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <form action="{{route('abtc_walkin_part3')}}" method="POST">
     @csrf
+    <div class="modal fade" id="ifbooster" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="is_booster" class="form-label">Ikaw ba ay nabakunahan na ng anti-rabies sa ibang lugar dati pa?</label>
+                        <select class="form-select" name="is_booster" id="is_booster" required>
+                            <option value="" disabled {{is_null(old('is_booster')) ? 'selected' : ''}}>Pumili...</option>
+                            <option value="Y" {{(old('is_booster') == 'Y') ? 'selected' : ''}}>Oo / Yes</option>
+                            <option value="N" {{(old('is_booster') == 'N') ? 'selected' : ''}}>Hindi pa / Not yet</option>
+                        </select>
+                    </div>
+                    <p class="d-none" id="booster_note">Note: Kung ikaw ay bakunado na ng anti-rabies noon pa, ikaw ay maaaring magpa-booster na lang. Ipakita ang lumang form o card ng iyong anti-rabies vaccination sa magbabakuna.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block disabled" data-dismiss="modal" id="modal_closebtn">Magpatuloy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="card">
             <div class="card-header"><b>Anti-Rabies Vaccination - Walk in Registration ({{session('vaccination_site_name')}})</b></div>
@@ -227,6 +248,9 @@
 </form>
 
 <script>
+    $('#ifbooster').modal({backdrop: 'static', keyboard: false});
+    $('#ifbooster').modal('show');
+
     //Select2 Init for Address Bar
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
         theme: 'bootstrap',
@@ -365,5 +389,17 @@
     $('#address_region_text').val('REGION IV-A (CALABARZON)');
     $('#address_province_text').val('CAVITE');
     $('#address_muncity_text').val('GENERAL TRIAS');
+
+    $('#is_booster').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#modal_closebtn').removeClass('disabled');
+            $('#booster_note').removeClass('d-none');
+        }
+        else if($(this).val() == 'N') {
+            $('#modal_closebtn').removeClass('disabled');
+            $('#booster_note').addClass('d-none');
+        }
+    });
 </script>
 @endsection

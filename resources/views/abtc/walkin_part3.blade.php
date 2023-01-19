@@ -95,6 +95,9 @@
                     </table>
                 </div>
             </div>
+            <div class="card-footer text-center">
+                <p>May iba pang kasamang magpapabakuna rin? <a href="{{route('abtc_walkin_part1', ['v' => session('vrefcode')])}}">Mag-sumite ulit dito</a></p>
+            </div>
         </div>
     </div>
 </div>

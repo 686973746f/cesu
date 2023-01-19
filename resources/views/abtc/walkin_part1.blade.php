@@ -53,4 +53,27 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="announcement" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Maligayang pagdating sa <b>ABTC Online Registration System</b> <i>({{session('vaccination_site_name')}})</i></h5>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center text-danger"><b>PAALALA</b></h4>
+                <p>Ang registration link ay para lamang sa mga bagong pasyente na hindi pa nababakunahan ng anti-rabies dito sa {{session('vaccination_site_name')}}.</p>
+                <p>Hindi na kailangang mag-rehistro ulit ang mga follow-up na pasyente.</p>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Naiintindihan ko, magpatuloy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#announcement').modal({backdrop: 'static', keyboard: false});
+    $('#announcement').modal('show');
+</script>
 @endsection

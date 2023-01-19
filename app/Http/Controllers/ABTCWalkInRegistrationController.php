@@ -28,6 +28,7 @@ class ABTCWalkInRegistrationController extends Controller
 
             $vid = AbtcVaccinationSite::where('referral_code', $c)->first();
 
+            Session::put('vrefcode', $c);
             Session::put('vaccination_site_name', $vid->site_name);
             Session::put('vaccination_site_id', $vid->id);
             Session::put('regisphase', 'notyet');
@@ -65,7 +66,6 @@ class ABTCWalkInRegistrationController extends Controller
             $q->where('suffix', $suffix)
             ->orWhereNull('suffix');
         })
-        ->whereDate('bdate', $bdate)
         ->first();
 
         if($b) {
@@ -84,7 +84,7 @@ class ABTCWalkInRegistrationController extends Controller
                 }
                 else {
                     return redirect()->back()
-                    ->with('msg', 'Hindi maaaring magpatuloy. Ikaw ay kasalukuyang may tinatapos pa na bakuna.')
+                    ->with('msg', 'Hindi maaaring magpatuloy. Ikaw ay kasalukuyang may tinatapos pa na bakuna. Makipag-usap sa ABTC Coordinator para sa iba pang detalye.')
                     ->with('msgtype', 'danger');
                 }
             }
