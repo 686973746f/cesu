@@ -17,7 +17,10 @@
                             <option value="N" {{(old('is_booster') == 'N') ? 'selected' : ''}}>Hindi pa / Not yet</option>
                         </select>
                     </div>
-                    <p class="d-none" id="booster_note">Note: Kung ikaw ay bakunado na ng anti-rabies noon pa, ikaw ay maaaring magpa-booster na lang. Ipakita ang lumang form o card ng iyong anti-rabies vaccination sa magbabakuna.</p>
+                    <div class="d-none" id="booster_note">
+                    <p>Note: Kung ikaw ay bakunado na ng anti-rabies noon pa, ikaw ay isasalang na magpa-booster na lang <i>(dalawang beses (2) ka na lamang babakunahan imbes na tatlo (3))</i>.</p>
+                    <p>Ipakita ang lumang form o card ng iyong anti-rabies vaccination sa magbabakuna.</p>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success btn-block disabled" data-dismiss="modal" id="modal_closebtn">Magpatuloy</button>
@@ -44,19 +47,19 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="lname" class="form-label"><b class="text-danger">*</b>Last Name</label>
+                                    <label for="lname" class="form-label"><b class="text-danger">*</b>Apelyido/Surname</label>
                                     <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', request()->input('lname'))}}" maxlength="50" placeholder="DELA CRUZ" readonly required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="fname" class="form-label"><b class="text-danger">*</b>First Name</label>
+                                    <label for="fname" class="form-label"><b class="text-danger">*</b>Unang Pangalan/First Name</label>
                                     <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname', request()->input('fname'))}}" maxlength="50" placeholder="JUAN" readonly required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="mname" class="form-label">Middle Name</label>
+                                    <label for="mname" class="form-label">Gitnang Pangalan/Middle Name</label>
                                     <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', request()->input('mname'))}}" maxlength="50" readonly>
                                 </div>
                             </div>

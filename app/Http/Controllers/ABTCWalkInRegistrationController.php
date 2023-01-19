@@ -155,11 +155,21 @@ class ABTCWalkInRegistrationController extends Controller
                 }
             }
             else {
-                $is_booster = 0;
+                if($request->is_booster == 'Y') {
+                    $is_booster = 1;
+                }
+                else {
+                    $is_booster = 0;
+                }
             }
         }
         else {
-            $is_booster = 0;
+            if($request->is_booster == 'Y') {
+                $is_booster = 1;
+            }
+            else {
+                $is_booster = 0;
+            }
 
             $foundunique = false;
 
