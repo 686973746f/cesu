@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row d-none">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
@@ -177,7 +177,8 @@
                                         <option value="" disabled {{is_null(old('animal_type')) ? 'selected' : ''}}>Pumili...</option>
                                         <option value="PD" {{(old('animal_type') == 'PD') ? 'selected' : ''}}>Alagang Aso/Pet Dog (PD)</option>
                                         <option value="SD" {{(old('animal_type') == 'SD') ? 'selected' : ''}}>Galang Aso/Stray Dog (SD)</option>
-                                        <option value="C" {{(old('animal_type') == 'C') ? 'selected' : ''}}>Pusa/Cat</option>
+                                        <option value="PC" {{(old('animal_type') == 'PC') ? 'selected' : ''}}>Alagang Pusa/Pet Cat (PC)</option>
+                                        <option value="SC" {{(old('animal_type') == 'SC') ? 'selected' : ''}}>Galang Pusa/Stray Cat (SC)</option>
                                         <option value="O" {{(old('animal_type') == 'O') ? 'selected' : ''}}>Iba pa/Others</option>
                                     </select>
                                 </div>
@@ -196,13 +197,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="case_location" class="form-label"><strong id="case_location_ast" class="text-danger">*</strong>Saang lugar nangyari ang pangangagat o pangangalmot?</label>
+                                    <label for="case_location" class="form-label"><strong id="case_location_ast" class="text-danger">*</strong>Saang Barangay/Siyudad ka nakagat/nakalmot</label>
                                     <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location')}}" placeholder="ex: Loob ng bahay, Kalsada, Gusali, Gubat, atbp." style="text-transform: uppercase;" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="body_site" class="form-label"><strong id="body_site_ast" class="text-danger">*</strong>Parte ng katawan na nasugatan/nakagat</label>
+                                    <label for="body_site" class="form-label"><strong id="body_site_ast" class="text-danger">*</strong>Parte ng katawan na nasugatan/nakagat ng hayop</label>
                                     <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site')}}" placeholder="ex: Kamay, Paa, Hita, atbp." style="text-transform: uppercase;" required>
                                 </div>
                             </div>

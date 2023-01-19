@@ -97,7 +97,8 @@
                                 <option value="" disabled {{is_null(old('animal_type', $d->animal_type)) ? 'selected' : ''}}>Choose...</option>
                                 <option value="PD" {{(old('animal_type', $d->animal_type) == 'PD') ? 'selected' : ''}}>Pet Dog (PD)</option>
                                 <option value="SD" {{(old('animal_type', $d->animal_type) == 'SD') ? 'selected' : ''}}>Stray Dog (SD)</option>
-                                <option value="C" {{(old('animal_type', $d->animal_type) == 'C') ? 'selected' : ''}}>Cat</option>
+                                <option value="PC" {{(old('animal_type', $d->animal_type) == 'PC') ? 'selected' : ''}}>Pet Cat</option>
+                                <option value="SC" {{(old('animal_type', $d->animal_type) == 'SC') ? 'selected' : ''}}>Stray Cat</option>
                                 <option value="O" {{(old('animal_type', $d->animal_type) == 'O') ? 'selected' : ''}}>Others</option>
                             </select>
                         </div>
