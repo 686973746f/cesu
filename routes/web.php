@@ -103,13 +103,14 @@ Route::group(['middleware' => ['guest']], function () {
     //Route::post('/medcert', [OnlineMedCertController::class, 'check'])->name('onlinemedcert_check');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAccount']], function() {
-    /*
-    Route::get('/forms/bulkupdate', [BulkUpdateController::class, 'viewBulkUpdate'])->name('bulkupdate.index');
-    Route::post('/forms/bulkupdate', [BulkUpdateController::class, 'store'])->name('bulkupdate.store');
-    Route::get('/forms/bulkupdate/ajax', [BulkUpdateController::class, 'ajaxController'])->name('bulkupdate.ajax');
-    */
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/account/changepw', [ChangePasswordController::class, 'index'])->name('changepw.index');
+    Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
+});
 
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount', 'canAccessCovid']], function() {
+    //Pa-swab
     Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
     Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
     Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
@@ -121,22 +122,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuAcc
     Route::get('/check_pending', [HomeController::class, 'pendingSchedChecker'])->name('pendingshedchecker.index');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/account/changepw', [ChangePasswordController::class, 'index'])->name('changepw.index');
-    Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
-});
-
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount']], function() {
-    //Pa-swab
-    Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
-    Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
-    Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
-    Route::post('/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);
-    Route::post('/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
-});
-
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessCovid']], function() {
     // your routes
     Route::get('/records/duplicatechecker', [RecordsController::class, 'duplicateCheckerDashboard'])->name('records.duplicatechecker');
     Route::post('/records/check', [RecordsController::class, 'check'])->name('records.check');

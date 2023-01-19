@@ -14,7 +14,11 @@
                     <hr>
                     <div class="d-flex justify-content-between">
                         <div><b>COVID-19 Menu</b></div>
-                        <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changemenu">Change</button></div>
+                        <div>
+                            @if(auth()->user()->canaccess_covid == 1)
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changemenu">Change</button>
+                            @endif
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
