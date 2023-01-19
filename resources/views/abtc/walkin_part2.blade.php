@@ -154,19 +154,19 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="address_houseno" class="form-label"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                    <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                    <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex: S1 B2 L3 / #034" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="address_street" class="form-label"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
-                                    <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                    <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex: CAMELLA HOMES / PUROK 123 / SITIO ELANG" required>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header"><b>Case Information</b></div>
                     <div class="card-body">
                         <div class="row">
@@ -221,7 +221,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="washing_of_bite" class="form-label"><strong class="text-danger">*</strong>Hinugasan ng Sabon ang Sugat?</label>
+                                    <label for="washing_of_bite" class="form-label"><strong class="text-danger">*</strong>Hinugasan na ng sabon ang sugat?</label>
                                     <select class="form-select" name="washing_of_bite" id="washing_of_bite" required>
                                         <option value="" disabled {{is_null(old('washing_of_bite')) ? 'selected' : ''}}>Pumili...</option>
                                         <option value="Y" {{(old('washing_of_bite') == 'Y') ? 'selected' : ''}}>Oo / Yes</option>
@@ -240,6 +240,18 @@
                                     <small class="text-muted">Note: Titignan ng magbabakuna kung nasaan ang kagat/sugat.</small>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><b>Data Privacy Statement</b></div>
+                    <div class="card-body text-center">
+                        <p>Sa pamamagitan ng pagpili ng <i>"Sumasang-ayon ako"</i> at pag-click sa pindutang <i>"Isumite"</i> sa ibaba, kinikilala ko at napatunayan na maingat kong binasa at naintindihan ang mga tuntunin at kundisyon ng patakaran sa Data Privacy/Polisiya ng Pamahalaan ng Lungsod ng General Trias. Sa pamamagitan ng pagbibigay ng personal na impormasyon sa Pamahalaang Lungsod ng General Trias, kinukumpirma ko na ang data ay totoo at tama. Naiintindihan ko na ang Pamahalaang Lungsod ng General Trias ay may karapatang baguhin ang anumang desisyon na ginawa batay sa impormasyong ibinigay ko kung ang impormasyon ay mapatunayan na hindi totoo o hindi tama. Sumasang-ayon din ako na ang anumang isyu na maaaring lumabas na may kaugnayan sa pagproseso ng aking personal na impormasyon ay maaayos sa Pamahalaang Panlungsod ng General Trias bago gamitin ang naaangkop na arbitrasyon o paglilitis sa korte sa loob ng hurisdiksyon ng Pilipinas. Sa wakas, nagbibigay ako ng aking kusang-loob na pahintulot at permiso sa Pamahalaang Lungsod ng General Trias at ang mga kinatawan na pinahintulutan na ligal na maproseso ang aking data / impormasyon.</p>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="dpsagree" id="dpsagree" required>
+                              Sumasang-ayon ako
+                            </label>
                         </div>
                     </div>
                 </div>

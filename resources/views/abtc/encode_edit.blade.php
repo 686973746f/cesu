@@ -51,6 +51,10 @@
                 <table class="table table-bordered">
                     <tbody class="text-center">
                         <tr>
+                            <td class="bg-light"><strong>Registration #</strong></td>
+                            <td>{{$d->case_id}}</td>
+                        </tr>
+                        <tr>
                             <td class="bg-light"><strong>Name / ID</strong></td>
                             <td><a href="{{route('abtc_patient_edit', ['id' => $d->patient->id])}}">{{$d->patient->getName()}} (#{{$d->patient->id}})</a></td>
                         </tr>

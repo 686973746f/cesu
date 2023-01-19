@@ -29,7 +29,7 @@
             </div>
             @endif
             <div class="d-grid gap-2">
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fa-solid fa-qrcode me-2"></i>Quick Search via QR</button>
+              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fa-solid fa-qrcode me-2"></i>Quick Search via QR / Reg. Number</button>
               <hr>
               <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg"><i class="fa-solid fa-users me-2"></i>Patient Lists</a>
               <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#nvm"><i class="fa-solid fa-syringe me-2"></i>New Vaccination</button>
@@ -63,12 +63,12 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="qr" class="form-label">Scan QR Code here</label>
+            <label for="qr" class="form-label">Scan QR Code or Type Registration Number here</label>
             <input type="text" class="form-control" name="qr" id="qr" required>
           </div>
         </div>
         <div class="modal-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Search</button>
         </div>
       </div>
     </div>

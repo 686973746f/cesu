@@ -426,7 +426,8 @@ class ABTCVaccinationController extends Controller
     public function qr_quicksearch(Request $request) {
         $sqr = $request->qr;
 
-        $search = AbtcPatient::where('qr', $sqr)->first();
+        $search = AbtcPatient::where('qr', $sqr)
+        ->first();
 
         if($search) {
             //load latest bakuna record
@@ -442,9 +443,17 @@ class ABTCVaccinationController extends Controller
             }
         }
         else {
-            return redirect()->back()
-            ->with('msg', 'User does not exist on the server.')
-            ->with('msgtype', 'warning');
+            $asearch = AbtcBakunaRecords::where('case_id', $sqr)->first();
+            if($asearch) {
+                return redirect()->route('abtc_encode_edit', $asearch->id)
+                ->with('msg', 'Result found with same Registration Number.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'User does not exist on the server.')
+                ->with('msgtype', 'warning');
+            }
         }
     }
 
