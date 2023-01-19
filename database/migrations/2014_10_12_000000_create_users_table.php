@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('enabled')->default(1);
+            $table->string('name');
+            $table->string('email')->unique();
             $table->tinyInteger('isAdmin')->default(0);
             $table->foreignId('brgy_id')->nullable()->constrained('brgy')->onDelete('cascade');
             $table->foreignId('subdivision_id')->nullable()->constrained()->onDelete('cascade');
@@ -29,8 +31,8 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('canExportReport')->default(0);
             $table->tinyInteger('isValidator')->default(0);
             $table->tinyInteger('isPositiveEncoder')->default(0);
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->tinyInteger('canaccess_covid')->default(0);
+            $table->tinyInteger('canaccess_abtc')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->tinyInteger('option_enableAutoRedirectToCif')->default(0);

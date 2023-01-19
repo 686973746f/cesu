@@ -260,7 +260,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']
     Route::post('facility/{id}/viewPatient', [FacilityController::class, 'initDischarge'])->name('facility.initdischarge');
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 'canAccessCovid']], function()
 {
     //Admin Page
     Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
@@ -321,7 +321,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 });
 
 //ANIMAL BITE ROUTES
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1']], function () {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessAbtc']], function () {
     Route::get('/abtc', [ABTCPatientController::class, 'home'])->name('abtc_home');
     Route::get('/abtc/patient', [ABTCPatientController::class, 'index'])->name('abtc_patient_index');
     Route::get('/abtc/patient/create', [ABTCPatientController::class, 'create'])->name('abtc_patient_create');

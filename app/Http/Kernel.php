@@ -69,5 +69,7 @@ class Kernel extends HttpKernel
         'isLevel1' => \App\Http\Middleware\isLevel1::class,
         'isLevel2' => \App\Http\Middleware\isLevel2::class,
         'isLevel3' => \App\Http\Middleware\isLevel3::class,
+        'canAccessCovid' => \App\Http\Middleware\canAccessCovid::class,
+        'canAccessAbtc' => \App\Http\Middleware\canAccessAbtc::class,
     ];
 }

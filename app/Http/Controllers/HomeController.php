@@ -31,16 +31,21 @@ class HomeController extends Controller
     public function index()
     {
         if(auth()->user()->isLevel1()) {
-            Session::put('default_menu', 'COVID');
-            Session::put('default_home_url', route('main'));
+            if(auth()->user()->canaccess_covid == 1) {
+                Session::put('default_menu', 'COVID');
+                Session::put('default_home_url', route('main'));
 
-            $paswabctr = PaSwabDetails::where('status', 'pending')->count();
-            $selfreport_count = SelfReports::where('status', 'pending')->count();
-            
-            return view('home', [
-                'paswabctr' => $paswabctr,
-                'selfreport_count' => $selfreport_count,
-            ]);
+                $paswabctr = PaSwabDetails::where('status', 'pending')->count();
+                $selfreport_count = SelfReports::where('status', 'pending')->count();
+                
+                return view('home', [
+                    'paswabctr' => $paswabctr,
+                    'selfreport_count' => $selfreport_count,
+                ]);
+            }
+            else if(auth()->user()->canaccess_abtc == 1) {
+                return redirect()->route('abtc_home');
+            }
         }
         else if(auth()->user()->isLevel2()) {
 
