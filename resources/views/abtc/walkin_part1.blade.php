@@ -62,11 +62,11 @@
             </div>
             <div class="modal-body">
                 <h4 class="text-center text-danger"><b>PAALALA</b></h4>
-                <p>Ang registration link ay para lamang sa mga bagong pasyente na hindi pa nababakunahan ng anti-rabies dito sa {{session('vaccination_site_name')}}.</p>
+                <p>Ang registration link ay para lamang sa mga <b>1.)</b> bagong pasyente na hindi pa nababakunahan ng anti-rabies dito sa {{session('vaccination_site_name')}} at <b>2.)</b> Mga dating pasyente ngunit nakagat/nakalmot ulit makalipas ng 90 na araw .</p>
                 <p>Hindi na kailangang mag-rehistro ulit ang mga follow-up na pasyente.</p>
             </div>
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Naiintindihan ko, magpatuloy</button>
+                <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Naiintindihan ko, magpatuloy</button>
             </div>
         </div>
     </div>
