@@ -584,7 +584,14 @@ class ABTCVaccinationController extends Controller
     }
 
     public function schedule_index() {
-        $new = AbtcBakunaRecords::whereDate('d0_date', date('Y-m-d'))
+        if(request()->input('d')) {
+            $sdate = request()->input('d');
+        }
+        else {
+            $sdate = date('Y-m-d');
+        }
+
+        $new = AbtcBakunaRecords::whereDate('d0_date', $sdate)
         ->where('d0_done', 0)
         ->orderBy('created_at', 'ASC')
         ->get();
@@ -600,17 +607,17 @@ class ABTCVaccinationController extends Controller
         ->get();
         */
 
-        $ff = AbtcBakunaRecords::where(function ($q) {
-            $q->where('d3_date', date('Y-m-d'))
+        $ff = AbtcBakunaRecords::where(function ($q) use ($sdate) {
+            $q->where('d3_date', $sdate)
             ->where('d3_done', 0);
-        })->orWhere(function ($q) {
-            $q->where('d7_date', date('Y-m-d'))
+        })->orWhere(function ($q) use ($sdate) {
+            $q->where('d7_date', $sdate)
             ->where('d7_done', 0);
-        })->orWhere(function ($q) {
-            $q->where('d14_date', date('Y-m-d'))
+        })->orWhere(function ($q) use ($sdate) {
+            $q->where('d14_date', $sdate)
             ->where('d14_done', 0);
-        })->orWhere(function ($q) {
-            $q->where('d28_date', date('Y-m-d'))
+        })->orWhere(function ($q) use ($sdate) {
+            $q->where('d28_date', $sdate)
             ->where('d28_done', 0);
         })->orderBy('created_at', 'ASC')
         ->get();
