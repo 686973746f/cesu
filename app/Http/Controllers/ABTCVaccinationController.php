@@ -602,16 +602,16 @@ class ABTCVaccinationController extends Controller
 
         $ff = AbtcBakunaRecords::where(function ($q) {
             $q->where('d3_date', date('Y-m-d'))
-            ->where('d3_done', 1);
+            ->where('d3_done', 0);
         })->orWhere(function ($q) {
             $q->where('d7_date', date('Y-m-d'))
-            ->where('d7_done', 1);
+            ->where('d7_done', 0);
         })->orWhere(function ($q) {
             $q->where('d14_date', date('Y-m-d'))
-            ->where('d14_done', 1);
+            ->where('d14_done', 0);
         })->orWhere(function ($q) {
             $q->where('d28_date', date('Y-m-d'))
-            ->where('d28_done', 1);
+            ->where('d28_done', 0);
         })->orderBy('created_at', 'ASC')
         ->get();
 
