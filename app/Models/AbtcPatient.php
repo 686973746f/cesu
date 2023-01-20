@@ -266,9 +266,14 @@ class AbtcPatient extends Model
     }
 
     public function getCreatedBy() {
-        $a = User::find($this->created_by);
-
-        return $a->name; 
+        if(!is_null($this->created_by)) {
+            $a = User::find($this->created_by);
+            
+            return $a->name;
+        }
+        else {
+            return 'N/A';
+        }
     }
 
     public function getUpdatedBy() {

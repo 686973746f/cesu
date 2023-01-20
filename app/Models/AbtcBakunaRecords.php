@@ -238,4 +238,25 @@ class AbtcBakunaRecords extends Model
             return 'D28';
         }
     }
+
+    public function getCreatedBy() {
+        if(!is_null($this->created_by)) {
+            $a = User::find($this->created_by);
+            return $a->name;
+        }
+        else {
+            return 'N/A';
+        }
+    }
+
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            $a = User::find($this->updated_by);
+        
+            return $a->name;
+        }
+        else {
+            return 'N/A';
+        }
+    }
 }

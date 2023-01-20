@@ -166,12 +166,12 @@
                 </div>
                 @if($bcheck)
                 <div class="d-grid gap-2">
-                    <a href="{{route('abtc_patient_viewbakunarecords', ['id' => $d->id])}}" class="btn btn-primary"><i class="fa-solid fa-file me-2"></i>View Bakuna Records of Patient</a>
+                    <a href="{{route('abtc_patient_viewbakunarecords', ['id' => $d->id])}}" class="btn btn-primary"><i class="fas fa-syringe mr-2"></i>View Bakuna Records of Patient</a>
                 </div>
                 @endif
             </div>
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fa-solid fa-floppy-disk me-2"></i>Update (CTRL + S)</button>
+                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
             </div>
         </div>
     </div>

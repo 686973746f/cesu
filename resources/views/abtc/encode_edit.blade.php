@@ -44,10 +44,24 @@
                     @endforeach
                 </div>
                 @endif
-
                 <div class="alert alert-info" role="alert">
                     Note: All Fields marked with an asterisk (<strong class="text-danger">*</strong>) are required fields.
                 </div>
+                <table class="table table-bordered text-center">
+                    <tbody>
+                        <tr>
+                            <td class="bg-light"><b>Created At / By</b></td>
+                            <td>{{date('m/d/Y H:i A', strtotime($d->created_at))}} ({{$d->getCreatedBy()}})</td>
+                        </tr>
+                        @if($d->updated_at != $d->created_at)
+                        <tr>
+                            <td class="bg-light"><b>Updated At / By</b></td>
+                            <td>{{date('m/d/Y H:i A', strtotime($d->updated_at))}} ({{$d->getUpdatedBy()}})</td>
+                        </tr>
+                        @endif
+                    </tbody>
+                </table>
+                <hr>
                 <table class="table table-bordered">
                     <tbody class="text-center">
                         <tr>
@@ -333,7 +347,7 @@
             </div>
             <div class="card-footer text-end">
                 @if($d->outcome == 'INC')
-                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fa-solid fa-floppy-disk me-2"></i>Update (CTRL + S)</button>
+                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
                 @else
                 <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="Unable to update. The Case was marked as COMPLETED.">
                     <button class="btn btn-success" type="button" disabled><i class="fa-solid fa-floppy-disk me-2"></i>Update</button>

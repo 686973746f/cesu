@@ -218,7 +218,7 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fa-solid fa-floppy-disk me-2"></i>Save (CTRL + S)</button>
+                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fas fa-save mr-2"></i>Save (CTRL + S)</button>
             </div>
         </div>
     </div>
