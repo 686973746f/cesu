@@ -229,6 +229,7 @@
                         <tr>
                             <th>Schedule</th>
                             <th>Date</th>
+                            <th>Brand</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -236,6 +237,7 @@
                         <tr>
                             <td>Day 0</td>
                             <td>{{date('m/d/Y (l)', strtotime($d->d0_date))}}</td>
+                            <td>{{$d->d0_brand}}</td>
                             <td>
                                 @if($d->d0_done == 1)
                                 <strong class="text-success">DONE</strong>
@@ -251,6 +253,7 @@
                         <tr>
                             <td>Day 3</td>
                             <td>{{date('m/d/Y (l)', strtotime($d->d3_date))}}</td>
+                            <td>{{$d->d3_brand}}</td>
                             <td>
                                 @if($d->d3_done == 1)
                                 <strong class="text-success">DONE</strong>
@@ -267,6 +270,7 @@
                         <tr>
                             <td>Day 7</td>
                             <td>{{date('m/d/Y (l)', strtotime($d->d7_date))}}</td>
+                            <td>{{$d->d7_brand}}</td>
                             <td>
                                 @if($d->d7_done == 1)
                                 <strong class="text-success">DONE</strong>
@@ -283,6 +287,7 @@
                         <tr>
                             <td>Day 14</td>
                             <td>{{date('m/d/Y (l)', strtotime($d->d14_date))}}</td>
+                            <td>{{$d->d14_brand}}</td>
                             <td>
                                 @if($d->d14_done == 1)
                                 <strong class="text-success">DONE</strong>
@@ -299,6 +304,7 @@
                         <tr>
                             <td>Day 28</td>
                             <td>{{date('m/d/Y (l)', strtotime($d->d28_date))}}</td>
+                            <td>{{$d->d28_brand}}</td>
                             <td>
                                 @if($d->d28_done == 1)
                                 <strong class="text-success">DONE</strong>
@@ -347,10 +353,10 @@
             </div>
             <div class="card-footer text-end">
                 @if($d->outcome == 'INC')
-                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
                 @else
                 <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="Unable to update. The Case was marked as COMPLETED.">
-                    <button class="btn btn-success" type="button" disabled><i class="fa-solid fa-floppy-disk me-2"></i>Update</button>
+                    <button class="btn btn-success btn-block" type="button" disabled><i class="fa-solid fa-floppy-disk me-2"></i>Update</button>
                 </span>
                 @endif
             </div>

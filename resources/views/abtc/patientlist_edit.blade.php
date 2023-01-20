@@ -171,7 +171,7 @@
                 @endif
             </div>
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
             </div>
         </div>
     </div>

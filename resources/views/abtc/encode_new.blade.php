@@ -161,16 +161,13 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="pep_route" class="form-label"><strong class="text-danger">*</strong>Route</label>
-                            <select class="form-select" name="pep_route" id="pep_route" required>
-                                <option value="ID" {{(old('pep_route') == 'ID') ? 'selected' : ''}}>ID - Intradermal</option>
-                                <option value="IM" {{(old('pep_route') == 'IM') ? 'selected' : ''}}>IM - Intramuscular</option>
-                            </select>
+                            <label for="d0_date" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
+                            <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="brand_name" class="form-label"><strong class="text-danger">*</strong>Brand Name</label>
                             <select class="form-select" name="brand_name" id="brand_name" required>
@@ -181,12 +178,18 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="pep_route" class="form-label"><strong class="text-danger">*</strong>Route</label>
+                            <select class="form-select" name="pep_route" id="pep_route" required>
+                                <option value="ID" {{(old('pep_route') == 'ID') ? 'selected' : ''}}>ID - Intradermal</option>
+                                <option value="IM" {{(old('pep_route') == 'IM') ? 'selected' : ''}}>IM - Intramuscular</option>
+                            </select>
+                        </div>
+                    </div>
+                    <small class="text-muted">Note: Schedule date for Day 3, Day 7 onwards will be automatically given after you finish the encoding.</small>
                 </div>
-                <div class="mb-3">
-                    <label for="d0_date" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
-                    <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
-                    <small class="text-muted">Schedule date for Day 3, Day 7 onwards will be automatically given after you finish the encoding.</small>
-                </div>
+                <hr>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="">
@@ -218,7 +221,7 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-success" id="submitbtn"><i class="fas fa-save mr-2"></i>Save (CTRL + S)</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitbtn"><i class="fas fa-save mr-2"></i>Save (CTRL + S)</button>
             </div>
         </div>
     </div>

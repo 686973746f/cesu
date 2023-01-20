@@ -172,10 +172,15 @@ class ABTCVaccinationController extends Controller
                 'brand_name' => $request->brand_name,
                 'd0_date' => $request->d0_date,
                 'd0_done' => 1,
+                'd0_brand' => $request->brand_name,
                 'd3_date' => $set_d3_date->format('Y-m-d'),
+                'd3_brand' => $request->brand_name,
                 'd7_date' => $set_d7_date->format('Y-m-d'),
+                'd7_brand' => $request->brand_name,
                 'd14_date' => $set_d14_date->format('Y-m-d'),
+                'd14_brand' => $request->brand_name,
                 'd28_date' => $set_d28_date->format('Y-m-d'),
+                'd28_brand' => $request->brand_name,
 
                 'outcome' => $request->outcome,
                 'biting_animal_status' => $request->biting_animal_status,
@@ -459,9 +464,11 @@ class ABTCVaccinationController extends Controller
 
     public function override_schedule($id) {
         $d = AbtcBakunaRecords::findOrFail($id);
+        $vblist = AbtcVaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
 
         return view('abtc.encode_schedule_override', [
             'd' => $d,
+            'vblist' => $vblist,
         ]);
     }
 
@@ -473,6 +480,7 @@ class ABTCVaccinationController extends Controller
         ]);
 
         $d->d0_date = $request->d0_date;
+        $d->d0_brand = $request->d0_brand;
 
         if($d->d0_done == 0) {
             if($request->d0_ostatus == 'C') {
@@ -481,6 +489,7 @@ class ABTCVaccinationController extends Controller
         }
 
         $d->d3_date = $request->d3_date;
+        $d->d3_brand = $request->d3_brand;
 
         if($d->d3_done == 0) {
             if($request->d3_ostatus == 'C') {
@@ -496,6 +505,7 @@ class ABTCVaccinationController extends Controller
         if($d->is_booster == 0) {
 
             $d->d7_date = $request->d7_date;
+            $d->d7_brand = $request->d7_brand;
 
             if($d->d7_done == 0) {
                 if($request->d7_ostatus == 'C') {
@@ -512,7 +522,8 @@ class ABTCVaccinationController extends Controller
             if($d->pep_route == 'IM') {
 
                 $d->d14_date = $request->d14_date;
-
+                $d->d14_brand = $request->d14_brand;
+                
                 if($d->d14_done == 0) {
                     if($request->d14_ostatus == 'C') {
                         $d->d0_done = 1;
@@ -528,6 +539,7 @@ class ABTCVaccinationController extends Controller
             }
 
             $d->d28_date = $request->d28_date;
+            $d->d28_brand = $request->d28_brand;
     
             if($d->d28_done == 0) {
                 if($request->d28_ostatus == 'C') {
