@@ -98,7 +98,12 @@ class ABTCVaccinationController extends Controller
                 $is_booster = 0;
             }
 
-            $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y'))->count() + 1);
+            if(date('Y', strtotime($request->case_date)) != date('Y')) {
+                $case_id = date('Y', strtotime($request->case_date)).'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y', strtotime($request->case_date)))->count() + 1);
+            }
+            else {
+                $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y'))->count() + 1);
+            }
 
             //Days Calculation (Skip and Wednesdays, Saturdays and Sundays due to Government Office Hours)
             $base_date = $request->d0_date;

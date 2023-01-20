@@ -224,7 +224,7 @@
                 <table class="table table-bordered table-striped text-center">
                     <thead class="bg-light">
                         <tr class="text-end">
-                            <th colspan="3"><a class="btn btn-primary" href="{{route('abtc_override_schedule', ['br_id' => $d->id])}}" role="button"><i class="fa-solid fa-clock-rotate-left me-2"></i>Manually Change Schedule</a></th>
+                            <th colspan="4"><a class="btn btn-primary" href="{{route('abtc_override_schedule', ['br_id' => $d->id])}}" role="button"><i class="fa-solid fa-clock-rotate-left me-2"></i>Manually Change Schedule</a></th>
                         </tr>
                         <tr>
                             <th>Schedule</th>
@@ -356,7 +356,7 @@
                 <button type="submit" class="btn btn-success btn-block" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
                 @else
                 <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="Unable to update. The Case was marked as COMPLETED.">
-                    <button class="btn btn-success btn-block" type="button" disabled><i class="fa-solid fa-floppy-disk me-2"></i>Update</button>
+                    <button class="btn btn-success btn-block" type="button" disabled><i class="fas fa-save mr-2"></i>Update</button>
                 </span>
                 @endif
             </div>
