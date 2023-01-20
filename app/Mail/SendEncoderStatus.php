@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Forms;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use App\Models\AbtcBakunaRecords;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
