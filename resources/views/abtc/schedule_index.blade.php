@@ -5,7 +5,7 @@
     <div class="card mb-3">
         <div class="card-header"><b>New Patients ({{$new->count()}})</b></div>
         <div class="card-body">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" id="ntable">
                 <thead class="thead-light text-center">
                     <tr>
                         <th>Registration #</th>
@@ -40,7 +40,7 @@
     <div class="card">
         <div class="card-header"><b>Follow-up Patients ({{$ff->count()}})</b></div>
         <div class="card-body">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" id="fftable">
                 <thead class="thead-light text-center">
                     <tr>
                         <th>Registration #</th>
@@ -58,7 +58,7 @@
                 <tbody>
                     @foreach($ff as $n)
                     <tr>
-                        <td class="text-center"><a href="">{{$n->case_id}}</a></td>
+                        <td class="text-center"><a href="{{route('abtc_encode_eidt')}}">{{$n->case_id}}</a></td>
                         <td>{{$n->patient->getName()}}</td>
                         <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
                         <td class="text-center">{{$n->patient->address_brgy_text}}</td>
@@ -75,4 +75,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#ntable').DataTable({
+        fixedHeader: true,
+        dom: 'frti',
+    });
+
+    $('#fftable').DataTable({
+        fixedHeader: true,
+        dom: 'frti',
+    });
+</script>
 @endsection

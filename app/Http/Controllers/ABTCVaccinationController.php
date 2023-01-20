@@ -589,6 +589,7 @@ class ABTCVaccinationController extends Controller
         ->orderBy('created_at', 'ASC')
         ->get();
 
+        /*
         $ff = AbtcBakunaRecords::where(function ($q) {
             $q->whereDate('d3_date', date('Y-m-d'))
             ->orWhereDate('d7_date', date('Y-m-d'))
@@ -596,6 +597,22 @@ class ABTCVaccinationController extends Controller
             ->orWhereDate('d28_date', date('Y-m-d'));
         })
         ->orderBy('created_at', 'ASC')
+        ->get();
+        */
+
+        $ff = AbtcBakunaRecords::where(function ($q) {
+            $q->where('d3_date', date('Y-m-d'))
+            ->where('d3_done', 1);
+        })->orWhere(function ($q) {
+            $q->where('d7_date', date('Y-m-d'))
+            ->where('d7_done', 1);
+        })->orWhere(function ($q) {
+            $q->where('d14_date', date('Y-m-d'))
+            ->where('d14_done', 1);
+        })->orWhere(function ($q) {
+            $q->where('d28_date', date('Y-m-d'))
+            ->where('d28_done', 1);
+        })->orderBy('created_at', 'ASC')
         ->get();
 
         return view('abtc.schedule_index', [
