@@ -52,10 +52,11 @@ class ABTCWalkInRegistrationController extends Controller
 
         $lname = mb_strtoupper(request()->input('lname'));
         $fname = mb_strtoupper(request()->input('fname'));
-        $mname = mb_strtoupper(request()->input('mname'));
-        $suffix = mb_strtoupper(request()->input('suffix'));
+        $mname = (request()->filled('mname')) ? mb_strtoupper(request()->input('mname')) : NULL;
+        $suffix = (request()->filled('suffix')) ? mb_strtoupper(request()->input('suffix')) : NULL;
         $bdate = request()->input('bdate');
 
+        /*
         $b = AbtcPatient::where('lname', $lname)
         ->where('fname', $fname)
         ->where(function ($q) use ($mname) {
@@ -67,6 +68,9 @@ class ABTCWalkInRegistrationController extends Controller
             ->orWhereNull('suffix');
         })
         ->first();
+        */
+
+        $b = AbtcPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate);
 
         if($b) {
             $br = AbtcBakunaRecords::where('patient_id', $b->id)->orderBy('created_at', 'DESC')->first();
@@ -119,6 +123,7 @@ class ABTCWalkInRegistrationController extends Controller
             $base_date = date('Y-m-d');
         }
 
+        /*
         $b = AbtcPatient::where('lname', $request->lname)
         ->where('fname', $request->fname)
         ->where(function ($q) use ($request) {
@@ -131,6 +136,15 @@ class ABTCWalkInRegistrationController extends Controller
         })
         ->whereDate('bdate', $request->bdate)
         ->first();
+        */
+
+        $lname = mb_strtoupper($request->lname);
+        $fname = mb_strtoupper($request->fname);
+        $mname = (request()->filled('mname')) ? mb_strtoupper($request->mname) : NULL;
+        $suffix = (request()->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL;
+        $bdate = request()->input('bdate');
+
+        $b = AbtcPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate);
 
         if($b) {
             $p = $b;
@@ -184,10 +198,10 @@ class ABTCWalkInRegistrationController extends Controller
 
             $p = AbtcPatient::create([
                 'register_status' => 'PENDING',
-                'lname' => mb_strtoupper($request->lname),
-                'fname' => mb_strtoupper($request->fname),
-                'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
-                'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+                'lname' => $lname,
+                'fname' => $fname,
+                'mname' => ($request->filled('mname')) ? $mname : NULL,
+                'suffix' => ($request->filled('suffix')) ? $suffix : NULL,
                 'bdate' => $request->bdate,
                 'gender' => $request->gender,
                 'contact_number' => $request->contact_number,
