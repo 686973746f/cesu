@@ -308,6 +308,7 @@ class ABTCVaccinationController extends Controller
             if($dose == 1) {
                 if($get_br->ifAbleToProcessD0() == 'Y') {
                     $get_br->d0_done = 1;
+                    $get_br->d0_brand = $get_br->brand_name;
                 }
                 else {
                     return abort(401);
@@ -326,6 +327,7 @@ class ABTCVaccinationController extends Controller
             else if($dose == 2) { //Day 3
                 if($get_br->ifAbleToProcessD3() == 'Y') {
                     $get_br->d3_done = 1;
+                    $get_br->d3_brand = $get_br->brand_name;
                 }
                 else {
                     return abort(401);
@@ -356,6 +358,7 @@ class ABTCVaccinationController extends Controller
             else if($dose == 3) { //Day 7
                 if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0) {
                     $get_br->d7_done = 1;
+                    $get_br->d7_brand = $get_br->brand_name;
                 }
                 else {
                     return abort(401);
@@ -377,6 +380,7 @@ class ABTCVaccinationController extends Controller
             else if($dose == 4 && $get_br->pep_route == 'IM') { //Day 14
                 if($get_br->d14_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 0) {
                     $get_br->d14_done = 1;
+                    $get_br->d14_brand = $get_br->brand_name;
                 }
                 else {
                     return abort(401);
@@ -390,6 +394,7 @@ class ABTCVaccinationController extends Controller
                 if($get_br->pep_route == 'IM') {
                     if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 1 && $get_br->d28_done == 0) {
                         $get_br->d28_done = 1;
+                        $get_br->d28_brand = $get_br->brand_name;
                     }
                     else {
                         return abort(401);
@@ -398,6 +403,7 @@ class ABTCVaccinationController extends Controller
                 else if($get_br->pep_route == 'ID') { //Skip 14 Day
                     if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d28_done == 0) {
                         $get_br->d28_done = 1;
+                        $get_br->d28_brand = $get_br->brand_name;
                     }
                     else {
                         return abort(401);
