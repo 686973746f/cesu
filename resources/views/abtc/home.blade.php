@@ -29,19 +29,19 @@
             </div>
             @endif
             <div class="d-grid gap-2">
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fa-solid fa-qrcode me-2"></i>Quick Search via QR / Reg. Number</button>
+              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fas fa-qrcode mr-2"></i>Quick Search via QR / Reg. Number</button>
               <hr>
-              <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg"><i class="fa-solid fa-users me-2"></i>Patient Lists</a>
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#nvm"><i class="fa-solid fa-syringe me-2"></i>New Vaccination</button>
-              <a href="{{route('abtc_schedule_index')}}" class="btn btn-primary btn-lg">Todays Schedule</a>
+              <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Lists</a>
+              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#nvm"><i class="fas fa-syringe mr-2"></i>New Vaccination</button>
+              <a href="{{route('abtc_schedule_index')}}" class="btn btn-primary btn-lg"><i class="fas fa-calendar-alt mr-2"></i>Todays Schedule</a>
               <hr>
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#reportpanel"><i class="fa-solid fa-chart-pie me-2"></i>Report</button>
+              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#reportpanel"><i class="fas fa-chart-bar mr-2"></i>Reports</button>
               @if(auth()->user()->is_admin == 1)
               <hr>
               <a href="" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#adminpanel"><i class="fa-solid fa-lock me-2"></i>Admin Panel</a>
               @endif
               <hr>
-              <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#uop"><i class="fa-solid fa-gear me-2"></i>Account Options</button>
+              <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#uop"><i class="fas fa-user-cog mr-2"></i>Account Options</button>
             </div>
         </div>
         <div class="card-footer">

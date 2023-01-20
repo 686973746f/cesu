@@ -21,12 +21,14 @@
                     <tbody>
                         <tr>
                             <td class="bg-light"><b>Created At / By</b></td>
-                            <td>{{date('m/d/Y H:i A', strtotime($d->created_at))}}</td>
+                            <td>{{date('m/d/Y H:i A', strtotime($d->created_at))}} ({{$d->getCreatedBy()}})</td>
                         </tr>
+                        @if($d->updated_at != $d->created_at)
                         <tr>
                             <td class="bg-light"><b>Updated At / By</b></td>
-                            <td>{{date('m/d/Y H:i A', strtotime($d->updated_at))}}</td>
+                            <td>{{date('m/d/Y H:i A', strtotime($d->updated_at))}} ({{$d->getUpdatedBy()}})</td>
                         </tr>
+                        @endif
                     </tbody>
                 </table>
                 <hr>
@@ -87,13 +89,13 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="contact_number" class="form-label">Contact Number <small><i>(If Applicable)</i></small></label>
-                            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d)}}" pattern="[0-9]{11}" placeholder="09xxxxxxxxx">
+                            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->contact_number)}}" pattern="[0-9]{11}" placeholder="09xxxxxxxxx">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="philhealth" class="form-label">Philhealth <small><i>(If Applicable)</i></small></label>
-                            <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth', $d)}}" pattern="[0-9]{12}">
+                            <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth', $d->philhealth)}}" pattern="[0-9]{12}">
                         </div>
                     </div>
                 </div>

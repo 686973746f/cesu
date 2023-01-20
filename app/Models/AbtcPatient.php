@@ -264,4 +264,21 @@ class AbtcPatient extends Model
             }
         }
     }
+
+    public function getCreatedBy() {
+        $a = User::find($this->created_by);
+
+        return $a->name; 
+    }
+
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            $a = User::find($this->updated_by);
+        
+            return $a->name;
+        }
+        else {
+            return 'N/A';
+        }
+    }
 }
