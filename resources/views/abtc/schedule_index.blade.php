@@ -58,7 +58,7 @@
                 <tbody>
                     @foreach($ff as $n)
                     <tr>
-                        <td class="text-center"><a href="{{route('abtc_encode_eidt')}}">{{$n->case_id}}</a></td>
+                        <td class="text-center"><a href="{{route('abtc_encode_edit', $n->id)}}">{{$n->case_id}}</a></td>
                         <td>{{$n->patient->getName()}}</td>
                         <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
                         <td class="text-center">{{$n->patient->address_brgy_text}}</td>
