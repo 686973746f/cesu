@@ -101,82 +101,25 @@ class AbtcPatient extends Model
     }
 
     public static function ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
-        if(!is_null($mname)) {
-            $check = AbtcPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
+        $check = AbtcPatient::where(function ($q) use ($lname, $fname, $mname, $suffix, $bdate) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
             ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $suffix)))
-            ->first();
+            ->where(function ($r) use ($mname) {
+                $r->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
+                ->orWhereNull('mname');
+            })
+            ->where(function ($r) use ($suffix) {
+                $r->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $suffix)))
+                ->orWhereNull('suffix');
+            });
+        })
+        ->first();
 
-            if($check) {
-                /*
-                $checkwbdate = `Rec`ords::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)))
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }
-                */
-                
-                return $check;
-            }
-            else {
-                $check1 = AbtcPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $suffix)))
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
-            }
+        if($check) {
+            return $check;
         }
         else {
-            $check = AbtcPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-            ->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $suffix)))
-            ->whereNull('mname')
-            ->first();
-            
-            if($check) {
-                $checkwbdate = Patient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $suffix)))
-                ->whereNull('mname')
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($checkwbdate) {
-                    return $checkwbdate;
-                }
-                else {
-                    return $check;
-                }
-            }
-            else {
-                $check1 = AbtcPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-                ->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $suffix)))
-                ->whereDate('bdate', $bdate)
-                ->first();
-
-                if($check1) {
-                    return $check1;
-                }
-                else {
-                    return NULL;
-                }
-            }
+            return NULL;
         }
     }
 
