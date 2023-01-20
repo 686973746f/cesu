@@ -29,7 +29,7 @@
             </div>
             @endif
             <div class="d-grid gap-2">
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fas fa-qrcode mr-2"></i>Quick Search via QR / Reg. Number</button>
+              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fas fa-search mr-2"></i>Quick Search via QR / Reg. Number</button>
               <hr>
               <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Lists</a>
               <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#nvm"><i class="fas fa-syringe mr-2"></i>New Vaccination</button>
@@ -58,7 +58,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id=""><i class="fa-solid fa-qrcode me-2"></i>Quick Search via QR</h5>
+          <h5 class="modal-title" id=""><i class="fas fa-search mr-2"></i>Quick Search via QR</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -121,7 +121,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id=""><i class="fa-solid fa-chart-pie me-2"></i>Report</h5>
+        <h5 class="modal-title" id=""><i class="fas fa-chart-bar mr-2"></i>Reports</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -162,7 +162,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id=""><i class="fa-solid fa-gear me-2"></i>Account Options</h5>
+          <h5 class="modal-title" id=""><i class="fas fa-user-cog mr-2"></i>Account Options</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

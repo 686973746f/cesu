@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><strong><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient List</strong></div>
+                <div><strong><i class="fa fa-user mr-2" aria-hidden="true"></i>ABTC Patients List (Total: {{number_format($list->total())}})</strong></div>
                 <div><a href="{{route('abtc_patient_create')}}" class="btn btn-success"><i class="fa-solid fa-circle-plus me-2"></i>Add Patient</a></div>
             </div>
         </div>
