@@ -11,7 +11,12 @@
         </div>
     </form>
     <div class="card mb-3">
-        <div class="card-header"><b>New Patients for {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}} - Total: {{$new->count()}}</b></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>New Patients for {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
+                <div>Total: {{$new->count()}}</div>
+            </div>
+        </div>
         <div class="card-body">
             <table class="table table-bordered table-striped" id="ntable">
                 <thead class="thead-light text-center">
@@ -46,7 +51,12 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header"><b>Follow-up Patients {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}} - Total: {{$ff->count()}}</b></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>Follow-up Patients {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
+                <div>Total: {{$ff->count()}}</div>
+            </div>
+        </div>
         <div class="card-body">
             <table class="table table-bordered table-striped" id="fftable">
                 <thead class="thead-light text-center">
