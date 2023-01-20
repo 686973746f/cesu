@@ -7,7 +7,7 @@
     @csrf
     <div class="container">
         <div class="card">
-            <div class="card-header">Schedule Override</div>
+            <div class="card-header"><b>Schedule Override</b></div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">

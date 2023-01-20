@@ -28,7 +28,12 @@
             @endif
         @endif
         <div class="card">
-            <div class="card-header"><strong>Edit Anti-Rabies Vaccination Details - Patient #{{$d->patient->id}}</strong></div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div><strong>Edit Anti-Rabies Vaccination Details</strong></div>
+                    <div>Patient #{{$d->patient->id}}</div>
+                </div>
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
