@@ -121,13 +121,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id=""><i class="fas fa-chart-bar mr-2"></i>Reports</h5>
+        <h5 class="modal-title" id=""><b><i class="fas fa-chart-bar mr-2"></i>Reports</b></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
           <div class="d-grid gap-2">
-            <a href="{{route('abtc_report_linelist_index')}}" class="btn btn-primary mb-3">View Linelist</a>
-            <a href="{{route('abtc_report_cho')}}" class="btn btn-primary mb-3">View CHO Monthly Report</a>
+            <a href="{{route('abtc_report_linelist_index')}}" class="btn btn-primary">View Linelist</a>
+            <a href="{{route('abtc_report_cho')}}" class="btn btn-primary">View CHO Monthly Report</a>
+            <a href="{{route('abtc_dashboard')}}" class="btn btn-primary">Report Dashboard</a>
           </div>
           <p class="text-center">---------- OR ----------</p>
           <form action="{{route('abtc_report_export1')}}" method="POST">

@@ -197,7 +197,6 @@
                             <select class="form-select" name="outcome" id="outcome" required>
                                 <option value="INC" {{(old('pep_route') == 'INC') ? 'selected' : ''}}>Incomplete (INC)</option>
                                 <option value="D" {{(old('pep_route') == 'D') ? 'selected' : ''}}>Died (D)</option>
-                                <option value="N" {{(old('pep_route') == 'N') ? 'selected' : ''}}>None (N)</option>
                             </select>
                             <small class="text-muted">Will be automatically changed based on completed doses.</small>
                         </div>
