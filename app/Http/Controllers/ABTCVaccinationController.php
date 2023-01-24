@@ -607,6 +607,12 @@ class ABTCVaccinationController extends Controller
     }
 
     public function schedule_index() {
+        if(is_null(auth()->user()->abtc_default_vaccinationsite_id)) {
+            return redirect()->back()
+            ->with('msg', 'Please set default vaccination site first before proceeding. Option is available on the [Account Options]')
+            ->with('msgtype', 'warning');
+        }
+
         if(request()->input('d')) {
             $sdate = request()->input('d');
         }
