@@ -42,7 +42,7 @@
                 </div>
                 @endif
                 <div class="card mb-3">
-                    <div class="card-header"><b>Personal information</b></div>
+                    <div class="card-header"><b>Personal Information</b></div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">

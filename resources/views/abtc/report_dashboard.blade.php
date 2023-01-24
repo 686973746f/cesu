@@ -5,6 +5,19 @@
     <div class="card mb-3">
         <div class="card-header"><b>ABTC Records per Brgy (Whole Year {{$sy}})</b></div>
         <div class="card-body">
+            <form action="" method="GET">
+                <div class="input-group">
+                    <select class="custom-select" id="sy" name="sy" required>
+                        <option value="" disabled selected>Select Year to Filter...</option>
+                        @foreach(range(date('Y'), 2020) as $y)
+                            <option value="{{$y}}" {{(old('sy', request()->input('fyear')) == $y) ? 'selected': ''}}>{{$y}}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-success" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="whole_brgy">
                     <thead class="thead-light text-center">
@@ -53,6 +66,7 @@
             </div>
         </div>
     </div>
+    @if(!(request()->input('sy')))
     <div class="card">
         <div class="card-header"><b>Top Barangays (Last 7 days)</b></div>
         <div class="card-body">
@@ -102,6 +116,7 @@
             </table>
         </div>
     </div>
+    @endif
 </div>
 
 <script>

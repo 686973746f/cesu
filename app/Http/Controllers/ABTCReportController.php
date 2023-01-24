@@ -1303,7 +1303,7 @@ class ABTCReportController extends Controller
 
     public function dashboard() {
         if(request()->input('sy')) {
-
+            $sy = request()->input('sy');
         }
         else {
             $sy = date('Y');
