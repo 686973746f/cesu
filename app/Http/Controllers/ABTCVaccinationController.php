@@ -277,7 +277,7 @@ class ABTCVaccinationController extends Controller
         }
 
         if($b->isDirty()) {
-            $p->updated_by = auth()->user()->id;
+            $b->updated_by = auth()->user()->id;
             
             $b->save();
         }
