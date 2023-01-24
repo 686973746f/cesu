@@ -73,13 +73,13 @@
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="contact_number" class="form-label">Contact Number <small><i>(If Applicable)</i></small></label>
+                            <label for="contact_number" class="form-label">Contact Number <i>(Optional)</i></label>
                             <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09xxxxxxxxx">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="philhealth" class="form-label">Philhealth <small><i>(If Applicable)</i></small></label>
+                            <label for="philhealth" class="form-label">Philhealth <i>(Optional)</i></label>
                             <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
                         </div>
                     </div>
@@ -133,13 +133,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="address_houseno" class="form-label">House No./Lot/Building</label>
+                            <label for="address_houseno" class="form-label">House No./Lot/Building <i>(Optional)</i></label>
                             <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="address_street" class="form-label">Street/Subdivision/Purok/Sitio</label>
+                            <label for="address_street" class="form-label">Street/Subdivision/Purok/Sitio <i>(Optional)</i></label>
                             <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                         </div>
                     </div>

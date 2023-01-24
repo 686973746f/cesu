@@ -98,8 +98,8 @@ class ABTCPatientController extends Controller
                 'address_muncity_text' => $request->address_muncity_text,
                 'address_brgy_code' => $request->address_brgy_text,
                 'address_brgy_text' => $request->address_brgy_text,
-                'address_street' => $request->address_street,
-                'address_houseno' => $request->address_houseno,
+                'address_street' => ($request->filled('address_street')) ? mb_strtoupper($request->address_street) : NULL,
+                'address_houseno' => ($request->filled('address_houseno')) ? mb_strtoupper($request->address_houseno) : NULL,
     
                 'qr' => $for_qr,
                 'remarks' => ($request->filled('remarks')) ? $request->remarks : NULL,
@@ -178,8 +178,8 @@ class ABTCPatientController extends Controller
             $p->address_muncity_text = $request->address_muncity_text;
             $p->address_brgy_code = $request->address_brgy_text;
             $p->address_brgy_text = $request->address_brgy_text;
-            $p->address_street = $request->address_street;
-            $p->address_houseno = $request->address_houseno;
+            $p->address_street = ($request->filled('address_street')) ? mb_strtoupper($request->address_street) : NULL;
+            $p->address_houseno = ($request->filled('address_houseno')) ? mb_strtoupper($request->address_houseno) : NULL;
 
             $p->remarks = ($request->filled('remarks')) ? $request->remarks : NULL;
 
