@@ -246,6 +246,7 @@ class ABTCVaccinationController extends Controller
 
         $b = AbtcBakunaRecords::findOrFail($bakuna_id);
 
+        $b->is_booster = ($request->is_booster == 'Y') ? 1 : 0;
         $b->vaccination_site_id = $request->vaccination_site_id;
         $b->case_date = $request->case_date;
         $b->case_location = ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL;
