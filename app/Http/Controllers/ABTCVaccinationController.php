@@ -95,7 +95,13 @@ class ABTCVaccinationController extends Controller
                 $is_booster = 1;
             }
             else {
-                $is_booster = 0;
+                //Override Booster
+                if($request->if_booster == 'Y') {
+                    $is_booster = 1;
+                }
+                else {
+                    $is_booster = 0;
+                }
             }
 
             if(date('Y', strtotime($request->case_date)) != date('Y')) {
@@ -277,25 +283,27 @@ class ABTCVaccinationController extends Controller
     }
 
     public function bakuna_again($patient_id) {
-        $b = AbtcBakunaRecords::where('patient_id', $patient_id)->whereIn('outcome', ['C', 'INC'])->orderBy('created_at', 'DESC')->first();
+        $b = AbtcBakunaRecords::where('patient_id', $patient_id)
+        ->where('outcome', 'C')
+        ->orderBy('created_at', 'DESC')
+        ->first();
 
         if($b) {
             $vblist = AbtcVaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
             $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
             
             //Check duration 3 months
-            $bcheck = AbtcBakunaRecords::whereDate('case_date', '=>', date('Y-m-d', strtotime('-3 Months')))->first();
-            if($bcheck) {
-                return redirect()->back()
-                ->with('msg', 'Unable to process. Patient was vaccinated 90 Days (3 Months) ago. Booster is not required')
-                ->with('msgtype', 'warning');
-            }
-            else {
+            if(date('Y-m-d', strtotime($b->b0_date.' + 90 Days')) < date('Y-m-d')) {
                 return view('abtc.encode_new', [
                     'd' => $b->patient,
                     'vblist' => $vblist,
                     'vslist' => $vslist,
                 ]);
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'Unable to process. Patient was vaccinated 90 Days (3 Months) ago. Booster is not yet required.')
+                ->with('msgtype', 'warning');
             }
         }
         else {

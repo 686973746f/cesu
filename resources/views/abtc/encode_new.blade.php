@@ -49,7 +49,7 @@
                 </table>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div>
                             <label for="vaccination_site_id" class="form-label"><strong class="text-danger">*</strong>Encoded Under</label>
                             <select class="form-select" name="vaccination_site_id" id="vaccination_site_id" required>
@@ -60,11 +60,20 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md">
+                    <div class="col-md-4">
                         <div>
                             <label for="case_date" class="form-label"><strong class="text-danger">*</strong>Registration Date</label>
                             <input type="date" class="form-control" name="case_date" id="case_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('case_date')}}" required>
                             <small class="text-muted">Date patient was first seen, regardless whether patient was given PEP or not.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="is_booster" class="form-label"><strong class="text-danger">*</strong>Override: Is Booster?</label>
+                            <select class="form-select" name="is_booster" id="is_booster" required>
+                                <option value="N" {{(old('is_booster') == 'N') ? 'selected' : ''}}>No</option>
+                                <option value="Y" {{(old('is_booster') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            </select>
                         </div>
                     </div>
                 </div>
