@@ -184,6 +184,8 @@ class ABTCPatientController extends Controller
             $p->remarks = ($request->filled('remarks')) ? $request->remarks : NULL;
 
             if($p->isDirty()) {
+                $p->updated_by = auth()->user()->id;
+                
                 $p->save();
             }
 
