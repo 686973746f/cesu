@@ -99,6 +99,7 @@
                 <p>May iba pa bang kasama na magpapabakuna rin? <a href="{{route('abtc_walkin_part1', ['v' => session('vrefcode')])}}">Mag-sumite ulit dito</a></p>
             </div>
         </div>
+        <p class="mt-3 text-center">CESU/ABTC System Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
 </div>
 @endsection

@@ -49,6 +49,7 @@
                         <button type="submit" class="btn btn-primary">Next</button>
                     </div>
                 </div>
+                <p class="mt-3 text-center">CESU/ABTC System Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
             </div>
         </div>
     </div>
