@@ -272,6 +272,10 @@ class ABTCVaccinationController extends Controller
             $b->outcome == 'C';
         }
 
+        if($b->outcome == 'INC' && $b->is_booster == 1 && $b->d0_done == 1 && $b->d3_done == 1) {
+            $b->outcome == 'C';
+        }
+
         if($b->isDirty()) {
             $p->updated_by = auth()->user()->id;
             
