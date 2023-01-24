@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header">Top Barangays (Last 7 days)</div>
+        <div class="card-header"><b>Top Barangays (Last 7 days)</b></div>
         <div class="card-body">
             <table class="table table-bordered table-striped" id="top_brgy">
                 <thead class="thead-light text-center">
