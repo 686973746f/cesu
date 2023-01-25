@@ -637,8 +637,8 @@ class ABTCVaccinationController extends Controller
 
         $new = AbtcBakunaRecords::whereDate('d0_date', $sdate)
         ->where('d0_done', 0)
-        ->orderBy('created_at', 'ASC')
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->orderBy('created_at', 'ASC')
         ->get();
 
         /*
@@ -664,8 +664,8 @@ class ABTCVaccinationController extends Controller
         })->orWhere(function ($q) use ($sdate) {
             $q->where('d28_date', $sdate)
             ->where('d28_done', 0);
-        })->orderBy('created_at', 'ASC')
-        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        })->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->orderBy('created_at', 'ASC')
         ->get();
 
         return view('abtc.schedule_index', [
