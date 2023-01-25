@@ -227,7 +227,9 @@ class ABTCWalkInRegistrationController extends Controller
         $set_d0_date = Carbon::parse($base_date);
         
         if($set_d0_date->dayOfWeek == Carbon::WEDNESDAY) {
-            $set_d0_date = Carbon::parse($set_d0_date)->addDays(1);
+            if(session('vaccination_site_id') == 1) {
+                $set_d0_date = Carbon::parse($set_d0_date)->addDays(1);
+            }
         }
         else if($set_d0_date->dayOfWeek == Carbon::SATURDAY) {
             $set_d0_date = Carbon::parse($set_d0_date)->addDays(2);
@@ -241,7 +243,9 @@ class ABTCWalkInRegistrationController extends Controller
         $set_d3_date = Carbon::parse($base_date)->addDays(3);
 
         if($set_d3_date->dayOfWeek == Carbon::WEDNESDAY) {
-            $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+            if(session('vaccination_site_id') == 1) {
+                $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+            }
         }
         else if($set_d3_date->dayOfWeek == Carbon::SATURDAY) {
             $set_d3_date = Carbon::parse($set_d3_date)->addDays(2);
@@ -253,7 +257,9 @@ class ABTCWalkInRegistrationController extends Controller
         $set_d7_date = Carbon::parse($base_date)->addDays(7);
 
         if($set_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
-            $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+            if(session('vaccination_site_id') == 1) {
+                $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+            }
         }
         else if($set_d7_date->dayOfWeek == Carbon::SATURDAY) {
             $set_d7_date = Carbon::parse($set_d7_date)->addDays(2);
@@ -265,7 +271,9 @@ class ABTCWalkInRegistrationController extends Controller
         $set_d14_date = Carbon::parse($base_date)->addDays(14);
 
         if($set_d14_date->dayOfWeek == Carbon::WEDNESDAY) {
-            $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+            if(session('vaccination_site_id') == 1) {
+                $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+            }
         }
         else if($set_d14_date->dayOfWeek == Carbon::SATURDAY) {
             $set_d14_date = Carbon::parse($set_d14_date)->addDays(2);
@@ -277,7 +285,9 @@ class ABTCWalkInRegistrationController extends Controller
         $set_d28_date = Carbon::parse($base_date)->addDays(28);
 
         if($set_d28_date->dayOfWeek == Carbon::WEDNESDAY) {
-            $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+            if(session('vaccination_site_id') == 1) {
+                $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+            }
         }
         else if($set_d28_date->dayOfWeek == Carbon::SATURDAY) {
             $set_d28_date = Carbon::parse($set_d28_date)->addDays(2);
