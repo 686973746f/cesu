@@ -264,4 +264,46 @@ class AbtcBakunaRecords extends Model
             return 'N/A';
         }
     }
+
+    public function getGenericName() {
+        $d = AbtcVaccineBrand::where('brand_name', $this->brand_name)->first();
+
+        return $d->generic_name;
+    }
+
+    public function getSource() {
+        if($this->animal_type == 'PD') {
+            return 'PET DOG';
+        }
+        else if($this->animal_type == 'SD') {
+            return 'STRAY DOG';
+        }
+        else if($this->animal_type == 'PC') {
+            return 'PET CAT';
+        }
+        else if($this->animal_type == 'SC') {
+            return 'STRAY CAT';
+        }
+        else if($this->animal_type == 'C') {
+            return 'CAT';
+        }
+        else if($this->animal_type == 'O') {
+            return mb_strtoupper($this->animal_type_others);
+        }
+    }
+
+    public function getBranch() {
+        $v = AbtcVaccinationSite::findOrFail($this->vaccination_site_id);
+
+        return $v->site_name;
+    }
+
+    public function getBiteType() {
+        if($this->bite_type == 'B') {
+            return 'BITE';
+        }
+        else {
+            return 'SCRATCH';
+        }
+    }
 }

@@ -1,80 +1,174 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border-success">
-                <div class="card-header text-center bg-success text-white"><strong><i class="fa-solid fa-circle-check me-2"></i>Success!</strong></div>
-                <div class="card-body text-center">
-                    <p>{{session('msg')}}</p>
-                    @if(session('dose') != 5)
-                    <div class="alert alert-info" role="alert">
-                        <b class="text-danger">Reminders:</b> Observe the responsible animal for 14 days and report to the veterinarian any changes noted in the animal during the observation period. And please see the details below for your next doses schedule.
-                    </div>
-                    @endif
-                    <hr>
-                    {!! QrCode::size(150)->generate($f->patient->qr) !!}
-                    <p><strong>Registration #:</strong> <u>{{$f->case_id}}</u></p>
-                    <p><strong>Name:</strong> <u>{{$f->patient->getName()}}</u></p>
-                    <p><strong>Age/Gender:</strong> <u>{{$f->patient->getAge()}} / {{$f->patient->sg()}}</u></p>
-                    <p><strong>Address:</strong> <u>{{$f->patient->getAddressMini()}}</u></p>
-                    <p><strong>Contact #: </strong> <u>{{(!is_null($f->patient->contact_number)) ? $f->patient->contact_number : 'N/A'}}</u></p>
-                    <p><strong>Type of Animal:</strong> • <strong>Date of Bite:</strong> <u>{{date('m/d/Y (l)', strtotime($f->bite_date))}}</u> </p>
-                    <p><strong>Body Part:</strong> <u>{{$f->body_site}} • <strong>Category:</strong> <u>{{$f->category_level}}</u></p>
-                    <p><strong>Health Facility:</strong> <u>{{$f->vaccinationsite->site_name}}</u></p>
+<style>
+    @media print {
+        #printDiv, #divFoot {
+            display: none;
+        }
 
-                    <table class="table table-bordered table-striped">
-                        <thead class="bg-light">
-                            <tr>
-                                <th colspan="2">Vaccine Brand: {{$f->brand_name}}</th>
+        @page {
+            margin: 0;
+        }
+
+        body {
+            background-color: white;
+            margin-top: 0;
+        }
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div id="printDiv">
+                        <button type="button" class="btn btn-primary btn-block" onclick="window.print()">PRINT</button>
+                        <hr>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6><b>{{$f->getBranch()}}</b></h6>
+                            <h6><b>ANIMAL BITE TREATMENT CENTER</b></h6>
+                        </div>
+                        <div>
+                            <ul>
+                                Schedule: Mon,Tue,Thu,Fri
+                                <li>New Patients: 8AM - 11AM</li>
+                                <li>Follow-up: 1PM - 4PM</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <div class="card-body">
+                    <table class="table text-center table-borderless">
+                        <tbody>
+                            <tr >
+                                <td style="vertical-align: middle;">
+                                    <img src="{{asset('assets/images/gentri_icon_large.png')}}" style="width: 7rem;" class="img-fluid mr-3" alt="">
+                                    <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 7rem;" class="img-fluid" alt="">
+                                </td>
+                                <td>
+                                    {!! QrCode::size(150)->generate($f->patient->qr) !!}
+                                </td>
                             </tr>
-                            <tr class="text-center">
-                                <th>Dose Schedule</th>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="font-weight-bold">Registration No.:</td>
+                                <td><u>{{$f->case_id}}</u></td>
+                                <td class="font-weight-bold">Date Registered:</td>
+                                <td><u>{{date('m/d/Y', strtotime($f->case_date))}}</u></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless" style="margin-top: -20px;">
+                        <tbody>
+                            <tr>
+                                <td class="font-weight-bold">Name:</td>
+                                <td><u>{{$f->patient->getName()}}</u></td>
+                                <td class="font-weight-bold">Age/Gender:</td>
+                                <td><u>{{$f->patient->getAge()}} / {{$f->patient->sg()}}</u></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-borderless" style="margin-top: -20px;">
+                        <tbody>
+                            <tr>
+                                <td class="font-weight-bold">Address:</td>
+                                <td><u>{{$f->patient->getAddressMini()}}</u></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <ul>
+                        <b>History of Exposure</b>
+                        <li class="ml-5"><b>Date of Exposure:</b> <u>{{date('m/d/Y', strtotime($f->bite_date))}}</u></li>
+                        <li class="ml-5"><b>Place of Exposure:</b> <u>{{$f->case_location}}</u></li>
+                        <li class="ml-5"><b>Type of Exposure:</b> <u>{{$f->getBiteType()}} {{(!is_null($f->body_site)) ? ' / '.$f->body_site : ''}}</u></li>
+                        <li class="ml-5"><b>Source of Exposure:</b> <u>{{$f->getSource()}}</u></li>
+                    </ul>
+
+                    <table class="table table-borderless table-sm">
+                        <tbody>
+                            <tr>
+                                <td><b>Category of Exposure:</b> <u>{{$f->category_level}}</u></td>
+                                <td><b>Post Exposure Prophylaxis:</b> <u>N</u></td>
+                            </tr>
+                            <tr>
+                                <td><b>A. Washing of Bite Wound:</b> <u>{{($f->washing_of_bite == 1) ? 'Y' : 'N'}}</u></td>
+                                <td><b>B. RIG:</b> <u>{{(!is_null($f->rig_date_given)) ? date('m/d/Y', strtotime($f->rig_date_given)) : 'N/A'}}</u></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <table class="table table-bordered text-center table-sm">
+                        <tbody>
+                            <thead class="thead-light text-center">
+                                <th colspan="3">Generic Name: <u>{{$f->getGenericName()}}</u> | Brand Name: <u>{{$f->brand_name}}</u></th>
+                            </thead>
+                            <thead class="thead-light">
+                                <th>Day</th>
                                 <th>Date</th>
+                                <th>Signature</th>
+                            </thead>
+                            <tr class="font-weight-bold">
+                                <td>Day 0</td>
+                                <td>{{date('m/d/Y (D)', strtotime($f->d0_date))}}</td>
+                                <td></td>
                             </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <td><strong>Day 0</strong></td>
-                                <td>{{date('m/d/Y (l)', strtotime($f->d0_date))}} @if($f->d0_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
+                            <tr class="font-weight-bold">
+                                <td>Day 3</td>
+                                <td>{{date('m/d/Y (D)', strtotime($f->d3_date))}}</td>
+                                <td></td>
                             </tr>
-                            <tr>
-                                <td><strong>Day 3</strong></td>
-                                <td>{{date('m/d/Y (l)', strtotime($f->d3_date))}} @if($f->d3_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
+                            @if($f->is_booster != 1)
+                            <tr class="font-weight-bold">
+                                <td>Day 7</td>
+                                <td>{{date('m/d/Y (D)', strtotime($f->d7_date))}}</td>
+                                <td></td>
                             </tr>
-                            @if($f->is_booster == 0)
-                            <tr>
-                                <td><strong>Day 7</strong></td>
-                                <td>{{date('m/d/Y (l)', strtotime($f->d7_date))}} @if($f->d7_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
-                            </tr>
-                            @if($f->pep_route != 'ID')
-                            <tr>
-                                <td><strong>Day 14</strong></td>
-                                <td>{{date('m/d/Y (l)', strtotime($f->d14_date))}} @if($f->d14_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
+                            @if($f->pep_route == 'IM')
+                            <tr class="font-weight-bold">
+                                <td>Day 14 (M)</td>
+                                <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
+                                <td></td>
                             </tr>
                             @endif
-                            <tr>
-                                <td><strong>Day 28</strong> <i>(Optional)</i></td>
-                                <td>{{date('m/d/Y (l)', strtotime($f->d28_date))}} @if($f->d28_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
+                            <tr class="font-weight-bold">
+                                <td>Day 28</td>
+                                <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
+                                <td></td>
                             </tr>
                             @endif
                         </tbody>
                     </table>
-                    <p class="text-center"><b>ABTC Offices:</b></p>
-                    <ul class="text-center">
-                        <li>City Health Office - Main, Pinagtipunan, General Trias City</li>
-                        <li>Barangay Health Center - Manggahan, General Trias City</li>
-                    </ul>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{{route('abtc_schedule_index')}}" class="btn btn-link"><i class="fa-solid fa-house me-2"></i>Back to Todays Schedule</a>
+                    @if($f->is_booster != 1)
+                    <small>Note: D28 If animal is not alive after 14 days of observation.</small>
+                    @endif
+                    <p class="mt-3">Status of animal 14 days after exposure: <u>{{$f->biting_animal_status}}</u></p>
                     <hr>
-                    <a href="{{route('abtc_encode_edit', ['br_id' => $f->id])}}">Back to Patient Details</a>
+                    <div class="text-center">
+                        <h4 style="color: blue"><i>Be a Responsible Pet Owner</i></h4>
+                        <h4 style="color: green"><i>Let's Join Forces for a Rabies-free Gentri</i></h4>
+                    </div>
+                </div>
+                <div class="card-footer text-center" id="divFoot">
+                    <div class="d-flex justify-content-between">
+                        <div><a href="{{route('abtc_schedule_index')}}" class="btn btn-link"><i class="fas fa-calendar-alt mr-2"></i>Back to Todays Schedule</a></div>
+                        <div><a href="{{route('abtc_encode_edit', ['br_id' => $f->id])}}" class="btn btn-link"><i class="fas fa-backward mr-2"></i>Back to Patient Details</a></div>
+                        <div><a href="{{route('abtc_patient_create')}}" class="btn btn-link"><i class="fas fa-user-plus mr-2"></i>Add NEW Patient</a></div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-4">
+            <h3>PAALALA</h3>
         </div>
     </div>
 </div>

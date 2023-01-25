@@ -30,8 +30,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><strong>Edit Anti-Rabies Vaccination Details</strong></div>
-                    <div>Patient #{{$d->patient->id}}</div>
+                    <div><strong>Edit Anti-Rabies Vaccination Details</strong> (Patient #{{$d->patient->id}})</div>
+                    <div><a href="{{route('abtc_print_view', $d->id)}}" class="btn btn-primary">Print</a></div>
                 </div>
             </div>
             <div class="card-body">

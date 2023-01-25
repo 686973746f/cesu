@@ -673,4 +673,12 @@ class ABTCVaccinationController extends Controller
             'ff' => $ff,
         ]);
     }
+
+    public function print_view($bid) {
+        $f = AbtcBakunaRecords::findOrFail($bid);
+
+        return view('abtc.encode_finished', [
+            'f' => $f,
+        ]);
+    }
 }
