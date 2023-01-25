@@ -666,7 +666,8 @@ class ABTCVaccinationController extends Controller
                 $r->where('d28_date', $sdate)
                 ->where('d28_done', 0);
             });
-        })->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        })->where('outcome', 'INC')
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->orderBy('created_at', 'ASC')
         ->get();
 
