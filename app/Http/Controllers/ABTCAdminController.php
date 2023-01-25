@@ -21,8 +21,11 @@ class ABTCAdminController extends Controller
             'site_name' => 'required',
         ]);
 
+        $str = mb_strtoupper(Str::random(5));
+
         AbtcVaccinationSite::create([
             'site_name' => $request->site_name,
+            'referral_code' => $str,
         ]);
 
         return redirect()->route('abtc_vaccinationsite_index')
