@@ -660,10 +660,10 @@ class ABTCVaccinationController extends Controller
                 $r->where('d7_date', $sdate)
                 ->where('d7_done', 0);
             })->orWhere(function ($r) use ($sdate) {
-                $q->where('d14_date', $sdate)
+                $r->where('d14_date', $sdate)
                 ->where('d14_done', 0);
             })->orWhere(function ($r) use ($sdate) {
-                $q->where('d28_date', $sdate)
+                $r->where('d28_date', $sdate)
                 ->where('d28_done', 0);
             });
         })->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
