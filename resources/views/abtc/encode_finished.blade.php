@@ -147,9 +147,13 @@
                         </tbody>
                     </table>
                     @if($f->is_booster != 1)
-                    <small>Note: D28 If animal is not alive after 14 days of observation.</small>
+                    <ul>
+                        <small>Note:</small>
+                        <li><small>Observe the biting animal for 14 days. If the animal died, report to ABTC as soon as possible.</small></li>
+                        <li><small>Date from Day 3 to Day 28 will serve as your follow-up date.</small></li>
+                    </ul>
                     @endif
-                    <p class="mt-3">Status of animal 14 days after exposure: <u>{{$f->biting_animal_status}}</u></p>
+                    <p class="mt-3"><b>Status of animal 14 days after exposure:</b> <u>{{$f->biting_animal_status}}</u></p>
                     <hr>
                     <div class="text-center">
                         <h4 style="color: blue"><i>Be a Responsible Pet Owner</i></h4>
@@ -166,7 +170,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <ul>
+            <ul class="mt-5">
                 <h3><b>MGA PAALALA / MGA DAPAT GAWIN KAPAG NAKAGAT O NAKALMOT NG ASO/PUSA</b></h3>
                 <li>Hugasan agad ang sugat gamit ng malinis na tubig at sabon sa loob ng 10-15 minutos.</li>
                 <li>Linisin ang sugat gamit ng 70% Alcohol/Ethanol at Povidone-iodine (Betadine), kung mayroon.</li>
