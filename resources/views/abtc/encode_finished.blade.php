@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-header">
                     <div id="printDiv">
-                        <button type="button" class="btn btn-primary btn-block" onclick="window.print()">PRINT</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="window.print()"><i class="fas fa-print mr-2"></i>PRINT</button>
                         <hr>
                     </div>
                     <div class="d-flex justify-content-between">
@@ -39,8 +39,6 @@
                             </ul>
                         </div>
                     </div>
-                    
-                    
                 </div>
                 <div class="card-body">
                     <table class="table text-center table-borderless">
@@ -168,7 +166,22 @@
             </div>
         </div>
         <div class="col-md-4">
-            <h3>PAALALA</h3>
+            <ul>
+                <h3><b>MGA PAALALA / MGA DAPAT GAWIN KAPAG NAKAGAT O NAKALMOT NG ASO/PUSA</b></h3>
+                <li>Hugasan agad ang sugat gamit ng malinis na tubig at sabon sa loob ng 10-15 minutos.</li>
+                <li>Linisin ang sugat gamit ng 70% Alcohol/Ethanol at Povidone-iodine (Betadine), kung mayroon.</li>
+                <li>Magpa-konsulta agad sa doktor o malapit na Animal Bite Treatment Center (ABTC).</li>
+            </ul>
+            <ul>
+                <h3 class="text-danger"><b>IWASAN ANG MGA SUMUSUNOD</b></h3>
+                <li>Sipsipin ang sugat gamit ang bibig.</li>
+                <li>Paglalagay ng bawang, barya, o bato sa sugat.</li>
+                <li>Paglalagay ng tandok sa sugat.</li>
+                <li>Pagbalot sa sugat gamit ng damit o bandahe.</li>
+                <li>Hindi pag-pansin sa kagat.</li>
+            </ul>
+            <p>Bigyan ng pansin at seryosohin ang potensyal na exposure sa rabies.</p>
+            <p>Kapag lumabas ang sintomas, kamatayan ay halos di na maiiwasan pa.</p>
         </div>
     </div>
 </div>
