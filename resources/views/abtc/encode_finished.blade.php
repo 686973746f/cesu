@@ -174,11 +174,11 @@
             </ul>
             <ul>
                 <h3 class="text-danger"><b>IWASAN ANG MGA SUMUSUNOD</b></h3>
-                <li>Sipsipin ang sugat gamit ang bibig.</li>
-                <li>Paglalagay ng bawang, barya, o bato sa sugat.</li>
-                <li>Paglalagay ng tandok sa sugat.</li>
-                <li>Pagbalot sa sugat gamit ng damit o bandahe.</li>
-                <li>Hindi pag-pansin sa kagat.</li>
+                <li>Huwag sipsipin ang sugat gamit ang bibig.</li>
+                <li>Huwag lagyan ng bawang, barya, o bato sa sugat.</li>
+                <li>Huwag magpagamot sa tandok ng kagat/kalmot ng aso/pusa.</li>
+                <li>Huwag balutan ang sugat ng damit o bandahe.</li>
+                <li>Hindi balewalain ang kagat ng aso/pusa.</li>
             </ul>
             <p>Bigyan ng pansin at seryosohin ang potensyal na exposure sa rabies.</p>
             <p>Kapag lumabas ang sintomas, kamatayan ay halos di na maiiwasan pa.</p>
