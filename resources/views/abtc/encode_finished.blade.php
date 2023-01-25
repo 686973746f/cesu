@@ -96,7 +96,7 @@
                         <tbody>
                             <tr>
                                 <td><b>Category of Exposure:</b> <u>{{$f->category_level}}</u></td>
-                                <td><b>Post Exposure Prophylaxis:</b> <u>N</u></td>
+                                <td><b>Post Exposure Prophylaxis:</b> <u>Y</u></td>
                             </tr>
                             <tr>
                                 <td><b>A. Washing of Bite Wound:</b> <u>{{($f->washing_of_bite == 1) ? 'Y' : 'N'}}</u></td>
