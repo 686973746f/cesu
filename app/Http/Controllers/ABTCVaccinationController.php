@@ -653,17 +653,19 @@ class ABTCVaccinationController extends Controller
         */
 
         $ff = AbtcBakunaRecords::where(function ($q) use ($sdate) {
-            $q->where('d3_date', $sdate)
-            ->where('d3_done', 0);
-        })->orWhere(function ($q) use ($sdate) {
-            $q->where('d7_date', $sdate)
-            ->where('d7_done', 0);
-        })->orWhere(function ($q) use ($sdate) {
-            $q->where('d14_date', $sdate)
-            ->where('d14_done', 0);
-        })->orWhere(function ($q) use ($sdate) {
-            $q->where('d28_date', $sdate)
-            ->where('d28_done', 0);
+            $q->where(function ($r) use ($sdate) {
+                $r->where('d3_date', $sdate)
+                ->where('d3_done', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $r->where('d7_date', $sdate)
+                ->where('d7_done', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $q->where('d14_date', $sdate)
+                ->where('d14_done', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $q->where('d28_date', $sdate)
+                ->where('d28_done', 0);
+            });
         })->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->orderBy('created_at', 'ASC')
         ->get();
