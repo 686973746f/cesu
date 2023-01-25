@@ -12,5 +12,12 @@ class AbtcVaccinationSite extends Model
     protected $fillable = [
         'site_name',
         'enabled',
+        'referral_code',
+        'sched_days',
+        'new_start',
+        'new_end',
+        'ff_start',
+        'ff_end',
+        'new_and_ff_time_same',
     ];
 }

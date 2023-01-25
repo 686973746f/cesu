@@ -315,7 +315,7 @@ class ABTCVaccinationController extends Controller
             }
             else {
                 return redirect()->back()
-                ->with('msg', 'Unable to process. Patient was vaccinated 90 Days (3 Months) ago. Booster is not yet required.')
+                ->with('msg', 'Unable to process. Patient was still not past the 90 Days (3 Months) period from his/her last anti-rabies vaccine. Booster is not yet required at this point.')
                 ->with('msgtype', 'warning');
             }
         }

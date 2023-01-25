@@ -16,6 +16,7 @@ class CreateAbtcSettingsTable extends Migration
         Schema::create('abtc_settings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->text('holidays_list')->nullable();
         });
     }
 
