@@ -67,8 +67,8 @@ class ABTCAdminController extends Controller
     }
 
     public function gupdate() {
-        $l = AbtcBakunaRecords::where('vaccination_site_id', 2)
-        ->whereYear('case_date', '2022')
+        $l = AbtcBakunaRecords::where('vaccination_site_id', 1)
+        ->whereYear('case_date', '2023')
         ->orderBy('created_at', 'ASC')
         ->get();
 
@@ -77,7 +77,7 @@ class ABTCAdminController extends Controller
         foreach($l as $a) {
             $u = AbtcBakunaRecords::findOrFail($a->id);
 
-            $u->case_id = '2022-'.$c;
+            $u->case_id = '2023-'.$c;
 
             $u->save();
 
