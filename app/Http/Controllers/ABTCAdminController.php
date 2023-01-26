@@ -79,9 +79,7 @@ class ABTCAdminController extends Controller
 
             $u->case_id = date('Y').'-'.$c;
 
-            if($u->isDirty()) {
-                $u->save();
-            }
+            $u->save();
 
             $c++;
         }
