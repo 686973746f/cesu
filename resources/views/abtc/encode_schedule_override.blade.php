@@ -38,7 +38,7 @@
                                 <td>
                                     <select class="form-select" name="d0_brand" id="d0_brand" required>
                                         @foreach($vblist as $v)
-                                        <option value="{{$v->d0_brand}}" {{($d->d0_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
+                                        <option value="{{$v->brand_name}}" {{($d->d0_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -62,7 +62,7 @@
                                 <td>
                                     <select class="form-select" name="d3_brand" id="d3_brand" required>
                                         @foreach($vblist as $v)
-                                        <option value="{{$v->d3_brand}}" {{($d->d3_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
+                                        <option value="{{$v->brand_name}}" {{($d->d3_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -87,7 +87,7 @@
                                 <td>
                                     <select class="form-select" name="d7_brand" id="d7_brand" required>
                                         @foreach($vblist as $v)
-                                        <option value="{{$v->d7_brand}}" {{($d->d7_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
+                                        <option value="{{$v->brand_name}}" {{($d->d7_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -112,7 +112,7 @@
                                 <td>
                                     <select class="form-select" name="d14_brand" id="d14_brand" required>
                                         @foreach($vblist as $v)
-                                        <option value="{{$v->d14_brand}}" {{($d->d14_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
+                                        <option value="{{$v->brand_name}}" {{($d->d14_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -137,7 +137,7 @@
                                 <td>
                                     <select class="form-select" name="d28_brand" id="d28_brand" required>
                                         @foreach($vblist as $v)
-                                        <option value="{{$v->d28_brand}}" {{($d->d28_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
+                                        <option value="{{$v->brand_name}}" {{($d->d28_brand == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
