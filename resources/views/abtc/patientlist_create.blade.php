@@ -21,7 +21,7 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="lname" class="form-label"><b class="text-danger">*</b>Last Name</label>
-                            <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" maxlength="50" placeholder="e.g DELA CRUZ" style="text-transform: uppercase;" required>
+                            <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" maxlength="50" placeholder="e.g DELA CRUZ" style="text-transform: uppercase;" required autofocus>
                         </div>
                     </div>
                     <div class="col-md-3">

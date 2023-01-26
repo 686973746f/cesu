@@ -778,62 +778,62 @@ class ABTCReportController extends Controller
 
         $cat1 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '1')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat2 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '2')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat3 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '3')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat4 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '4')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat5 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '5')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat6 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '6')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat7 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '7')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat8 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '8')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat9 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '9')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat10 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '10')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat11 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '11')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         $cat12 = AbtcBakunaRecords::whereYear('case_date', $sy)
         ->whereMonth('case_date', '12')
-        ->where('animal_type', 'C')
+        ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
         return view('abtc.report_cho', [
@@ -1084,7 +1084,7 @@ class ABTCReportController extends Controller
                 $cat_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
-                ->where('animal_type', 'C')
+                ->whereIn('animal_type', ['C', 'PC', 'SC'])
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();

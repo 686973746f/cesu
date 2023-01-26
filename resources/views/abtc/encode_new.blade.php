@@ -63,7 +63,7 @@
                     <div class="col-md-4">
                         <div>
                             <label for="case_date" class="form-label"><strong class="text-danger">*</strong>Registration Date</label>
-                            <input type="date" class="form-control" name="case_date" id="case_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('case_date')}}" required>
+                            <input type="date" class="form-control" name="case_date" id="case_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('case_date')}}" required autofocus>
                             <small class="text-muted">Date patient was first seen, regardless whether patient was given PEP or not.</small>
                         </div>
                     </div>

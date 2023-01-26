@@ -51,8 +51,8 @@
                         <tbody>
                             <tr >
                                 <td style="vertical-align: middle;">
-                                    <img src="{{asset('assets/images/gentri_icon_large.png')}}" style="width: 7rem;" class="img-fluid mr-3" alt="">
-                                    <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 7rem;" class="img-fluid" alt="">
+                                    <img src="{{asset('assets/images/gentri_icon_large.png')}}" style="width: 8rem;" class="img-fluid mr-3" alt="">
+                                    <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 8rem;" class="img-fluid" alt="">
                                 </td>
                                 <td>
                                     {!! QrCode::size(150)->generate($f->patient->qr) !!}
@@ -106,7 +106,7 @@
                             </tr>
                             <tr>
                                 <td><b>A. Washing of Bite Wound:</b> <u>{{($f->washing_of_bite == 1) ? 'Y' : 'N'}}</u></td>
-                                <td><b>B. RIG:</b> <u>{{(!is_null($f->rig_date_given)) ? date('m/d/Y', strtotime($f->rig_date_given)) : '__________'}}</u></td>
+                                <td><b>B. RIG:</b> <u>{{$f->showRig()}}</u></td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,30 +124,30 @@
                             <tr class="font-weight-bold">
                                 <td>Day 0</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d0_date))}}</td>
-                                <td><b>{{($f->outcome == 'C' && $f->d0_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d0_done == 1 && $f->d3_done == 1) ? 'text-success' : ''}}"><b>{{($f->d0_done == 1 && $f->d3_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             <tr class="font-weight-bold">
                                 <td>Day 3</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d3_date))}}</td>
-                                <td><b>{{($f->outcome == 'C' && $f->d3_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d3_done == 1 && $f->d7_done == 1) ? 'text-success' : ''}}"><b>{{($f->d3_done == 1 && $f->d7_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @if($f->is_booster != 1)
                             <tr class="font-weight-bold">
                                 <td>Day 7</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d7_date))}}</td>
-                                <td><b>{{($f->outcome == 'C' && $f->d7_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d7_done == 1 && $f->d14_done == 1) ? 'text-success' : ''}}"><b>{{($f->d7_done == 1 && $f->d14_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @if($f->pep_route == 'IM')
                             <tr class="font-weight-bold">
                                 <td>Day 14 (M)</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
-                                <td><b>{{($f->outcome == 'C' && $f->d14_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d14_done == 1 && $f->d28_done == 1) ? 'text-success' : ''}}"><b>{{($f->d14_done == 1 && $f->d28_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @endif
                             <tr class="font-weight-bold">
                                 <td>Day 28</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
-                                <td><b>{{($f->outcome == 'C' && $f->d28_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->outcome == 'C' && $f->d28_done == 1) ? 'text-success' : ''}}"><b>{{($f->outcome == 'C' && $f->d28_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @endif
                         </tbody>

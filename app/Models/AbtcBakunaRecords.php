@@ -306,4 +306,19 @@ class AbtcBakunaRecords extends Model
             return 'SCRATCH';
         }
     }
+
+    //for Printing Page
+    public function showRig() {
+        if(!is_null($this->rig_date_given)) {
+            return date('m/d/Y', strtotime($this->rig_date_given));
+        }
+        else {
+            if($this->outcome == 'C') {
+                return 'N/A';
+            }
+            else {
+                return '__________';
+            }
+        }
+    }
 }
