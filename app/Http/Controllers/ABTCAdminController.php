@@ -67,27 +67,23 @@ class ABTCAdminController extends Controller
     }
 
     public function gupdate() {
-        $vslist = AbtcVaccinationSite::get();
+        $l = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
+        ->whereYear('case_date', date('Y'))
+        ->orderBy('created_at', 'ASC')
+        ->get();
 
-        foreach ($vslist as $v) {
-            $l = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
-            ->whereYear('case_date', date('Y'))
-            ->orderBy('created_at', 'ASC')
-            ->get();
+        $c = 1;
 
-            $c = 1;
+        foreach($l as $a) {
+            $u = AbtcBakunaRecords::findOrFail($a->id);
 
-            foreach($l as $a) {
-                $u = AbtcBakunaRecords::findOrFail($a->id);
+            $u->case_id = date('Y').'-'.$c;
 
-                $u->case_id = date('Y').'-'.$c;
-
-                if($u->isDirty()) {
-                    $u->save();
-                }
-
-                $c++;
+            if($u->isDirty()) {
+                $u->save();
             }
+
+            $c++;
         }
 
         return 'done';
