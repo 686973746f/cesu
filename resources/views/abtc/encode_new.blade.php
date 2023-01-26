@@ -128,7 +128,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="case_location" class="form-label"><strong id="case_location_ast" class="d-none text-danger">*</strong>Place (Where biting occured)</label>
-                            <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location')}}" style="text-transform: uppercase;">
+                            <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location', $d->address_brgy_text)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                 </div>

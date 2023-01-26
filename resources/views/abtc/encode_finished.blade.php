@@ -25,6 +25,12 @@
                     <div id="printDiv">
                         <button type="button" class="btn btn-primary btn-block" onclick="window.print()"><i class="fas fa-print mr-2"></i>PRINT</button>
                         <hr>
+                        <div class="d-flex justify-content-between">
+                            <div><a href="{{route('abtc_schedule_index')}}" class="btn btn-link"><i class="fas fa-calendar-alt mr-2"></i>Back to Todays Schedule</a></div>
+                            <div><a href="{{route('abtc_encode_edit', ['br_id' => $f->id])}}" class="btn btn-link"><i class="fas fa-backward mr-2"></i>Back to Patient Details</a></div>
+                            <div><a href="{{route('abtc_patient_create')}}" class="btn btn-link"><i class="fas fa-user-plus mr-2"></i>Add NEW Patient</a></div>
+                        </div>
+                        <hr>
                     </div>
                     <div class="d-flex justify-content-between">
                         <div>
@@ -161,11 +167,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center" id="divFoot">
-                    <div class="d-flex justify-content-between">
-                        <div><a href="{{route('abtc_schedule_index')}}" class="btn btn-link"><i class="fas fa-calendar-alt mr-2"></i>Back to Todays Schedule</a></div>
-                        <div><a href="{{route('abtc_encode_edit', ['br_id' => $f->id])}}" class="btn btn-link"><i class="fas fa-backward mr-2"></i>Back to Patient Details</a></div>
-                        <div><a href="{{route('abtc_patient_create')}}" class="btn btn-link"><i class="fas fa-user-plus mr-2"></i>Add NEW Patient</a></div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
