@@ -19,7 +19,7 @@
                     <form class="form-inline">
                         <p>Options:</p>
                         <a href="{{route('abtc_bakuna_again', ['patient_id' => $d->patient->id])}}" class="btn btn-primary">Create Booster Vaccination</a>
-                        @if($d->d28_done == 0)
+                        @if($d->d28_done == 0 && $d->is_booster == 0)
                         <a href="{{route('abtc_mark_dead', [$d->id])}}" class="btn btn-danger">Mark Animal as Dead (Open Day 28 Vaccination)</a>
                         @endif
                     </form>
