@@ -67,7 +67,7 @@ class ABTCAdminController extends Controller
     }
 
     public function gupdate() {
-        $l = AbtcBakunaRecords::where('vaccination_site_id', 2)
+        $l = AbtcBakunaRecords::where('vaccination_site_id', 1)
         ->whereYear('case_date', '2023')
         ->orderBy('created_at', 'ASC')
         ->get();
