@@ -105,12 +105,12 @@ class ABTCVaccinationController extends Controller
             }
 
             if(date('Y', strtotime($request->case_date)) != date('Y')) {
-                $case_id = date('Y', strtotime($request->case_date)).'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y', strtotime($request->case_date)))
+                $case_id = date('Y', strtotime($request->case_date)).'-'.(AbtcBakunaRecords::whereYear('case_date', date('Y', strtotime($request->case_date)))
                 ->where('vaccination_site_id', $request->vaccination_site_id)
                 ->count() + 1);
             }
             else {
-                $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y'))
+                $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('case_date', date('Y'))
                 ->where('vaccination_site_id', $request->vaccination_site_id)
                 ->count() + 1);
             }

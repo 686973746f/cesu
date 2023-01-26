@@ -222,7 +222,7 @@ class ABTCWalkInRegistrationController extends Controller
             ]);
         }
 
-        $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('created_at', date('Y'))
+        $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('case_date', date('Y'))
         ->where('vaccination_site_id', session('vaccination_site_id'))
         ->count() + 1);
 
