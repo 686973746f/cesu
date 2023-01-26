@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
-use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,17 +24,8 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Charts $charts)
+    public function boot()
     {
         Paginator::useBootstrap();
-
-        $charts->register([
-            \App\Charts\SampleChart::class,
-            \App\Charts\DailySwabChart::class,
-            \App\Charts\SituationalDailyConfirmedActiveChart::class,
-            \App\Charts\SituationalGenderDistributionChart::class,
-            \App\Charts\SituationalAgeDistributionChart::class,
-            \App\Charts\SituationalActiveCasesBreakdownChart::class,
-        ]);
     }
 }
