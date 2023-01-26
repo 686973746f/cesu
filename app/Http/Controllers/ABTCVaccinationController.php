@@ -96,7 +96,7 @@ class ABTCVaccinationController extends Controller
             }
             else {
                 //Override Booster
-                if($request->if_booster == 'Y') {
+                if($request->is_booster == 'Y') {
                     $is_booster = 1;
                 }
                 else {
