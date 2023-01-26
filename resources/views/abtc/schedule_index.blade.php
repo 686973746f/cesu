@@ -83,7 +83,7 @@
                         <td class="text-center">{{$n->animal_type}}</td>
                         <td class="text-center">{{date('m/d/Y (D)', strtotime($n->bite_date))}}</td>
                         <td class="text-center">{{$n->category_level}}</td>
-                        <td class="text-center">{{(!is_null($n->body_site)) ? mb_strtoupper($n->body_site) ? 'N/A'}}</td>
+                        <td class="text-center">{{(!is_null($n->body_site)) ? mb_strtoupper($n->body_site) : 'N/A'}}</td>
                         <td class="text-center">{{$n->getlatestday()}}</td>
                         <td class="text-center"><small>{{date('m/d/Y H:i:s', strtotime($n->created_at))}}</small></td>
                     </tr>
