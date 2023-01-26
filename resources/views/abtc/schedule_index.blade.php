@@ -36,7 +36,7 @@
                             <th>Age/Gender</th>
                             <th>Brgy</th>
                             <th>Animal</th>
-                            <th>Date Bitten</th>
+                            <th>Exposure Date</th>
                             <th>Category</th>
                             <th>Body Part</th>
                             <th>Date Registered</th>
@@ -78,7 +78,7 @@
                             <th>Age/Gender</th>
                             <th>Brgy</th>
                             <th>Animal</th>
-                            <th>Date Bitten</th>
+                            <th>Exposure Date</th>
                             <th>Category</th>
                             <th>Body Part</th>
                             <th>Day</th>
@@ -111,11 +111,13 @@
     $('#ntable').DataTable({
         fixedHeader: true,
         dom: 'frti',
+        iDisplayLength: -1,
     });
 
     $('#fftable').DataTable({
         fixedHeader: true,
         dom: 'frti',
+        iDisplayLength: -1,
     });
 </script>
 @endsection
