@@ -688,4 +688,12 @@ class ABTCVaccinationController extends Controller
             'f' => $f,
         ]);
     }
+
+    public function markdead($br_id) {
+        $b = AbtcBakunaRecords::findOrFail($br_id);
+
+        if($b->d0_done == 1 && $b->d3_done == 1 && $b->d7_done == 1) {
+            
+        }
+    }
 }

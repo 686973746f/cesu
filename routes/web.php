@@ -342,6 +342,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/abtc/encode/process_vaccination/{br_id}/{dose}', [ABTCVaccinationController::class, 'encode_process'])->name('abtc_encode_process');
 
     Route::get('/abtc/encode/rebakuna/{patient_id}', [ABTCVaccinationController::class, 'bakuna_again'])->name('abtc_bakuna_again');
+    Route::get('/abtc/encode/animaldead/{br_id}', [ABTCVaccinationController::class, 'markdead'])->name('abtc_mark_dead');
 
     Route::get('/abtc/report/linelist', [ABTCReportController::class, 'linelist_index'])->name('abtc_report_linelist_index');
     Route::get('/abtc/report/linelist2', [ABTCReportController::class, 'linelist2'])->name('abtc_report_linelist2_index');
