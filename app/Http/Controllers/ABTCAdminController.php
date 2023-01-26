@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AbtcVaccineBrand;
 use Illuminate\Http\Request;
 use App\Models\AbtcVaccinationSite;
+use App\Models\AbtcBakunaRecords;
 
 class ABTCAdminController extends Controller
 {
@@ -66,6 +67,29 @@ class ABTCAdminController extends Controller
     }
 
     public function gupdate() {
-        
+        $vslist = AbtcVaccinationSite::get();
+
+        foreach ($vslist as $v) {
+            $l = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
+            ->whereYear('case_date', date('Y'))
+            ->orderBy('created_at', 'ASC')
+            ->get();
+
+            $c = 1;
+
+            foreach($l as $a) {
+                $u = AbtcBakunaRecords::findOrFail($a->id);
+
+                $u->case_id = date('Y').'-'.$c;
+
+                if($u->isDirty()) {
+                    $u->save();
+                }
+
+                $c++;
+            }
+        }
+
+        return 'done';
     }
 }

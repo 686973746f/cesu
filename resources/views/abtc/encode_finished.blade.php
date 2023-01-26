@@ -95,7 +95,7 @@
                     <table class="table table-borderless table-sm">
                         <tbody>
                             <tr>
-                                <td><b>Category of Exposure:</b> <u>{{($f->outcome == 'INC') ? '__________' : $f->category_level}}</u></td>
+                                <td><b>Category of Exposure:</b> <u>{{($f->d3_done == 0) ? '__________' : $f->category_level}}</u></td>
                                 <td><b>Post Exposure Prophylaxis:</b> <u>Y</u></td>
                             </tr>
                             <tr>
@@ -118,30 +118,30 @@
                             <tr class="font-weight-bold">
                                 <td>Day 0</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d0_date))}}</td>
-                                <td></td>
+                                <td><b>{{($f->outcome == 'C' && $f->d0_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             <tr class="font-weight-bold">
                                 <td>Day 3</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d3_date))}}</td>
-                                <td></td>
+                                <td><b>{{($f->outcome == 'C' && $f->d3_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @if($f->is_booster != 1)
                             <tr class="font-weight-bold">
                                 <td>Day 7</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d7_date))}}</td>
-                                <td></td>
+                                <td><b>{{($f->outcome == 'C' && $f->d7_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @if($f->pep_route == 'IM')
                             <tr class="font-weight-bold">
                                 <td>Day 14 (M)</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
-                                <td></td>
+                                <td><b>{{($f->outcome == 'C' && $f->d14_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @endif
                             <tr class="font-weight-bold">
                                 <td>Day 28</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
-                                <td></td>
+                                <td><b>{{($f->outcome == 'C' && $f->d28_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @endif
                         </tbody>
