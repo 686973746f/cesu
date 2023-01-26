@@ -179,7 +179,7 @@ class ABTCVaccinationController extends Controller
                 'bite_date' => $request->bite_date,
                 'bite_type' => $request->bite_type,
                 'body_site' => ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL,
-                'category_level' => $request->category_level,
+                'category_level' => (!is_null($request->rig_date_given)) ? 3 : $request->category_level,
                 'washing_of_bite' => ($request->washing_of_bite == 'Y') ? 1 : 0,
                 'rig_date_given' => $request->rig_date_given,
 
@@ -260,7 +260,7 @@ class ABTCVaccinationController extends Controller
         $b->bite_date = $request->bite_date;
         $b->bite_type = $request->bite_type;
         $b->body_site = ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL;
-        $b->category_level = $request->category_level;
+        $b->category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
         $b->washing_of_bite = ($request->washing_of_bite == 'Y') ? 1 : 0;
         $b->rig_date_given = $request->rig_date_given;
 
