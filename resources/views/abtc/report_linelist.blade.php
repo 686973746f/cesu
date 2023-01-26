@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<style>
+    #mytable td {
+        vertical-align: middle;
+    }
+</style>
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
@@ -17,19 +20,43 @@
             </div>
             
             <form action="{{route('abtc_report_linelist_index')}}" method="GET">
-                <div class="input-group">
-                    <select class="form-select" id="fyear" name="fyear" required>
-                        <option value="" disabled selected>Select Year to Filter...</option>
-                        @foreach(range(date('Y'), 2020) as $y)
-                            <option value="{{$y}}" {{(old('fyear', request()->input('fyear')) == $y) ? 'selected': ''}}>{{$y}}</option>
-                        @endforeach
-                    </select>
-                    <button class="btn btn-outline-success" type="submit">Submit</button>
-                </div> 
+                <div class="card">
+                    <div class="card-header"><b>Filter</b></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for=""></label>
+                                    <select class="form-control" name="fyear" id="fyear" required>
+                                      <option value="" disabled selected>Select Year...</option>
+                                      @foreach(range(date('Y'), 2020) as $y)
+                                      <option value="{{$y}}" {{(old('fyear', request()->input('fyear')) == $y) ? 'selected': ''}}>{{$y}}</option>
+                                      @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for=""></label>
+                                    <select class="form-control" name="vid" id="vid" required>
+                                      <option value="" disabled selected>Select Vaccination Site...</option>
+                                      @foreach($vslist as $vs)
+                                        <option value="{{$vs->id}}" {{(request()->input('vid') == $vs->id || $vs->id == auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>{{$vs->site_name}}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </div>
+                </div>
             </form>
+
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="text-center bg-light" style="vertical-align: middle;">
+                <table class="table table-bordered table-striped" id="mytable">
+                    <thead class="text-center thead-light" style="vertical-align: middle;">
                         <tr>
                             <th colspan="4">Registration</th>
                             <th colspan="7">History of Exposure</th>
@@ -72,10 +99,10 @@
                             <td>{{$d->patient->getAge()}}</td>
                             <td>{{$d->patient->sg()}}</td>
                             <td>{{date('m/d/Y', strtotime($d->bite_date))}}</td>
-                            <td>{{$d->case_location}}</td>
+                            <td><small>{{$d->case_location}}</small></td>
                             <td>{{$d->animal_type}}</td>
                             <td>{{$d->bite_type}}</td>
-                            <td>{{$d->body_site}}</td>
+                            <td>{{(!is_null($d->body_site)) ? mb_strtoupper($d->body_site) : 'N/A'}}</td>
                             <td>{{$d->category_level}}</td>
                             <td>{{($d->washing_of_bite == 1) ? 'Y' : 'N'}}</td>
                             <td>{{(!is_null($d->rig_date_given)) ? date('m/d/Y', strtotime($d->rig_date_given)) : 'N/A'}}</td>

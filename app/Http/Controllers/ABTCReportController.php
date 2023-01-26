@@ -12,21 +12,31 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ABTCReportController extends Controller
 {
     public function linelist_index() {
-        if(request()->input('fyear')) {
-            $get = AbtcBakunaRecords::whereYear('case_date', request()->input('fyear'))->orderBy('case_date', 'ASC')->get();
+        $vslist = AbtcVaccinationSite::get();
+
+        if(request()->input('fyear') && request()->input('vid')) {
+            $get = AbtcBakunaRecords::whereYear('case_date', request()->input('fyear'))
+            ->where('vaccination_site_id', request()->input('vid'))
+            ->orderBy('created_at', 'ASC')
+            ->get();
 
             $alt = 'Showing Records Encoded for Year - '.request()->input('fyear');
         }
         else {
             //$get = AbtcBakunaRecords::whereYear('case_date', date('Y'))->get();
             
-            $get = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))->orderBy('case_date', 'ASC')->get();
+            $get = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->orderBy('created_at', 'ASC')
+            ->get();
+
             $alt = 'Showing Records Encoded for Today - '.date('m/d/Y');
         }
         
         return view('abtc.report_linelist', [
             'list' => $get,
             'alt' => $alt,
+            'vslist' => $vslist,
         ]);
     }
 

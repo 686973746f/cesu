@@ -109,7 +109,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated?</label>
+                            <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated within the year?</label>
                             <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
                                 <option value="" disabled {{is_null(old('if_animal_vaccinated')) ? 'selected' : ''}}>Choose...</option>
                                 <option value="N" {{(old('if_animal_vaccinated') == 'N') ? 'selected' : ''}}>No</option>
