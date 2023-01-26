@@ -64,4 +64,8 @@ class ABTCAdminController extends Controller
     public function vaccinebrand_update($id, Request $request) {
 
     }
+
+    public function gupdate() {
+        
+    }
 }
