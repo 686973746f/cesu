@@ -692,8 +692,32 @@ class ABTCVaccinationController extends Controller
     public function markdead($br_id) {
         $b = AbtcBakunaRecords::findOrFail($br_id);
 
-        if($b->d0_done == 1 && $b->d3_done == 1 && $b->d7_done == 1) {
-            
+        if($b->d0_done == 1 && $b->d3_done == 1 && $b->d7_done == 1 && $b->d28_done == 0 && $b->is_booster == 0) {
+            if($b->d28_date >= date('Y-m-d')) {
+                $b->biting_animal_status = 'DEAD';
+                $b->d28_done = 1;
+
+                if($b->isDirty()) {
+                    $b->save();
+                }
+                
+                return redirect()
+                ->back()
+                ->with('msg', 'Animal was marked as Dead. Day 28 Vaccination of Patient completed successfully.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()
+                ->back()
+                ->with('msg', 'Error: Hindi pa Day 28 ng Pasyente ngayon. Maaaring palitan ito gamit ng [Schedule Override] sa baba tsaka ito subukang ulit.')
+                ->with('msgtype', 'warning');
+            }
+        }
+        else {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: Hindi pa tapos ang bakuna ng pasyente.')
+            ->with('msgtype', 'warning');
         }
     }
 }
