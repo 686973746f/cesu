@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -28,21 +26,19 @@
                 {{session('msg')}}
             </div>
             @endif
-            <div class="d-grid gap-2">
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#qs"><i class="fas fa-search mr-2"></i>Quick Search via QR / Reg. Number</button>
-              <hr>
-              <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg"><i class="fa fa-user mr-2" aria-hidden="true"></i>Patient Lists</a>
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#nvm"><i class="fas fa-syringe mr-2"></i>New Vaccination</button>
-              <a href="{{route('abtc_schedule_index')}}" class="btn btn-primary btn-lg"><i class="fas fa-calendar-alt mr-2"></i>Todays Schedule</a>
-              <hr>
-              <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#reportpanel"><i class="fas fa-chart-bar mr-2"></i>Reports</button>
-              @if(auth()->user()->is_admin == 1)
-              <hr>
-              <a href="" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#adminpanel"><i class="fa-solid fa-lock me-2"></i>Admin Panel</a>
-              @endif
-              <hr>
-              <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#uop"><i class="fas fa-user-cog mr-2"></i>Account Options</button>
-            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#qs"><i class="fas fa-search mr-2"></i>Quick Search via QR / Reg. Number</button>
+            <hr>
+            <a href="{{route('abtc_patient_index')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-user mr-2" aria-hidden="true"></i>ABTC Patient Lists</a>
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#nvm"><i class="fas fa-syringe mr-2"></i>Search New/Existing Vaccination Details</button>
+            <a href="{{route('abtc_schedule_index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-calendar-alt mr-2"></i>Todays Schedule</a>
+            <hr>
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#reportpanel"><i class="fas fa-chart-bar mr-2"></i>ABTC Reports</button>
+            @if(auth()->user()->isAdmin == 1)
+            <hr>
+            <a href="" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#adminpanel"><i class="fas fa-user-lock mr-2"></i>Admin Panel</a>
+            @endif
+            <hr>
+            <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#uop"><i class="fas fa-user-cog mr-2"></i>Account Options</button>
         </div>
         <div class="card-footer">
           <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
@@ -59,7 +55,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id=""><i class="fas fa-search mr-2"></i>Quick Search via QR</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
@@ -82,7 +80,9 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="">New Vaccination</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
@@ -104,14 +104,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="">Admin Panel</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
-            <div class="d-grid gap-2">
-                <a href="{{route('abtc_vaccinationsite_index')}}" class="btn btn-primary">Vaccination Sites</a>
-                <a href="{{route('abtc_vaccinebrand_index')}}" class="btn btn-primary">Vaccine Brands</a>
-                <a href="" class="btn btn-primary">Site Settings</a>
-            </div>
+          <a href="{{route('abtc_vaccinationsite_index')}}" class="btn btn-primary btn-block">Vaccination Sites</a>
+          <a href="{{route('abtc_vaccinebrand_index')}}" class="btn btn-primary btn-block">Vaccine Brands</a>
+          <a href="" class="btn btn-primary btn-block">Site Settings</a>
         </div>
       </div>
     </div>
@@ -122,36 +122,34 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id=""><b><i class="fas fa-chart-bar mr-2"></i>Reports</b></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
-          <div class="d-grid gap-2">
-            <a href="{{route('abtc_report_linelist_index')}}" class="btn btn-primary">View Linelist</a>
-            <a href="{{route('abtc_report_cho')}}" class="btn btn-primary">View CHO Monthly Report</a>
-            <a href="{{route('abtc_dashboard')}}" class="btn btn-primary">Report Dashboard</a>
+        <a href="{{route('abtc_report_linelist_index')}}" class="btn btn-primary btn-block">View Linelist</a>
+        <a href="{{route('abtc_report_cho')}}" class="btn btn-primary btn-block">View CHO Monthly Report</a>
+        <a href="{{route('abtc_dashboard')}}" class="btn btn-primary btn-block">Report Dashboard</a>
+        <p class="text-center">---------- OR ----------</p>
+        <form action="{{route('abtc_report_export1')}}" method="POST">
+          @csrf
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" class="form-control" name="start_date" id="start_date" value="{{old('start_date', date('Y-m-01', strtotime('-3 Months')))}}" max="{{date('Y-m-d')}}" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" name="end_date" id="end_date" value="{{old('end_date', date('Y-m-d'))}}" max="{{date('Y-m-d')}}" required>
+              </div>
+            </div>
           </div>
-          <p class="text-center">---------- OR ----------</p>
-          <form action="{{route('abtc_report_export1')}}" method="POST">
-            @csrf
-            <div class="row">
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="start_date" class="form-label">Start Date</label>
-                  <input type="date" class="form-control" name="start_date" id="start_date" value="{{old('start_date', date('Y-m-01', strtotime('-3 Months')))}}" max="{{date('Y-m-d')}}" required>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="end_date" class="form-label">End Date</label>
-                  <input type="date" class="form-control" name="end_date" id="end_date" value="{{old('end_date', date('Y-m-d'))}}" max="{{date('Y-m-d')}}" required>
-                </div>
-              </div>
-            </div>
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-primary" name="submit" value="AR">Export - CHO Accomplishment Report</button>
-              <button type="submit" class="btn btn-primary" name="submit" value="RO4A">Export - COHORT Report</button>
-            </div>
-          </form>
+          <button type="submit" class="btn btn-primary btn-block" name="submit" value="AR">Export - CHO Accomplishment Report</button>
+            <button type="submit" class="btn btn-primary btn-block" name="submit" value="RO4A">Export - COHORT Report</button>
+        </form>
       </div>
     </div>
   </div>
@@ -164,12 +162,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id=""><i class="fas fa-user-cog mr-2"></i>Account Options</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
-          <div class="mb-3">
+          <div class="form-group">
             <label for="default_vaccinationsite_id" class="form-label">Change Default Vaccination Site</label>
-            <select class="form-select" name="default_vaccinationsite_id" id="default_vaccinationsite_id" required>
+            <select class="form-control" name="default_vaccinationsite_id" id="default_vaccinationsite_id">
               <option value="" {{is_null(auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>None</option>
               @foreach($vslist as $v)
               <option value="{{$v->id}}" {{($v->id == auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>{{$v->site_name}}</option>
