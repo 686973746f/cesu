@@ -504,62 +504,80 @@ class ABTCVaccinationController extends Controller
 
     public function override_schedule_process($id, Request $request) {
         $d = AbtcBakunaRecords::findOrFail($id);
+        if($request->p_submit == 'oride') {
+            $request->validate([
+                
+            ]);
 
-        $request->validate([
-            
-        ]);
+            $d->d0_date = $request->d0_date;
+            $d->d0_brand = $request->d0_brand;
 
-        $d->d0_date = $request->d0_date;
-        $d->d0_brand = $request->d0_brand;
-
-        if($d->d0_done == 0) {
-            if($request->d0_ostatus == 'C') {
-                $d->d0_done = 1;
-            }
-        }
-
-        $d->d3_date = $request->d3_date;
-        $d->d3_brand = $request->d3_brand;
-
-        if($d->d3_done == 0) {
-            if($request->d3_ostatus == 'C') {
-                $d->d0_done = 1;
-                $d->d3_done = 1;
-
-                if($d->outcome == 'INC' && $d->is_booster == 1) {
-                    $d->outcome = 'C';
+            if($d->d0_done == 0) {
+                if($request->d0_ostatus == 'C') {
+                    $d->d0_done = 1;
                 }
             }
-        }
 
-        if($d->is_booster == 0) {
+            $d->d3_date = $request->d3_date;
+            $d->d3_brand = $request->d3_brand;
 
-            $d->d7_date = $request->d7_date;
-            $d->d7_brand = $request->d7_brand;
-
-            if($d->d7_done == 0) {
-                if($request->d7_ostatus == 'C') {
+            if($d->d3_done == 0) {
+                if($request->d3_ostatus == 'C') {
                     $d->d0_done = 1;
                     $d->d3_done = 1;
-                    $d->d7_done = 1;
 
-                    if($d->outcome == 'INC' && $d->is_booster == 0) {
+                    if($d->outcome == 'INC' && $d->is_booster == 1) {
                         $d->outcome = 'C';
                     }
                 }
             }
-    
-            if($d->pep_route == 'IM') {
 
-                $d->d14_date = $request->d14_date;
-                $d->d14_brand = $request->d14_brand;
-                
-                if($d->d14_done == 0) {
-                    if($request->d14_ostatus == 'C') {
+            if($d->is_booster == 0) {
+
+                $d->d7_date = $request->d7_date;
+                $d->d7_brand = $request->d7_brand;
+
+                if($d->d7_done == 0) {
+                    if($request->d7_ostatus == 'C') {
+                        $d->d0_done = 1;
+                        $d->d3_done = 1;
+                        $d->d7_done = 1;
+
+                        if($d->outcome == 'INC' && $d->is_booster == 0) {
+                            $d->outcome = 'C';
+                        }
+                    }
+                }
+        
+                if($d->pep_route == 'IM') {
+
+                    $d->d14_date = $request->d14_date;
+                    $d->d14_brand = $request->d14_brand;
+                    
+                    if($d->d14_done == 0) {
+                        if($request->d14_ostatus == 'C') {
+                            $d->d0_done = 1;
+                            $d->d3_done = 1;
+                            $d->d7_done = 1;
+                            $d->d14_done = 1;
+
+                            if($d->outcome == 'INC' && $d->is_booster == 0) {
+                                $d->outcome = 'C';
+                            }
+                        }
+                    }
+                }
+
+                $d->d28_date = $request->d28_date;
+                $d->d28_brand = $request->d28_brand;
+        
+                if($d->d28_done == 0) {
+                    if($request->d28_ostatus == 'C') {
                         $d->d0_done = 1;
                         $d->d3_done = 1;
                         $d->d7_done = 1;
                         $d->d14_done = 1;
+                        $d->d28_done = 1;
 
                         if($d->outcome == 'INC' && $d->is_booster == 0) {
                             $d->outcome = 'C';
@@ -568,61 +586,71 @@ class ABTCVaccinationController extends Controller
                 }
             }
 
-            $d->d28_date = $request->d28_date;
-            $d->d28_brand = $request->d28_brand;
-    
-            if($d->d28_done == 0) {
-                if($request->d28_ostatus == 'C') {
-                    $d->d0_done = 1;
-                    $d->d3_done = 1;
-                    $d->d7_done = 1;
-                    $d->d14_done = 1;
-                    $d->d28_done = 1;
-
-                    if($d->outcome == 'INC' && $d->is_booster == 0) {
-                        $d->outcome = 'C';
-                    }
+            if($d->isDirty()) {
+                if(is_null($d->created_by)) {
+                    $d->created_by = auth()->user()->id;
                 }
+
+                if($request->d0_date > date('Y-m-d') && $request->d0_ostatus == 'C') {
+                    return redirect()->back()
+                    ->with('msg', 'Day 0 cannot be marked as completed because the date is ahead the present date.')
+                    ->with('msgtype', 'warning');
+                }
+                if($request->d3_date > date('Y-m-d') && $request->d3_ostatus == 'C') {
+                    return redirect()->back()
+                    ->with('msg', 'Day 3 cannot be marked as completed because the date is ahead the present date.')
+                    ->with('msgtype', 'warning');
+                }
+                if($request->d7_date > date('Y-m-d') && $request->d7_ostatus == 'C') {
+                    return redirect()->back()
+                    ->with('msg', 'Day 7 cannot be marked as completed because the date is ahead the present date.')
+                    ->with('msgtype', 'warning');
+                }
+                if($request->d14_date > date('Y-m-d') && $request->d14_ostatus == 'C') {
+                    return redirect()->back()
+                    ->with('msg', 'Day 14 cannot be marked as completed because the date is ahead the present date.')
+                    ->with('msgtype', 'warning');
+                }
+                if($request->d28_date > date('Y-m-d') && $request->d28_ostatus == 'C') {
+                    return redirect()->back()
+                    ->with('msg', 'Day 28 cannot be marked as completed because the date is ahead the present date.')
+                    ->with('msgtype', 'warning');
+                }
+
+                $d->save();
+            }
+
+            return redirect()->route('abtc_encode_edit', ['br_id' => $d->id])
+            ->with('msg', 'Schedule has been manually changed successfully.')
+            ->with('msgtype', 'success');
+        }
+        else if($request->p_submit == 'reset') {
+            if(auth()->user()->isAdmin == 1) {
+                $d->outcome = 'INC';
+                $d->d0_done = 0;
+                $d->d3_done = 0;
+                if($d->is_booster == 0) {
+                    $d->d7_done = 0;
+                    $d->d14_done = 0;
+                    $d->d28_done = 0;
+                }
+
+                if($d->isDirty()) {
+                    $d->save();
+                }
+
+                return redirect()
+                ->back()
+                ->with('msg', 'Schedule reset was successful.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()
+                ->back()
+                ->with('msg', 'You are not allowed to do that.')
+                ->with('msgtype', 'warning');
             }
         }
-
-        if($d->isDirty()) {
-            if(is_null($d->created_by)) {
-                $d->created_by = auth()->user()->id;
-            }
-
-            if($request->d0_date > date('Y-m-d') && $request->d0_ostatus == 'C') {
-                return redirect()->back()
-                ->with('msg', 'Day 0 cannot be marked as completed because the date is ahead the present date.')
-                ->with('msgtype', 'warning');
-            }
-            if($request->d3_date > date('Y-m-d') && $request->d3_ostatus == 'C') {
-                return redirect()->back()
-                ->with('msg', 'Day 3 cannot be marked as completed because the date is ahead the present date.')
-                ->with('msgtype', 'warning');
-            }
-            if($request->d7_date > date('Y-m-d') && $request->d7_ostatus == 'C') {
-                return redirect()->back()
-                ->with('msg', 'Day 7 cannot be marked as completed because the date is ahead the present date.')
-                ->with('msgtype', 'warning');
-            }
-            if($request->d14_date > date('Y-m-d') && $request->d14_ostatus == 'C') {
-                return redirect()->back()
-                ->with('msg', 'Day 14 cannot be marked as completed because the date is ahead the present date.')
-                ->with('msgtype', 'warning');
-            }
-            if($request->d28_date > date('Y-m-d') && $request->d28_ostatus == 'C') {
-                return redirect()->back()
-                ->with('msg', 'Day 28 cannot be marked as completed because the date is ahead the present date.')
-                ->with('msgtype', 'warning');
-            }
-
-            $d->save();
-        }
-
-        return redirect()->route('abtc_encode_edit', ['br_id' => $d->id])
-        ->with('msg', 'Schedule has been manually changed successfully.')
-        ->with('msgtype', 'success');
     }
 
     public function schedule_index() {

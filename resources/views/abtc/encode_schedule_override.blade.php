@@ -7,7 +7,16 @@
     @csrf
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Schedule Override</b></div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div><b>Schedule Override</b></div>
+                    <div>
+                        @if(auth()->user()->isAdmin == 1)
+                        <button type="submit" name="p_submit" value="reset" class="btn btn-primary" onclick="return confirm('This will return the outcome of the record to [INC]. D0, D3, D7, D14, and D28 will return to [PENDING]. Click OK to Confirm.')">Reset Schedule</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -159,7 +168,7 @@
             </div>
             @if($d->outcome != 'C')
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary" id="submitbtn">Save (CTRL + S)</button>
+                <button type="submit" class="btn btn-primary" id="submitbtn" name="p_submit" value="oride">Save (CTRL + S)</button>
             </div>
             @endif
         </div>
