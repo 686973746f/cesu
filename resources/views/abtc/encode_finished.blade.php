@@ -194,7 +194,9 @@
 
 <script>
     @if(request()->input('t'))
-        $('#printbtn').click();
+        $(document).ready(function () {
+            $('#printbtn').click();
+        });
     @endif
 </script>
 @endsection
