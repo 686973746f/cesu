@@ -1,41 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<style>
-    @media print {
-        @page {
-            margin: 0;
-        }
-        
-        body * {
-            visibility: hidden;
-        }
-
-        #divToPrint, #divToPrint * {
-            visibility: visible;
-        }
-
-        #divToPrint {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-    }
-</style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card border-warning">
-                <div class="card-header bg-warning text-center"><strong class="text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Existing Vaccination Record Found</strong></div>
+                <div class="card-header bg-warning text-center"><strong class="text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Existing Vaccination Record Found!</strong></div>
                 <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-secondary btn-sm mb-3"><i class="fas fa-print mr-2"></i>Print</a>
-                    </div>
+                    <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-secondary btn-block mb-3"><i class="fas fa-print mr-2"></i>Print</a>
                     <div id="divToPrint">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="thead-light">
                                 <tr>
                                     <th colspan="3"><strong class="text-info"><i class="fa-solid fa-user me-2"></i>PERSONAL INFORMATION</strong></th>
                                 </tr>
@@ -56,12 +31,12 @@
                                 </tr>
                                 <tr>
                                     <td class="bg-light" style="vertical-align: middle"><strong>Contact No.</strong></td>
-                                    <td>{{$d->patient->contact_number}}</td>
+                                    <td>{{(!is_null($d->patient->contact_number)) ? $d->patient->contact_number : 'N/A'}}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="thead-light">
                                 <tr>
                                     <th colspan="2"><strong class="text-info"><i class="fa-solid fa-syringe me-2"></i>ANTI-RABIES VACCINATION DETAILS</strong></th>
                                 </tr>
@@ -118,12 +93,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-grid gap-2">
-                        <a href="{{route('abtc_encode_edit', ['br_id' => $d->id])}}" class="btn btn-primary"><i class="fa-solid fa-eye me-2"></i>View/Edit Vaccination Details of Patient</a>
-                    </div>
+                    <a href="{{route('abtc_encode_edit', ['br_id' => $d->id])}}" class="btn btn-primary btn-block"><i class="fas fa-file mr-2"></i>View/Edit Vaccination Details of Patient</a>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{route('abtc_home')}}" class="btn btn-link"><i class="fa-solid fa-backward-step me-2"></i>Go Back</a>
+                    <a href="{{route('abtc_home')}}" class="btn btn-link"><i class="fas fa-backward mr-2"></i>Go Back</a>
                 </div>
             </div>
         </div>
