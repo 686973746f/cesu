@@ -37,7 +37,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><strong>Edit Anti-Rabies Vaccination Details</strong> (Patient #{{$d->patient->id}})</div>
-                    <div><a href="{{route('abtc_print_view', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print</a></div>
+                    <div><a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print</a></div>
                 </div>
             </div>
             <div class="card-body">

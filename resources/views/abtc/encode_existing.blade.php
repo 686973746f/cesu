@@ -31,7 +31,7 @@
                 <div class="card-header bg-warning text-center"><strong class="text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Existing Vaccination Record Found</strong></div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-secondary btn-sm mb-3" onclick="window.print()"><i class="fa-solid fa-print me-2"></i>Print Form</button>
+                        <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-secondary btn-sm mb-3"><i class="fas fa-print mr-2"></i>Print</a>
                     </div>
                     <div id="divToPrint">
                         <table class="table table-bordered">

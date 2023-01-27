@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-header">
                     <div id="printDiv">
-                        <button type="button" class="btn btn-primary btn-block" onclick="window.print()"><i class="fas fa-print mr-2"></i>PRINT</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="window.print()" id="printbtn"><i class="fas fa-print mr-2"></i>PRINT</button>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <div><a href="{{route('abtc_schedule_index')}}" class="btn btn-link"><i class="fas fa-calendar-alt mr-2"></i>Back to Todays Schedule</a></div>
@@ -191,4 +191,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    @if(request()->input('t'))
+        $('#printbtn').click();
+    @endif
+</script>
 @endsection
