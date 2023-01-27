@@ -836,6 +836,8 @@ class ABTCReportController extends Controller
         ->whereIn('animal_type', ['C', 'PC', 'SC'])
         ->count();
 
+        $vslist = AbtcVaccinationSite::get();
+
         return view('abtc.report_cho', [
             'm1' => $m1,
             'm2' => $m2,
@@ -994,6 +996,7 @@ class ABTCReportController extends Controller
             'cat11' => $cat11,
             'cat12' => $cat12,
             'sy' => $sy,
+            'vslist' => $vslist,
         ]);
     }
 

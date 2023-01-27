@@ -748,4 +748,19 @@ class ABTCVaccinationController extends Controller
             ->with('msgtype', 'warning');
         }
     }
+
+    public function destroy($pid) {
+        if(auth()->user()->isAdmin == 1) {
+            $p = AbtcBakunaRecords::findOrFail($pid);
+            $p->delete();
+
+            return redirect()
+            ->route('abtc_patient_index')
+            ->with('msg', 'Patient Vaccination Record was deleted successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
+    }
 }

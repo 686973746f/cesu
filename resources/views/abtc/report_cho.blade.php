@@ -1,28 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<div class="container">
+<div class="container-fluid">
     <div class="card">
-        <div class="card-header">Monthly Report</div>
+        <div class="card-header"><b>Monthly Report</b></div>
         <div class="card-body">
             <form action="" method="GET">
-                <div class="input-group">
-                    <select class="custom-select" name="sy" id="sy" required>
-                        @foreach(range(date('Y'), 2021) as $y)
-                        <option value="{{$y}}">{{$y}}</option>
-                        @endforeach
-                    </select>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                <div id="accordion">
+                    <div class="car">
+                      <div class="cdard-header" id="headingOne">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Filter
+                        </button>
+                      </div>
+                  
+                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sy">Select Year to Filter</label>
+                                        <select class="form-control" name="sy" id="sy" required>
+                                            <option value="" disabled selected>Choose...</option>
+                                            @foreach(range(date('Y'), 2021) as $y)
+                                            <option value="{{$y}}" {{(old('sy', request()->input('sy')) == $y) ? 'selected': ''}}>{{$y}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sy">Select Clinic</label>
+                                        <select class="form-control" name="vid" id="vid" required>
+                                            <option value="ALL">All</option>
+                                            @foreach($vslist as $vs)
+                                            <option value="{{$vs->id}}" {{(request()->input('vid') == $vs->id || $vs->id == auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>{{$vs->site_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
             </form>
             <hr>
             <div class="table-responsive">
                 <table class="table table-bordered">
-                    <thead class="text-center">
+                    <thead class="text-center thead-light">
                         <tr>
                             <th scope="col">Animal Bite Cases ({{$sy}})</th>
                             <th scope="col">JAN</th>

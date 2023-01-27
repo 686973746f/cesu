@@ -314,6 +314,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/abtc/patient/create', [ABTCPatientController::class, 'store'])->name('abtc_patient_store');
     Route::get('/abtc/patient/{id}/edit', [ABTCPatientController::class, 'edit'])->name('abtc_patient_edit');
     Route::post('/abtc/patient/{id}/edit', [ABTCPatientController::class, 'update'])->name('abtc_patient_update');
+    Route::delete('/abtc/patient/{id}/delete', [ABTCPatientController::class, 'destroy'])->name('abtc_patient_destroy');
     Route::get('/abtc/patient/ajaxList', [ABTCPatientController::class, 'ajaxList'])->name('abtc_patient_ajaxlist');
     
     Route::get('/abtc/patient/bakuna_records/{id}', [ABTCPatientController::class, 'patient_viewbakunarecords'])->name('abtc_patient_viewbakunarecords');
@@ -335,6 +336,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 
     Route::get('/abtc/encode/edit/{br_id}', [ABTCVaccinationController::class, 'encode_edit'])->name('abtc_encode_edit');
     Route::post('/abtc/encode/edit/{br_id}', [ABTCVaccinationController::class, 'encode_update'])->name('abtc_encode_update');
+    Route::delete('/abtc/encode/edit/{br_id}', [ABTCVaccinationController::class, 'destroy'])->name('abtc_encode_destroy');
 
     Route::get('/abtc/encode/edit/{br_id}/override_schedule', [ABTCVaccinationController::class, 'override_schedule'])->name('abtc_override_schedule');
     Route::post('/abtc/encode/edit/{br_id}/override_schedule', [ABTCVaccinationController::class, 'override_schedule_process'])->name('abtc_override_schedule_process');

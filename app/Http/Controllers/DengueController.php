@@ -86,7 +86,7 @@ class DengueController extends Controller
             'ip' => $d->isindg,
             'ipgroup' => ($d->isindg == 1) ? $d->indg_specify : NULL,
             'MiddleName' => $d->mname,
-        ])
+        ]);
     }
 
     public function edit_cif(Dengue $f) {

@@ -3,6 +3,17 @@
 @section('content')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+@if(auth()->user()->isAdmin == 1)
+<div class="container">
+    <form action="{{route('abtc_encode_destroy', [$d->id])}}" method="POST">
+        @csrf
+        @method('delete')
+        <div class="text-right mb-3">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to DELETE? Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete Vaccination Record</button>
+        </div>
+    </form>
+</div>
+@endif
 <form action="{{route('abtc_encode_update', ['br_id' => $d->id])}}" method="POST">
     @csrf
     <div class="container">

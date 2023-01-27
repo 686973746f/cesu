@@ -216,4 +216,19 @@ class ABTCPatientController extends Controller
 
         return response()->json($list);
     }
+
+    public function destroy($pid) {
+        if(auth()->user()->isAdmin == 1) {
+            $p = AbtcPatient::findOrFail($pid);
+            $p->delete();
+
+            return redirect()
+            ->route('abtc_patient_index')
+            ->with('msg', 'Patient record was deleted successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
+    }
 }
