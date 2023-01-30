@@ -239,8 +239,30 @@ class AbtcBakunaRecords extends Model
         else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM') {
             return 'D14';
         }
-        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d14_done == 0) {
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
             return 'D28';
+        }
+    }
+
+    //Supplementary for Quick Done Vaccination on Follow-up Patients
+    public function getCurrentDose() {
+        if($this->d0_done == 0) {
+            return 1;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 0) {
+            return 2;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
+            return 3;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM') {
+            return 4;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
+            return 5;
+        }
+        else {
+            return NULL;
         }
     }
 

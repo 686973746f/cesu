@@ -146,7 +146,7 @@
                             @endif
                             <tr class="font-weight-bold">
                                 <td>Day 28</td>
-                                <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
+                                <td>{{date('m/d/Y (D)', strtotime($f->d28_date))}}</td>
                                 <td class="{{($f->outcome == 'C' && $f->d28_done == 1) ? 'text-success' : ''}}"><b>{{($f->outcome == 'C' && $f->d28_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @endif
