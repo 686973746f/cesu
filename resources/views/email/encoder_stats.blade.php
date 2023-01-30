@@ -8,8 +8,8 @@
         $gt_recovered = 0;
         $gt_abtc = 0;
         @endphp
-        | # | Name | Suspected/Probable | Confirmed | Recovered | Negative Result | ABTC | Total |
-        | - |:----:| :-----------------:|:---------:|:---------:|:---------------:|:----:|------:|
+        | # | Name | Suspected/Probable | Confirmed | Recovered | Negative Result | ABTC (New Patients) | Total |
+        | - |:----:| :-----------------:|:---------:|:---------:|:---------------:|:-------------------:|------:|
         @foreach($arr as $i)
         | {{$loop->iteration}} | {{$i['name']}} | {{$i['suspected_count']}} | {{$i['confirmed_count']}} | {{$i['recovered_count']}} | {{$i['negative_count']}} | {{$i['abtc_count']}} | {{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count']}} |
         @php

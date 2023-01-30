@@ -22,7 +22,7 @@ $gt_abtc = 0;
                             <th>Confirmed</th>
                             <th>Recovered</th>
                             <th>Negative Result</th>
-                            <th>ABTC</th>
+                            <th>ABTC (New Patients)</th>
                             <th>Total</th>
                         </tr>
                     </thead>

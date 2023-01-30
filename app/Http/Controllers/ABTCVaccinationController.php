@@ -446,7 +446,8 @@ class ABTCVaccinationController extends Controller
     
                 $msg = 'Congratulations. You have completed your doses of Anti-Rabies Vaccine!';
             }
-    
+            
+            $get_br->updated_by = auth()->user()->id;
             $get_br->save();
     
             return view('abtc.encode_finished', [
