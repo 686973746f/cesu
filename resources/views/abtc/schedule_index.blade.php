@@ -11,6 +11,21 @@
     }
 </style>
 <div class="container">
+    @if(session('msg'))
+    <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+        {{session('msg')}}
+    </div>
+    @endif
+    <form action="{{route('abtc_qr_quicksearch')}}" method="POST" autocomplete="off">
+        @csrf
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Quick Search via QR Code / Registration No." name="qr" id="qr" required autofocus>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Quick Search</button>
+            </div>
+        </div>
+    </form>
+    <hr>
     <form action="" method="GET">
         <div class="input-group mb-3">
             <input type="date" class="form-control" name="d" id="d" value="{{(request()->input('d')) ? request()->input('d') : date('Y-m-d')}}" required>
