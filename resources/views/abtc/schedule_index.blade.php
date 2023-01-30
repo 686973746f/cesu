@@ -106,7 +106,7 @@
                         <tr>
                             <td class="text-center">
                                 @if(!is_null($n->getCurrentDose()))
-                                    @if($n->ifCanProcessQuickMark() == true)
+                                    @if($n->ifCanProcessQuickMark() == 'Y')
                                     <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process for {{$n->patient->getName()}} ({{$n->case_id}}). Click OK to Confirm.')">Mark as Done</a>
                                     @else
                                     <div>{{$n->ifCanProcessQuickMark()}}</div>
