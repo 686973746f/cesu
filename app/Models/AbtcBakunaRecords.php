@@ -343,4 +343,46 @@ class AbtcBakunaRecords extends Model
             }
         }
     }
+
+    public function ifCanProcessQuickMark() {
+        if($this->getCurrentDose() == 1) {
+            //D0
+        }
+        else if($this->getCurrentDose() == 2) {
+            //D3
+            if($this->d0_done == 1) {
+                return true;
+            }
+            else {
+                return 'Check D0 first to proceed.';
+            }
+        }
+        else if($this->getCurrentDose() == 3) {
+            //D7
+            if($this->d0_done == 1 && $this->d3_done == 1) {
+                return true;
+            }
+            else {
+                return 'Check D3 first to proceed.';
+            }
+        }
+        else if($this->getCurrentDose() == 4) {
+            //D14
+            if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->is_booster == 0) {
+                return true;
+            }
+            else {
+                return 'Check D7 first to proceed.';
+            }
+        }
+        else if($this->getCurrentDose() == 5) {
+            //D28
+            if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->is_booster == 0) {
+                return true;
+            }
+            else {
+                return 'Check D7 first to proceed.';
+            }
+        }
+    }
 }

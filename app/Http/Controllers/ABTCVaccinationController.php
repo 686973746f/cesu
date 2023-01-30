@@ -449,12 +449,19 @@ class ABTCVaccinationController extends Controller
             
             $get_br->updated_by = auth()->user()->id;
             $get_br->save();
-    
-            return view('abtc.encode_finished', [
-                'f' => $get_br,
-            ])
-            ->with('msg', $msg)
-            ->with('dose' , $dose);
+
+            if(!(request()->input('fsc'))) {
+                return view('abtc.encode_finished', [
+                    'f' => $get_br,
+                ])
+                ->with('msg', $msg)
+                ->with('dose' , $dose);
+            }
+            else {
+                return redirect()->route('abtc_schedule_index')
+                ->with('msg', 'Patient (#'.$get_br->case_id.') '.$get_br->patient->getName().' latest dose was marked as completed successfully.')
+                ->with('msgtype', 'success');
+            }
         }
         else {
             return redirect()->back()
