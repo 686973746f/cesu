@@ -705,7 +705,8 @@ class ABTCVaccinationController extends Controller
                 $r->whereDate('d7_date', $sdate)
                 ->where('d0_done', 1)
                 ->where('d3_done', 1)
-                ->where('d7_done', 0);
+                ->where('d7_done', 0)
+                ->where('is_booster', 0);
             })->orWhere(function ($r) use ($sdate) {
                 $r->whereDate('d14_date', $sdate)
                 ->where('d0_done', 1)
