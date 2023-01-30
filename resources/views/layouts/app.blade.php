@@ -69,6 +69,9 @@
                         <li class="nav-item">
                             <a class="nav-link {{Request::is('abtc/patient/*') ? 'active' : ''}}" href="{{route('abtc_patient_index')}}">Patients</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{Request::is('abtc/sched/*') ? 'active' : ''}}" href="{{route('abtc_schedule_index')}}">Schedule</a>
+                        </li>
                         @endif
 
                         @if(auth()->check())

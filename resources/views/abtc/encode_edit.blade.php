@@ -274,7 +274,7 @@
                                 <strong class="text-success">DONE</strong>
                                 @else
                                     @if($d->ifAbleToProcessD0() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 1])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 0 Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 1])}}?fsc=1" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 0 Day Dose. Click OK to Continue.')">Mark as Done</a>
                                     @elseif($d->ifAbleToProcessD0() == 'D')
                                     <p class="text-danger"><b>DID NOT ARRIVED</b></p>
                                     @endif

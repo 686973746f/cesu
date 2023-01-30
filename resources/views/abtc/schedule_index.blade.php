@@ -88,6 +88,7 @@
                 <table class="table table-bordered table-striped" id="fftable">
                     <thead class="thead-light text-center">
                         <tr>
+                            <th></th>
                             <th>Registration #</th>
                             <th>Name</th>
                             <th>Age/Gender</th>
@@ -103,6 +104,17 @@
                     <tbody>
                         @foreach($ff as $n)
                         <tr>
+                            <th>
+                                @if(!is_null($n->getCurrentDose()))
+                                    @if($n->ifCanProcessQuickMark() == 'Y')
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process. Patient {{$n->patient->getName()}} ({{$n->case_id}}) should be present. Click OK to proceed.')">Mark as Done</a>
+                                    @else
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$n->ifCanProcessQuickMark()}}">
+                                        <button class="btn btn-primary btn-sm" style="pointer-events: none;" type="button" disabled>Mark as Done</button>
+                                    </span>
+                                    @endif
+                                @endif
+                            </th>
                             <td class="text-center"><a href="{{route('abtc_encode_edit', $n->id)}}">{{$n->case_id}}</a></td>
                             <td>{{$n->patient->getName()}}</td>
                             <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
@@ -123,6 +135,10 @@
 </div>
 
 <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
     $('#ntable').DataTable({
         fixedHeader: true,
         dom: 'frti',
