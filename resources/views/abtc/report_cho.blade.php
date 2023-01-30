@@ -6,44 +6,46 @@
         <div class="card-header"><b>Monthly Report</b></div>
         <div class="card-body">
             <form action="" method="GET">
-                <div id="accordion">
-                    <div class="car">
-                      <div class="cdard-header" id="headingOne">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Filter
-                        </button>
-                      </div>
-                  
-                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="sy">Select Year to Filter</label>
-                                        <select class="form-control" name="sy" id="sy" required>
-                                            <option value="" disabled selected>Choose...</option>
-                                            @foreach(range(date('Y'), 2021) as $y)
-                                            <option value="{{$y}}" {{(old('sy', request()->input('sy')) == $y) ? 'selected': ''}}>{{$y}}</option>
-                                            @endforeach
-                                        </select>
+                <div id="accordianId" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="section1HeaderId">
+                            <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+                                Filter
+                            </a>
+                        </div>
+                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sy">Select Year to Filter</label>
+                                            <select class="form-control" name="sy" id="sy" required>
+                                                <option value="" disabled selected>Choose...</option>
+                                                @foreach(range(date('Y'), 2021) as $y)
+                                                <option value="{{$y}}" {{(old('sy', request()->input('sy')) == $y) ? 'selected': ''}}>{{$y}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="sy">Select Clinic</label>
-                                        <select class="form-control" name="vid" id="vid" required>
-                                            <option value="ALL">All</option>
-                                            @foreach($vslist as $vs)
-                                            <option value="{{$vs->id}}" {{(request()->input('vid') == $vs->id || $vs->id == auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>{{$vs->site_name}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sy">Select Clinic</label>
+                                            <select class="form-control" name="vid" id="vid" required>
+                                                <option value="ALL">All</option>
+                                                @foreach($vslist as $vs)
+                                                <option value="{{$vs->id}}" {{(request()->input('vid') == $vs->id || $vs->id == auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>{{$vs->site_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="card-footer text-right">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
+                </div>
             </form>
             <hr>
             <div class="table-responsive">

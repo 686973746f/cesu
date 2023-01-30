@@ -56,785 +56,120 @@ class ABTCReportController extends Controller
             $sy = date('Y');
         }
 
-        $m1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '01')->count();
-
-        $m2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '02')->count();
-
-        $m3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '03')->count();
-
-        $m4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '04')->count();
-
-        $m5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '05')->count();
-
-        $m6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '06')->count();
-
-        $m7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '07')->count();
-
-        $m8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '08')->count();
-
-        $m9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '09')->count();
-
-        $m10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '10')->count();
-
-        $m11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '11')->count();
-
-        $m12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'MALE');
-        })->whereMonth('case_date', '12')->count();
-
-        $f1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '01')->count();
-
-        $f2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '02')->count();
-
-        $f3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '03')->count();
-
-        $f4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '04')->count();
-
-        $f5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '05')->count();
-
-        $f6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '06')->count();
-
-        $f7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '07')->count();
-
-        $f8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '08')->count();
-
-        $f9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '09')->count();
-
-        $f10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '10')->count();
-
-        $f11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '11')->count();
-
-        $f12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('gender', 'FEMALE');
-        })->whereMonth('case_date', '12')->count();
-
-        $co1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->where('category_level', '1')
-        ->count();
-
-        $co2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->where('category_level', '1')
-        ->count();
-
-        $co3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->where('category_level', '1')
-        ->count();
-
-        $co4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->where('category_level', '1')
-        ->count();
-
-        $co5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->where('category_level', '1')
-        ->count();
-
-        $co6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->where('category_level', '1')
-        ->count();
-
-        $co7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->where('category_level', '1')
-        ->count();
-
-        $co8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->where('category_level', '1')
-        ->count();
-
-        $co9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->where('category_level', '1')
-        ->count();
-
-        $co10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->where('category_level', '1')
-        ->count();
-
-        $co11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->where('category_level', '1')
-        ->count();
-
-        $co12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->where('category_level', '1')
-        ->count();
-
-        $ct1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->where('category_level', '2')
-        ->count();
-
-        $ct12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->where('category_level', '2')
-        ->count();
-
-        $ch1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->where('category_level', '3')
-        ->count();
-
-        $ch12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->where('category_level', '3')
-        ->count();
-        
-        $oe1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '1')->count();
-
-        $oe2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '2')->count();
-
-        $oe3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '3')->count();
-
-        $oe4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '4')->count();
-
-        $oe5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '5')->count();
-
-        $oe6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '6')->count();
-
-        $oe7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '7')->count();
-
-        $oe8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '8')->count();
-
-        $oe9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '9')->count();
-
-        $oe10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '10')->count();
-
-        $oe11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '11')->count();
-
-        $oe12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '>=', 18);
-        })->whereMonth('case_date', '12')->count();
-
-        $ue1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '1')->count();
-
-        $ue2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '2')->count();
-
-        $ue3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '3')->count();
-
-        $ue4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '4')->count();
-
-        $ue5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '5')->count();
-
-        $ue6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '6')->count();
-
-        $ue7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '7')->count();
-
-        $ue8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '8')->count();
-
-        $ue9= AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '9')->count();
-
-        $ue10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '10')->count();
-
-        $ue11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '11')->count();
-
-        $ue12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereHas('patients', function ($q) {
-            $q->where('age', '<', 18);
-        })->whereMonth('case_date', '12')->count();
-
-        $er1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $er12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->whereNotNull('rig_date_given')
-        ->count();
-
-        $oc1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->where('outcome', 'C')
-        ->count();
-
-        $oc12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->where('outcome', 'C')
-        ->count();
-        
-        $oi1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $oi12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->where('outcome', 'INC')
-        ->count();
-
-        $bo1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->where('is_booster', 1)
-        ->count();
-
-        $bo12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->where('is_booster', 1)
-        ->count();
-
-        $dog1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-        
-        $dog2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-        
-        $dog3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-        
-        $dog4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $dog12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->whereIn('animal_type', ['PD', 'SD'])
-        ->count();
-
-        $cat1 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '1')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat2 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '2')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat3 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '3')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat4 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '4')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat5 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '5')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat6 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '6')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat7 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '7')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat8 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '8')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat9 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '9')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat10 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '10')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat11 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '11')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
-
-        $cat12 = AbtcBakunaRecords::whereYear('case_date', $sy)
-        ->whereMonth('case_date', '12')
-        ->whereIn('animal_type', ['C', 'PC', 'SC'])
-        ->count();
+        for($i = 1; $i <= 12; $i++) {
+            ${'m'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereHas('patients', function ($q) {
+                $q->where('gender', 'MALE');
+            })->whereMonth('case_date', $i);
+
+            ${'f'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereHas('patients', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->whereMonth('case_date', $i);
+
+            ${'co'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->where('category_level', '1');
+
+            ${'ct'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->where('category_level', '2');
+
+            ${'ch'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->where('category_level', '3');
+
+            ${'oe'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereHas('patients', function ($q) {
+                $q->where('age', '>=', 18);
+            })->whereMonth('case_date', $i);
+
+            ${'ue'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereHas('patients', function ($q) {
+                $q->where('age', '<', 18);
+            })->whereMonth('case_date', $i);
+
+            ${'er'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->whereNotNull('rig_date_given');
+
+            ${'oc'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->where('outcome', 'C');
+
+            ${'oi'. $i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->where('outcome', 'INC');
+
+            ${'bo'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->where('is_booster', 1);
+
+            ${'dog'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->whereIn('animal_type', ['PD', 'SD']);
+
+            ${'cat'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+            ->whereMonth('case_date', $i)
+            ->whereIn('animal_type', ['C', 'PC', 'SC']);
+
+            if(!(request()->input('vid')) || request()->input('vid') == 'ALL') {
+                ${'m'.$i} = ${'m'.$i}->count();
+
+                ${'f'.$i} = ${'f'.$i}->count();
+
+                ${'co'.$i} = ${'co'.$i}->count();
+
+                ${'ct'.$i} = ${'ct'.$i}->count();
+
+                ${'ch'.$i} = ${'ch'.$i}->count();
+
+                ${'oe'.$i} = ${'oe'.$i}->count();
+
+                ${'ue'.$i} = ${'ue'.$i}->count();
+
+                ${'er'.$i} = ${'er'.$i}->count();
+
+                ${'oc'.$i} = ${'oc'.$i}->count();
+
+                ${'oi'. $i} = ${'oi'. $i}->count();
+
+                ${'bo'.$i} = ${'bo'.$i}->count();
+
+                ${'dog'.$i} = ${'dog'.$i}->count();
+
+                ${'cat'.$i} = ${'cat'.$i}->count();
+            }
+            else {
+                $vid = request()->input('vid');
+
+                ${'m'.$i} = ${'m'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'f'.$i} = ${'f'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'co'.$i} = ${'co'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'ct'.$i} = ${'ct'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'ch'.$i} = ${'ch'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'oe'.$i} = ${'oe'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'ue'.$i} = ${'ue'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'er'.$i} = ${'er'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'oc'.$i} = ${'oc'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'oi'. $i} = ${'oi'. $i}->where('vaccination_site_id', $vid)->count();
+
+                ${'bo'.$i} = ${'bo'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'dog'.$i} = ${'dog'.$i}->where('vaccination_site_id', $vid)->count();
+
+                ${'cat'.$i} = ${'cat'.$i}->where('vaccination_site_id', $vid)->count();
+            }
+        }
 
         $vslist = AbtcVaccinationSite::get();
 
