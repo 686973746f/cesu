@@ -159,7 +159,7 @@
                     <ul>
                         <small>Note:</small>
                         <li><small>Observe the biting animal for 14 days. If the animal died, report to ABTC as soon as possible.</small></li>
-                        <li><small>Date from Day 3 to Day 28 will serve as your follow-up date.</small></li>
+                        <li><small>Day 3, Day 7, and Day 28 <i>(If Animal Died/Lost)</i> is your <b>Follow-up</b> schedule.</small></li>
                     </ul>
                     @endif
                     <p class="mt-3"><b>Status of animal 14 days after exposure:</b> <u>{{$f->biting_animal_status}}</u></p>
