@@ -88,7 +88,6 @@
                 <table class="table table-bordered table-striped" id="fftable">
                     <thead class="thead-light text-center">
                         <tr>
-                            <th></th>
                             <th>Registration #</th>
                             <th>Name</th>
                             <th>Age/Gender</th>
@@ -104,15 +103,6 @@
                     <tbody>
                         @foreach($ff as $n)
                         <tr>
-                            <td class="text-center">
-                                @if(!is_null($n->getCurrentDose()))
-                                    @if($n->ifCanProcessQuickMark() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process for {{$n->patient->getName()}} ({{$n->case_id}}). Click OK to Confirm.')">Mark as Done</a>
-                                    @else
-                                    <div>{{$n->ifCanProcessQuickMark()}}</div>
-                                    @endif
-                                @endif
-                            </td>
                             <td class="text-center"><a href="{{route('abtc_encode_edit', $n->id)}}">{{$n->case_id}}</a></td>
                             <td>{{$n->patient->getName()}}</td>
                             <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>

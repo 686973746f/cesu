@@ -705,10 +705,13 @@ class ABTCVaccinationController extends Controller
                 ->where('d7_done', 0);
             })->orWhere(function ($r) use ($sdate) {
                 $r->whereDate('d14_date', $sdate)
-                ->where('d14_done', 0);
+                ->where('d14_done', 0)
+                ->where('pep_route', 'IM')
+                ->where('is_booster', 0);
             })->orWhere(function ($r) use ($sdate) {
                 $r->whereDate('d28_date', $sdate)
-                ->where('d28_done', 0);
+                ->where('d28_done', 0)
+                ->where('is_booster', 0);
             });
         })->where('outcome', 'INC')
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
