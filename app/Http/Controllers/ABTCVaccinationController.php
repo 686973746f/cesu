@@ -273,11 +273,15 @@ class ABTCVaccinationController extends Controller
 
         //Checking of Outcome on Category 3 with Erig
         if($b->category_level == 3 && $b->d28_done == 1 && !is_null($b->rig_date_given)) {
-            $b->outcome == 'C';
+            $b->outcome = 'C';
         }
 
         if($b->outcome == 'INC' && $b->is_booster == 1 && $b->d0_done == 1 && $b->d3_done == 1) {
-            $b->outcome == 'C';
+            $b->outcome = 'C';
+        }
+
+        if($b->outcome == 'INC' && $b->is_booster == 0 && $b->d0_done == 1 && $b->d3_done == 1 && $b->d7_done == 1) {
+            $b->outcome = 'C';
         }
 
         if($b->isDirty()) {
