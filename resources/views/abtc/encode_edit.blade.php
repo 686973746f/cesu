@@ -87,8 +87,8 @@
                 <table class="table table-bordered">
                     <tbody class="text-center">
                         <tr>
-                            <td class="bg-light"><strong>Registration #</strong></td>
-                            <td>{{$d->case_id}}</td>
+                            <td class="bg-light"><strong>Registration # {{(auth()->user()->isAdmin != 1) ? ' / Encoded Under' : ''}}</strong></td>
+                            <td>{{$d->case_id}} {{(auth()->user()->isAdmin != 1) ? ' / '.$d->getBranch() : ''}}</td>
                         </tr>
                         <tr>
                             <td class="bg-light"><strong>Name / ID</strong></td>
@@ -110,7 +110,7 @@
                 </table>
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-{{(auth()->user()->isAdmin == 1) ? '4' : '6 d-none'}}">
                         <div>
                             <label for="vaccination_site_id" class="form-label"><strong class="text-danger">*</strong>Encoded Under</label>
                             <select class="form-select" name="vaccination_site_id" id="vaccination_site_id" required>
@@ -120,14 +120,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-{{(auth()->user()->isAdmin == 1) ? '4' : '6'}}">
                         <div>
                             <label for="case_date" class="form-label"><strong class="text-danger">*</strong>Registration Date</label>
                             <input type="date" class="form-control" name="case_date" id="case_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('case_date', $d->case_date)}}" required autofocus>
                             <small class="text-muted">Date patient was first seen, regardless whether patient was given PEP or not.</small>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-{{(auth()->user()->isAdmin == 1) ? '4' : '6'}}">
                         <div class="mb-3">
                             <label for="is_booster" class="form-label"><strong class="text-danger">*</strong>Override: Is Booster?</label>
                             <select class="form-select" name="is_booster" id="is_booster" required>
