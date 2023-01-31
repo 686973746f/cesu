@@ -102,8 +102,9 @@
                         <div class="mb-3">
                             <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Bite</label>
                             <select class="form-select" name="bite_type" id="bite_type" required>
+                                <option value="" disabled {{is_null(old('bite_type')) ? 'selected' : ''}}>Choose...</option>
                                 <option value="B" {{(old('bite_type') == 'B') ? 'selected' : ''}}>Bite (B)</option>
-                                <option value="NB" {{(old('bite_type') == 'NB') ? 'selected' : ''}}>None Bite (NB)</option>
+                                <option value="NB" {{(old('bite_type') == 'NB') ? 'selected' : ''}}>Scratch (NB)</option>
                             </select>
                         </div>
                     </div>
@@ -127,7 +128,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="case_location" class="form-label"><strong id="case_location_ast" class="d-none text-danger">*</strong>Place (Where biting occured)</label>
+                            <label for="case_location" class="form-label"><strong id="case_location_ast" class="d-none text-danger">*</strong>Barangay/City (Where biting occured)</label>
                             <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location', $d->address_brgy_text)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
@@ -145,8 +146,8 @@
                             <select class="form-select" name="category_level" id="category_level" required>
                                 <option value="" disabled {{is_null(old('category_level')) ? 'selected' : ''}}>Choose...</option>
                                 <!--<option value="1" {{(old('category_level') == 1) ? 'selected' : ''}}>Category 1</option>-->
-                                <option value="2" {{(old('category_level') == 2) ? 'selected' : ''}}>Category 2 (Scratches)</option>
-                                <option value="3" {{(old('category_level') == 3) ? 'selected' : ''}}>Category 3 (Bleeding)</option>
+                                <option value="2" {{(old('category_level') == 2) ? 'selected' : ''}}>Category 2</option>
+                                <option value="3" {{(old('category_level') == 3) ? 'selected' : ''}}>Category 3</option>
                             </select>
                         </div>
                     </div>

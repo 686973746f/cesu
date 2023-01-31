@@ -203,6 +203,7 @@ class ABTCWalkInRegistrationController extends Controller
                 'mname' => ($request->filled('mname')) ? $mname : NULL,
                 'suffix' => ($request->filled('suffix')) ? $suffix : NULL,
                 'bdate' => $request->bdate,
+                'age' => Carbon::parse($request->bdate)->age,
                 'gender' => $request->gender,
                 'contact_number' => $request->contact_number,
                 'philhealth' => $request->philhealth,

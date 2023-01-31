@@ -59,7 +59,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center">Maligayang pagdating sa <b>ABTC Online Registration System</b> <i>({{session('vaccination_site_name')}})</i></h5>
+                <h5 class="modal-title text-center">Maligayang pagdating sa <b>Animal Bite Treatment Center (ABTC) Online Registration System</b> <i>({{session('vaccination_site_name')}})</i></h5>
             </div>
             <div class="modal-body">
                 <h4 class="text-center text-danger"><b>PAALALA</b></h4>

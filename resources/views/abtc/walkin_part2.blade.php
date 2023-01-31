@@ -18,8 +18,8 @@
                         </select>
                     </div>
                     <div class="d-none" id="booster_note">
-                    <p>Note: Kung ikaw ay bakunado na ng anti-rabies noon pa, ikaw ay isasalang na magpa-booster na lang <i>(dalawang beses (2) ka na lamang babakunahan imbes na tatlo (3))</i>.</p>
-                    <p>Ipakita ang lumang form o card ng iyong anti-rabies vaccination sa magbabakuna.</p>
+                    <p><b>BASAHIN:</b> Kung ikaw ay bakunado na ng anti-rabies noon pa, mayroon ka nang antibodies sa katawan laban sa rabies at ikaw ay isasalang na magpa-booster na lang <i>(dalawang (2) beses ka na lamang babakunahan imbes na tatlo (3))</i>.</p>
+                    <p>Ipakita ang lumang form o card ng iyong bakuna kontra rabies sa magbabakuna bilang patunay na ikaw ay bakunado na ng anti-rabies noon.</p>
                     </div>
                 </div>
                 <div class="modal-footer">

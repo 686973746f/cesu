@@ -37,7 +37,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>New Patients for {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
+                <div><b><span class="text-success">New Patients</span> for {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
                 <div>Total: {{$new->count()}}</div>
             </div>
         </div>
@@ -79,7 +79,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>Follow-up Patients {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
+                <div><b><span class="text-primary">Follow-up Patients</span> {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
                 <div>Total: {{$ff->count()}}</div>
             </div>
         </div>
