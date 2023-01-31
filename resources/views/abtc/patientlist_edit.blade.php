@@ -25,6 +25,12 @@
                     {{session('msg')}}
                 </div>
                 @endif
+                @if($bcheck)
+                <div class="d-grid gap-2">
+                    <a href="{{route('abtc_patient_viewbakunarecords', ['id' => $d->id])}}" class="btn btn-primary"><i class="fas fa-syringe mr-2"></i>View Bakuna Records of Patient</a>
+                </div>
+                <hr>
+                @endif
                 <div class="alert alert-info" role="alert">
                     Note: All Fields marked with an asterisk (<strong class="text-danger">*</strong>) are required fields.
                 </div>
@@ -175,11 +181,7 @@
                   <label for="remarks" class="form-label">Remarks <i>(If Applicable)</i></label>
                   <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $d->remarks)}}</textarea>
                 </div>
-                @if($bcheck)
-                <div class="d-grid gap-2">
-                    <a href="{{route('abtc_patient_viewbakunarecords', ['id' => $d->id])}}" class="btn btn-primary"><i class="fas fa-syringe mr-2"></i>View Bakuna Records of Patient</a>
-                </div>
-                @endif
+                
             </div>
             <div class="card-footer text-end">
                 <button type="submit" class="btn btn-success btn-block" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
