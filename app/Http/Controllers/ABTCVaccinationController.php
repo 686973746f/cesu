@@ -379,7 +379,7 @@ class ABTCVaccinationController extends Controller
                 }
             }
             else if($dose == 3) { //Day 7
-                if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0) {
+                if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0 && $get_br->is_booster == 0) {
                     $get_br->d7_done = 1;
                     $get_br->d7_brand = $get_br->brand_name;
                 }
@@ -401,7 +401,7 @@ class ABTCVaccinationController extends Controller
                 $msg = 'You have finished your 3rd Dose of your Anti-Rabies Vaccine.';
             }
             else if($dose == 4 && $get_br->pep_route == 'IM') { //Day 14
-                if($get_br->d14_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 0) {
+                if($get_br->d14_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 0 && $get_br->is_booster == 0) {
                     $get_br->d14_done = 1;
                     $get_br->d14_brand = $get_br->brand_name;
                 }
@@ -415,7 +415,7 @@ class ABTCVaccinationController extends Controller
             }
             else if($dose == 5) { //Day 28
                 if($get_br->pep_route == 'IM') {
-                    if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 1 && $get_br->d28_done == 0) {
+                    if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 1 && $get_br->d28_done == 0 && $get_br->is_booster == 0) {
                         $get_br->d28_done = 1;
                         $get_br->d28_brand = $get_br->brand_name;
                     }
@@ -424,7 +424,7 @@ class ABTCVaccinationController extends Controller
                     }
                 }
                 else if($get_br->pep_route == 'ID') { //Skip 14 Day
-                    if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d28_done == 0) {
+                    if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d28_done == 0 && $get_br->is_booster == 0) {
                         $get_br->d28_done = 1;
                         $get_br->d28_brand = $get_br->brand_name;
                     }
@@ -490,11 +490,14 @@ class ABTCVaccinationController extends Controller
             }
         }
         else {
-            if(!(str_starts_with($sqr, date('Y')))) {
+            if(strlen($sqr) < 6) {
                 $sqr = '2023-'.$sqr;
             }
             
-            $asearch = AbtcBakunaRecords::where('case_id', $sqr)->first();
+            $asearch = AbtcBakunaRecords::where('case_id', $sqr)
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->first();
+            
             if($asearch) {
                 return redirect()->route('abtc_encode_edit', $asearch->id)
                 ->with('msg', 'Result found with same Registration Number.')
@@ -502,7 +505,7 @@ class ABTCVaccinationController extends Controller
             }
             else {
                 return redirect()->back()
-                ->with('msg', 'User does not exist on the server.')
+                ->with('msg', 'No QR or Registration Number matched on the records.')
                 ->with('msgtype', 'warning');
             }
         }

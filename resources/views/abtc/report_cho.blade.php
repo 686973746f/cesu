@@ -101,7 +101,7 @@
                             <td>{{$f12}}</td>
                             <td class="font-weight-bold">{{$f1 + $f2 + $f3 + $f4 + $f5 + $f6 + $f7 + $f8 + $f9 + $f10 + $f11 + $f12}}</td>
                         </tr>
-                        <tr class="bg-light">
+                        <tr class="bg-light font-weight-bold">
                             <td><b>TOTAL</b></td>
                             <td>{{$m1 + $f1}}</td>
                             <td>{{$m2 + $f2}}</td>
@@ -115,7 +115,7 @@
                             <td>{{$m10 + $f10}}</td>
                             <td>{{$m11 + $f11}}</td>
                             <td>{{$m12 + $f12}}</td>
-                            <td class="font-weight-bold">{{$m1 + $m2 + $m3 + $m4 + $m5 + $m6 + $m7 + $m8 + $m9 + $m10 + $m11 + $m12 + $f1 + $f2 + $f3 + $f4 + $f5 + $f6 + $f7 + $f8 + $f9 + $f10 + $f11 + $f12}}</td>
+                            <td>{{$m1 + $m2 + $m3 + $m4 + $m5 + $m6 + $m7 + $m8 + $m9 + $m10 + $m11 + $m12 + $f1 + $f2 + $f3 + $f4 + $f5 + $f6 + $f7 + $f8 + $f9 + $f10 + $f11 + $f12}}</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -229,7 +229,7 @@
                             <td>{{$ch12}}</td>
                             <td class="font-weight-bold">{{$ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12}}</td>
                         </tr>
-                        <tr class="bg-light">
+                        <tr class="bg-light font-weight-bold">
                             <td><b>TOTAL</b></td>
                             <td>{{$co1 + $ct1 + $ch1}}</td>
                             <td>{{$co2 + $ct2 + $ch2}}</td>
@@ -243,7 +243,7 @@
                             <td>{{$co10 + $ct10 + $ch10}}</td>
                             <td>{{$co11 + $ct11 + $ch11}}</td>
                             <td>{{$co12 + $ct12 + $ch12}}</td>
-                            <td class="font-weight-bold">{{$co1 + $co2 + $co3 + $co4 + $co5 + $co6 + $co7 + $co8 + $co9 + $co10 + $co11 + $co12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12}}</td>
+                            <td>{{$co1 + $co2 + $co3 + $co4 + $co5 + $co6 + $co7 + $co8 + $co9 + $co10 + $co11 + $co12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12}}</td>
                         </tr>
                         <tr class="">
                             <td>DOG</td>
