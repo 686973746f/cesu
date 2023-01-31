@@ -105,8 +105,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="contact_number" class="form-label">Contact Number <small><i>(If Applicable)</i></small></label>
-                            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->contact_number)}}" pattern="[0-9]{11}" placeholder="09xxxxxxxxx">
+                            <label for="contact_number" class="form-label"><b class="text-danger">*</b>Contact Number</label>
+                            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->contact_number)}}" pattern="[0-9]{11}" placeholder="09xxxxxxxxx" required>
                         </div>
                     </div>
                     <div class="col-md-3">

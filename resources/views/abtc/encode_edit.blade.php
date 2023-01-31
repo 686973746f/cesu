@@ -252,105 +252,107 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered table-striped text-center">
-                    <thead class="bg-light">
-                        <tr class="text-end">
-                            <th colspan="4"><a class="btn btn-primary" href="{{route('abtc_override_schedule', ['br_id' => $d->id])}}" role="button"><i class="fa-solid fa-clock-rotate-left me-2"></i>Manually Change Schedule</a></th>
-                        </tr>
-                        <tr>
-                            <th>Schedule</th>
-                            <th>Date</th>
-                            <th>Brand</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Day 0</td>
-                            <td>{{date('m/d/Y (l)', strtotime($d->d0_date))}}</td>
-                            <td>{{$d->d0_brand}}</td>
-                            <td>
-                                @if($d->d0_done == 1)
-                                <strong class="text-success">DONE</strong>
-                                @else
-                                    @if($d->ifAbleToProcessD0() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 1])}}?fsc=1" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 0 Day Dose. Click OK to Continue.')">Mark as Done</a>
-                                    @elseif($d->ifAbleToProcessD0() == 'D')
-                                    <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center">
+                        <thead class="bg-light">
+                            <tr class="text-end">
+                                <th colspan="4"><a class="btn btn-primary" href="{{route('abtc_override_schedule', ['br_id' => $d->id])}}" role="button"><i class="fa-solid fa-clock-rotate-left me-2"></i>Manually Change Schedule</a></th>
+                            </tr>
+                            <tr>
+                                <th>Schedule</th>
+                                <th>Date</th>
+                                <th>Brand</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Day 0</td>
+                                <td>{{date('m/d/Y (l)', strtotime($d->d0_date))}}</td>
+                                <td>{{$d->d0_brand}}</td>
+                                <td>
+                                    @if($d->d0_done == 1)
+                                    <strong class="text-success">DONE</strong>
+                                    @else
+                                        @if($d->ifAbleToProcessD0() == 'Y')
+                                        <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 1])}}?fsc=1" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 0 Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                        @elseif($d->ifAbleToProcessD0() == 'D')
+                                        <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                        @endif
                                     @endif
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Day 3</td>
-                            <td>{{date('m/d/Y (l)', strtotime($d->d3_date))}}</td>
-                            <td>{{$d->d3_brand}}</td>
-                            <td>
-                                @if($d->d3_done == 1)
-                                <strong class="text-success">DONE</strong>
-                                @else
-                                    @if($d->ifAbleToProcessD3() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 2])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 3rd Day Dose. Click OK to Continue.')">Mark as Done</a>
-                                    @elseif($d->ifAbleToProcessD3() == 'D')
-                                    <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Day 3</td>
+                                <td>{{date('m/d/Y (l)', strtotime($d->d3_date))}}</td>
+                                <td>{{$d->d3_brand}}</td>
+                                <td>
+                                    @if($d->d3_done == 1)
+                                    <strong class="text-success">DONE</strong>
+                                    @else
+                                        @if($d->ifAbleToProcessD3() == 'Y')
+                                        <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 2])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 3rd Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                        @elseif($d->ifAbleToProcessD3() == 'D')
+                                        <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                        @endif
                                     @endif
-                                @endif
-                            </td>
-                        </tr>
-                        @if($d->is_booster == 0)
-                        <tr>
-                            <td>Day 7</td>
-                            <td>{{date('m/d/Y (l)', strtotime($d->d7_date))}}</td>
-                            <td>{{$d->d7_brand}}</td>
-                            <td>
-                                @if($d->d7_done == 1)
-                                <strong class="text-success">DONE</strong>
-                                @else
-                                    @if($d->ifAbleToProcessD7() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 3])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 7th Day Dose. Click OK to Continue.')">Mark as Done</a>
-                                    @elseif($d->ifAbleToProcessD7() == 'D')
-                                    <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                </td>
+                            </tr>
+                            @if($d->is_booster == 0)
+                            <tr>
+                                <td>Day 7</td>
+                                <td>{{date('m/d/Y (l)', strtotime($d->d7_date))}}</td>
+                                <td>{{$d->d7_brand}}</td>
+                                <td>
+                                    @if($d->d7_done == 1)
+                                    <strong class="text-success">DONE</strong>
+                                    @else
+                                        @if($d->ifAbleToProcessD7() == 'Y')
+                                        <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 3])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 7th Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                        @elseif($d->ifAbleToProcessD7() == 'D')
+                                        <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                        @endif
                                     @endif
-                                @endif
-                            </td>
-                        </tr>
-                        @if($d->pep_route != 'ID')
-                        <tr>
-                            <td>Day 14</td>
-                            <td>{{date('m/d/Y (l)', strtotime($d->d14_date))}}</td>
-                            <td>{{$d->d14_brand}}</td>
-                            <td>
-                                @if($d->d14_done == 1)
-                                <strong class="text-success">DONE</strong>
-                                @else
-                                    @if($d->ifAbleToProcessD14() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 4])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 14th Day Dose. Click OK to Continue.')">Mark as Done</a>
-                                    @elseif($d->ifAbleToProcessD14() == 'D')
-                                    <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                </td>
+                            </tr>
+                            @if($d->pep_route != 'ID')
+                            <tr>
+                                <td>Day 14</td>
+                                <td>{{date('m/d/Y (l)', strtotime($d->d14_date))}}</td>
+                                <td>{{$d->d14_brand}}</td>
+                                <td>
+                                    @if($d->d14_done == 1)
+                                    <strong class="text-success">DONE</strong>
+                                    @else
+                                        @if($d->ifAbleToProcessD14() == 'Y')
+                                        <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 4])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 14th Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                        @elseif($d->ifAbleToProcessD14() == 'D')
+                                        <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                        @endif
                                     @endif
-                                @endif
-                            </td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td>Day 28</td>
-                            <td>{{date('m/d/Y (l)', strtotime($d->d28_date))}}</td>
-                            <td>{{$d->d28_brand}}</td>
-                            <td>
-                                @if($d->d28_done == 1)
-                                <strong class="text-success">DONE</strong>
-                                @else
-                                    @if($d->ifAbleToProcessD28() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 5])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 28th Day Dose. Click OK to Continue.')">Mark as Done</a>
-                                    @elseif($d->ifAbleToProcessD28() == 'D')
-                                    <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                </td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td>Day 28</td>
+                                <td>{{date('m/d/Y (l)', strtotime($d->d28_date))}}</td>
+                                <td>{{$d->d28_brand}}</td>
+                                <td>
+                                    @if($d->d28_done == 1)
+                                    <strong class="text-success">DONE</strong>
+                                    @else
+                                        @if($d->ifAbleToProcessD28() == 'Y')
+                                        <a href="{{route('abtc_encode_process', ['br_id' => $d->id, 'dose' => 5])}}" class="btn btn-primary" onclick="return confirm('The patient should be present and injected with the 28th Day Dose. Click OK to Continue.')">Mark as Done</a>
+                                        @elseif($d->ifAbleToProcessD28() == 'D')
+                                        <p class="text-danger"><b>DID NOT ARRIVED</b></p>
+                                        @endif
                                     @endif
-                                @endif
-                            </td>
-                        </tr>
-                        @endif
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="">
