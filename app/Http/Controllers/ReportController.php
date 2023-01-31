@@ -19,6 +19,11 @@ use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 class ReportController extends Controller
 {
     public function index() {
+        if(time() >= strtotime('16:00') && time() <= strtotime('16:15')) {
+            return redirect()->route('home')
+            ->with('status', 'Daily Report currently generating on background. Please go back after 04:15PM.')
+            ->with('statustype', 'warning');
+        }
 
         $totalCasesCount = 0;
         $totalCasesCount_partialVaccinated = 0;
