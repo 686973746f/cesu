@@ -65,7 +65,7 @@ class ABTCVaccinationController extends Controller
     public function create_store($id, Request $request) {
         $request->validate([
             'vaccination_site_id' => 'required|numeric',
-            'case_date' => 'required|date',
+            'case_date' => 'required|date|before_or_equal:today',
             'case_location' => 'nullable',
             'animal_type' => 'required',
             'animal_type_others' => ($request->animal_type == 'O') ? 'required' : 'nullable',
@@ -74,7 +74,7 @@ class ABTCVaccinationController extends Controller
             'body_site' => 'nullable',
             'category_level' => 'required',
             'washing_of_bite' => 'required',
-            'rig_date_given' => 'nullable|date',
+            'rig_date_given' => 'nullable|date|before_or_equal:today',
             'pep_route' => 'required',
             'brand_name' => 'required',
             'outcome' => 'required',

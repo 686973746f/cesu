@@ -41,7 +41,7 @@
                             <ul>
                                 <i class="fas fa-clock mr-2"></i>Schedule: Mon,Tue,Thu,Fri
                                 <li class="text-success">New Patients: 8AM - 11AM</li>
-                                <li class="text-primary">Follow-up: 1PM - 3PM</li>
+                                <li class="text-primary">Follow-up: 1PM</li>
                             </ul>
                         </div>
                     </div>

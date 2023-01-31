@@ -55,7 +55,7 @@
             </form>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="mytable">
+                <table class="table table-bordered table-striped table-sm" id="mytable">
                     <thead class="text-center thead-light" style="vertical-align: middle;">
                         <tr>
                             <th colspan="4">Registration</th>
@@ -92,10 +92,10 @@
                     <tbody>
                         @forelse($list as $d)
                         <tr class="text-center" style="vertical-align: middle;">
-                            <td>{{$d->case_id}}</td>
+                            <td><a href="{{route('abtc_encode_edit', $d->id)}}">{{$d->case_id}}</a></td>
                             <td>{{date('m/d/Y', strtotime($d->case_date))}}</td>
                             <td><a href="{{route('abtc_patient_edit', ['id' => $d->patient->id])}}">{{$d->patient->getName()}}</a></td>
-                            <td><small>{{$d->patient->getAddressMini()}}</small></td>
+                            <td><small>{{$d->patient->address_brgy_text}}, {{$d->patient->address_muncity_text}}, {{$d->patient->address_province_text}}</small></td>
                             <td>{{$d->patient->getAge()}}</td>
                             <td>{{$d->patient->sg()}}</td>
                             <td>{{date('m/d/Y', strtotime($d->bite_date))}}</td>
@@ -109,9 +109,9 @@
                             <td>{{$d->pep_route}}</td>
                             <td>{{date('m/d/Y', strtotime($d->d0_date))}}</td>
                             <td>{{($d->d3_done == 1) ? date('m/d/Y', strtotime($d->d3_date)) : ''}}</td>
-                            <td>{{($d->d7_done == 1) ? date('m/d/Y', strtotime($d->d7_date)) : ''}}</td>
-                            <td>{{($d->d14_done == 1) ? date('m/d/Y', strtotime($d->d14_date)) : ''}}</td>
-                            <td>{{($d->d28_done == 1) ? date('m/d/Y', strtotime($d->d28_date)) : ''}}</td>
+                            <td>{{($d->is_booster == 0) ? ($d->d7_done == 1) ? date('m/d/Y', strtotime($d->d7_date)) : '' : 'N/A'}}</td>
+                            <td>{{($d->d14_done == 1 && $d->pep_route == 'IM') ? date('m/d/Y', strtotime($d->d14_date)) : 'N/A'}}</td>
+                            <td>{{($d->is_booster == 0) ? ($d->d28_done == 1) ? date('m/d/Y', strtotime($d->d28_date)) : '' : 'N/A'}}</td>
                             <td>{{$d->brand_name}}</td>
                             <td>{{$d->outcome}}</td>
                             <td>{{$d->biting_animal_status}}</td>

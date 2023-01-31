@@ -129,10 +129,36 @@
         </button>
       </div>
       <div class="modal-body">
-        <a href="{{route('abtc_report_linelist_index')}}" class="btn btn-primary btn-block">View Linelist</a>
+        <a href="{{route('abtc_report_linelist_index')}}" class="btn btn-primary btn-block">View Linelist/Ledger</a>
         <a href="{{route('abtc_report_cho')}}" class="btn btn-primary btn-block">View CHO Monthly Report</a>
         <a href="{{route('abtc_dashboard')}}" class="btn btn-primary btn-block">Report Dashboard</a>
-        <p class="text-center">---------- OR ----------</p>
+        <p class="text-center mt-3">---------- OR ----------</p>
+        <table class="table table-bordered table-striped text-center table-sm">
+          <thead class="thead-light">
+            <tr>
+              <th>Quarter</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1st Quarter (Q1)</td>
+              <td>{{date('01/01/Y')}} - {{date('03/t/Y')}}</td>
+            </tr>
+            <tr>
+              <td>2nd Quarter (Q2)</td>
+              <td>{{date('04/01/Y')}} - {{date('06/t/Y')}}</td>
+            </tr>
+            <tr>
+              <td>3rd Quarter (Q3)</td>
+              <td>{{date('07/01/Y')}} - {{date('09/t/Y')}}</td>
+            </tr>
+            <tr>
+              <td>4th Quarter (Q4)</td>
+              <td>{{date('10/01/Y')}} - {{date('12/t/Y')}}</td>
+            </tr>
+          </tbody>
+        </table>
         <form action="{{route('abtc_report_export1')}}" method="POST">
           @csrf
           <div class="row">
