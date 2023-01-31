@@ -97,6 +97,14 @@ class ABTCAdminController extends Controller
             'outcome' => 'C'
         ]);
 
+        $j = AbtcBakunaRecords::where('outcome', 'INC')
+        ->where('is_booster', 1)
+        ->where('d0_done', 1)
+        ->where('d3_done', 1)
+        ->update([
+            'outcome' => 'C'
+        ]);
+
         return 'done';
     }
 }
