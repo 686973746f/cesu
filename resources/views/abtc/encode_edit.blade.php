@@ -122,7 +122,7 @@
                     </div>
                     <div class="col-md-{{(auth()->user()->isAdmin == 1) ? '4' : '6'}}">
                         <div>
-                            <label for="case_date" class="form-label"><strong class="text-danger">*</strong>Registration Date</label>
+                            <label for="case_date" class="form-label"><strong class="text-danger">*</strong>Registration/Case Date</label>
                             <input type="date" class="form-control" name="case_date" id="case_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('case_date', $d->case_date)}}" required autofocus>
                             <small class="text-muted">Date patient was first seen, regardless whether patient was given PEP or not.</small>
                         </div>

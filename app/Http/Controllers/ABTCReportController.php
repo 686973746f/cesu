@@ -699,7 +699,7 @@ class ABTCReportController extends Controller
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->count();
 
             $bmale = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
@@ -707,32 +707,26 @@ class ABTCReportController extends Controller
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName)
                 ->where('gender', 'MALE');
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->count();
 
             $bfemale = $tt - $bmale;
-
-            $bcat2 = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                $q->where('address_province_text', 'CAVITE')
-                ->where('address_muncity_text', 'GENERAL TRIAS')
-                ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
-            ->where('category_level', 2)
-            ->count();
 
             $bcat3 = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->where('category_level', 3)
             ->count();
+
+            $bcat2 = $tt - $bcat3;
 
             $bdogs = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->whereIn('animal_type', ['PD', 'SD'])
             ->count();
 
@@ -740,7 +734,7 @@ class ABTCReportController extends Controller
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->whereIn('animal_type', ['PC', 'SC', 'C'])
             ->count();
 
@@ -748,7 +742,7 @@ class ABTCReportController extends Controller
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->where('animal_type', 'O')
             ->count();
 
@@ -756,7 +750,7 @@ class ABTCReportController extends Controller
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->where('bite_type', 'B')
             ->count();
             
@@ -766,25 +760,17 @@ class ABTCReportController extends Controller
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->where('if_animal_vaccinated', 1)
             ->count();
 
             $bdognv = $tt - $bdogv;
 
-            $binc = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                $q->where('address_province_text', 'CAVITE')
-                ->where('address_muncity_text', 'GENERAL TRIAS')
-                ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
-            ->where('outcome', 'INC')
-            ->count();
-            
             $bcomp = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->where('outcome', 'C')
             ->count();
 
@@ -792,9 +778,11 @@ class ABTCReportController extends Controller
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $brgy->brgyName);
-            })->whereYear('created_at', $sy)
+            })->whereYear('case_date', $sy)
             ->where('outcome', 'D')
             ->count();
+
+            $binc = $tt - $bcomp - $bdied;
 
             $brgyArray->push([
                 'name' => $brgy->brgyName,
@@ -823,121 +811,111 @@ class ABTCReportController extends Controller
                     $q->where('address_province_text', 'CAVITE')
                     ->where('address_muncity_text', 'GENERAL TRIAS')
                     ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->count();
-    
-                $bmale = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName)
-                    ->where('gender', 'MALE');
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->count();
-    
-                $bfemale = $tt - $bmale;
-    
-                $bcat2 = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('category_level', 2)
-                ->count();
-    
-                $bcat3 = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('category_level', 3)
-                ->count();
-    
-                $bdogs = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->whereIn('animal_type', ['PD', 'SD'])
-                ->count();
-    
-                $bcats = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->whereIn('animal_type', ['PC', 'SC', 'C'])
-                ->count();
-    
-                $bothers = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('animal_type', 'O')
-                ->count();
-    
-                $binc = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('outcome', 'INC')
-                ->count();
-                
-                $bcomp = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('outcome', 'C')
-                ->count();
-    
-                $bdied = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('outcome', 'D')
+                })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
                 ->count();
 
-                $bbite = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('bite_type', 'B')
-                ->count();
-                
-                $bscratch = $tt - $bbite;
-    
-                $bdogv = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
-                    $q->where('address_province_text', 'CAVITE')
-                    ->where('address_muncity_text', 'GENERAL TRIAS')
-                    ->where('address_brgy_text', $brgy->brgyName);
-                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
-                ->where('if_animal_vaccinated', 1)
-                ->count();
-    
-                $bdognv = $tt - $bdogv;
+                if($tt != 0) {
+                    $bmale = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName)
+                        ->where('gender', 'MALE');
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->count();
+        
+                    $bfemale = $tt - $bmale;
+        
+                    $bcat3 = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->where('category_level', 3)
+                    ->count();
 
-                $topBrgyArray->push([
-                    'name' => $brgy->brgyName,
-                    'tt' => $tt,
-                    'bmale' => $bmale,
-                    'bfemale' => $bfemale,
-                    'bcat2' => $bcat2,
-                    'bcat3' => $bcat3,
-                    'bdogs' => $bdogs,
-                    'bcats' => $bcats,
-                    'bothers' => $bothers,
-                    'bcomp' => $bcomp,
-                    'binc' => $binc,
-                    'bdied' => $bdied,
-                    'bbite' => $bbite,
-                    'bscratch' => $bscratch,
-                    'bdogv' => $bdogv,
-                    'bdognv' => $bdognv,
-                ]);
+                    $bcat2 = $tt - $bcat3;
+                        
+                    $bdogs = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->whereIn('animal_type', ['PD', 'SD'])
+                    ->count();
+        
+                    $bcats = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->whereIn('animal_type', ['PC', 'SC', 'C'])
+                    ->count();
+        
+                    $bothers = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->where('animal_type', 'O')
+                    ->count();
+
+                    $bcomp = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->where('outcome', 'C')
+                    ->count();
+        
+                    $bdied = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->where('outcome', 'D')
+                    ->count();
+        
+                    $binc = $tt - $bcomp - $bdied;
+                    
+                    $bbite = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->where('bite_type', 'B')
+                    ->count();
+                    
+                    $bscratch = $tt - $bbite;
+        
+                    $bdogv = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                        $q->where('address_province_text', 'CAVITE')
+                        ->where('address_muncity_text', 'GENERAL TRIAS')
+                        ->where('address_brgy_text', $brgy->brgyName);
+                    })->whereDate('case_date', '>=', date('Y-m-d', strtotime('-7 Days')))
+                    ->where('if_animal_vaccinated', 1)
+                    ->count();
+        
+                    $bdognv = $tt - $bdogv;
+    
+                    $topBrgyArray->push([
+                        'name' => $brgy->brgyName,
+                        'tt' => $tt,
+                        'bmale' => $bmale,
+                        'bfemale' => $bfemale,
+                        'bcat2' => $bcat2,
+                        'bcat3' => $bcat3,
+                        'bdogs' => $bdogs,
+                        'bcats' => $bcats,
+                        'bothers' => $bothers,
+                        'bcomp' => $bcomp,
+                        'binc' => $binc,
+                        'bdied' => $bdied,
+                        'bbite' => $bbite,
+                        'bscratch' => $bscratch,
+                        'bdogv' => $bdogv,
+                        'bdognv' => $bdognv,
+                    ]);
+                }
             }
         }
 

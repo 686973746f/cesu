@@ -47,11 +47,28 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                        $gt_tt = 0;
+                        $gt_bmale = 0;
+                        $gt_bfemale = 0;
+                        $gt_cat2 = 0;
+                        $gt_cat3 = 0;
+                        $gt_bdogs = 0;
+                        $gt_bcats = 0;
+                        $gt_bothers = 0;
+                        $gt_bbite = 0;
+                        $gt_bscratch = 0;
+                        $gt_bdogv = 0;
+                        $gt_bdognv = 0;
+                        $gt_binc = 0;
+                        $gt_bcomp = 0;
+                        $gt_bdied = 0;
+                        @endphp
                         @foreach($brgyarray as $b)
                         <tr>
                             <td scope="row"><b>{{$b['name']}}</b></td>
                             <td class="text-center font-weight-bold">{{$b['tt']}}</td>
-                            <th style="background-color: black"></th>
+                            <td style="background-color: black"></td>
                             <td class="text-center">{{$b['bmale']}}</td>
                             <td class="text-center">{{$b['bfemale']}}</td>
                             <td style="background-color: black"></td>
@@ -72,8 +89,51 @@
                             <td class="text-center">{{$b['bcomp']}}</td>
                             <td class="text-center">{{$b['bdied']}}</td>
                         </tr>
+                        @php
+                        $gt_tt += $b['tt'];
+                        $gt_bmale += $b['bmale'];
+                        $gt_bfemale += $b['bfemale'];
+                        $gt_cat2 += $b['bcat2'];
+                        $gt_cat3 += $b['bcat3'];
+                        $gt_bdogs += $b['bdogs'];
+                        $gt_bcats += $b['bcats'];
+                        $gt_bothers += $b['bothers'];
+                        $gt_bbite += $b['bbite'];
+                        $gt_bscratch += $b['bscratch'];
+                        $gt_bdogv += $b['bdogv'];
+                        $gt_bdognv += $b['bdognv'];
+                        $gt_binc += $b['binc'];
+                        $gt_bcomp += $b['bcomp'];
+                        $gt_bdied += $b['bdied'];
+                        @endphp
                         @endforeach
                     </tbody>
+                    <tfoot class="text-center font-weight-bold">
+                        <tr>
+                            <td>GRAND TOTAL</td>
+                            <td class="text-center">{{$gt_tt}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$gt_bmale}}</td>
+                            <td class="text-center">{{$gt_bfemale}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$gt_cat2}}</td>
+                            <td class="text-center">{{$gt_cat3}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$gt_bdogs}}</td>
+                            <td class="text-center">{{$gt_bcats}}</td>
+                            <td class="text-center">{{$gt_bothers}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$gt_bbite}}</td>
+                            <td class="text-center">{{$gt_bscratch}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$gt_bdogv}}</td>
+                            <td class="text-center">{{$gt_bdognv}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$gt_binc}}</td>
+                            <td class="text-center">{{$gt_bcomp}}</td>
+                            <td class="text-center">{{$gt_bdied}}</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -150,8 +210,8 @@
     });
 
     $('#top_brgy').dataTable({
-        iDisplayLength: -1,
-        'dom': 't',
+        iDisplayLength: 10,
+        'dom': 'ltrp',
         'aaSorting': ['1', 'desc'],
     });
 </script>
