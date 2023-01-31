@@ -13,7 +13,7 @@
                                 Filter
                             </a>
                         </div>
-                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                        <div id="section1ContentId" class="collapse {{(request()->input('sy') && request()->input('vid')) ? 'show' : 'in'}}" role="tabpanel" aria-labelledby="section1HeaderId">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -83,7 +83,7 @@
                             <td>{{$m10}}</td>
                             <td>{{$m11}}</td>
                             <td>{{$m12}}</td>
-                            <td>{{$m1 + $m2 + $m3 + $m4 + $m5 + $m6 + $m7 + $m8 + $m9 + $m10 + $m11 + $m12}}</td>
+                            <td class="font-weight-bold">{{$m1 + $m2 + $m3 + $m4 + $m5 + $m6 + $m7 + $m8 + $m9 + $m10 + $m11 + $m12}}</td>
                         </tr>
                         <tr class="">
                             <td>Female</td>
@@ -99,7 +99,7 @@
                             <td>{{$f10}}</td>
                             <td>{{$f11}}</td>
                             <td>{{$f12}}</td>
-                            <td>{{$f1 + $f2 + $f3 + $f4 + $f5 + $f6 + $f7 + $f8 + $f9 + $f10 + $f11 + $f12}}</td>
+                            <td class="font-weight-bold">{{$f1 + $f2 + $f3 + $f4 + $f5 + $f6 + $f7 + $f8 + $f9 + $f10 + $f11 + $f12}}</td>
                         </tr>
                         <tr class="bg-light">
                             <td><b>TOTAL</b></td>
@@ -115,7 +115,7 @@
                             <td>{{$m10 + $f10}}</td>
                             <td>{{$m11 + $f11}}</td>
                             <td>{{$m12 + $f12}}</td>
-                            <td>{{$m1 + $m2 + $m3 + $m4 + $m5 + $m6 + $m7 + $m8 + $m9 + $m10 + $m11 + $m12 + $f1 + $f2 + $f3 + $f4 + $f5 + $f6 + $f7 + $f8 + $f9 + $f10 + $f11 + $f12}}</td>
+                            <td class="font-weight-bold">{{$m1 + $m2 + $m3 + $m4 + $m5 + $m6 + $m7 + $m8 + $m9 + $m10 + $m11 + $m12 + $f1 + $f2 + $f3 + $f4 + $f5 + $f6 + $f7 + $f8 + $f9 + $f10 + $f11 + $f12}}</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -147,7 +147,7 @@
                             <td>{{$oe10}}</td>
                             <td>{{$oe11}}</td>
                             <td>{{$oe12}}</td>
-                            <td>{{$oe1 + $oe2 + $oe3 + $oe4 + $oe5 + $oe6 + $oe7 + $oe8 + $oe9 + $oe10 + $oe11 + $oe12}}</td>
+                            <td class="font-weight-bold">{{$oe1 + $oe2 + $oe3 + $oe4 + $oe5 + $oe6 + $oe7 + $oe8 + $oe9 + $oe10 + $oe11 + $oe12}}</td>
                         </tr>
                         <tr class="">
                             <td>< 18</td>
@@ -163,7 +163,7 @@
                             <td>{{$ue10}}</td>
                             <td>{{$ue11}}</td>
                             <td>{{$ue12}}</td>
-                            <td>{{$ue1 + $ue2 + $ue3 + $ue4 + $ue5 + $ue6 + $ue7 + $ue8 + $ue9 + $ue10 + $ue11 + $ue12}}</td>
+                            <td class="font-weight-bold">{{$ue1 + $ue2 + $ue3 + $ue4 + $ue5 + $ue6 + $ue7 + $ue8 + $ue9 + $ue10 + $ue11 + $ue12}}</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -195,7 +195,7 @@
                             <td>{{$co10}}</td>
                             <td>{{$co11}}</td>
                             <td>{{$co12}}</td>
-                            <td>{{$co1 + $co2 + $co3 + $co4 + $co5 + $co6 + $co7 + $co8 + $co9 + $co10 + $co11 + $co12}}</td>
+                            <td class="font-weight-bold">{{$co1 + $co2 + $co3 + $co4 + $co5 + $co6 + $co7 + $co8 + $co9 + $co10 + $co11 + $co12}}</td>
                         </tr>
                         <tr class="">
                             <td>CAT 2</td>
@@ -211,7 +211,7 @@
                             <td>{{$ct10}}</td>
                             <td>{{$ct11}}</td>
                             <td>{{$ct12}}</td>
-                            <td>{{$ct1 + $ct2 + $ct3 + $ct4 + $ct5 + $ct6 + $ct7 + $ct8 + $ct9 + $ct10 + $ct11 + $ct12}}</td>
+                            <td class="font-weight-bold">{{$ct1 + $ct2 + $ct3 + $ct4 + $ct5 + $ct6 + $ct7 + $ct8 + $ct9 + $ct10 + $ct11 + $ct12}}</td>
                         </tr>
                         <tr class="">
                             <td>CAT 3</td>
@@ -227,7 +227,7 @@
                             <td>{{$ch10}}</td>
                             <td>{{$ch11}}</td>
                             <td>{{$ch12}}</td>
-                            <td>{{$ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12}}</td>
+                            <td class="font-weight-bold">{{$ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12}}</td>
                         </tr>
                         <tr class="bg-light">
                             <td><b>TOTAL</b></td>
@@ -243,7 +243,7 @@
                             <td>{{$co10 + $ct10 + $ch10}}</td>
                             <td>{{$co11 + $ct11 + $ch11}}</td>
                             <td>{{$co12 + $ct12 + $ch12}}</td>
-                            <td>{{$co1 + $co2 + $co3 + $co4 + $co5 + $co6 + $co7 + $co8 + $co9 + $co10 + $co11 + $co12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12}}</td>
+                            <td class="font-weight-bold">{{$co1 + $co2 + $co3 + $co4 + $co5 + $co6 + $co7 + $co8 + $co9 + $co10 + $co11 + $co12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12 + $ch1 + $ch2 + $ch3 + $ch4 + $ch5 + $ch6 + $ch7 + $ch8 + $ch9 + $ch10 + $ch11 + $ch12}}</td>
                         </tr>
                         <tr class="">
                             <td>DOG</td>
@@ -259,7 +259,7 @@
                             <td>{{$dog10}}</td>
                             <td>{{$dog11}}</td>
                             <td>{{$dog12}}</td>
-                            <td>{{$dog1 + $dog2 + $dog3 + $dog4 + $dog5 + $dog6 + $dog7 + $dog8 + $dog9 + $dog10 + $dog11 + $dog12}}</td>
+                            <td class="font-weight-bold">{{$dog1 + $dog2 + $dog3 + $dog4 + $dog5 + $dog6 + $dog7 + $dog8 + $dog9 + $dog10 + $dog11 + $dog12}}</td>
                         </tr>
                         <tr class="">
                             <td>CAT</td>
@@ -275,7 +275,7 @@
                             <td>{{$cat10}}</td>
                             <td>{{$cat11}}</td>
                             <td>{{$cat12}}</td>
-                            <td>{{$cat1 + $cat2 + $cat3 + $cat4 + $cat5 + $cat6 + $cat7 + $cat8 + $cat9 + $cat10 + $cat11 + $cat12}}</td>
+                            <td class="font-weight-bold">{{$cat1 + $cat2 + $cat3 + $cat4 + $cat5 + $cat6 + $cat7 + $cat8 + $cat9 + $cat10 + $cat11 + $cat12}}</td>
                         </tr>
                         <tr class="">
                             <td>ERIG</td>
@@ -291,7 +291,7 @@
                             <td>{{$er10}}</td>
                             <td>{{$er11}}</td>
                             <td>{{$er12}}</td>
-                            <td>{{$er1 + $er2 + $er3 + $er4 + $er5 + $er6 + $er7 + $er8 + $er9 + $er10 + $er11 + $er12}}</td>
+                            <td class="font-weight-bold">{{$er1 + $er2 + $er3 + $er4 + $er5 + $er6 + $er7 + $er8 + $er9 + $er10 + $er11 + $er12}}</td>
                         </tr>
                         <tr class="">
                             <td>COMPLETE</td>
@@ -307,7 +307,7 @@
                             <td>{{$oc10}}</td>
                             <td>{{$oc11}}</td>
                             <td>{{$oc12}}</td>
-                            <td>{{$oc1 + $oc2 + $oc3 + $oc4 + $oc5 + $oc6 + $oc7 + $oc8 + $oc9 + $oc10 + $oc11 + $oc12}}</td>
+                            <td class="font-weight-bold">{{$oc1 + $oc2 + $oc3 + $oc4 + $oc5 + $oc6 + $oc7 + $oc8 + $oc9 + $oc10 + $oc11 + $oc12}}</td>
                         </tr>
                         <tr class="">
                             <td>INC</td>
@@ -323,7 +323,7 @@
                             <td>{{$oi10}}</td>
                             <td>{{$oi11}}</td>
                             <td>{{$oi12}}</td>
-                            <td>{{$oi1 + $oi2 + $oi3 + $oi4 + $oi5 + $oi6 + $oi7 + $oi8 + $oi9 + $oi10 + $oi11 + $oi12}}</td>
+                            <td class="font-weight-bold">{{$oi1 + $oi2 + $oi3 + $oi4 + $oi5 + $oi6 + $oi7 + $oi8 + $oi9 + $oi10 + $oi11 + $oi12}}</td>
                         </tr>
                         <tr class="">
                             <td>BOOSTER</td>
@@ -339,7 +339,7 @@
                             <td>{{$bo10}}</td>
                             <td>{{$bo11}}</td>
                             <td>{{$bo12}}</td>
-                            <td>{{$bo1 + $bo2 + $bo3 + $bo4 + $bo5 + $bo6 + $bo7 + $bo8 + $bo9 + $bo10 + $bo11 + $bo12}}</td>
+                            <td class="font-weight-bold">{{$bo1 + $bo2 + $bo3 + $bo4 + $bo5 + $bo6 + $bo7 + $bo8 + $bo9 + $bo10 + $bo11 + $bo12}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -35,6 +35,12 @@
                             <th>Cat</th>
                             <th>Others</th>
                             <th style="background-color: black"></th>
+                            <th>Bite</th>
+                            <th>Scratch</th>
+                            <th style="background-color: black"></th>
+                            <th>Animal Vaccinated</th>
+                            <th>Animal NOT Vaccinated</th>
+                            <th style="background-color: black"></th>
                             <th>INC</th>
                             <th>Complete</th>
                             <th>Died</th>
@@ -44,7 +50,7 @@
                         @foreach($brgyarray as $b)
                         <tr>
                             <td scope="row"><b>{{$b['name']}}</b></td>
-                            <td class="text-center">{{$b['tt']}}</td>
+                            <td class="text-center font-weight-bold">{{$b['tt']}}</td>
                             <th style="background-color: black"></th>
                             <td class="text-center">{{$b['bmale']}}</td>
                             <td class="text-center">{{$b['bfemale']}}</td>
@@ -55,6 +61,12 @@
                             <td class="text-center">{{$b['bdogs']}}</td>
                             <td class="text-center">{{$b['bcats']}}</td>
                             <td class="text-center">{{$b['bothers']}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$b['bbite']}}</td>
+                            <td class="text-center">{{$b['bscratch']}}</td>
+                            <td style="background-color: black"></td>
+                            <td class="text-center">{{$b['bdogv']}}</td>
+                            <td class="text-center">{{$b['bdognv']}}</td>
                             <td style="background-color: black"></td>
                             <td class="text-center">{{$b['binc']}}</td>
                             <td class="text-center">{{$b['bcomp']}}</td>
@@ -86,6 +98,12 @@
                         <th>Cat</th>
                         <th>Others</th>
                         <th style="background-color: black"></th>
+                        <th>Bite</th>
+                        <th>Scratch</th>
+                        <th style="background-color: black"></th>
+                        <th>Animal Vaccinated</th>
+                        <th>Animal NOT Vaccinated</th>
+                        <th style="background-color: black"></th>
                         <th>INC</th>
                         <th>Complete</th>
                         <th>Died</th>
@@ -106,6 +124,12 @@
                         <td class="text-center">{{$b['bdogs']}}</td>
                         <td class="text-center">{{$b['bcats']}}</td>
                         <td class="text-center">{{$b['bothers']}}</td>
+                        <td style="background-color: black"></td>
+                        <td class="text-center">{{$b['bbite']}}</td>
+                        <td class="text-center">{{$b['bscratch']}}</td>
+                        <td style="background-color: black"></td>
+                        <td class="text-center">{{$b['bdogv']}}</td>
+                        <td class="text-center">{{$b['bdognv']}}</td>
                         <td style="background-color: black"></td>
                         <td class="text-center">{{$b['binc']}}</td>
                         <td class="text-center">{{$b['bcomp']}}</td>

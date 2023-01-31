@@ -57,117 +57,146 @@ class ABTCReportController extends Controller
         }
 
         for($i = 1; $i <= 12; $i++) {
-            ${'m'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereHas('patients', function ($q) {
-                $q->where('gender', 'MALE');
-            })->whereMonth('case_date', $i);
+            if($i >= date('n') || date('Y') != $sy) {
+                ${'m'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereHas('patients', function ($q) {
+                    $q->where('gender', 'MALE');
+                })->whereMonth('case_date', $i);
 
-            ${'f'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereHas('patients', function ($q) {
-                $q->where('gender', 'FEMALE');
-            })->whereMonth('case_date', $i);
+                ${'f'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereHas('patients', function ($q) {
+                    $q->where('gender', 'FEMALE');
+                })->whereMonth('case_date', $i);
 
-            ${'co'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->where('category_level', '1');
+                ${'co'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->where('category_level', '1');
 
-            ${'ct'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->where('category_level', '2');
+                ${'ct'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->where('category_level', '2');
 
-            ${'ch'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->where('category_level', '3');
+                ${'ch'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->where('category_level', '3');
 
-            ${'oe'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereHas('patients', function ($q) {
-                $q->where('age', '>=', 18);
-            })->whereMonth('case_date', $i);
+                ${'oe'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereHas('patients', function ($q) {
+                    $q->where('age', '>=', 18);
+                })->whereMonth('case_date', $i);
 
-            ${'ue'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereHas('patients', function ($q) {
-                $q->where('age', '<', 18);
-            })->whereMonth('case_date', $i);
+                ${'ue'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereHas('patients', function ($q) {
+                    $q->where('age', '<', 18);
+                })->whereMonth('case_date', $i);
 
-            ${'er'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->whereNotNull('rig_date_given');
+                ${'er'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->whereNotNull('rig_date_given');
 
-            ${'oc'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->where('outcome', 'C');
+                ${'oc'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->where('outcome', 'C');
 
-            ${'oi'. $i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->where('outcome', 'INC');
+                ${'oi'. $i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->where('outcome', 'INC');
 
-            ${'bo'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->where('is_booster', 1);
+                ${'bo'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->where('is_booster', 1);
 
-            ${'dog'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->whereIn('animal_type', ['PD', 'SD']);
+                ${'dog'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->whereIn('animal_type', ['PD', 'SD']);
 
-            ${'cat'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-            ->whereMonth('case_date', $i)
-            ->whereIn('animal_type', ['C', 'PC', 'SC']);
+                ${'cat'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereMonth('case_date', $i)
+                ->whereIn('animal_type', ['C', 'PC', 'SC']);
 
-            if(!(request()->input('vid')) || request()->input('vid') == 'ALL') {
-                ${'m'.$i} = ${'m'.$i}->count();
-
-                ${'f'.$i} = ${'f'.$i}->count();
-
-                ${'co'.$i} = ${'co'.$i}->count();
-
-                ${'ct'.$i} = ${'ct'.$i}->count();
-
-                ${'ch'.$i} = ${'ch'.$i}->count();
-
-                ${'oe'.$i} = ${'oe'.$i}->count();
-
-                ${'ue'.$i} = ${'ue'.$i}->count();
-
-                ${'er'.$i} = ${'er'.$i}->count();
-
-                ${'oc'.$i} = ${'oc'.$i}->count();
-
-                ${'oi'. $i} = ${'oi'. $i}->count();
-
-                ${'bo'.$i} = ${'bo'.$i}->count();
-
-                ${'dog'.$i} = ${'dog'.$i}->count();
-
-                ${'cat'.$i} = ${'cat'.$i}->count();
+                if(!(request()->input('vid')) || request()->input('vid') == 'ALL') {
+                    ${'m'.$i} = ${'m'.$i}->count();
+    
+                    ${'f'.$i} = ${'f'.$i}->count();
+    
+                    ${'co'.$i} = ${'co'.$i}->count();
+    
+                    ${'ct'.$i} = ${'ct'.$i}->count();
+    
+                    ${'ch'.$i} = ${'ch'.$i}->count();
+    
+                    ${'oe'.$i} = ${'oe'.$i}->count();
+    
+                    ${'ue'.$i} = ${'ue'.$i}->count();
+    
+                    ${'er'.$i} = ${'er'.$i}->count();
+    
+                    ${'oc'.$i} = ${'oc'.$i}->count();
+    
+                    ${'oi'. $i} = ${'oi'. $i}->count();
+    
+                    ${'bo'.$i} = ${'bo'.$i}->count();
+    
+                    ${'dog'.$i} = ${'dog'.$i}->count();
+    
+                    ${'cat'.$i} = ${'cat'.$i}->count();
+                }
+                else {
+                    $vid = request()->input('vid');
+    
+                    ${'m'.$i} = ${'m'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'f'.$i} = ${'f'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'co'.$i} = ${'co'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'ct'.$i} = ${'ct'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'ch'.$i} = ${'ch'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'oe'.$i} = ${'oe'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'ue'.$i} = ${'ue'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'er'.$i} = ${'er'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'oc'.$i} = ${'oc'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'oi'. $i} = ${'oi'. $i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'bo'.$i} = ${'bo'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'dog'.$i} = ${'dog'.$i}->where('vaccination_site_id', $vid)->count();
+    
+                    ${'cat'.$i} = ${'cat'.$i}->where('vaccination_site_id', $vid)->count();
+                }
             }
             else {
-                $vid = request()->input('vid');
+                ${'m'.$i} = 0;
+    
+                ${'f'.$i} = 0;
 
-                ${'m'.$i} = ${'m'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'co'.$i} = 0;
 
-                ${'f'.$i} = ${'f'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'ct'.$i} = 0;
 
-                ${'co'.$i} = ${'co'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'ch'.$i} = 0;
 
-                ${'ct'.$i} = ${'ct'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'oe'.$i} = 0;
 
-                ${'ch'.$i} = ${'ch'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'ue'.$i} = 0;
 
-                ${'oe'.$i} = ${'oe'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'er'.$i} = 0;
 
-                ${'ue'.$i} = ${'ue'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'oc'.$i} = 0;
 
-                ${'er'.$i} = ${'er'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'oi'. $i} = 0;
 
-                ${'oc'.$i} = ${'oc'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'bo'.$i} = 0;
 
-                ${'oi'. $i} = ${'oi'. $i}->where('vaccination_site_id', $vid)->count();
+                ${'dog'.$i} = 0;
 
-                ${'bo'.$i} = ${'bo'.$i}->where('vaccination_site_id', $vid)->count();
-
-                ${'dog'.$i} = ${'dog'.$i}->where('vaccination_site_id', $vid)->count();
-
-                ${'cat'.$i} = ${'cat'.$i}->where('vaccination_site_id', $vid)->count();
+                ${'cat'.$i} = 0;
             }
         }
 
@@ -723,6 +752,26 @@ class ABTCReportController extends Controller
             ->where('animal_type', 'O')
             ->count();
 
+            $bbite = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                $q->where('address_province_text', 'CAVITE')
+                ->where('address_muncity_text', 'GENERAL TRIAS')
+                ->where('address_brgy_text', $brgy->brgyName);
+            })->whereYear('created_at', $sy)
+            ->where('bite_type', 'B')
+            ->count();
+            
+            $bscratch = $tt - $bbite;
+
+            $bdogv = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                $q->where('address_province_text', 'CAVITE')
+                ->where('address_muncity_text', 'GENERAL TRIAS')
+                ->where('address_brgy_text', $brgy->brgyName);
+            })->whereYear('created_at', $sy)
+            ->where('if_animal_vaccinated', 1)
+            ->count();
+
+            $bdognv = $tt - $bdogv;
+
             $binc = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
                 $q->where('address_province_text', 'CAVITE')
                 ->where('address_muncity_text', 'GENERAL TRIAS')
@@ -760,6 +809,10 @@ class ABTCReportController extends Controller
                 'bcomp' => $bcomp,
                 'binc' => $binc,
                 'bdied' => $bdied,
+                'bbite' => $bbite,
+                'bscratch' => $bscratch,
+                'bdogv' => $bdogv,
+                'bdognv' => $bdognv,
             ]);
 
             //top 10 last 7 days (total, male/female, categories, dog/cat)
@@ -847,6 +900,26 @@ class ABTCReportController extends Controller
                 ->where('outcome', 'D')
                 ->count();
 
+                $bbite = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                    $q->where('address_province_text', 'CAVITE')
+                    ->where('address_muncity_text', 'GENERAL TRIAS')
+                    ->where('address_brgy_text', $brgy->brgyName);
+                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
+                ->where('bite_type', 'B')
+                ->count();
+                
+                $bscratch = $tt - $bbite;
+    
+                $bdogv = AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+                    $q->where('address_province_text', 'CAVITE')
+                    ->where('address_muncity_text', 'GENERAL TRIAS')
+                    ->where('address_brgy_text', $brgy->brgyName);
+                })->whereDate('created_at', '>=', date('Y-m-d', strtotime('-7 Days')))
+                ->where('if_animal_vaccinated', 1)
+                ->count();
+    
+                $bdognv = $tt - $bdogv;
+
                 $topBrgyArray->push([
                     'name' => $brgy->brgyName,
                     'tt' => $tt,
@@ -860,6 +933,10 @@ class ABTCReportController extends Controller
                     'bcomp' => $bcomp,
                     'binc' => $binc,
                     'bdied' => $bdied,
+                    'bbite' => $bbite,
+                    'bscratch' => $bscratch,
+                    'bdogv' => $bdogv,
+                    'bdognv' => $bdognv,
                 ]);
             }
         }
