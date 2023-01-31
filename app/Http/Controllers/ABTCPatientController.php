@@ -207,9 +207,16 @@ class ABTCPatientController extends Controller
             })->get();
 
             foreach($data as $item) {
+                if(!is_null($item->bdate)) {
+                    $fd = '#'.$item->id.' '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate));
+                }
+                else {
+                    $fd = '#'.$item->id.' '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1);
+                }
+
                 array_push($list, [
                     'id' => $item->id,
-                    'text' => $item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                    'text' => $fd,
                 ]);
             }
         }

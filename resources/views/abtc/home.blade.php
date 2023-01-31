@@ -192,7 +192,7 @@
     $('#patient_id').select2({
           dropdownParent: $("#nvm"),
           theme: "bootstrap",
-          placeholder: 'Search by Name / Patient ID ...',
+          placeholder: 'Search by SURNAME, FIRST NAME / Patient ID ...',
           ajax: {
               url: "{{route('abtc_patient_ajaxlist')}}",
               dataType: 'json',

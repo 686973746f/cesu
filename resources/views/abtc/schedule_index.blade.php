@@ -16,12 +16,20 @@
         {{session('msg')}}
     </div>
     @endif
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#nvm"><i class="fas fa-search mr-2"></i>Search Existing Patient</button>
+        </div>
+        <div class="col-md-6">
+            <a href="{{route('abtc_patient_create')}}" class="btn btn-success btn-block"><i class="fas fa-user-plus mr-2"></i>Add New Patient</a>
+        </div>
+    </div>
     <form action="{{route('abtc_qr_quicksearch')}}" method="POST" autocomplete="off">
         @csrf
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Quick Search via QR Code / Registration No." name="qr" id="qr" required autofocus>
             <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="submit">Quick Search</button>
+            <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-qrcode mr-2"></i><i class="fas fa-hashtag mr-2"></i>Quick Search</button>
             </div>
         </div>
     </form>
@@ -30,7 +38,7 @@
         <div class="input-group mb-3">
             <input type="date" class="form-control" name="d" id="d" value="{{(request()->input('d')) ? request()->input('d') : date('Y-m-d')}}" required>
             <div class="input-group-append">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success" type="submit"><i class="fas fa-calendar-alt mr-2"></i>Date Search</button>
             </div>
         </div>
     </form>
@@ -134,6 +142,32 @@
     </div>
 </div>
 
+<form action="{{route('abtc_search_init')}}" method="POST">
+    @csrf
+    <div class="modal fade" id="nvm" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="">New Vaccination</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="patient_id" class="form-label">Select Patient to Encode</label>
+                <select class="form-select" name="patient_id" id="patient_id" onchange="this.form.submit()" required>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</form>
+
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -150,6 +184,31 @@
         dom: 'frti',
         iDisplayLength: -1,
         order: [[1, 'asc']],
+    });
+
+    $(document).ready(function () {
+        $('#patient_id').select2({
+            dropdownParent: $("#nvm"),
+            theme: "bootstrap",
+            placeholder: 'Search by SURNAME, FIRST NAME or Patient ID ...',
+            ajax: {
+                url: "{{route('abtc_patient_ajaxlist')}}",
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results:  $.map(data, function (item) {
+                            return {
+                                text: item.text,
+                                id: item.id,
+                                class: item.class,
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
     });
 </script>
 @endsection

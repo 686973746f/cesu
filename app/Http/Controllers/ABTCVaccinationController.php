@@ -490,6 +490,10 @@ class ABTCVaccinationController extends Controller
             }
         }
         else {
+            if(!(str_starts_with($sqr, date('Y')))) {
+                $sqr = '2023-'.$sqr;
+            }
+            
             $asearch = AbtcBakunaRecords::where('case_id', $sqr)->first();
             if($asearch) {
                 return redirect()->route('abtc_encode_edit', $asearch->id)
