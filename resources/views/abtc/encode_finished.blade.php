@@ -55,7 +55,7 @@
                                     <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 8rem;" class="img-fluid" alt="">
                                 </td>
                                 <td>
-                                    {!! QrCode::size(150)->generate($f->patient->qr) !!}
+                                    {!! QrCode::size(150)->generate(route('abtc_qr_process', $f->patient->qr)) !!}
                                 </td>
                             </tr>
                         </tbody>

@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class ABTCWalkInRegistrationController extends Controller
@@ -331,5 +332,23 @@ class ABTCWalkInRegistrationController extends Controller
             'd' => $br,
             'pila_count' => $pila_count,
         ]);
+    }
+
+    public function qr_process($qr) {
+        $s = AbtcPatient::where('qr', $qr)->first();
+
+        if($s) {
+            $b = AbtcBakunaRecords::where('patient_id', $s->id)->latest()->first();
+
+            if(Auth::check()) {
+                return redirect()->route('abtc_encode_edit', $b->id);
+            }
+            else {
+                
+            }
+        }
+        else {
+
+        }
     }
 }
