@@ -306,7 +306,7 @@ class ABTCVaccinationController extends Controller
             $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
             
             //Check duration 3 months
-            if(date('Y-m-d', strtotime($b->b0_date.' + 90 Days')) < date('Y-m-d')) {
+            if(date('Y-m-d', strtotime($b->d0_date.' + 90 Days')) < date('Y-m-d')) {
                 return view('abtc.encode_new', [
                     'd' => $b->patient,
                     'vblist' => $vblist,
