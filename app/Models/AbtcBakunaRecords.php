@@ -343,4 +343,72 @@ class AbtcBakunaRecords extends Model
             }
         }
     }
+
+    public function ifCanProcessQuickMark() {
+        if($this->getCurrentDose() == 1) {
+            if($this->d0_date == date('Y-m-d')) {
+                return 'Y';
+            }
+            else {
+                if($this->d0_date < date('Y-m-d')) {
+                    return 'DID NOT ARRIVED ON DAY 0 ('.date('m/d/Y - D', strtotime($this->d0_date)).')';
+                }
+                else {
+                    return 'PRESENT DATE IS NOT YET EQUALS TO DAY 0 ('.date('m/d/Y - D', strtotime($this->d0_date)).')';
+                }
+            }
+        }
+        else if($this->getCurrentDose() == 2) {
+            if($this->d3_date == date('Y-m-d')) {
+                return 'Y';
+            }
+            else {
+                if($this->d3_date < date('Y-m-d')) {
+                    return 'DID NOT ARRIVED ON DAY 3 ('.date('m/d/Y - D', strtotime($this->d3_date)).')';
+                }
+                else {
+                    return 'PRESENT DATE IS NOT YET EQUALS TO DAY 3 ('.date('m/d/Y - D', strtotime($this->d3_date)).')';
+                }
+            }
+        }
+        else if($this->getCurrentDose() == 3) {
+            if($this->d7_date == date('Y-m-d')) {
+                return 'Y';
+            }
+            else {
+                if($this->d7_date < date('Y-m-d')) {
+                    return 'DID NOT ARRIVED ON DAY 7 ('.date('m/d/Y - D', strtotime($this->d7_date)).')';
+                }
+                else {
+                    return 'PRESENT DATE IS NOT YET EQUALS TO DAY 7 ('.date('m/d/Y - D', strtotime($this->d7_date)).')';
+                }
+            }
+        }
+        else if($this->getCurrentDose() == 4) {
+            if($this->d14_date == date('Y-m-d')) {
+                return 'Y';
+            }
+            else {
+                if($this->d14_date < date('Y-m-d')) {
+                    return 'DID NOT ARRIVED ON DAY 14 ('.date('m/d/Y - D', strtotime($this->d14_date)).')';
+                }
+                else {
+                    return 'PRESENT DATE IS NOT YET EQUALS TO DAY 14 ('.date('m/d/Y - D', strtotime($this->d14_date)).')';
+                }
+            }
+        }
+        else if($this->getCurrentDose() == 5) {
+            if($this->d28_date == date('Y-m-d')) {
+                return 'Y';
+            }
+            else {
+                if($this->d28_date < date('Y-m-d')) {
+                    return 'DID NOT ARRIVED ON DAY 28 ('.date('m/d/Y - D', strtotime($this->d28_date)).')';
+                }
+                else {
+                    return 'PRESENT DATE IS NOT YET EQUALS TO DAY 28 ('.date('m/d/Y - D', strtotime($this->d28_date)).')';
+                }
+            }
+        }
+    }
 }

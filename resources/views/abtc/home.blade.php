@@ -37,8 +37,10 @@
             <hr>
             <a href="" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#adminpanel"><i class="fas fa-user-lock mr-2"></i>Admin Panel</a>
             @endif
+            @if(is_null(auth()->user()->abtc_default_vaccinationsite_id))
             <hr>
             <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#uop"><i class="fas fa-user-cog mr-2"></i>Account Options</button>
+            @endif
         </div>
         <div class="card-footer">
           <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
@@ -155,36 +157,7 @@
   </div>
 </div>
 
-<form action="{{route('abtc_save_settings')}}" method="POST">
-  @csrf
-  <div class="modal fade" id="uop" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id=""><i class="fas fa-user-cog mr-2"></i>Account Options</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="default_vaccinationsite_id" class="form-label">Change Default Vaccination Site</label>
-            <select class="form-control" name="default_vaccinationsite_id" id="default_vaccinationsite_id">
-              <option value="" {{is_null(auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>None</option>
-              @foreach($vslist as $v)
-              <option value="{{$v->id}}" {{($v->id == auth()->user()->abtc_default_vaccinationsite_id) ? 'selected' : ''}}>{{$v->site_name}}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
-        <div class="modal-footer text-center">
-          <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
-
+@if(is_null(auth()->user()->abtc_default_vaccinationsite_id))
 <div class="modal fade" id="changemenu" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -203,7 +176,7 @@
       </div>
   </div>
 </div>
-
+@endif
 <script>
   //Select2 Autofocus QR Modal
   $('#qs').on('shown.bs.modal', function() {

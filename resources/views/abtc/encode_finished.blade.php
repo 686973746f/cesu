@@ -37,11 +37,11 @@
                             <h6><b>{{$f->getBranch()}}</b></h6>
                             <h6><b>ANIMAL BITE TREATMENT CENTER</b></h6>
                         </div>
-                        <div>
+                        <div class="font-weight-bold">
                             <ul>
-                                Schedule: Mon,Tue,Thu,Fri
-                                <li>New Patients: 8AM - 11AM</li>
-                                <li>Follow-up: 1PM - 3PM</li>
+                                <i class="fas fa-clock mr-2"></i>Schedule: Mon,Tue,Thu,Fri
+                                <li class="text-success">New Patients: 8AM - 11AM</li>
+                                <li class="text-primary">Follow-up: 1PM - 3PM</li>
                             </ul>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                     <ul>
                         <small>Note:</small>
                         <li><small>Observe the biting animal for 14 days. If the animal died, report to ABTC as soon as possible.</small></li>
-                        <li><small>Date from Day 3 to Day 28 will serve as your follow-up date.</small></li>
+                        <li><small>Day 3, Day 7, and Day 28 <i>(If Animal Died/Lost)</i> is your <b>Follow-up</b> schedule.</small></li>
                     </ul>
                     @endif
                     <p class="mt-3"><b>Status of animal 14 days after exposure:</b> <u>{{$f->biting_animal_status}}</u></p>
@@ -187,7 +187,7 @@
                 <li>Huwag lagyan ng bawang, barya, o bato sa sugat.</li>
                 <li>Huwag magpagamot sa tandok ng kagat/kalmot ng aso/pusa.</li>
                 <li>Huwag balutan ang sugat ng damit o bandahe.</li>
-                <li>Hindi balewalain ang kagat ng aso/pusa.</li>
+                <li>Huwag balewalain ang kagat ng hayop.</li>
             </ul>
             <p>Bigyan ng pansin at seryosohin ang potensyal na exposure sa rabies.</p>
             <p>Kapag lumabas ang sintomas, kamatayan ay halos di na maiiwasan pa.</p>

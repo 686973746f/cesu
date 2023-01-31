@@ -61,7 +61,7 @@
                         @foreach($new as $n)
                         <tr>
                             <td class="text-center"><a href="{{route('abtc_encode_edit', $n->id)}}">{{$n->case_id}}</a></td>
-                            <td>{{$n->patient->getName()}}</td>
+                            <td><a href="{{route('abtc_patient_edit', [$n->patient->id])}}">{{$n->patient->getName()}}</a></td>
                             <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
                             <td class="text-center"><small>{{$n->patient->address_brgy_text}}</small></td>
                             <td class="text-center">{{$n->animal_type}}</td>
@@ -88,6 +88,7 @@
                 <table class="table table-bordered table-striped" id="fftable">
                     <thead class="thead-light text-center">
                         <tr>
+                            <th></th>
                             <th>Registration #</th>
                             <th>Name</th>
                             <th>Age/Gender</th>
@@ -103,8 +104,19 @@
                     <tbody>
                         @foreach($ff as $n)
                         <tr>
+                            <td class="text-center">
+                                @if(!is_null($n->getCurrentDose()))
+                                    @if($n->ifCanProcessQuickMark() == 'Y')
+                                    <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process. Patient {{$n->patient->getName()}} (#{{$n->case_id}}) should be present. Click OK to proceed.')">Mark as Done</a>
+                                    @else
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$n->ifCanProcessQuickMark()}}">
+                                        <button class="btn btn-primary btn-sm" style="pointer-events: none;" type="button" disabled>Mark as Done</button>
+                                    </span>
+                                    @endif
+                                @endif
+                            </td>
                             <td class="text-center"><a href="{{route('abtc_encode_edit', $n->id)}}">{{$n->case_id}}</a></td>
-                            <td>{{$n->patient->getName()}}</td>
+                            <td><a href="{{route('abtc_patient_edit', [$n->patient->id])}}">{{$n->patient->getName()}}</a></td>
                             <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
                             <td class="text-center"><small>{{$n->patient->address_brgy_text}}</small></td>
                             <td class="text-center">{{$n->animal_type}}</td>
@@ -123,6 +135,10 @@
 </div>
 
 <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
     $('#ntable').DataTable({
         fixedHeader: true,
         dom: 'frti',
@@ -133,6 +149,7 @@
         fixedHeader: true,
         dom: 'frti',
         iDisplayLength: -1,
+        order: [[1, 'asc']],
     });
 </script>
 @endsection
