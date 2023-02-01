@@ -81,7 +81,7 @@
                     </table>
                 </div>
                 @else
-                <h3 class="text-warning">INVALID QR CODE</h3>
+                <h3 class="text-danger">INVALID QR CODE</h3>
                 <p>Sorry, your QR Code is invalid.</p>
                 @endif
             </div>
