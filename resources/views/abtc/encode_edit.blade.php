@@ -141,6 +141,30 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
+                            <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Date of Exposure/Bite Date</label>
+                            <input type="date" class="form-control" name="bite_date" id="bite_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('bite_date', $d->bite_date)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="case_location" class="form-label"><strong id="case_location_ast" class="d-none text-danger">*</strong>Barangay/City (Where biting occured)</label>
+                            <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location', $d->case_location)}}" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated within the year?</label>
+                            <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
+                                <option value="" disabled {{is_null(old('if_animal_vaccinated', $d)) ? 'selected' : ''}}>Choose...</option>
+                                <option value="N" {{(old('if_animal_vaccinated', $d) == 'N') ? 'selected' : ''}}>No</option>
+                                <option value="Y" {{(old('if_animal_vaccinated', $d) == 'Y') ? 'selected' : ''}}>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
                             <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Type of Animal</label>
                             <select class="form-select" name="animal_type" id="animal_type" required>
                                 <option value="" disabled {{is_null(old('animal_type', $d->animal_type)) ? 'selected' : ''}}>Choose...</option>
@@ -169,37 +193,13 @@
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated within the year?</label>
-                            <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
-                                <option value="" disabled {{is_null(old('if_animal_vaccinated', $d)) ? 'selected' : ''}}>Choose...</option>
-                                <option value="N" {{(old('if_animal_vaccinated', $d) == 'N') ? 'selected' : ''}}>No</option>
-                                <option value="Y" {{(old('if_animal_vaccinated', $d) == 'Y') ? 'selected' : ''}}>Yes</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Date of Exposure/Bite Date</label>
-                            <input type="date" class="form-control" name="bite_date" id="bite_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('bite_date', $d->bite_date)}}" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="case_location" class="form-label"><strong id="case_location_ast" class="d-none text-danger">*</strong>Barangay/City (Where biting occured)</label>
-                            <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location', $d->case_location)}}" style="text-transform: uppercase;">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
                             <label for="body_site" class="form-label">Site (Body Parts)</label>
                             <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site', $d->body_site)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="category_level" class="form-label"><strong class="text-danger">*</strong>Category</label>
                             <select class="form-select" name="category_level" id="category_level" required>
@@ -210,9 +210,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="washing_of_bite" class="form-label"><strong class="text-danger">*</strong>Washing of Bite</label>
                             <select class="form-select" name="washing_of_bite" id="washing_of_bite" required>
@@ -222,7 +220,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="rig_date_given" class="form-label">RIG Date Given <small><i>(If Applicable)</i></small></label>
                             <input type="date" class="form-control" name="rig_date_given" id="rig_date_given" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('rig_date_given', $d->rig_date_given)}}">
