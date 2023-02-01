@@ -344,11 +344,14 @@ class ABTCWalkInRegistrationController extends Controller
                 return redirect()->route('abtc_encode_edit', $b->id);
             }
             else {
-                
+                return view('abtc.qr_init', [
+                    'found' => 1,
+                    'b' => $b,
+                ]);
             }
         }
         else {
-            return view('abtc.qr_init.blade', [
+            return view('abtc.qr_init', [
                 'found' => 0,
             ]);
         }
