@@ -348,7 +348,9 @@ class ABTCWalkInRegistrationController extends Controller
             }
         }
         else {
-
+            return view('abtc.qr_init.blade', [
+                'found' => 0,
+            ]);
         }
     }
 }

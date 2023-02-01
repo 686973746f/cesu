@@ -57,7 +57,7 @@ class ABTCReportController extends Controller
         }
 
         for($i = 1; $i <= 12; $i++) {
-            if($i >= date('n') || date('Y') != $sy) {
+            if($i <= date('n') || date('Y') != $sy) {
                 ${'m'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
                 ->whereHas('patients', function ($q) {
                     $q->where('gender', 'MALE');
