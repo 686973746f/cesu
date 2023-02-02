@@ -1201,6 +1201,18 @@ class FormsController extends Controller
             }
         }
 
+        //LMP Checker
+        if($rec->gender == 'FEMALE' && $rec->isPregnant == 1) {
+            $clmp = Carbon::parse($request->PregnantLMP);
+
+            if($clmp->diffInMonths(Carbon::now()) >= 10) {
+                return back()
+                ->withInput()
+                ->with('msg', 'Submission of CIF was blocked because the Patient LMP ('.date('m/d/Y', strtotime($request->PregnantLMP)).') should not be greater than 9 months. Try changing the LMP Date to an earlier date before proceeding.')
+                ->with('msgType', 'warning');
+            }
+        }
+
         $checkform = Forms::where('records_id', $rec->id)
         ->where(function ($q) {
             $q->whereDate('morbidityMonth', date('Y-m-d'))
