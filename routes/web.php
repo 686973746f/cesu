@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\FormsController;
+use App\Http\Controllers\PIDSRController;
 use App\Http\Controllers\DengueController;
 use App\Http\Controllers\PaSwabController;
 use App\Http\Controllers\ReportController;
@@ -304,6 +305,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     //Site Settings
     Route::get('/settings/site', [SiteSettingsController::class, 'index'])->name('ss.index');
     Route::post('/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
+
+    //PIDSR
+    Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
+    Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
+    Route::post('/pidsr/xlstosql', [PIDSRController::class, 'xlstosql'])->name('pidsr.xlstosql');
 });
 
 //ANIMAL BITE ROUTES

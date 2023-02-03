@@ -473,6 +473,10 @@ class ABTCVaccinationController extends Controller
     public function qr_quicksearch(Request $request) {
         $sqr = $request->qr;
 
+        if(str_starts_with($sqr, 'http')) {
+            $sqr = basename($sqr);
+        }
+
         $search = AbtcPatient::where('qr', $sqr)
         ->first();
 
