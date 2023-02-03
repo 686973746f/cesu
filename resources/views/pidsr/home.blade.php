@@ -53,24 +53,42 @@
     </div>
 </div>
 
-<div class="modal fade" id="thresh" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+<form action="{{route('pidsr.threshold')}}" method="GET">
+    <div class="modal fade" id="thresh" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Threshold</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="sd">Select Disease</label>
+                        <select class="form-control" name="sd" id="sd" required>
+                            <option value="DENGUE">Dengue</option>
+                            <option value="HFMD">HFMD</option>
+                            <option value="MEASLES">Measles</option>
+                            <option value="MONKEYPOX">Monkeypox</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Select Year</label>
+                        <select class="form-control" name="year" id="year" required>
+                            @foreach(range(date('Y'), 2018) as $y)
+                            <option value="{{$y}}">{{$y}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 <div class="modal fade" id="export" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

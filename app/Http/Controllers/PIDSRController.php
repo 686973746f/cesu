@@ -11,6 +11,15 @@ class PIDSRController extends Controller
     }
 
     public function threshold_index() {
+        if(!(request()->input('sd')) && !(request()->input('year'))) {
 
+        }
+
+        $s = request()->input('sd');
+        $y = request()->input('year');
+
+        if($s == 'DENGUE') {
+            
+        }
     }
 }
