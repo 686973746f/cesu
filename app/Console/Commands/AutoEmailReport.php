@@ -64,7 +64,7 @@ class AutoEmailReport extends Command
         $templateProcessor->setValue('date', date('F d, Y'));
         $templateProcessor->setValue('c_n', number_format($data->new_cases));
         $templateProcessor->setValue('c_l', number_format($data->late_cases));
-        $templateProcessor->setValue('c_p', round(($data->total_active / $data->total_all_confirmed_cases) * 100, 1).'%');
+        $templateProcessor->setValue('c_p', ($data->total_active != 0) ? round(($data->total_active / $data->total_all_confirmed_cases) * 100, 1).'%' : '0%');
         $templateProcessor->setValue('c_t', number_format($data->total_active));
 
         $templateProcessor->setValue('vcu', number_format($data->total_active_unvaccinated));
@@ -98,15 +98,15 @@ class AutoEmailReport extends Command
         $templateProcessor->setValue('o_hosp', number_format($data->hospital_count));
 
         $templateProcessor->setValue('as', number_format($data->active_asymptomatic_count));
-        $templateProcessor->setValue('as_p', round(($data->active_asymptomatic_count / $data->total_active) * 100, 1).'%');
+        $templateProcessor->setValue('as_p', ($data->total_active != 0) ? round(($data->active_asymptomatic_count / $data->total_active) * 100, 1).'%' : '0%');
         $templateProcessor->setValue('mi', number_format($data->active_mild_with_comorbid_count + $data->active_mild_without_comorbid_count));
         $templateProcessor->setValue('mi_p', round(($data->active_mild_with_comorbid_count + $data->active_mild_without_comorbid_count / $data->total_active) * 100, 1).'%');
         $templateProcessor->setValue('mo', number_format($data->active_moderate_count));
-        $templateProcessor->setValue('mo_p', round(($data->active_moderate_count / $data->total_active) * 100, 1).'%');
+        $templateProcessor->setValue('mo_p', ($data->total_active != 0) ? round(($data->active_moderate_count / $data->total_active) * 100, 1).'%' : '0%');
         $templateProcessor->setValue('se', number_format($data->active_severe_count));
-        $templateProcessor->setValue('se_p', round(($data->active_severe_count / $data->total_active) * 100, 1).'%');
+        $templateProcessor->setValue('se_p', ($data->total_active != 0) ? round(($data->active_severe_count / $data->total_active) * 100, 1).'%' : '0%');
         $templateProcessor->setValue('cr', number_format($data->active_critical_count));
-        $templateProcessor->setValue('cr_p', round(($data->active_critical_count / $data->total_active) * 100, 1).'%');
+        $templateProcessor->setValue('cr_p', ($data->total_active != 0) ? round(($data->active_critical_count / $data->total_active) * 100, 1).'%': '0%');
 
         $brgyList = Brgy::where('displayInList', 1)
         ->where('city_id', 1)
