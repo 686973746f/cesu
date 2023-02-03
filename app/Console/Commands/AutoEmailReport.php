@@ -100,7 +100,7 @@ class AutoEmailReport extends Command
         $templateProcessor->setValue('as', number_format($data->active_asymptomatic_count));
         $templateProcessor->setValue('as_p', ($data->total_active != 0) ? round(($data->active_asymptomatic_count / $data->total_active) * 100, 1).'%' : '0%');
         $templateProcessor->setValue('mi', number_format($data->active_mild_with_comorbid_count + $data->active_mild_without_comorbid_count));
-        $templateProcessor->setValue('mi_p', round(($data->active_mild_with_comorbid_count + $data->active_mild_without_comorbid_count / $data->total_active) * 100, 1).'%');
+        $templateProcessor->setValue('mi_p', ($data->total_active != 0) ? round(($data->active_mild_with_comorbid_count + $data->active_mild_without_comorbid_count / $data->total_active) * 100, 1).'%' : '0%');
         $templateProcessor->setValue('mo', number_format($data->active_moderate_count));
         $templateProcessor->setValue('mo_p', ($data->total_active != 0) ? round(($data->active_moderate_count / $data->total_active) * 100, 1).'%' : '0%');
         $templateProcessor->setValue('se', number_format($data->active_severe_count));
