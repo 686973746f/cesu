@@ -231,6 +231,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'fExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
     ],
 
 ];

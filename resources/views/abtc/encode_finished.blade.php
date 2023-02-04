@@ -16,6 +16,13 @@
             margin-top: 0;
         }
     }
+
+    .content {
+        text-align: center;
+    }
+    .inner {
+        display:inline-block;
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -47,20 +54,23 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table text-center table-borderless">
+                    <table class="table text-center table-borderless" style="margin-top: -20px;">
                         <tbody>
                             <tr >
                                 <td style="vertical-align: middle;">
                                     <img src="{{asset('assets/images/gentri_icon_large.png')}}" style="width: 8rem;" class="img-fluid mr-3" alt="">
                                     <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 8rem;" class="img-fluid" alt="">
                                 </td>
-                                <td>
-                                    {!! QrCode::size(150)->generate(route('abtc_qr_process', $f->patient->qr)) !!}
+                                <td class="content">
+                                    <div class="inner">
+                                        <div>{!! QrCode::size(120)->generate(route('abtc_qr_process', $f->patient->qr)) !!}</div>
+                                        <div class="mt-2 ">{!! DNS1D::getBarcodeHTML($f->case_id, 'C128') !!}</div>  
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <table class="table table-borderless">
+                    <table class="table table-borderless" style="margin-top: -20px;">
                         <tbody>
                             <tr>
                                 <td class="font-weight-bold">Registration No.:</td>
