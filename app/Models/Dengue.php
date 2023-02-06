@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Dengue extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+
+    protected $table = 'dengue';
 
     protected $fillable = [
         'Region',
@@ -60,10 +61,5 @@ class Dengue extends Model
         'SENT',
         'ip',
         'ipgroup',
-        'MiddleName',
     ];
-
-    public function records() {
-        return $this->belongsTo(Records::class);
-    }
 }
