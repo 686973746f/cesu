@@ -416,6 +416,7 @@ class ABTCReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
+                /*
                 $cat1_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
@@ -423,6 +424,9 @@ class ABTCReportController extends Controller
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
+                */
+
+                $cat1_count = 0;
 
                 $cat2_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
@@ -463,7 +467,7 @@ class ABTCReportController extends Controller
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
-                
+
                 $tcv_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
