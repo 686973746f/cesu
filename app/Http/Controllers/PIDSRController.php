@@ -85,6 +85,17 @@ class PIDSRController extends Controller
     }
 
     public function xlstosql(Request $request) {
+        $directory = $request->file('directory');
+
+        foreach ($directory as $file) {
+            if($file->getClientOriginalExtension() === 'mdb' && $file->getClientOriginalName() != 'AEFI.mdb') {
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs('pidsr/', $fileName);   
+            }
+        }
+    }
+
+        /*
         $inputFiles = [new InputFile("C:\PIDSR\Current\ABD.mdb")];
 
         $converter = new Converter();
@@ -99,6 +110,7 @@ class PIDSRController extends Controller
                 echo implode(', ', $row)."\n";
             }
         }
+        */
         /*
         $sd = $request->sd;
 
@@ -111,5 +123,4 @@ class PIDSRController extends Controller
 
         return 'Success';
         */
-    }
 }

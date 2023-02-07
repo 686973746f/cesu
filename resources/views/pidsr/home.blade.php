@@ -103,17 +103,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="sd">Select Disease</label>
-                        <select class="form-control" name="sd" id="sd" required>
-                            <option value="DENGUE">Dengue</option>
-                            <option value="HFMD">HFMD</option>
-                            <option value="MEASLES">Measles</option>
-                            <option value="MONKEYPOX">Monkeypox</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="ff">Select Excel File</label>
-                      <input type="file" class="form-control-file" name="ff" id="ff" required>
+                        <label for="directory">Select CURRENT Folder to upload where MDBs are located:</label>
+                        <input type="file" class="form-control-file" id="directory" name="directory[]" multiple directory="" webkitdirectory="" mozdirectory="">
                     </div>
                 </div>
                 <div class="modal-footer">

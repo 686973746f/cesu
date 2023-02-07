@@ -474,15 +474,7 @@ class ABTCReportController extends Controller
 
                 $hrig = 0;
 
-                $erig = AbtcBakunaRecords::whereHas('patient', function($q) {
-                    $q->where('register_status', 'VERIFIED');
-                })
-                ->where('outcome', 'C')
-                ->where('category_level', 3)
-                ->whereNotNull('rig_date_given')
-                ->where('vaccination_site_id', $v->id)
-                ->whereBetween('case_date', [$sd, $ed])
-                ->count();
+                $erig = $cat3_count;
 
                 $booster_count = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
                 ->where('is_booster', 1)
@@ -512,7 +504,7 @@ class ABTCReportController extends Controller
 
                 $sheet->setCellValue('S'.$i, $tcv_count);
                 $sheet->setCellValue('T'.$i, $hrig);
-                $sheet->setCellValue('T'.$i, $erig); //ERIG
+                $sheet->setCellValue('U'.$i, $erig); //ERIG
 
                 $sheet->setCellValue('V'.$i, $dog_count);
                 $sheet->setCellValue('W'.$i, $cat_count);
