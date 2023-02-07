@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a5953f603c1f1a3d18810a9fe6f18bf",
+    "content-hash": "78737af39f7c37ceaaf4e7ec02073537",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4658,6 +4658,47 @@
                 "source": "https://github.com/rap2hpoutre/fast-excel/tree/v3.2.0"
             },
             "time": "2022-02-09T16:04:44+00:00"
+        },
+        {
+            "name": "rebasedata/php-client",
+            "version": "v1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rebasedata/php-client.git",
+                "reference": "9a2e89b18e7ec6d4edee3bf923b03f8a5915fe4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rebasedata/php-client/zipball/9a2e89b18e7ec6d4edee3bf923b03f8a5915fe4f",
+                "reference": "9a2e89b18e7ec6d4edee3bf923b03f8a5915fe4f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "ext-zip": "*",
+                "phpunit/phpunit": "^8"
+            },
+            "suggest": {
+                "ext-zip": "Allows compressed up- and downloads"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RebaseData\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "RebaseData API client for PHP",
+            "support": {
+                "issues": "https://github.com/rebasedata/php-client/issues",
+                "source": "https://github.com/rebasedata/php-client/tree/v1.0.7"
+            },
+            "time": "2022-10-29T11:11:38+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -9832,5 +9873,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

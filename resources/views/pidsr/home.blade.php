@@ -90,7 +90,7 @@
     </div>
 </form>
 
-<form action="" method="POST">
+<form action="{{route('pidsr.xlstosql')}}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="modal fade" id="export" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -102,7 +102,19 @@
                         </button>
                 </div>
                 <div class="modal-body">
-
+                    <div class="form-group">
+                        <label for="sd">Select Disease</label>
+                        <select class="form-control" name="sd" id="sd" required>
+                            <option value="DENGUE">Dengue</option>
+                            <option value="HFMD">HFMD</option>
+                            <option value="MEASLES">Measles</option>
+                            <option value="MONKEYPOX">Monkeypox</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="ff">Select Excel File</label>
+                      <input type="file" class="form-control-file" name="ff" id="ff" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Upload</button>

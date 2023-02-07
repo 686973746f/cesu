@@ -6,7 +6,11 @@ use Carbon\Carbon;
 use App\Models\Hfmd;
 use App\Models\Dengue;
 use App\Models\Measles;
+use App\Imports\PidsrImport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use RebaseData\Converter\Converter;
+use RebaseData\InputFile\InputFile;
 
 class PIDSRController extends Controller
 {
@@ -81,6 +85,31 @@ class PIDSRController extends Controller
     }
 
     public function xlstosql(Request $request) {
+        $inputFiles = [new InputFile("C:\PIDSR\Current\ABD.mdb")];
 
+        $converter = new Converter();
+        $database = $converter->convertToDatabase($inputFiles);
+        $tables = $database->getTables();
+
+        foreach ($tables as $table) {
+            echo "Reading table '".$table->getName()."'\n";
+
+            $rows = $table->getRowsIterator();
+            foreach ($rows as $row) {
+                echo implode(', ', $row)."\n";
+            }
+        }
+        /*
+        $sd = $request->sd;
+
+
+        if($sd == 'DENGUE') {
+            $pass = 'Dengue';
+        }
+
+        Excel::import(new PidsrImport($pass), $request->ff);
+
+        return 'Success';
+        */
     }
 }
