@@ -56,6 +56,7 @@
                         <tr>
                             <th>Registration #</th>
                             <th>Name</th>
+                            <th>Mobile</th>
                             <th>Age/Gender</th>
                             <th>Brgy</th>
                             <th>Animal</th>
@@ -70,6 +71,7 @@
                         <tr>
                             <td class="text-center"><a href="{{route('abtc_encode_edit', $n->id)}}">{{$n->case_id}}</a></td>
                             <td><a href="{{route('abtc_patient_edit', [$n->patient->id])}}">{{$n->patient->getName()}}</a></td>
+                            <td class="text-center">{{(!is_null($n->patient->contact_number)) ? $n->patient->contact_number : 'N/A'}}</td>
                             <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
                             <td class="text-center"><small>{{$n->patient->address_brgy_text}}</small></td>
                             <td class="text-center">{{$n->animal_type}}</td>
@@ -99,6 +101,7 @@
                             <th></th>
                             <th>Registration #</th>
                             <th>Name</th>
+                            <th>Mobile</th>
                             <th>Age/Gender</th>
                             <th>Brgy</th>
                             <th>Animal</th>
@@ -124,7 +127,9 @@
                                 @endif
                             </td>
                             <td class="text-center"><a href="{{route('abtc_encode_edit', $n->id)}}">{{$n->case_id}}</a></td>
+                            
                             <td><a href="{{route('abtc_patient_edit', [$n->patient->id])}}">{{$n->patient->getName()}}</a></td>
+                            <td class="text-center">{{(!is_null($n->patient->contact_number)) ? $n->patient->contact_number : 'N/A'}}</td>
                             <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
                             <td class="text-center"><small>{{$n->patient->address_brgy_text}}</small></td>
                             <td class="text-center">{{$n->animal_type}}</td>
