@@ -85,7 +85,7 @@ class PIDSRController extends Controller
     }
 
     public function xlstosql(Request $request) {
-        ini_set('max_file_uploads', '40');
+        ini_set('max_file_uploads', 40);
 
         $directory = $request->file('directory');
 
