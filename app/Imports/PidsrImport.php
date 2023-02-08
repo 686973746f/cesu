@@ -48,13 +48,27 @@ class PidsrImport implements ToCollection, WithStartRow
     public function collection(Collection $rows)
     {
         if($this->sd == 'DENGUE') {
-            foreach ($rows as $row) 
+            foreach ($rows as $row)
             {
                 if($row[1] == 'CAVITE' && $row[2] == 'GENERAL TRIAS') {
                     $sf = Dengue::where('EPIID', $row[28])
                     ->first();
 
-                    if(!($sf)) {
+                    if($sf) {
+                        if($sf->FamilyName == $row[8] && $sf->FirstName == $row[7]) {
+                            $proceed = false;
+                        }
+                        else {
+                            $iepiid = $row[28].Str::random(3);
+                            $proceed = true;
+                        }
+                    }
+                    else {
+                        $iepiid = $row[28];
+                        $proceed = true;
+                    }
+
+                    if($proceed) {
                         $c = Dengue::create([
                             'Region' => $row[0],
                             'Province' => $row[1],
@@ -112,8 +126,6 @@ class PidsrImport implements ToCollection, WithStartRow
         else {
 
         }
-
-        
     }
 
     public function startRow(): int {
