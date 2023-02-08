@@ -95,6 +95,25 @@ class PIDSRController extends Controller
         }
     }
 
+    public function readdb() {
+        ini_set('max_file_uploads', '40');
+
+        $dbName = "C:\path\to\database.mdb";
+
+        $conn = new COM("ADODB.Connection") or die("Cannot start ADO");
+        $conn->Open("DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=$dbName;");
+
+        $rs = $conn->Execute("SELECT * FROM table_name");
+
+        while (!$rs->EOF) {
+            echo $rs->Fields("column_name")->Value . "<br>";
+            $rs->MoveNext();
+        }
+
+        $rs->Close();
+        $conn->Close();
+    }
+
         /*
         $inputFiles = [new InputFile("C:\PIDSR\Current\ABD.mdb")];
 
