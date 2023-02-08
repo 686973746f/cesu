@@ -28,7 +28,7 @@
                     @endif
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#thresh">Threshold Count</button>
                     <hr>
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">Export Excel to Database</button>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">Import Excel to Database</button>
                 </div>
             </div>
         </div>
@@ -90,25 +90,22 @@
     </div>
 </form>
 
-<form action="{{route('pidsr.xlstosql')}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('pidsr.import')}}" method="POST">
     @csrf
     <div class="modal fade" id="export" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Export</h5>
+                    <h5 class="modal-title">Import</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="directory">Select CURRENT Folder to upload where MDBs are located:</label>
-                        <input type="file" class="form-control-file" id="directory" name="directory[]" multiple directory="" webkitdirectory="" mozdirectory="">
-                    </div>
+                <div class="modal-body text-center">
+                    <p>Please execute the Batch Script first before Proceeding.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <button type="submit" class="btn btn-primary">Proceed</button>
                 </div>
             </div>
         </div>

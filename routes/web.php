@@ -309,7 +309,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     //PIDSR
     Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
-    Route::post('/pidsr/xlstosql', [PIDSRController::class, 'xlstosql'])->name('pidsr.xlstosql');
+    Route::post('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
 });
 
 //ANIMAL BITE ROUTES

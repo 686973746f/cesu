@@ -84,17 +84,10 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public function xlstosql(Request $request) {
-        ini_set('max_file_uploads', 40);
+    public function import_start(Request $request) {
+        //Test Import
 
-        $directory = $request->file('directory');
-
-        foreach ($directory as $file) {
-            if($file->getClientOriginalExtension() === 'mdb' && $file->getClientOriginalName() != 'AEFI.mdb' && $file->getClientOriginalName() != 'library.mdb') {
-                $fileName = $file->getClientOriginalName();
-                $file->storeAs('pidsr/', $fileName);   
-            }
-        }
+        Excel::import(new PidsrImport('DENGUE'), storage_path('app/pidsr/DENGUE.xlsx'));
     }
 
     public function readdb() {
