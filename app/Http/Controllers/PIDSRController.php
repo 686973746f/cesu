@@ -85,10 +85,12 @@ class PIDSRController extends Controller
     }
 
     public function xlstosql(Request $request) {
+        ini_set('max_file_uploads', '40');
+
         $directory = $request->file('directory');
 
         foreach ($directory as $file) {
-            if($file->getClientOriginalExtension() === 'mdb' && $file->getClientOriginalName() != 'AEFI.mdb') {
+            if($file->getClientOriginalExtension() === 'mdb' && $file->getClientOriginalName() != 'AEFI.mdb' && $file->getClientOriginalName() != 'library.mdb') {
                 $fileName = $file->getClientOriginalName();
                 $file->storeAs('pidsr/', $fileName);   
             }
@@ -96,7 +98,7 @@ class PIDSRController extends Controller
     }
 
     public function readdb() {
-        ini_set('max_file_uploads', '40');
+        
 
         $dbName = "C:\path\to\database.mdb";
 
