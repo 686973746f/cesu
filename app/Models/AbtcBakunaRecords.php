@@ -266,6 +266,27 @@ class AbtcBakunaRecords extends Model
         }
     }
 
+    public function getNumOfCompletedDose() {
+        if($this->d0_done == 0) {
+            return 0;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 0) {
+            return 1;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
+            return 2;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM') {
+            return 3;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
+            return 4;
+        }
+        else {
+            return NULL;
+        }
+    }
+
     public function getCreatedBy() {
         if(!is_null($this->created_by)) {
             $a = User::find($this->created_by);

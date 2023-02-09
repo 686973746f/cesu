@@ -361,6 +361,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 
     Route::get('/abtc/sched', [ABTCVaccinationController::class, 'schedule_index'])->name('abtc_schedule_index');
     Route::get('/abtc/report/dashboard', [ABTCReportController::class, 'dashboard'])->name('abtc_dashboard');
+
+    Route::get('/abtc/ffsms', [ABTCVaccinationController::class, 'ffsms'])->name('abtc_ffsms');
+    Route::get('/abtc/medcert/{br_id}', [ABTCVaccinationController::class, 'medcert'])->name('abtc_medcert');
 });
 
 Route::group(['middleware' => ['guest']], function() {

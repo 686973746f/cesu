@@ -90,7 +90,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b><span class="text-primary">Follow-up Patients</span> {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
-                <div>Total: {{$ff->count()}}</div>
+                <div>Completed: {{$completed_count}} | Pending: {{$ff->count()}}</div>
+            </div>
+            <div class="text-right">
+                <a href="{{route('abtc_ffsms')}}?d={{$sdate}}">Create SMS Format to Pending List</a>
             </div>
         </div>
         <div class="card-body">

@@ -739,9 +739,29 @@ class ABTCVaccinationController extends Controller
         ->orderBy('created_at', 'ASC')
         ->get();
 
+        $completed_count = AbtcBakunaRecords::where(function ($r) use ($sdate) {
+            $r->where(function ($q) use ($sdate) {
+                $q->whereDate('d3_date', $sdate)
+                ->where('d3_done', 1);
+            })->orWhere(function ($q) use ($sdate) {
+                $q->whereDate('d7_date', $sdate)
+                ->where('d7_done', 1);
+            })->orWhere(function ($q) use ($sdate) {
+                $q->whereDate('d14_date', $sdate)
+                ->where('d14_done', 1)
+                ->where('pep_route', 'IM');
+            })->orWhere(function ($q) use ($sdate) {
+                $q->whereDate('d28_date', $sdate)
+                ->where('d28_done', 1);
+            });
+        })->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->count();
+
         return view('abtc.schedule_index', [
             'new' => $new,
             'ff' => $ff,
+            'completed_count' => $completed_count,
+            'sdate' => $sdate,
         ]);
     }
 
@@ -798,5 +818,64 @@ class ABTCVaccinationController extends Controller
         else {
             return abort(401);
         }
+    }
+
+    public function ffsms() {
+        $sdate = request()->input('d');
+
+        $ff = AbtcBakunaRecords::where(function ($q) use ($sdate) {
+            $q->where(function ($r) use ($sdate) {
+                $r->whereDate('d3_date', $sdate)
+                ->where('d0_done', 1)
+                ->where('d3_done', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $r->whereDate('d7_date', $sdate)
+                ->where('d0_done', 1)
+                ->where('d3_done', 1)
+                ->where('d7_done', 0)
+                ->where('is_booster', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $r->whereDate('d14_date', $sdate)
+                ->where('d0_done', 1)
+                ->where('d3_done', 1)
+                ->where('d7_done', 1)
+                ->where('d14_done', 0)
+                ->where('pep_route', 'IM')
+                ->where('is_booster', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $r->whereDate('d28_date', $sdate)
+                ->where('d0_done', 1)
+                ->where('d3_done', 1)
+                ->where('d7_done', 1)
+                ->where('d28_done', 0)
+                ->where('is_booster', 0);
+            });
+        })->where('outcome', 'INC')
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->get();
+
+        echo 'Send SMS to the following Mobile Numbers using Google Messages for Web App:<br><br>';
+
+        foreach($ff as $ind => $f) {
+            if(!is_null($f->patient->contact_number) || $f->patient->contact_number != '09999999999')
+            if($ind === $ff->count() - 1) {
+                echo $f->patient->contact_number;
+            }
+            else {
+                echo $f->patient->contact_number.', ';
+            }
+        }
+
+        echo '<br><br>Message:<br><br>';
+
+        echo 'Magandang araw! Ito ang Animal Bite Treatment Center ng CHO General Trias na nagpapaalalang may follow-up na schedule ka ng bakuna ngayong araw ('.date('F d, Y', strtotime($sdate)).'). Pumunta ng 1PM upang mabakunahan. Maraming salamat.';
+    }
+
+    public function medcert($br_id) {
+        $b = AbtcBakunaRecords::findOrFail($br_id);
+
+        return view('abtc.medcert', [
+            'b' => $b,
+        ]);
     }
 }
