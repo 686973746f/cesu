@@ -310,6 +310,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
     Route::post('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
+    
+    //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
 });
 
 //ANIMAL BITE ROUTES
