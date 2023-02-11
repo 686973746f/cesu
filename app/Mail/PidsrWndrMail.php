@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PidsrWndr extends Mailable
+class PidsrWndrMail extends Mailable
 {
     use Queueable, SerializesModels;
 

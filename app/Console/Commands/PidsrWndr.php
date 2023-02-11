@@ -304,7 +304,7 @@ class PidsrWndr extends Command
         $xmlWriter = IOFactory::createWriter($phpWord, 'PDF');
         $xmlWriter->save(public_path('PIDSR_GenTrias_'.date('Y_m_d').'.pdf'));
 
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new PidsrWndr());
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new PidsrWndrMail());
 
         File::delete(public_path('PIDSR_GenTrias_'.date('Y_m_d', strtotime('-1 Day')).'.pdf'));
         File::delete(public_path('PIDSR_GenTrias_'.date('Y_m_d', strtotime('-1 Day')).'.docx'));
