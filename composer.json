@@ -18,12 +18,14 @@
         "laravel/ui": "^3.2",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^10.0",
+        "mpdf/mpdf": "^8.1",
         "phpoffice/phpspreadsheet": "^1.22",
         "phpoffice/phpword": "^0.18.3",
         "pragmarx/countries": "^0.7.2",
         "rap2hpoutre/fast-excel": "^3.1",
         "rebasedata/php-client": "^1.0",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "tecnickcom/tcpdf": "^6.6"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
