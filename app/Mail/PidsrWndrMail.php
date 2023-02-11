@@ -31,6 +31,6 @@ class PidsrWndrMail extends Mailable
         return $this->view('email.pidsrwndr')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
         ->subject('CHO GENERAL TRIAS PIDSR Weekly Notifiable Diseases Report MW'.date('W'))
-        ->attach(public_path('PIDSR_GenTrias_'.date('Y_m_d').'.docx'));
+        ->attach(public_path('PIDSR_GenTrias_'.date('Y_m_d').'.pdf'));
     }
 }
