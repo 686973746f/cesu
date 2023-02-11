@@ -33,6 +33,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Illuminate\Support\Facades\File;
 
 class PidsrWndr extends Command
 {
