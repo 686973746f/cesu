@@ -65,7 +65,6 @@
                                 <td class="content">
                                     <div class="inner">
                                         <div>{!! QrCode::size(120)->generate(route('abtc_qr_process', $f->patient->qr)) !!}</div>
-                                        <div class="mt-2 ">{!! DNS1D::getBarcodeHTML($f->case_id, 'C128') !!}</div>  
                                     </div>
                                 </td>
                             </tr>

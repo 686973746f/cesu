@@ -907,6 +907,7 @@ class ABTCVaccinationController extends Controller
         $templateProcessor->setValue('dgen', $b->getGenericName());
         $templateProcessor->setValue('dbrand', $b->brand_name);
         $templateProcessor->setValue('eroute', $b->pep_route);
+        $templateProcessor->setValue('qcode', route('abtc_qr_process', $f->patient->qr));
         $templateProcessor->setValue('day0', date('m/d/Y', strtotime($b->d0_date)));
         $templateProcessor->setValue('day3', date('m/d/Y', strtotime($b->d3_date)));
         if($b->is_booster != 1) {
