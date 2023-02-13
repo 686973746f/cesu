@@ -30,7 +30,7 @@
             <div class="card">
                 <div class="card-header">
                     <div id="printDiv">
-                        <a href="{{route('abtc_print_new', $f->id)}}" type="button" class="btn btn-primary btn-block">PRINT NEW CARD</a>
+                        <a href="{{route('abtc_print_new', $f->id)}}" type="button" class="btn btn-primary btn-block" id="printnew">PRINT NEW CARD</a>
                         <button type="button" class="btn btn-primary btn-block" onclick="window.print()" id="printbtn"><i class="fas fa-print mr-2"></i>PRINT</button>
                         <hr>
                         <div class="d-flex justify-content-between">
@@ -208,7 +208,7 @@
 <script>
     @if(request()->input('t'))
         $(document).ready(function () {
-            $('#printbtn').click();
+            $('#printnew').click();
         });
     @endif
 </script>
