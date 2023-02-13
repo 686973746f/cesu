@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\AbtcPatient;
-use App\Models\AbtcVaccineBrand;
 use Illuminate\Http\Request;
-use App\Models\AbtcVaccinationSite;
+use PhpOffice\PhpWord\PhpWord;
+use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
+use App\Models\AbtcVaccinationSite;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class ABTCVaccinationController extends Controller
 {
@@ -877,5 +879,48 @@ class ABTCVaccinationController extends Controller
         return view('abtc.medcert', [
             'b' => $b,
         ]);
+    }
+
+    public function newprint($br_id) {
+        $b = AbtcBakunaRecords::findOrFail($br_id);
+
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=CARDABTC.docx");
+
+        $templateProcessor  = new TemplateProcessor(storage_path('CARDABTC.docx'));
+
+        $templateProcessor->setValue('rid', $b->case_id);
+        $templateProcessor->setValue('rdate', date('m/d/Y', strtotime($b->case_date)));
+        $templateProcessor->setValue('fullname', $b->patient->getName());
+        $templateProcessor->setValue('age', $b->patient->getAge());
+        $templateProcessor->setValue('gend', $b->patient->sg());
+        $templateProcessor->setValue('brgy', $b->patient->address_brgy_text);
+        $templateProcessor->setValue('muncity', $b->patient->address_muncity_text.', '.$b->patient->address_province_text);
+        $templateProcessor->setValue('dexp', date('m/d/Y', strtotime($b->bite_date)));
+        $templateProcessor->setValue('dplace', $b->case_location);
+        $templateProcessor->setValue('dtype', $b->getBiteType());
+        $templateProcessor->setValue('dsource', $b->getSource());
+        
+        $templateProcessor->setValue('dcat', ($b->d3_done == 0) ? '' : $b->category_level);
+        $templateProcessor->setValue('dwash', ($b->washing_of_bite == 1) ? 'Y' : 'N');
+        $templateProcessor->setValue('drig', $b->showRigNew());
+        $templateProcessor->setValue('dgen', $b->getGenericName());
+        $templateProcessor->setValue('dbrand', $b->brand_name);
+        $templateProcessor->setValue('eroute', $b->pep_route);
+        $templateProcessor->setValue('day0', date('m/d/Y', strtotime($b->d0_date)));
+        $templateProcessor->setValue('day3', date('m/d/Y', strtotime($b->d3_date)));
+        if($b->is_booster != 1) {
+            $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
+            $templateProcessor->setValue('day14', ($b->pep_route == 'IM') ? date('m/d/Y', strtotime($b->d14_date)) : 'N/A');
+            $templateProcessor->setValue('day28', date('m/d/Y', strtotime($b->d28_date)));
+        }
+        else {
+            $templateProcessor->setValue('day7', 'N/A');
+            $templateProcessor->setValue('day14', 'N/A');
+            $templateProcessor->setValue('day28', 'N/A');
+        }
+        
+        $templateProcessor->saveAs('php://output');
+        //$templateProcessor->save('php://output');
     }
 }
