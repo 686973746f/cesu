@@ -881,6 +881,22 @@ class ABTCVaccinationController extends Controller
         ]);
     }
 
+    public function referralslip($br_id) {
+        $b = AbtcBakunaRecords::findOrFail($br_id);
+        
+        return view('abtc.referralslip', [
+            'b' => $b,
+        ]);
+    }
+
+    public function itr($br_id) {
+        $b = AbtcBakunaRecords::findOrFail($br_id);
+
+        return view('abtc.itr', [
+            'b' => $b,
+        ]);
+    }
+
     public function newprint($br_id) {
         $b = AbtcBakunaRecords::findOrFail($br_id);
 

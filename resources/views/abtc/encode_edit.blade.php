@@ -49,7 +49,8 @@
                 <div class="d-flex justify-content-between">
                     <div><strong>Edit Anti-Rabies Vaccination Details</strong> (Patient #{{$d->patient->id}})</div>
                     <div>
-                        <a href="" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print ITR</a>
+                        <a href="{{route('abtc_itr', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print ITR</a>
+                        <a href="{{route('abtc_referralslip', $d->id)}}" class="btn btn-primary">Print Referral Slip</a>
                         <a href="{{route('abtc_medcert', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print MedCert</a>
                         <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print Card</a>
                     </div>
