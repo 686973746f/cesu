@@ -183,7 +183,7 @@
   </div>
 </div>
 
-@if(is_null(auth()->user()->abtc_default_vaccinationsite_id))
+@if(!is_null(auth()->user()->abtc_default_vaccinationsite_id))
 <div class="modal fade" id="changemenu" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
       <div class="modal-content">

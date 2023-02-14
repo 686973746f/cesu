@@ -487,7 +487,11 @@ class ABTCVaccinationController extends Controller
 
             $b = AbtcBakunaRecords::where('patient_id', $search->id)->orderBy('created_at', 'DESC')->first();
             if($b) {
-                return redirect()->route('abtc_encode_existing', ['id' => $search->id]);
+                return redirect()->route('abtc_encode_edit', $b->id)
+                ->with('msg', 'Result found with same Registration Number.')
+                ->with('msgtype', 'success');
+
+                //return redirect()->route('abtc_encode_existing', ['id' => $search->id]);
             }
             else {
                 return redirect()->back()
@@ -511,7 +515,7 @@ class ABTCVaccinationController extends Controller
             }
             else {
                 return redirect()->back()
-                ->with('msg', 'No QR or Registration Number matched on the records.')
+                ->with('msg', 'QR/Registration Number is Invalid.')
                 ->with('msgtype', 'warning');
             }
         }

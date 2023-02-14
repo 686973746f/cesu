@@ -18,7 +18,7 @@
                             <tbody class="text-center">
                                 <tr>
                                     <td class="bg-light" style="vertical-align: middle"><strong>Name</td>
-                                    <td>{{$d->patient->getName()}} (#{{$d->id}})</td>
+                                    <td><a href="{{route('abtc_patient_edit', $d->patient->id)}}">{{$d->patient->getName()}} (#{{$d->id}})</a></td>
                                     <td rowspan="4" style="vertical-align: middle">{!! QrCode::size(150)->generate($d->patient->qr) !!}</td>
                                 </tr>
                                 <tr>
