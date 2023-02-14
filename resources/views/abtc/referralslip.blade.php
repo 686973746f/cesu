@@ -76,9 +76,6 @@
                     </tr>
                 </tbody>
             </table>
-            <p>Prepared by:</p>
-            <p style="margin-top: 40px;"><b><u>LUIS P. BROAS, RN, RPh, MAN</u></b></p>
-            <p style="margin-top: -10px;">Nurse II/ABTC Coordinator</p>
             <hr>
             <div class="text-center">
                 <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;width: 50rem;">
@@ -121,9 +118,6 @@
                     </tr>
                 </tbody>
             </table>
-            <p>Prepared by:</p>
-            <p style="margin-top: 40px;"><b><u>LUIS P. BROAS, RN, RPh, MAN</u></b></p>
-            <p style="margin-top: -10px;">Nurse II/ABTC Coordinator</p>
         </div>
     </div>
 </div>   

@@ -233,6 +233,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/dengue/cif/{cif_id}/edit', [DengueController::class, 'edit_cif'])->name('dg.editcif');
     Route::post('/dengue/cif/{cif_id}/update', [DengueController::class, 'update_cif'])->name('dg.updatecif');
 
+    //PIDSR
+    Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
+    Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
+    Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
@@ -305,11 +309,6 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     //Site Settings
     Route::get('/settings/site', [SiteSettingsController::class, 'index'])->name('ss.index');
     Route::post('/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
-
-    //PIDSR
-    Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
-    Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
-    Route::post('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
     
     //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
 });

@@ -85,8 +85,7 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public function import_start(Request $request) {
-        //Test Import
+    public function import_start() {
         if(File::exists(storage_path('app/pidsr/ABD.xlsx'))) {
             Excel::import(new PidsrImport('ABD'), storage_path('app/pidsr/ABD.xlsx'));
         }
@@ -212,6 +211,15 @@ class PIDSRController extends Controller
         File::delete(storage_path('app/pidsr/Rabies.xlsx'));
         File::delete(storage_path('app/pidsr/RotaVirus.xlsx'));
         File::delete(storage_path('app/pidsr/Typhoid.xlsx'));
+
+        if(request()->input('m')) {
+            return redirect()->route('pidsr.home')
+            ->with('msg', 'Import Successful.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return 'Done';
+        }
     }
 
     public function readdb() {
