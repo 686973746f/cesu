@@ -40,84 +40,132 @@
                 <h4 class="mt-2"><b>ANIMAL BITE TREATMENT CENTER</b></h4>
                 <h4 class="mt-2"><b><u>REFERRAL SLIP</u></b></h4>
             </div>
-            <p class="text-right"><b>Date:</b> <u>{{date('m/d/Y')}}</u></p>
             <table class="table table-bordered table-sm">
                 <tbody>
                     <tr>
-                        <td class="bg-light">Name:</td>
-                        <td class="text-center"><b>{{$b->patient->getName()}}</b></td>
-                        <td class="bg-light">Age/Gender:</td>
-                        <td class="text-center">{{$b->patient->getAge()}}/{{$b->patient->sg()}}</td>
+                        <td class="bg-light">To:</td>
+                        <td>Animal Bite Clinic (ABC) / Animal Bite Treatment Center (ABTC)</td>
                     </tr>
                     <tr>
-                        <td class="bg-light">Contact Number:</td>
-                        <td class="text-center">{{(!is_null($b->patient->contact_number)) ? $b->patient->contact_number : 'N/A'}}</td>
-                        <td class="bg-light">Philhealth No:</td>
-                        <td class="text-center">{{(!is_null($b->patient->philhealth)) ? $b->patient->philhealth : 'N/A'}}</td>
+                        <td class="bg-light">From:</td>
+                        <td>City Health Office (CHO) General Trias, Cavite (Animal Bite Treatment Center)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered table-sm">
+                <tbody>
+                    <tr>
+                        <td style="background-color: #f8f8fb">Name of Patient:</td>
+                        <td>{{$b->patient->getName()}}</td>
+                        <td class="bg-light">Age/Gender</td>
+                        <td>{{$b->patient->getAge()}}/{{$b->patient->sg()}}</td>
                     </tr>
                     <tr>
                         <td class="bg-light">Address:</td>
-                        <td class="text-center" colspan="3">{{$b->patient->getAddress()}}</td>
+                        <td colspan="3">{{$b->patient->getAddress()}}</td>
                     </tr>
                 </tbody>
             </table>
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Reason for Referral</th>
-                    </tr>
-                </thead>
+            <table class="table table-bordered table-sm">
                 <tbody>
                     <tr>
-                        <td>
-                            <div style="margin-top: 100px;margin-bottom: 100px;"></div>
-                        </td>
+                        <td class="bg-light">Complaint/Findings</td>
+                        <td>{{$b->getBiteType()}} ({{$b->getSource()}})</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Impression/Diagnosis</td>
+                        <td>Animal Bite</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Prescription/Rx</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Reason for Referral</td>
+                        <td>For ERIG</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Recommendation</td>
+                        <td>Please give ERIG to Animal Bite Clinic of choice.</td>
                     </tr>
                 </tbody>
             </table>
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <p><u>{{date('m/d/Y')}}</u></p>
+                    <p style="margin-top: -20px;">Date</p>
+                </div>
+                <div class="col-md-6">
+                    <p>____________________</p>
+                    <p style="margin-top: -20px;">Physician</p>
+                </div>
+            </div>
             <hr>
             <div class="text-center">
                 <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;width: 50rem;">
                 <h4 class="mt-2"><b>ANIMAL BITE TREATMENT CENTER</b></h4>
                 <h4 class="mt-2"><b><u>REFERRAL SLIP</u></b></h4>
             </div>
-            <p class="text-right"><b>Date:</b> <u>{{date('m/d/Y')}}</u></p>
             <table class="table table-bordered table-sm">
                 <tbody>
                     <tr>
-                        <td class="bg-light">Name:</td>
-                        <td class="text-center"><b>{{$b->patient->getName()}}</b></td>
-                        <td class="bg-light">Age/Gender:</td>
-                        <td class="text-center">{{$b->patient->getAge()}}/{{$b->patient->sg()}}</td>
+                        <td class="bg-light">To:</td>
+                        <td>Animal Bite Clinic (ABC) / Animal Bite Treatment Center (ABTC)</td>
                     </tr>
                     <tr>
-                        <td class="bg-light">Contact Number:</td>
-                        <td class="text-center">{{(!is_null($b->patient->contact_number)) ? $b->patient->contact_number : 'N/A'}}</td>
-                        <td class="bg-light">Philhealth No:</td>
-                        <td class="text-center">{{(!is_null($b->patient->philhealth)) ? $b->patient->philhealth : 'N/A'}}</td>
+                        <td class="bg-light">From:</td>
+                        <td>City Health Office (CHO) General Trias, Cavite (Animal Bite Treatment Center)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered table-sm">
+                <tbody>
+                    <tr>
+                        <td style="background-color: #f8f8fb">Name of Patient:</td>
+                        <td>{{$b->patient->getName()}}</td>
+                        <td class="bg-light">Age/Gender</td>
+                        <td>{{$b->patient->getAge()}}/{{$b->patient->sg()}}</td>
                     </tr>
                     <tr>
                         <td class="bg-light">Address:</td>
-                        <td class="text-center" colspan="3">{{$b->patient->getAddress()}}</td>
+                        <td colspan="3">{{$b->patient->getAddress()}}</td>
                     </tr>
                 </tbody>
             </table>
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Reason for Referral</th>
-                    </tr>
-                </thead>
+            <table class="table table-bordered table-sm">
                 <tbody>
                     <tr>
-                        <td>
-                            <div style="margin-top: 100px;margin-bottom: 100px;"></div>
-                        </td>
+                        <td class="bg-light">Complaint/Findings</td>
+                        <td>{{$b->getBiteType()}} ({{$b->getSource()}})</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Impression/Diagnosis</td>
+                        <td>Animal Bite</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Prescription/Rx</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Reason for Referral</td>
+                        <td>For ERIG</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Recommendation</td>
+                        <td>Please give ERIG to Animal Bite Clinic of choice.</td>
                     </tr>
                 </tbody>
             </table>
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <p><u>{{date('m/d/Y')}}</u></p>
+                    <p style="margin-top: -20px;">Date</p>
+                </div>
+                <div class="col-md-6">
+                    <p>____________________</p>
+                    <p style="margin-top: -20px;">Physician</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>   
