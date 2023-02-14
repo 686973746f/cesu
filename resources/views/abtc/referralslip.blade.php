@@ -1,22 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    @media print {
+        #PrintBtn, #titleBody {
+            display: none;
+        }
+
+        body {
+            background-color: white;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        #divToPrint, #divToPrint * {
+            visibility: visible;
+        }
+
+        #divToPrint {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+</style>
 <div class="container">
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div>Referral Slip</div>
-                <div><button type="button" class="btn btn-primary" onclick="window.print()" id="printbtn"></button></div>
+                <div><button type="button" class="btn btn-primary" onclick="window.print()" id="PrintBtn">Print</button></div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="divToPrint">
             <div class="text-center">
-                <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
-                <h2 class="mt-2"><b>ANIMAL BITE TREATMENT CENTER</b></h2>
-                <h2 class="mt-2"><b><u>REFERRAL SLIP</u></b></h2>
+                <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;width: 50rem;">
+                <h4 class="mt-2"><b>ANIMAL BITE TREATMENT CENTER</b></h4>
+                <h4 class="mt-2"><b><u>REFERRAL SLIP</u></b></h4>
             </div>
             <p class="text-right"><b>Date:</b> <u>{{date('m/d/Y')}}</u></p>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-sm">
                 <tbody>
                     <tr>
                         <td class="bg-light">Name:</td>
@@ -56,12 +81,12 @@
             <p style="margin-top: -10px;">Nurse II/ABTC Coordinator</p>
             <hr>
             <div class="text-center">
-                <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
-                <h2 class="mt-2"><b>ANIMAL BITE TREATMENT CENTER</b></h2>
-                <h2 class="mt-2"><b><u>REFERRAL SLIP</u></b></h2>
+                <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;width: 50rem;">
+                <h4 class="mt-2"><b>ANIMAL BITE TREATMENT CENTER</b></h4>
+                <h4 class="mt-2"><b><u>REFERRAL SLIP</u></b></h4>
             </div>
             <p class="text-right"><b>Date:</b> <u>{{date('m/d/Y')}}</u></p>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-sm">
                 <tbody>
                     <tr>
                         <td class="bg-light">Name:</td>
