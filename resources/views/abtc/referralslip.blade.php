@@ -10,7 +10,7 @@
                 <h2 class="mt-2"><b>ANIMAL BITE TREATMENT CENTER</b></h2>
                 <h2 class="mt-2"><b>REFERRAL SLIP</b></h2>
             </div>
-            <p class="text-right">Date: {{date('m/d/Y')}}</p>
+            <p class="text-right"><b>Date:</b> <u>{{date('m/d/Y')}}</u></p>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
@@ -27,9 +27,7 @@
                     </tr>
                     <tr>
                         <td class="bg-light">Address:</td>
-                        <td class="text-center">{{(!is_null($b->patient->contact_number)) ? $b->patient->contact_number : 'N/A'}}</td>
-                        <td class="bg-light">Philhealth No:</td>
-                        <td class="text-center">{{(!is_null($b->patient->philhealth)) ? $b->patient->philhealth : 'N/A'}}</td>
+                        <td class="text-center" colspan="3">{{$b->patient->getAddress()}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -43,7 +41,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <div class="mt-5"></div>
+                            <div style="margin-top: 100px;margin-bottom: 100px;"></div>
                         </td>
                     </tr>
                 </tbody>
