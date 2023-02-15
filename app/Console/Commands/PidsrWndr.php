@@ -102,7 +102,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $aefi = 0;
@@ -118,7 +118,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $hai = 0; 
@@ -134,7 +134,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $mgc = Meningo::where('Province', 'CAVITE')
@@ -148,7 +148,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $nt = Nt::where('Province', 'CAVITE')
@@ -162,7 +162,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $psp = Psp::where('Province', 'CAVITE')
@@ -176,7 +176,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $rab = Rabies::where('Province', 'CAVITE')
@@ -190,7 +190,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $sar = 0;
@@ -206,7 +206,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $aes = Aes::where('Province', 'CAVITE')
@@ -220,7 +220,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $ahf = Ahf::where('Province', 'CAVITE')
@@ -234,7 +234,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $hep = Hepatitis::where('Province', 'CAVITE')
@@ -248,7 +248,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $ame = Ames::where('Province', 'CAVITE')
@@ -262,7 +262,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $mgt = Meningitis::where('Province', 'CAVITE')
@@ -276,7 +276,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $chi = Chikv::where('Province', 'CAVITE')
@@ -290,7 +290,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $cho = Cholera::where('Province', 'CAVITE')
@@ -304,7 +304,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $den = Dengue::where('Province', 'CAVITE')
@@ -318,7 +318,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $dip = Diph::where('Province', 'CAVITE')
@@ -332,7 +332,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $ili = Influenza::where('Province', 'CAVITE')
@@ -346,7 +346,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $lep = Leptospirosis::where('Province', 'CAVITE')
@@ -360,7 +360,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $mal = Malaria::where('Province', 'CAVITE')
@@ -374,7 +374,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $nnt = Nnt::where('Province', 'CAVITE')
@@ -388,7 +388,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $per = Pert::where('Province', 'CAVITE')
@@ -402,7 +402,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $rtv = Rotavirus::where('Province', 'CAVITE')
@@ -416,7 +416,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $typ = Typhoid::where('Province', 'CAVITE')
@@ -430,7 +430,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         $hfm = Hfmd::where('Province', 'CAVITE')
@@ -444,7 +444,7 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
         ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-        ->whereWeek('created_at', '>=', date('W', strtotime('-1 Week')))
+        ->whereRaw('WEEK(created_at) = ' . date('W', strtotime('-1 Week')))
         ->count();
 
         //Category 1
