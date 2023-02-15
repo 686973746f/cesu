@@ -480,15 +480,15 @@ class PidsrWndr extends Command
         $templateProcessor->setValue('typ', $typ);
 
 
-        $templateProcessor->saveAs(public_path('PIDSR_GenTrias_'.date('Y_m_d').'.docx'));
+        $templateProcessor->saveAs(public_path('PIDSR_GenTrias_MW'.date('W').'.docx'));
         
-        $phpWord = IOFactory::load(public_path('PIDSR_GenTrias_'.date('Y_m_d').'.docx'));
+        $phpWord = IOFactory::load(public_path('PIDSR_GenTrias_MW'.date('W').'.docx'));
         $xmlWriter = IOFactory::createWriter($phpWord, 'PDF');
-        $xmlWriter->save(public_path('PIDSR_GenTrias_'.date('Y_m_d').'.pdf'));
+        $xmlWriter->save(public_path('PIDSR_GenTrias_MW'.date('W').'.pdf'));
 
         Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new PidsrWndrMail());
 
-        File::delete(public_path('PIDSR_GenTrias_'.date('Y_m_d', strtotime('-1 Day')).'.pdf'));
-        File::delete(public_path('PIDSR_GenTrias_'.date('Y_m_d', strtotime('-1 Day')).'.docx'));
+        File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.pdf'));
+        File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.docx'));
     }
 }
