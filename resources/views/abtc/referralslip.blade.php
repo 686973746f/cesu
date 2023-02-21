@@ -82,7 +82,7 @@
                     </tr>
                     <tr>
                         <td class="bg-light">Reason for Referral</td>
-                        <td>{{$reas}}</td>
+                        <td>{{$reason}}</td>
                     </tr>
                     <tr>
                         <td class="bg-light">Recommendation</td>
