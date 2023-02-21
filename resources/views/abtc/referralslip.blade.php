@@ -82,11 +82,11 @@
                     </tr>
                     <tr>
                         <td class="bg-light">Reason for Referral</td>
-                        <td>For ERIG</td>
+                        <td>{{$reas}}</td>
                     </tr>
                     <tr>
                         <td class="bg-light">Recommendation</td>
-                        <td>Please give ERIG to Animal Bite Clinic of choice.</td>
+                        <td>{{$rec}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -50,7 +50,7 @@
                     <div><strong>Edit Anti-Rabies Vaccination Details</strong> (Patient #{{$d->patient->id}})</div>
                     <div>
                         <a href="{{route('abtc_itr', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print ITR</a>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#refer">Print Referral Slip</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rfrbtn">Print Referral Slip</button>
                         <a href="{{route('abtc_medcert', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print MedCert</a>
                         <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print Card</a>
                     </div>
@@ -399,7 +399,7 @@
     </div>
 </form>
 
-<div class="modal fade" id="refer" tabindex="-1" role="dialog">
+<div class="modal fade" id="rfrbtn" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -410,7 +410,7 @@
             </div>
             <div class="modal-body text-center">
                 <p>Select a Reason:</p>
-                <a href="{{route('abtc_referralslip', $d->id)}}?reas=1" class="btn btn-primary">No Available Vaccine in CHO ABTC</a>
+                <a href="{{route('abtc_referralslip', $d->id)}}?reas=1" class="btn btn-primary mb-3">No Available Vaccine in CHO ABTC</a>
                 <a href="{{route('abtc_referralslip', $d->id)}}?reas=2" class="btn btn-primary">No Available ERIG in CHO ABTC</a>
             </div>
         </div>
