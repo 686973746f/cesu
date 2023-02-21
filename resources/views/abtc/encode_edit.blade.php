@@ -50,7 +50,7 @@
                     <div><strong>Edit Anti-Rabies Vaccination Details</strong> (Patient #{{$d->patient->id}})</div>
                     <div>
                         <a href="{{route('abtc_itr', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print ITR</a>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#refer"></button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#refer">Print Referral Slip</button>
                         <a href="{{route('abtc_medcert', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print MedCert</a>
                         <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print Card</a>
                     </div>
