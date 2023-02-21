@@ -887,9 +887,20 @@ class ABTCVaccinationController extends Controller
 
     public function referralslip($br_id) {
         $b = AbtcBakunaRecords::findOrFail($br_id);
+
+        if(request()->input('reas') == 1) {
+            $reason = 'No Available Anti-rabies Vaccine in City Health Office ABTC';
+            $rec = 'Please give Anti-rabies Vaccine to Animal Bite Clinic of choice.';
+        }
+        else {
+            $reason = 'For ERIG, No Available ERIG in City Health Office ABTC';
+            $rec = 'Please give ERIG to Animal Bite Clinic of choice.';
+        }
         
         return view('abtc.referralslip', [
             'b' => $b,
+            'reason' => $reason,
+            'rec' => $rec,
         ]);
     }
 
