@@ -2,16 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Nt;
 use Carbon\Carbon;
+use App\Models\Abd;
+use App\Models\Aes;
+use App\Models\Afp;
+use App\Models\Ahf;
+use App\Models\Nnt;
+use App\Models\Psp;
+use App\Models\Ames;
+use App\Models\Diph;
 use App\Models\Hfmd;
+use App\Models\Pert;
+use App\Models\Chikv;
 use App\Models\Dengue;
+use App\Models\Anthrax;
+use App\Models\Cholera;
+use App\Models\Malaria;
 use App\Models\Measles;
+use App\Models\Meningo;
+use App\Models\Typhoid;
+use App\Models\Hepatitis;
+use App\Models\Influenza;
+use App\Models\Meningitis;
 use App\Imports\PidsrImport;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Leptospirosis;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PIDSRController extends Controller
 {
@@ -40,10 +60,23 @@ class PIDSRController extends Controller
                 $compa = date('W', strtotime($sdate->startOfWeek()->format('Y-m-d').' -1 Day'));
             }
         }
-
-        if($s == 'DENGUE') {
+        if($s == 'AFP') {
             for($i=1;$i <= $compa;$i++) {
-                ${'mw'.$i} = Dengue::where('Province', 'CAVITE')
+                ${'mw'.$i} = Afp::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'AEFI') {
+            //
+        }
+        else if($s == 'ANTHRAX') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Anthrax::where('Province', 'CAVITE')
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
@@ -66,6 +99,226 @@ class PIDSRController extends Controller
         else if($s == 'MEASLES') {
             for($i=1;$i <= $compa;$i++) {
                 ${'mw'.$i} = Measles::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'MENINGO') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Meningo::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'NT') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Nt::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'PSP') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Psp::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'ABD') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Abd::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'AES') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Aes::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'AHF') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Ahf::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'HEPATITIS') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Hepatitis::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'AMES') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Ames::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'MENINGITIS') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Meningitis::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'ChikV') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Chikv::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'CHOLERA') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Cholera::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'DENGUE') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Dengue::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'DIPH') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Diph::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'INFLUENZA') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Influenza::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'LEPTOSPIROSIS') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Leptospirosis::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'MALARIA') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Malaria::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'NNT') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Nnt::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'PERT') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Pert::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'RotaVirus') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = RotaVirus::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
+        else if($s == 'TYPHOID') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Typhoid::where('Province', 'CAVITE')
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)

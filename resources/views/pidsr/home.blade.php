@@ -67,10 +67,39 @@
                     <div class="form-group">
                         <label for="sd">Select Disease</label>
                         <select class="form-control" name="sd" id="sd" required>
-                            <option value="DENGUE">Dengue</option>
-                            <option value="HFMD">HFMD</option>
-                            <option value="MEASLES">Measles</option>
-                            <option value="MONKEYPOX">Monkeypox</option>
+                            <optgroup label="Category 1 (Immediately Notifiable)">
+                                <option value="AFP">Acute Flaccid Paralysis (AFP)</option>
+                                <option value="AEFI">Adverse Event Following Immunization (AEFI)</option>
+                                <option value="ANTHRAX">Anthrax</option>
+                                <option value="HFMD">Hand, Foot and Mouth Disease (HFMD)</option>
+                                <option value="MEASLES">Measles</option>
+                                <option value="MENINGO">Meningococcal Disease</option>
+                                <option value="NT">Neonatal Tetanus</option>
+                                <option value="PSP">Paralytic Shellfish Poisoning</option>
+                                <option value="RABIES">Rabies</option>
+                            </optgroup>
+                            <optgroup label="Category 2 (Weekly Notifiable)">
+                                <option value="ABD">Acute Bloody Diarrhea</option>
+                                <option value="AES">Acute Encephalitis Syndrome</option>
+                                <option value="AHF">Acute Hemorrhagic-Fever Syndrome</option>
+                                <option value="HEPATITIS">Acute Viral Hepatitis</option>
+                                <option value="AMES">AMES</option>
+                                <option value="MENINGITIS">Bacterial Meningitis</option>
+                                <option value="ChikV">Chikungunya</option>
+                                <option value="CHOLERA">Cholera</option>
+                                <option value="DENGUE">Dengue</option>
+                                <option value="DIPH">Diptheria</option>
+                                <option value="INFLUENZA">Influenza-like Illness</option>
+                                <option value="LEPTOSPIROSIS">Leptospirosis</option>
+                                <option value="MALARIA">Malaria</option>
+                                <option value="NNT">Non-Neonatal Tetanus</option>
+                                <option value="PERT">Pertussis</option>
+                                <option value="RotaVirus">RotaVirus</option>
+                                <option value="TYPHOID">Typhoid and Parathypoid Fever</option>
+                            </optgroup>
+                            <optgroup label="Others">
+                                <option value="MONKEYPOX">Monkeypox</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div class="form-group">
