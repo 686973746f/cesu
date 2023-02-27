@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ABTCReportController extends Controller
@@ -935,5 +936,18 @@ class ABTCReportController extends Controller
             'brgyarray' => $brgyArray,
             'topbrgyarray' => $topBrgyArray,
         ]);
+    }
+
+    public function mainreport() {
+        $spreadsheet = IOFactory::load(storage_path('ABTCMAINREPORT.xlsx'));
+        $sheet = $spreadsheet->setActiveSheetIndexByName('COUNTER');
+        $sheet->setCellValue('C4', 20);
+
+        $fileName = 'TEST.xlsx';
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
     }
 }

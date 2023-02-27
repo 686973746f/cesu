@@ -178,6 +178,63 @@
           <button type="submit" class="btn btn-primary btn-block" name="submit" value="AR">Export - CHO Accomplishment Report</button>
             <button type="submit" class="btn btn-primary btn-block" name="submit" value="RO4A">Export - COHORT Report</button>
         </form>
+        <form action="{{route('abtc_report_main')}}" method="POST">
+          @csrf
+          <div class="card">
+            <div class="card-header">Generate Report Template</div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="type">Select Type</label>
+                <select class="form-control" name="type" id="type" required>
+                  <option value="" disabled selected>Choose...</option>
+                  <option value="YEARLY">YEARLY</option>
+                  <option value="QUARTERLY">QUARTERLY</option>
+                  <option value="MONTHLY">MONTHLY</option>
+                  <option value="WEEKLY">WEEKLY</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="year">Select Year</label>
+                <select class="form-control" name="year" id="year" required>
+                  @foreach(range(date('Y'), 2020) as $y)
+                      <option value="{{$y}}">{{$y}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group d-none" id="squarter">
+                <label for="quarter">Select Quarter</label>
+                <select class="form-control" name="quarter" id="quarter">
+                  <option value="1">1ST QUARTER</option>
+                  <option value="2">2ND QUARTER</option>
+                  <option value="3">3RD QUARTER</option>
+                  <option value="4">4TH QUARTER</option>
+                </select>
+              </div>
+              <div class="form-group d-none" id="smonth">
+                <label for="quarter">Select Month</label>
+                <select class="form-control" name="quarter" id="quarter">
+                  <option value="1">JANUARY</option>
+                  <option value="2">FEBRUARY</option>
+                  <option value="3">MARCH</option>
+                  <option value="4">APRIL</option>
+                  <option value="5">MAY</option>
+                  <option value="6">JUNE</option>
+                  <option value="7">JULY</option>
+                  <option value="8">AUGUST</option>
+                  <option value="9">SEPTEMBER</option>
+                  <option value="10">OCTOBER</option>
+                  <option value="11">NOVEMBER</option>
+                  <option value="12">DECEMBER</option>
+                </select>
+              </div>
+              <div class="form-group d-none" id="sweek">
+                <label for="week">Select Week</label>
+                <input type="number" min="1" max="52" class="form-control" name="week" id="week" value="{{date('W')}}">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -237,5 +294,21 @@
           }
       });
   });
+
+  $('#type').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'YEARLY') {
+
+    }
+    else if($(this).val() == 'QUARTERLY') {
+
+    }
+    else if($(this).val() == 'MONTHLY') {
+
+    }
+    else if($(this).val() == 'WEEKLY') {
+
+    }
+  }).trigger('change');
 </script>
 @endsection
