@@ -178,11 +178,18 @@
           <button type="submit" class="btn btn-primary btn-block" name="submit" value="AR">Export - CHO Accomplishment Report</button>
             <button type="submit" class="btn btn-primary btn-block" name="submit" value="RO4A">Export - COHORT Report</button>
         </form>
-        <form action="{{route('abtc_report_main')}}" method="POST">
-          @csrf
-          <div class="card">
+        <form action="{{route('abtc_report_main')}}" method="GET">
+          <div class="card mt-3">
             <div class="card-header">Generate Report Template</div>
             <div class="card-body">
+              <div class="form-group">
+                <label for="year">Select Year</label>
+                <select class="form-control" name="year" id="year" required>
+                  @foreach(range(date('Y'), 2020) as $y)
+                      <option value="{{$y}}">{{$y}}</option>
+                  @endforeach
+                </select>
+              </div>
               <div class="form-group">
                 <label for="type">Select Type</label>
                 <select class="form-control" name="type" id="type" required>
@@ -191,14 +198,6 @@
                   <option value="QUARTERLY">QUARTERLY</option>
                   <option value="MONTHLY">MONTHLY</option>
                   <option value="WEEKLY">WEEKLY</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="year">Select Year</label>
-                <select class="form-control" name="year" id="year" required>
-                  @foreach(range(date('Y'), 2020) as $y)
-                      <option value="{{$y}}">{{$y}}</option>
-                  @endforeach
                 </select>
               </div>
               <div class="form-group d-none" id="squarter">
@@ -211,8 +210,8 @@
                 </select>
               </div>
               <div class="form-group d-none" id="smonth">
-                <label for="quarter">Select Month</label>
-                <select class="form-control" name="quarter" id="quarter">
+                <label for="month">Select Month</label>
+                <select class="form-control" name="month" id="month">
                   <option value="1">JANUARY</option>
                   <option value="2">FEBRUARY</option>
                   <option value="3">MARCH</option>
@@ -229,8 +228,10 @@
               </div>
               <div class="form-group d-none" id="sweek">
                 <label for="week">Select Week</label>
-                <input type="number" min="1" max="52" class="form-control" name="week" id="week" value="{{date('W')}}">
+                <input type="number" min="1" max="53" class="form-control" name="week" id="week" value="{{date('W')}}">
               </div>
+            </div>
+            <div class="card-footer text-right">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
           </div>
@@ -298,16 +299,40 @@
   $('#type').change(function (e) { 
     e.preventDefault();
     if($(this).val() == 'YEARLY') {
+      $('#squarter').addClass('d-none');
+      $('#smonth').addClass('d-none');
+      $('#sweek').addClass('d-none');
 
+      $('#quarter').prop('required', false);
+      $('#month').prop('required', false);
+      $('#week').prop('required', false);
     }
     else if($(this).val() == 'QUARTERLY') {
+      $('#squarter').removeClass('d-none');
+      $('#smonth').addClass('d-none');
+      $('#sweek').addClass('d-none');
 
+      $('#quarter').prop('required', true);
+      $('#month').prop('required', false);
+      $('#week').prop('required', false);
     }
     else if($(this).val() == 'MONTHLY') {
+      $('#squarter').addClass('d-none');
+      $('#smonth').removeClass('d-none');
+      $('#sweek').addClass('d-none');
 
+      $('#quarter').prop('required', false);
+      $('#month').prop('required', true);
+      $('#week').prop('required', false);
     }
     else if($(this).val() == 'WEEKLY') {
+      $('#squarter').addClass('d-none');
+      $('#smonth').addClass('d-none');
+      $('#sweek').removeClass('d-none');
 
+      $('#quarter').prop('required', false);
+      $('#month').prop('required', false);
+      $('#week').prop('required', true);
     }
   }).trigger('change');
 </script>

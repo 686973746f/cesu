@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Brgy;
 use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
@@ -951,16 +952,980 @@ class ABTCReportController extends Controller
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');
         */
+        /*
+        AbtcBakunaRecords::whereHas('patients', function ($q) use ($brgy) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('address_brgy_text', $brgy->brgyName)
+            ->where('gender', 'MALE');
+        })->whereYear('case_date', $sy)
+        ->count();
+        */
 
-        $templateProcessor  = new TemplateProcessor(storage_path('ABTCREPORT.docx'));
-        $charts = $templateProcessor->getCharts();
-        foreach ($charts as $chart) {
-            $data = $chart->getChartValues();
-            // Modify the chart data as required
-            $data[0]['data'][1]['val'] = 22;
-            $chart->updateChartData($data);
+        $bgy = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
+
+        $templateProcessor  = new TemplateProcessor(storage_path('ABTCMAINREPORT.docx'));
+
+        $sy = request()->input('year');
+        
+        $tcases = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        });
+
+        $tcasesc = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('outcome', 'C');
+
+        $tcasesi = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('outcome', 'INC');
+
+        $tcasesd = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('outcome', 'D');
+
+        $ag1m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '<', 1)
+            ->where('gender', 'MALE');
+        });
+
+        $ag2m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [1,10])
+            ->where('gender', 'MALE');
+        });
+
+        $ag3m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [11,20])
+            ->where('gender', 'MALE');
+        });
+
+        $ag4m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [21,30])
+            ->where('gender', 'MALE');
+        });
+
+        $ag5m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [31,40])
+            ->where('gender', 'MALE');
+        });
+
+        $ag6m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [41,50])
+            ->where('gender', 'MALE');
+        });
+
+        $ag7m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [51,60])
+            ->where('gender', 'MALE');
+        });
+
+        $ag8m = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '>', 60)
+            ->where('gender', 'MALE');
+        });
+
+        $ag1f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '<', 1)
+            ->where('gender', 'FEMALE');
+        });
+
+        $ag2f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [1,10])
+            ->where('gender', 'FEMALE');
+        });
+
+        $ag3f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [11,20])
+            ->where('gender', 'FEMALE');
+        });
+
+        $ag4f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [21,30])
+            ->where('gender', 'FEMALE');
+        });
+
+        $ag5f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [31,40])
+            ->where('gender', 'FEMALE');
+        });
+
+        $ag6f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [41,50])
+            ->where('gender', 'FEMALE');
+        });
+
+        $ag7f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->whereBetween('age', [51,60])
+            ->where('gender', 'FEMALE');
+        });
+
+        $ag8f = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '>', 60)
+            ->where('gender', 'FEMALE');
+        });
+
+        $ct1 = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('category_level', 1);
+
+        $ct2 = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('category_level', 2);
+
+        $ct3 = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('category_level', 3);
+
+        $age1 = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '<=', 15);
+        });
+        
+        $age2 = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '>', 15);
+        });
+        
+        $age3 = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '<=', 18);
+        });
+
+        $age4 = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
+            ->where('age', '>', 18);
+        });
+
+        $bs = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('bite_type', 'NB');
+
+        $bb = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('bite_type', 'B');
+
+        $pd = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('animal_type', 'PD');
+
+        $sd = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('animal_type', 'SD');
+
+        $pc = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->whereIn('animal_type', ['PC', 'C']);
+
+        $sc = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('animal_type', 'SC');
+
+        $oth = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('animal_type', 'O');
+
+        $bctr = 1;
+
+        foreach($bgy as $b) {
+            ${'bgt'. $bctr} = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                $q->where('address_province_text', 'CAVITE')
+                ->where('address_muncity_text', 'GENERAL TRIAS')
+                ->where('address_brgy_text', $b->brgyName);
+            });
+
+            ${'bgm'. $bctr} = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                $q->where('address_province_text', 'CAVITE')
+                ->where('address_muncity_text', 'GENERAL TRIAS')
+                ->where('address_brgy_text', $b->brgyName)
+                ->where('gender', 'MALE');
+            });            
+
+            //${'bgf'. $bctr} = ${'bgt' . $bctr} - ${'bgm' . $bctr};
+
+            $bctr++;
         }
 
-        $templateProcessor->saveAs(storage_path('Bilat.docx'));
+
+
+        if(request()->input('type') == 'YEARLY') {
+            $txt1 = 'YEAR '.request()->input('year');
+
+            $paylname = 'ABTC_REPORT_Y'.request()->input('year').'.docx';
+
+            $tcases = $tcases->whereYear('case_date', $sy)
+            ->count();
+
+            $tcasesc = $tcasesc->whereYear('case_date', $sy)
+            ->count();
+
+            $tcasesi = $tcasesi->whereYear('case_date', $sy)
+            ->count();
+
+            $tcasesd = $tcasesd->whereYear('case_date', $sy)
+            ->count();
+
+            $ag1m = $ag1m->whereYear('case_date', $sy)
+            ->count();
+            
+            $ag2m = $ag2m->whereYear('case_date', $sy)
+            ->count();
+            
+            $ag3m = $ag3m->whereYear('case_date', $sy)
+            ->count();
+
+            $ag4m = $ag4m->whereYear('case_date', $sy)
+            ->count();
+
+            $ag5m = $ag5m->whereYear('case_date', $sy)
+            ->count();
+
+            $ag6m = $ag6m->whereYear('case_date', $sy)
+            ->count();
+
+            $ag7m = $ag7m->whereYear('case_date', $sy)
+            ->count();
+
+            $ag8m = $ag8m->whereYear('case_date', $sy)
+            ->count();
+
+            $ag1f = $ag1f->whereYear('case_date', $sy)
+            ->count();
+            
+            $ag2f = $ag2f->whereYear('case_date', $sy)
+            ->count();
+            
+            $ag3f = $ag3f->whereYear('case_date', $sy)
+            ->count();
+
+            $ag4f = $ag4f->whereYear('case_date', $sy)
+            ->count();
+
+            $ag5f = $ag5f->whereYear('case_date', $sy)
+            ->count();
+
+            $ag6f = $ag6f->whereYear('case_date', $sy)
+            ->count();
+
+            $ag7f = $ag7f->whereYear('case_date', $sy)
+            ->count();
+
+            $ag8f = $ag8f->whereYear('case_date', $sy)
+            ->count();
+
+            $ct1 = $ct1->whereYear('case_date', $sy)
+            ->count();
+
+            $ct2 = $ct2->whereYear('case_date', $sy)
+            ->count();
+
+            $ct3 = $ct3->whereYear('case_date', $sy)
+            ->count();
+
+            $bs = $bs->whereYear('case_date', $sy)
+            ->count();
+
+            $bb = $bb->whereYear('case_date', $sy)
+            ->count();
+
+            $age1 = $age1->whereYear('case_date', $sy)
+            ->count();
+
+            $age2 = $age2->whereYear('case_date', $sy)
+            ->count();
+
+            $age3 = $age3->whereYear('case_date', $sy)
+            ->count();
+
+            $age4 = $age4->whereYear('case_date', $sy)
+            ->count();
+
+            $pd = $pd->whereYear('case_date', $sy)
+            ->count();
+            
+            $sd = $sd->whereYear('case_date', $sy)
+            ->count();
+            
+            $pc = $pc->whereYear('case_date', $sy)
+            ->count();
+
+            $sc = $sc->whereYear('case_date', $sy)
+            ->count();
+
+            $oth = $oth->whereYear('case_date', $sy)
+            ->count();
+
+            $bctr = 1;
+
+            foreach($bgy as $b) {
+                ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
+                ->count();
+
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
+                ->count();
+
+                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+
+                $bctr++;
+            }
+        }
+        else if(request()->input('type') == 'QUARTERLY') {
+            $qtr = request()->input('quarter');
+            $paylname = 'ABTC_REPORT_'.request()->input('quarter').'Q_Y'.$sy.'.docx';
+
+            if(request()->input('quarter') == '1') {
+                $txt2 = '1ST';
+
+                $date = Carbon::parse($sy.'-01-01');
+            }
+            else if(request()->input('quarter') == '2') {
+                $txt2 = '2ND';
+
+                $date = Carbon::parse($sy.'-04-01');
+            }
+            else if(request()->input('quarter') == '3') {
+                $txt2 = '3RD';
+
+                $date = Carbon::parse($sy.'-07-01');
+            }
+            else if(request()->input('quarter') == '4') {
+                $txt2 = '4TH';
+                
+                $date = Carbon::parse($sy.'-10-01');
+            }
+
+            $txt1 = $txt2.' QUARTER, YEAR '.request()->input('year');
+
+            $tcases = $tcases->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $tcasesc = $tcasesc->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $tcasesi = $tcasesi->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $tcasesd = $tcasesd->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag1m = $ag1m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+            
+            $ag2m = $ag2m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+            
+            $ag3m = $ag3m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag4m = $ag4m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag5m = $ag5m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag6m = $ag6m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag7m = $ag7m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag8m = $ag8m->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag1f = $ag1f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+            
+            $ag2f = $ag2f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+            
+            $ag3f = $ag3f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag4f = $ag4f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag5f = $ag5f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag6f = $ag6f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag7f = $ag7f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ag8f = $ag8f->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ct1 = $ct1->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ct2 = $ct2->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $ct3 = $ct3->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $bs = $bs->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $bb = $bb->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $age1 = $age1->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $age2 = $age2->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $age3 = $age3->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $age4 = $age4->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $pd = $pd->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+            
+            $sd = $sd->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+            
+            $pc = $pc->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $sc = $sc->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $oth = $oth->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+            ->count();
+
+            $bctr = 1;
+
+            foreach($bgy as $b) {
+                ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
+                ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+                ->count();
+
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
+                ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
+                ->count();
+
+                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+
+                $bctr++;
+            }
+        }
+        else if(request()->input('type') == 'MONTHLY') {
+            if(request()->input('month') == '1') {
+                $txt2 = 'January';
+            }
+            else if(request()->input('month') == '2') {
+                $txt2 = 'February';
+            }
+            else if(request()->input('month') == '3') {
+                $txt2 = 'March';
+            }
+            else if(request()->input('month') == '4') {
+                $txt2 = 'April';
+            }
+            else if(request()->input('month') == '5') {
+                $txt2 = 'May';
+            }
+            else if(request()->input('month') == '6') {
+                $txt2 = 'June';
+            }
+            else if(request()->input('month') == '7') {
+                $txt2 = 'July';
+            }
+            else if(request()->input('month') == '8') {
+                $txt2 = 'August';
+            }
+            else if(request()->input('month') == '9') {
+                $txt2 = 'September';
+            }
+            else if(request()->input('month') == '10') {
+                $txt2 = 'October';
+            }
+            else if(request()->input('month') == '11') {
+                $txt2 = 'November';
+            }
+            else if(request()->input('month') == '12') {
+                $txt2 = 'December';
+            }
+
+            $txt1 = 'MONTH OF '.strtoupper($txt2).', YEAR '.request()->input('year');
+            $month = request()->input('month');
+            $paylname = 'ABTC_REPORT_'.$txt2.' '.$sy.'.docx';
+
+            $tcases = $tcases->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $tcasesc = $tcasesc->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $tcasesi = $tcasesi->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $tcasesd = $tcasesd->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag1m = $ag1m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+            
+            $ag2m = $ag2m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+            
+            $ag3m = $ag3m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag4m = $ag4m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag5m = $ag5m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag6m = $ag6m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag7m = $ag7m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag8m = $ag8m->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag1f = $ag1f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+            
+            $ag2f = $ag2f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+            
+            $ag3f = $ag3f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag4f = $ag4f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag5f = $ag5f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag6f = $ag6f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag7f = $ag7f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ag8f = $ag8f->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ct1 = $ct1->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ct2 = $ct2->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $ct3 = $ct3->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $bs = $bs->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $bb = $bb->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $age1 = $age1->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $age2 = $age2->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $age3 = $age3->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $age4 = $age4->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $pd = $pd->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+            
+            $sd = $sd->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+            
+            $pc = $pc->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $sc = $sc->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $oth = $oth->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month)
+            ->count();
+
+            $bctr = 1;
+
+            foreach($bgy as $b) {
+                ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
+                ->whereMonth('case_date', $month)
+                ->count();
+
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
+                ->whereMonth('case_date', $month)
+                ->count();
+
+                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+
+                $bctr++;
+            }
+        }
+        else if(request()->input('type') == 'WEEKLY') {
+            $txt1 = 'WEEK '.request()->input('week').', YEAR '.request()->input('year');
+            $week = request()->input('week');
+            $paylname = 'ABTC_REPORT_W'.$week.' Y'.$sy.'.docx';
+
+            $tcases = $tcases->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $tcasesc = $tcasesc->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $tcasesi = $tcasesi->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $tcasesd = $tcasesd->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag1m = $ag1m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+            
+            $ag2m = $ag2m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+            
+            $ag3m = $ag3m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag4m = $ag4m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag5m = $ag5m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag6m = $ag6m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag7m = $ag7m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag8m = $ag8m->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag1f = $ag1f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+            
+            $ag2f = $ag2f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+            
+            $ag3f = $ag3f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag4f = $ag4f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag5f = $ag5f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag6f = $ag6f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag7f = $ag7f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ag8f = $ag8f->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ct1 = $ct1->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ct2 = $ct2->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $ct3 = $ct3->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $bs = $bs->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $bb = $bb->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $age1 = $age1->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $age2 = $age2->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $age3 = $age3->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $age4 = $age4->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $pd = $pd->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+            
+            $sd = $sd->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+            
+            $pc = $pc->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $sc = $sc->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $oth = $oth->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week])
+            ->count();
+
+            $bctr = 1;
+
+            foreach($bgy as $b) {
+                ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
+                ->whereRaw('WEEK(case_date) = ?', [$week])
+                ->count();
+
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
+                ->whereRaw('WEEK(case_date) = ?', [$week])
+                ->count();
+
+                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+
+                $bctr++;
+            }
+        }
+
+        $ctt = $ct1 + $ct2 + $ct3;
+        $bt = $bs + $bb;
+
+        $templateProcessor->setValue('duration', $txt1);
+        
+        $templateProcessor->setValue('tcases', $tcases);
+        $templateProcessor->setValue('tcasesc', $tcasesc);
+        $templateProcessor->setValue('tcasesi', $tcasesi);
+        $templateProcessor->setValue('tcasesd', $tcasesd);
+
+        $templateProcessor->setValue('ag1m', $ag1m);
+        $templateProcessor->setValue('ag2m', $ag2m);
+        $templateProcessor->setValue('ag3m', $ag3m);
+        $templateProcessor->setValue('ag4m', $ag4m);
+        $templateProcessor->setValue('ag5m', $ag5m);
+        $templateProcessor->setValue('ag6m', $ag6m);
+        $templateProcessor->setValue('ag7m', $ag7m);
+        $templateProcessor->setValue('ag8m', $ag8m);
+
+        $templateProcessor->setValue('ag1f', $ag1f);
+        $templateProcessor->setValue('ag2f', $ag2f);
+        $templateProcessor->setValue('ag3f', $ag3f);
+        $templateProcessor->setValue('ag4f', $ag4f);
+        $templateProcessor->setValue('ag5f', $ag5f);
+        $templateProcessor->setValue('ag6f', $ag6f);
+        $templateProcessor->setValue('ag7f', $ag7f);
+        $templateProcessor->setValue('ag8f', $ag8f);
+
+        $templateProcessor->setValue('ct1', $ct1);
+        $templateProcessor->setValue('ct2', $ct2);
+        $templateProcessor->setValue('ct3', $ct3);
+        $templateProcessor->setValue('ctt', $ct1 + $ct2 + $ct3);
+
+        $templateProcessor->setValue('bs', $bs);
+        $templateProcessor->setValue('bb', $bb);
+        $templateProcessor->setValue('bt', $bs + $bb);
+
+        $templateProcessor->setValue('age1', $age1);
+        $templateProcessor->setValue('age2', $age2);
+        $templateProcessor->setValue('age3', $age3);
+        $templateProcessor->setValue('age4', $age4);
+
+        $templateProcessor->setValue('pd', $pd);
+        $templateProcessor->setValue('sd', $sd);
+        $templateProcessor->setValue('pc', $pc);
+        $templateProcessor->setValue('sc', $sc);
+        $templateProcessor->setValue('oth', $oth);
+
+        $bctr = 1;
+        $mgt = 0;
+        $fgt = 0;
+        $tgt = 0;
+
+        foreach($bgy as $b) {
+            $templateProcessor->setValue('bgm'.$bctr, ${'bgm'.$bctr});
+            $mgt += ${'bgm'.$bctr};
+            
+            $templateProcessor->setValue('bgf'.$bctr, ${'bgf'.$bctr});
+            $fgt += ${'bgf'.$bctr};
+
+            $templateProcessor->setValue('bgt'.$bctr, ${'bgt'.$bctr});
+            $tgt += ${'bgt'.$bctr};
+
+            $bctr++;
+        }
+
+        $templateProcessor->setValue('bgmg', $mgt);
+        $templateProcessor->setValue('bgfg', $fgt);
+        $templateProcessor->setValue('bgtt', $tgt);
+
+        ob_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment; filename="'. urlencode($paylname).'"');
+        $templateProcessor->saveAs('php://output');
+        //$templateProcessor->saveAs(storage_path($paylname));
     }
 }

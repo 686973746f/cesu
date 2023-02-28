@@ -358,7 +358,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/abtc/report/linelist2', [ABTCReportController::class, 'linelist2'])->name('abtc_report_linelist2_index');
     Route::get('/abtc/report/cho', [ABTCReportController::class, 'choreport1'])->name('abtc_report_cho');
     Route::post('/abtc/report/export1', [ABTCReportController::class, 'export1'])->name('abtc_report_export1');
-    Route::post('/abtc/report/main', [ABTCReportController::class, 'mainreport'])->name('abtc_report_main');
+    Route::get('/abtc/report/main', [ABTCReportController::class, 'mainreport'])->name('abtc_report_main');
 
     Route::post('/abtc/settings/save', [ABTCUserSettingsController::class, 'save_settings'])->name('abtc_save_settings');
 
