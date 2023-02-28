@@ -939,6 +939,7 @@ class ABTCReportController extends Controller
     }
 
     public function mainreport() {
+        /*
         $spreadsheet = IOFactory::load(storage_path('ABTCMAINREPORT.xlsx'));
         $sheet = $spreadsheet->setActiveSheetIndexByName('COUNTER');
         $sheet->setCellValue('C4', 20);
@@ -949,5 +950,17 @@ class ABTCReportController extends Controller
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');
+        */
+
+        $templateProcessor  = new TemplateProcessor(storage_path('ABTCREPORT.docx'));
+        $charts = $templateProcessor->getCharts();
+        foreach ($charts as $chart) {
+            $data = $chart->getChartValues();
+            // Modify the chart data as required
+            $data[0]['data'][1]['val'] = 22;
+            $chart->updateChartData($data);
+        }
+
+        $templateProcessor->saveAs(storage_path('Bilat.docx'));
     }
 }

@@ -25,6 +25,7 @@
         "@chartisan/chartjs": "^2.1.0",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@types/chart.js": "^2.9.34",
+        "chart.js": "^4.2.1",
         "clipboard": "^2.0.8",
         "datatables.net": "^1.10.25",
         "datatables.net-bs4": "^3.2.2",
