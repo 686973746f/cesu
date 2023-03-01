@@ -98,13 +98,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -132,13 +133,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -166,13 +168,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -198,13 +201,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -230,13 +234,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -262,13 +267,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -294,13 +300,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -328,13 +335,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -360,13 +368,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -392,13 +401,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -424,13 +434,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -456,13 +467,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -488,13 +500,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
         
@@ -520,13 +533,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -552,13 +566,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -584,13 +599,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -616,13 +632,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -648,13 +665,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -680,13 +698,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -712,13 +731,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -744,13 +764,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -776,13 +797,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -808,13 +830,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -840,13 +863,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
@@ -872,13 +896,14 @@ class PidsrWndr extends Command
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
-                $r->where('Year', date('Y'))
+                $r->where('Year', date('Y', strtotime('-1 Week')))
                 ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
                 ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
             })->orWhere(function ($r) {
-                $r->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
                 ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->whereDate('created_at', '>=', Carbon::now()->previous(Carbon::WEDNESDAY)->toDateString());
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
             });
         });
 
