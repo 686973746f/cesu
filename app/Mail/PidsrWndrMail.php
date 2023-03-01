@@ -11,6 +11,8 @@ class PidsrWndrMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $list;
+
     /**
      * Create a new message instance.
      *
