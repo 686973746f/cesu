@@ -502,7 +502,7 @@ class PidsrWndr extends Command
 
         $mgt = $mgt->count();
 
-        $chi = Chickv::where('Province', 'CAVITE')
+        $chi = Chikv::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
         ->where(function ($q) {
             $q->where(function ($r) {
