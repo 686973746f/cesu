@@ -110,7 +110,9 @@
         }
         @endphp
     @endforeach
-    <p>Category I (Immediately Notifiable)</p>
+    
+    @if(!empty($afp_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list))
+    <p><b>Category I (Immediately Notifiable)</b></p>
     @if(!empty($afp_list))
     <ul>
         Acute Flaccid Paralysis:
@@ -176,7 +178,10 @@
     </ul>
     @endif
 
-    <p>Category II (Weekly Notifiable)</p>
+    @endif
+
+    @if(!empty($abd_list) || !empty($aes_list) || !empty($ahf_list) || !empty($hep_list) || !empty($ame_list) || !empty($mgt_list) || !empty($chi_list) || !empty($cho_list) || !empty($den_list) || !empty($dip_list) || !empty($ili_list) || !empty($lep_list) || !empty($mal_list) || !empty($nnt_list) || !empty($per_list) || !empty($rtv_list) || !empty($typ_list))
+    <p><b>Category II (Weekly Notifiable)</b></p>
     @if(!empty($abd_list))
     <ul>
         Acute Bloody Diarrhea:
@@ -312,6 +317,8 @@
         <li>{{($ind + 1)}}.) {{$p['name']}} | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</li>
         @endforeach
     </ul>
+    @endif
+    
     @endif
     <p>-</p>
     <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
