@@ -1205,118 +1205,82 @@ class ABTCReportController extends Controller
 
             $paylname = 'ABTC_REPORT_Y'.request()->input('year').'.docx';
 
-            $tcases = $tcases->whereYear('case_date', $sy)
-            ->count();
-
-            $tcasesc = $tcasesc->whereYear('case_date', $sy)
-            ->count();
-
-            $tcasesi = $tcasesi->whereYear('case_date', $sy)
-            ->count();
-
-            $tcasesd = $tcasesd->whereYear('case_date', $sy)
-            ->count();
-
-            $ag1m = $ag1m->whereYear('case_date', $sy)
-            ->count();
+            $tcases = $tcases->whereYear('case_date', $sy);
             
-            $ag2m = $ag2m->whereYear('case_date', $sy)
-            ->count();
+            $tcasesc = $tcasesc->whereYear('case_date', $sy);
+
+            $tcasesi = $tcasesi->whereYear('case_date', $sy);
+
+            $tcasesd = $tcasesd->whereYear('case_date', $sy);
+
+            $ag1m = $ag1m->whereYear('case_date', $sy);
             
-            $ag3m = $ag3m->whereYear('case_date', $sy)
-            ->count();
-
-            $ag4m = $ag4m->whereYear('case_date', $sy)
-            ->count();
-
-            $ag5m = $ag5m->whereYear('case_date', $sy)
-            ->count();
-
-            $ag6m = $ag6m->whereYear('case_date', $sy)
-            ->count();
-
-            $ag7m = $ag7m->whereYear('case_date', $sy)
-            ->count();
-
-            $ag8m = $ag8m->whereYear('case_date', $sy)
-            ->count();
-
-            $ag1f = $ag1f->whereYear('case_date', $sy)
-            ->count();
+            $ag2m = $ag2m->whereYear('case_date', $sy);
             
-            $ag2f = $ag2f->whereYear('case_date', $sy)
-            ->count();
+            $ag3m = $ag3m->whereYear('case_date', $sy);
+
+            $ag4m = $ag4m->whereYear('case_date', $sy);
+
+            $ag5m = $ag5m->whereYear('case_date', $sy);
+
+            $ag6m = $ag6m->whereYear('case_date', $sy);
+
+            $ag7m = $ag7m->whereYear('case_date', $sy);
+
+            $ag8m = $ag8m->whereYear('case_date', $sy);
+
+            $ag1f = $ag1f->whereYear('case_date', $sy);
             
-            $ag3f = $ag3f->whereYear('case_date', $sy)
-            ->count();
-
-            $ag4f = $ag4f->whereYear('case_date', $sy)
-            ->count();
-
-            $ag5f = $ag5f->whereYear('case_date', $sy)
-            ->count();
-
-            $ag6f = $ag6f->whereYear('case_date', $sy)
-            ->count();
-
-            $ag7f = $ag7f->whereYear('case_date', $sy)
-            ->count();
-
-            $ag8f = $ag8f->whereYear('case_date', $sy)
-            ->count();
-
-            $ct1 = $ct1->whereYear('case_date', $sy)
-            ->count();
-
-            $ct2 = $ct2->whereYear('case_date', $sy)
-            ->count();
-
-            $ct3 = $ct3->whereYear('case_date', $sy)
-            ->count();
-
-            $bs = $bs->whereYear('case_date', $sy)
-            ->count();
-
-            $bb = $bb->whereYear('case_date', $sy)
-            ->count();
-
-            $age1 = $age1->whereYear('case_date', $sy)
-            ->count();
-
-            $age2 = $age2->whereYear('case_date', $sy)
-            ->count();
-
-            $age3 = $age3->whereYear('case_date', $sy)
-            ->count();
-
-            $age4 = $age4->whereYear('case_date', $sy)
-            ->count();
-
-            $pd = $pd->whereYear('case_date', $sy)
-            ->count();
+            $ag2f = $ag2f->whereYear('case_date', $sy);
             
-            $sd = $sd->whereYear('case_date', $sy)
-            ->count();
+            $ag3f = $ag3f->whereYear('case_date', $sy);
+
+            $ag4f = $ag4f->whereYear('case_date', $sy);
+
+            $ag5f = $ag5f->whereYear('case_date', $sy);
+
+            $ag6f = $ag6f->whereYear('case_date', $sy);
+
+            $ag7f = $ag7f->whereYear('case_date', $sy);
+
+            $ag8f = $ag8f->whereYear('case_date', $sy);
+
+            $ct1 = $ct1->whereYear('case_date', $sy);
+
+            $ct2 = $ct2->whereYear('case_date', $sy);
+
+            $ct3 = $ct3->whereYear('case_date', $sy);
+
+            $bs = $bs->whereYear('case_date', $sy);
+
+            $bb = $bb->whereYear('case_date', $sy);
+
+            $age1 = $age1->whereYear('case_date', $sy);
+
+            $age2 = $age2->whereYear('case_date', $sy);
+
+            $age3 = $age3->whereYear('case_date', $sy);
+
+            $age4 = $age4->whereYear('case_date', $sy);
+
+            $pd = $pd->whereYear('case_date', $sy);
             
-            $pc = $pc->whereYear('case_date', $sy)
-            ->count();
+            $sd = $sd->whereYear('case_date', $sy);
+            
+            $pc = $pc->whereYear('case_date', $sy);
 
-            $sc = $sc->whereYear('case_date', $sy)
-            ->count();
+            $sc = $sc->whereYear('case_date', $sy);
 
-            $oth = $oth->whereYear('case_date', $sy)
-            ->count();
+            $oth = $oth->whereYear('case_date', $sy);
 
             $bctr = 1;
 
             foreach($bgy as $b) {
-                ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
-                ->count();
+                ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy);
 
-                ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
-                ->count();
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy);
 
-                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+                //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
                 $bctr++;
             }
@@ -1349,153 +1313,117 @@ class ABTCReportController extends Controller
             $txt1 = $txt2.' QUARTER, YEAR '.request()->input('year');
 
             $tcases = $tcases->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $tcasesc = $tcasesc->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $tcasesi = $tcasesi->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $tcasesd = $tcasesd->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag1m = $ag1m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
             
             $ag2m = $ag2m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
             
             $ag3m = $ag3m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag4m = $ag4m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag5m = $ag5m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag6m = $ag6m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag7m = $ag7m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag8m = $ag8m->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag1f = $ag1f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
             
             $ag2f = $ag2f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
             
             $ag3f = $ag3f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag4f = $ag4f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag5f = $ag5f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag6f = $ag6f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag7f = $ag7f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag8f = $ag8f->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ct1 = $ct1->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ct2 = $ct2->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ct3 = $ct3->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $bs = $bs->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $bb = $bb->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $age1 = $age1->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $age2 = $age2->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $age3 = $age3->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $age4 = $age4->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $pd = $pd->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
             
             $sd = $sd->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
             
             $pc = $pc->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $sc = $sc->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $oth = $oth->whereYear('case_date', $sy)
-            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-            ->count();
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $bctr = 1;
 
             foreach($bgy as $b) {
                 ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
-                ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-                ->count();
+                ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
-                ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')])
-                ->count();
+                ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
-                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+                //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
                 $bctr++;
             }
@@ -1543,153 +1471,117 @@ class ABTCReportController extends Controller
             $paylname = 'ABTC_REPORT_'.$txt2.' '.$sy.'.docx';
 
             $tcases = $tcases->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $tcasesc = $tcasesc->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $tcasesi = $tcasesi->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $tcasesd = $tcasesd->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag1m = $ag1m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
             
             $ag2m = $ag2m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
             
             $ag3m = $ag3m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag4m = $ag4m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag5m = $ag5m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag6m = $ag6m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag7m = $ag7m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag8m = $ag8m->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag1f = $ag1f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
             
             $ag2f = $ag2f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
-            
+            ->whereMonth('case_date', $month);
+
             $ag3f = $ag3f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag4f = $ag4f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag5f = $ag5f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag6f = $ag6f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag7f = $ag7f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ag8f = $ag8f->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ct1 = $ct1->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ct2 = $ct2->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $ct3 = $ct3->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $bs = $bs->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $bb = $bb->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $age1 = $age1->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $age2 = $age2->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $age3 = $age3->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $age4 = $age4->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $pd = $pd->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
             
             $sd = $sd->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
             
             $pc = $pc->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $sc = $sc->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $oth = $oth->whereYear('case_date', $sy)
-            ->whereMonth('case_date', $month)
-            ->count();
+            ->whereMonth('case_date', $month);
 
             $bctr = 1;
 
             foreach($bgy as $b) {
                 ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
-                ->whereMonth('case_date', $month)
-                ->count();
+                ->whereMonth('case_date', $month);
 
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
-                ->whereMonth('case_date', $month)
-                ->count();
+                ->whereMonth('case_date', $month);
 
-                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+                //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
                 $bctr++;
             }
@@ -1700,151 +1592,283 @@ class ABTCReportController extends Controller
             $paylname = 'ABTC_REPORT_W'.$week.' Y'.$sy.'.docx';
 
             $tcases = $tcases->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $tcasesc = $tcasesc->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $tcasesi = $tcasesi->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $tcasesd = $tcasesd->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag1m = $ag1m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
             
             $ag2m = $ag2m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
             
             $ag3m = $ag3m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag4m = $ag4m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag5m = $ag5m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag6m = $ag6m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag7m = $ag7m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag8m = $ag8m->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag1f = $ag1f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
             
             $ag2f = $ag2f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
             
             $ag3f = $ag3f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag4f = $ag4f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag5f = $ag5f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag6f = $ag6f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag7f = $ag7f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ag8f = $ag8f->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ct1 = $ct1->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ct2 = $ct2->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $ct3 = $ct3->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $bs = $bs->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $bb = $bb->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $age1 = $age1->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $age2 = $age2->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $age3 = $age3->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $age4 = $age4->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $pd = $pd->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
             
             $sd = $sd->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
             
             $pc = $pc->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $sc = $sc->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $oth = $oth->whereYear('case_date', $sy)
-            ->whereRaw('WEEK(case_date) = ?', [$week])
-            ->count();
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
 
             $bctr = 1;
 
             foreach($bgy as $b) {
                 ${'bgt'. $bctr} = ${'bgt'. $bctr}->whereYear('case_date', $sy)
-                ->whereRaw('WEEK(case_date) = ?', [$week])
-                ->count();
+                ->whereRaw('WEEK(case_date) = ?', [$week]);
 
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
-                ->whereRaw('WEEK(case_date) = ?', [$week])
-                ->count();
+                ->whereRaw('WEEK(case_date) = ?', [$week]);
+
+                //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+
+                $bctr++;
+            }
+        }
+
+        if(request()->input('branch') == 'ALL') {
+            $dbranch = 'ALL';
+
+            $tcases = $tcases->count();
+
+            $tcasesc = $tcasesc->count();
+
+            $tcasesi = $tcasesi->count();
+
+            $tcasesd = $tcasesd->count();
+
+            $ag1m = $ag1m->count();
+            
+            $ag2m = $ag2m->count();
+            
+            $ag3m = $ag3m->count();
+
+            $ag4m = $ag4m->count();
+
+            $ag5m = $ag5m->count();
+
+            $ag6m = $ag6m->count();
+
+            $ag7m = $ag7m->count();
+
+            $ag8m = $ag8m->count();
+
+            $ag1f = $ag1f->count();
+            
+            $ag2f = $ag2f->count();
+            
+            $ag3f = $ag3f->count();
+
+            $ag4f = $ag4f->count();
+
+            $ag5f = $ag5f->count();
+
+            $ag6f = $ag6f->count();
+
+            $ag7f = $ag7f->count();
+
+            $ag8f = $ag8f->count();
+
+            $ct1 = $ct1->count();
+
+            $ct2 = $ct2->count();
+
+            $ct3 = $ct3->count();
+
+            $bs = $bs->count();
+
+            $bb = $bb->count();
+
+            $age1 = $age1->count();
+
+            $age2 = $age2->count();
+
+            $age3 = $age3->count();
+
+            $age4 = $age4->count();
+
+            $pd = $pd->count();
+            
+            $sd = $sd->count();
+            
+            $pc = $pc->count();
+
+            $sc = $sc->count();
+
+            $oth = $oth->count();
+
+            $bctr = 1;
+
+            foreach($bgy as $b) {
+                ${'bgt'. $bctr} = ${'bgt'. $bctr}->count();
+
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->count();
+
+                ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
+
+                $bctr++;
+            }
+        }
+        else {
+            $vid = request()->input('branch');
+            $dbranch = AbtcVaccinationSite::findOrFail($vid)->site_name;
+
+            $tcases = $tcases->where('vaccination_site_id', $vid)->count();
+
+            $tcasesc = $tcasesc->where('vaccination_site_id', $vid)->count();
+
+            $tcasesi = $tcasesi->where('vaccination_site_id', $vid)->count();
+
+            $tcasesd = $tcasesd->where('vaccination_site_id', $vid)->count();
+
+            $ag1m = $ag1m->where('vaccination_site_id', $vid)->count();
+            
+            $ag2m = $ag2m->where('vaccination_site_id', $vid)->count();
+            
+            $ag3m = $ag3m->where('vaccination_site_id', $vid)->count();
+
+            $ag4m = $ag4m->where('vaccination_site_id', $vid)->count();
+
+            $ag5m = $ag5m->where('vaccination_site_id', $vid)->count();
+
+            $ag6m = $ag6m->where('vaccination_site_id', $vid)->count();
+
+            $ag7m = $ag7m->where('vaccination_site_id', $vid)->count();
+
+            $ag8m = $ag8m->where('vaccination_site_id', $vid)->count();
+
+            $ag1f = $ag1f->where('vaccination_site_id', $vid)->count();
+            
+            $ag2f = $ag2f->where('vaccination_site_id', $vid)->count();
+            
+            $ag3f = $ag3f->where('vaccination_site_id', $vid)->count();
+
+            $ag4f = $ag4f->where('vaccination_site_id', $vid)->count();
+
+            $ag5f = $ag5f->where('vaccination_site_id', $vid)->count();
+
+            $ag6f = $ag6f->where('vaccination_site_id', $vid)->count();
+
+            $ag7f = $ag7f->where('vaccination_site_id', $vid)->count();
+
+            $ag8f = $ag8f->where('vaccination_site_id', $vid)->count();
+
+            $ct1 = $ct1->where('vaccination_site_id', $vid)->count();
+
+            $ct2 = $ct2->where('vaccination_site_id', $vid)->count();
+
+            $ct3 = $ct3->where('vaccination_site_id', $vid)->count();
+
+            $bs = $bs->where('vaccination_site_id', $vid)->count();
+
+            $bb = $bb->where('vaccination_site_id', $vid)->count();
+
+            $age1 = $age1->where('vaccination_site_id', $vid)->count();
+
+            $age2 = $age2->where('vaccination_site_id', $vid)->count();
+
+            $age3 = $age3->where('vaccination_site_id', $vid)->count();
+
+            $age4 = $age4->where('vaccination_site_id', $vid)->count();
+
+            $pd = $pd->where('vaccination_site_id', $vid)->count();
+            
+            $sd = $sd->where('vaccination_site_id', $vid)->count();
+            
+            $pc = $pc->where('vaccination_site_id', $vid)->count();
+
+            $sc = $sc->where('vaccination_site_id', $vid)->count();
+
+            $oth = $oth->where('vaccination_site_id', $vid)->count();
+
+            $bctr = 1;
+
+            foreach($bgy as $b) {
+                ${'bgt'. $bctr} = ${'bgt'. $bctr}->where('vaccination_site_id', $vid)->count();
+
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->where('vaccination_site_id', $vid)->count();
 
                 ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
@@ -1856,6 +1880,7 @@ class ABTCReportController extends Controller
         $bt = $bs + $bb;
 
         $templateProcessor->setValue('duration', $txt1);
+        $templateProcessor->setValue('branch', $dbranch);
         
         $templateProcessor->setValue('tcases', $tcases);
         $templateProcessor->setValue('tcasesc', $tcasesc);

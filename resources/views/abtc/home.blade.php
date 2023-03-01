@@ -175,13 +175,22 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-block" name="submit" value="AR">Export - CHO Accomplishment Report</button>
-            <button type="submit" class="btn btn-primary btn-block" name="submit" value="RO4A">Export - COHORT Report</button>
+          <button type="submit" class="btn btn-primary btn-block" name="submit" value="AR">Export - CHO Accomplishment Report (.XLSX)</button>
+            <button type="submit" class="btn btn-primary btn-block" name="submit" value="RO4A">Export - COHORT Report (.XLSX)</button>
         </form>
         <form action="{{route('abtc_report_main')}}" method="GET">
           <div class="card mt-3">
             <div class="card-header">Generate Report Template</div>
             <div class="card-body">
+              <div class="form-group">
+                <label for="type">Select Branch</label>
+                <select class="form-control" name="branch" id="branch" required>
+                  <option value="ALL">SHOW ALL</option>
+                  @foreach($vslist as $v)
+                  <option value="{{$v->id}}">{{$v->site_name}} ONLY</option>
+                  @endforeach
+                </select>
+              </div>
               <div class="form-group">
                 <label for="year">Select Year</label>
                 <select class="form-control" name="year" id="year" required>
@@ -232,7 +241,7 @@
               </div>
             </div>
             <div class="card-footer text-right">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">Generate .DOCX File</button>
             </div>
           </div>
         </form>
