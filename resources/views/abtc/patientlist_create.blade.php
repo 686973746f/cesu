@@ -195,6 +195,11 @@
                 selected: (val.regCode == '04') ? true : false, //default is Region IV-A
             }));
         });
+    }).fail(function(jqxhr, textStatus, error) {
+        // Error callback
+        var err = textStatus + ", " + error;
+        console.log("Failed to load Region JSON: " + err);
+        window.location.reload(); // Reload the page
     });
 
     $('#address_region_code').change(function (e) { 
@@ -233,6 +238,11 @@
                     }));
                 }
             });
+        }).fail(function(jqxhr, textStatus, error) {
+            // Error callback
+            var err = textStatus + ", " + error;
+            console.log("Failed to load Region JSON: " + err);
+            window.location.reload(); // Reload the page
         });
     }).trigger('change');
 
@@ -268,6 +278,11 @@
                     })); 
                 }
             });
+        }).fail(function(jqxhr, textStatus, error) {
+            // Error callback
+            var err = textStatus + ", " + error;
+            console.log("Failed to load CityMun JSON: " + err);
+            window.location.reload(); // Reload the page
         });
     }).trigger('change');
 
@@ -302,6 +317,11 @@
                     }));
                 }
             });
+        }).fail(function(jqxhr, textStatus, error) {
+            // Error callback
+            var err = textStatus + ", " + error;
+            console.log("Failed to load Province BRGY: " + err);
+            window.location.reload(); // Reload the page
         });
     }).trigger('change');
 
