@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIndividualTreatmentRecordsTable extends Migration
+class CreateItrListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreateIndividualTreatmentRecordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('individual_treatment_records', function (Blueprint $table) {
+        Schema::create('itr_lists', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('itrpatient_id')->constrained('itr_patients')->onDelete('cascade');
             $table->text('opdno');
-            $table->string('lname');
-            $table->string('fname');
-            $table->string('mname')->nullable();
-            $table->string('ifminor_resperson')->nullable();
-            $table->string('ifminor_resrelation')->nullable();
-
             $table->datetime('consulation_date');
             $table->string('temperature');
             $table->string('bloodpressure');
@@ -29,7 +24,6 @@ class CreateIndividualTreatmentRecordsTable extends Migration
             $table->string('respiratoryrate');
             $table->string('pulserate');
             $table->string('saturationperioxigen')->nullable();
-
             $table->tinyInteger('fever');
             $table->text('fever_remarks')->nullable();
             $table->tinyInteger('rash');
@@ -66,6 +60,7 @@ class CreateIndividualTreatmentRecordsTable extends Migration
             $table->text('animalbite_remarks')->nullable();
 
             $table->text('bigmessage')->nullable();
+            $table->string('status');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
@@ -79,6 +74,6 @@ class CreateIndividualTreatmentRecordsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('individual_treatment_records');
+        Schema::dropIfExists('itr_lists');
     }
 }

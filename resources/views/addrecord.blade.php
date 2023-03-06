@@ -1146,7 +1146,12 @@
 					selected: (oadp_default == val.provCode) ? true : false,
 				}));
 			});
-        });
+        }).fail(function(jqxhr, textStatus, error) {
+			// Error callback
+			var err = textStatus + ", " + error;
+			console.log("Failed to load Province JSON: " + err);
+			window.location.reload(); // Reload the page
+		});
 
 		$('#saddress_province').change(function (e) {
 			e.preventDefault();
@@ -1178,6 +1183,11 @@
 						})); 
 					}
 				});
+			}).fail(function(jqxhr, textStatus, error) {
+				// Error callback
+				var err = textStatus + ", " + error;
+				console.log("Failed to load CityMun JSON: " + err);
+				window.location.reload(); // Reload the page
 			});
 		}).trigger('change');
 
@@ -1296,6 +1306,11 @@
 						}));
 					}
 				});
+			}).fail(function(jqxhr, textStatus, error) {
+				// Error callback
+				var err = textStatus + ", " + error;
+				console.log("Failed to load Brgy JSON: " + err);
+				window.location.reload(); // Reload the page
 			});
 		}).trigger('change');
 

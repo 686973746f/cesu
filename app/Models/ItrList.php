@@ -5,17 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IndividualTreatmentRecord extends Model
+class ItrList extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'opdno',
-        'lname',
-        'fname',
-        'mname',
-        'ifminor_resperson',
-        'ifminor_resrelation',
         'consulation_date',
         'temperature',
         'bloodpressure',

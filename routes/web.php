@@ -9,6 +9,7 @@ Include mga bagong controller dito
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItrController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\FormsController;
@@ -237,6 +238,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
     Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
+
+    //ITR
+    Route::get('/itr', [ItrController::class, 'index'])->name('itr.home');
+    Route::post('/itr/store', [ItrController::class, 'store'])->name('itr.store');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
