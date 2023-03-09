@@ -46,6 +46,8 @@ class AbtcBakunaRecords extends Model
         'outcome',
         'biting_animal_status',
         'remarks',
+
+        'created_by',
     ];
 
     public function patient() {

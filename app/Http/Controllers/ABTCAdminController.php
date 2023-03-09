@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AbtcVaccineBrand;
 use Illuminate\Http\Request;
-use App\Models\AbtcVaccinationSite;
+use App\Models\AbtcVaccineBrand;
+use App\Imports\AnimalBiteImport;
 use App\Models\AbtcBakunaRecords;
+use App\Models\AbtcVaccinationSite;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ABTCAdminController extends Controller
 {
@@ -106,5 +108,9 @@ class ABTCAdminController extends Controller
         ]);
 
         return 'done';
+    }
+
+    public function xlimport(Request $request) {
+        Excel::import(new AnimalBiteImport('ABD'), $request->abtcfile);
     }
 }

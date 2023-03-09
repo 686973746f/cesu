@@ -374,6 +374,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/abtc/rslip/{br_id}', [ABTCVaccinationController::class, 'referralslip'])->name('abtc_referralslip');
     Route::get('/abtc/itr/{br_id}', [ABTCVaccinationController::class, 'itr'])->name('abtc_itr');
     Route::get('/abtc/medcert/{br_id}', [ABTCVaccinationController::class, 'medcert'])->name('abtc_medcert');
+
+    Route::post('/abtc/xlimport', [ABTCAdminController::class, 'xlimport'])->name('abtc_xlimport');
 });
 
 Route::group(['middleware' => ['guest']], function() {
