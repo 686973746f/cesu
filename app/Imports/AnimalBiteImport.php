@@ -34,7 +34,13 @@ class AnimalBiteImport implements ToCollection
             $getName = $row[2];
             $parts = explode(',', $getName);
             $getLastName = mb_strtoupper($parts[0]);
-            $getFirstName = mb_strtoupper(trim($parts[1]));
+            if(isset($parts[1])) {
+                $getFirstName = mb_strtoupper(trim($parts[1]));
+            }
+            else {
+                $getFirstName = mb_strtoupper($parts[0]);
+            }
+            
 
             $foundunique = false;
 
@@ -137,7 +143,7 @@ class AnimalBiteImport implements ToCollection
                 'case_id' => $row[0],
                 'is_booster' => ($row[23] == 'BOOSTER' || $row[24] == 'BOOSTER') ? 1 : 0,
                 'case_date' => date('Y-m-d', Date::excelToTimestamp($row[1])),
-                'case_location' => (!empty($row[10]) || $row[10] != '') ? trim($row[10]) : NULL,
+                'case_location' => (!empty($row[10]) || $row[10] != '') ? trim($row[10]) : mb_strtoupper(trim($row[4])),
                 'animal_type' => $getAnimal,
                 'animal_type_others' => NULL,
                 'if_animal_vaccinated' => 0,
