@@ -362,11 +362,11 @@
                             <label for="outcome" class="form-label"><strong class="text-danger">*</strong>Outcome</label>
                             <select class="form-select" name="outcome" id="outcome" required>
                                 @if($d->outcome == 'C')
-                                <option value="C" {{(old('pep_route', $d->outcome) == 'C') ? 'selected' : ''}}>Completed (C)</option>
+                                <option value="C" {{(old('outcome', $d->outcome) == 'C') ? 'selected' : ''}}>Completed (C)</option>
                                 @endif
-                                <option value="INC" {{(old('pep_route', $d->outcome) == 'INC') ? 'selected' : ''}}>Incomplete (INC)</option>
-                                <option value="D" {{(old('pep_route', $d->outcome) == 'D') ? 'selected' : ''}}>Died (D)</option>
-                                <!--<option value="C" {{(old('pep_route', $d->outcome) == 'C') ? 'selected' : ''}}>Complete (C)</option>-->
+                                <option value="INC" {{(old('outcome', $d->outcome) == 'INC') ? 'selected' : ''}}>Incomplete (INC)</option>
+                                <option value="D" {{(old('outcome', $d->outcome) == 'D') ? 'selected' : ''}}>Died (D)</option>
+                                <!--<option value="C" {{(old('outcome', $d->outcome) == 'C') ? 'selected' : ''}}>Complete (C)</option>-->
                             </select>
                             <small class="text-muted">Will be automatically changed based on completed doses.</small>
                         </div>
