@@ -1177,6 +1177,11 @@ class ABTCReportController extends Controller
             ->where('address_muncity_text', 'GENERAL TRIAS');
         })->where('animal_type', 'O');
 
+        $avc = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('if_animal_vaccinated', 1);
+
         $bctr = 1;
 
         foreach($bgy as $b) {
@@ -1272,6 +1277,8 @@ class ABTCReportController extends Controller
             $sc = $sc->whereYear('case_date', $sy);
 
             $oth = $oth->whereYear('case_date', $sy);
+
+            $avc = $avc->whereYear('case_date', $sy);
 
             $bctr = 1;
 
@@ -1412,6 +1419,9 @@ class ABTCReportController extends Controller
             ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $oth = $oth->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
+
+            $avc = $avc->whereYear('case_date', $sy)
             ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $bctr = 1;
@@ -1572,6 +1582,9 @@ class ABTCReportController extends Controller
             $oth = $oth->whereYear('case_date', $sy)
             ->whereMonth('case_date', $month);
 
+            $avc = $avc->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month);
+
             $bctr = 1;
 
             foreach($bgy as $b) {
@@ -1693,6 +1706,9 @@ class ABTCReportController extends Controller
             $oth = $oth->whereYear('case_date', $sy)
             ->whereRaw('WEEK(case_date) = ?', [$week]);
 
+            $avc = $avc->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
+
             $bctr = 1;
 
             foreach($bgy as $b) {
@@ -1779,6 +1795,8 @@ class ABTCReportController extends Controller
 
             $oth = $oth->count();
 
+            $avc = $avc->count();
+
             $bctr = 1;
 
             foreach($bgy as $b) {
@@ -1863,6 +1881,8 @@ class ABTCReportController extends Controller
 
             $oth = $oth->where('vaccination_site_id', $vid)->count();
 
+            $avc = $avc->where('vaccination_site_id', $vid)->count();
+
             $bctr = 1;
 
             foreach($bgy as $b) {
@@ -1878,52 +1898,56 @@ class ABTCReportController extends Controller
 
         $ctt = $ct1 + $ct2 + $ct3;
         $bt = $bs + $bb;
+        $anv = $tcases - $avc;
 
         $templateProcessor->setValue('duration', $txt1);
         $templateProcessor->setValue('branch', $dbranch);
         
-        $templateProcessor->setValue('tcases', $tcases);
-        $templateProcessor->setValue('tcasesc', $tcasesc);
-        $templateProcessor->setValue('tcasesi', $tcasesi);
-        $templateProcessor->setValue('tcasesd', $tcasesd);
+        $templateProcessor->setValue('tcases', number_format($tcases));
+        $templateProcessor->setValue('tcasesc', number_format($tcasesc));
+        $templateProcessor->setValue('tcasesi', number_format($tcasesi));
+        $templateProcessor->setValue('tcasesd', number_format($tcasesd));
 
-        $templateProcessor->setValue('ag1m', $ag1m);
-        $templateProcessor->setValue('ag2m', $ag2m);
-        $templateProcessor->setValue('ag3m', $ag3m);
-        $templateProcessor->setValue('ag4m', $ag4m);
-        $templateProcessor->setValue('ag5m', $ag5m);
-        $templateProcessor->setValue('ag6m', $ag6m);
-        $templateProcessor->setValue('ag7m', $ag7m);
-        $templateProcessor->setValue('ag8m', $ag8m);
+        $templateProcessor->setValue('ag1m', number_format($ag1m));
+        $templateProcessor->setValue('ag2m', number_format($ag2m));
+        $templateProcessor->setValue('ag3m', number_format($ag3m));
+        $templateProcessor->setValue('ag4m', number_format($ag4m));
+        $templateProcessor->setValue('ag5m', number_format($ag5m));
+        $templateProcessor->setValue('ag6m', number_format($ag6m));
+        $templateProcessor->setValue('ag7m', number_format($ag7m));
+        $templateProcessor->setValue('ag8m', number_format($ag8m));
 
-        $templateProcessor->setValue('ag1f', $ag1f);
-        $templateProcessor->setValue('ag2f', $ag2f);
-        $templateProcessor->setValue('ag3f', $ag3f);
-        $templateProcessor->setValue('ag4f', $ag4f);
-        $templateProcessor->setValue('ag5f', $ag5f);
-        $templateProcessor->setValue('ag6f', $ag6f);
-        $templateProcessor->setValue('ag7f', $ag7f);
-        $templateProcessor->setValue('ag8f', $ag8f);
+        $templateProcessor->setValue('ag1f', number_format($ag1f));
+        $templateProcessor->setValue('ag2f', number_format($ag2f));
+        $templateProcessor->setValue('ag3f', number_format($ag3f));
+        $templateProcessor->setValue('ag4f', number_format($ag4f));
+        $templateProcessor->setValue('ag5f', number_format($ag5f));
+        $templateProcessor->setValue('ag6f', number_format($ag6f));
+        $templateProcessor->setValue('ag7f', number_format($ag7f));
+        $templateProcessor->setValue('ag8f', number_format($ag8f));
 
-        $templateProcessor->setValue('ct1', $ct1);
-        $templateProcessor->setValue('ct2', $ct2);
-        $templateProcessor->setValue('ct3', $ct3);
-        $templateProcessor->setValue('ctt', $ct1 + $ct2 + $ct3);
+        $templateProcessor->setValue('ct1', number_format($ct1));
+        $templateProcessor->setValue('ct2', number_format($ct2));
+        $templateProcessor->setValue('ct3', number_format($ct3));
+        $templateProcessor->setValue('ctt', number_format($ct1 + $ct2 + $ct3));
 
-        $templateProcessor->setValue('bs', $bs);
-        $templateProcessor->setValue('bb', $bb);
-        $templateProcessor->setValue('bt', $bs + $bb);
+        $templateProcessor->setValue('bs', number_format($bs));
+        $templateProcessor->setValue('bb', number_format($bb));
+        $templateProcessor->setValue('bt', number_format($bs + $bb));
 
-        $templateProcessor->setValue('age1', $age1);
-        $templateProcessor->setValue('age2', $age2);
-        $templateProcessor->setValue('age3', $age3);
-        $templateProcessor->setValue('age4', $age4);
+        $templateProcessor->setValue('age1', number_format($age1));
+        $templateProcessor->setValue('age2', number_format($age2));
+        //$templateProcessor->setValue('age3', $age3);
+        //$templateProcessor->setValue('age4', $age4);
 
-        $templateProcessor->setValue('pd', $pd);
-        $templateProcessor->setValue('sd', $sd);
-        $templateProcessor->setValue('pc', $pc);
-        $templateProcessor->setValue('sc', $sc);
-        $templateProcessor->setValue('oth', $oth);
+        $templateProcessor->setValue('pd', number_format($pd));
+        $templateProcessor->setValue('sd', number_format($sd));
+        $templateProcessor->setValue('pc', number_format($pc));
+        $templateProcessor->setValue('sc', number_format($sc));
+        $templateProcessor->setValue('oth', number_format($oth));
+
+        $templateProcessor->setValue('avc', number_format($avc));
+        $templateProcessor->setValue('anv', number_format($anv));
 
         $bctr = 1;
         $mgt = 0;
