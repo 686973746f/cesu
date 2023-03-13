@@ -387,13 +387,7 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                @if($d->outcome == 'INC')
                 <button type="submit" class="btn btn-success btn-block" id="submitbtn"><i class="fas fa-save mr-2"></i>Update (CTRL + S)</button>
-                @else
-                <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="Unable to update. The Case was marked as COMPLETED.">
-                    <button class="btn btn-success btn-block" type="button" disabled><i class="fas fa-save mr-2"></i>Update</button>
-                </span>
-                @endif
             </div>
         </div>
     </div>
