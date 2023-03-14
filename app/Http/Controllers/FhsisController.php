@@ -13,7 +13,9 @@ class FhsisController extends Controller
 
     public function report() {
         // Set up a new PDO connection using the ODBC driver
-        $dsn = "odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=".storage_path('eFHSIS_be.mdb').";";
+        $mdb_location = storage_path('app/efhsis/eFHSIS_be.mdb');
+
+        $dsn = "odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=$mdb_location;";
         $username = ""; // leave blank if not required
         $password = ""; // leave blank if not required
         $options = [
