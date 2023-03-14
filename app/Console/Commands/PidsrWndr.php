@@ -96,6 +96,7 @@ class PidsrWndr extends Command
 
         $afp = Afp::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -125,12 +126,15 @@ class PidsrWndr extends Command
             }
         }
 
-        $afp = $afp->count();
+        $afp_count = $afp->count();
 
-        $aefi = 0;
+        $afp_update = $afp->update(['systemsent' => 1]);
+
+        $aefi_count = 0;
 
         $ant = Anthrax::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -160,12 +164,15 @@ class PidsrWndr extends Command
             }
         }
 
-        $ant = $ant->count();
+        $ant_count = $ant->count();
 
-        $hai = 0; 
+        $ant_update = $ant->update(['systemsent' => 1]);
+
+        $hai_count = 0; 
 
         $mea = Measles::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -195,10 +202,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $mea = $mea->count();
+        $mea_count = $mea->count();
+
+        $mea_update = $mea->update(['systemsent' => 1]);
 
         $mgc = Meningo::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -228,10 +238,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $mgc = $mgc->count();
+        $mgc_count = $mgc->count();
+
+        $mgc_update = $mgc->update(['systemsent' => 1]);
 
         $nt = Nt::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -261,10 +274,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $nt = $nt->count();
+        $nt_count = $nt->count();
+
+        $nt_update = $nt->update(['systemsent' => 1]);
 
         $psp = Psp::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -294,10 +310,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $psp = $psp->count();
+        $psp_count = $psp->count();
+
+        $psp_update = $psp->update(['systemsent' => 1]);
 
         $rab = Rabies::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -327,12 +346,15 @@ class PidsrWndr extends Command
             }
         }
 
-        $rab = $rab->count();
-
-        $sar = 0;
+        $rab_count = $rab->count();
+        
+        $rab_update = $rab->update(['systemsent' => 1]);
+        
+        $sar_count = 0;
 
         $abd = Abd::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -362,10 +384,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $abd = $abd->count();
+        $abd_count = $abd->count();
+
+        $abd_update = $abd->update(['systemsent' => 1]);
 
         $aes = Aes::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -395,10 +420,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $aes = $aes->count();
+        $aes_count = $aes->count();
+
+        $aes_update = $aes->update(['systemsent' => 1]);
 
         $ahf = Ahf::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -428,10 +456,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $ahf = $ahf->count();
+        $ahf_count = $ahf->count();
+
+        $ahf_update = $ahf->update(['systemsent' => 1]);
 
         $hep = Hepatitis::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -461,10 +492,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $hep = $hep->count();
+        $hep_count = $hep->count();
+
+        $hep_update = $hep->update(['systemsent' => 1]);
 
         $ame = Ames::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -494,10 +528,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $ame = $ame->count();
+        $ame_count = $ame->count();
+
+        $ame_update = $ame->update(['systemsent' => 1]);
 
         $mgt = Meningitis::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -527,10 +564,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $mgt = $mgt->count();
+        $mgt_count = $mgt->count();
+
+        $mgt_update = $mgt->update(['systemsent' => 1]);
 
         $chi = Chikv::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -560,10 +600,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $chi = $chi->count();
+        $chi_count = $chi->count();
+
+        $chi_update = $chi->update(['systemsent' => 1]);
 
         $cho = Cholera::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -593,10 +636,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $cho = $cho->count();
+        $cho_count = $cho->count();
+
+        $cho_update = $cho->update(['systemsent' => 1]);
 
         $den = Dengue::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -626,10 +672,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $den = $den->count();
+        $den_count = $den->count();
+
+        $den_update = $den->update(['systemsent' => 1]);
 
         $dip = Diph::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -659,10 +708,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $dip = $dip->count();
+        $dip_count = $dip->count();
+
+        $dip_update = $dip->update(['systemsent' => 1]);
 
         $ili = Influenza::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -692,10 +744,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $ili = $ili->count();
+        $ili_count = $ili->count();
+
+        $ili_update = $ili->update(['systemsent' => 1]);
 
         $lep = Leptospirosis::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -725,10 +780,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $lep = $lep->count();
+        $lep_count = $lep->count();
+
+        $lep_update = $lep->update(['systemsent' => 1]);
 
         $mal = Malaria::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -758,10 +816,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $mal = $mal->count();
+        $mal_count = $mal->count();
+
+        $mal_update = $mal->update(['systemsent' => 1]);
 
         $nnt = Nnt::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -791,10 +852,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $nnt = $nnt->count();
+        $nnt_count = $nnt->count();
+
+        $nnt_update = $nnt->update(['systemsent' => 1]);
 
         $per = Pert::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -824,10 +888,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $per = $per->count();
+        $per_count = $per->count();
+
+        $per_update = $per->update(['systemsent' => 1]);
 
         $rtv = Rotavirus::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -857,10 +924,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $rtv = $rtv->count();
+        $rtv_count = $rtv->count();
+
+        $rtv_update = $rtv->update(['systemsent' => 1]);
 
         $typ = Typhoid::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -890,10 +960,13 @@ class PidsrWndr extends Command
             }
         }
 
-        $typ = $typ->count();
+        $typ_count = $typ->count();
+
+        $typ_update = $typ->update(['systemsent' => 1]);
 
         $hfm = Hfmd::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
         ->where(function ($q) {
             $q->where(function ($r) {
                 $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -923,39 +996,41 @@ class PidsrWndr extends Command
             }
         }
 
-        $hfm = $hfm->count();
+        $hfm_count = $hfm->count();
+
+        $hfm_update = $hfm->update(['systemsent' => 1]);
 
         //Category 1
-        $templateProcessor->setValue('afp', $afp);
-        $templateProcessor->setValue('aef', $aefi); //0
-        $templateProcessor->setValue('ant', $ant);
-        $templateProcessor->setValue('inf', $hai); //0
-        $templateProcessor->setValue('mea', $mea);
-        $templateProcessor->setValue('mgc', $mgc);
-        $templateProcessor->setValue('nt', $nt);
-        $templateProcessor->setValue('psp', $psp);
-        $templateProcessor->setValue('rab', $rab);
+        $templateProcessor->setValue('afp', $afp_count);
+        $templateProcessor->setValue('aef', $aefi_count); //0
+        $templateProcessor->setValue('ant', $ant_count);
+        $templateProcessor->setValue('inf', $hai_count); //0
+        $templateProcessor->setValue('mea', $mea_count);
+        $templateProcessor->setValue('mgc', $mgc_count);
+        $templateProcessor->setValue('nt', $nt_count);
+        $templateProcessor->setValue('psp', $psp_count);
+        $templateProcessor->setValue('rab', $rab_count);
         $templateProcessor->setValue('sar', 0); //0
-        $templateProcessor->setValue('hfm', $hfm);
+        $templateProcessor->setValue('hfm', $hfm_count);
 
         //Category 2
-        $templateProcessor->setValue('abd', $abd);
-        $templateProcessor->setValue('aes', $aes);
-        $templateProcessor->setValue('ahf', $ahf);
-        $templateProcessor->setValue('hep', $hep);
-        $templateProcessor->setValue('ame', $ame);
-        $templateProcessor->setValue('mgt', $mgt);
-        $templateProcessor->setValue('chi', $chi);
-        $templateProcessor->setValue('cho', $cho);
-        $templateProcessor->setValue('den', $den);
-        $templateProcessor->setValue('dip', $dip);
-        $templateProcessor->setValue('ili', $ili);
-        $templateProcessor->setValue('lep', $lep);
-        $templateProcessor->setValue('mal', $mal);
-        $templateProcessor->setValue('nnt', $nnt);
-        $templateProcessor->setValue('per', $per);
-        $templateProcessor->setValue('rtv', $rtv);
-        $templateProcessor->setValue('typ', $typ);
+        $templateProcessor->setValue('abd', $abd_count);
+        $templateProcessor->setValue('aes', $aes_count);
+        $templateProcessor->setValue('ahf', $ahf_count);
+        $templateProcessor->setValue('hep', $hep_count);
+        $templateProcessor->setValue('ame', $ame_count);
+        $templateProcessor->setValue('mgt', $mgt_count);
+        $templateProcessor->setValue('chi', $chi_count);
+        $templateProcessor->setValue('cho', $cho_count);
+        $templateProcessor->setValue('den', $den_count);
+        $templateProcessor->setValue('dip', $dip_count);
+        $templateProcessor->setValue('ili', $ili_count);
+        $templateProcessor->setValue('lep', $lep_count);
+        $templateProcessor->setValue('mal', $mal_count);
+        $templateProcessor->setValue('nnt', $nnt_count);
+        $templateProcessor->setValue('per', $per_count);
+        $templateProcessor->setValue('rtv', $rtv_count);
+        $templateProcessor->setValue('typ', $typ_count);
 
 
         $templateProcessor->saveAs(public_path('PIDSR_GenTrias_MW'.date('W').'.docx'));
