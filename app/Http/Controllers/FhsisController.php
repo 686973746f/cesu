@@ -21,6 +21,7 @@ class FhsisController extends Controller
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ];
         $pdo = new PDO($dsn, $username, $password, $options);
 
@@ -30,7 +31,7 @@ class FhsisController extends Controller
         $year = date('Y');
 
         $stmt = $pdo->query("SELECT DISTINCT(DISEASE) FROM [MORT BHS] WHERE YEAR(DATE) = $year");
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch()) {
             $mort_list[] = $row;
         }
 
