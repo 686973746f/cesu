@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItrController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\FhsisController;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\PIDSRController;
 use App\Http\Controllers\DengueController;
@@ -382,6 +383,11 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/abtc/walkin', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('abtc_walkin_part1');
     Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
     Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
+});
+
+Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function()
+{
+    Route::get('/fhsis/report', [FhsisController::class, 'report'])->name('fhsis_report');
 });
 
 Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_process'])->name('abtc_qr_process');

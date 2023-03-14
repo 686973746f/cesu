@@ -21,7 +21,6 @@
         </div>
         </div>
         <div class="card-body">
-          {{auth()->user()->id}}
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                 {{session('msg')}}
