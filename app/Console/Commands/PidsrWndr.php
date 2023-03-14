@@ -85,8 +85,8 @@ class PidsrWndr extends Command
         
         $templateProcessor  = new TemplateProcessor(storage_path('WNDR.docx'));
         
-        $templateProcessor->setValue('mweek', date('W'));
-        $templateProcessor->setValue('myear', date('Y'));
+        $templateProcessor->setValue('mweek', date('W', strtotime('-1 Week')));
+        $templateProcessor->setValue('myear', date('Y', strtotime('-1 Week')));
 
         $templateProcessor->setValue('pdate', date('m/d/Y'));
         $templateProcessor->setValue('adate', date('m/d/Y'));
