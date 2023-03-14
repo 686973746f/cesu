@@ -15,7 +15,23 @@ class FhsisController extends Controller
         // Set up a new PDO connection using the ODBC driver
         $mdb_location = storage_path('eFHSIS_be.mdb');
         
-        $dsn = "odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=$mdb_location";
+        $uname = explode(" ",php_uname());
+        print_r($uname);
+        $os = $uname[0];
+        echo "<br>";
+        echo $os;
+        switch ($os){
+        case 'Windows':
+            $driver = '{Microsoft Access Driver (*.mdb, *.accdb)}';
+            break;
+        case 'Linux':
+            $driver = 'MDBTools';
+            break;
+        default:
+            exit("Don't know about this OS");
+        }
+
+        $dsn = "odbc:Driver=$driver;Dbq=$mdb_location";
         $username = ""; // leave blank if not required
         $password = ""; // leave blank if not required
         $options = [
