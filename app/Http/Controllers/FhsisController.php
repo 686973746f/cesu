@@ -49,7 +49,13 @@ class FhsisController extends Controller
         // Query the database
         $mort_final_list = [];
         $morb_final_list = [];
-        
+
+        $bgy_nm_list = [];
+
+        $bgy_list = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
 
         if(request()->input('type') && request()->input('year')) {
             $year = request()->input('year');
@@ -145,6 +151,52 @@ class FhsisController extends Controller
                 AND DISEASE = :disease";
 
                 $year = date('m/Y', strtotime(request()->input('year').'-'.request()->input('month').'-01'));
+            }
+
+            foreach($bgy_list as $b) {
+                if($type == 'yearly') {
+                    $mn_query = "SELECT * FROM [MORTALITY]
+                    WHERE FORMAT([DATE], 'yyyy') = :year
+                    AND MUN_CODE = 'GENERAL TRIAS'
+                    AND BGY_CODE = :bgy";
+
+                    $bstring = $b->brgyName;
+
+                    $mn_stmt = $pdo->prepare($mn_query);
+
+                    $mn_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                    $mn_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+    
+                    $mn_stmt->execute();
+
+                    while ($row = $mn_stmt->fetch()) {
+                        array_push($bgy_nm_list, [
+                            'barangay' => $bstring,
+                            'lb' => $row['LB_M'] + $row['LB_F'],
+                        ]);
+                    }
+                }
+                else if($type == 'quarterly') {
+                    if($q == 1) {
+                        $from = '#'.date('m/d/y', strtotime('01/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('03/01/'.request()->input('year'))).'#';
+                    }
+                    else if($q == 2) {
+                        $from = '#'.date('m/d/y', strtotime('04/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('06/01/'.request()->input('year'))).'#';
+                    }
+                    else if($q == 3) {
+                        $from = '#'.date('m/d/y', strtotime('07/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('09/01/'.request()->input('year'))).'#';
+                    }
+                    else if($q == 4) {
+                        $from = '#'.date('m/d/y', strtotime('10/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('12/01/'.request()->input('year'))).'#';
+                    }
+                }
+                else if($type == 'monthly') {
+                
+                }
             }
 
             //MORTALITY DISTINCT
@@ -256,6 +308,7 @@ class FhsisController extends Controller
             return view('efhsis.report', [
                 'mort_final_list' => $mort_final_list,
                 'morb_final_list' => $morb_final_list,
+                'bgy_nm_list' => $bgy_nm_list,
             ]);
         }
         else {

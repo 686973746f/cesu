@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header"><b>eFHSIS Report (2023)</b></div>
             <div class="card-body">
@@ -51,49 +51,133 @@
                 </form>
 
                 @if(request()->input('type') && request()->input('year'))
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header"><b>M1</b></div>
+                    <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="mortable">
-                                <thead class="thead-light text-center">
+                            <table class="table table-striped table-bordered">
+                                <thead class="text-center thead-light">
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Top 10 Mortality <i>(Highest to Lowest)</i></th>
-                                        <th>Count</th>
+                                        <th rowspan="2">Barangay</th>
+                                        <th colspan="2">Child Care</th>
+                                        <th colspan="2">Family Planning</th>
+                                        <th colspan="3">Non-Com</th>
+                                        <th rowspan="2">Dental</th>
+                                        <th rowspan="2">Environmental</th>
+                                    </tr>
+                                    <tr>
+                                        <th>FIC</th>
+                                        <th>CIC</th>
+                                        <th>CU</th>
+                                        <th>END</th>
+                                        <th>RISK ASSESS</th>
+                                        <th>PPV</th>
+                                        <th>FLU-VACCINE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($mort_final_list as $m)
                                     <tr>
-                                        <td scope="row" class="text-center"></td>
-                                        <td>{{$m['disease']}}</td>
-                                        <td class="text-center">{{$m['count']}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="morbtable">
-                                <thead class="thead-light text-center">
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Top 10 Morbidity <i>(Highest to Lowest)</i></th>
-                                        <th>Count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($morb_final_list as $m)
-                                    <tr>
-                                        <td scope="row" class="text-center"></td>
-                                        <td>{{$m['disease']}}</td>
-                                        <td class="text-center">{{$m['count']}}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header"><b>Mortality and Natality</b></div>
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered">
+                            <thead class="thead-light text-center">
+                                <tr>
+                                    <th>Barangay</th>
+                                    <th>Live Birth</th>
+                                    <th>Total Death</th>
+                                    <th>Total Death Rate</th>
+                                    <th>Maternal Death</th>
+                                    <th>MDR</th>
+                                    <th>Infant Death</th>
+                                    <th>IDR</th>
+                                    <th>Under-Five Death</th>
+                                    <th>UFDR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($bgy_nm_list as $b)
+                                <tr>
+                                    <td>{{$b['barangay']}}</td>
+                                    <td class="text-center">{{$b['lb']}}</td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><b>Morbidity and Mortality</b></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="mortable">
+                                        <thead class="thead-light text-center">
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Top 10 Mortality <i>(Highest to Lowest)</i></th>
+                                                <th>Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($mort_final_list as $m)
+                                            <tr>
+                                                <td scope="row" class="text-center"></td>
+                                                <td>{{$m['disease']}}</td>
+                                                <td class="text-center">{{$m['count']}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="morbtable">
+                                        <thead class="thead-light text-center">
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Top 10 Morbidity <i>(Highest to Lowest)</i></th>
+                                                <th>Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($morb_final_list as $m)
+                                            <tr>
+                                                <td scope="row" class="text-center"></td>
+                                                <td>{{$m['disease']}}</td>
+                                                <td class="text-center">{{$m['count']}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
