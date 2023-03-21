@@ -76,18 +76,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($bgy_mone_list as $b)
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{$b['barangay']}}</td>
+                                        <td class="text-center">{{$b['fic']}}</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -96,38 +98,74 @@
                 <div class="card mb-3">
                     <div class="card-header"><b>Mortality and Natality</b></div>
                     <div class="card-body">
-                        <table class="table table-striped table-bordered">
-                            <thead class="thead-light text-center">
-                                <tr>
-                                    <th>Barangay</th>
-                                    <th>Live Birth</th>
-                                    <th>Total Death</th>
-                                    <th>Total Death Rate</th>
-                                    <th>Maternal Death</th>
-                                    <th>MDR</th>
-                                    <th>Infant Death</th>
-                                    <th>IDR</th>
-                                    <th>Under-Five Death</th>
-                                    <th>UFDR</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($bgy_nm_list as $b)
-                                <tr>
-                                    <td>{{$b['barangay']}}</td>
-                                    <td class="text-center">{{$b['lb']}}</td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th>Barangay</th>
+                                        <th>Population ({{request()->input('year')}})</th>
+                                        <th>Live Birth</th>
+                                        <th>Total Death</th>
+                                        <th>TDR</th>
+                                        <th>Maternal Death</th>
+                                        <th>MDR</th>
+                                        <th>Infant Death</th>
+                                        <th>IDR</th>
+                                        <th>Under-Five Death</th>
+                                        <th>UFDR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                    $gt_population = 0;
+                                    $gt_livebirth = 0;
+                                    $gt_tot_death = 0;
+                                    $gt_mat_death = 0;
+                                    $gt_inf_death = 0;
+                                    $gt_unf_death = 0;
+                                    @endphp
+                                    @foreach($bgy_nm_list as $b)
+                                    <tr>
+                                        <td>{{$b['barangay']}}</td>
+                                        <td class="text-center">{{number_format($b['population'])}}</td>
+                                        <td class="text-center">{{$b['livebirth']}}</td>
+                                        <td class="text-center">{{$b['tot_death']}}</td>
+                                        <td class="text-center">{{round(($b['tot_death'] / $b['population']) * 100, 2)}}</td>
+                                        <td class="text-center">{{$b['mat_death']}}</td>
+                                        <td class="text-center">{{round(($b['mat_death'] / $b['population']) * 100, 2)}}</td>
+                                        <td class="text-center">{{$b['inf_death']}}</td>
+                                        <td class="text-center">{{round(($b['inf_death'] / $b['population']) * 100, 2)}}</td>
+                                        <td class="text-center">{{$b['unf_death']}}</td>
+                                        <td class="text-center">{{round(($b['unf_death'] / $b['population']) * 100, 2)}}</td>
+                                    </tr>
+
+                                    @php
+                                    $gt_population += $b['population'];
+                                    $gt_livebirth += $b['livebirth'];
+                                    $gt_tot_death += $b['tot_death'];
+                                    $gt_mat_death += $b['mat_death'];
+                                    $gt_inf_death += $b['inf_death'];
+                                    $gt_unf_death += $b['unf_death'];
+                                    @endphp
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center"><b>GRAND TOTAL</b></td>
+                                        <td class="text-center"><b>{{$gt_population}}</b></td>
+                                        <td class="text-center"><b>{{$gt_livebirth}}</b></td>
+                                        <td class="text-center"><b>{{$gt_tot_death}}</b></td>
+                                        <td class="text-center"><b>{{round(($gt_tot_death / $gt_population) * 100, 2)}}</b></td>
+                                        <td class="text-center"><b>{{$gt_mat_death}}</b></td>
+                                        <td class="text-center"><b>{{round(($gt_mat_death / $gt_population) * 100, 2)}}</b></td>
+                                        <td class="text-center"><b>{{$gt_inf_death}}</b></td>
+                                        <td class="text-center"><b>{{round(($gt_inf_death / $gt_population) * 100, 2)}}</b></td>
+                                        <td class="text-center"><b>{{$gt_unf_death}}</b></td>
+                                        <td class="text-center"><b>{{round(($gt_unf_death / $gt_population) * 100, 2)}}</b></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="card">

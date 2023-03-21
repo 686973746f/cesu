@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDO;
+use Carbon\Carbon;
 use App\Models\Brgy;
 use Illuminate\Http\Request;
 
@@ -51,6 +52,7 @@ class FhsisController extends Controller
         $morb_final_list = [];
 
         $bgy_nm_list = [];
+        $bgy_mone_list = [];
 
         $bgy_list = Brgy::where('displayInList', 1)
         ->where('city_id', 1)
@@ -59,9 +61,10 @@ class FhsisController extends Controller
 
         if(request()->input('type') && request()->input('year')) {
             $year = request()->input('year');
-
+            $base_year = request()->input('year');
             $type = request()->input('type');
 
+            //TOP 10 MORB AND MORT
             if($type == 'yearly') {
                 $mort_distinct_query = "SELECT DISTINCT(DISEASE)
                 FROM [MORT BHS]
@@ -151,52 +154,6 @@ class FhsisController extends Controller
                 AND DISEASE = :disease";
 
                 $year = date('m/Y', strtotime(request()->input('year').'-'.request()->input('month').'-01'));
-            }
-
-            foreach($bgy_list as $b) {
-                if($type == 'yearly') {
-                    $mn_query = "SELECT * FROM [MORTALITY]
-                    WHERE FORMAT([DATE], 'yyyy') = :year
-                    AND MUN_CODE = 'GENERAL TRIAS'
-                    AND BGY_CODE = :bgy";
-
-                    $bstring = $b->brgyName;
-
-                    $mn_stmt = $pdo->prepare($mn_query);
-
-                    $mn_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                    $mn_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-    
-                    $mn_stmt->execute();
-
-                    while ($row = $mn_stmt->fetch()) {
-                        array_push($bgy_nm_list, [
-                            'barangay' => $bstring,
-                            'lb' => $row['LB_M'] + $row['LB_F'],
-                        ]);
-                    }
-                }
-                else if($type == 'quarterly') {
-                    if($q == 1) {
-                        $from = '#'.date('m/d/y', strtotime('01/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('03/01/'.request()->input('year'))).'#';
-                    }
-                    else if($q == 2) {
-                        $from = '#'.date('m/d/y', strtotime('04/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('06/01/'.request()->input('year'))).'#';
-                    }
-                    else if($q == 3) {
-                        $from = '#'.date('m/d/y', strtotime('07/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('09/01/'.request()->input('year'))).'#';
-                    }
-                    else if($q == 4) {
-                        $from = '#'.date('m/d/y', strtotime('10/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('12/01/'.request()->input('year'))).'#';
-                    }
-                }
-                else if($type == 'monthly') {
-                
-                }
             }
 
             //MORTALITY DISTINCT
@@ -305,10 +262,148 @@ class FhsisController extends Controller
                 ]);
             }
 
+            //MORT AND NATALITY
+            foreach($bgy_list as $b) {
+                $bstring = $b->brgyName;
+
+                //get BGY_CODE
+                $bgy_query = "SELECT * FROM [BARANGAY]
+                WHERE UCASE(BGY_DESC) = :bgy";
+
+                $bgy_stmt = $pdo->prepare($bgy_query);
+
+                $bgy_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+
+                $bgy_stmt->execute();
+
+                $bgy_row = $bgy_stmt->fetch();
+                $bgy_desc = $bgy_row['BGY_CODE'];
+
+                //get population first
+                $pop_query = "SELECT * FROM [POPULATION]
+                WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                AND UCASE(BGY_CODE) = :bgy
+                AND [POP_YEAR] = :year";
+
+                $pop_stmt = $pdo->prepare($pop_query);
+
+                $pop_stmt->bindParam(':year', $base_year, PDO::PARAM_STR);
+                $pop_stmt->bindParam(':bgy', $bgy_desc, PDO::PARAM_STR);
+                
+                $pop_stmt->execute();
+
+                $pop_row = $pop_stmt->fetch();
+
+                $livebirth = 0;
+                $tot_death = 0;
+                $mat_death = 0;
+                $inf_death = 0;
+                $unf_death = 0;
+
+                if($type == 'yearly') {
+                    $mn_query = "SELECT * FROM [MORTALITY]
+                    WHERE FORMAT([DATE], 'yyyy') = :year
+                    AND MUN_CODE = 'GENERAL TRIAS'
+                    AND UCASE(BGY_CODE) = :bgy";
+                }
+                else if($type == 'quarterly') {
+                    if($q == 1) {
+                        $from = '#'.date('m/d/y', strtotime('01/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('03/01/'.request()->input('year'))).'#';
+                    }
+                    else if($q == 2) {
+                        $from = '#'.date('m/d/y', strtotime('04/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('06/01/'.request()->input('year'))).'#';
+                    }
+                    else if($q == 3) {
+                        $from = '#'.date('m/d/y', strtotime('07/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('09/01/'.request()->input('year'))).'#';
+                    }
+                    else if($q == 4) {
+                        $from = '#'.date('m/d/y', strtotime('10/01/'.request()->input('year'))).'#';
+                        $to = '#'.date('m/d/y', strtotime('12/01/'.request()->input('year'))).'#';
+                    }
+
+                    $mn_query = "SELECT * FROM [MORTALITY]
+                    WHERE [DATE] BETWEEN $from AND $to
+                    AND MUN_CODE = 'GENERAL TRIAS'
+                    AND UCASE(BGY_CODE) = :bgy";
+                }
+                else if($type == 'monthly') {
+                    $mn_query = "SELECT * FROM [MORTALITY]
+                    WHERE FORMAT([DATE], 'mm/yyyy') = :year
+                    AND MUN_CODE = 'GENERAL TRIAS'
+                    AND UCASE(BGY_CODE) = :bgy";
+
+                    $year = date('m/Y', strtotime(request()->input('year').'-'.request()->input('month').'-01'));
+                }
+
+                $mn_stmt = $pdo->prepare($mn_query);
+                if($type != 'quarterly') {
+                    $mn_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                }
+                $mn_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+
+                $mn_stmt->execute();
+                
+                while ($row = $mn_stmt->fetch()) {
+                    $livebirth += $row['LB_M'] + $row['LB_F'];
+                    $tot_death += $row['TOTDEATH_M'] + $row['TOTDEATH_F'];
+                    $mat_death += $row['MATDEATH_M'] + $row['MATDEATH_F'];
+                    $inf_death += $row['INFDEATH_M'] + $row['INFDEATH_F'];
+                    $unf_death += $row['DEATHUND5_M'] + $row['DEATHUND5_F'];
+                }
+
+                array_push($bgy_nm_list, [
+                    'barangay' => $bstring,
+                    'population' => $pop_row['POP_BGY'],
+                    'livebirth' => $livebirth,
+                    'tot_death' => $tot_death,
+                    'mat_death' => $mat_death,
+                    'inf_death' => $inf_death,
+                    'unf_death' => $unf_death,
+                ]);
+            }
+
+            //M1
+            foreach($bgy_list as $b) {
+                $bstring = $b->brgyName;
+
+                if($type == 'yearly') {
+                    $ccare_query = "SELECT * FROM [CHILD CARE]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND UCASE(BGY_CODE) = :bgy
+                    AND FORMAT([DATE], 'yyyy') = :year";
+                }
+                else if($type == 'quarterly') {
+
+                }
+                else if($type == 'monthly') {
+
+                }
+
+                $ccare_stmt = $pdo->prepare($ccare_query);
+                $ccare_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                $ccare_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+
+                $ccare_stmt->execute();
+
+                $fic = 0;
+                while ($row = $ccare_stmt->fetch()) {
+                    $fic += $row['FIC_M'] + $row['FIC_F'];
+                }
+
+                array_push($bgy_mone_list, [
+                    'barangay' => $b->brgyName,
+                    'fic' => $fic,
+                ]);
+            }
+
             return view('efhsis.report', [
                 'mort_final_list' => $mort_final_list,
                 'morb_final_list' => $morb_final_list,
                 'bgy_nm_list' => $bgy_nm_list,
+                'bgy_mone_list' => $bgy_mone_list,
             ]);
         }
         else {
