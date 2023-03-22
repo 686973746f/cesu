@@ -51,6 +51,51 @@
                 </form>
 
                 @if(request()->input('type') && request()->input('year'))
+                <div class="text-center">
+                    <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="width: 50rem;">
+                    <img src="{{asset('assets/images/efhsis_logo.jpg')}}" class="img-fluid" style="width: 20rem;">
+                    <h2><b><u>eFHSIS Report</u></b></h2>
+                    @if(request()->input('type') == 'yearly')
+                    <h3>YEAR : {{request()->input('year')}}</h3>
+                    @elseif(request()->input('type') == 'quarterly')
+                        @if(request()->input('quarter') == 1)
+                        <h3>1ST QUARTER : YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('quarter') == 2)
+                        <h3>2ND QUARTER : YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('quarter') == 3)
+                        <h3>3RD QUARTER : YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('quarter') == 4)
+                        <h3>4TH QUARTER : YEAR {{request()->input('year')}}</h3>
+                        @endif
+                    @elseif(request()->input('type') == 'montly')
+                        @if(request()->input('month') == '01')
+                        <h3>MONTH OF JANUARY: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '02')
+                        <h3>MONTH OF FEBRUARY: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '03')
+                        <h3>MONTH OF MARCH: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '04')
+                        <h3>MONTH OF APRIL: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '05')
+                        <h3>MONTH OF MAY: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '06')
+                        <h3>MONTH OF JUNE: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '07')
+                        <h3>MONTH OF JULY: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '08')
+                        <h3>MONTH OF AUGUST: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '09')
+                        <h3>MONTH OF SEPTEMBER: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '10')
+                        <h3>MONTH OF OCTOBER: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '11')
+                        <h3>MONTH OF NOVEMBER: YEAR {{request()->input('year')}}</h3>
+                        @elseif(request()->input('month') == '12')
+                        <h3>MONTH OF DECEMBER: YEAR {{request()->input('year')}}</h3>
+                        @endif
+                    @endif
+                    <hr>
+                </div>
                 <div class="card mb-3">
                     <div class="card-header"><b>M1</b></div>
                     <div class="card-body">
@@ -149,10 +194,10 @@
                                     @endphp
                                     @endforeach
                                 </tbody>
-                                <tfoot>
+                                <tfoot class="bg-light">
                                     <tr>
                                         <td class="text-center"><b>GRAND TOTAL</b></td>
-                                        <td class="text-center"><b>{{$gt_population}}</b></td>
+                                        <td class="text-center"><b>{{number_format($gt_population)}}</b></td>
                                         <td class="text-center"><b>{{$gt_livebirth}}</b></td>
                                         <td class="text-center"><b>{{$gt_tot_death}}</b></td>
                                         <td class="text-center"><b>{{round(($gt_tot_death / $gt_population) * 100, 2)}}</b></td>
@@ -168,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header"><b>Morbidity and Mortality</b></div>
                     <div class="card-body">
                         <div class="row">
@@ -215,6 +260,36 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mb-3"><b>DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by Christian James Historillo - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information contained in this report, the reader assumes all risks in connection with such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from use or reliance upon this material.</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">Prepared by</div>
+                            <div class="card-body text-center">
+                                <h5 style="margin-top: 50px;"><b>CHRISTOFER JOHN A. PEDRASA</b></h5>
+                                <h5>J.O Encoder</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">Approved by</div>
+                            <div class="card-body text-center">
+                                <h5 style="margin-top: 50px;"><b>LUIS P. BROAS, RN, RPh, MAN</b></h5>
+                                <h5>Nurse II/CESU Head</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">Noted by</div>
+                            <div class="card-body text-center">
+                                <h5 style="margin-top: 50px;"><b>JONATHAN P. LUSECO, MD</b></h5>
+                                <h5>City Health Officer II</h5>
                             </div>
                         </div>
                     </div>
