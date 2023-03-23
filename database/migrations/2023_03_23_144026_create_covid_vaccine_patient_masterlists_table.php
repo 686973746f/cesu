@@ -19,7 +19,7 @@ class CreateCovidVaccinePatientMasterlistsTable extends Migration
             $table->text('source_name');
             $table->string('category');
             $table->string('comorbidity')->nullable();
-            $table->string('uniqueperson_id');
+            $table->string('unique_person_id');
             $table->string('pwd');
             $table->string('indigenous_member');
             $table->text('last_name');
@@ -36,7 +36,19 @@ class CreateCovidVaccinePatientMasterlistsTable extends Migration
             $table->string('deferral');
             $table->string('reason_for_deferral')->nullable();
             $table->date('vaccination_date');
-            $table->string('vaccine_manufacturer_name');
+            $table->text('vaccine_manufacturer_name');
+            $table->text('batch_number');
+            $table->text('lot_no');
+            $table->text('bakuna_center_cbcr_id');
+            $table->text('vaccinator_name');
+            $table->string('first_dose');
+            $table->string('second_dose');
+            $table->string('additional_booster_dose');
+            $table->string('second_additional_booster_dose');
+            $table->string('adverse_event');
+            $table->text('adverse_event_condition')->nullable();
+            $table->text('row_hash');
+            
             $table->timestamps();
         });
     }
