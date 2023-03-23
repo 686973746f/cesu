@@ -932,7 +932,19 @@ class ABTCVaccinationController extends Controller
         $templateProcessor->setValue('dtype', $b->getBiteType());
         $templateProcessor->setValue('dsource', $b->getSource());
         
-        $templateProcessor->setValue('dcat', ($b->d3_done == 0) ? '' : $b->category_level);
+        if($b->category_level == 3) {
+            $templateProcessor->setValue('dcat', '3');
+        }
+        else {
+            if($b->d3_done == 0) {
+                $templateProcessor->setValue('dcat', '');
+            }
+            else {
+                $templateProcessor->setValue('dcat', $b->category_level);
+            }
+        }
+
+        //$templateProcessor->setValue('dcat', ($b->d3_done == 0) ? '' : $b->category_level);
         $templateProcessor->setValue('dwash', ($b->washing_of_bite == 1) ? 'Y' : 'N');
         $templateProcessor->setValue('drig', $b->showRigNew());
         $templateProcessor->setValue('dgen', $b->getGenericName());
