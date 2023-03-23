@@ -54,7 +54,7 @@
                 <div class="text-center">
                     <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="width: 50rem;">
                     <img src="{{asset('assets/images/efhsis_logo.jpg')}}" class="img-fluid" style="width: 20rem;">
-                    <h2><b><u>eFHSIS Report</u></b></h2>
+                    <h2><b><u><span class="text-primary">e</span><span class="text-danger">FHSIS</span> Report</u></b></h2>
                     @if(request()->input('type') == 'yearly')
                     <h3>YEAR : {{request()->input('year')}}</h3>
                     @elseif(request()->input('type') == 'quarterly')
@@ -125,7 +125,7 @@
                                     <tr>
                                         <td>{{$b['barangay']}}</td>
                                         <td class="text-center">{{$b['fic']}}</td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">{{$b['cic']}}</td>
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
@@ -264,7 +264,9 @@
                         </div>
                     </div>
                 </div>
-                <p class="mb-3"><b>DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by Christian James Historillo - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information contained in this report, the reader assumes all risks in connection with such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from use or reliance upon this material.</p>
+                <div class="alert alert-info" role="alert">
+                    <b class="text-danger">DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by Christian James Historillo - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information contained in this report, the reader assumes all risks in connection with such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from use or reliance upon this material.
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card">
