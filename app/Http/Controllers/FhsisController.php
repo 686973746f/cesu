@@ -374,28 +374,50 @@ class FhsisController extends Controller
                     WHERE [MUN_CODE] = 'GENERAL TRIAS'
                     AND UCASE(BGY_CODE) = :bgy
                     AND FORMAT([DATE], 'yyyy') = :year";
+
+                    $ncom_query = "SELECT * FROM [OTHER INDICATORS]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND UCASE(BGY_CODE) = :bgy
+                    AND FORMAT([DATE], 'yyyy') = :year";
                 }
                 else if($type == 'quarterly') {
-
+                    
                 }
                 else if($type == 'monthly') {
 
                 }
 
+                $fic = 0;
+                $cic = 0;
+                $ppv = 0;
+                $flu = 0;
+
                 $ccare_stmt = $pdo->prepare($ccare_query);
                 $ccare_stmt->bindParam(':year', $year, PDO::PARAM_STR);
                 $ccare_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-
                 $ccare_stmt->execute();
 
-                $fic = 0;
+                $ncom_stmt = $pdo->prepare($ncom_query);
+                $ncom_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                $ncom_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+                $ncom_stmt->execute();
+
+                //CHILD CARE FETCH
                 while ($row = $ccare_stmt->fetch()) {
                     $fic += $row['FIC_M'] + $row['FIC_F'];
+                    $cic += $row['CIC_M'] + $row['CIC_F'];
+                }
+
+                //NON-COMM FETCH
+                while ($row = $ncom_stmt->fetch()) {
+                    $ppv += $row['NONCOM_PPV_M'] + $row['NONCOM_PPV_F'];
+                    $flu += $row['NONCOM_IV_M'] + $row['NONCOM_PPV_F'];
                 }
 
                 array_push($bgy_mone_list, [
                     'barangay' => $b->brgyName,
                     'fic' => $fic,
+                    'cic' => $cic,
                 ]);
             }
 
