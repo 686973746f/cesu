@@ -945,11 +945,22 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
             $templateProcessor->setValue('day14', ($b->pep_route == 'IM') ? date('m/d/Y', strtotime($b->d14_date)) : 'N/A');
             $templateProcessor->setValue('day28', date('m/d/Y', strtotime($b->d28_date)));
+
+            $templateProcessor->setValue('isbooster', ' - BOOSTER');
         }
         else {
             $templateProcessor->setValue('day7', 'N/A');
             $templateProcessor->setValue('day14', 'N/A');
             $templateProcessor->setValue('day28', 'N/A');
+
+            $templateProcessor->setValue('isbooster', '');
+        }
+
+        if($b->outcome == 'INC') {
+            $templateProcessor->setValue('outcome', 'FOLLOW UP - 1PM');
+        }
+        else {
+            $templateProcessor->setValue('outcome', '');
         }
         
         $templateProcessor->saveAs('php://output');
