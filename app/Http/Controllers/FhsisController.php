@@ -418,6 +418,8 @@ class FhsisController extends Controller
                     'barangay' => $b->brgyName,
                     'fic' => $fic,
                     'cic' => $cic,
+                    'ppv' => $ppv,
+                    'flu' => $flu,
                 ]);
             }
 

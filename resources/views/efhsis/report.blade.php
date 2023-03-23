@@ -129,8 +129,8 @@
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">{{$b['ppv']}}</td>
+                                        <td class="text-center">{{$b['flu']}}</td>
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
                                     </tr>

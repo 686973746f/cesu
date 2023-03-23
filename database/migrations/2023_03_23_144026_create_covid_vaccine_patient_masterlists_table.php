@@ -1,0 +1,53 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateCovidVaccinePatientMasterlistsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('covid_vaccine_patient_masterlists', function (Blueprint $table) {
+            $table->id();
+
+            $table->text('source_name');
+            $table->string('category');
+            $table->string('comorbidity')->nullable();
+            $table->string('uniqueperson_id');
+            $table->string('pwd');
+            $table->string('indigenous_member');
+            $table->text('last_name');
+            $table->text('first_name');
+            $table->text('middle_name');
+            $table->string('suffix')->nullable();
+            $table->string('contact_no')->nullable();
+            $table->text('guardian_name')->nullable();
+            $table->string('region');
+            $table->string('province');
+            $table->string('muni_city');
+            $table->string('sex');
+            $table->date('birthdate');
+            $table->string('deferral');
+            $table->string('reason_for_deferral')->nullable();
+            $table->date('vaccination_date');
+            $table->string('vaccine_manufacturer_name');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('covid_vaccine_patient_masterlists');
+    }
+}
