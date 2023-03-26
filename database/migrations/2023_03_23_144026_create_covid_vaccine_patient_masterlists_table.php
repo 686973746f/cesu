@@ -31,6 +31,7 @@ class CreateCovidVaccinePatientMasterlistsTable extends Migration
             $table->string('region');
             $table->string('province');
             $table->string('muni_city');
+            $table->string('barangay');
             $table->string('sex');
             $table->date('birthdate');
             $table->string('deferral');

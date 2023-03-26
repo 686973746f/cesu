@@ -16,7 +16,7 @@ class CreateVaxcertConcernsTable extends Migration
         Schema::create('vaxcert_concerns', function (Blueprint $table) {
             $table->id();
             $table->string('status')->default('PENDING');
-            $table->string('vaxcert_refno');
+            $table->string('vaxcert_refno')->nullable();
 
             $table->string('last_name');
             $table->string('first_name');
@@ -27,38 +27,6 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('contact_number');
             $table->string('email')->nullable();
 
-            $table->date('dose1_date');
-            $table->string('dose1_manufacturer');
-            $table->string('dose1_batchno')->nullable();
-            $table->string('dose1_lotno')->nullable();
-            $table->string('dose1_bakuna_center_text');
-            $table->string('dose1_vaccinator_last_name');
-            $table->string('dose1_vaccinator_first_name');
-
-            $table->date('dose2_date');
-            $table->string('dose2_manufacturer');
-            $table->string('dose2_batchno')->nullable();
-            $table->string('dose2_lotno')->nullable();
-            $table->string('dose2_bakuna_center_text');
-            $table->string('dose2_vaccinator_last_name');
-            $table->string('dose2_vaccinator_first_name');
-
-            $table->date('dose3_date');
-            $table->string('dose3_manufacturer');
-            $table->string('dose3_batchno');
-            $table->string('dose3_lotno');
-            $table->string('dose3_bakuna_center_text');
-            $table->string('dose3_vaccinator_last_name');
-            $table->string('dose3_vaccinator_first_name');
-
-            $table->date('dose4_date');
-            $table->string('dose4_manufacturer');
-            $table->string('dose4_batchno');
-            $table->string('dose4_lotno');
-            $table->string('dose4_bakuna_center_text');
-            $table->string('dose4_vaccinator_last_name');
-            $table->string('dose4_vaccinator_first_name');
-            
             $table->text('address_region_code');
             $table->text('address_region_text');
             $table->text('address_province_code');
@@ -68,7 +36,37 @@ class CreateVaxcertConcernsTable extends Migration
             $table->text('address_brgy_code');
             $table->text('address_brgy_text');
 
-            
+            $table->date('dose1_date');
+            $table->string('dose1_manufacturer');
+            $table->string('dose1_batchno')->nullable();
+            $table->string('dose1_lotno')->nullable();
+            $table->string('dose1_bakuna_center_text')->nullable();
+            $table->string('dose1_vaccinator_last_name')->nullable();
+            $table->string('dose1_vaccinator_first_name')->nullable();
+
+            $table->date('dose2_date');
+            $table->string('dose2_manufacturer');
+            $table->string('dose2_batchno')->nullable();
+            $table->string('dose2_lotno')->nullable();
+            $table->string('dose2_bakuna_center_text')->nullable();
+            $table->string('dose2_vaccinator_last_name')->nullable();
+            $table->string('dose2_vaccinator_first_name')->nullable();
+
+            $table->date('dose3_date');
+            $table->string('dose3_manufacturer');
+            $table->string('dose3_batchno')->nullable();
+            $table->string('dose3_lotno')->nullable();
+            $table->string('dose3_bakuna_center_text')->nullable();
+            $table->string('dose3_vaccinator_last_name')->nullable();
+            $table->string('dose3_vaccinator_first_name')->nullable();
+
+            $table->date('dose4_date');
+            $table->string('dose4_manufacturer');
+            $table->string('dose4_batchno')->nullable();
+            $table->string('dose4_lotno')->nullable();
+            $table->string('dose4_bakuna_center_text')->nullable();
+            $table->string('dose4_vaccinator_last_name')->nullable();
+            $table->string('dose4_vaccinator_first_name')->nullable();
 
             $table->string('concern_type');
             $table->text('concern_msg');
