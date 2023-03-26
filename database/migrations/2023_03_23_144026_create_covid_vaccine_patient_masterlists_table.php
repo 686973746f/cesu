@@ -22,9 +22,9 @@ class CreateCovidVaccinePatientMasterlistsTable extends Migration
             $table->string('unique_person_id');
             $table->string('pwd');
             $table->string('indigenous_member');
-            $table->text('last_name');
-            $table->text('first_name');
-            $table->text('middle_name');
+            $table->text('last_name')->nullable();
+            $table->text('first_name')->nullable();
+            $table->text('middle_name')->nullable();
             $table->string('suffix')->nullable();
             $table->string('contact_no')->nullable();
             $table->text('guardian_name')->nullable();
@@ -41,7 +41,7 @@ class CreateCovidVaccinePatientMasterlistsTable extends Migration
             $table->text('batch_number');
             $table->text('lot_no');
             $table->text('bakuna_center_cbcr_id');
-            $table->text('vaccinator_name');
+            $table->text('vaccinator_name')->nullable();
             $table->string('first_dose');
             $table->string('second_dose');
             $table->string('additional_booster_dose');

@@ -18,8 +18,8 @@ class CreateVaxcertProvincesTable extends Migration
             
             $table->string('sys_code');
             $table->string('code');
-            $table->description('description');
-            $table->description('province_code');
+            $table->string('description');
+            $table->string('province_code');
             $table->timestamps();
         });
     }
