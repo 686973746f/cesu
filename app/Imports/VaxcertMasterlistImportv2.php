@@ -13,8 +13,7 @@ class VaxcertMasterlistImportv2 implements OnEachRow, WithStartRow
     {
         $r = $row->toArray();
 
-
-        $user->save();
+        dd($row[0]);
     }
 
     public function startRow(): int {
