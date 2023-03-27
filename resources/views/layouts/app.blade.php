@@ -19,8 +19,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <script src="https://www.google.com/recaptcha/api.js"></script>
     
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif">
