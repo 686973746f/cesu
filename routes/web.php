@@ -382,13 +382,16 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 
 //VaxCert Temp Routes
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessCovid']], function() {
-    Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
+    
 });
 
 Route::group(['middleware' => ['guest']], function() {
     Route::get('/abtc/walkin', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('abtc_walkin_part1');
     Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
     Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
+
+    Route::get('/vaxcert', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin');
+    Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function()
@@ -414,6 +417,8 @@ Route::get('json/currentDate', [JsonReportController::class, 'currentDate']);
 Route::get('json/mwly', [JsonReportController::class, 'mwly']);
 Route::get('json/mwcy', [JsonReportController::class, 'mwcy']);
 Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
+
+Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 
 //Main landing page
 Route::get('/', function () {

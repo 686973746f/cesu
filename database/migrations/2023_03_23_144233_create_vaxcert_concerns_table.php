@@ -17,6 +17,7 @@ class CreateVaxcertConcernsTable extends Migration
             $table->id();
             $table->string('status')->default('PENDING');
             $table->string('vaxcert_refno')->nullable();
+            $table->string('category');
 
             $table->string('last_name');
             $table->string('first_name');
@@ -44,24 +45,24 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('dose1_vaccinator_last_name')->nullable();
             $table->string('dose1_vaccinator_first_name')->nullable();
 
-            $table->date('dose2_date');
-            $table->string('dose2_manufacturer');
+            $table->date('dose2_date')->nullable();
+            $table->string('dose2_manufacturer')->nullable();
             $table->string('dose2_batchno')->nullable();
             $table->string('dose2_lotno')->nullable();
             $table->string('dose2_bakuna_center_text')->nullable();
             $table->string('dose2_vaccinator_last_name')->nullable();
             $table->string('dose2_vaccinator_first_name')->nullable();
 
-            $table->date('dose3_date');
-            $table->string('dose3_manufacturer');
+            $table->date('dose3_date')->nullable();
+            $table->string('dose3_manufacturer')->nullable();
             $table->string('dose3_batchno')->nullable();
             $table->string('dose3_lotno')->nullable();
             $table->string('dose3_bakuna_center_text')->nullable();
             $table->string('dose3_vaccinator_last_name')->nullable();
             $table->string('dose3_vaccinator_first_name')->nullable();
 
-            $table->date('dose4_date');
-            $table->string('dose4_manufacturer');
+            $table->date('dose4_date')->nullable();
+            $table->string('dose4_manufacturer')->nullable();
             $table->string('dose4_batchno')->nullable();
             $table->string('dose4_lotno')->nullable();
             $table->string('dose4_bakuna_center_text')->nullable();
@@ -73,7 +74,8 @@ class CreateVaxcertConcernsTable extends Migration
 
             $table->text('id_file');
             $table->text('vaxcard_file');
-            $table->string('ref_no');
+
+            $table->foreignId('processed_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
