@@ -22,7 +22,8 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
-            $table->string('suffix');
+            $table->string('suffix')->nullable();
+            $table->string('gender');
 
             $table->date('bdate');
             $table->string('contact_number');
@@ -74,6 +75,8 @@ class CreateVaxcertConcernsTable extends Migration
 
             $table->text('id_file');
             $table->text('vaxcard_file');
+
+            $table->string('sys_code'); //QR
 
             $table->foreignId('processed_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();

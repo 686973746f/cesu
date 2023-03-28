@@ -12,10 +12,12 @@ class VaxcertConcern extends Model
     protected $fillable = [
         'status',
         'vaxcert_refno',
+        'category',
         'last_name',
         'first_name',
         'middle_name',
         'suffix',
+        'gender',
         'bdate',
         'contact_number',
         'email',
@@ -48,13 +50,6 @@ class VaxcertConcern extends Model
         'dose3_bakuna_center_text',
         'dose3_vaccinator_last_name',
         'dose3_vaccinator_first_name',
-        'dose3_date',
-        'dose3_manufacturer',
-        'dose3_batchno',
-        'dose3_lotno',
-        'dose3_bakuna_center_text',
-        'dose3_vaccinator_last_name',
-        'dose3_vaccinator_first_name',
         'dose4_date',
         'dose4_manufacturer',
         'dose4_batchno',
@@ -66,6 +61,33 @@ class VaxcertConcern extends Model
         'concern_msg',
         'id_file',
         'vaxcard_file',
-        'ref_no',
+        'sys_code',
     ];
+
+    public function getName() {
+        return $this->last_name.', '.$this->first_name.' '.$this->middle_name.' '.$this->suffix;
+    }
+
+    public function getAddress() {
+        return 'BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+    }
+
+    public function getNumberOfDose() {
+        if(is_null($this->dose2_date)) {
+            return 1;
+        }
+        else {
+            if(is_null($this->dose3_date)) {
+                return 2;
+            }
+            else {
+                if(is_null($this->dose4_date)) {
+                    return 3;
+                }
+                else {
+                    return 4;
+                }
+            }
+        }
+    }
 }

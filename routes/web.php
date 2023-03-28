@@ -247,7 +247,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
-
+    
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
@@ -382,7 +382,12 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 
 //VaxCert Temp Routes
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessCovid']], function() {
-    
+    Route::get('/vaxcert/home', [VaxcertController::class, 'home'])->name('vaxcert_home');
+    Route::get('/vaxcert/ticket/view/{id}', [VaxcertController::class, 'view_patient'])->name('vaxcert_viewpatient');
+    Route::post('/vaxcert/ticket/view/{id}/process', [VaxcertController::class, 'process_patient'])->name('vaxcert_processpatient');
+
+    Route::get('/vaxcert/ticket/view/{id}/basedl', [VaxcertController::class, 'dlbase_template'])->name('vaxcert_basedl');
+    Route::get('/vaxcert/ticket/view/{id}/offdl', [VaxcertController::class, 'dloff_template'])->name('vaxcert_offdl');
 });
 
 Route::group(['middleware' => ['guest']], function() {

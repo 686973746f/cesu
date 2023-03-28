@@ -271,6 +271,7 @@
           </div>
           <div class="modal-body">
             <a href="{{route('main')}}" class="btn btn-primary btn-block">COVID-19</a>
+            <a href="{{route('vaxcert_home')}}" class="btn btn-primary btn-block">VaxCert Concerns</a>
             <hr>
             <a href="{{route('pidsr.home')}}" class="btn btn-primary btn-block">PIDSR</a>
           </div>

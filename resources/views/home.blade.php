@@ -200,6 +200,7 @@
             </div>
             <div class="modal-body">
                 <a href="{{route('abtc_home')}}" class="btn btn-primary btn-block">Animal Bite (ABTC)</a>
+                <a href="{{route('vaxcert_home')}}" class="btn btn-primary btn-block">VaxCert Concerns</a>
                 <hr>
                 <a href="{{route('pidsr.home')}}" class="btn btn-primary btn-block">PIDSR</a>
             </div>

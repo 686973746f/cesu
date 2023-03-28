@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\VaxcertConcern;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Imports\VaxcertMasterlistImport;
 use App\Imports\VaxcertMasterlistImportv2;
 use App\Models\CovidVaccinePatientMasterlist;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 
 class VaxcertController extends Controller
 {
@@ -76,6 +79,236 @@ class VaxcertController extends Controller
     }
 
     public function walkin_process(Request $request) {
+        $request->validate([
+            'id_file' => 'required|file|mimes:pdf,jpg,png|max:20000',
+            'vaxcard_file' => 'required|file|mimes:pdf,jpg,png|max:20000',
+        ]);
+
+        $id_file_name = Str::random(40) . '.' . $request->file('id_file')->extension();
+        $vaxcard_file_name = Str::random(40) . '.' . $request->file('vaxcard_file')->extension();
+
+        $request->file('id_file')->storeAs('vaxcert/patient', $id_file_name);
+        $request->file('vaxcard_file')->storeAs('vaxcert/patient', $vaxcard_file_name);
         
+        $sys_code = strtoupper(Str::random(6));
+
+        $check = VaxcertConcern::where('last_name', mb_strtoupper($request->last_name))
+        ->where('first_name', mb_strtoupper($request->last_name))
+        ->whereDate('bdate', $request->bdate)
+        ->where('status', 'PENDING')
+        ->first();
+
+        if(!($check)) {
+            if($request->howmanydose == 1) {
+                $dose2_date = NULL;
+                $dose2_manufacturer = NULL;
+                $dose2_bakuna_center_text = NULL;
+                $dose2_batchno = NULL;
+                $dose2_vaccinator_last_name = NULL;
+                $dose2_vaccinator_first_name = NULL;
+    
+                $dose3_date = NULL;
+                $dose3_manufacturer = NULL;
+                $dose3_bakuna_center_text = NULL;
+                $dose3_batchno = NULL;
+                $dose3_vaccinator_last_name = NULL;
+                $dose3_vaccinator_first_name = NULL;
+    
+                $dose4_date = NULL;
+                $dose4_manufacturer = NULL;
+                $dose4_bakuna_center_text = NULL;
+                $dose4_batchno = NULL;
+                $dose4_vaccinator_last_name = NULL;
+                $dose4_vaccinator_first_name = NULL;
+            }
+            else if($request->howmanydose == 2) {
+                $dose2_date = $request->dose2_date;
+                $dose2_manufacturer = $request->dose2_manufacturer;
+                $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
+                $dose2_batchno = $request->dose2_batchno;
+                $dose2_vaccinator_last_name = $request->dose2_vaccinator_last_name;
+                $dose2_vaccinator_first_name = $request->dose2_vaccinator_first_name;
+    
+                $dose3_date = NULL;
+                $dose3_manufacturer = NULL;
+                $dose3_bakuna_center_text = NULL;
+                $dose3_batchno = NULL;
+                $dose3_vaccinator_last_name = NULL;
+                $dose3_vaccinator_first_name = NULL;
+    
+                $dose4_date = NULL;
+                $dose4_manufacturer = NULL;
+                $dose4_bakuna_center_text = NULL;
+                $dose4_batchno = NULL;
+                $dose4_vaccinator_last_name = NULL;
+                $dose4_vaccinator_first_name = NULL;
+            }
+            else if($request->howmanydose == 3) {
+                $dose2_date = $request->dose2_date;
+                $dose2_manufacturer = $request->dose2_manufacturer;
+                $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
+                $dose2_batchno = $request->dose2_batchno;
+                $dose2_vaccinator_last_name = $request->dose2_vaccinator_last_name;
+                $dose2_vaccinator_first_name = $request->dose2_vaccinator_first_name;
+    
+                $dose3_date = $request->dose3_date;
+                $dose3_manufacturer = $request->dose3_manufacturer;
+                $dose3_bakuna_center_text = $request->dose3_bakuna_center_text;
+                $dose3_batchno = $request->dose3_batchno;
+                $dose3_vaccinator_last_name = $request->dose3_vaccinator_last_name;
+                $dose3_vaccinator_first_name = $request->dose3_vaccinator_first_name;
+    
+                $dose4_date = NULL;
+                $dose4_manufacturer = NULL;
+                $dose4_bakuna_center_text = NULL;
+                $dose4_batchno = NULL;
+                $dose4_vaccinator_last_name = NULL;
+                $dose4_vaccinator_first_name = NULL;
+            }
+            else if($request->howmanydose == 4) {
+                $dose2_date = $request->dose2_date;
+                $dose2_manufacturer = $request->dose2_manufacturer;
+                $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
+                $dose2_batchno = $request->dose2_batchno;
+                $dose2_vaccinator_last_name = $request->dose2_vaccinator_last_name;
+                $dose2_vaccinator_first_name = $request->dose2_vaccinator_first_name;
+    
+                $dose3_date = $request->dose3_date;
+                $dose3_manufacturer = $request->dose3_manufacturer;
+                $dose3_bakuna_center_text = $request->dose3_bakuna_center_text;
+                $dose3_batchno = $request->dose3_batchno;
+                $dose3_vaccinator_last_name = $request->dose3_vaccinator_last_name;
+                $dose3_vaccinator_first_name = $request->dose3_vaccinator_first_name;
+    
+                $dose4_date = $request->dose4_date;
+                $dose4_manufacturer = $request->dose4_manufacturer;
+                $dose4_bakuna_center_text = $request->dose4_bakuna_center_text;
+                $dose4_batchno = $request->dose4_batchno;
+                $dose4_vaccinator_last_name = $request->dose4_vaccinator_last_name;
+                $dose4_vaccinator_first_name = $request->dose4_vaccinator_first_name;
+            }
+    
+            $create = VaxcertConcern::create([
+                'vaxcert_refno' => $request->vaxcert_refno,
+                'category' => $request->category,
+                'last_name' => mb_strtoupper($request->last_name),
+                'first_name' => mb_strtoupper($request->first_name),
+                'middle_name' => ($request->filled('middle_name')) ? mb_strtoupper($request->middle_name) : NULL,
+                'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+                'gender' => $request->gender,
+                'bdate' => $request->bdate,
+                'contact_number' => $request->contact_number,
+                'email' => ($request->filled('email')) ? $request->email : NULL,
+                'address_region_code' => $request->address_region_code,
+                'address_region_text' => $request->address_region_text,
+                'address_province_code' => $request->address_province_code,
+                'address_province_text' => $request->address_province_text,
+                'address_muncity_code' => $request->address_muncity_code,
+                'address_muncity_text' => $request->address_muncity_text,
+                'address_brgy_code' => $request->address_brgy_text,
+                'address_brgy_text' => $request->address_brgy_text,
+                'dose1_date' => $request->dose1_date,
+                'dose1_manufacturer' => $request->dose1_manufacturer,
+                'dose1_batchno' => $request->dose1_batchno,
+                'dose1_lotno' => $request->dose1_batchno,
+                'dose1_bakuna_center_text' => $request->dose1_bakuna_center_text,
+                'dose1_vaccinator_last_name' => $request->dose1_vaccinator_last_name,
+                'dose1_vaccinator_first_name' => $request->dose1_vaccinator_first_name,
+                'dose2_date' => $dose2_date,
+                'dose2_manufacturer' => $dose2_manufacturer,
+                'dose2_batchno' => $dose2_batchno,
+                'dose2_lotno' => $dose2_batchno,
+                'dose2_bakuna_center_text' => $dose2_bakuna_center_text,
+                'dose2_vaccinator_last_name' => $dose2_vaccinator_last_name,
+                'dose2_vaccinator_first_name' => $dose2_vaccinator_first_name,
+                'dose3_date' => $dose3_date,
+                'dose3_manufacturer' => $dose3_manufacturer,
+                'dose3_batchno' => $dose3_batchno,
+                'dose3_lotno' => $dose3_batchno,
+                'dose3_bakuna_center_text' => $dose3_bakuna_center_text,
+                'dose3_vaccinator_last_name' => $dose3_vaccinator_last_name,
+                'dose3_vaccinator_first_name' => $dose3_vaccinator_first_name,
+                'dose4_date' => $dose4_date,
+                'dose4_manufacturer' => $dose4_manufacturer,
+                'dose4_batchno' => $dose4_batchno,
+                'dose4_lotno' => $dose4_batchno,
+                'dose4_bakuna_center_text' => $dose4_bakuna_center_text,
+                'dose4_vaccinator_last_name' => $dose4_vaccinator_last_name,
+                'dose4_vaccinator_first_name' => $dose4_vaccinator_first_name,
+                'concern_type' => $request->concern_type,
+                'concern_msg' => $request->concern_msg,
+                'id_file' => $id_file_name,
+                'vaxcard_file' =>$vaxcard_file_name,
+                'sys_code' => $sys_code,
+            ]);
+    
+            return view('vaxcert.walkin_complete', [
+                'code' => $sys_code,
+            ]);
+        }
+        else {
+            return redirect()->back()->with('msg', 'Error: You still have PENDING Ticket.')
+            ->with('msgtype', 'warning');
+        }
+    }
+
+    public function home() {
+        $list = VaxcertConcern::where('status', 'PENDING')
+        ->orderBy('created_at', 'ASC')
+        ->paginate(10);
+
+        return view('vaxcert.home', [
+            'list' => $list,
+        ]);
+    }
+
+    public function view_patient($id) {
+        $v = VaxcertConcern::findOrFail($id);
+
+        $w = CovidVaccinePatientMasterlist::where('last_name', $v->last_name)
+        ->where('first_name', $v->first_name)
+        ->whereDate('birthdate', $v->bdate)
+        ->first();
+
+        return view('vaxcert.viewconcern', [
+            'd' => $v,
+        ]);
+    }
+
+    public function process_patient(Request $request) {
+
+    }
+
+    public function dlbase_template($id) {
+        $v = VaxcertConcern::findOrFail($id);
+
+        $collection = collect();
+
+        for($i = 1; $i <= $v->getNumberOfDose(); $i++) {
+            $collection->push([
+                'CATEGORY' => $v->category,
+                'COMORBIDITY' => NULL,
+                'UNIQUE_PERSON_ID' => 'NONE',
+                'LAST_NAME' => $v->last_name,
+                'FIRST_NAME' => $v->first_name,
+                'MIDDLE_NAME' => $v->middle_name,
+            ]);
+        }
+
+        $header_style = (new StyleBuilder())->setFontBold()->build();
+        $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
+
+        return (new FastExcel($collection))
+        ->headerStyle($header_style)
+        ->rowsStyle($rows_style)
+        ->download('test.xlsx', function ($form) {
+            return [
+                'CATEGORY' => $form['CATEGORY'],
+            ];
+        });
+    }
+
+    public function dloff_template($id) {
+
     }
 }

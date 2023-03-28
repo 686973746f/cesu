@@ -24,7 +24,7 @@
                 <table class="table text-center table-bordered">
                     <tbody>
                         <tr>
-                            <td scope="row" rowspan="3" style="vertical-align: middle;"><i class="fas fa-phone-alt mr-2"></i>Mobile Numbers</td>
+                            <td scope="row" rowspan="3" style="vertical-align: middle;"><i class="fas fa-phone-alt mr-2 bg-light"></i>Mobile Numbers</td>
                             <td>0919 066 4324</td>
                         </tr>
                         <tr>
@@ -34,18 +34,18 @@
                             <td>0919 066 4327</td>
                         </tr>
                         <tr>
-                            <td scope="row">Telephone Number</td>
+                            <td scope="row" class="bg-light">Telephone Number</td>
                             <td>(046) 509 - 5289</td>
                         </tr>
                         <tr>
-                            <td scope="row"><i class="fas fa-at mr-2"></i>Email Address</td>
+                            <td scope="row" class="bg-light"><i class="fas fa-at mr-2"></i>Email Address</td>
                             <td><a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></td>
                         </tr>
                         <tr>
                             <td colspan="2"><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></td>
                         </tr>
                         <tr>
-                            <td scope="row">Address</td>
+                            <td scope="row" class="bg-light">Address</td>
                             <td>City Health Office (3rd Floor CESU Office), Pria Rd., Hospital Area - Main, Brgy. Pinagtipunan, General Trias, Cavite, 4107</td>
                         </tr>
                     </tbody>
