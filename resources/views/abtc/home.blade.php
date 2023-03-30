@@ -200,6 +200,7 @@
                   @endforeach
                 </select>
               </div>
+
               <div class="form-group">
                 <label for="year">Select Year</label>
                 <select class="form-control" name="year" id="year" required>
@@ -248,6 +249,7 @@
                 <label for="week">Select Week</label>
                 <input type="number" min="1" max="53" class="form-control" name="week" id="week" value="{{date('W')}}">
               </div>
+              
             </div>
             <div class="card-footer text-right">
               <button type="submit" class="btn btn-primary">Generate .DOCX File</button>
