@@ -71,6 +71,29 @@
                             <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="vaxcard_uniqueid">Vaccination Card ID No./Unique Person ID</label>
+                              <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="comorbidity">Comorbidity (If Applicable)</label>
+                                <input type="text" class="form-control" name="comorbidity" id="comorbidity">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pwd_yn"><span class="text-danger font-weight-bold">*</span>Sex</label>
+                                <select class="form-control" name="pwd_yn" id="pwd_yn" required>
+                                  <option value="N" {{(old('pwd_yn') == 'N') ? 'selected' : ''}}>No</option>
+                                  <option value="Y" {{(old('pwd_yn') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                       <label for="concern_msg">Specific Concern Message</label>
                       <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)" required></textarea>
@@ -108,8 +131,8 @@
                               <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
                               <select class="form-control" name="gender" id="gender" required>
                                 <option disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="M" {{(old('category') == 'M') ? 'selected' : ''}}>Male/Lalaki</option>
-                                <option value="F" {{(old('category') == 'F') ? 'selected' : ''}}>Female/Babae</option>
+                                <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male/Lalaki</option>
+                                <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female/Babae</option>
                               </select>
                             </div>
                         </div>
@@ -132,6 +155,8 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+
                     <hr>
                     <div id="address_text" class="d-none">
                         <div class="row">
@@ -214,7 +239,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose1_bakuna_center_text">Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <label for="dose1_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text">
                                 </div>
                             </div>
@@ -265,7 +290,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose2_bakuna_center_text">Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <label for="dose2_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text">
                                 </div>
                             </div>
@@ -316,7 +341,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose3_bakuna_center_text">Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <label for="dose3_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text">
                                 </div>
                             </div>
@@ -367,7 +392,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose4_bakuna_center_text">Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <label for="dose4_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text">
                                 </div>
                             </div>
@@ -600,6 +625,11 @@
                 $('#dose3_manufacturer').prop('required', false);
                 $('#dose4_date').prop('required', false);
                 $('#dose4_manufacturer').prop('required', false);
+
+                $('#dose1_bakuna_center_text').prop('required', true);
+                $('#dose2_bakuna_center_text').prop('required', false);
+                $('#dose3_bakuna_center_text').prop('required', false);
+                $('#dose4_bakuna_center_text').prop('required', false);
             }
             else if($(this).val() == 2) {
                 $('#vaccine1').removeClass('d-none');
@@ -613,6 +643,11 @@
                 $('#dose3_manufacturer').prop('required', false);
                 $('#dose4_date').prop('required', false);
                 $('#dose4_manufacturer').prop('required', false);
+
+                $('#dose1_bakuna_center_text').prop('required', true);
+                $('#dose2_bakuna_center_text').prop('required', true);
+                $('#dose3_bakuna_center_text').prop('required', false);
+                $('#dose4_bakuna_center_text').prop('required', false);
             }
             else if($(this).val() == 3) {
                 $('#vaccine1').removeClass('d-none');
@@ -626,6 +661,11 @@
                 $('#dose3_manufacturer').prop('required', true);
                 $('#dose4_date').prop('required', false);
                 $('#dose4_manufacturer').prop('required', false);
+
+                $('#dose1_bakuna_center_text').prop('required', true);
+                $('#dose2_bakuna_center_text').prop('required', true);
+                $('#dose3_bakuna_center_text').prop('required', true);
+                $('#dose4_bakuna_center_text').prop('required', false);
             }
             else if($(this).val() == 4) {
                 $('#vaccine1').removeClass('d-none');
@@ -639,6 +679,11 @@
                 $('#dose3_manufacturer').prop('required', true);
                 $('#dose4_date').prop('required', true);
                 $('#dose4_manufacturer').prop('required', true);
+
+                $('#dose1_bakuna_center_text').prop('required', true);
+                $('#dose2_bakuna_center_text').prop('required', true);
+                $('#dose3_bakuna_center_text').prop('required', true);
+                $('#dose4_bakuna_center_text').prop('required', true);
             }
 
             if($(this).val() != null) {

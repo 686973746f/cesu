@@ -29,6 +29,11 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('contact_number');
             $table->string('email')->nullable();
 
+            $table->string('comorbidity')->nullable();
+            $table->string('pwd_yn')->default('N');
+
+            $table->string('guardian_name')->nullable();
+
             $table->text('address_region_code');
             $table->text('address_region_text');
             $table->text('address_province_code');
@@ -43,38 +48,39 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('dose1_batchno')->nullable();
             $table->string('dose1_lotno')->nullable();
             $table->string('dose1_bakuna_center_text')->nullable();
-            $table->string('dose1_vaccinator_last_name')->nullable();
-            $table->string('dose1_vaccinator_first_name')->nullable();
+            $table->string('dose1_bakuna_center_code')->nullable();
+            $table->string('dose1_vaccinator_name')->nullable();
 
             $table->date('dose2_date')->nullable();
             $table->string('dose2_manufacturer')->nullable();
             $table->string('dose2_batchno')->nullable();
             $table->string('dose2_lotno')->nullable();
             $table->string('dose2_bakuna_center_text')->nullable();
-            $table->string('dose2_vaccinator_last_name')->nullable();
-            $table->string('dose2_vaccinator_first_name')->nullable();
+            $table->string('dose2_bakuna_center_code')->nullable();
+            $table->string('dose2_vaccinator_name')->nullable();
 
             $table->date('dose3_date')->nullable();
             $table->string('dose3_manufacturer')->nullable();
             $table->string('dose3_batchno')->nullable();
             $table->string('dose3_lotno')->nullable();
             $table->string('dose3_bakuna_center_text')->nullable();
-            $table->string('dose3_vaccinator_last_name')->nullable();
-            $table->string('dose3_vaccinator_first_name')->nullable();
+            $table->string('dose3_bakuna_center_code')->nullable();
+            $table->string('dose3_vaccinator_name')->nullable();
 
             $table->date('dose4_date')->nullable();
             $table->string('dose4_manufacturer')->nullable();
             $table->string('dose4_batchno')->nullable();
             $table->string('dose4_lotno')->nullable();
             $table->string('dose4_bakuna_center_text')->nullable();
-            $table->string('dose4_vaccinator_last_name')->nullable();
-            $table->string('dose4_vaccinator_first_name')->nullable();
+            $table->string('dose4_bakuna_center_code')->nullable();
+            $table->string('dose4_vaccinator_name')->nullable();
 
             $table->string('concern_type');
             $table->text('concern_msg');
 
             $table->text('id_file');
             $table->text('vaxcard_file');
+            $table->string('vaxcard_uniqueid')->nullable();
 
             $table->string('sys_code'); //QR
 

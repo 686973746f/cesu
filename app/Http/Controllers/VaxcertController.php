@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Imports\VaxcertMasterlistImport;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Imports\VaxcertMasterlistImportv2;
 use App\Models\CovidVaccinePatientMasterlist;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
@@ -282,19 +284,86 @@ class VaxcertController extends Controller
     public function dlbase_template($id) {
         $v = VaxcertConcern::findOrFail($id);
 
-        $collection = collect();
+        $spreadsheet = IOFactory::load(storage_path('vaslinelist_template.xlsx'));
+        $sheet = $spreadsheet->getActiveSheet('VAS Template');
+
+        //$collection = collect();
+
+        //$sheet->setCellValue('A2', 'bilat');
 
         for($i = 1; $i <= $v->getNumberOfDose(); $i++) {
-            $collection->push([
-                'CATEGORY' => $v->category,
-                'COMORBIDITY' => NULL,
-                'UNIQUE_PERSON_ID' => 'NONE',
-                'LAST_NAME' => $v->last_name,
-                'FIRST_NAME' => $v->first_name,
-                'MIDDLE_NAME' => $v->middle_name,
-            ]);
+            if($i == 1) {
+                $vdate = date('m/d/Y', strtotime($v->dose1_date));
+                $vbrand = mb_strtoupper($v->dose1_manufacturer);
+                $vbatchlot = mb_strtoupper($v->dose1_batchno);
+
+                $vdose1yn = 'Y';
+                $vdose2yn = 'N';
+                $vdose3yn = 'N';
+                $vdose4yn = 'N';
+            }
+            else if($i == 2) {
+                
+                $vdose1yn = 'N';
+                $vdose2yn = 'Y';
+                $vdose3yn = 'N';
+                $vdose4yn = 'N';
+            }
+            else if($i == 3) {
+                $vdose1yn = 'N';
+                $vdose2yn = 'N';
+                $vdose3yn = 'Y';
+                $vdose4yn = 'N';
+            }
+            else if($i == 4) {
+                $vdose1yn = 'N';
+                $vdose2yn = 'N';
+                $vdose3yn = 'N';
+                $vdose4yn = 'Y';
+            }
+
+            $c = $i+1;
+            $sheet->setCellValue('A'.$c, $v->category);
+            $sheet->setCellValue('B'.$c, ''); //COMORBID
+            $sheet->setCellValue('C'.$c, (!is_null($v->vaxcard_uniqueid)) ? $v->vaxcard_uniqueid : 'NONE'); //UNIQUE PERSON ID
+            $sheet->setCellValue('D'.$c, $v->pwd_yn); //PWD
+            $sheet->setCellValue('E'.$c, 'N'); //INDIGENOUS MEMBER
+            $sheet->setCellValue('F'.$c, $v->last_name);
+            $sheet->setCellValue('G'.$c, $v->first_name);
+            $sheet->setCellValue('H'.$c, (!is_null($v->middle_name)) ? $v->middle_name : '');
+            $sheet->setCellValue('I'.$c, (!is_null($v->suffix)) ? $v->suffix : '');
+            $sheet->setCellValue('J'.$c, $v->contact_number);
+            $sheet->setCellValue('K'.$c, ''); //GUARDIAN NAME
+            $sheet->setCellValue('L'.$c, $v->address_region_text); //REGION
+            $sheet->setCellValue('M'.$c, 'NONE'); //PROVINCE
+            $sheet->setCellValue('N'.$c, 'NONE'); //MUNCITY
+            $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
+            $sheet->setCellValue('P'.$c, $v->gender);
+            $sheet->setCellValue('Q'.$c, date('m/d/Y', strtotime($v->birthdate)));
+            $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
+            $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
+            $sheet->setCellValue('T'.$c, $vdate);
+            $sheet->setCellValue('U'.$c, $vbrand);
+            $sheet->setCellValue('V'.$c, $vbatchlot);
+            $sheet->setCellValue('W'.$c, 'NONE');
+            $sheet->setCellValue('X'.$c, 'NONE');
+            $sheet->setCellValue('Y'.$c, 'NONE');
+            $sheet->setCellValue('Z'.$c, $vdose1yn);
+            $sheet->setCellValue('AA'.$c, $vdose2yn);
+            $sheet->setCellValue('AB'.$c, $vdose3yn);
+            $sheet->setCellValue('AC'.$c, $vdose4yn);
+            $sheet->setCellValue('AD'.$c, 'N'); //ADVERSE EVENT
+            $sheet->setCellValue('AE'.$c, ''); //ADVERSE EVENT CONDITION
         }
 
+        $fileName = 'vas-line-template-ped-'.strtolower(Str::random(5)).'.xlsx';
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
+
+        /*
         $header_style = (new StyleBuilder())->setFontBold()->build();
         $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
 
@@ -306,6 +375,7 @@ class VaxcertController extends Controller
                 'CATEGORY' => $form['CATEGORY'],
             ];
         });
+        */
     }
 
     public function dloff_template($id) {
