@@ -20,6 +20,10 @@ class CreateAbtcVaccineBrandsTable extends Migration
             $table->tinyInteger('enabled')->default(1);
             $table->timestamps();
         });
+
+        Schema::table('abtc_vaccine_brands', function (Blueprint $table) {
+            $table->decimal('price_per_dose')->after('generic_name')->nullable();
+        });
     }
 
     /**

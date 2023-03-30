@@ -11,11 +11,13 @@ use App\Models\Ahf;
 use App\Models\Nnt;
 use App\Models\Psp;
 use App\Models\Ames;
+use App\Models\Brgy;
 use App\Models\Diph;
 use App\Models\Hfmd;
 use App\Models\Pert;
 use App\Models\Chikv;
 use App\Models\Dengue;
+use App\Models\Rabies;
 use App\Models\Anthrax;
 use App\Models\Cholera;
 use App\Models\Malaria;
@@ -28,6 +30,7 @@ use App\Models\Meningitis;
 use App\Imports\PidsrImport;
 use Illuminate\Http\Request;
 use App\Models\Leptospirosis;
+use App\Models\Rotavirus;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
@@ -475,51 +478,128 @@ class PIDSRController extends Controller
         }
     }
 
-    public function readdb() {
-        
+    public function report_generate() {
+        $brgy = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
 
-        $dbName = "C:\path\to\database.mdb";
+        $arr = [];
 
-        $conn = new COM("ADODB.Connection") or die("Cannot start ADO");
-        $conn->Open("DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=$dbName;");
+        $rtype = request()->input('rtype');
 
-        $rs = $conn->Execute("SELECT * FROM table_name");
-
-        while (!$rs->EOF) {
-            echo $rs->Fields("column_name")->Value . "<br>";
-            $rs->MoveNext();
+        if(request()->input('submit') == 'report1') {
+            foreach($brgy as $b) {
+                $year = request()->input('year');
+    
+                if($rtype == 'YEARLY') {
+                    //Category 1
+                    $afp = Afp::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $anthrax = Anthrax::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $hfmd = Hfmd::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $measles = Measles::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $meningo = Meningo::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $nt = Nt::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $psp = Psp::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $rabies = Rabies::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    //Category 2
+    
+                    $abd = Abd::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $aes = Aes::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    
+                    $ahf = Ahf::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $hepatitis = Hepatitis::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $ames = Ames::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $meningitis = Meningitis::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $chikv = Chikv::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $cholera = Cholera::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $dengue = Dengue::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $diph = Diph::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $influenza = Influenza::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $leptospirosis = Leptospirosis::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $malaria = Malaria::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $nnt = Nnt::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $pert = Pert::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $rotavirus = Rotavirus::where('Barangay', $b->brgyName)->where('year', $year)->count();
+    
+                    $typhoid = Typhoid::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                }
+                else if($rtype == 'QUARTERLY') {
+    
+                }
+                else if($rtype == 'MONTHLY') {
+    
+                }
+                else if($rtype == 'WEEKLY') {
+    
+                }
+    
+                array_push($arr, [
+                    'barangay' => $b->brgyName,
+                    
+                    'afp' => $afp,
+                    'aefi' => 0,
+                    'anthrax' => $anthrax,
+                    'hfmd' => $hfmd,
+                    'measles' => $measles,
+                    'meningo' => $meningo,
+                    'nt' => $nt,
+                    'psp' => $psp,
+                    'rabies' => $rabies,
+    
+                    'abd' => $abd,
+                    'aes' => $aes,
+                    'ahf' => $ahf,
+                    'hepatitis' => $hepatitis,
+                    'ames' => $ames,
+                    'meningitis' => $meningitis,
+                    'chikv' => $chikv,
+                    'cholera' => $cholera,
+                    'dengue' => $dengue,
+                    'diph' => $diph,
+                    'influenza' => $influenza,
+                    'leptospirosis' => $leptospirosis,
+                    'malaria' => $malaria,
+                    'nnt' => $nnt,
+                    'pert' => $pert,
+                    'rotavirus' => $rotavirus,
+                    'typhoid' => $typhoid,
+                ]);
+            }
+    
+            return view('pidsr.report1', [
+                'arr' => $arr,
+            ]);
         }
-
-        $rs->Close();
-        $conn->Close();
     }
 
-        /*
-        $inputFiles = [new InputFile("C:\PIDSR\Current\ABD.mdb")];
+    public function report_two() {
+        
+    }
 
-        $converter = new Converter();
-        $database = $converter->convertToDatabase($inputFiles);
-        $tables = $database->getTables();
+    public function fhsis_report() {
 
-        foreach ($tables as $table) {
-            echo "Reading table '".$table->getName()."'\n";
-
-            $rows = $table->getRowsIterator();
-            foreach ($rows as $row) {
-                echo implode(', ', $row)."\n";
-            }
-        }
-        */
-        /*
-        $sd = $request->sd;
-
-
-        if($sd == 'DENGUE') {
-            $pass = 'Dengue';
-        }
-
-        Excel::import(new PidsrImport($pass), $request->ff);
-
-        return 'Success';
-        */
+    }
 }
