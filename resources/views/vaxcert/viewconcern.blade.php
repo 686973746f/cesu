@@ -16,10 +16,11 @@
                         <b>Step 3:</b>
                         <ul>
                             @if(!is_null($d->vaxcert_refno))
-                            <li></li>
+                            <li>Search Ref. No in <b>Correction Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$v->vaxcert_refno}}">HERE</a></li>
+                            <li>Search Ref. No in <b>Not Found Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$v->vaxcert_refno}}">HERE</a></li>
                             @endif
-                            <li>Try Searching the name of Patient in <b>Correction Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
-                            <li>Try Searching the name of Patient in <b>Not Found Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
+                            <li>Search Name of Patient in <b>Correction Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
+                            <li>Search Name of Patient in <b>Not Found Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
                         </ul>
                     </li>
                     <h6>(Kung may ticket ang Patient, wag na mag-proceed sa Step 3 at i-update na lang ang Ticket at i-close pagkatapos. Kung wala, proceed to Step 3)</h6>
@@ -44,13 +45,14 @@
                         <ul>
                             <li>Download Patient Linelist Template by clicking - <a href="{{route('vaxcert_basedl', $d->id)}}">HERE</a></li>
                             <li>Go to <a href="https://vaslinelist.dict.gov.ph/vas-line-import/approved">VAS Linelist Import</a> and upload the downloaded Excel (.XLSX) file.</li>
-                            <li>Use <b>cesugentri.vaxcert@gmail.com</b> as the email.</li>
+                            <li>Use <b class="text-info">cesugentri.vaxcert@gmail.com</b> as the email for uploading the linelist.</li>
                         </ul>
                     </li>
-                    
                 </ul>
-                <a href="{{route('vaxcert_offdl', $d->id)}}" class="btn btn-primary btn-block">Download Offline Template</a>
-                <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
+                <!--
+                    <a href="{{route('vaxcert_offdl', $d->id)}}" class="btn btn-primary btn-block">Download Offline Template</a>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
+                -->
             </div>
             <div class="card-footer text-right">
                 <button type="submit" class="btn btn-danger mr-3" name="submit" value="update">Reject</button>

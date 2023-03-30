@@ -52,7 +52,7 @@
 
                 @if(request()->input('type') && request()->input('year'))
                 <div class="text-center">
-                    <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="width: 50rem;">
+                    <img src="{{asset('assets/images/CHO_LETTERHEAD_WITH_CESU.png')}}" class="img-fluid" style="width: 50rem;">
                     <img src="{{asset('assets/images/efhsis_logo.jpg')}}" class="img-fluid" style="width: 20rem;">
                     <h2><b><u><span class="text-primary">e</span><span class="text-danger">FHSIS</span> Report</u></b></h2>
                     @if(request()->input('type') == 'yearly')
@@ -104,28 +104,43 @@
                                 <thead class="text-center thead-light">
                                     <tr>
                                         <th rowspan="2">Barangay</th>
-                                        <th colspan="2">Child Care</th>
+                                        <th colspan="6">Child Care</th>
                                         <th colspan="2">Family Planning</th>
                                         <th colspan="3">Non-Com</th>
                                         <th rowspan="2">Dental</th>
                                         <th rowspan="2">Environmental</th>
                                     </tr>
                                     <tr>
-                                        <th>FIC</th>
-                                        <th>CIC</th>
-                                        <th>CU</th>
-                                        <th>END</th>
+                                        <th>FIC - M</th>
+                                        <th>FIC - F</th>
+                                        <th>TOTAL</th>
+                                        <th>CIC - M</th>
+                                        <th>CIC - F</th>
+                                        <th>TOTAL</th>
+                                        <th>CU (Beg. Month)</th>
+                                        <th>CU (End Month)</th>
                                         <th>RISK ASSESS</th>
                                         <th>PPV</th>
                                         <th>FLU-VACCINE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $gfic_m = 0;
+                                    $gfic_f = 0;
+                                    $gcic_m = 0;
+                                    $gcic_f = 0;
+                                    @endphp
+
                                     @foreach($bgy_mone_list as $b)
                                     <tr>
                                         <td>{{$b['barangay']}}</td>
-                                        <td class="text-center">{{$b['fic']}}</td>
-                                        <td class="text-center">{{$b['cic']}}</td>
+                                        <td class="text-center">{{$b['fic_m']}}</td>
+                                        <td class="text-center">{{$b['fic_f']}}</td>
+                                        <td class="text-center"><b>{{($b['fic_m'] + $b['fic_f'])}}</b></td>
+                                        <td class="text-center">{{$b['cic_m']}}</td>
+                                        <td class="text-center">{{$b['cic_f']}}</td>
+                                        <td class="text-center"><b>{{($b['cic_m'] + $b['cic_f'])}}</b></td>
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
@@ -134,8 +149,33 @@
                                         <td class="text-center"></td>
                                         <td class="text-center"></td>
                                     </tr>
+                                    @php
+                                    $gfic_m += $b['fic_m'];
+                                    $gfic_f += $b['fic_f'];
+                                    $gcic_m += $b['cic_m'];
+                                    $gcic_f += $b['cic_f'];
+                                    @endphp
+
                                     @endforeach
                                 </tbody>
+                                <tfoot class="text-center font-weight-bold">
+                                    <tr>
+                                        <td>GRAND TOTAL</td>
+                                        <td>{{$gfic_m}}</td>
+                                        <td>{{$gfic_f}}</td>
+                                        <td>{{($gfic_m + $gfic_f)}}</td>
+                                        <td>{{$gcic_m}}</td>
+                                        <td>{{$gcic_f}}</td>
+                                        <td>{{($gcic_m + $gcic_f)}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

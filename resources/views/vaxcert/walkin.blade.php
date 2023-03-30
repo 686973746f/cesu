@@ -19,7 +19,7 @@
                         <ul>
                             <h4 class="text-danger"><b>BASAHIN ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
                             <li>Lahat ng field na may asterisk (<span class="text-danger font-weight-bold">*</span>) ay kailangang sagutan. Ilagay ang kumpleto at totoong impormasyon na hinihingi. I-double check ang mga inilagay na detalye bago isumite.</li>
-                            <li>Kung ang isyu ay tungkol sa "Nawawalang Bakuna/Missing Dose", at kung ikaw ay binakunahan nito sa labas ng bayan ng General Trias, makipag-ugnayan sa lugar kung saan ka binakunahan para ito ay maayos sapagkat wala kaming permiso upang baguhin iyon.</li>
+                            <li>Tungkol sa "Nawawalang Bakuna/Missing Dose", tanging mga bakunahan lamang sa General Trias ang aming mar-resolba. Kung hindi ka sa General Trias binakunahan, makipag-ugnayan sa bayan kung saan ka binakunahan upang maayos nila ito.</li>
                             <li>Inirerekumenda naming mag-submit muna kayo ng "Update Record" ticket ng inyong isyu sa <a href="https://vaxcert.doh.gov.ph/#/">VaxCertPH Website</a> upang mas mabilis namin kayong matulungan. Ilagay ito sa <i>"VaxCertPH Ticket Reference No."</i> na makikita sa ibaba.</li>
                             <li>Mag-antay ng dalawa (2) hanggang tatlong (3) araw upang maayos ang iyong isyu.  Maglagay ng aktibong mobile number at email address upang mabilis namin kayong ma-abisuhan.</li>
                         </ul>
@@ -67,26 +67,27 @@
                             <div class="form-group">
                               <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
                               <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control">
+                              <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
                             </div>
-                            <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                              <label for="vaxcard_uniqueid">Vaccination Card ID No./Unique Person ID</label>
-                              <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid">
+                              <label for="vaxcard_uniqueid">Vaccination Card ID No./Unique Person ID <i>(Leave blank if empty)</i></label>
+                              <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid" placeholder="ex: CC1234, RP1234, VM1234">
+                              <small class="text-muted">Nakikita ito sa kanang ibabaw na bahagi ng iyong Vaccination Card.</small>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="comorbidity">Comorbidity (If Applicable)</label>
-                                <input type="text" class="form-control" name="comorbidity" id="comorbidity">
+                                <label for="comorbidity">Comorbidity <i>(Leave blank if empty)</i></label>
+                                <input type="text" class="form-control" name="comorbidity" id="comorbidity" placeholder="ex: Diabetes, Hypertension, Cancer">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="pwd_yn"><span class="text-danger font-weight-bold">*</span>Sex</label>
+                                <label for="pwd_yn"><span class="text-danger font-weight-bold">*</span>Person with Disability (PWD)</label>
                                 <select class="form-control" name="pwd_yn" id="pwd_yn" required>
                                   <option value="N" {{(old('pwd_yn') == 'N') ? 'selected' : ''}}>No</option>
                                   <option value="Y" {{(old('pwd_yn') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -155,8 +156,23 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
-
+                    <div id="ifguardian" class="d-none">
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="glast_name"><span class="text-danger font-weight-bold">*</span>Guardian's Surname</label>
+                                    <input type="text" class="form-control" id="glast_name" name="glast_name" value="{{old('glast_name')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gfirst_name"><span class="text-danger font-weight-bold">*</span>Guardian's First Name</label>
+                                    <input type="text" class="form-control" id="gfirst_name" name="gfirst_name" value="{{old('gfirst_name')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <div id="address_text" class="d-none">
                         <div class="row">
@@ -239,25 +255,35 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose1_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text">
+                                    <label for="dose1_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>1ST Dose Vaccinated here in GenTri?</label>
+                                    <select class="form-control" name="dose1_inmainlgu_yn" id="dose1_inmainlgu_yn" required>
+                                      <option disabled {{(is_null(old('dose1_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="Y" {{(old('dose1_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                      <option value="N" {{(old('dose1_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="dose1_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose1_batchno">Batch/Lot No.</label>
                                     <input type="text" class="form-control" name="dose1_batchno" id="dose1_batchno">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose1_vaccinator_last_name">Vaccinator Surname</label>
                                     <input type="text" class="form-control" name="dose1_vaccinator_last_name" id="dose1_vaccinator_last_name">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose1_vaccinator_first_name">Vaccinator First Name</label>
                                     <input type="text" class="form-control" name="dose1_vaccinator_first_name" id="dose1_vaccinator_first_name">
@@ -290,25 +316,35 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose2_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text">
+                                    <label for="dose2_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>2ND Dose Vaccinated here in GenTri?</label>
+                                    <select class="form-control" name="dose2_inmainlgu_yn" id="dose2_inmainlgu_yn" required>
+                                      <option disabled {{(is_null(old('dose2_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="Y" {{(old('dose2_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                      <option value="N" {{(old('dose2_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="dose2_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose2_batchno">Batch/Lot No.</label>
                                     <input type="text" class="form-control" name="dose2_batchno" id="dose2_batchno">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose2_vaccinator_last_name">Vaccinator Surname</label>
                                     <input type="text" class="form-control" name="dose2_vaccinator_last_name" id="dose2_vaccinator_last_name">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose2_vaccinator_first_name">Vaccinator First Name</label>
                                     <input type="text" class="form-control" name="dose2_vaccinator_first_name" id="dose2_vaccinator_first_name">
@@ -341,25 +377,35 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose3_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text">
+                                    <label for="dose3_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>3RD Dose Vaccinated here in GenTri?</label>
+                                    <select class="form-control" name="dose3_inmainlgu_yn" id="dose3_inmainlgu_yn" required>
+                                      <option disabled {{(is_null(old('dose3_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="Y" {{(old('dose3_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                      <option value="N" {{(old('dose3_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="dose3_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose3_batchno">Batch/Lot No.</label>
                                     <input type="text" class="form-control" name="dose3_batchno" id="dose3_batchno">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose3_vaccinator_last_name">Vaccinator Surname</label>
                                     <input type="text" class="form-control" name="dose3_vaccinator_last_name" id="dose3_vaccinator_last_name">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose3_vaccinator_first_name">Vaccinator First Name</label>
                                     <input type="text" class="form-control" name="dose3_vaccinator_first_name" id="dose3_vaccinator_first_name">
@@ -392,25 +438,35 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="dose4_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text">
+                                    <label for="dose4_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>4TH Dose Vaccinated here in GenTri?</label>
+                                    <select class="form-control" name="dose4_inmainlgu_yn" id="dose4_inmainlgu_yn" required>
+                                      <option disabled {{(is_null(old('dose4_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="Y" {{(old('dose4_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                      <option value="N" {{(old('dose4_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="dose4_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
+                                  <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose4_batchno">Batch/Lot No.</label>
                                     <input type="text" class="form-control" name="dose4_batchno" id="dose4_batchno">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose4_vaccinator_last_name">Vaccinator Surname</label>
                                     <input type="text" class="form-control" name="dose4_vaccinator_last_name" id="dose4_vaccinator_last_name">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose4_vaccinator_first_name">Vaccinator First Name</label>
                                     <input type="text" class="form-control" name="dose4_vaccinator_first_name" id="dose4_vaccinator_first_name">
@@ -449,6 +505,8 @@
                 </div>
             </div>
         </form>
+        <p class="text-center">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a href = "mailto: cesugentrias.vaxcert@gmail.com">cesugentrias.vaxcert@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
+        <hr>
         <p class="text-center">VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
     <script>
@@ -698,6 +756,29 @@
             if ($('#howmanydose').val() == 2 || $('#howmanydose').val() == 3 || $('#howmanydose').val() == 4) {
                 $('#dose2_manufacturer').val(selectedManufacturer);
             }
+        });
+
+        $(document).ready(function(){
+            $('#bdate').change(function(){
+                var dob = new Date($(this).val());
+                var today = new Date();
+                var age = today.getFullYear() - dob.getFullYear();
+                var m = today.getMonth() - dob.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                    age--;
+                }
+
+                if (age < 18) {
+                    $('#ifguardian').removeClass('d-none');
+                    $('#gfirst_name').prop('required', true);
+                    $('#glast_name').prop('required', true);
+                }
+                else {
+                    $('#ifguardian').addClass('d-none');
+                    $('#gfirst_name').prop('required', false);
+                    $('#glast_name').prop('required', false);
+                }
+            });
         });
     </script>
 @endsection

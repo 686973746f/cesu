@@ -47,6 +47,7 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('dose1_manufacturer');
             $table->string('dose1_batchno')->nullable();
             $table->string('dose1_lotno')->nullable();
+            $table->string('dose1_inmainlgu_yn');
             $table->string('dose1_bakuna_center_text')->nullable();
             $table->string('dose1_bakuna_center_code')->nullable();
             $table->string('dose1_vaccinator_name')->nullable();
@@ -55,6 +56,7 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('dose2_manufacturer')->nullable();
             $table->string('dose2_batchno')->nullable();
             $table->string('dose2_lotno')->nullable();
+            $table->string('dose2_inmainlgu_yn')->nullable();
             $table->string('dose2_bakuna_center_text')->nullable();
             $table->string('dose2_bakuna_center_code')->nullable();
             $table->string('dose2_vaccinator_name')->nullable();
@@ -63,6 +65,7 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('dose3_manufacturer')->nullable();
             $table->string('dose3_batchno')->nullable();
             $table->string('dose3_lotno')->nullable();
+            $table->string('dose3_inmainlgu_yn')->nullable();
             $table->string('dose3_bakuna_center_text')->nullable();
             $table->string('dose3_bakuna_center_code')->nullable();
             $table->string('dose3_vaccinator_name')->nullable();
@@ -71,6 +74,7 @@ class CreateVaxcertConcernsTable extends Migration
             $table->string('dose4_manufacturer')->nullable();
             $table->string('dose4_batchno')->nullable();
             $table->string('dose4_lotno')->nullable();
+            $table->string('dose4_inmainlgu_yn')->nullable();
             $table->string('dose4_bakuna_center_text')->nullable();
             $table->string('dose4_bakuna_center_code')->nullable();
             $table->string('dose4_vaccinator_name')->nullable();

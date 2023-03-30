@@ -45,7 +45,7 @@
                             </tr>
                             <tr>
                                 <td scope="row"><i class="fas fa-at mr-2"></i>Email Address</td>
-                                <td><a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a></td>
+                                <td><a href = "mailto: cesugentrias.vaxcert@gmail.com">cesugentrias.vaxcert@gmail.com</a></td>
                             </tr>
                             <tr>
                                 <td colspan="2"><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></td>

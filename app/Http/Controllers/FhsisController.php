@@ -64,6 +64,27 @@ class FhsisController extends Controller
             $base_year = request()->input('year');
             $type = request()->input('type');
 
+            if($type == 'quarterly') {
+                $q = request()->input('quarter');
+
+                if($q == 1) {
+                    $from = '#'.date('m/d/y', strtotime('01/01/'.request()->input('year'))).'#';
+                    $to = '#'.date('m/d/y', strtotime('03/01/'.request()->input('year'))).'#';
+                }
+                else if($q == 2) {
+                    $from = '#'.date('m/d/y', strtotime('04/01/'.request()->input('year'))).'#';
+                    $to = '#'.date('m/d/y', strtotime('06/01/'.request()->input('year'))).'#';
+                }
+                else if($q == 3) {
+                    $from = '#'.date('m/d/y', strtotime('07/01/'.request()->input('year'))).'#';
+                    $to = '#'.date('m/d/y', strtotime('09/01/'.request()->input('year'))).'#';
+                }
+                else if($q == 4) {
+                    $from = '#'.date('m/d/y', strtotime('10/01/'.request()->input('year'))).'#';
+                    $to = '#'.date('m/d/y', strtotime('12/01/'.request()->input('year'))).'#';
+                }
+            }
+            
             //TOP 10 MORB AND MORT
             if($type == 'yearly') {
                 $mort_distinct_query = "SELECT DISTINCT(DISEASE)
@@ -89,25 +110,6 @@ class FhsisController extends Controller
                 AND DISEASE = :disease";
             }
             else if($type == 'quarterly') {
-                $q = request()->input('quarter');
-
-                if($q == 1) {
-                    $from = '#'.date('m/d/y', strtotime('01/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('03/01/'.request()->input('year'))).'#';
-                }
-                else if($q == 2) {
-                    $from = '#'.date('m/d/y', strtotime('04/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('06/01/'.request()->input('year'))).'#';
-                }
-                else if($q == 3) {
-                    $from = '#'.date('m/d/y', strtotime('07/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('09/01/'.request()->input('year'))).'#';
-                }
-                else if($q == 4) {
-                    $from = '#'.date('m/d/y', strtotime('10/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('12/01/'.request()->input('year'))).'#';
-                }
-
                 $mort_distinct_query = "SELECT DISTINCT(DISEASE)
                 FROM [MORT BHS]
                 WHERE [DATE] BETWEEN $from AND $to
@@ -307,23 +309,6 @@ class FhsisController extends Controller
                     AND UCASE(BGY_CODE) = :bgy";
                 }
                 else if($type == 'quarterly') {
-                    if($q == 1) {
-                        $from = '#'.date('m/d/y', strtotime('01/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('03/01/'.request()->input('year'))).'#';
-                    }
-                    else if($q == 2) {
-                        $from = '#'.date('m/d/y', strtotime('04/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('06/01/'.request()->input('year'))).'#';
-                    }
-                    else if($q == 3) {
-                        $from = '#'.date('m/d/y', strtotime('07/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('09/01/'.request()->input('year'))).'#';
-                    }
-                    else if($q == 4) {
-                        $from = '#'.date('m/d/y', strtotime('10/01/'.request()->input('year'))).'#';
-                        $to = '#'.date('m/d/y', strtotime('12/01/'.request()->input('year'))).'#';
-                    }
-
                     $mn_query = "SELECT * FROM [MORTALITY]
                     WHERE [DATE] BETWEEN $from AND $to
                     AND MUN_CODE = 'GENERAL TRIAS'
@@ -379,33 +364,64 @@ class FhsisController extends Controller
                     WHERE [MUN_CODE] = 'GENERAL TRIAS'
                     AND UCASE(BGY_CODE) = :bgy
                     AND FORMAT([DATE], 'yyyy') = :year";
+
+                    $fp1_query = "SELECT * FROM [FAMILY PLANNING]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    "
                 }
                 else if($type == 'quarterly') {
-                    
+                    $ccare_query = "SELECT * FROM [CHILD CARE]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND [DATE] BETWEEN $from AND $to
+                    AND UCASE(BGY_CODE) = :bgy";
+
+                    $ncom_query = "SELECT * FROM [OTHER INDICATORS]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND [DATE] BETWEEN $from AND $to
+                    AND UCASE(BGY_CODE) = :bgy";
                 }
                 else if($type == 'monthly') {
+                    $ccare_query = "SELECT * FROM [CHILD CARE]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND FORMAT([DATE], 'mm/yyyy') = :year
+                    AND UCASE(BGY_CODE) = :bgy";
 
+                    $ncom_query = "SELECT * FROM [OTHER INDICATORS]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND FORMAT([DATE], 'mm/yyyy') = :year
+                    AND UCASE(BGY_CODE) = :bgy";
+
+                    $year = date('m/Y', strtotime(request()->input('year').'-'.request()->input('month').'-01'));
                 }
-
-                $fic = 0;
-                $cic = 0;
+                
+                $fic_m = 0;
+                $fic_f = 0;
+                $cic_m = 0;
+                $cic_f = 0;
+                
                 $ppv = 0;
                 $flu = 0;
 
                 $ccare_stmt = $pdo->prepare($ccare_query);
-                $ccare_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                if($type != 'quarterly') {
+                    $ccare_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                }
                 $ccare_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
                 $ccare_stmt->execute();
 
                 $ncom_stmt = $pdo->prepare($ncom_query);
-                $ncom_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                if($type != 'quarterly') {
+                    $ncom_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                }
                 $ncom_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
                 $ncom_stmt->execute();
 
                 //CHILD CARE FETCH
                 while ($row = $ccare_stmt->fetch()) {
-                    $fic += $row['FIC_M'] + $row['FIC_F'];
-                    $cic += $row['CIC_M'] + $row['CIC_F'];
+                    $fic_m += $row['FIC_M'];
+                    $fic_f += $row['FIC_F'];
+                    $cic_m += $row['CIC_M'];
+                    $cic_f += $row['CIC_F'];
                 }
 
                 //NON-COMM FETCH
@@ -416,8 +432,10 @@ class FhsisController extends Controller
 
                 array_push($bgy_mone_list, [
                     'barangay' => $b->brgyName,
-                    'fic' => $fic,
-                    'cic' => $cic,
+                    'fic_m' => $fic_m,
+                    'fic_f' => $fic_f,
+                    'cic_m'  => $cic_m,
+                    'cic_f'  => $cic_f,
                     'ppv' => $ppv,
                     'flu' => $flu,
                 ]);

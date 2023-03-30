@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
@@ -106,89 +107,91 @@ class VaxcertController extends Controller
                 $dose2_manufacturer = NULL;
                 $dose2_bakuna_center_text = NULL;
                 $dose2_batchno = NULL;
-                $dose2_vaccinator_last_name = NULL;
-                $dose2_vaccinator_first_name = NULL;
+                $dose2_inmainlgu_yn = NULL;
+                $dose2_vaccinator_name = NULL;
     
                 $dose3_date = NULL;
                 $dose3_manufacturer = NULL;
                 $dose3_bakuna_center_text = NULL;
                 $dose3_batchno = NULL;
-                $dose3_vaccinator_last_name = NULL;
-                $dose3_vaccinator_first_name = NULL;
+                $dose3_inmainlgu_yn = NULL;
+                $dose3_vaccinator_name = NULL;
     
                 $dose4_date = NULL;
                 $dose4_manufacturer = NULL;
                 $dose4_bakuna_center_text = NULL;
                 $dose4_batchno = NULL;
-                $dose4_vaccinator_last_name = NULL;
-                $dose4_vaccinator_first_name = NULL;
+                $dose4_inmainlgu_yn = NULL;
+                $dose4_vaccinator_name = NULL;
             }
             else if($request->howmanydose == 2) {
                 $dose2_date = $request->dose2_date;
                 $dose2_manufacturer = $request->dose2_manufacturer;
                 $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
                 $dose2_batchno = $request->dose2_batchno;
-                $dose2_vaccinator_last_name = $request->dose2_vaccinator_last_name;
-                $dose2_vaccinator_first_name = $request->dose2_vaccinator_first_name;
+                $dose2_inmainlgu_yn = $request->dose2_inmainlgu_yn;
+                $dose2_vaccinator_name = $request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name;
     
                 $dose3_date = NULL;
                 $dose3_manufacturer = NULL;
                 $dose3_bakuna_center_text = NULL;
                 $dose3_batchno = NULL;
-                $dose3_vaccinator_last_name = NULL;
-                $dose3_vaccinator_first_name = NULL;
+                $dose3_inmainlgu_yn = NULL;
+                $dose3_vaccinator_name = NULL;
     
                 $dose4_date = NULL;
                 $dose4_manufacturer = NULL;
                 $dose4_bakuna_center_text = NULL;
                 $dose4_batchno = NULL;
-                $dose4_vaccinator_last_name = NULL;
-                $dose4_vaccinator_first_name = NULL;
+                $dose4_inmainlgu_yn = NULL;
+                $dose4_vaccinator_name = NULL;
             }
             else if($request->howmanydose == 3) {
                 $dose2_date = $request->dose2_date;
                 $dose2_manufacturer = $request->dose2_manufacturer;
                 $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
                 $dose2_batchno = $request->dose2_batchno;
-                $dose2_vaccinator_last_name = $request->dose2_vaccinator_last_name;
-                $dose2_vaccinator_first_name = $request->dose2_vaccinator_first_name;
+                $dose2_inmainlgu_yn = $request->dose2_inmainlgu_yn;
+                $dose2_vaccinator_name = $request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name;
     
                 $dose3_date = $request->dose3_date;
                 $dose3_manufacturer = $request->dose3_manufacturer;
                 $dose3_bakuna_center_text = $request->dose3_bakuna_center_text;
                 $dose3_batchno = $request->dose3_batchno;
-                $dose3_vaccinator_last_name = $request->dose3_vaccinator_last_name;
-                $dose3_vaccinator_first_name = $request->dose3_vaccinator_first_name;
+                $dose3_inmainlgu_yn = $request->dose3_inmainlgu_yn;
+                $dose3_vaccinator_name = $request->dose3_vaccinator_last_name.', '.$request->dose3_vaccinator_first_name;
     
                 $dose4_date = NULL;
                 $dose4_manufacturer = NULL;
                 $dose4_bakuna_center_text = NULL;
                 $dose4_batchno = NULL;
-                $dose4_vaccinator_last_name = NULL;
-                $dose4_vaccinator_first_name = NULL;
+                $dose4_inmainlgu_yn = NULL;
+                $dose4_vaccinator_name = NULL;
             }
             else if($request->howmanydose == 4) {
                 $dose2_date = $request->dose2_date;
                 $dose2_manufacturer = $request->dose2_manufacturer;
                 $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
                 $dose2_batchno = $request->dose2_batchno;
-                $dose2_vaccinator_last_name = $request->dose2_vaccinator_last_name;
-                $dose2_vaccinator_first_name = $request->dose2_vaccinator_first_name;
+                $dose2_inmainlgu_yn = $request->dose2_inmainlgu_yn;
+                $dose2_vaccinator_name = $request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name;
     
                 $dose3_date = $request->dose3_date;
                 $dose3_manufacturer = $request->dose3_manufacturer;
                 $dose3_bakuna_center_text = $request->dose3_bakuna_center_text;
                 $dose3_batchno = $request->dose3_batchno;
-                $dose3_vaccinator_last_name = $request->dose3_vaccinator_last_name;
-                $dose3_vaccinator_first_name = $request->dose3_vaccinator_first_name;
+                $dose3_inmainlgu_yn = $request->dose3_inmainlgu_yn;
+                $dose3_vaccinator_name = $request->dose3_vaccinator_last_name.', '.$request->dose3_vaccinator_first_name;
     
                 $dose4_date = $request->dose4_date;
                 $dose4_manufacturer = $request->dose4_manufacturer;
                 $dose4_bakuna_center_text = $request->dose4_bakuna_center_text;
                 $dose4_batchno = $request->dose4_batchno;
-                $dose4_vaccinator_last_name = $request->dose4_vaccinator_last_name;
-                $dose4_vaccinator_first_name = $request->dose4_vaccinator_first_name;
+                $dose4_inmainlgu_yn = $request->dose4_inmainlgu_yn;
+                $dose4_vaccinator_name = $request->dose4_vaccinator_last_name.', '.$request->dose4_vaccinator_first_name;
             }
+
+            $age = Carbon::parse($request->bdate)->diffInYears(Carbon::now());
     
             $create = VaxcertConcern::create([
                 'vaxcert_refno' => $request->vaxcert_refno,
@@ -201,6 +204,12 @@ class VaxcertController extends Controller
                 'bdate' => $request->bdate,
                 'contact_number' => $request->contact_number,
                 'email' => ($request->filled('email')) ? $request->email : NULL,
+
+                'comorbidity' => $request->comorbidity,
+                'pwd_yn' => $request->pwd_yn,
+
+                'guardian_name' => ($age < 18) ? $request->glast_name.', '.$request->gfirst_name : NULL,
+
                 'address_region_code' => $request->address_region_code,
                 'address_region_text' => $request->address_region_text,
                 'address_province_code' => $request->address_province_code,
@@ -209,38 +218,46 @@ class VaxcertController extends Controller
                 'address_muncity_text' => $request->address_muncity_text,
                 'address_brgy_code' => $request->address_brgy_text,
                 'address_brgy_text' => $request->address_brgy_text,
+
                 'dose1_date' => $request->dose1_date,
                 'dose1_manufacturer' => $request->dose1_manufacturer,
                 'dose1_batchno' => $request->dose1_batchno,
                 'dose1_lotno' => $request->dose1_batchno,
+                'dose1_inmainlgu_yn' => $request->dose1_inmainlgu_yn,
                 'dose1_bakuna_center_text' => $request->dose1_bakuna_center_text,
-                'dose1_vaccinator_last_name' => $request->dose1_vaccinator_last_name,
-                'dose1_vaccinator_first_name' => $request->dose1_vaccinator_first_name,
+                'dose1_vaccinator_name' => $request->dose1_vaccinator_last_name.', '.$request->dose1_vaccinator_first_name,
+                
                 'dose2_date' => $dose2_date,
                 'dose2_manufacturer' => $dose2_manufacturer,
                 'dose2_batchno' => $dose2_batchno,
                 'dose2_lotno' => $dose2_batchno,
+                'dose2_inmainlgu_yn' => $dose2_inmainlgu_yn,
                 'dose2_bakuna_center_text' => $dose2_bakuna_center_text,
-                'dose2_vaccinator_last_name' => $dose2_vaccinator_last_name,
-                'dose2_vaccinator_first_name' => $dose2_vaccinator_first_name,
+                'dose2_vaccinator_name' => $dose2_vaccinator_name,
+                
                 'dose3_date' => $dose3_date,
                 'dose3_manufacturer' => $dose3_manufacturer,
                 'dose3_batchno' => $dose3_batchno,
                 'dose3_lotno' => $dose3_batchno,
+                'dose3_inmainlgu_yn' => $dose3_inmainlgu_yn,
                 'dose3_bakuna_center_text' => $dose3_bakuna_center_text,
-                'dose3_vaccinator_last_name' => $dose3_vaccinator_last_name,
-                'dose3_vaccinator_first_name' => $dose3_vaccinator_first_name,
+                'dose3_vaccinator_name' => $dose3_vaccinator_name,
+                
                 'dose4_date' => $dose4_date,
                 'dose4_manufacturer' => $dose4_manufacturer,
                 'dose4_batchno' => $dose4_batchno,
                 'dose4_lotno' => $dose4_batchno,
+                'dose4_inmainlgu_yn' => $dose4_inmainlgu_yn,
                 'dose4_bakuna_center_text' => $dose4_bakuna_center_text,
-                'dose4_vaccinator_last_name' => $dose4_vaccinator_last_name,
-                'dose4_vaccinator_first_name' => $dose4_vaccinator_first_name,
+                'dose4_vaccinator_name' => $dose4_vaccinator_name,
+                
                 'concern_type' => $request->concern_type,
                 'concern_msg' => $request->concern_msg,
+
                 'id_file' => $id_file_name,
-                'vaxcard_file' =>$vaxcard_file_name,
+                'vaxcard_file' => $vaxcard_file_name,
+
+                'vaxcard_uniqueid' => $request->vaxcard_uniqueid,
                 'sys_code' => $sys_code,
             ]);
     
@@ -333,7 +350,7 @@ class VaxcertController extends Controller
             $sheet->setCellValue('H'.$c, (!is_null($v->middle_name)) ? $v->middle_name : '');
             $sheet->setCellValue('I'.$c, (!is_null($v->suffix)) ? $v->suffix : '');
             $sheet->setCellValue('J'.$c, $v->contact_number);
-            $sheet->setCellValue('K'.$c, ''); //GUARDIAN NAME
+            $sheet->setCellValue('K'.$c, $v->guardian_name); //GUARDIAN NAME
             $sheet->setCellValue('L'.$c, $v->address_region_text); //REGION
             $sheet->setCellValue('M'.$c, 'NONE'); //PROVINCE
             $sheet->setCellValue('N'.$c, 'NONE'); //MUNCITY
