@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <form action="{{route('vaxcert_processpatient', $d->id)}}" method="POST">
+        @csrf
         <div class="card">
             <div class="card-header">View</div>
             <div class="card-body">
@@ -55,8 +56,8 @@
                 -->
             </div>
             <div class="card-footer text-right">
-                <button type="submit" class="btn btn-danger mr-3" name="submit" value="update">Reject</button>
-                <button type="submit" class="btn btn-success" name="submit" value="update">Complete</button>
+                <button type="submit" class="btn btn-danger mr-3" name="submit" value="reject">Reject</button>
+                <button type="submit" class="btn btn-success" name="submit" value="complete">Complete</button>
             </div>
         </div>
     </form>

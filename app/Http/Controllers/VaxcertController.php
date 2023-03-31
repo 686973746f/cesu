@@ -312,8 +312,29 @@ class VaxcertController extends Controller
         ]);
     }
 
-    public function process_patient(Request $request) {
+    public function process_patient(Request $request, $id) {
+        $v = VaxcertConcern::findOrFail($id);
 
+        if($request->submit == 'complete') {
+            $v->status = 'COMPLETED';
+
+            $msg = 'VaxCert Concern Ticket marked completed.';
+            $msgtype = 'success';
+        }
+        else if($request->submit == 'reject') {
+            $v->status = 'REJECTED';
+
+            $msg = 'VaxCert Concern Ticket marked rejected.';
+            $msgtype = 'success';
+        }
+
+        $v->processed_by = auth()->user()->id;
+
+        $v->save();
+
+        return redirect()->route('vaxcert_home')
+        ->with('msg', $msg)
+        ->with('msgtype', $msgtype);
     }
 
     public function dlbase_template($id) {

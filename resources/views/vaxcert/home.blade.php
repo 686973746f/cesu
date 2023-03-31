@@ -5,6 +5,11 @@
     <div class="card">
         <div class="card-header">VaxCert Concerns</div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             <table class="table table-bordered table-striped">
                 <thead class="thead-light text-center">
                     <tr>
