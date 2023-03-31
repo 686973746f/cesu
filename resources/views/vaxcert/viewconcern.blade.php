@@ -7,9 +7,11 @@
         <div class="card">
             <div class="card-header">View</div>
             <div class="card-body">
-                @php
-                $step = 1;
-                @endphp
+                <div class="form-group">
+                    <label for="concern_msg"><span class="text-danger font-weight-bold">*</span>Specific Concern Message</label>
+                    <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)">{{$v->concern_msg}}</textarea>
+                </div>
+                <hr>
                 <ul>
                     <li><b>Step 1:</b> Verify <a href="">Submitted ID</a> and <a href="">Vaccination Card</a> of the patient.</li>
                     <li><b>Step 2:</b> Login to VAS Line List system first.</li>
