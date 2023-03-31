@@ -13,14 +13,14 @@
                 </div>
                 <hr>
                 <ul>
-                    <li><b>Step 1:</b> Verify <a href="">Submitted ID</a> and <a href="">Vaccination Card</a> of the patient.</li>
+                    <li><b>Step 1:</b> Verify <a href="{{url(storage_path('app/vaxcert/patient/'.$d->id_file))}}" target="_blank">Submitted ID</a> and <a href="{{url(storage_path('app/vaxcert/patient/'.$d->vaxcard_file))}}" target="_blank">Vaccination Card</a> of the patient.</li>
                     <li><b>Step 2:</b> Login to VAS Line List system first.</li>
                     <li>
                         <b>Step 3:</b>
                         <ul>
                             @if(!is_null($d->vaxcert_refno))
-                            <li>Search Ref. No in <b>Correction Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->vaxcert_refno}}">HERE</a></li>
-                            <li>Search Ref. No in <b>Not Found Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->vaxcert_refno}}">HERE</a></li>
+                            <li>Search Ref. No in <b>Correction Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->vaxcert_refno}}" target="_blank">HERE</a></li>
+                            <li>Search Ref. No in <b>Not Found Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->vaxcert_refno}}" target="_blank">HERE</a></li>
                             @endif
                             <li>Search Name of Patient in <b>Correction Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
                             <li>Search Name of Patient in <b>Not Found Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>

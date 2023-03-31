@@ -105,7 +105,7 @@
                                     <tr>
                                         <th rowspan="2">Barangay</th>
                                         <th colspan="6">Child Care</th>
-                                        <th colspan="2">Family Planning</th>
+                                        <th colspan="5">Family Planning</th>
                                         <th colspan="3">Non-Com</th>
                                         <th rowspan="2">Dental</th>
                                         <th rowspan="2">Environmental</th>
@@ -118,7 +118,10 @@
                                         <th>CIC - F</th>
                                         <th>TOTAL</th>
                                         <th>CU (Beg. Month)</th>
+                                        <th>OA</th>
+                                        <th>DO</th>
                                         <th>CU (End Month)</th>
+                                        <th>New Acceptors (Present Month)</th>
                                         <th>RISK ASSESS</th>
                                         <th>PPV</th>
                                         <th>FLU-VACCINE</th>
@@ -130,6 +133,16 @@
                                     $gfic_f = 0;
                                     $gcic_m = 0;
                                     $gcic_f = 0;
+
+                                    $gra = 0;
+                                    $gppv = 0;
+                                    $gflu = 0;
+
+                                    $gfp_currusers_beggining = 0;
+                                    $gfp_otheraccp_present = 0;
+                                    $gfp_dropouts_present = 0;
+                                    $gfp_currusers_end = 0;
+                                    $gfp_newaccp_present = 0;
                                     @endphp
 
                                     @foreach($bgy_mone_list as $b)
@@ -141,9 +154,12 @@
                                         <td class="text-center">{{$b['cic_m']}}</td>
                                         <td class="text-center">{{$b['cic_f']}}</td>
                                         <td class="text-center"><b>{{($b['cic_m'] + $b['cic_f'])}}</b></td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">{{$b['fp_currusers_beggining']}}</td>
+                                        <td class="text-center">{{$b['fp_otheraccp_present']}}</td>
+                                        <td class="text-center">{{$b['fp_dropouts_present']}}</td>
+                                        <td class="text-center">{{($b['fp_currusers_beggining'] + $b['fp_otheraccp_present'] - $b['fp_dropouts_present'])}}</td>
+                                        <td class="text-center">{{$b['fp_newaccp_present']}}</td>
+                                        <td class="text-center">{{$b['ra']}}</td>
                                         <td class="text-center">{{$b['ppv']}}</td>
                                         <td class="text-center">{{$b['flu']}}</td>
                                         <td class="text-center"></td>
@@ -154,6 +170,16 @@
                                     $gfic_f += $b['fic_f'];
                                     $gcic_m += $b['cic_m'];
                                     $gcic_f += $b['cic_f'];
+                                    
+                                    $gra += $b['ra'];
+                                    $gppv += $b['ppv'];
+                                    $gflu += $b['flu'];
+
+                                    $gfp_currusers_beggining += $b['fp_currusers_beggining'];
+                                    $gfp_otheraccp_present += $b['fp_otheraccp_present'];
+                                    $gfp_dropouts_present += $b['fp_dropouts_present'];
+                                    $gfp_currusers_end += $b['fp_currusers_beggining'] + $b['fp_otheraccp_present'] - $b['fp_dropouts_present'];
+                                    $gfp_newaccp_present += $b['fp_newaccp_present'];
                                     @endphp
 
                                     @endforeach
@@ -161,17 +187,20 @@
                                 <tfoot class="text-center font-weight-bold">
                                     <tr>
                                         <td>GRAND TOTAL</td>
-                                        <td>{{$gfic_m}}</td>
-                                        <td>{{$gfic_f}}</td>
-                                        <td>{{($gfic_m + $gfic_f)}}</td>
-                                        <td>{{$gcic_m}}</td>
-                                        <td>{{$gcic_f}}</td>
-                                        <td>{{($gcic_m + $gcic_f)}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{number_format($gfic_m)}}</td>
+                                        <td>{{number_format($gfic_f)}}</td>
+                                        <td>{{number_format(($gfic_m + $gfic_f))}}</td>
+                                        <td>{{number_format($gcic_m)}}</td>
+                                        <td>{{number_format($gcic_f)}}</td>
+                                        <td>{{number_format(($gcic_m + $gcic_f))}}</td>
+                                        <td>{{number_format($gfp_currusers_beggining)}}</td>
+                                        <td>{{number_format($gfp_otheraccp_present)}}</td>
+                                        <td>{{number_format($gfp_dropouts_present)}}</td>
+                                        <td>{{number_format($gfp_currusers_end)}}</td>
+                                        <td>{{number_format($gfp_newaccp_present)}}</td>
+                                        <td>{{number_format($gra)}}</td>
+                                        <td>{{number_format($gppv)}}</td>
+                                        <td>{{number_format($gflu)}}</td>
                                         <td></td>
                                         <td></td>
                                     </tr>

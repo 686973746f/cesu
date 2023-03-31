@@ -367,7 +367,18 @@ class FhsisController extends Controller
 
                     $fp1_query = "SELECT * FROM [FAMILY PLANNING]
                     WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    "
+                    AND UCASE(BGY_CODE) = :bgy
+                    AND FORMAT([DATE], 'yyyy') = :year";
+
+                    $fp2_query = "SELECT * FROM [FAMILY PLANNING1]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND UCASE(BGY_CODE) = :bgy
+                    AND FORMAT([DATE], 'yyyy') = :year";
+
+                    $fp3_query = "SELECT * FROM [FAMILY PLANNING2]
+                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
+                    AND UCASE(BGY_CODE) = :bgy
+                    AND FORMAT([DATE], 'yyyy') = :year";
                 }
                 else if($type == 'quarterly') {
                     $ccare_query = "SELECT * FROM [CHILD CARE]
@@ -401,6 +412,13 @@ class FhsisController extends Controller
                 
                 $ppv = 0;
                 $flu = 0;
+                $ra = 0;
+
+                $fp_currusers_beggining = 0;
+                $fp_otheraccp_present = 0;
+                $fp_dropouts_present = 0;
+                $fp_currusers_end = 0;
+                $fp_newaccp_present = 0;
 
                 $ccare_stmt = $pdo->prepare($ccare_query);
                 if($type != 'quarterly') {
@@ -416,6 +434,29 @@ class FhsisController extends Controller
                 $ncom_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
                 $ncom_stmt->execute();
 
+                $fp1_stmt = $pdo->prepare($fp1_query);
+                if($type != 'quarterly') {
+                    $fp1_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                }
+                $fp1_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+                $fp1_stmt->execute();
+
+                $fp2_stmt = $pdo->prepare($fp2_query);
+                if($type != 'quarterly') {
+                    $fp2_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                }
+                $fp2_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+                $fp2_stmt->execute();
+
+                $fp3_stmt = $pdo->prepare($fp3_query);
+                if($type != 'quarterly') {
+                    $fp3_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                }
+                $fp3_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+                $fp3_stmt->execute();
+
+
+
                 //CHILD CARE FETCH
                 while ($row = $ccare_stmt->fetch()) {
                     $fic_m += $row['FIC_M'];
@@ -426,8 +467,204 @@ class FhsisController extends Controller
 
                 //NON-COMM FETCH
                 while ($row = $ncom_stmt->fetch()) {
+                    $ra += $row['NONCOM_PPEN_M'] + $row['NONCOM_PPEN_F'];
                     $ppv += $row['NONCOM_PPV_M'] + $row['NONCOM_PPV_F'];
                     $flu += $row['NONCOM_IV_M'] + $row['NONCOM_PPV_F'];
+                }
+
+                //FAMILY PLANNING 1 FETCH
+                while ($row = $fp1_stmt->fetch()) {
+                    $fp_currusers_beggining +=
+                    $row['PREV_FS'] + 
+                    $row['PREV_MS'] + 
+                    $row['PREV_PILLS'] + 
+                    $row['PREV_IUD'] + 
+                    $row['PREV_DMPA'] + 
+                    $row['PREV_NFPCM'] + 
+                    $row['PREV_NFPBBT'] + 
+                    $row['PREV_NFPLAM'] + 
+                    $row['PREV_NFPSDM'] + 
+                    $row['PREV_NFPSTM'] + 
+                    $row['PREV_CONDOM'] + 
+                    $row['PREV_CONDOM_F'] + 
+                    $row['PREV_IMPLANT'];
+
+                    $fp_otheraccp_present +=
+                    $row['TOA_FS'] + 
+                    $row['TOA_MS'] + 
+                    $row['TOA_PILLS'] + 
+                    $row['TOA_IUD'] + 
+                    $row['TOA_DMPA'] + 
+                    $row['TOA_NFPCM'] + 
+                    $row['TOA_NFPBBT'] + 
+                    $row['TOA_NFPLAM'] + 
+                    $row['TOA_NFPSDM'] + 
+                    $row['TOA_NFPSTM'] + 
+                    $row['TOA_CONDOM'] + 
+                    $row['TOA_CONDOM_F'] + 
+                    $row['TOA_IMPLANT'];
+
+                    $fp_dropouts_present +=
+                    $row['TDO_FS'] + 
+                    $row['TDO_MS'] + 
+                    $row['TDO_PILLS'] + 
+                    $row['TDO_IUD'] + 
+                    $row['TDO_DMPA'] + 
+                    $row['TDO_NFPCM'] + 
+                    $row['TDO_NFPBBT'] + 
+                    $row['TDO_NFPLAM'] + 
+                    $row['TDO_NFPSDM'] + 
+                    $row['TDO_NFPSTM'] + 
+                    $row['TDO_CONDOM'] + 
+                    $row['TDO_CONDOM_F'] + 
+                    $row['TDO_IMPLANT'];
+
+                    //$fp_currusers_end += ($fp_currusers_beggining + $fp_otheraccp_present) - $fp_dropouts_present;
+                    
+                    $fp_newaccp_present +=
+                    $row['TNA_FS'] + 
+                    $row['TNA_MS'] + 
+                    $row['TNA_PILLS'] + 
+                    $row['TNA_IUD'] + 
+                    $row['TNA_DMPA'] + 
+                    $row['TNA_NFPCM'] + 
+                    $row['TNA_NFPBBT'] + 
+                    $row['TNA_NFPLAM'] + 
+                    $row['TNA_NFPSDM'] + 
+                    $row['TNA_NFPSTM'] + 
+                    $row['TNA_CONDOM'] + 
+                    $row['TNA_CONDOM_F'] + 
+                    $row['TNA_IMPLANT'];
+                }
+
+                //FAMILY PLANNING 2 FETCH
+                while ($row = $fp2_stmt->fetch()) {
+                    $fp_currusers_beggining +=
+                    $row['PREV_FS1519'] + 
+                    $row['PREV_MS1519'] + 
+                    $row['PREV_PILLS1519'] + 
+                    $row['PREV_IUD1519'] + 
+                    $row['PREV_DMPA1519'] + 
+                    $row['PREV_NFPCM1519'] + 
+                    $row['PREV_NFPBBT1519'] + 
+                    $row['PREV_NFPLAM1519'] + 
+                    $row['PREV_NFPSDM1519'] + 
+                    $row['PREV_NFPSTM1519'] + 
+                    $row['PREV_CONDOM1519'] + 
+                    $row['PREV_CONDOM_F1519'] + 
+                    $row['PREV_IMPLANT1519'];
+
+                    $fp_otheraccp_present +=
+                    $row['TOA_FS1519'] + 
+                    $row['TOA_MS1519'] + 
+                    $row['TOA_PILLS1519'] + 
+                    $row['TOA_IUD1519'] + 
+                    $row['TOA_DMPA1519'] + 
+                    $row['TOA_NFPCM1519'] + 
+                    $row['TOA_NFPBBT1519'] + 
+                    $row['TOA_NFPLAM1519'] + 
+                    $row['TOA_NFPSDM1519'] + 
+                    $row['TOA_NFPSTM1519'] + 
+                    $row['TOA_CONDOM1519'] + 
+                    $row['TOA_CONDOM_F1519'] + 
+                    $row['TOA_IMPLANT1519'];
+
+                    $fp_dropouts_present +=
+                    $row['TDO_FS1519'] + 
+                    $row['TDO_MS1519'] + 
+                    $row['TDO_PILLS1519'] + 
+                    $row['TDO_IUD1519'] + 
+                    $row['TDO_DMPA1519'] + 
+                    $row['TDO_NFPCM1519'] + 
+                    $row['TDO_NFPBBT1519'] + 
+                    $row['TDO_NFPLAM1519'] + 
+                    $row['TDO_NFPSDM1519'] + 
+                    $row['TDO_NFPSTM1519'] + 
+                    $row['TDO_CONDOM1519'] + 
+                    $row['TDO_CONDOM_F1519'] + 
+                    $row['TDO_IMPLANT1519'];
+
+                    //$fp_currusers_end += ($fp_currusers_beggining + $fp_otheraccp_present) - $fp_dropouts_present;
+                    
+                    $fp_newaccp_present +=
+                    $row['TNA_FS1519'] + 
+                    $row['TNA_MS1519'] + 
+                    $row['TNA_PILLS1519'] + 
+                    $row['TNA_IUD1519'] + 
+                    $row['TNA_DMPA1519'] + 
+                    $row['TNA_NFPCM1519'] + 
+                    $row['TNA_NFPBBT1519'] + 
+                    $row['TNA_NFPLAM1519'] + 
+                    $row['TNA_NFPSDM1519'] + 
+                    $row['TNA_NFPSTM1519'] + 
+                    $row['TNA_CONDOM1519'] + 
+                    $row['TNA_CONDOM_F1519'] + 
+                    $row['TNA_IMPLANT1519'];
+                }
+
+                //FAMILY PLANNING 3 FETCH
+                while ($row = $fp3_stmt->fetch()) {
+                    $fp_currusers_beggining +=
+                    $row['PREV_FS2049'] + 
+                    $row['PREV_MS2049'] + 
+                    $row['PREV_PILLS2049'] + 
+                    $row['PREV_IUD2049'] + 
+                    $row['PREV_DMPA2049'] + 
+                    $row['PREV_NFPCM2049'] + 
+                    $row['PREV_NFPBBT2049'] + 
+                    $row['PREV_NFPLAM2049'] + 
+                    $row['PREV_NFPSDM2049'] + 
+                    $row['PREV_NFPSTM2049'] + 
+                    $row['PREV_CONDOM2049'] + 
+                    $row['PREV_CONDOM_F2049'] + 
+                    $row['PREV_IMPLANT2049'];
+
+                    $fp_otheraccp_present +=
+                    $row['TOA_FS2049'] + 
+                    $row['TOA_MS2049'] + 
+                    $row['TOA_PILLS2049'] + 
+                    $row['TOA_IUD2049'] + 
+                    $row['TOA_DMPA2049'] + 
+                    $row['TOA_NFPCM2049'] + 
+                    $row['TOA_NFPBBT2049'] + 
+                    $row['TOA_NFPLAM2049'] + 
+                    $row['TOA_NFPSDM2049'] + 
+                    $row['TOA_NFPSTM2049'] + 
+                    $row['TOA_CONDOM2049'] + 
+                    $row['TOA_CONDOM_F2049'] + 
+                    $row['TOA_IMPLANT2049'];
+
+                    $fp_dropouts_present +=
+                    $row['TDO_FS2049'] + 
+                    $row['TDO_MS2049'] + 
+                    $row['TDO_PILLS2049'] + 
+                    $row['TDO_IUD2049'] + 
+                    $row['TDO_DMPA2049'] + 
+                    $row['TDO_NFPCM2049'] + 
+                    $row['TDO_NFPBBT2049'] + 
+                    $row['TDO_NFPLAM2049'] + 
+                    $row['TDO_NFPSDM2049'] + 
+                    $row['TDO_NFPSTM2049'] + 
+                    $row['TDO_CONDOM2049'] + 
+                    $row['TDO_CONDOM_F2049'] + 
+                    $row['TDO_IMPLANT2049'];
+
+                    //$fp_currusers_end += ($fp_currusers_beggining + $fp_otheraccp_present) - $fp_dropouts_present;
+                    
+                    $fp_newaccp_present +=
+                    $row['TNA_FS2049'] + 
+                    $row['TNA_MS2049'] + 
+                    $row['TNA_PILLS2049'] + 
+                    $row['TNA_IUD2049'] + 
+                    $row['TNA_DMPA2049'] + 
+                    $row['TNA_NFPCM2049'] + 
+                    $row['TNA_NFPBBT2049'] + 
+                    $row['TNA_NFPLAM2049'] + 
+                    $row['TNA_NFPSDM2049'] + 
+                    $row['TNA_NFPSTM2049'] + 
+                    $row['TNA_CONDOM2049'] + 
+                    $row['TNA_CONDOM_F2049'] + 
+                    $row['TNA_IMPLANT2049'];
                 }
 
                 array_push($bgy_mone_list, [
@@ -438,6 +675,12 @@ class FhsisController extends Controller
                     'cic_f'  => $cic_f,
                     'ppv' => $ppv,
                     'flu' => $flu,
+                    'ra' => $ra,
+
+                    'fp_currusers_beggining' => $fp_currusers_beggining,
+                    'fp_otheraccp_present' => $fp_otheraccp_present,
+                    'fp_dropouts_present' => $fp_dropouts_present,
+                    'fp_newaccp_present' => $fp_newaccp_present,
                 ]);
             }
 
