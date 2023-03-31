@@ -25,7 +25,8 @@
                             <h3>{{$code}}</h3>
                         </div>
                     </div>
-                    <h6 class="text-center">We will update you after 1-2 Days. Keep your lines open.</h6>
+                    <h6 class="text-center">Paki-screenshot o i-print ang iyong reference code upang magamit sa pag-track ng iyong concern.</h6>
+                    <h6 class="text-center">Babalitaan namin kayo makalipas ng isa (1) hanggang dalawang (2) araw. Antayin ang aming text o tawag pati na rin sa iyong email address tungkol sa update.</h6>
                     <hr>
                     <p>If you have any concerns, you may contact us at:</p>
                     <table class="table text-center table-bordered">

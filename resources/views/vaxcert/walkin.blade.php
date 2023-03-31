@@ -19,9 +19,9 @@
                         <ul>
                             <h4 class="text-danger"><b>BASAHIN ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
                             <li>Lahat ng field na may asterisk (<span class="text-danger font-weight-bold">*</span>) ay kailangang sagutan. Ilagay ang kumpleto at totoong impormasyon na hinihingi. I-double check ang mga inilagay na detalye bago isumite.</li>
-                            <li>Tungkol sa "Nawawalang Bakuna/Missing Dose", tanging mga bakunahan lamang sa General Trias ang aming mar-resolba. Kung hindi ka sa General Trias binakunahan, makipag-ugnayan sa bayan kung saan ka binakunahan upang maayos nila ito.</li>
+                            <li>Tungkol sa "Nawawalang Bakuna/Missing Dose", tanging mga bakunahan lamang sa General Trias ang aming mar-resolba. Kung ang bakunang nawawala ay hindi dito sa Gentri binakunahan ay makipag-ugnayan sa bayan kung saan ka binakunahan upang maayos nila ito.</li>
                             <li>Inirerekumenda naming mag-submit muna kayo ng "Update Record" ticket ng inyong isyu sa <a href="https://vaxcert.doh.gov.ph/#/">VaxCertPH Website</a> upang mas mabilis namin kayong matulungan. Ilagay ito sa <i>"VaxCertPH Ticket Reference No."</i> na makikita sa ibaba.</li>
-                            <li>Mag-antay ng dalawa (2) hanggang tatlong (3) araw upang maayos ang iyong isyu.  Maglagay ng aktibong mobile number at email address upang mabilis namin kayong ma-abisuhan.</li>
+                            <li>Mag-antay ng dalawa (2) hanggang tatlong (3) araw upang maayos namin ang inyong concern.  Maglagay ng aktibong mobile number at email address upang mabilis namin kayong makontak tungkol sa inyong concern.</li>
                         </ul>
                         <hr>
                         <ul>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="concern_msg">Specific Concern Message</label>
+                      <label for="concern_msg"><span class="text-danger font-weight-bold">*</span>Specific Concern Message</label>
                       <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)" required></textarea>
                     </div>
                     <hr>
@@ -259,7 +259,7 @@
                                     <select class="form-control" name="dose1_inmainlgu_yn" id="dose1_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose1_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose1_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                      <option value="N" {{(old('dose1_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                      <option value="N" {{(old('dose1_inmainlgu_yn') == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                     </select>
                                 </div>
                             </div>
@@ -320,7 +320,7 @@
                                     <select class="form-control" name="dose2_inmainlgu_yn" id="dose2_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose2_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose2_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                      <option value="N" {{(old('dose2_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                      <option value="N" {{(old('dose2_inmainlgu_yn') == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                     </select>
                                 </div>
                             </div>
@@ -381,7 +381,7 @@
                                     <select class="form-control" name="dose3_inmainlgu_yn" id="dose3_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose3_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose3_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                      <option value="N" {{(old('dose3_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                      <option value="N" {{(old('dose3_inmainlgu_yn') == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                     </select>
                                 </div>
                             </div>
@@ -442,7 +442,7 @@
                                     <select class="form-control" name="dose4_inmainlgu_yn" id="dose4_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose4_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose4_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                      <option value="N" {{(old('dose4_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Hindi/No</option>
+                                      <option value="N" {{(old('dose4_inmainlgu_yn') == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                     </select>
                                 </div>
                             </div>
@@ -509,7 +509,46 @@
         <hr>
         <p class="text-center">VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
+
+    <div class="modal fade" id="selectchoice" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5>Welcome</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="choice1">
+                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern</button>
+                        <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Track Concern Status/Follow-up</button>
+                    </div>
+                    <form action="{{route('vaxcert_track')}}" method="GET" id="choice2" class="d-none">
+                        <div class="form-group">
+                            <label for="ref_code">Input reference code</label>
+                            <input type="text" class="form-control" name="ref_code" id="ref_code" required>
+                        </div>
+                        <button type="button" id="goback" class="btn btn-primary btn-block">Go Back</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        $('#selectchoice').modal({backdrop: 'static', keyboard: false});
+        $('#selectchoice').modal('show');
+
+        $('#clicktrack').click(function (e) { 
+            e.preventDefault();
+            $('#choice1').addClass('d-none');
+            $('#choice2').removeClass('d-none');
+        });
+
+        $('#goback').click(function (e) { 
+            e.preventDefault();
+            $('#choice1').removeClass('d-none');
+            $('#choice2').addClass('d-none');
+        });
+        
         //Select2 Init for Address Bar
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
             theme: 'bootstrap',

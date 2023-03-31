@@ -398,6 +398,8 @@ Route::group(['middleware' => ['guest']], function() {
 
     Route::get('/vaxcert', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin');
     Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
+
+    Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function()

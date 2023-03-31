@@ -271,6 +271,24 @@ class VaxcertController extends Controller
         }
     }
 
+    public function walkin_track() {
+        $s = request()->input('ref_code');
+
+        $search = VaxcertConcern::where('sys_code', $s)->first();
+
+        if($search) {
+            return view('vaxcert.walkin_tracker', [
+                'found' => 1,
+                'd' => $search,
+            ]);
+        }
+        else {
+            return view('vaxcert.walkin_tracker', [
+                'found' => 0,
+            ]);
+        }
+    }
+
     public function home() {
         $list = VaxcertConcern::where('status', 'PENDING')
         ->orderBy('created_at', 'ASC')
