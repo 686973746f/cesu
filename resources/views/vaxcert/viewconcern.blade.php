@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="concern_msg"><span class="text-danger font-weight-bold">*</span>Specific Concern Message</label>
-                    <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)">{{$v->concern_msg}}</textarea>
+                    <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)">{{$d->concern_msg}}</textarea>
                 </div>
                 <hr>
                 <ul>
@@ -19,8 +19,8 @@
                         <b>Step 3:</b>
                         <ul>
                             @if(!is_null($d->vaxcert_refno))
-                            <li>Search Ref. No in <b>Correction Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$v->vaxcert_refno}}">HERE</a></li>
-                            <li>Search Ref. No in <b>Not Found Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$v->vaxcert_refno}}">HERE</a></li>
+                            <li>Search Ref. No in <b>Correction Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->vaxcert_refno}}">HERE</a></li>
+                            <li>Search Ref. No in <b>Not Found Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->vaxcert_refno}}">HERE</a></li>
                             @endif
                             <li>Search Name of Patient in <b>Correction Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
                             <li>Search Name of Patient in <b>Not Found Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
