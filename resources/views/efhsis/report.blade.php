@@ -108,7 +108,7 @@
                                         <th colspan="5">Family Planning</th>
                                         <th colspan="3">Non-Com</th>
                                         <th rowspan="2">Dental</th>
-                                        <th rowspan="2">Environmental</th>
+                                        <th rowspan="2" colspan="3">Environmental</th>
                                     </tr>
                                     <tr>
                                         <th>FIC - M</th>
@@ -125,6 +125,10 @@
                                         <th>RISK ASSESS</th>
                                         <th>PPV</th>
                                         <th>FLU-VACCINE</th>
+                                        <th></th>
+                                        <th>L1</th>
+                                        <th>L2</th>
+                                        <th>L3</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,7 +167,9 @@
                                         <td class="text-center">{{$b['ppv']}}</td>
                                         <td class="text-center">{{$b['flu']}}</td>
                                         <td class="text-center"></td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">{{$b['env_lvl1']}}</td>
+                                        <td class="text-center">{{$b['env_lvl2']}}</td>
+                                        <td class="text-center">{{$b['env_lvl3']}}</td>
                                     </tr>
                                     @php
                                     $gfic_m += $b['fic_m'];

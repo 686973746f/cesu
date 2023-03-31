@@ -379,6 +379,32 @@ class FhsisController extends Controller
                     WHERE [MUN_CODE] = 'GENERAL TRIAS'
                     AND UCASE(BGY_CODE) = :bgy
                     AND FORMAT([DATE], 'yyyy') = :year";
+
+                    //Environmental
+                    if($base_year != date('Y')) {
+                        $edate = date('m/d/y', strtotime($base_year.'-12-01'));
+                    }
+                    else {
+                        if(date('n') >= 1 && date('n') <= 3) {
+                            $edate = date('m/d/y', strtotime($base_year.'-03-01'));
+                        }
+                        else if(date('n') >= 4 && date('n') <= 6) {
+                            $edate = date('m/d/y', strtotime($base_year.'-06-01'));
+                        }
+                        else if(date('n') >= 7 && date('n') <= 9) {
+                            $edate = date('m/d/y', strtotime($base_year.'-09-01'));
+                        }
+                        else if(date('n') >= 10 && date('n') <= 12) {
+                            $edate = date('m/d/y', strtotime($base_year.'-12-01'));
+                        }
+                    }
+
+                    dd($edate);
+
+                    $env_query = "SELECT * FROM [ENVIRONMENTAL HEALTH]
+                    WHERE [YEAR_ENV] = $base_year
+                    AND [DATE] = $edate
+                    AND UCASE(BGY_CODE) = :bgy";
                 }
                 else if($type == 'quarterly') {
                     $ccare_query = "SELECT * FROM [CHILD CARE]
@@ -455,7 +481,14 @@ class FhsisController extends Controller
                 $fp3_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
                 $fp3_stmt->execute();
 
-
+                $env_stmt = $pdo->prepare($env_query);
+                /*
+                if($type != 'quarterly') {
+                    $env_stmt->bindParam(':year', $year, PDO::PARAM_STR);
+                }
+                */
+                $env_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
+                $env_stmt->execute();
 
                 //CHILD CARE FETCH
                 while ($row = $ccare_stmt->fetch()) {
@@ -667,6 +700,20 @@ class FhsisController extends Controller
                     $row['TNA_IMPLANT2049'];
                 }
 
+                $env_lvl1 = 0;
+                $env_lvl2 = 0;
+                $env_lvl3 = 0;
+
+                if($env_stmt->rowCount() > 0) {
+                    
+                }
+
+                while ($row = $env_stmt->fetch()) {
+                    $env_lvl1 += $row['HHWATER_LEVEL1'];
+                    $env_lvl2 += $row['HHWATER_LEVEL2'];
+                    $env_lvl3 += $row['HHWATER_LEVEL3'];
+                }
+
                 array_push($bgy_mone_list, [
                     'barangay' => $b->brgyName,
                     'fic_m' => $fic_m,
@@ -681,6 +728,10 @@ class FhsisController extends Controller
                     'fp_otheraccp_present' => $fp_otheraccp_present,
                     'fp_dropouts_present' => $fp_dropouts_present,
                     'fp_newaccp_present' => $fp_newaccp_present,
+
+                    'env_lvl1' => $env_lvl1,
+                    'env_lvl2' => $env_lvl2,
+                    'env_lvl3' => $env_lvl3,
                 ]);
             }
 
