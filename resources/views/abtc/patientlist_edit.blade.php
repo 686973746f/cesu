@@ -123,10 +123,10 @@
                             <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text', $d->address_region_text)}}" readonly>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text', $d->address_region_text)}}" readonly>
+                            <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text', $d->address_province_text)}}" readonly>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text', $d->address_region_text)}}"readonly>
+                            <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text', $d->address_muncity_text)}}"readonly>
                         </div>
                     </div>
                 </div>
@@ -344,9 +344,11 @@
         });
     }).trigger('change');
 
+    /*
     $('#address_region_text').val('REGION IV-A (CALABARZON)');
     $('#address_province_text').val('CAVITE');
     $('#address_muncity_text').val('GENERAL TRIAS');
+    */
 
     $('#has_bday').change(function (e) { 
         e.preventDefault();

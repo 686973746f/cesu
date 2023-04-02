@@ -385,25 +385,23 @@ class FhsisController extends Controller
                         $edate = date('m/d/y', strtotime($base_year.'-12-01'));
                     }
                     else {
-                        if(date('n') >= 1 && date('n') <= 3) {
+                        if(date('n') >= 2 && date('n') <= 4) {
                             $edate = date('m/d/y', strtotime($base_year.'-03-01'));
                         }
-                        else if(date('n') >= 4 && date('n') <= 6) {
+                        else if(date('n') >= 5 && date('n') <= 7) {
                             $edate = date('m/d/y', strtotime($base_year.'-06-01'));
                         }
-                        else if(date('n') >= 7 && date('n') <= 9) {
+                        else if(date('n') >= 8 && date('n') <= 10) {
                             $edate = date('m/d/y', strtotime($base_year.'-09-01'));
                         }
-                        else if(date('n') >= 10 && date('n') <= 12) {
+                        else if(date('n') >= 11 && date('n') <= 12) {
                             $edate = date('m/d/y', strtotime($base_year.'-12-01'));
                         }
                     }
 
-                    dd($edate);
-
                     $env_query = "SELECT * FROM [ENVIRONMENTAL HEALTH]
                     WHERE [YEAR_ENV] = $base_year
-                    AND [DATE] = $edate
+                    AND [DATE] = :edate
                     AND UCASE(BGY_CODE) = :bgy";
                 }
                 else if($type == 'quarterly') {
@@ -487,6 +485,7 @@ class FhsisController extends Controller
                     $env_stmt->bindParam(':year', $year, PDO::PARAM_STR);
                 }
                 */
+                $env_stmt->bindParam(':edate', $edate, PDO::PARAM_STR);
                 $env_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
                 $env_stmt->execute();
 

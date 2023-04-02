@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VaxcertConcern extends Model
 {
@@ -74,6 +75,10 @@ class VaxcertConcern extends Model
 
     public function getAddress() {
         return 'BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+    }
+
+    public function getAge() {
+        return Carbon::parse($this->bdate)->age;
     }
 
     public function getNumberOfDose() {

@@ -121,7 +121,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="suffix">Suffix <small>(ex. JR, II, III, etc.)</small></label>
+                                <label for="suffix">Suffix <small>(ex. JR, SR, II, III, etc.)</small></label>
                                 <input type="text" class="form-control" id="suffix" name="suffix" value="{{old('suffix')}}" minlength="2" maxlength="6" style="text-transform: uppercase;">
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                              <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
+                              <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex/Kasarian</label>
                               <select class="form-control" name="gender" id="gender" required>
                                 <option disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male/Lalaki</option>
@@ -221,14 +221,14 @@
                     </div>
                     <hr>
                     <div class="form-group">
-                      <label for="howmanydose"><span class="text-danger font-weight-bold">*</span>Number of dose finished/Ilang bakuna ang natapos</label>
-                      <select class="form-control" name="howmanydose" id="howmanydose" required>
-                        <option disabled {{(is_null(old('howmanydose'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="1" {{(old('howmanydose') == 1) ? 'selected' : ''}}>1st Dose Only</option>
-                        <option value="2" {{(old('howmanydose') == 2) ? 'selected' : ''}}>1st and 2nd Dose</option>
-                        <option value="3" {{(old('howmanydose') == 3) ? 'selected' : ''}}>1st, 2nd, and 3rd Dose</option>
-                        <option value="4" {{(old('howmanydose') == 4) ? 'selected' : ''}}>1st, 2nd, 3rd, and 4th Dose</option>
-                      </select>
+                        <label for="howmanydose"><span class="text-danger font-weight-bold">*</span>Number of dose finished/Ilang bakuna ang natapos</label>
+                        <select class="form-control" name="howmanydose" id="howmanydose" required>
+                            <option disabled {{(is_null(old('howmanydose'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="1" {{(old('howmanydose') == 1) ? 'selected' : ''}}>1st Dose Only</option>
+                            <option value="2" {{(old('howmanydose') == 2) ? 'selected' : ''}}>1st and 2nd Dose</option>
+                            <option value="3" {{(old('howmanydose') == 3) ? 'selected' : ''}}>1st, 2nd, and 3rd Dose (1st Booster)</option>
+                            <option value="4" {{(old('howmanydose') == 4) ? 'selected' : ''}}>1st, 2nd, 3rd (1st Booster), and 4th Dose (2nd Booster)</option>
+                        </select>
                     </div>
                     <div id="vaccine1" class="d-none">
                         <div class="row">
@@ -479,7 +479,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                <label for="id_file"><span class="text-danger font-weight-bold">*</span>Upload Valid ID Picture</label>
+                                <label for="id_file"><span class="text-danger font-weight-bold">*</span>Upload Valid ID/Birth Certificate/Affidavit Picture</label>
                                 <input type="file" class="form-control-file" name="id_file" id="id_file" required>
                                 </div>
                             </div>

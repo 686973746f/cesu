@@ -85,6 +85,9 @@ class VaxcertController extends Controller
         $request->validate([
             'id_file' => 'required|file|mimes:pdf,jpg,png|max:20000',
             'vaxcard_file' => 'required|file|mimes:pdf,jpg,png|max:20000',
+            'dose2_date' => ($request->howmanydose == 2 || $request->howmanydose == 3 || $request->howmanydose == 4) ? 'required|after:dose1_date|before_or_equal:today' : 'nullable',
+            'dose3_date' => ($request->howmanydose == 3 || $request->howmanydose == 4) ? 'required|after:dose2_date|before_or_equal:today' : 'nullable',
+            'dose4_date' => ($request->howmanydose == 4) ? 'required|after:dose3_date|before_or_equal:today' : 'nullable',
         ]);
 
         $id_file_name = Str::random(40) . '.' . $request->file('id_file')->extension();

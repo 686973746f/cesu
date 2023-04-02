@@ -108,7 +108,7 @@
                                         <th colspan="5">Family Planning</th>
                                         <th colspan="3">Non-Com</th>
                                         <th rowspan="2">Dental</th>
-                                        <th rowspan="2" colspan="3">Environmental</th>
+                                        <th colspan="3">Environmental</th>
                                     </tr>
                                     <tr>
                                         <th>FIC - M</th>
@@ -125,7 +125,6 @@
                                         <th>RISK ASSESS</th>
                                         <th>PPV</th>
                                         <th>FLU-VACCINE</th>
-                                        <th></th>
                                         <th>L1</th>
                                         <th>L2</th>
                                         <th>L3</th>
@@ -147,6 +146,10 @@
                                     $gfp_dropouts_present = 0;
                                     $gfp_currusers_end = 0;
                                     $gfp_newaccp_present = 0;
+
+                                    $elvl1 = 0;
+                                    $elvl2 = 0;
+                                    $elvl3 = 0;
                                     @endphp
 
                                     @foreach($bgy_mone_list as $b)
@@ -186,6 +189,10 @@
                                     $gfp_dropouts_present += $b['fp_dropouts_present'];
                                     $gfp_currusers_end += $b['fp_currusers_beggining'] + $b['fp_otheraccp_present'] - $b['fp_dropouts_present'];
                                     $gfp_newaccp_present += $b['fp_newaccp_present'];
+
+                                    $elvl1 += $b['env_lvl1'];
+                                    $elvl2 += $b['env_lvl2'];
+                                    $elvl3 += $b['env_lvl3'];
                                     @endphp
 
                                     @endforeach
@@ -208,7 +215,9 @@
                                         <td>{{number_format($gppv)}}</td>
                                         <td>{{number_format($gflu)}}</td>
                                         <td></td>
-                                        <td></td>
+                                        <td>{{$elvl1}}</td>
+                                        <td>{{$elvl2}}</td>
+                                        <td>{{$elvl3}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -340,7 +349,7 @@
                     </div>
                 </div>
                 <div class="alert alert-info" role="alert">
-                    <b class="text-danger">DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by Christian James Historillo - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information contained in this report, the reader assumes all risks in connection with such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from use or reliance upon this material.
+                    <b class="text-danger">DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by Christian James Historillo - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information in this report, the reader assumes all risks concerning such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from the use or reliance upon this material.
                 </div>
                 <div class="row">
                     <div class="col-md-4">
