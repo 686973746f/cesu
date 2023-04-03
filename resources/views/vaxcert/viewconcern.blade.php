@@ -7,6 +7,11 @@
         <div class="card">
             <div class="card-header">View VaxCert Concern Ticket - No. {{$d->id}}</div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -535,6 +540,7 @@
                         </div>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
                 <hr>
                 <ul>
                     <li><b>Step 1:</b> Verify <a href="{{url(storage_path('app/vaxcert/patient/'.$d->id_file))}}" target="_blank">Submitted ID</a> and <a href="{{url(storage_path('app/vaxcert/patient/'.$d->vaxcard_file))}}" target="_blank">Vaccination Card</a> of the patient.</li>
@@ -578,7 +584,7 @@
                 </ul>
                 <!--
                     <a href="{{route('vaxcert_offdl', $d->id)}}" class="btn btn-primary btn-block">Download Offline Template</a>
-                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
+                    
                 -->
             </div>
             <div class="card-footer text-right">

@@ -330,10 +330,26 @@ class VaxcertController extends Controller
             $msg = 'VaxCert Concern Ticket marked rejected.';
             $msgtype = 'success';
         }
+        else if($request->submit == 'update') {
+            $v->dose1_bakuna_center_code = $request->dose1_bakuna_center_code;
 
-        $v->processed_by = auth()->user()->id;
+            if($request->howmanydose == 2 || $request->howmanydose == 3 || $request->howmanydose == 4) {
+                $v->dose2_bakuna_center_code = $request->dose2_bakuna_center_code;
+            }
 
-        $v->save();
+            if($request->howmanydose == 3 || $request->howmanydose == 4) {
+                $v->dose3_bakuna_center_code = $request->dose3_bakuna_center_code;
+            }
+
+            if($request->howmanydose == 4) {
+                $v->dose4_bakuna_center_code = $request->dose4_bakuna_center_code;
+            }
+        }
+
+        if($v->isDirty()) {
+            $v->processed_by = auth()->user()->id;
+            $v->save();
+        }
 
         return redirect()->route('vaxcert_home')
         ->with('msg', $msg)
@@ -342,6 +358,35 @@ class VaxcertController extends Controller
 
     public function dlbase_template($id) {
         $v = VaxcertConcern::findOrFail($id);
+
+        if($v->getNumberOfDose() == 1) {
+            if(is_null($v->dose1_bakuna_center_code)) {
+                return redirect()->back()
+                ->with('msg', 'Error: Please fill up CBCR ID of 1st Dose before proceeding.')
+                ->with('msgtype', 'warning');
+            }
+        }
+        else if($v->getNumberOfDose() == 2) {
+            if(is_null($v->dose1_bakuna_center_code) || is_null($v->dose2_bakuna_center_code)) {
+                return redirect()->back()
+                ->with('msg', 'Error: Please fill up CBCR ID of 1st and 2nd Dose before proceeding.')
+                ->with('msgtype', 'warning');
+            }
+        }
+        else if($v->getNumberOfDose() == 3) {
+            if(is_null($v->dose1_bakuna_center_code) || is_null($v->dose2_bakuna_center_code) || is_null($v->dose3_bakuna_center_code)) {
+                return redirect()->back()
+                ->with('msg', 'Error: Please fill up CBCR ID of 1st, 2nd, and 3rd Dose before proceeding.')
+                ->with('msgtype', 'warning');
+            }
+        }
+        else if($v->getNumberOfDose() == 4) {
+            if(is_null($v->dose1_bakuna_center_code) || is_null($v->dose2_bakuna_center_code) || is_null($v->dose3_bakuna_center_code) || is_null($v->dose4_bakuna_center_code)) {
+                return redirect()->back()
+                ->with('msg', 'Error: Please fill up CBCR ID of 1st, 2nd, 3rd, and 4th Dose before proceeding.')
+                ->with('msgtype', 'warning');
+            }
+        }
 
         $spreadsheet = IOFactory::load(storage_path('vaslinelist_template.xlsx'));
         $sheet = $spreadsheet->getActiveSheet('VAS Template');
