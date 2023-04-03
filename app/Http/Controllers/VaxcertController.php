@@ -93,8 +93,8 @@ class VaxcertController extends Controller
         $id_file_name = Str::random(10) . '.' . $request->file('id_file')->extension();
         $vaxcard_file_name = Str::random(10) . '.' . $request->file('vaxcard_file')->extension();
 
-        $request->file('id_file')->move(public_path('assets/vaxcert/patients'), $id_file_name);
-        $request->file('vaxcard_file')->move(public_path('assets/vaxcert/patients'), $vaxcard_file_name);
+        $request->file('id_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $id_file_name);
+        $request->file('vaxcard_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $vaxcard_file_name);
         
         $sys_code = strtoupper(Str::random(6));
 

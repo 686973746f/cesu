@@ -10,10 +10,6 @@
             <div class="card mb-3">
                 <div class="card-header"><b>Maligayang pagdating sa VaxCert Concern Ticketing System</b></div>
                 <div class="card-body">
-                    @php
-                    $public_html_path = $_SERVER['DOCUMENT_ROOT'];
-                    echo $public_html_path;
-                    @endphp
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
                         <p>{{Str::plural('Error', $errors->count())}} detected in creating VaxCert Concern Ticket:</p>

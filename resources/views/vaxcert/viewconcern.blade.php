@@ -543,7 +543,7 @@
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
                 <hr>
                 <ul>
-                    <li><b>Step 1:</b> Verify <a href="{{$_SERVER['DOCUMENT_ROOT'].'_html/assets/vaxcert/patients/'.$d->id_file)}}" target="_blank">Submitted ID</a> and <a href="{{$_SERVER['DOCUMENT_ROOT'].'_html/assets/vaxcert/patients/'.$d->id_file)}}" target="_blank">Vaccination Card</a> of the patient.</li>
+                    <li><b>Step 1:</b> Verify <a href="{{$_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/'.$d->id_file)}}" target="_blank">Submitted ID</a> and <a href="{{$_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/'.$d->vaxcard_file)}}" target="_blank">Vaccination Card</a> of the patient.</li>
                     <li><b>Step 2:</b> Login to VAS Line List system first.</li>
                     <li>
                         <b>Step 3:</b>
