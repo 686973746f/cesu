@@ -10,6 +10,7 @@
                 {{session('msg')}}
             </div>
             @endif
+            @if($list->count() != 0)
             <table class="table table-bordered table-striped">
                 <thead class="thead-light text-center">
                     <tr>
@@ -40,6 +41,9 @@
                     @endforeach
                 </tbody>
             </table>
+            @else
+            <p class="text-center">No pending records found. Come back later.</p>
+            @endif
         </div>
         <div class="card-footer">
             <div class="pagination justify-content-center mt-3">

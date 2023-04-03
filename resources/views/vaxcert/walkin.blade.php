@@ -10,6 +10,15 @@
             <div class="card mb-3">
                 <div class="card-header"><b>Maligayang pagdating sa VaxCert Concern Ticketing System</b></div>
                 <div class="card-body">
+                    @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <p>{{Str::plural('Error', $errors->count())}} detected in creating VaxCert Concern Ticket:</p>
+                        <hr>
+                        @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </div>
+                    @endif
                     @if(session('msg'))
                     <div class="alert alert-{{session('msgtype')}}" role="alert">
                         {{session('msg')}}
@@ -268,25 +277,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="dose1_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text">
+                                  <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose1_batchno">Batch/Lot No.</label>
-                                    <input type="text" class="form-control" name="dose1_batchno" id="dose1_batchno">
+                                    <input type="text" class="form-control" name="dose1_batchno" id="dose1_batchno" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose1_vaccinator_last_name">Vaccinator Surname</label>
-                                    <input type="text" class="form-control" name="dose1_vaccinator_last_name" id="dose1_vaccinator_last_name">
+                                    <input type="text" class="form-control" name="dose1_vaccinator_last_name" id="dose1_vaccinator_last_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose1_vaccinator_first_name">Vaccinator First Name</label>
-                                    <input type="text" class="form-control" name="dose1_vaccinator_first_name" id="dose1_vaccinator_first_name">
+                                    <input type="text" class="form-control" name="dose1_vaccinator_first_name" id="dose1_vaccinator_first_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                         </div>
@@ -329,25 +338,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="dose2_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text">
+                                  <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose2_batchno">Batch/Lot No.</label>
-                                    <input type="text" class="form-control" name="dose2_batchno" id="dose2_batchno">
+                                    <input type="text" class="form-control" name="dose2_batchno" id="dose2_batchno" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose2_vaccinator_last_name">Vaccinator Surname</label>
-                                    <input type="text" class="form-control" name="dose2_vaccinator_last_name" id="dose2_vaccinator_last_name">
+                                    <input type="text" class="form-control" name="dose2_vaccinator_last_name" id="dose2_vaccinator_last_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose2_vaccinator_first_name">Vaccinator First Name</label>
-                                    <input type="text" class="form-control" name="dose2_vaccinator_first_name" id="dose2_vaccinator_first_name">
+                                    <input type="text" class="form-control" name="dose2_vaccinator_first_name" id="dose2_vaccinator_first_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                         </div>
@@ -390,25 +399,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="dose3_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text">
+                                  <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose3_batchno">Batch/Lot No.</label>
-                                    <input type="text" class="form-control" name="dose3_batchno" id="dose3_batchno">
+                                    <input type="text" class="form-control" name="dose3_batchno" id="dose3_batchno" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose3_vaccinator_last_name">Vaccinator Surname</label>
-                                    <input type="text" class="form-control" name="dose3_vaccinator_last_name" id="dose3_vaccinator_last_name">
+                                    <input type="text" class="form-control" name="dose3_vaccinator_last_name" id="dose3_vaccinator_last_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose3_vaccinator_first_name">Vaccinator First Name</label>
-                                    <input type="text" class="form-control" name="dose3_vaccinator_first_name" id="dose3_vaccinator_first_name">
+                                    <input type="text" class="form-control" name="dose3_vaccinator_first_name" id="dose3_vaccinator_first_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                         </div>
@@ -451,25 +460,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="dose4_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                  <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text">
+                                  <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose4_batchno">Batch/Lot No.</label>
-                                    <input type="text" class="form-control" name="dose4_batchno" id="dose4_batchno">
+                                    <input type="text" class="form-control" name="dose4_batchno" id="dose4_batchno" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose4_vaccinator_last_name">Vaccinator Surname</label>
-                                    <input type="text" class="form-control" name="dose4_vaccinator_last_name" id="dose4_vaccinator_last_name">
+                                    <input type="text" class="form-control" name="dose4_vaccinator_last_name" id="dose4_vaccinator_last_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="dose4_vaccinator_first_name">Vaccinator First Name</label>
-                                    <input type="text" class="form-control" name="dose4_vaccinator_first_name" id="dose4_vaccinator_first_name">
+                                    <input type="text" class="form-control" name="dose4_vaccinator_first_name" id="dose4_vaccinator_first_name" style="text-transform: uppercase;">
                                 </div>
                             </div>
                         </div>

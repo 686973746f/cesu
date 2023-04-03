@@ -200,10 +200,10 @@
                 <div class="form-group">
                     <label for="howmanydose"><span class="text-danger font-weight-bold">*</span>Number of dose finished/Ilang bakuna ang natapos</label>
                     <select class="form-control" name="howmanydose" id="howmanydose" required>
-                        <option value="1" {{($d->getNumberOfDose() == 1) ? 'selected' : ''}}>1st Dose Only</option>
-                        <option value="2" {{($d->getNumberOfDose() == 2) ? 'selected' : ''}}>1st and 2nd Dose</option>
-                        <option value="3" {{($d->getNumberOfDose() == 3) ? 'selected' : ''}}>1st, 2nd, and 3rd Dose (1st Booster)</option>
-                        <option value="4" {{($d->getNumberOfDose() == 4) ? 'selected' : ''}}>1st, 2nd, 3rd (1st Booster), and 4th Dose (2nd Booster)</option>
+                        <option value="1" {{(old('howmanydose', $d->getNumberOfDose()) == 1) ? 'selected' : ''}}>1st Dose Only</option>
+                        <option value="2" {{(old('howmanydose', $d->getNumberOfDose()) == 2) ? 'selected' : ''}}>1st and 2nd Dose</option>
+                        <option value="3" {{(old('howmanydose', $d->getNumberOfDose()) == 3) ? 'selected' : ''}}>1st, 2nd, and 3rd Dose (1st Booster)</option>
+                        <option value="4" {{(old('howmanydose', $d->getNumberOfDose()) == 4) ? 'selected' : ''}}>1st, 2nd, 3rd (1st Booster), and 4th Dose (2nd Booster)</option>
                     </select>
                 </div>
                 <div id="vaccine1" class="d-none">
@@ -211,29 +211,29 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose1_date"><span class="text-danger font-weight-bold">*</span>1ST Dose Date</label>
-                                <input type="date" class="form-control" name="dose1_date" id="dose1_date" value="{{$d->dose1_date}}" min="2021-01-01" max="{{date('Y-m-d')}}" required>
+                                <input type="date" class="form-control" name="dose1_date" id="dose1_date" value="{{old('dose1_date', $d->dose1_date)}}" min="2021-01-01" max="{{date('Y-m-d')}}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label for="dose1_manufacturer"><span class="text-danger font-weight-bold">*</span>1ST Dose Manufacturer</label>
                             <select class="form-control" name="dose1_manufacturer" id="dose1_manufacturer" required>
-                                <option value="AZ" {{($d->dose1_manufacturer == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{($d->dose1_manufacturer == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{($d->dose1_manufacturer == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="Novavax" {{($d->dose1_manufacturer == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{($d->dose1_manufacturer == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="Sinohpharm" {{($d->dose1_manufacturer == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{($d->dose1_manufacturer == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{($d->dose1_manufacturer == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{($d->dose1_manufacturer == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                <option value="AZ" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
+                                <option value="J&J" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
+                                <option value="Moderna" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="Novavax" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
+                                <option value="Pfizer" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="Sinohpharm" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinovac" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
+                                <option value="SputnikLight" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
+                                <option value="Gamaleya" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
                             </select>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose1_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>1ST Dose Vaccinated here in GenTri?</label>
                                 <select class="form-control" name="dose1_inmainlgu_yn" id="dose1_inmainlgu_yn" required>
-                                  <option value="Y" {{($d->dose1_inmainlgu_yn == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                  <option value="N" {{($d->dose1_inmainlgu_yn == 'N') ? 'selected' : ''}}>Hindi/No</option>
+                                  <option value="Y" {{(old('dose1_inmainlgu_yn', $d->dose1_inmainlgu_yn) == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                  <option value="N" {{(old('dose1_inmainlgu_yn', $d->dose1_inmainlgu_yn) == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                 </select>
                             </div>
                         </div>
@@ -242,7 +242,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="dose1_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                                <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text" value="{{mb_strtoupper($d->dose1_bakuna_center_text)}}">
+                                <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text" value="{{mb_strtoupper(old('dose1_bakuna_center_text', mb_strtoupper($d->dose1_bakuna_center_text)))}}" disabled>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -267,92 +267,106 @@
                             @else
                             <div class="form-group">
                                 <label for="dose1_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
-                                <input type="text" class="form-control" name="dose1_bakuna_center_code" id="dose1_bakuna_center_code" required>
+                                <input type="text" class="form-control" name="dose1_bakuna_center_code" id="dose1_bakuna_center_code" value="{{old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code)}}" required>
+                                <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
                             </div>
                             @endif
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
-                            
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose1_batchno">Batch/Lot No.</label>
-                                <input type="text" class="form-control" name="dose1_batchno" id="dose1_batchno">
+                                <label for="dose1_batchno"><span class="text-danger font-weight-bold">*</span>Batch/Lot No.</label>
+                                <input type="text" class="form-control" name="dose1_batchno" id="dose1_batchno" value="{{mb_strtoupper(old('dose1_batchno', $d->dose1_batchno))}}">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose1_vaccinator_last_name">Vaccinator Surname</label>
-                                <input type="text" class="form-control" name="dose1_vaccinator_last_name" id="dose1_vaccinator_last_name">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="dose1_vaccinator_first_name">Vaccinator First Name</label>
-                                <input type="text" class="form-control" name="dose1_vaccinator_first_name" id="dose1_vaccinator_first_name">
+                                <label for="dose1_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <input type="text" class="form-control" name="dose1_vaccinator_name" id="dose1_vaccinator_name" value="{{mb_strtoupper(old('dose1_vaccinator_name', $d->dose1_vaccinator_name))}}">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="vaccine2" class="d-none">
+                    <hr>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose2_date"><span class="text-danger font-weight-bold">*</span>2ND Dose Date</label>
-                                <input type="date" class="form-control" name="dose2_date" id="dose2_date" value="{{old('dose2_date')}}" min="2021-01-01" max="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control" name="dose2_date" id="dose2_date" value="{{old('dose2_date', $d->dose2_date)}}" min="2021-01-01" max="{{date('Y-m-d')}}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label for="dose2_manufacturer"><span class="text-danger font-weight-bold">*</span>2ND Dose Manufacturer</label>
                             <select class="form-control" name="dose2_manufacturer" id="dose2_manufacturer">
-                                <option disabled {{(is_null(old('dose2_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="AZ" {{(old('dose2_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{(old('dose2_manufacturer') == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{(old('dose2_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="Novavax" {{(old('dose2_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{(old('dose2_manufacturer') == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="Sinohpharm" {{(old('dose2_manufacturer') == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{(old('dose2_manufacturer') == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{(old('dose2_manufacturer') == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{(old('dose2_manufacturer') == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                <option value="AZ" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
+                                <option value="J&J" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
+                                <option value="Moderna" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="Novavax" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
+                                <option value="Pfizer" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="Sinohpharm" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinovac" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
+                                <option value="SputnikLight" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
+                                <option value="Gamaleya" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
                             </select>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose2_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>2ND Dose Vaccinated here in GenTri?</label>
                                 <select class="form-control" name="dose2_inmainlgu_yn" id="dose2_inmainlgu_yn" required>
-                                  <option disabled {{(is_null(old('dose2_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="Y" {{(old('dose2_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                  <option value="N" {{(old('dose2_inmainlgu_yn') == 'N') ? 'selected' : ''}}>Hindi/No</option>
+                                  <option value="Y" {{(old('dose2_inmainlgu_yn' , $d->dose2_inmainlgu_yn) == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                  <option value="N" {{(old('dose2_inmainlgu_yn' , $d->dose2_inmainlgu_yn) == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                              <label for="dose2_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                              <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text">
+                                <label for="dose2_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
+                                <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text" value="{{mb_strtoupper(old('dose2_bakuna_center_text', $d->dose2_bakuna_center_text))}}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
+                            @if($d->dose2_inmainlgu_yn == 'Y')
                             <div class="form-group">
-                                <label for="dose2_batchno">Batch/Lot No.</label>
-                                <input type="text" class="form-control" name="dose2_batchno" id="dose2_batchno">
+                              <label for="dose2_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
+                              <select class="form-control" name="dose2_bakuna_center_code" id="dose2_bakuna_center_code" required>
+                                <option disabled {{(is_null(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="CBC000000000002325" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
+                                <option value="CBC000000000005586" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
+                                <option value="CBC000000000006637" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000006637') ? 'selected' : ''}}>CONVENTION</option>
+                                <option value="CBC000000000009906" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000009906') ? 'selected' : ''}}>DBA VACCINATION FACILITY</option>
+                                <option value="CBC000000000005588" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000005588') ? 'selected' : ''}}>DIVINE GRACE MEDICAL HOSPITAL (DGMC)</option>
+                                <option value="CBC000000000005587" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000005587') ? 'selected' : ''}}>GENTRIMEDICAL CENTER AND HOSPITAL (GENTRIMED)</option>
+                                <option value="CBC000000000007746" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000007746') ? 'selected' : ''}}>MOBILE VACCINATION</option>
+                                <option value="CBC000000000007459" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000007459') ? 'selected' : ''}}>ROBINSONS PLACE GENENERAL TRIAS</option>
+                                <option value="CBC000000000008481" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000008481') ? 'selected' : ''}}>SSMC GATEWAY VACCINATION CENTER</option>
+                                <option value="CBC000000000008932" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000008932') ? 'selected' : ''}}>ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS</option>
+                                <option value="CBC000000000007978" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000007978') ? 'selected' : ''}}>VISTA MALL SAN FRANCISCO / RED CROSS</option>
+                              </select>
+                            </div>
+                            @else
+                            <div class="form-group">
+                                <label for="dose2_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
+                                <input type="text" class="form-control" name="dose2_bakuna_center_code" id="dose2_bakuna_center_code" value="{{old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code)}}" required>
+                                <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dose2_batchno"><span class="text-danger font-weight-bold">*</span>Batch/Lot No.</label>
+                                <input type="text" class="form-control" name="dose2_batchno" id="dose2_batchno" value="{{mb_strtoupper(old('dose2_batchno', $d->dose2_batchno))}}">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose2_vaccinator_last_name">Vaccinator Surname</label>
-                                <input type="text" class="form-control" name="dose2_vaccinator_last_name" id="dose2_vaccinator_last_name">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="dose2_vaccinator_first_name">Vaccinator First Name</label>
-                                <input type="text" class="form-control" name="dose2_vaccinator_first_name" id="dose2_vaccinator_first_name">
+                                <label for="dose2_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <input type="text" class="form-control" name="dose2_vaccinator_name" id="dose2_vaccinator_name" value="{{mb_strtoupper(old('dose2_vaccinator_name', $d->dose2_vaccinator_name))}}">
                             </div>
                         </div>
                     </div>
@@ -362,58 +376,79 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose3_date"><span class="text-danger font-weight-bold">*</span>3RD Dose (Booster 1) Date</label>
-                                <input type="date" class="form-control" name="dose3_date" id="dose3_date" value="{{old('dose3_date')}}" min="2021-01-01" max="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control" name="dose3_date" id="dose3_date" value="{{old('dose3_date', $d->dose3_date)}}" min="2021-01-01" max="{{date('Y-m-d')}}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label for="dose3_manufacturer"><span class="text-danger font-weight-bold">*</span>3RD Dose (Booster 1) Manufacturer</label>
                             <select class="form-control" name="dose3_manufacturer" id="dose3_manufacturer">
-                                <option disabled {{(is_null(old('dose3_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="AZ" {{(old('dose3_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{(old('dose3_manufacturer') == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{(old('dose3_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="Novavax" {{(old('dose3_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{(old('dose3_manufacturer') == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="Sinohpharm" {{(old('dose3_manufacturer') == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{(old('dose3_manufacturer') == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{(old('dose3_manufacturer') == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{(old('dose3_manufacturer') == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                <option value="AZ" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
+                                <option value="J&J" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
+                                <option value="Moderna" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="Novavax" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
+                                <option value="Pfizer" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="Sinohpharm" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinovac" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
+                                <option value="SputnikLight" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
+                                <option value="Gamaleya" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
                             </select>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose3_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>3RD Dose Vaccinated here in GenTri?</label>
                                 <select class="form-control" name="dose3_inmainlgu_yn" id="dose3_inmainlgu_yn" required>
-                                  <option disabled {{(is_null(old('dose3_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="Y" {{(old('dose3_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                  <option value="N" {{(old('dose3_inmainlgu_yn') == 'N') ? 'selected' : ''}}>Hindi/No</option>
+                                  <option value="Y" {{(old('dose3_inmainlgu_yn', $d->dose3_inmainlgu_yn) == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                  <option value="N" {{(old('dose3_inmainlgu_yn', $d->dose3_inmainlgu_yn) == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                              <label for="dose3_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                              <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text">
+                                <label for="dose3_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
+                                <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text" value="{{mb_strtoupper(old('dose3_bakuna_center_text', $d->dose3_bakuna_center_text))}}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
+                            @if($d->dose3_inmainlgu_yn == 'Y')
                             <div class="form-group">
-                                <label for="dose3_batchno">Batch/Lot No.</label>
-                                <input type="text" class="form-control" name="dose3_batchno" id="dose3_batchno">
+                              <label for="dose3_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
+                              <select class="form-control" name="dose3_bakuna_center_code" id="dose3_bakuna_center_code" required>
+                                <option disabled {{(is_null(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="CBC000000000002325" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
+                                <option value="CBC000000000005586" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
+                                <option value="CBC000000000006637" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000006637') ? 'selected' : ''}}>CONVENTION</option>
+                                <option value="CBC000000000009906" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000009906') ? 'selected' : ''}}>DBA VACCINATION FACILITY</option>
+                                <option value="CBC000000000005588" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000005588') ? 'selected' : ''}}>DIVINE GRACE MEDICAL HOSPITAL (DGMC)</option>
+                                <option value="CBC000000000005587" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000005587') ? 'selected' : ''}}>GENTRIMEDICAL CENTER AND HOSPITAL (GENTRIMED)</option>
+                                <option value="CBC000000000007746" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000007746') ? 'selected' : ''}}>MOBILE VACCINATION</option>
+                                <option value="CBC000000000007459" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000007459') ? 'selected' : ''}}>ROBINSONS PLACE GENENERAL TRIAS</option>
+                                <option value="CBC000000000008481" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000008481') ? 'selected' : ''}}>SSMC GATEWAY VACCINATION CENTER</option>
+                                <option value="CBC000000000008932" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000008932') ? 'selected' : ''}}>ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS</option>
+                                <option value="CBC000000000007978" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000007978') ? 'selected' : ''}}>VISTA MALL SAN FRANCISCO / RED CROSS</option>
+                              </select>
+                            </div>
+                            @else
+                            <div class="form-group">
+                                <label for="dose3_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
+                                <input type="text" class="form-control" name="dose3_bakuna_center_code" id="dose3_bakuna_center_code" value="{{old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code)}}" required>
+                                <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dose3_batchno"><span class="text-danger font-weight-bold">*</span>Batch/Lot No.</label>
+                                <input type="text" class="form-control" name="dose3_batchno" id="dose3_batchno" value="{{mb_strtoupper(old('dose3_batchno', $d->dose3_batchno))}}">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose3_vaccinator_last_name">Vaccinator Surname</label>
-                                <input type="text" class="form-control" name="dose3_vaccinator_last_name" id="dose3_vaccinator_last_name">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="dose3_vaccinator_first_name">Vaccinator First Name</label>
-                                <input type="text" class="form-control" name="dose3_vaccinator_first_name" id="dose3_vaccinator_first_name">
+                                <label for="dose3_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <input type="text" class="form-control" name="dose3_vaccinator_name" id="dose3_vaccinator_name" value="{{mb_strtoupper(old('dose3_vaccinator_name', $d->dose3_vaccinator_name))}}">
                             </div>
                         </div>
                     </div>
@@ -423,58 +458,79 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose4_date"><span class="text-danger font-weight-bold">*</span>4TH Dose (Booster 2) Date</label>
-                                <input type="date" class="form-control" name="dose4_date" id="dose4_date" value="{{old('dose4_date')}}" min="2021-01-01" max="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control" name="dose4_date" id="dose4_date" value="{{old('dose4_date', $d->dose4_date)}}" min="2021-01-01" max="{{date('Y-m-d')}}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label for="dose4_manufacturer"><span class="text-danger font-weight-bold">*</span>4TH Dose (Booster 2) Manufacturer</label>
                             <select class="form-control" name="dose4_manufacturer" id="dose4_manufacturer">
-                                <option disabled {{(is_null(old('dose4_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="AZ" {{(old('dose4_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{(old('dose4_manufacturer') == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{(old('dose4_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="Novavax" {{(old('dose4_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{(old('dose4_manufacturer') == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="Sinohpharm" {{(old('dose4_manufacturer') == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{(old('dose4_manufacturer') == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{(old('dose4_manufacturer') == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{(old('dose4_manufacturer') == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                <option value="AZ" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
+                                <option value="J&J" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
+                                <option value="Moderna" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="Novavax" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
+                                <option value="Pfizer" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="Sinohpharm" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinovac" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
+                                <option value="SputnikLight" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
+                                <option value="Gamaleya" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
                             </select>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="dose4_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>4TH Dose Vaccinated here in GenTri?</label>
                                 <select class="form-control" name="dose4_inmainlgu_yn" id="dose4_inmainlgu_yn" required>
-                                  <option disabled {{(is_null(old('dose4_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="Y" {{(old('dose4_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
-                                  <option value="N" {{(old('dose4_inmainlgu_yn') == 'N') ? 'selected' : ''}}>Hindi/No</option>
+                                  <option value="Y" {{(old('dose4_inmainlgu_yn', $d->dose4_inmainlgu_yn) == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
+                                  <option value="N" {{(old('dose4_inmainlgu_yn', $d->dose4_inmainlgu_yn) == 'N') ? 'selected' : ''}}>Hindi/No</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                              <label for="dose4_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
-                              <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text">
+                                <label for="dose4_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
+                                <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text" value="{{mb_strtoupper(old('dose4_bakuna_center_text', $d->dose4_bakuna_center_text))}}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
+                            @if($d->dose4_inmainlgu_yn == 'Y')
                             <div class="form-group">
-                                <label for="dose4_batchno">Batch/Lot No.</label>
-                                <input type="text" class="form-control" name="dose4_batchno" id="dose4_batchno">
+                              <label for="dose4_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
+                              <select class="form-control" name="dose4_bakuna_center_code" id="dose4_bakuna_center_code" required>
+                                <option disabled {{(is_null(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="CBC000000000002325" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
+                                <option value="CBC000000000005586" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
+                                <option value="CBC000000000006637" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000006637') ? 'selected' : ''}}>CONVENTION</option>
+                                <option value="CBC000000000009906" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000009906') ? 'selected' : ''}}>DBA VACCINATION FACILITY</option>
+                                <option value="CBC000000000005588" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000005588') ? 'selected' : ''}}>DIVINE GRACE MEDICAL HOSPITAL (DGMC)</option>
+                                <option value="CBC000000000005587" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000005587') ? 'selected' : ''}}>GENTRIMEDICAL CENTER AND HOSPITAL (GENTRIMED)</option>
+                                <option value="CBC000000000007746" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000007746') ? 'selected' : ''}}>MOBILE VACCINATION</option>
+                                <option value="CBC000000000007459" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000007459') ? 'selected' : ''}}>ROBINSONS PLACE GENENERAL TRIAS</option>
+                                <option value="CBC000000000008481" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000008481') ? 'selected' : ''}}>SSMC GATEWAY VACCINATION CENTER</option>
+                                <option value="CBC000000000008932" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000008932') ? 'selected' : ''}}>ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS</option>
+                                <option value="CBC000000000007978" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000007978') ? 'selected' : ''}}>VISTA MALL SAN FRANCISCO / RED CROSS</option>
+                              </select>
+                            </div>
+                            @else
+                            <div class="form-group">
+                                <label for="dose4_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
+                                <input type="text" class="form-control" name="dose4_bakuna_center_code" id="dose4_bakuna_center_code" value="{{old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code)}}" required>
+                                <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dose4_batchno"><span class="text-danger font-weight-bold">*</span>Batch/Lot No.</label>
+                                <input type="text" class="form-control" name="dose4_batchno" id="dose4_batchno" value="{{mb_strtoupper(old('dose4_batchno', $d->dose4_batchno))}}">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose4_vaccinator_last_name">Vaccinator Surname</label>
-                                <input type="text" class="form-control" name="dose4_vaccinator_last_name" id="dose4_vaccinator_last_name">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="dose4_vaccinator_first_name">Vaccinator First Name</label>
-                                <input type="text" class="form-control" name="dose4_vaccinator_first_name" id="dose4_vaccinator_first_name">
+                                <label for="dose4_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <input type="text" class="form-control" name="dose4_vaccinator_name" id="dose4_vaccinator_name" value="{{mb_strtoupper(old('dose4_vaccinator_name', $d->dose4_vaccinator_name))}}">
                             </div>
                         </div>
                     </div>
