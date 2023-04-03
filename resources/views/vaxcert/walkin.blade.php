@@ -279,6 +279,7 @@
                                   <label for="dose1_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose1_bakuna_center_text" id="dose1_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
+                                <small class="text-muted">Note: Hindi po parte ng katawan ang isusulat dito.</small>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -301,6 +302,7 @@
                         </div>
                     </div>
                     <div id="vaccine2" class="d-none">
+                        <hr>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -340,6 +342,7 @@
                                   <label for="dose2_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose2_bakuna_center_text" id="dose2_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
+                                <small class="text-muted">Note: Hindi po parte ng katawan ang isusulat dito.</small>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -362,6 +365,7 @@
                         </div>
                     </div>
                     <div id="vaccine3" class="d-none">
+                        <hr>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -401,6 +405,7 @@
                                   <label for="dose3_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose3_bakuna_center_text" id="dose3_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
+                                <small class="text-muted">Note: Hindi po parte ng katawan ang isusulat dito.</small>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -423,6 +428,7 @@
                         </div>
                     </div>
                     <div id="vaccine4" class="d-none">
+                        <hr>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -462,6 +468,7 @@
                                   <label for="dose4_bakuna_center_text"><span class="text-danger font-weight-bold">*</span>Vaccination Site/Lugar kung saan binakunahan</label>
                                   <input type="text" class="form-control" name="dose4_bakuna_center_text" id="dose4_bakuna_center_text" style="text-transform: uppercase;">
                                 </div>
+                                <small class="text-muted">Note: Hindi po parte ng katawan ang isusulat dito.</small>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">

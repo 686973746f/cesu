@@ -133,7 +133,7 @@ class VaxcertController extends Controller
                 $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
                 $dose2_batchno = $request->dose2_batchno;
                 $dose2_inmainlgu_yn = $request->dose2_inmainlgu_yn;
-                $dose2_vaccinator_name = $request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name;
+                $dose2_vaccinator_name = ($request->filled('dose2_vaccinator_last_name') && $request->filled('dose2_vaccinator_first_name')) ? mb_strtoupper($request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name) : NULL;
     
                 $dose3_date = NULL;
                 $dose3_manufacturer = NULL;
@@ -155,14 +155,14 @@ class VaxcertController extends Controller
                 $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
                 $dose2_batchno = $request->dose2_batchno;
                 $dose2_inmainlgu_yn = $request->dose2_inmainlgu_yn;
-                $dose2_vaccinator_name = $request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name;
+                $dose2_vaccinator_name = ($request->filled('dose2_vaccinator_last_name') && $request->filled('dose2_vaccinator_first_name')) ? mb_strtoupper($request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name) : NULL;
     
                 $dose3_date = $request->dose3_date;
                 $dose3_manufacturer = $request->dose3_manufacturer;
                 $dose3_bakuna_center_text = $request->dose3_bakuna_center_text;
                 $dose3_batchno = $request->dose3_batchno;
                 $dose3_inmainlgu_yn = $request->dose3_inmainlgu_yn;
-                $dose3_vaccinator_name = $request->dose3_vaccinator_last_name.', '.$request->dose3_vaccinator_first_name;
+                $dose3_vaccinator_name = ($request->filled('dose3_vaccinator_last_name') && $request->filled('dose3_vaccinator_first_name')) ? mb_strtoupper($request->dose3_vaccinator_last_name.', '.$request->dose3_vaccinator_first_name) : NULL;
     
                 $dose4_date = NULL;
                 $dose4_manufacturer = NULL;
@@ -177,21 +177,21 @@ class VaxcertController extends Controller
                 $dose2_bakuna_center_text = $request->dose2_bakuna_center_text;
                 $dose2_batchno = $request->dose2_batchno;
                 $dose2_inmainlgu_yn = $request->dose2_inmainlgu_yn;
-                $dose2_vaccinator_name = $request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name;
+                $dose2_vaccinator_name = ($request->filled('dose2_vaccinator_last_name') && $request->filled('dose2_vaccinator_first_name')) ? mb_strtoupper($request->dose2_vaccinator_last_name.', '.$request->dose2_vaccinator_first_name) : NULL;
     
                 $dose3_date = $request->dose3_date;
                 $dose3_manufacturer = $request->dose3_manufacturer;
                 $dose3_bakuna_center_text = $request->dose3_bakuna_center_text;
                 $dose3_batchno = $request->dose3_batchno;
                 $dose3_inmainlgu_yn = $request->dose3_inmainlgu_yn;
-                $dose3_vaccinator_name = $request->dose3_vaccinator_last_name.', '.$request->dose3_vaccinator_first_name;
+                $dose3_vaccinator_name = ($request->filled('dose3_vaccinator_last_name') && $request->filled('dose3_vaccinator_first_name')) ? mb_strtoupper($request->dose3_vaccinator_last_name.', '.$request->dose3_vaccinator_first_name) : NULL;
     
                 $dose4_date = $request->dose4_date;
                 $dose4_manufacturer = $request->dose4_manufacturer;
                 $dose4_bakuna_center_text = $request->dose4_bakuna_center_text;
                 $dose4_batchno = $request->dose4_batchno;
                 $dose4_inmainlgu_yn = $request->dose4_inmainlgu_yn;
-                $dose4_vaccinator_name = $request->dose4_vaccinator_last_name.', '.$request->dose4_vaccinator_first_name;
+                $dose4_vaccinator_name = ($request->filled('dose4_vaccinator_last_name') && $request->filled('dose4_vaccinator_first_name')) ? mb_strtoupper($request->dose4_vaccinator_last_name.', '.$request->dose4_vaccinator_first_name) : NULL;
             }
 
             $age = Carbon::parse($request->bdate)->diffInYears(Carbon::now());
@@ -228,7 +228,7 @@ class VaxcertController extends Controller
                 'dose1_lotno' => $request->dose1_batchno,
                 'dose1_inmainlgu_yn' => $request->dose1_inmainlgu_yn,
                 'dose1_bakuna_center_text' => $request->dose1_bakuna_center_text,
-                'dose1_vaccinator_name' => $request->dose1_vaccinator_last_name.', '.$request->dose1_vaccinator_first_name,
+                'dose1_vaccinator_name' => ($request->filled('dose1_vaccinator_last_name') && $request()->filled('dose1_vaccinator_first_name')) ? mb_strtoupper($request->dose1_vaccinator_last_name.', '.$request->dose1_vaccinator_first_name) : NULL,
                 
                 'dose2_date' => $dose2_date,
                 'dose2_manufacturer' => $dose2_manufacturer,
