@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 /public_html
+/public/assets/vaxcert
 .env
 .env.backup
 .phpunit.result.cache
