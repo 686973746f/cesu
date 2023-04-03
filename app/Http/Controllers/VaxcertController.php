@@ -260,7 +260,7 @@ class VaxcertController extends Controller
                 'id_file' => $id_file_name,
                 'vaxcard_file' => $vaxcard_file_name,
 
-                'vaxcard_uniqueid' => $request->vaxcard_uniqueid,
+                'vaxcard_uniqueid' => ($request->filled('vaxcard_uniqueid')) ? mb_strtoupper($request->vaxcard_uniqueid) : NULL,
                 'sys_code' => $sys_code,
             ]);
     
@@ -405,7 +405,7 @@ class VaxcertController extends Controller
                 $vbatchlot = mb_strtoupper($v->dose1_batchno);
 
                 $vcbcr = $v->dose1_bakuna_center_code;
-                $vvacname = $v->dose1_vaccinator_name;
+                $vvacname = mb_strtoupper($v->dose1_vaccinator_name);
 
                 $vdose1yn = 'Y';
                 $vdose2yn = 'N';
@@ -418,7 +418,7 @@ class VaxcertController extends Controller
                 $vbatchlot = mb_strtoupper($v->dose2_batchno);
 
                 $vcbcr = $v->dose2_bakuna_center_code;
-                $vvacname = $v->dose2_vaccinator_name;
+                $vvacname = mb_strtoupper($v->dose2_vaccinator_name);
 
                 $vdose1yn = 'N';
                 $vdose2yn = 'Y';
@@ -431,7 +431,7 @@ class VaxcertController extends Controller
                 $vbatchlot = mb_strtoupper($v->dose3_batchno);
 
                 $vcbcr = $v->dose3_bakuna_center_code;
-                $vvacname = $v->dose3_vaccinator_name;
+                $vvacname = mb_strtoupper($v->dose3_vaccinator_name);
 
                 $vdose1yn = 'N';
                 $vdose2yn = 'N';
@@ -444,7 +444,7 @@ class VaxcertController extends Controller
                 $vbatchlot = mb_strtoupper($v->dose4_batchno);
 
                 $vcbcr = $v->dose4_bakuna_center_code;
-                $vvacname = $v->dose4_vaccinator_name;
+                $vvacname = mb_strtoupper($v->dose4_vaccinator_name);
 
                 $vdose1yn = 'N';
                 $vdose2yn = 'N';
