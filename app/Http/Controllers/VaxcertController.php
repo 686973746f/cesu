@@ -404,29 +404,62 @@ class VaxcertController extends Controller
                 $vbrand = mb_strtoupper($v->dose1_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose1_batchno);
 
+                $vcbcr = $v->dose1_bakuna_center_code;
+                $vvacname = $v->dose1_vaccinator_name;
+
                 $vdose1yn = 'Y';
                 $vdose2yn = 'N';
                 $vdose3yn = 'N';
                 $vdose4yn = 'N';
             }
             else if($i == 2) {
-                
+                $vdate = date('m/d/Y', strtotime($v->dose2_date));
+                $vbrand = mb_strtoupper($v->dose2_manufacturer);
+                $vbatchlot = mb_strtoupper($v->dose2_batchno);
+
+                $vcbcr = $v->dose2_bakuna_center_code;
+                $vvacname = $v->dose2_vaccinator_name;
+
                 $vdose1yn = 'N';
                 $vdose2yn = 'Y';
                 $vdose3yn = 'N';
                 $vdose4yn = 'N';
             }
             else if($i == 3) {
+                $vdate = date('m/d/Y', strtotime($v->dose3_date));
+                $vbrand = mb_strtoupper($v->dose3_manufacturer);
+                $vbatchlot = mb_strtoupper($v->dose3_batchno);
+
+                $vcbcr = $v->dose3_bakuna_center_code;
+                $vvacname = $v->dose3_vaccinator_name;
+
                 $vdose1yn = 'N';
                 $vdose2yn = 'N';
                 $vdose3yn = 'Y';
                 $vdose4yn = 'N';
             }
             else if($i == 4) {
+                $vdate = date('m/d/Y', strtotime($v->dose4_date));
+                $vbrand = mb_strtoupper($v->dose4_manufacturer);
+                $vbatchlot = mb_strtoupper($v->dose4_batchno);
+
+                $vcbcr = $v->dose4_bakuna_center_code;
+                $vvacname = $v->dose4_vaccinator_name;
+
                 $vdose1yn = 'N';
                 $vdose2yn = 'N';
                 $vdose3yn = 'N';
                 $vdose4yn = 'Y';
+            }
+
+            if($v->address_province_text == 'CAVITE' && $v->address_muncity_text == 'GENERAL TRIAS') {
+                $prov_code = '042100000Cavite';
+                $mun_code = '042108000City of General Trias';
+            }
+            else {
+                //autofind soon
+                $prov_code = 'NONE';
+                $mun_code = 'NONE';
             }
 
             $c = $i+1;
@@ -442,19 +475,19 @@ class VaxcertController extends Controller
             $sheet->setCellValue('J'.$c, $v->contact_number);
             $sheet->setCellValue('K'.$c, $v->guardian_name); //GUARDIAN NAME
             $sheet->setCellValue('L'.$c, $v->address_region_text); //REGION
-            $sheet->setCellValue('M'.$c, 'NONE'); //PROVINCE
-            $sheet->setCellValue('N'.$c, 'NONE'); //MUNCITY
+            $sheet->setCellValue('M'.$c, $prov_code); //PROVINCE
+            $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
             $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
             $sheet->setCellValue('P'.$c, $v->gender);
-            $sheet->setCellValue('Q'.$c, date('m/d/Y', strtotime($v->birthdate)));
+            $sheet->setCellValue('Q'.$c, date('m/d/Y', strtotime($v->bdate)));
             $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
             $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
             $sheet->setCellValue('T'.$c, $vdate);
             $sheet->setCellValue('U'.$c, $vbrand);
             $sheet->setCellValue('V'.$c, $vbatchlot);
-            $sheet->setCellValue('W'.$c, 'NONE');
-            $sheet->setCellValue('X'.$c, 'NONE');
-            $sheet->setCellValue('Y'.$c, 'NONE');
+            $sheet->setCellValue('W'.$c, $vbatchlot);
+            $sheet->setCellValue('X'.$c, $vcbcr);
+            $sheet->setCellValue('Y'.$c, $vvacname);
             $sheet->setCellValue('Z'.$c, $vdose1yn);
             $sheet->setCellValue('AA'.$c, $vdose2yn);
             $sheet->setCellValue('AB'.$c, $vdose3yn);
