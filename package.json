@@ -22,7 +22,6 @@
         "select2": "^4.1.0-rc.0"
     },
     "dependencies": {
-        "@chartisan/chartjs": "^2.1.0",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@types/chart.js": "^2.9.34",
         "chart.js": "^4.2.1",
