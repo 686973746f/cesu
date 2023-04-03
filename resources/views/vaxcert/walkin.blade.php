@@ -34,7 +34,7 @@
                         </ul>
                         <hr>
                         <ul>
-                            <li>Ihanda ang litrato ng iyong <b>1.</b> Vaccination Card at <b>2.</b> Valid ID <i>(Passport, National ID, Postal ID, Philhealth ID, UMID, etc.)</i> na kailangan upang mai-sumite ang iyong form.</li>
+                            <li>Ihanda ang litrato ng iyong <b>1.</b> Vaccination Card at <b>2.</b> Valid ID <i>(Passport, National ID, Postal ID, Philhealth ID, UMID, etc.)</i> at Affidavit <i>(Kung papalitan ang apelyido dahil kinasal)</i> na kailangan upang mai-sumite ang iyong form.</li>
                         </ul>
                     </div>
                     <div class="row">
@@ -45,6 +45,7 @@
                                       <option disabled {{(is_null(old('concern_type'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="MISSING DOSE" {{(old('concern_type') == 'MISSING DOSE') ? 'selected' : ''}}>Missing Dose/May kulang na Dose</option>
                                       <option value="CORRECTION" {{(old('concern_type') == 'CORRECTION') ? 'selected' : ''}}>Correction/Itatama ang Detalye (Wrong Name/Birthdate/etc.)</option>
+                                      <option value="NO RECORD" {{(old('concern_type') == 'NO RECORD') ? 'selected' : ''}}>No Record/Nawawala o hindi makita ang Record</option>
                                       <option value="OTHERS" {{(old('concern_type') == 'OTHERS') ? 'selected' : ''}}>Others/Iba pa</option>
                                 </select>
                             </div>
@@ -75,7 +76,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
-                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control">
+                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]">
                               <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
                             </div>
                         </div>
@@ -105,7 +106,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="concern_msg"><span class="text-danger font-weight-bold">*</span>Specific Concern Message</label>
+                      <label for="concern_msg"><span class="text-danger font-weight-bold">*</span>Specific Concern Message/Isulat dito ang problema na nais ipaayos sa inyong VaxCert</label>
                       <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)" required></textarea>
                     </div>
                     <hr>
@@ -161,7 +162,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="email">Email Address</label>
-                                <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
+                                <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}" required>
                             </div>
                         </div>
                     </div>
@@ -170,13 +171,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="glast_name"><span class="text-danger font-weight-bold">*</span>Guardian's Surname</label>
+                                    <label for="glast_name"><span class="text-danger font-weight-bold">*</span>Guardian's Surname/Apelyido ng Magulang o Bantay</label>
                                     <input type="text" class="form-control" id="glast_name" name="glast_name" value="{{old('glast_name')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="gfirst_name"><span class="text-danger font-weight-bold">*</span>Guardian's First Name</label>
+                                    <label for="gfirst_name"><span class="text-danger font-weight-bold">*</span>Guardian's First Name/Unang Pangalan ng Magulang o Bantay</label>
                                     <input type="text" class="form-control" id="gfirst_name" name="gfirst_name" value="{{old('gfirst_name')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                                 </div>
                             </div>
@@ -264,7 +265,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose1_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>1ST Dose Vaccinated here in GenTri?</label>
+                                    <label for="dose1_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>1ST Dose Vaccinated HERE in GenTri?</label>
                                     <select class="form-control" name="dose1_inmainlgu_yn" id="dose1_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose1_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose1_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
@@ -327,7 +328,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose2_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>2ND Dose Vaccinated here in GenTri?</label>
+                                    <label for="dose2_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>2ND Dose Vaccinated HERE in GenTri?</label>
                                     <select class="form-control" name="dose2_inmainlgu_yn" id="dose2_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose2_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose2_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
@@ -390,7 +391,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose3_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>3RD Dose Vaccinated here in GenTri?</label>
+                                    <label for="dose3_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>3RD Dose Vaccinated HERE in GenTri?</label>
                                     <select class="form-control" name="dose3_inmainlgu_yn" id="dose3_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose3_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose3_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
@@ -453,7 +454,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose4_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>4TH Dose Vaccinated here in GenTri?</label>
+                                    <label for="dose4_inmainlgu_yn"><span class="text-danger font-weight-bold">*</span>4TH Dose Vaccinated HERE in GenTri?</label>
                                     <select class="form-control" name="dose4_inmainlgu_yn" id="dose4_inmainlgu_yn" required>
                                       <option disabled {{(is_null(old('dose4_inmainlgu_yn'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="Y" {{(old('dose4_inmainlgu_yn') == 'Y') ? 'selected' : ''}}>Oo/Yes</option>
@@ -506,6 +507,7 @@
                                 </div>
                             </div>
                         </div>
+                        <h6 class="text-center text-muted">Tanging mga file na JPG, PNG, at PDF lamang ang maaaring i-upload na may maximum size na 10MB.</h6>
                         <hr>
                         <ul>
                             <b>Data Privacy Statement</b>
@@ -534,8 +536,12 @@
                 </div>
                 <div class="modal-body">
                     <div id="choice1">
-                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern</button>
-                        <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Track Concern Status/Follow-up</button>
+                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern/Mag-file ng Bagong Concern</button>
+                        @if(date('w') == 6 || date('w') == 0)
+                        <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes ng umaga.</h6>
+                        @endif
+                        <hr>
+                        <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Track Concern Status/Follow-up <i>(Currently on Maintenance)</i></button>
                     </div>
                     <form action="{{route('vaxcert_track')}}" method="GET" id="choice2" class="d-none">
                         <div class="form-group">
