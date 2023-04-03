@@ -249,7 +249,7 @@
                             @if($d->dose1_inmainlgu_yn == 'Y')
                             <div class="form-group">
                               <label for="dose1_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
-                              <select class="form-control" name="dose1_bakuna_center_code" id="dose1_bakuna_center_code" required>
+                              <select class="form-control" name="dose1_bakuna_center_code" id="dose1_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="CBC000000000002325" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
                                 <option value="CBC000000000005586" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
@@ -267,7 +267,7 @@
                             @else
                             <div class="form-group">
                                 <label for="dose1_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
-                                <input type="text" class="form-control" name="dose1_bakuna_center_code" id="dose1_bakuna_center_code" value="{{old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code)}}" required>
+                                <input type="text" class="form-control" name="dose1_bakuna_center_code" id="dose1_bakuna_center_code" value="{{old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code)}}">
                                 <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
                             </div>
                             @endif
@@ -332,7 +332,7 @@
                             @if($d->dose2_inmainlgu_yn == 'Y')
                             <div class="form-group">
                               <label for="dose2_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
-                              <select class="form-control" name="dose2_bakuna_center_code" id="dose2_bakuna_center_code" required>
+                              <select class="form-control" name="dose2_bakuna_center_code" id="dose2_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="CBC000000000002325" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
                                 <option value="CBC000000000005586" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
@@ -350,7 +350,7 @@
                             @else
                             <div class="form-group">
                                 <label for="dose2_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
-                                <input type="text" class="form-control" name="dose2_bakuna_center_code" id="dose2_bakuna_center_code" value="{{old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code)}}" required>
+                                <input type="text" class="form-control" name="dose2_bakuna_center_code" id="dose2_bakuna_center_code" value="{{old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code)}}">
                                 <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
                             </div>
                             @endif
@@ -414,7 +414,7 @@
                             @if($d->dose3_inmainlgu_yn == 'Y')
                             <div class="form-group">
                               <label for="dose3_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
-                              <select class="form-control" name="dose3_bakuna_center_code" id="dose3_bakuna_center_code" required>
+                              <select class="form-control" name="dose3_bakuna_center_code" id="dose3_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="CBC000000000002325" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
                                 <option value="CBC000000000005586" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
@@ -432,7 +432,7 @@
                             @else
                             <div class="form-group">
                                 <label for="dose3_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
-                                <input type="text" class="form-control" name="dose3_bakuna_center_code" id="dose3_bakuna_center_code" value="{{old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code)}}" required>
+                                <input type="text" class="form-control" name="dose3_bakuna_center_code" id="dose3_bakuna_center_code" value="{{old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code)}}">
                                 <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
                             </div>
                             @endif
@@ -496,7 +496,7 @@
                             @if($d->dose4_inmainlgu_yn == 'Y')
                             <div class="form-group">
                               <label for="dose4_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
-                              <select class="form-control" name="dose4_bakuna_center_code" id="dose4_bakuna_center_code" required>
+                              <select class="form-control" name="dose4_bakuna_center_code" id="dose4_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="CBC000000000002325" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
                                 <option value="CBC000000000005586" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
@@ -514,7 +514,7 @@
                             @else
                             <div class="form-group">
                                 <label for="dose4_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Input Specific CBCR Code</label>
-                                <input type="text" class="form-control" name="dose4_bakuna_center_code" id="dose4_bakuna_center_code" value="{{old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code)}}" required>
+                                <input type="text" class="form-control" name="dose4_bakuna_center_code" id="dose4_bakuna_center_code" value="{{old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code)}}">
                                 <small>List of CBCR can be found - <a href="https://cbcr.doh.gov.ph/Covid19BakunaCenterRegistryList">HERE</a></small>
                             </div>
                             @endif
