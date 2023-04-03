@@ -344,6 +344,9 @@ class VaxcertController extends Controller
             if($request->howmanydose == 4) {
                 $v->dose4_bakuna_center_code = $request->dose4_bakuna_center_code;
             }
+
+            $msg = 'VaxCert Concern Ticket was updated successfully.';
+            $msgtype = 'success';
         }
 
         if($v->isDirty()) {
