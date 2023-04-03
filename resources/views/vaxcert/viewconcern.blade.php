@@ -557,7 +557,7 @@
                         <ul>
                             <li>Search and check record of patient in Vacinee Query by clicking - <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-m-d', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
                             <h6>(Kung may lumabas, i-check at i-update ang mga details)</h6>
-                            @if(date('d', strotime($d->bdate)) <= 12)
+                            @if(date('d', strtotime($d->bdate)) <= 12)
                             <ul>
                                 <li>IF NOT FOUND, It is possible that the Birthdate of Patient was reversed, you can check it by clicking - <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-d-m', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
                                 <h6>(Kung may lumabas, itama ang birthdate ng patient at i-submit para ma-update)</h6>
