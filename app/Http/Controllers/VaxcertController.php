@@ -90,11 +90,11 @@ class VaxcertController extends Controller
             'dose4_date' => ($request->howmanydose == 4) ? 'required|after:dose3_date|before_or_equal:today' : 'nullable',
         ]);
 
-        $id_file_name = Str::random(40) . '.' . $request->file('id_file')->extension();
-        $vaxcard_file_name = Str::random(40) . '.' . $request->file('vaxcard_file')->extension();
+        $id_file_name = Str::random(10) . '.' . $request->file('id_file')->extension();
+        $vaxcard_file_name = Str::random(10) . '.' . $request->file('vaxcard_file')->extension();
 
-        $request->file('id_file')->storeAs('vaxcert/patient', $id_file_name);
-        $request->file('vaxcard_file')->storeAs('vaxcert/patient', $vaxcard_file_name);
+        $request->file('id_file')->move(public_path('assets/vaxcert/patients'), $id_file_name);
+        $request->file('vaxcard_file')->move(public_path('assets/vaxcert/patients'), $vaxcard_file_name);
         
         $sys_code = strtoupper(Str::random(6));
 
