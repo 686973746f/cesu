@@ -293,10 +293,17 @@ class VaxcertController extends Controller
     }
 
     public function home() {
-        $list = VaxcertConcern::where('status', 'PENDING')
-        ->orderBy('created_at', 'ASC')
-        ->paginate(10);
-
+        if(request()->input('viewcomplete')) {
+            $list = VaxcertConcern::where('status', '!=', 'PENDING')
+            ->orderBy('updated_at', 'DESC')
+            ->paginate(10);
+        }
+        else {
+            $list = VaxcertConcern::where('status', 'PENDING')
+            ->orderBy('created_at', 'ASC')
+            ->paginate(10);
+        }
+        
         return view('vaxcert.home', [
             'list' => $list,
         ]);

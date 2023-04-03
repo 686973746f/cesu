@@ -3,7 +3,18 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header">VaxCert Concerns</div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div>VaxCert Concerns</div>
+                <div>
+                    @if(request()->input('viewcomplete'))
+                    Currently Viewing <b class="text-success">COMPLETED</b> List <i>(Oldest to Newest)</i>. <a href="{{route('vaxcert_home')}}" class="btn btn-warning ml-3">Show Pending</a>
+                    @else
+                    Currently Viewing <b class="text-warning">PENDING</b> List <i>(Newest to Oldest)</i>. <a href="{{route('vaxcert_home')}}?viewcomplete=1" class="btn btn-success ml-3">Show Completed</a>
+                    @endif
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -23,10 +34,22 @@
                         <th>Concern Type</th>
                         <th>Category</th>
                         <th>Date Submitted</th>
+                        @if(request()->input('viewcomplete'))
+                        <th>Status</th>
+                        <th>Processed by / At</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($list as $d)
+                    @php
+                    if($d->status == 'PENDING') {
+                        $stext = 'text-warning';
+                    }
+                    else if($d->status == 'COMPLETE') {
+                        $stext = 'text-warning';
+                    }
+                    @endphp
                     <tr>
                         <td class="text-center">{{$d->id}}</td>
                         <td><a href="{{route('vaxcert_viewpatient', $d->id)}}">{{$d->getName()}}</a></td>
@@ -36,7 +59,11 @@
                         <td class="text-center">{{(!is_null($d->email)) ? $d->email : 'N/A'}}</td>
                         <td class="text-center">{{$d->concern_type}}</td>
                         <td class="text-center">{{$d->category}}</td>
-                        <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
+                        <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></td>
+                        @if(request()->input('viewcomplete'))
+                        <td class="text-center"><b>{{$d->status}}</b></td>
+                        <td>{{$d->getProcessedBy()}} / <small>{{date('m/d/Y H:i A', strtotime($d->updated_at))}}</small></td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>

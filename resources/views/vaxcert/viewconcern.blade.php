@@ -5,7 +5,12 @@
     <form action="{{route('vaxcert_processpatient', $d->id)}}" method="POST">
         @csrf
         <div class="card">
-            <div class="card-header">View VaxCert Concern Ticket - No. {{$d->id}}</div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div><b>View VaxCert Concern Ticket - No. {{$d->id}}</b></div>
+                    <div></div>
+                </div>
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -544,7 +549,7 @@
                 <hr>
                 <ul>
                     <li><b>Step 1:</b> Verify <a href="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" target="_blank">Submitted ID</a> and <a href="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" target="_blank">Vaccination Card</a> of the patient.</li>
-                    <li><b>Step 2:</b> Login to VAS Line List system first.</li>
+                    <li><b>Step 2:</b> Login to <a href="https://vaslinelist.dict.gov.ph/">VAS Line List Site</a> first. Kung naka-login na, proceed to Step 3.</li>
                     <li>
                         <b>Step 3:</b>
                         <ul>
@@ -565,7 +570,7 @@
                             <h6>(Kung may lumabas, i-check at i-update ang mga details)</h6>
                             @if(date('d', strtotime($d->bdate)) <= 12)
                             <ul>
-                                <li>IF NOT FOUND, It is possible that the Birthdate of Patient was reversed, you can check it by clicking - <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-d-m', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
+                                <li>Kung walang lumabas o kulang ang dose ng bakunang lumabas, maaaring baliktad ang Birthdate na naka-encode sa VAS System, para ma-check iyon, click - <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-d-m', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
                                 <h6>(Kung may lumabas, itama ang birthdate ng patient at i-submit para ma-update)</h6>
                             </ul>
                             @endif
@@ -581,16 +586,20 @@
                             <li>Use <b class="text-info">cesugentri.vaxcert@gmail.com</b> as the email for uploading the linelist.</li>
                         </ul>
                     </li>
+                    <h6>------------</h6>
+                    <h6 class="text-danger"><b>SIGURADUHING "CLOSED" NA LAHAT NG TICKET NG PATIENT SA VAS LINELIST SITE BAGO PINTUDIN ANG <span class="text-success">COMPLETE</span> BUTTON SA IBABA.</b></h6>
+                    <h6>Maaaring kontakin ang pasyente sa kanyang Mobile Number: <b class="text-info">{{$d->contact_number}}</b> @if(!is_null($d->email))o sa Email Address: <b class="text-info">{{$d->email}}</b>@endif na maaari na siyang mag-generate ng kanyang VaxCert at naayos na ang isyu sa kanyang VaxCert.</h6>
                 </ul>
                 <!--
                     <a href="{{route('vaxcert_offdl', $d->id)}}" class="btn btn-primary btn-block">Download Offline Template</a>
-                    
                 -->
             </div>
+            @if($d->status == 'PENDING')
             <div class="card-footer text-right">
                 <button type="submit" class="btn btn-danger mr-3" name="submit" value="reject">Reject</button>
                 <button type="submit" class="btn btn-success" name="submit" value="complete">Complete</button>
             </div>
+            @endif
         </div>
     </form>
 </div>

@@ -395,17 +395,19 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/abtc/walkin', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('abtc_walkin_part1');
     Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
     Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
-
-    Route::get('/vaxcert', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin');
-    Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
-
-    Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
 });
+
+//Vaxcert
+Route::get('/vaxcert', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin');
+Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
+Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function()
 {
     Route::get('/fhsis/report', [FhsisController::class, 'report'])->name('fhsis_report');
     Route::get('/fhsis/fastlookup2', [FhsisController::class, 'fastlookuptwo'])->name('fhsis_fastlookup2');
+
+    Route::get('/fhsis/cesum2', [FhsisController::class, 'cesum2'])->name('fhsis_cesum2');
 });
 
 Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_process'])->name('abtc_qr_process');

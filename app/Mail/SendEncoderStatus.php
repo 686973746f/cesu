@@ -7,6 +7,7 @@ use App\Models\Forms;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use App\Models\AbtcBakunaRecords;
+use App\Models\VaxcertConcern;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -134,6 +135,10 @@ class SendEncoderStatus extends Mailable
             ->whereDate('created_at', date('Y-m-d'))
             ->count();
 
+            $vaxcert_count = VaxcertConcern::where('processed_by', $item->id)
+            ->whereDate('updated_at', date('Y-m-d'))
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
@@ -141,6 +146,7 @@ class SendEncoderStatus extends Mailable
                 'recovered_count' => $recovered_count,
                 'negative_count' => $negative_count,
                 'abtc_count' => $abtc_count,
+                'vaxcert_count' => $vaxcert_count,
             ]);
         }
         

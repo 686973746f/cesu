@@ -99,4 +99,15 @@ class VaxcertConcern extends Model
             }
         }
     }
+
+    public function getProcessedBy() {
+        $f = User::find($this->processed_by);
+
+        if($f) {
+            return $f->name;
+        }
+        else {
+            return NULL;
+        }
+    }
 }

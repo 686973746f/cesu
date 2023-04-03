@@ -896,4 +896,8 @@ class FhsisController extends Controller
     public function fastlookuptwo_process() {
         
     }
+
+    public function cesum2() {
+        return view('efhsis.cesum2');
+    }
 }
