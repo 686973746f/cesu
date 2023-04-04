@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <button type="button" name="" id="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2"></button>
+                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
             </div>
         </div>
     </div>
@@ -30,9 +30,9 @@
                           <label for="disease"></label>
                           <select class="form-control" name="disease" id="disease">
                             <option value="" disabled selected>Choose...</option>
-                            <option value="Covid">Covid</option>
-                            <option value="Dengue">Dengue</option>
                             <option value="AnimalBite">Animal Bite</option>
+                            <option value="Dengue">Dengue</option>
+                            <option value="Covid">Covid</option>
                           </select>
                         </div>
                         <div class="form-group">

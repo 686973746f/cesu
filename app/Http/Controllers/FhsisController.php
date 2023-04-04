@@ -917,12 +917,11 @@ class FhsisController extends Controller
 
             }
             else if($d == 'Dengue') {
-    
+                
             }
             else if($d == 'AnimalBite') {
                 $lcode = 'T14.1; Open wound of unspecified body region (Animal Bite (Dog & Others), GUNSHOT WOUND, LACERATED WOUND, MINOR INJURIES, STAB WOUND)';
-                
-    
+
                 $item1_m = 0;
                 $item1_f = 0;
                 
