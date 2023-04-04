@@ -159,7 +159,7 @@
                               <option value="{{$y}}">{{$y}}</option>
                           @endforeach
                         </select>
-                      </div>
+                    </div>
                       <div class="form-group">
                         <label for="rtype">Select Type</label>
                         <select class="form-control" name="rtype" id="rtype" required>
@@ -212,43 +212,43 @@
 
 <script>
     $('#rtype').change(function (e) { 
-    e.preventDefault();
-    if($(this).val() == 'YEARLY') {
-      $('#squarter').addClass('d-none');
-      $('#smonth').addClass('d-none');
-      $('#sweek').addClass('d-none');
+        e.preventDefault();
+        if($(this).val() == 'YEARLY') {
+            $('#squarter').addClass('d-none');
+            $('#smonth').addClass('d-none');
+            $('#sweek').addClass('d-none');
 
-      $('#quarter').prop('required', false);
-      $('#month').prop('required', false);
-      $('#week').prop('required', false);
-    }
-    else if($(this).val() == 'QUARTERLY') {
-      $('#squarter').removeClass('d-none');
-      $('#smonth').addClass('d-none');
-      $('#sweek').addClass('d-none');
+            $('#quarter').prop('required', false);
+            $('#month').prop('required', false);
+            $('#week').prop('required', false);
+        }
+        else if($(this).val() == 'QUARTERLY') {
+            $('#squarter').removeClass('d-none');
+            $('#smonth').addClass('d-none');
+            $('#sweek').addClass('d-none');
 
-      $('#quarter').prop('required', true);
-      $('#month').prop('required', false);
-      $('#week').prop('required', false);
-    }
-    else if($(this).val() == 'MONTHLY') {
-      $('#squarter').addClass('d-none');
-      $('#smonth').removeClass('d-none');
-      $('#sweek').addClass('d-none');
+            $('#quarter').prop('required', true);
+            $('#month').prop('required', false);
+            $('#week').prop('required', false);
+        }
+        else if($(this).val() == 'MONTHLY') {
+            $('#squarter').addClass('d-none');
+            $('#smonth').removeClass('d-none');
+            $('#sweek').addClass('d-none');
 
-      $('#quarter').prop('required', false);
-      $('#month').prop('required', true);
-      $('#week').prop('required', false);
-    }
-    else if($(this).val() == 'WEEKLY') {
-      $('#squarter').addClass('d-none');
-      $('#smonth').addClass('d-none');
-      $('#sweek').removeClass('d-none');
+            $('#quarter').prop('required', false);
+            $('#month').prop('required', true);
+            $('#week').prop('required', false);
+        }
+        else if($(this).val() == 'WEEKLY') {
+            $('#squarter').addClass('d-none');
+            $('#smonth').addClass('d-none');
+            $('#sweek').removeClass('d-none');
 
-      $('#quarter').prop('required', false);
-      $('#month').prop('required', false);
-      $('#week').prop('required', true);
-    }
-  }).trigger('change');
+            $('#quarter').prop('required', false);
+            $('#month').prop('required', false);
+            $('#week').prop('required', true);
+        }
+    }).trigger('change');
 </script>
 @endsection

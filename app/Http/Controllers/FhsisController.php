@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AbtcBakunaRecords;
 use PDO;
 use Carbon\Carbon;
 use App\Models\Brgy;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 class FhsisController extends Controller
 {
     public function home() {
-
+        return view('efhsis.home');
     }
 
     public function report() {
@@ -898,6 +899,315 @@ class FhsisController extends Controller
     }
 
     public function cesum2() {
-        return view('efhsis.cesum2');
+        $d = request()->input('disease');
+        $y = request()->input('year');
+        $m = request()->input('month');
+
+        $bgy_list = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
+
+        $arr = [];
+
+        $length = 'Month of '.date('F', strtotime($y.'-'.$m.'-01')).', Year '.$y;
+
+        foreach($bgy_list as $b) {
+            if($d == 'Covid') {
+
+            }
+            else if($d == 'Dengue') {
+    
+            }
+            else if($d == 'AnimalBite') {
+                $lcode = 'T14.1; Open wound of unspecified body region (Animal Bite (Dog & Others), GUNSHOT WOUND, LACERATED WOUND, MINOR INJURIES, STAB WOUND)';
+                
+    
+                $item1_m = 0;
+                $item1_f = 0;
+                
+                $item2_m = 0;
+                $item2_f = 0;
+    
+                $item3_m = 0;
+                $item3_f = 0;
+                
+                //1-4
+                $item4_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [1,4])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item4_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [1,4])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+                
+                //5-9
+                $item5_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [5,9])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item5_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [5,9])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //10-14
+                $item6_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [10,14])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item6_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [10,14])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //15-19
+                $item7_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [15,19])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item7_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [15,19])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //20-24
+                $item8_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [20,24])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item8_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [20,24])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //25-29
+                $item9_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [25,29])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item9_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [25,29])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //30-34
+                $item10_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [30,34])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item10_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [30,34])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //35-39
+                $item11_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [35,39])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item11_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [35,39])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //40-44
+                $item12_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [40,44])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item12_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [40,44])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //45-49
+                $item13_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [45,49])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item13_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [45,49])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //50-54
+                $item14_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [50,54])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item14_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [50,54])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //55-59
+                $item15_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [55,59])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item15_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [55,59])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //60-64
+                $item16_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [60,64])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item16_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [60,64])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //65-69
+                $item17_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->whereBetween('age', [65,69])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item17_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->whereBetween('age', [65,69])
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                //70 and Above
+                $item18_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'MALE')
+                    ->where('age', '>=', 70)
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $item18_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
+                    $q->where('gender', 'FEMALE')
+                    ->where('age', '>=', 70)
+                    ->where('address_muncity_text', $b->city->cityName)
+                    ->where('address_brgy_text', $b->brgyName);
+                })->count();
+    
+                $total_m = $item1_m + $item2_m + $item3_m + $item4_m + $item5_m + $item6_m + $item7_m + $item8_m + $item9_m + $item10_m + $item11_m + $item12_m + $item13_m + $item14_m + $item15_m + $item16_m + $item17_m + $item18_m;
+                $total_f = $item1_f + $item2_f + $item3_f + $item4_f + $item5_f + $item6_f + $item7_f + $item8_f + $item9_f + $item10_f + $item11_f + $item12_f + $item13_f + $item14_f + $item15_f + $item16_f + $item17_f + $item18_f;
+    
+                array_push($arr, [
+                    'barangay' => $b->brgyName,
+                    'item1_m' => $item1_m,
+                    'item1_f' => $item1_f,
+                    'item2_m' => $item2_m,
+                    'item2_f' => $item2_f,
+                    'item3_m' => $item3_m,
+                    'item3_f' => $item3_f,
+                    'item4_m' => $item4_m,
+                    'item4_f' => $item4_f,
+                    'item5_m' => $item5_m,
+                    'item5_f' => $item5_f,
+                    'item6_m' => $item6_m,
+                    'item6_f' => $item6_f,
+                    'item7_m' => $item7_m,
+                    'item7_f' => $item7_f,
+                    'item8_m' => $item8_m,
+                    'item8_f' => $item8_f,
+                    'item9_m' => $item9_m,
+                    'item9_f' => $item9_f,
+                    'item10_m' => $item10_m,
+                    'item10_f' => $item10_f,
+                    'item11_m' => $item11_m,
+                    'item11_f' => $item11_f,
+                    'item12_m' => $item12_m,
+                    'item12_f' => $item12_f,
+                    'item13_m' => $item13_m,
+                    'item13_f' => $item13_f,
+                    'item14_m' => $item14_m,
+                    'item14_f' => $item14_f,
+                    'item15_m' => $item15_m,
+                    'item15_f' => $item15_f,
+                    'item16_m' => $item16_m,
+                    'item16_f' => $item16_f,
+                    'item17_m' => $item17_m,
+                    'item17_f' => $item17_f,
+                    'item18_m' => $item18_m,
+                    'item18_f' => $item18_f,
+                    'total_m' => $total_m,
+                    'total_f' => $total_f,
+                ]);
+            }
+        }
+        
+        return view('efhsis.cesum2', [
+            'arr' => $arr,
+            'lcode' => $lcode,
+            'length' => $length,
+        ]);
     }
 }

@@ -404,6 +404,8 @@ Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function()
 {
+    Route::get('/fhsis', [FhsisController::class, 'home'])->name('fhsis_home');
+
     Route::get('/fhsis/report', [FhsisController::class, 'report'])->name('fhsis_report');
     Route::get('/fhsis/fastlookup2', [FhsisController::class, 'fastlookuptwo'])->name('fhsis_fastlookup2');
 
