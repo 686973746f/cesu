@@ -938,14 +938,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [1,4])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item4_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [1,4])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
                 
                 //5-9
                 $item5_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -953,14 +955,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [5,9])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item5_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [5,9])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //10-14
                 $item6_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -968,14 +972,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [10,14])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item6_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [10,14])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //15-19
                 $item7_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -983,14 +989,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [15,19])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item7_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [15,19])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //20-24
                 $item8_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -998,14 +1006,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [20,24])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item8_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [20,24])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //25-29
                 $item9_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1013,14 +1023,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [25,29])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item9_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [25,29])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //30-34
                 $item10_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1028,14 +1040,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [30,34])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item10_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [30,34])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //35-39
                 $item11_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1043,14 +1057,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [35,39])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item11_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [35,39])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //40-44
                 $item12_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1058,14 +1074,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [40,44])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item12_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [40,44])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //45-49
                 $item13_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1073,14 +1091,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [45,49])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item13_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [45,49])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //50-54
                 $item14_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1088,14 +1108,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [50,54])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item14_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [50,54])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //55-59
                 $item15_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1103,14 +1125,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [55,59])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item15_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [55,59])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //60-64
                 $item16_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1118,14 +1142,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [60,64])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item16_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [60,64])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //65-69
                 $item17_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1133,14 +1159,16 @@ class FhsisController extends Controller
                     ->whereBetween('age', [65,69])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item17_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->whereBetween('age', [65,69])
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 //70 and Above
                 $item18_m = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
@@ -1148,14 +1176,16 @@ class FhsisController extends Controller
                     ->where('age', '>=', 70)
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $item18_f = AbtcBakunaRecords::whereHas('patients', function ($q) use ($b) {
                     $q->where('gender', 'FEMALE')
                     ->where('age', '>=', 70)
                     ->where('address_muncity_text', $b->city->cityName)
                     ->where('address_brgy_text', $b->brgyName);
-                })->count();
+                })->whereMonth('created_at', $m)
+                ->count();
     
                 $total_m = $item1_m + $item2_m + $item3_m + $item4_m + $item5_m + $item6_m + $item7_m + $item8_m + $item9_m + $item10_m + $item11_m + $item12_m + $item13_m + $item14_m + $item15_m + $item16_m + $item17_m + $item18_m;
                 $total_f = $item1_f + $item2_f + $item3_f + $item4_f + $item5_f + $item6_f + $item7_f + $item8_f + $item9_f + $item10_f + $item11_f + $item12_f + $item13_f + $item14_f + $item15_f + $item16_f + $item17_f + $item18_f;
