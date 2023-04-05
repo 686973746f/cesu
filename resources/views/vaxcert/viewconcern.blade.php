@@ -574,6 +574,7 @@
                                 <h6>(Kung may lumabas, itama ang birthdate ng patient at i-submit para ma-update)</h6>
                             </ul>
                             @endif
+                            <li>Kung wala pa ding lumabas, subukan i-search ang details ng Patient sa 01/01/1990 na BDATE field, click <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate=1990-01-01{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
                             <h6>(Kung kumpleto na ang bakuna after updating, wag na mag-proceed sa Step 4 at pindutin na ang Complete button sa ibaba ng page na ito)</h6>
                         </ul>
                     </li>
