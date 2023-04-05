@@ -86,9 +86,13 @@ class CreateVaxcertConcernsTable extends Migration
             $table->text('vaxcard_file');
             $table->string('vaxcard_uniqueid')->nullable();
 
+            $table->string('use_type')->default('local');
+            $table->string('passport_no')->nullable();
+
             $table->string('sys_code'); //QR
 
             $table->foreignId('processed_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->text('user_remarks')->nullable();
             $table->timestamps();
         });
     }

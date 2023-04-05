@@ -67,6 +67,9 @@ class VaxcertConcern extends Model
         'vaxcard_file',
         'vaxcard_uniqueid',
         'sys_code',
+        'use_type',
+        'passport_no',
+        'user_remarks',
     ];
 
     public function getName() {

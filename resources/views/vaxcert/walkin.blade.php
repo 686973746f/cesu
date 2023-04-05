@@ -52,6 +52,29 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="use_type"><span class="text-danger font-weight-bold">*</span>Saan gagamitin ang VaxCert</label>
+                                <select class="form-control" name="use_type" id="use_type" required>
+                                      <option disabled {{(is_null(old('use_type'))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="ABROAD" {{(old('use_type') == 'ABROAD') ? 'selected' : ''}}>Abroad</option>
+                                      <option value="LOCAL" {{(old('use_type') == 'LOCAL') ? 'selected' : ''}}>Local Travel</option>
+                                </select>
+                            </div>
+                            <div class="form-group d-none" id="ifabroad">
+                                <label for="passport_no"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
+                                <input type="text" class="form-control" name="passport_no" id="passport_no" placeholder="ex. P12345">
+                              </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
+                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]">
+                              <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label for="category"><span class="text-danger font-weight-bold">*</span>Category</label>
                                 <select class="form-control" name="category" id="category" required>
                                       <option disabled {{(is_null(old('category'))) ? 'selected' : ''}}>Choose...</option>
@@ -73,29 +96,21 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                              <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
-                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]">
-                              <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
+                        
+                        <div class="col-md-3">
                             <div class="form-group">
                               <label for="vaxcard_uniqueid">Vaccination Card ID No./Unique Person ID <i>(Leave blank if empty)</i></label>
                               <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid" placeholder="ex: CC1234, RP1234, VM1234">
                               <small class="text-muted">Nakikita ito sa kanang ibabaw na bahagi ng iyong Vaccination Card.</small>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="comorbidity">Comorbidity <i>(Leave blank if empty)</i></label>
                                 <input type="text" class="form-control" name="comorbidity" id="comorbidity" placeholder="ex: Diabetes, Hypertension, Cancer">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="pwd_yn"><span class="text-danger font-weight-bold">*</span>Person with Disability (PWD)</label>
                                 <select class="form-control" name="pwd_yn" id="pwd_yn" required>
@@ -816,6 +831,18 @@
             var selectedManufacturer = $(this).val();
             if ($('#howmanydose').val() == 2 || $('#howmanydose').val() == 3 || $('#howmanydose').val() == 4) {
                 $('#dose2_manufacturer').val(selectedManufacturer);
+            }
+        });
+
+        $('#use_type').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == null || $(this).val() == 'LOCAL') {
+                $('#ifabroad').addClass('d-none');
+                $('#passport_no').prop('required', false);
+            }
+            else {
+                $('#ifabroad').removeClass('d-none');
+                $('#passport_no').prop('required', true);
             }
         });
 

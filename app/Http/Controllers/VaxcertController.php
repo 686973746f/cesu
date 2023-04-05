@@ -257,6 +257,9 @@ class VaxcertController extends Controller
                 'concern_type' => $request->concern_type,
                 'concern_msg' => $request->concern_msg,
 
+                'use_type' => $request->use_type,
+                'passport_no' => ($request->use_type == 'ABROAD') ? mb_strtoupper($request->passport_no) : NULL,
+
                 'id_file' => $id_file_name,
                 'vaxcard_file' => $vaxcard_file_name,
 
