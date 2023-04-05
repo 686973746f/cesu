@@ -51,6 +51,7 @@
               <a href="{{route('vaxcert_home')}}" class="btn btn-primary btn-block">VaxCert Concerns</a>
               <hr>
               <a href="{{route('abtc_home')}}" class="btn btn-primary btn-block">Animal Bite (ABTC)</a>
+              <a href="{{route('fhsis_home')}}" class="btn btn-primary btn-block">eFHSIS</a>
             </div>
         </div>
     </div>

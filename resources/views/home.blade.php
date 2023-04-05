@@ -203,6 +203,7 @@
                 <a href="{{route('vaxcert_home')}}" class="btn btn-primary btn-block">VaxCert Concerns</a>
                 <hr>
                 <a href="{{route('pidsr.home')}}" class="btn btn-primary btn-block">PIDSR</a>
+                <a href="{{route('fhsis_home')}}" class="btn btn-primary btn-block">eFHSIS</a>
             </div>
         </div>
     </div>

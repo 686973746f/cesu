@@ -2,15 +2,20 @@
 
 @section('content')
     <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <div class="d-flex justify-content-between">
-                    <div><b>eFHSIS Menu</b></div>
-                    <div></div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div><b>eFHSIS Menu</b></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Report</a>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
             </div>
         </div>
     </div>
@@ -27,12 +32,41 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                          <label for="disease"></label>
-                          <select class="form-control" name="disease" id="disease">
+                          <label for="disease">Select Disease</label>
+                          <select class="form-control" name="disease" id="disease" required>
                             <option value="" disabled selected>Choose...</option>
-                            <option value="AnimalBite">Animal Bite</option>
-                            <option value="Dengue">Dengue</option>
-                            <option value="Covid">Covid</option>
+                            <option value="AnimalBite">Animal Bite (ABTC)</option>
+                            <option value="Covid">COVID-19</option>
+                            <optgroup label="PIDSR Category I">
+                                <option value="Dengue">Acute Flaccid Paralysis</option>
+                                <option value="Dengue">Anthrax</option>
+                                <option value="Dengue">Measles</option>
+                                <option value="Dengue">Meningococcal Disease</option>
+                                <option value="Dengue">Neonatal Tetanus</option>
+                                <option value="Dengue">Paralytic Shellfish Poisoning</option>
+                                <option value="Dengue">Rabies</option>
+                                <option value="Dengue">Hand, Foot and Mouth Disease (HFMD)</option>
+                            </optgroup>
+                            <optgroup label="PIDSR Category II">
+                                <option value="Dengue">Acute Bloody Diarrhea</option>
+                                <option value="Dengue">Acute Encephalitis Syndrome</option>
+                                <option value="Dengue">Acute Hemorrhagic Fever Syndrome</option>
+                                <option value="Dengue">Acute Viral Hepatitis</option>
+                                <option value="Dengue">AMES</option>
+                                <option value="Dengue">Bacterial Meningitis</option>
+                                <option value="Dengue">Chikungunya</option>
+                                <option value="Dengue">Rabies</option>
+                                <option value="Dengue">Cholera</option>
+                                <option value="Dengue">Dengue</option>
+                                <option value="Dengue">Dipheria</option>
+                                <option value="Dengue">Influenza-like Illness</option>
+                                <option value="Dengue">Leptospirosis</option>
+                                <option value="Dengue">Malaria</option>
+                                <option value="Dengue">Non-Neonatal Tetanus</option>
+                                <option value="Dengue">Pertussis</option>
+                                <option value="Dengue">RotaVirus</option>
+                                <option value="Dengue">Typhoid and Parathypoid Fever</option>
+                            </optgroup>
                           </select>
                         </div>
                         <div class="form-group">
@@ -64,7 +98,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-block">Proceed</button>
+                        <button type="submit" class="btn btn-success btn-block">View</button>
                     </div>
                 </div>
             </div>

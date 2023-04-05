@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    @media print {
+        @page { size: landscape; }
+    }
+</style>
     <div class="container-fluid">
         <div class="card">
             <div class="card-header"><b>eFHSIS Report (2023)</b></div>
@@ -97,7 +102,7 @@
                     <hr>
                 </div>
                 <div class="card mb-3">
-                    <div class="card-header"><b>M1</b></div>
+                    <div class="card-header"><b class="text-primary">M1 BRGY</b></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered">
@@ -154,7 +159,7 @@
 
                                     @foreach($bgy_mone_list as $b)
                                     <tr>
-                                        <td>{{$b['barangay']}}</td>
+                                        <td><b>{{$b['barangay']}}</b></td>
                                         <td class="text-center">{{$b['fic_m']}}</td>
                                         <td class="text-center">{{$b['fic_f']}}</td>
                                         <td class="text-center"><b>{{($b['fic_m'] + $b['fic_f'])}}</b></td>
@@ -225,7 +230,7 @@
                     </div>
                 </div>
                 <div class="card mb-3">
-                    <div class="card-header"><b>Mortality and Natality</b></div>
+                    <div class="card-header"><b class="text-primary">MORTALITY AND NATALITY</b></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered">
@@ -255,7 +260,7 @@
                                     @endphp
                                     @foreach($bgy_nm_list as $b)
                                     <tr>
-                                        <td>{{$b['barangay']}}</td>
+                                        <td><b>{{$b['barangay']}}</b></td>
                                         <td class="text-center">{{number_format($b['population'])}}</td>
                                         <td class="text-center">{{$b['livebirth']}}</td>
                                         <td class="text-center">{{$b['tot_death']}}</td>
@@ -298,7 +303,7 @@
                     </div>
                 </div>
                 <div class="card mb-3">
-                    <div class="card-header"><b>Morbidity and Mortality</b></div>
+                    <div class="card-header"><b class="text-primary">MORBIDITY AND MORTALITY</b></div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
