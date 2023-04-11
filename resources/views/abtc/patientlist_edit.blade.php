@@ -166,13 +166,13 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="address_houseno" class="form-label">House No./Lot/Building</label>
-                            <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
+                            <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno', $d->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="address_street" class="form-label">Street/Subdivision/Purok/Sitio</label>
-                            <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
+                            <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                         </div>
                     </div>
                 </div>
@@ -344,11 +344,9 @@
         });
     }).trigger('change');
 
-    /*
-    $('#address_region_text').val('REGION IV-A (CALABARZON)');
-    $('#address_province_text').val('CAVITE');
-    $('#address_muncity_text').val('GENERAL TRIAS');
-    */
+    $('#address_region_text').val('{{$d->address_region_text}}');
+    $('#address_province_text').val('{{$d->address_province_text}}');
+    $('#address_muncity_text').val('{{$d->address_muncity_text}}');
 
     $('#has_bday').change(function (e) { 
         e.preventDefault();
