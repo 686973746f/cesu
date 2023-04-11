@@ -228,7 +228,7 @@ class VaxcertController extends Controller
                 'dose1_lotno' => $request->dose1_batchno,
                 'dose1_inmainlgu_yn' => $request->dose1_inmainlgu_yn,
                 'dose1_bakuna_center_text' => $request->dose1_bakuna_center_text,
-                'dose1_vaccinator_name' => ($request->filled('dose1_vaccinator_last_name') && $request()->filled('dose1_vaccinator_first_name')) ? mb_strtoupper($request->dose1_vaccinator_last_name.', '.$request->dose1_vaccinator_first_name) : NULL,
+                'dose1_vaccinator_name' => ($request->filled('dose1_vaccinator_last_name') && $request->filled('dose1_vaccinator_first_name')) ? mb_strtoupper($request->dose1_vaccinator_last_name.', '.$request->dose1_vaccinator_first_name) : NULL,
                 
                 'dose2_date' => $dose2_date,
                 'dose2_manufacturer' => $dose2_manufacturer,
