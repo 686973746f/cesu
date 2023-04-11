@@ -1241,6 +1241,41 @@ class FhsisController extends Controller
     }
 
     public function oneclickexcel() {
-        
+        /*
+        List of ICD10 Codes per System Diseases
+
+        Animal Bite T14.1; Open wound of unspecified body region (Animal Bite (Dog & Others), GUNSHOT WOUND, LACERATED WOUND, MINOR INJURIES, STAB WOUND)
+        Covid
+
+        ABD - A09.0; Acute Bloody Diarrhea
+        AEFI - NOT FOUND
+        AES - A83; Mosquito-borne viral encephalitis
+        AFP - G83.9; Paralytic syndrome, unspecified (CVA WITH PARALYSIS) (OLD OR HEALED CVA WITH PARALYSIS)
+        AHF - A97.0; Dengue without warning signs (2016)
+        AMES - NOT FOUND
+        ANTHRAX - A22; Anthrax
+        CHIKUNGUNYA - A92.0; Chikungunya virus disease
+        CHOLERA - A00; Cholera
+        DENGUE - A97.0; Dengue without warning signs (2016)
+        DENGUE - A97.1; Dengue with warning signs (2016)
+        DENGUE - A97.2; Severe Dengue (2016)
+        DIPH - A36; Diphtheria
+        HEPATITIS - NOT FOUND
+        HFMD - NOT FOUND
+        INFLUENZA - J11.1; Influenza with other respiratory manifestations, virus not identified (INFLUENZA-LIKE DISEASE/ILLNESS) (BRONCHIAL, AURI, LARYNGITIS,  PHARYNGITIS, PLEURAL EFFUSION, URI, VIRAL)
+        LEPTOSPIROSIS - A27; Leptospirosis
+        MALARIA - B54; Unspecified malaria (MALARIAL ANEMIA) (MALARIA, CLINICALLY DIAGNOSED WITHOUT PARASITOLOGICAL CONFIRMATION)
+        MEASLES - B05; Measles
+        MENINGITIS - NOT FOUND
+        MENINGO - A39.4; Meningococcemia, unspecified
+        NNT - NOT FOUND
+        NT - NOT FOUND
+        PERT - NOT FOUND
+        PSP - T61.2; Other fish and shellfish (mussels) poisoning (accidental)
+        RABIES - A82; Rabies
+        ROTAVIRUS - A08.0; Rotavirus
+        TYPHOID - A01; Typhoid and paratyphoid fevers (ENTERIC FEVER)
+
+        */
     }
 }
