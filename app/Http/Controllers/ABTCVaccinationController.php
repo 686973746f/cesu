@@ -969,7 +969,7 @@ class ABTCVaccinationController extends Controller
         }
 
         if($b->outcome == 'INC') {
-            $templateProcessor->setValue('outcome', 'FOLLOW UP - 1PM');
+            $templateProcessor->setValue('outcome', 'FOLLOW UP - 1PM AFTERNOON');
         }
         else {
             $templateProcessor->setValue('outcome', '');
