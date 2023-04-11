@@ -1239,4 +1239,8 @@ class FhsisController extends Controller
             'length' => $length,
         ]);
     }
+
+    public function oneclickexcel() {
+        
+    }
 }
