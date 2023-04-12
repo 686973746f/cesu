@@ -33,6 +33,7 @@
                         <th>Email</th>
                         <th>Concern Type</th>
                         <th>Category</th>
+                        <th>Travel Type</th>
                         <th>Date Submitted</th>
                         @if(request()->input('viewcomplete'))
                         <th>Status</th>
@@ -59,6 +60,7 @@
                         <td class="text-center">{{(!is_null($d->email)) ? $d->email : 'N/A'}}</td>
                         <td class="text-center">{{$d->concern_type}}</td>
                         <td class="text-center">{{$d->category}}</td>
+                        <td class="text-center">{{($d->use_type == 'ABROAD') ? 'ABROAD - '.$d->passport_no : 'LOCAL'}}</td>
                         <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></td>
                         @if(request()->input('viewcomplete'))
                         <td class="text-center"><b>{{$d->status}}</b></td>

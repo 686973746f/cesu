@@ -104,7 +104,7 @@ class AnimalBiteImport implements ToCollection
                 $getCate = 3;
             }
 
-            if($row[23] == 'BOOSTER' || $row[24] == 'BOOSTER') {
+            if($row[23] == 'BOOSTER' || $row[24] == 'BOOSTER' || $row[23] == 'B' || $row[24] == 'B') {
                 if(!empty($row[21]) && !empty($row[22])) {
                     $getOutcome = 'C';
                 }
@@ -122,7 +122,7 @@ class AnimalBiteImport implements ToCollection
             }
 
             //d14 get
-            if($row[23] != 'BOOSTER' || $row[24] != 'BOOSTER') {
+            if($row[23] != 'BOOSTER' || $row[24] != 'BOOSTER' || $row[23] == 'B' || $row[24] == 'B') {
                 if($row[20] == 'ID') {
                     $getday14 = Carbon::parse(date('Y-m-d', Date::excelToTimestamp($row[21])))->addDays(14)->format('Y-m-d');
                     $getday14done = 0;
@@ -141,7 +141,7 @@ class AnimalBiteImport implements ToCollection
                 'patient_id' => $c->id,
                 'vaccination_site_id' => 2,
                 'case_id' => $row[0],
-                'is_booster' => ($row[23] == 'BOOSTER' || $row[24] == 'BOOSTER') ? 1 : 0,
+                'is_booster' => ($row[23] == 'BOOSTER' || $row[24] == 'BOOSTER' || $row[23] == 'B' || $row[24] == 'B') ? 1 : 0,
                 'case_date' => date('Y-m-d', Date::excelToTimestamp($row[1])),
                 'case_location' => (!empty($row[10]) || $row[10] != '') ? trim($row[10]) : mb_strtoupper(trim($row[4])),
                 'animal_type' => $getAnimal,
@@ -161,13 +161,13 @@ class AnimalBiteImport implements ToCollection
                 'd3_date' => (!empty($row[22])) ? date('Y-m-d', Date::excelToTimestamp($row[22])) : Carbon::parse(date('Y-m-d', Date::excelToTimestamp($row[21])))->addDays(3)->format('Y-m-d'),
                 'd3_done' => (!empty($row[22]) || $row[22] != '') ? 1 : 0,
                 'd3_brand' => $row[26],
-                'd7_date' => ($row[23] != 'BOOSTER' && !empty($row[23])) ? date('Y-m-d', Date::excelToTimestamp($row[23])) : Carbon::parse(date('Y-m-d', Date::excelToTimestamp($row[21])))->addDays(7)->format('Y-m-d'),
+                'd7_date' => ($row[23] != 'BOOSTER' && $row[23] != 'B' && !empty($row[23])) ? date('Y-m-d', Date::excelToTimestamp($row[23])) : Carbon::parse(date('Y-m-d', Date::excelToTimestamp($row[21])))->addDays(7)->format('Y-m-d'),
                 'd7_done' => (!empty($row[23]) || $row[23] != '') ? 1 : 0,
                 'd7_brand' => $row[26],
                 'd14_date' => $getday14,
                 'd14_done' => $getday14done,
                 'd14_brand' => $row[26],
-                'd28_date' => ($row[23] != 'BOOSTER' && $row[24] != 'BOOSTER' && !empty($row[25])) ? date('Y-m-d', Date::excelToTimestamp($row[25])) : Carbon::parse(date('Y-m-d', Date::excelToTimestamp($row[21])))->addDays(28)->format('Y-m-d'),
+                'd28_date' => ($row[23] != 'BOOSTER' && $row[24] != 'BOOSTER' && $row[23] != 'B' && $row[24] != 'B' && !empty($row[25])) ? date('Y-m-d', Date::excelToTimestamp($row[25])) : Carbon::parse(date('Y-m-d', Date::excelToTimestamp($row[21])))->addDays(28)->format('Y-m-d'),
                 'd28_done' => (!empty($row[25]) || $row[25] != '') ? 1 : 0,
                 'd28_brand' => $row[26],
                 'outcome' => $getOutcome,
