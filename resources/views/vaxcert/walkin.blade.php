@@ -61,13 +61,13 @@
                             </div>
                             <div class="form-group d-none" id="ifabroad">
                                 <label for="passport_no"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
-                                <input type="text" class="form-control" name="passport_no" id="passport_no" placeholder="ex. P12345">
-                              </div>
+                                <input type="text" class="form-control" name="passport_no" id="passport_no" placeholder="ex. P12345" value="{{old('passport_no')}}">
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
-                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]">
+                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]" value="{{old('vaxcert_refno')}}">
                               <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
                             </div>
                         </div>
@@ -96,18 +96,17 @@
                                 </select>
                             </div>
                         </div>
-                        
                         <div class="col-md-3">
                             <div class="form-group">
                               <label for="vaxcard_uniqueid">Vaccination Card ID No./Unique Person ID <i>(Leave blank if empty)</i></label>
-                              <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid" placeholder="ex: CC1234, RP1234, VM1234">
+                              <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid" placeholder="ex: CC1234, RP1234, VM1234" value="{{old('vaxcard_uniqueid')}}">
                               <small class="text-muted">Nakikita ito sa kanang ibabaw na bahagi ng iyong Vaccination Card.</small>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="comorbidity">Comorbidity <i>(Leave blank if empty)</i></label>
-                                <input type="text" class="form-control" name="comorbidity" id="comorbidity" placeholder="ex: Diabetes, Hypertension, Cancer">
+                                <input type="text" class="form-control" name="comorbidity" id="comorbidity" placeholder="ex: Diabetes, Hypertension, Cancer" value="{{old('comorbidity')}}">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -122,7 +121,7 @@
                     </div>
                     <div class="form-group">
                       <label for="concern_msg"><span class="text-danger font-weight-bold">*</span>Specific Concern Message/Isulat dito ang problema na nais ipaayos sa inyong VaxCert</label>
-                      <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)" required></textarea>
+                      <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" placeholder="Ipaliwanag dito ang isyu na nais ipa-resolba saamin. (Halimbawa: Hindi nalabas ang aking First Dose, Mali ang spelling ng pangalan ko, Mali ang Birthday ko, atbp.)" required>{{old('concern_msg')}}</textarea>
                     </div>
                     <hr>
                     <div class="row">

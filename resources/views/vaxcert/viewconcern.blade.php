@@ -30,6 +30,27 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
+                            <label for="use_type"><span class="text-danger font-weight-bold">*</span>Saan gagamitin ang VaxCert</label>
+                            <select class="form-control" name="use_type" id="use_type" required>
+                                  <option value="ABROAD" {{(old('use_type', $d->use_type) == 'ABROAD') ? 'selected' : ''}}>Abroad</option>
+                                  <option value="LOCAL" {{(old('use_type', $d->use_type) == 'LOCAL') ? 'selected' : ''}}>Local Travel</option>
+                            </select>
+                        </div>
+                        <div class="form-group d-none" id="ifabroad">
+                            <label for="passport_no"><span class="text-danger font-weight-bold">*</span>Passport No.</label>
+                            <input type="text" class="form-control" name="passport_no" id="passport_no" placeholder="ex. P12345" value="{{old('passport_no', $d->passport_no)}}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
+                          <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" value="{{$d->vaxcert_refno}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
                             <label for="category"><span class="text-danger font-weight-bold">*</span>Category</label>
                             <select class="form-control" name="category" id="category" disabled>
                                   <option value="A1" {{($d->category == 'A1') ? 'selected' : ''}}>A1</option>
@@ -50,27 +71,19 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
-                          <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" value="{{$d->vaxcert_refno}}">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                           <label for="vaxcard_uniqueid">Vaccination Card ID No./Unique Person ID</label>
                           <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid" value="{{$d->vaxcard_uniqueid}}">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="comorbidity">Comorbidity <i>(Leave blank if empty)</i></label>
                             <input type="text" class="form-control" name="comorbidity" id="comorbidity" value="{{$d->comorbidity}}">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="pwd_yn"><span class="text-danger font-weight-bold">*</span>Person with Disability (PWD)</label>
                             <select class="form-control" name="pwd_yn" id="pwd_yn" required>
@@ -831,6 +844,18 @@
         if($(this).val() != null) {
             $('#uploaddiv').removeClass('d-none');
             $('#cfooter').removeClass('d-none');
+        }
+    }).trigger('change');
+
+    $('#use_type').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == null || $(this).val() == 'LOCAL') {
+            $('#ifabroad').addClass('d-none');
+            $('#passport_no').prop('required', false);
+        }
+        else {
+            $('#ifabroad').removeClass('d-none');
+            $('#passport_no').prop('required', true);
         }
     }).trigger('change');
 </script>
