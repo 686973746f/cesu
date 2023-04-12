@@ -69,7 +69,6 @@ class ABTCAdminController extends Controller
     }
 
     public function gupdate() {
-        /*
         $l = AbtcBakunaRecords::where('vaccination_site_id', 2)
         ->whereYear('case_date', '2023')
         ->orderBy('created_at', 'ASC')
@@ -87,8 +86,7 @@ class ABTCAdminController extends Controller
             $c++;
         }
 
-        return 'done';
-        */
+        //return 'done';
 
         $l = AbtcBakunaRecords::where('outcome', 'INC')
         ->where('is_booster', 0)

@@ -83,6 +83,10 @@ class VaxcertController extends Controller
 
     public function walkin_process(Request $request) {
         $request->validate([
+            'last_name' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'first_name' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'middle_name' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
+            'suffix' => 'nullable|regex:/^[\pL\s\-]+$/u|max:3',
             'id_file' => 'required|file|mimes:pdf,jpg,png|max:20000',
             'vaxcard_file' => 'required|file|mimes:pdf,jpg,png|max:20000',
             'dose2_date' => ($request->howmanydose == 2 || $request->howmanydose == 3 || $request->howmanydose == 4) ? 'required|after:dose1_date|before_or_equal:today' : 'nullable',
