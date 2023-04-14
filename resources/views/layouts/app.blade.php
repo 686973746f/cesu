@@ -20,6 +20,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
+    <script>
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+    </script>
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif">
     <div id="app">

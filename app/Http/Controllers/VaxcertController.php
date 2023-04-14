@@ -349,14 +349,20 @@ class VaxcertController extends Controller
 
             if($request->howmanydose == 2 || $request->howmanydose == 3 || $request->howmanydose == 4) {
                 $v->dose2_bakuna_center_code = $request->dose2_bakuna_center_code;
+                $v->dose2_batchno = $request->dose2_batchno;
+                $v->dose2_vaccinator_name = $request->dose2_vaccinator_name;
             }
 
             if($request->howmanydose == 3 || $request->howmanydose == 4) {
                 $v->dose3_bakuna_center_code = $request->dose3_bakuna_center_code;
+                $v->dose3_batchno = $request->dose3_batchno;
+                $v->dose3_vaccinator_name = $request->dose3_vaccinator_name;
             }
 
             if($request->howmanydose == 4) {
                 $v->dose4_bakuna_center_code = $request->dose4_bakuna_center_code;
+                $v->dose4_batchno = $request->dose4_batchno;
+                $v->dose4_vaccinator_name = $request->dose4_vaccinator_name;
             }
 
             $msg = 'VaxCert Concern Ticket was updated successfully.';
