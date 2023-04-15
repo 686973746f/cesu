@@ -112,6 +112,8 @@ class CovidVaccineLinelistImporter extends Command
                 });
 
                 File::delete($f);
+
+                sleep(60);
             }
         }
     }

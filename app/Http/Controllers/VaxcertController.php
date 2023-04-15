@@ -523,4 +523,27 @@ class VaxcertController extends Controller
     public function dloff_template($id) {
 
     }
+
+    public function vquery() {
+        $lname = request()->input('lname');
+        $fname = request()->input('fname');
+
+        if(request()->input('bdate')) {
+            $bdate = request()->input('bdate');
+
+            $s = CovidVaccinePatientMasterlist::where('last_name', $lname)
+            ->where('first_name', 'LIKE', $fname.'%')
+            ->whereDate('birthdate', $bdate)
+            ->get();
+        }
+        else {
+            $s = CovidVaccinePatientMasterlist::where('last_name', $lname)
+            ->where('first_name', 'LIKE', $fname.'%')
+            ->get();
+        }
+
+        return view('vaxcert.vquery', [
+            'd' => $s,
+        ]);
+    }
 }

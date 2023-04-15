@@ -384,6 +384,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 //VaxCert Temp Routes
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessCovid']], function() {
     Route::get('/vaxcert/home', [VaxcertController::class, 'home'])->name('vaxcert_home');
+    Route::get('/vaxcert/vquery', [VaxcertController::class, 'vquery'])->name('vaxcert_vquery');
     Route::get('/vaxcert/ticket/view/{id}', [VaxcertController::class, 'view_patient'])->name('vaxcert_viewpatient');
     Route::post('/vaxcert/ticket/view/{id}/process', [VaxcertController::class, 'process_patient'])->name('vaxcert_processpatient');
 

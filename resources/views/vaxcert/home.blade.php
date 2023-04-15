@@ -2,6 +2,10 @@
 
 @section('content')
 <div class="container-fluid">
+    <div class="text-right">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#vquery"><i class="fa fa-search mr-2" aria-hidden="true"></i>Internal Vaccinee Query</button>
+    </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -22,54 +26,56 @@
             </div>
             @endif
             @if($list->count() != 0)
-            <table class="table table-bordered table-striped">
-                <thead class="thead-light text-center">
-                    <tr>
-                        <th>Ticket ID</th>
-                        <th>Name</th>
-                        <th>Birthdate / Gender</th>
-                        <th>Address</th>
-                        <th>Contact Number</th>
-                        <th>Email</th>
-                        <th>Concern Type</th>
-                        <th>Category</th>
-                        <th>Travel Type</th>
-                        <th>Date Submitted</th>
-                        @if(request()->input('viewcomplete'))
-                        <th>Status</th>
-                        <th>Processed by / At</th>
-                        @endif
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list as $d)
-                    @php
-                    if($d->status == 'PENDING') {
-                        $stext = 'text-warning';
-                    }
-                    else if($d->status == 'COMPLETE') {
-                        $stext = 'text-warning';
-                    }
-                    @endphp
-                    <tr>
-                        <td class="text-center">{{$d->id}}</td>
-                        <td><a href="{{route('vaxcert_viewpatient', $d->id)}}">{{$d->getName()}}</a></td>
-                        <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}} / {{$d->gender}}</td>
-                        <td><small>{{$d->getAddress()}}</small></td>
-                        <td class="text-center">{{$d->contact_number}}</td>
-                        <td class="text-center">{{(!is_null($d->email)) ? $d->email : 'N/A'}}</td>
-                        <td class="text-center">{{$d->concern_type}}</td>
-                        <td class="text-center">{{$d->category}}</td>
-                        <td class="text-center">{{($d->use_type == 'ABROAD') ? 'ABROAD - '.$d->passport_no : 'LOCAL'}}</td>
-                        <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></td>
-                        @if(request()->input('viewcomplete'))
-                        <td class="text-center"><b>{{$d->status}}</b></td>
-                        <td>{{$d->getProcessedBy()}} / <small>{{date('m/d/Y H:i A', strtotime($d->updated_at))}}</small></td>
-                        @endif
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Name</th>
+                            <th>Birthdate / Gender</th>
+                            <th>Address</th>
+                            <th>Contact Number</th>
+                            <th>Email</th>
+                            <th>Concern Type</th>
+                            <th>Category</th>
+                            <th>Travel Type</th>
+                            <th>Date Submitted</th>
+                            @if(request()->input('viewcomplete'))
+                            <th>Status</th>
+                            <th>Processed by / At</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $d)
+                        @php
+                        if($d->status == 'PENDING') {
+                            $stext = 'text-warning';
+                        }
+                        else if($d->status == 'COMPLETE') {
+                            $stext = 'text-warning';
+                        }
+                        @endphp
+                        <tr>
+                            <td class="text-center">{{$d->id}}</td>
+                            <td><a href="{{route('vaxcert_viewpatient', $d->id)}}">{{$d->getName()}}</a></td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}} / {{$d->gender}}</td>
+                            <td><small>{{$d->getAddress()}}</small></td>
+                            <td class="text-center">{{$d->contact_number}}</td>
+                            <td class="text-center">{{(!is_null($d->email)) ? $d->email : 'N/A'}}</td>
+                            <td class="text-center">{{$d->concern_type}}</td>
+                            <td class="text-center">{{$d->category}}</td>
+                            <td class="text-center">{{($d->use_type == 'ABROAD') ? 'ABROAD - '.$d->passport_no : 'LOCAL'}}</td>
+                            <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></td>
+                            @if(request()->input('viewcomplete'))
+                            <td class="text-center"><b>{{$d->status}}</b></td>
+                            <td>{{$d->getProcessedBy()}} / <small>{{date('m/d/Y H:i A', strtotime($d->updated_at))}}</small></td>
+                            @endif
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             @else
             <p class="text-center">No pending records found. Come back later.</p>
             @endif
@@ -81,4 +87,36 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('vaxcert_vquery')}}" method="GET">
+    <div class="modal fade" id="vquery" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vaccinee Query</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="">Last Name</label>
+                      <input type="text" name="lname" id="lname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">First Name</label>
+                        <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Birthdate <i>(Optional)</i></label>
+                        <input type="date" class="form-control" name="bdate" id="bdate" max="{{date('Y-m-d')}}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 @endsection
