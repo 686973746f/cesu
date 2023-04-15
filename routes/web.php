@@ -430,7 +430,7 @@ Route::get('json/mwly', [JsonReportController::class, 'mwly']);
 Route::get('json/mwcy', [JsonReportController::class, 'mwcy']);
 Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
 
-Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
+//Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 
 //Main landing page
 Route::get('/', function () {

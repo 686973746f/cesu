@@ -16,7 +16,7 @@ class CreateCovidVaccinePatientMasterlistsTable extends Migration
         Schema::create('covid_vaccine_patient_masterlists', function (Blueprint $table) {
             $table->id();
 
-            $table->text('source_name');
+            $table->text('source_name')->nullable();
             $table->string('category');
             $table->string('comorbidity')->nullable();
             $table->string('unique_person_id');
