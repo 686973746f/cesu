@@ -534,11 +534,13 @@ class VaxcertController extends Controller
             $s = CovidVaccinePatientMasterlist::where('last_name', $lname)
             ->where('first_name', 'LIKE', $fname.'%')
             ->whereDate('birthdate', $bdate)
+            ->orderBy('vaccination_date', 'ASC')
             ->get();
         }
         else {
             $s = CovidVaccinePatientMasterlist::where('last_name', $lname)
             ->where('first_name', 'LIKE', $fname.'%')
+            ->orderBy('vaccination_date', 'ASC')
             ->get();
         }
 

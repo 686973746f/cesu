@@ -3,7 +3,6 @@
 @section('content')
 <div class="container-fluid">
     <div class="text-right">
-        <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#vquery"><i class="fa fa-search mr-2" aria-hidden="true"></i>Internal Vaccinee Query</button>
     </div>
     <div class="card">
@@ -100,11 +99,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="">Last Name</label>
+                      <label for=""><span class="text-danger font-weight-bold">*</span>Last Name</label>
                       <input type="text" name="lname" id="lname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                     </div>
                     <div class="form-group">
-                        <label for="">First Name</label>
+                        <label for=""><span class="text-danger font-weight-bold">*</span>First Name</label>
                         <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                     </div>
                     <div class="form-group">
