@@ -79,5 +79,6 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
         });
 
         File::delete($this->f);
+        sleep(60);
     }
 }
