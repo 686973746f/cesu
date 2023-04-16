@@ -16,6 +16,8 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $timeout = 90000;
+
     protected $f;
 
     /**
