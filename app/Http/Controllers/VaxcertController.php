@@ -13,7 +13,6 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Imports\VaxcertMasterlistImport;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use App\Imports\VaxcertMasterlistImportv2;
 use App\Models\CovidVaccinePatientMasterlist;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 

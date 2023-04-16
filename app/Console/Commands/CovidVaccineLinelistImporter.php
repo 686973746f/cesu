@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Models\CovidVaccinePatientMasterlist;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
+use App\Imports\CovidVaccineMasterlistImport;
+use App\Jobs\ProcessCovidVaccineMasterlistLinelist;
+use App\Models\CovidVaccinePatientMasterlist;
 
 class CovidVaccineLinelistImporter extends Command
 {
@@ -40,7 +43,7 @@ class CovidVaccineLinelistImporter extends Command
      */
     public function handle()
     {
-        ini_set('max_execution_time', 999999);
+        //ini_set('max_execution_time', 999999999999999);
 
         $filenames = [
             storage_path('app/vaxcert/masterlist/1.xlsx'),
@@ -68,52 +71,22 @@ class CovidVaccineLinelistImporter extends Command
             storage_path('app/vaxcert/masterlist/23.xlsx'),
         ];
 
+        /*
+        MAATEXCEL TYPE
         foreach($filenames as $f) {
             if(File::exists($f)) {
-                $create = (new FastExcel)->import($f, function ($row) {
-                    //$search = CovidVaccinePatientMasterlist::where('row_hash', $row['ROW_HASH'])->first();
-
-                    return CovidVaccinePatientMasterlist::updateOrCreate([
-                        'row_hash' => $row['ROW_HASH'],
-                    ], [
-                        'category' => $row['CATEGORY'],
-                        'comorbidity' => ($row['COMORBIDITY'] != '') ? $row['COMORBIDITY'] : NULL,
-                        'unique_person_id' => $row['UNIQUE_PERSON_ID'],
-                        'pwd' => $row['PWD'],
-                        'indigenous_member' => $row['INDIGENOUS_MEMBER'],
-                        'last_name' => $row['LAST_NAME'],
-                        'first_name' => $row['FIRST_NAME'],
-                        'middle_name' => ($row['MIDDLE_NAME'] == '') ? NULL : $row['MIDDLE_NAME'],
-                        'suffix' => ($row['SUFFIX'] != '') ? $row['SUFFIX'] : NULL,
-                        'contact_no' => $row['CONTACT_NO'],
-                        'guardian_name' => ($row['GUARDIAN_NAME'] != '') ? $row['GUARDIAN_NAME'] : NULL,
-                        'region' => $row['REGION'],
-                        'province' => $row['PROVINCE'],
-                        'muni_city' => $row['MUNI_CITY'],
-                        'barangay' => $row['BARANGAY'],
-                        'sex' => $row['SEX'],
-                        'birthdate' => date('Y-m-d', strtotime($row['BIRTHDATE'])),
-                        'deferral' => 'N',
-                        'reason_for_deferral' => NULL,
-                        'vaccination_date' => date('Y-m-d', strtotime($row['VACCINATION_DATE'])),
-                        'vaccine_manufacturer_name' => $row['VACCINE_MANUFACTURER_NAME'],
-                        'batch_number' => $row['BATCH_NUMBER'],
-                        'lot_no' => $row['LOT_NO'],
-                        'bakuna_center_cbcr_id' => $row['BAKUNA_CENTER_CBCR_ID'],
-                        'vaccinator_name' => $row['VACCINATOR_NAME'],
-                        'first_dose' => $row['FIRST_DOSE'],
-                        'second_dose' => $row['SECOND_DOSE'],
-                        'additional_booster_dose' => $row['ADDITIONAL_BOOSTER_DOSE'],
-                        'second_additional_booster_dose' => $row['SECOND_ADDITIONAL_BOOSTER_DOSE'],
-                        'adverse_event' => $row['ADVERSE_EVENT'],
-                        'adverse_event_condition' => ($row['ADVERSE_EVENT'] != 'N') ? $row['ADVERSE_EVENT_CONDITION'] : NULL,
-                        'row_hash' => $row['ROW_HASH']
-                    ]);
-                });
+                Excel::import(new CovidVaccineMasterlistImport(), $f);
 
                 File::delete($f);
 
-                sleep(60);
+                sleep(180);
+            }
+        }
+        */
+
+        foreach($filenames as $f) {
+            if(File::exists($f)) {
+                ProcessCovidVaccineMasterlistLinelist::dispatch($f);
             }
         }
     }
