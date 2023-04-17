@@ -550,6 +550,9 @@
                 </div>
                 <div class="modal-body">
                     <div id="choice1">
+                        <div class="alert alert-info text-center" role="alert">
+                            <b class="text-danger">Paalala:</b> Kung ikaw ay nais lamang kumuha ng VaxCert at wala namang problema sa record mo, hindi mo na kailangan magpatuloy dito at dumiretso na lang sa mismong VaxCert website upang makapag-generate: <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph/#/</a></b>
+                        </div>
                         <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern/Mag-file ng Bagong Concern</button>
                         @if(date('w') == 6 || date('w') == 0)
                         <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes ng umaga.</h6>

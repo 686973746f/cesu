@@ -3,11 +3,14 @@
 @section('content')
     <div class="container-fluid">
         <div class="text-right">
-            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#vquery"><i class="fa fa-search mr-2" aria-hidden="true"></i>Internal Vaccinee Query</button>
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#vquery"><i class="fa fa-search mr-2" aria-hidden="true"></i>Search Again</button>
         </div>
         <div class="card">
             <div class="card-header"><b>Internal Vaccinee Query</b></div>
             <div class="card-body">
+                <div class="alert alert-info" role="alert">
+                    <b class="text-danger">Note:</b> Internal Vaccinee Query only displays data of patients Vaccinated in City of General Trias, Cavite.
+                </div>
                 @if($d->count() != 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" style="white-space: nowrap">
@@ -82,6 +85,7 @@
                     </table>
                 </div>
                 @else
+                <p class="text-center">No Results Found.</p>
                 @endif
             </div>
         </div>
