@@ -44,7 +44,7 @@ class VaxcertController extends Controller
         $sys_code = strtoupper(Str::random(6));
 
         $check = VaxcertConcern::where('last_name', mb_strtoupper($request->last_name))
-        ->where('first_name', mb_strtoupper($request->last_name))
+        ->where('first_name', mb_strtoupper($request->first_name))
         ->whereDate('bdate', $request->bdate)
         ->where('status', 'PENDING')
         ->first();
@@ -217,7 +217,7 @@ class VaxcertController extends Controller
             ]);
         }
         else {
-            return redirect()->back()->with('msg', 'Error: You still have PENDING Ticket.')
+            return redirect()->back()->with('msg', 'Error: You still have PENDING Ticket. Please wait for our staff to finish your request and wait for an update via text/call/email for 1-2 Days. Thank you.')
             ->with('msgtype', 'warning');
         }
     }
