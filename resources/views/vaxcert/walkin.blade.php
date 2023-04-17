@@ -555,9 +555,9 @@
                             <hr>
                             Hindi po talaga nalabas ang Middle Name/Gitnang Pangalan kapag gagamitin sa Abroad ang VaxCert.
                             <hr>
-                            Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate (via text/call or pumunta sa mismong opisina nila) kung saan ka binakunahan dahil sila ang may permission sa system upang ma-edit ang record mo.
+                            Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate <i>(via text/call or pumunta sa mismong opisina nila)</i> kung saan ka binakunahan dahil sila ang may permission sa system upang maayos ang record mo.
                         </div>
-                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern/Mag-file ng Bagong Concern <i>(Hindi makita ng VaxCertPH ang Record/Nawawalang Dose/Maling Spelling ng Pangalan, Birthdate)</i></button>
+                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern/Mag-file ng Bagong Concern <i>(Hindi makita ng VaxCertPH ang Record/Nawawalang Dose/Maling Spelling ng Pangalan, Birthdate, etc.)</i></button>
                         @if(date('w') == 6 || date('w') == 0)
                         <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes ng umaga.</h6>
                         @endif
