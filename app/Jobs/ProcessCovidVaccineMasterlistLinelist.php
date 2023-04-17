@@ -79,7 +79,7 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
             ];
 
             if (count($data) === $batchSize) {
-                return CovidVaccinePatientMasterlist::upsert($data, ['row_hash'], [
+                CovidVaccinePatientMasterlist::upsert($data, ['row_hash'], [
                     'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
                     'last_name', 'first_name', 'middle_name', 'suffix', 'contact_no', 'guardian_name',
                     'region', 'province', 'muni_city', 'barangay', 'sex', 'birthdate', 'deferral', 'reason_for_deferral',
