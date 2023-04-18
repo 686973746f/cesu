@@ -44,4 +44,26 @@ class CovidVaccinePatientMasterlist extends Model
         'adverse_event_condition',
         'row_hash',
     ];
+
+    public function showDoseType() {
+        $str = '';
+
+        if($this->first_dose == 'Y') {
+            $str = $str.'(1st Dose) ';
+        }
+
+        if($this->second_dose == 'Y') {
+            $str = $str.'(2nd Dose) ';
+        }
+
+        if($this->additional_booster_dose == 'Y') {
+            $str = $str.'(3rd Dose) ';
+        }
+
+        if($this->second_additional_booster_dose == 'Y') {
+            $str = $str.'(4th Dose)';
+        }
+
+        return $str;
+    }
 }

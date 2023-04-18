@@ -39,10 +39,6 @@
                                 <th>Lot No.</th>
                                 <th>Bakuna Center Code</th>
                                 <th>Vaccinator Name</th>
-                                <th>1st Dose</th>
-                                <th>2nd Dose</th>
-                                <th>Booster 1</th>
-                                <th>Booster 2</th>
                                 <th>Adverse Event</th>
                                 <th>Adverse Event Condition</th>
                                 <th>Row Hash</th>
@@ -57,7 +53,7 @@
                                 <td>{{$a->suffix}}</td>
                                 <td>{{date('m/d/Y', strtotime($a->birthdate))}}</td>
                                 <td>{{$a->sex}}</td>
-                                <td>{{date('m/d/Y', strtotime($a->vaccination_date))}}</td>
+                                <td>{{date('m/d/Y', strtotime($a->vaccination_date))}} {{$a->showDoseType()}}</td>
                                 <td>{{$a->vaccine_manufacturer_name}}</td>
                                 <td>{{$a->category}}</td>
                                 <td>{{$a->comorbidity}}</td>
@@ -74,10 +70,6 @@
                                 <td>{{$a->lot_no}}</td>
                                 <td>{{$a->bakuna_center_cbcr_id}}</td>
                                 <td>{{$a->vaccinator_name}}</td>
-                                <td>{{$a->first_dose}}</td>
-                                <td>{{$a->second_dose}}</td>
-                                <td>{{$a->additional_booster_dose}}</td>
-                                <td>{{$a->second_additional_booster_dose}}</td>
                                 <td>{{$a->adverse_event}}</td>
                                 <td>{{$a->adverse_event_condition}}</td>
                                 <td><small>{{$a->row_hash}}</small></td>
