@@ -92,7 +92,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Vaccinee Query</h5>
+                    <h5 class="modal-title"><b>Internal Vaccinee Query</b></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -109,6 +109,9 @@
                     <div class="form-group">
                         <label for="">Birthdate <i>(Optional)</i></label>
                         <input type="date" class="form-control" name="bdate" id="bdate" max="{{date('Y-m-d')}}">
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        <b class="text-danger">Note:</b> Internal Vaccinee Query ONLY displays data of patients Vaccinated in City of General Trias, Cavite. Other Vaccination sites in Other Cities/Provinces are not included.
                     </div>
                 </div>
                 <div class="modal-footer">

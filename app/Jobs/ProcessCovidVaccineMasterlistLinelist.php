@@ -37,12 +37,10 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
      */
     public function handle()
     {
-        $batchSize = 1000;
+        $batchSize = 1000; //for batching
         $data = [];
 
         $collection = (new FastExcel)->import($this->f, function ($row) use (&$data, $batchSize) {
-            //$search = CovidVaccinePatientMasterlist::where('row_hash', $row['ROW_HASH'])->first();
-
             return $data[] = [
                 'category' => $row['CATEGORY'],
                 'comorbidity' => ($row['COMORBIDITY'] != '') ? $row['COMORBIDITY'] : NULL,
@@ -80,6 +78,7 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
         });
 
         /*
+        BATCHING METHOD
         for($i = 0; $i < count($data); $i += $batchSize) {
             $batch = array_slice($data, $i, $batchSize);
             
@@ -94,6 +93,7 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
         }
         */
 
+        //BULK UPSERT (MY PROUDEST WORK)
         CovidVaccinePatientMasterlist::upsert($data, ['row_hash'], [
             'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
             'last_name', 'first_name', 'middle_name', 'suffix', 'contact_no', 'guardian_name',

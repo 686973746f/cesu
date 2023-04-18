@@ -9,7 +9,7 @@
             <div class="card-header"><b>Internal Vaccinee Query</b></div>
             <div class="card-body">
                 <div class="alert alert-info" role="alert">
-                    <b class="text-danger">Note:</b> Internal Vaccinee Query only displays data of patients Vaccinated in City of General Trias, Cavite.
+                    <b class="text-danger">Note:</b> Internal Vaccinee Query ONLY displays data of patients Vaccinated in City of General Trias, Cavite. Other Vaccination sites in Other Cities/Provinces are not included.
                 </div>
                 @if($d->count() != 0)
                 <div class="table-responsive">
@@ -80,7 +80,7 @@
                                 <td>{{$a->second_additional_booster_dose}}</td>
                                 <td>{{$a->adverse_event}}</td>
                                 <td>{{$a->adverse_event_condition}}</td>
-                                <td>{{$a->row_hash}}</td>
+                                <td><small>{{$a->row_hash}}</small></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -98,7 +98,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Vaccinee Query</h5>
+                        <h5 class="modal-title"><b>Internal Vaccinee Query</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -116,9 +116,12 @@
                             <label for="">Birthdate <i>(Optional)</i></label>
                             <input type="date" class="form-control" name="bdate" id="bdate" max="{{date('Y-m-d')}}" value="{{request()->input('bdate')}}">
                         </div>
+                        <div class="alert alert-info" role="alert">
+                            <b class="text-danger">Note:</b> Internal Vaccinee Query ONLY displays data of patients Vaccinated in City of General Trias, Cavite. Other Vaccination sites in Other Cities/Provinces are not included.
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
             </div>
