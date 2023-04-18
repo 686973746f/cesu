@@ -79,10 +79,11 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
             ];
         });
 
+        /*
         for($i = 0; $i < count($data); $i += $batchSize) {
             $batch = array_slice($data, $i, $batchSize);
             
-            CovidVaccinePatientMasterlist::upsert($batch, ['row_hash'], [
+            CovidVaccinePatientMasterlist::upsert($data, ['row_hash'], [
                 'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
                 'last_name', 'first_name', 'middle_name', 'suffix', 'contact_no', 'guardian_name',
                 'region', 'province', 'muni_city', 'barangay', 'sex', 'birthdate', 'deferral', 'reason_for_deferral',
@@ -91,6 +92,16 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
                 'second_additional_booster_dose', 'adverse_event', 'adverse_event_condition'
             ]);
         }
+        */
+
+        CovidVaccinePatientMasterlist::upsert($data, ['row_hash'], [
+            'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
+            'last_name', 'first_name', 'middle_name', 'suffix', 'contact_no', 'guardian_name',
+            'region', 'province', 'muni_city', 'barangay', 'sex', 'birthdate', 'deferral', 'reason_for_deferral',
+            'vaccination_date', 'vaccine_manufacturer_name', 'batch_number', 'lot_no', 'bakuna_center_cbcr_id',
+            'vaccinator_name', 'first_dose', 'second_dose', 'additional_booster_dose',
+            'second_additional_booster_dose', 'adverse_event', 'adverse_event_condition'
+        ]);
 
         File::delete($this->f);
     }
