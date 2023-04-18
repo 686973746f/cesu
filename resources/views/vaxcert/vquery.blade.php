@@ -50,36 +50,38 @@
                         </thead>
                         <tbody>
                             @foreach($d as $a)
-                            <td>{{$a->last_name}}</td>
-                            <td>{{$a->first_name}}</td>
-                            <td>{{$a->middle_name}}</td>
-                            <td>{{$a->suffix}}</td>
-                            <td>{{date('m/d/Y', strtotime($a->birthdate))}}</td>
-                            <td>{{$a->gender}}</td>
-                            <td>{{date('m/d/Y', strtotime($a->vaccination_date))}}</td>
-                            <td>{{$a->vaccine_manufacturer_name}}</td>
-                            <td>{{$a->category}}</td>
-                            <td>{{$a->comorbidity}}</td>
-                            <td>{{$a->unique_person_id}}</td>
-                            <td>{{$a->pwd}}</td>
-                            <td>{{$a->indigenous_member}}</td>
-                            <td>{{$a->contact_no}}</td>
-                            <td>{{$a->guardian_name}}</td>
-                            <td>{{$a->region}}</td>
-                            <td>{{$a->province}}</td>
-                            <td>{{$a->muni_city}}</td>
-                            <td>{{$a->barangay}}</td>
-                            <td>{{$a->batch_number}}</td>
-                            <td>{{$a->lot_no}}</td>
-                            <td>{{$a->bakuna_center_cbcr_id}}</td>
-                            <td>{{$a->vaccinator_name}}</td>
-                            <td>{{$a->first_dose}}</td>
-                            <td>{{$a->second_dose}}</td>
-                            <td>{{$a->additional_booster_dose}}</td>
-                            <td>{{$a->second_additional_booster_dose}}</td>
-                            <td>{{$a->adverse_event}}</td>
-                            <td>{{$a->adverse_event_condition}}</td>
-                            <td>{{$a->row_hash}}</td>
+                            <tr>
+                                <td>{{$a->last_name}}</td>
+                                <td>{{$a->first_name}}</td>
+                                <td>{{$a->middle_name}}</td>
+                                <td>{{$a->suffix}}</td>
+                                <td>{{date('m/d/Y', strtotime($a->birthdate))}}</td>
+                                <td>{{$a->gender}}</td>
+                                <td>{{date('m/d/Y', strtotime($a->vaccination_date))}}</td>
+                                <td>{{$a->vaccine_manufacturer_name}}</td>
+                                <td>{{$a->category}}</td>
+                                <td>{{$a->comorbidity}}</td>
+                                <td>{{$a->unique_person_id}}</td>
+                                <td>{{$a->pwd}}</td>
+                                <td>{{$a->indigenous_member}}</td>
+                                <td>{{$a->contact_no}}</td>
+                                <td>{{$a->guardian_name}}</td>
+                                <td>{{$a->region}}</td>
+                                <td>{{$a->province}}</td>
+                                <td>{{$a->muni_city}}</td>
+                                <td>{{$a->barangay}}</td>
+                                <td>{{$a->batch_number}}</td>
+                                <td>{{$a->lot_no}}</td>
+                                <td>{{$a->bakuna_center_cbcr_id}}</td>
+                                <td>{{$a->vaccinator_name}}</td>
+                                <td>{{$a->first_dose}}</td>
+                                <td>{{$a->second_dose}}</td>
+                                <td>{{$a->additional_booster_dose}}</td>
+                                <td>{{$a->second_additional_booster_dose}}</td>
+                                <td>{{$a->adverse_event}}</td>
+                                <td>{{$a->adverse_event_condition}}</td>
+                                <td>{{$a->row_hash}}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
