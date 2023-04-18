@@ -537,7 +537,7 @@
                 </div>
             </div>
         </form>
-        <p class="text-center">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a href = "mailto: cesugentrias.vaxcert@gmail.com">cesugentrias.vaxcert@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
+        <p class="text-center">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a>cesugentrias.vaxcert@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
         <hr>
         <p class="text-center">VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
