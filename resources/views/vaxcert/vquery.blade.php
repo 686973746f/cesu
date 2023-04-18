@@ -56,7 +56,7 @@
                                 <td>{{$a->middle_name}}</td>
                                 <td>{{$a->suffix}}</td>
                                 <td>{{date('m/d/Y', strtotime($a->birthdate))}}</td>
-                                <td>{{$a->gender}}</td>
+                                <td>{{$a->sex}}</td>
                                 <td>{{date('m/d/Y', strtotime($a->vaccination_date))}}</td>
                                 <td>{{$a->vaccine_manufacturer_name}}</td>
                                 <td>{{$a->category}}</td>
