@@ -84,6 +84,8 @@ class CovidVaccineLinelistImporter extends Command
         }
         */
 
+        CovidVaccinePatientMasterlist::truncate();
+
         foreach($filenames as $f) {
             if(File::exists($f)) {
                 ProcessCovidVaccineMasterlistLinelist::dispatch($f);
