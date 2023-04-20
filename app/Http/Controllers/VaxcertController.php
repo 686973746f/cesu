@@ -12,8 +12,10 @@ use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Imports\VaxcertMasterlistImport;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\CovidVaccinePatientMasterlist;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 
 class VaxcertController extends Controller
@@ -401,7 +403,7 @@ class VaxcertController extends Controller
 
         for($i = 1; $i <= $v->getNumberOfDose(); $i++) {
             if($i == 1) {
-                $vdate = date('m/d/Y', strtotime($v->dose1_date));
+                $vdate = strtotime($v->dose1_date);
                 $vbrand = mb_strtoupper($v->dose1_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose1_batchno);
 
@@ -414,7 +416,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 2) {
-                $vdate = date('m/d/Y', strtotime($v->dose2_date));
+                $vdate = strtotime($v->dose2_date);
                 $vbrand = mb_strtoupper($v->dose2_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose2_batchno);
 
@@ -427,7 +429,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 3) {
-                $vdate = date('m/d/Y', strtotime($v->dose3_date));
+                $vdate = strtotime($v->dose3_date);
                 $vbrand = mb_strtoupper($v->dose3_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose3_batchno);
 
@@ -440,7 +442,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 4) {
-                $vdate = date('m/d/Y', strtotime($v->dose4_date));
+                $vdate = strtotime($v->dose4_date);
                 $vbrand = mb_strtoupper($v->dose4_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose4_batchno);
 
@@ -480,10 +482,13 @@ class VaxcertController extends Controller
             $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
             $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
             $sheet->setCellValue('P'.$c, $v->gender);
+            $sheet->setCellValue('Q'.$c, Date::PHPToExcel(strtotime($v->bdate)));
+            $sheet->getStyle('Q'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
             $sheet->setCellValue('Q'.$c, date('m/d/Y', strtotime($v->bdate)));
             $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
             $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
-            $sheet->setCellValue('T'.$c, $vdate);
+            $sheet->setCellValue('T'.$c, Date::PHPToExcel($vdate));
+            $sheet->getStyle('T'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
             $sheet->setCellValue('U'.$c, $vbrand);
             $sheet->setCellValue('V'.$c, $vbatchlot);
             $sheet->setCellValue('W'.$c, $vbatchlot);
