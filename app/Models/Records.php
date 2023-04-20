@@ -440,4 +440,100 @@ class Records extends Model
             return 'N';
         }
     }
+
+    public function getRegionPsgc() {
+        $regionString = file_get_contents(storage_path('json/refregion.json'));
+        $provinceString = file_get_contents(storage_path('json/refprovince.json'));
+
+        $region_data = json_decode($regionString, true);
+        $province_data = json_decode($provinceString, true);
+
+        $province_key = array_search($this->address_provincejson, array_map('strtoupper', array_column($province_data, 'provCode')));
+        $region_key = array_search($province_data[$province_key]['regCode'], array_map('strtoupper', array_column($region_data, 'regCode')));
+
+        return $region_data[$region_key]['regCode'];
+    }
+
+    public function getProvincePsgc() {
+        $provinceString = file_get_contents(storage_path('json/refprovince.json'));
+        $province_data = json_decode($provinceString, true);
+
+        $province_key = array_search($this->address_provincejson, array_map('strtoupper', array_column($province_data, 'provCode')));
+
+        return $province_data[$province_key]['psgcCode'];
+    }
+
+    public function getCityPsgc() {
+        $cityString = file_get_contents(storage_path('json/refcitymun.json'));
+        $city_data = json_decode($cityString, true);
+        $city_key = array_search($this->address_cityjson, array_map('strtoupper', array_column($city_data, 'citymunCode')));
+
+        return $city_data[$city_key]['psgcCode'];
+    }
+
+    public function getBrgyPsgc() {
+        $cityString = file_get_contents(storage_path('json/refcitymun.json'));
+        $city_data = json_decode($cityString, true);
+        $city_key = array_search($this->address_cityjson, array_map('strtoupper', array_column($city_data, 'citymunCode')));
+
+        $brgyString = file_get_contents(storage_path('json/refbrgy.json'));
+        $brgy_data = json_decode($brgyString, true);
+
+        foreach ($brgy_data as $brgy_key => $value) {
+            if (strtoupper($value['brgyDesc']) === $this->address_brgy && $value['citymunCode'] === $city_data[$city_key]['citymunCode']) {
+                // Found the desired element, so $key contains the array key
+                break;
+            }
+        }
+
+        return $brgy_data[$brgy_key]['brgyCode'];
+    }
+
+    public function getWorkRegionPsgc() {
+        $regionString = file_get_contents(storage_path('json/refregion.json'));
+        $provinceString = file_get_contents(storage_path('json/refprovince.json'));
+
+        $region_data = json_decode($regionString, true);
+        $province_data = json_decode($provinceString, true);
+
+        $province_key = array_search($this->occupation_provincejson, array_map('strtoupper', array_column($province_data, 'provCode')));
+        $region_key = array_search($province_data[$province_key]['regCode'], array_map('strtoupper', array_column($region_data, 'regCode')));
+
+        return $region_data[$region_key]['regCode'];
+    }
+
+    public function getWorkProvincePsgc() {
+        $provinceString = file_get_contents(storage_path('json/refprovince.json'));
+        $province_data = json_decode($provinceString, true);
+
+        $province_key = array_search($this->occupation_provincejson, array_map('strtoupper', array_column($province_data, 'provCode')));
+
+        return $province_data[$province_key]['psgcCode'];
+    }
+
+    public function getWorkCityPsgc() {
+        $cityString = file_get_contents(storage_path('json/refcitymun.json'));
+        $city_data = json_decode($cityString, true);
+        $city_key = array_search($this->occupation_cityjson, array_map('strtoupper', array_column($city_data, 'citymunCode')));
+
+        return $city_data[$city_key]['psgcCode'];
+    }
+
+    public function getWorkBrgyPsgc() {
+        $cityString = file_get_contents(storage_path('json/refcitymun.json'));
+        $city_data = json_decode($cityString, true);
+        $city_key = array_search($this->occupation_cityjson, array_map('strtoupper', array_column($city_data, 'citymunCode')));
+
+        $brgyString = file_get_contents(storage_path('json/refbrgy.json'));
+        $brgy_data = json_decode($brgyString, true);
+
+        foreach ($brgy_data as $brgy_key => $value) {
+            if (strtoupper($value['brgyDesc']) === $this->address_brgy && $value['citymunCode'] === $city_data[$city_key]['citymunCode']) {
+                // Found the desired element, so $key contains the array key
+                break;
+            }
+        }
+
+        return $brgy_data[$brgy_key]['brgyCode'];
+    }
 }
