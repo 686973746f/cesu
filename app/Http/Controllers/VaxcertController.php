@@ -468,12 +468,12 @@ class VaxcertController extends Controller
             $sheet->setCellValue('B'.$c, ''); //COMORBID
             $sheet->setCellValue('C'.$c, (!is_null($v->vaxcard_uniqueid)) ? $v->vaxcard_uniqueid : 'NONE'); //UNIQUE PERSON ID
             $sheet->setCellValue('D'.$c, $v->pwd_yn); //PWD
-            $sheet->setCellValue('E'.$c, 'N'); //INDIGENOUS MEMBER
+            $sheet->setCellValue('E'.$c, 'NO'); //INDIGENOUS MEMBER
             $sheet->setCellValue('F'.$c, $v->last_name);
             $sheet->setCellValue('G'.$c, $v->first_name);
             $sheet->setCellValue('H'.$c, (!is_null($v->middle_name)) ? $v->middle_name : '');
             $sheet->setCellValue('I'.$c, (!is_null($v->suffix)) ? $v->suffix : '');
-            $sheet->setCellValue('J'.$c, $v->contact_number);
+            $sheet->setCellValue('J'.$c, substr($v->contact_number, 1));
             $sheet->setCellValue('K'.$c, $v->guardian_name); //GUARDIAN NAME
             $sheet->setCellValue('L'.$c, $v->address_region_text); //REGION
             $sheet->setCellValue('M'.$c, $prov_code); //PROVINCE
