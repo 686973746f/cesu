@@ -401,8 +401,6 @@ class VaxcertController extends Controller
 
         //$sheet->setCellValue('A2', 'bilat');
 
-        date_default_timezone_set('Asia/Manila');
-
         for($i = 1; $i <= $v->getNumberOfDose(); $i++) {
             if($i == 1) {
                 $vdate = strtotime($v->dose1_date);
@@ -484,12 +482,12 @@ class VaxcertController extends Controller
             $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
             $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
             $sheet->setCellValue('P'.$c, $v->gender);
-            $sheet->setCellValue('Q'.$c, Date::PHPToExcel(strtotime($v->bdate)));
-            $sheet->getStyle('Q'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+            $sheet->setCellValue('Q'.$c, Date::PHPToExcel(date('m/d/Y', strtotime($v->bdate))));
+            $sheet->getStyle('Q'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
             $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
             $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
-            $sheet->setCellValue('T'.$c, Date::PHPToExcel($vdate));
-            $sheet->getStyle('T'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+            $sheet->setCellValue('T'.$c, Date::PHPToExcel(date('m/d/Y', $vdate)));
+            $sheet->getStyle('T'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
             $sheet->setCellValue('U'.$c, $vbrand);
             $sheet->setCellValue('V'.$c, $vbatchlot);
             $sheet->setCellValue('W'.$c, $vbatchlot);
