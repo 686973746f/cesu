@@ -483,11 +483,9 @@ class VaxcertController extends Controller
             $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
             $sheet->setCellValue('P'.$c, $v->gender);
             $sheet->setCellValue('Q'.$c, Date::PHPToExcel(strtotime($v->bdate)));
-            $sheet->getStyle('Q'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
             $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
             $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
             $sheet->setCellValue('T'.$c, Date::PHPToExcel($vdate));
-            $sheet->getStyle('T'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
             $sheet->setCellValue('U'.$c, $vbrand);
             $sheet->setCellValue('V'.$c, $vbatchlot);
             $sheet->setCellValue('W'.$c, $vbatchlot);
