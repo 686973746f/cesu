@@ -401,7 +401,7 @@ class VaxcertController extends Controller
 
         for($i = 1; $i <= $v->getNumberOfDose(); $i++) {
             if($i == 1) {
-                $vdate = date('n/d/Y', strtotime($v->dose1_date));
+                $vdate = date('m/d/Y', strtotime($v->dose1_date));
                 $vbrand = mb_strtoupper($v->dose1_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose1_batchno);
 
@@ -414,7 +414,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 2) {
-                $vdate = date('n/d/Y', strtotime($v->dose2_date));
+                $vdate = date('m/d/Y', strtotime($v->dose2_date));
                 $vbrand = mb_strtoupper($v->dose2_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose2_batchno);
 
@@ -427,7 +427,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 3) {
-                $vdate = date('n/d/Y', strtotime($v->dose3_date));
+                $vdate = date('m/d/Y', strtotime($v->dose3_date));
                 $vbrand = mb_strtoupper($v->dose3_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose3_batchno);
 
@@ -440,7 +440,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 4) {
-                $vdate = date('n/d/Y', strtotime($v->dose4_date));
+                $vdate = date('m/d/Y', strtotime($v->dose4_date));
                 $vbrand = mb_strtoupper($v->dose4_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose4_batchno);
 
@@ -480,7 +480,7 @@ class VaxcertController extends Controller
             $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
             $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
             $sheet->setCellValue('P'.$c, $v->gender);
-            $sheet->setCellValue('Q'.$c, date('n/d/Y', strtotime($v->bdate)));
+            $sheet->setCellValue('Q'.$c, date('m/d/Y', strtotime($v->bdate)));
             $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
             $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
             $sheet->setCellValue('T'.$c, $vdate);
