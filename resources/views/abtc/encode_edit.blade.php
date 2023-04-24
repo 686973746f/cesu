@@ -22,14 +22,14 @@
             <h4><b>OLD RECORD</b>, only an administrator could modify information.</h4>
         </div>
         @else
-            @if($d->outcoume != 'INC')
+            @if($d->outcome != 'INC')
                 @if($d->outcome == 'C')
                 <div class="alert alert-info" role="alert">
                     <h4>This case was marked as <b class="text-success">FINISHED</b></h4>
                     <hr>
                     <form class="form-inline">
                         <p>Options:</p>
-                        <a href="{{route('abtc_bakuna_again', ['patient_id' => $d->patient->id])}}" class="btn btn-primary">Create Booster Vaccination</a>
+                        <a href="{{route('abtc_bakuna_again', ['patient_id' => $d->patient->id])}}" class="btn btn-success">Create Booster Vaccination</a>
                         @if($d->d28_done == 0 && $d->is_booster == 0)
                         <a href="{{route('abtc_mark_dead', [$d->id])}}" class="btn btn-danger">Mark Animal as Dead (Open Day 28 Vaccination)</a>
                         @endif
@@ -40,6 +40,17 @@
                     <h4>The case was marked as closed as the patient was declare <b>Dead.</b></h4>
                     <hr>
                     <p>Modifying details can only be done by an administrator.</p>
+                </div>
+                @endif
+            @else
+                @if($d->rebakunaIncompleteCheck() == true)
+                <div class="alert alert-info" role="alert">
+                    <h4>The patient record was marked with <b class="text-warning">INCOMPLETE</b></h4>
+                    <h6>The patient did not arrived here for <b>{{$d->getDidNotArriveIn()}}</b></h6>
+                    <hr>
+                    <form class="form-inline">
+                        <a href="{{route('abtc_bakuna_again', ['patient_id' => $d->patient->id])}}" class="btn btn-success">Create a New Vaccination Record</a>
+                    </form>
                 </div>
                 @endif
             @endif

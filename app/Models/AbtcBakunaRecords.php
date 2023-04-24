@@ -448,4 +448,42 @@ class AbtcBakunaRecords extends Model
             }
         }
     }
+
+    public function rebakunaIncompleteCheck() {
+        if($this->is_booster == 1) {
+            if($this->outcome == 'INC' && date('Y-m-d', strtotime($this->d3_date.' + 7 Days')) <= date('Y-m-d')) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            if($this->outcome == 'INC' && date('Y-m-d', strtotime($this->d7_date.' + 7 Days')) <= date('Y-m-d')) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    public function getDidNotArriveIn() {
+        if($this->is_booster == 1) {
+            if($this->d3_done != 1) {
+                return 'Day 3 Booster ('.date('m/d/Y - l', strtotime($this->d3_date)).')';   
+            }
+        }
+        else {
+            if($this->d3_done != 1) {
+                return 'Day 3 ('.date('m/d/Y - l', strtotime($this->d3_date)).')';
+            }
+            else if($this->d7_done != 1) {
+                return 'Day 7 ('.date('m/d/Y - l', strtotime($this->d7_date)).')';
+            }
+            else if($this->d14_done != 1 && $this->pep_route == 'IM') {
+                return 'Day 14 ('.date('m/d/Y - l', strtotime($this->d7_date)).')';
+            }
+        }
+    }
 }

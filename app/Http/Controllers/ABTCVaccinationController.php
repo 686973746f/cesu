@@ -322,7 +322,31 @@ class ABTCVaccinationController extends Controller
             }
         }
         else {
-            return abort(401);
+            $btwo = AbtcBakunaRecords::where('patient_id', $patient_id)
+            ->where('outcome', 'INC')
+            ->orderBy('created_at', 'DESC')
+            ->first();
+
+            if($btwo) {
+                $vblist = AbtcVaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
+                $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
+
+                if($btwo->rebakunaIncompleteCheck() == true) {
+                    return view('abtc.encode_new', [
+                        'd' => $btwo->patient,
+                        'vblist' => $vblist,
+                        'vslist' => $vslist,
+                    ]);
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'Unable to process. 1 week has not yet passed since the last incomplete Vaccination //DURATION TEST ONLY, CONTACT CHRISTIAN JAMES HISTORILLO TO UPDATE CODE HERE')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else {
+                return abort(401);
+            }            
         }
     }
 
