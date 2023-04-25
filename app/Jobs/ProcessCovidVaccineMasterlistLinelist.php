@@ -37,7 +37,7 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
      */
     public function handle()
     {
-        $batchSize = 1000; //for batching
+        $batchSize = 10000; //for batching
         $data = [];
 
         $collection = (new FastExcel)->import($this->f, function ($row) use (&$data, $batchSize) {
@@ -77,12 +77,25 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
             ];
         });
 
+        //BATCHING METHOD
+
+        foreach (array_chunk($data, 10000) as $t)  
+        {
+            CovidVaccinePatientMasterlist::upsert($t, ['row_hash'], [
+                'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
+                'last_name', 'first_name', 'middle_name', 'suffix', 'contact_no', 'guardian_name',
+                'region', 'province', 'muni_city', 'barangay', 'sex', 'birthdate', 'deferral', 'reason_for_deferral',
+                'vaccination_date', 'vaccine_manufacturer_name', 'batch_number', 'lot_no', 'bakuna_center_cbcr_id',
+                'vaccinator_name', 'first_dose', 'second_dose', 'additional_booster_dose',
+                'second_additional_booster_dose', 'adverse_event', 'adverse_event_condition'
+            ]);
+        }
+
         /*
-        BATCHING METHOD
         for($i = 0; $i < count($data); $i += $batchSize) {
             $batch = array_slice($data, $i, $batchSize);
             
-            CovidVaccinePatientMasterlist::upsert($data, ['row_hash'], [
+            CovidVaccinePatientMasterlist::upsert($batch, ['row_hash'], [
                 'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
                 'last_name', 'first_name', 'middle_name', 'suffix', 'contact_no', 'guardian_name',
                 'region', 'province', 'muni_city', 'barangay', 'sex', 'birthdate', 'deferral', 'reason_for_deferral',
@@ -94,6 +107,7 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
         */
 
         //BULK UPSERT (MY PROUDEST WORK)
+        /*
         CovidVaccinePatientMasterlist::upsert($data, ['row_hash'], [
             'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
             'last_name', 'first_name', 'middle_name', 'suffix', 'contact_no', 'guardian_name',
@@ -102,6 +116,7 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
             'vaccinator_name', 'first_dose', 'second_dose', 'additional_booster_dose',
             'second_additional_booster_dose', 'adverse_event', 'adverse_event_condition'
         ]);
+        */
 
         File::delete($this->f);
     }
