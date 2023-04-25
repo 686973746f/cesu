@@ -258,7 +258,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose1_date"><span class="text-danger font-weight-bold">*</span>1ST Dose Date</label>
+                                    <label for="dose1_date"><span class="text-danger font-weight-bold">*</span><b>1ST Dose Date</b></label>
                                     <input type="date" class="form-control" name="dose1_date" id="dose1_date" value="{{old('dose1_date')}}" min="2021-01-01" max="{{date('Y-m-d')}}" required>
                                 </div>
                             </div>
@@ -321,7 +321,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose2_date"><span class="text-danger font-weight-bold">*</span>2ND Dose Date</label>
+                                    <label for="dose2_date"><span class="text-danger font-weight-bold">*</span><b>2ND Dose Date</b></label>
                                     <input type="date" class="form-control" name="dose2_date" id="dose2_date" value="{{old('dose2_date')}}" min="2021-01-01" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
@@ -384,7 +384,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose3_date"><span class="text-danger font-weight-bold">*</span>3RD Dose (Booster 1) Date</label>
+                                    <label for="dose3_date"><span class="text-danger font-weight-bold">*</span><b>3RD Dose (Booster 1) Date</b></label>
                                     <input type="date" class="form-control" name="dose3_date" id="dose3_date" value="{{old('dose3_date')}}" min="2021-01-01" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
@@ -447,7 +447,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="dose4_date"><span class="text-danger font-weight-bold">*</span>4TH Dose (Booster 2) Date</label>
+                                    <label for="dose4_date"><span class="text-danger font-weight-bold">*</span><b>4TH Dose (Booster 2) Date</b></label>
                                     <input type="date" class="form-control" name="dose4_date" id="dose4_date" value="{{old('dose4_date')}}" min="2021-01-01" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
