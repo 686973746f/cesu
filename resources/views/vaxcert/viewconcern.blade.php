@@ -858,5 +858,19 @@
             $('#passport_no').prop('required', true);
         }
     }).trigger('change');
+
+    $('#dose1_manufacturer').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'J&J') {
+            $('#vaccine2').addClass('d-none');
+            $('#dose2_date').prop('required', false);
+            $('#dose2_manufacturer').prop('required', false);
+            $('#dose2_inmainlgu_yn').prop('required', false);
+            $('#dose2_bakuna_center_text').prop('required', false);
+            $('#dose2_batchno').prop('required', false);
+            $('#dose2_vaccinator_last_name').prop('required', false);
+            $('#dose2_vaccinator_first_name').prop('required', false);
+        }
+    }).trigger('change');
 </script>
 @endsection

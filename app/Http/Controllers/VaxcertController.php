@@ -440,12 +440,18 @@ class VaxcertController extends Controller
                 $vcbcr = $v->dose1_bakuna_center_code;
                 $vvacname = mb_strtoupper($v->dose1_vaccinator_name);
 
-                $vdose1yn = 'Y';
-                $vdose2yn = 'N';
+                if($v->dose1_manufacturer == 'J&J') {
+                    $vdose1yn = 'N';
+                    $vdose2yn = 'Y';
+                }
+                else {
+                    $vdose1yn = 'Y';
+                    $vdose2yn = 'N';
+                }
                 $vdose3yn = 'N';
                 $vdose4yn = 'N';
             }
-            else if($i == 2) {
+            else if($i == 2 && $v->dose1_manufacturer != 'J&J') {
                 $vdate = strtotime($v->dose2_date);
                 $vbrand = mb_strtoupper($v->dose2_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose2_batchno);
@@ -495,40 +501,45 @@ class VaxcertController extends Controller
                 $mun_code = 'NONE';
             }
 
-            $c = $i+1;
-            $sheet->setCellValue('A'.$c, $v->category);
-            $sheet->setCellValue('B'.$c, ''); //COMORBID
-            $sheet->setCellValue('C'.$c, (!is_null($v->vaxcard_uniqueid)) ? $v->vaxcard_uniqueid : 'NONE'); //UNIQUE PERSON ID
-            $sheet->setCellValue('D'.$c, $v->pwd_yn); //PWD
-            $sheet->setCellValue('E'.$c, 'NO'); //INDIGENOUS MEMBER
-            $sheet->setCellValue('F'.$c, $v->last_name);
-            $sheet->setCellValue('G'.$c, $v->first_name);
-            $sheet->setCellValue('H'.$c, (!is_null($v->middle_name)) ? $v->middle_name : '');
-            $sheet->setCellValue('I'.$c, (!is_null($v->suffix)) ? $v->suffix : '');
-            $sheet->setCellValue('J'.$c, substr($v->contact_number, 1));
-            $sheet->setCellValue('K'.$c, $v->guardian_name); //GUARDIAN NAME
-            $sheet->setCellValue('L'.$c, $v->address_region_text); //REGION
-            $sheet->setCellValue('M'.$c, $prov_code); //PROVINCE
-            $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
-            $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
-            $sheet->setCellValue('P'.$c, $v->gender);
-            $sheet->setCellValue('Q'.$c, Date::PHPToExcel(date('Y-m-d', strtotime($v->bdate))));
-            $sheet->getStyle('Q'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-            $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
-            $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
-            $sheet->setCellValue('T'.$c, Date::PHPToExcel(date('Y-m-d', $vdate)));
-            $sheet->getStyle('T'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-            $sheet->setCellValue('U'.$c, $vbrand);
-            $sheet->setCellValue('V'.$c, $vbatchlot);
-            $sheet->setCellValue('W'.$c, $vbatchlot);
-            $sheet->setCellValue('X'.$c, $vcbcr);
-            $sheet->setCellValue('Y'.$c, $vvacname);
-            $sheet->setCellValue('Z'.$c, $vdose1yn);
-            $sheet->setCellValue('AA'.$c, $vdose2yn);
-            $sheet->setCellValue('AB'.$c, $vdose3yn);
-            $sheet->setCellValue('AC'.$c, $vdose4yn);
-            $sheet->setCellValue('AD'.$c, 'N'); //ADVERSE EVENT
-            $sheet->setCellValue('AE'.$c, ''); //ADVERSE EVENT CONDITION
+            if($i == 2 && $v->dose1_manufacturer == 'J&J') {
+
+            }
+            else {
+                $c = $i+1;
+                $sheet->setCellValue('A'.$c, $v->category);
+                $sheet->setCellValue('B'.$c, ''); //COMORBID
+                $sheet->setCellValue('C'.$c, (!is_null($v->vaxcard_uniqueid)) ? $v->vaxcard_uniqueid : 'NONE'); //UNIQUE PERSON ID
+                $sheet->setCellValue('D'.$c, $v->pwd_yn); //PWD
+                $sheet->setCellValue('E'.$c, 'NO'); //INDIGENOUS MEMBER
+                $sheet->setCellValue('F'.$c, $v->last_name);
+                $sheet->setCellValue('G'.$c, $v->first_name);
+                $sheet->setCellValue('H'.$c, (!is_null($v->middle_name)) ? $v->middle_name : '');
+                $sheet->setCellValue('I'.$c, (!is_null($v->suffix)) ? $v->suffix : '');
+                $sheet->setCellValue('J'.$c, substr($v->contact_number, 1));
+                $sheet->setCellValue('K'.$c, $v->guardian_name); //GUARDIAN NAME
+                $sheet->setCellValue('L'.$c, $v->address_region_text); //REGION
+                $sheet->setCellValue('M'.$c, $prov_code); //PROVINCE
+                $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
+                $sheet->setCellValue('O'.$c, $v->address_brgy_text); //BARANGAY
+                $sheet->setCellValue('P'.$c, $v->gender);
+                $sheet->setCellValue('Q'.$c, Date::PHPToExcel(date('Y-m-d', strtotime($v->bdate))));
+                $sheet->getStyle('Q'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
+                $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
+                $sheet->setCellValue('T'.$c, Date::PHPToExcel(date('Y-m-d', $vdate)));
+                $sheet->getStyle('T'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                $sheet->setCellValue('U'.$c, $vbrand);
+                $sheet->setCellValue('V'.$c, $vbatchlot);
+                $sheet->setCellValue('W'.$c, $vbatchlot);
+                $sheet->setCellValue('X'.$c, $vcbcr);
+                $sheet->setCellValue('Y'.$c, $vvacname);
+                $sheet->setCellValue('Z'.$c, $vdose1yn);
+                $sheet->setCellValue('AA'.$c, $vdose2yn);
+                $sheet->setCellValue('AB'.$c, $vdose3yn);
+                $sheet->setCellValue('AC'.$c, $vdose4yn);
+                $sheet->setCellValue('AD'.$c, 'N'); //ADVERSE EVENT
+                $sheet->setCellValue('AE'.$c, ''); //ADVERSE EVENT CONDITION
+            }
         }
 
         $fileName = 'vas-line-template-ped-'.strtolower(Str::random(5)).'.xlsx';
