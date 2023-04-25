@@ -37,7 +37,7 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
      */
     public function handle()
     {
-        $batchSize = 10000; //for batching
+        $batchSize = 1000; //for batching
         $data = [];
 
         $collection = (new FastExcel)->import($this->f, function ($row) use (&$data, $batchSize) {
@@ -78,8 +78,8 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
         });
 
         //BATCHING METHOD
-
-        foreach (array_chunk($data, 10000) as $t)  
+        /*
+        foreach (array_chunk($data, 5000) as $t)  
         {
             CovidVaccinePatientMasterlist::upsert($t, ['row_hash'], [
                 'category', 'comorbidity', 'unique_person_id', 'pwd', 'indigenous_member',
@@ -90,8 +90,8 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
                 'second_additional_booster_dose', 'adverse_event', 'adverse_event_condition'
             ]);
         }
+        */
 
-        /*
         for($i = 0; $i < count($data); $i += $batchSize) {
             $batch = array_slice($data, $i, $batchSize);
             
@@ -104,7 +104,6 @@ class ProcessCovidVaccineMasterlistLinelist implements ShouldQueue
                 'second_additional_booster_dose', 'adverse_event', 'adverse_event_condition'
             ]);
         }
-        */
 
         //BULK UPSERT (MY PROUDEST WORK)
         /*
