@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Rap2hpoutre\FastExcel\FastExcel;
+use OpenSpout\Common\Entity\Style\Style;
 use Rap2hpoutre\FastExcel\SheetCollection;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 
@@ -171,8 +172,8 @@ class AutoEmailCovidDatabase extends Command
             'Negative' => negativeGenerator($negativeQuery),
         ]);
 
-        $header_style = (new StyleBuilder())->setFontBold()->build();
-        $rows_style = (new StyleBuilder())->setShouldWrapText()->build();
+        $header_style = (new Style())->setFontBold();
+        $rows_style = (new Style())->setShouldWrapText();
 
         $exp = (new FastExcel($sheets))
         ->headerStyle($header_style)
