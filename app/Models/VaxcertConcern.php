@@ -86,7 +86,12 @@ class VaxcertConcern extends Model
 
     public function getNumberOfDose() {
         if(is_null($this->dose2_date)) {
-            return 1;
+            if($this->dose1_manufacturer == 'J&J') {
+                return 2;
+            }
+            else {
+                return 1;
+            }
         }
         else {
             if(is_null($this->dose3_date)) {
