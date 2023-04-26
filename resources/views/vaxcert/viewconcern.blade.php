@@ -574,7 +574,7 @@
                             <li>Search Name of Patient in <b>Not Found Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
                         </ul>
                     </li>
-                    <h6>(Kung may ticket ang Patient, wag na mag-proceed sa Step 3 at i-update na lang ang Ticket at i-close pagkatapos. Kung wala, proceed to Step 3)</h6>
+                    <h6>(Kung may ticket ang Patient, wag na mag-proceed sa Step 3 at i-update na lang ang Ticket at i-close pagkatapos. Kung wala, proceed to Step 4)</h6>
                     <h6>------------</h6>
                     <li>
                         <b>Step 4:</b>
@@ -588,7 +588,7 @@
                             </ul>
                             @endif
                             <li>Kung wala pa ding lumabas, subukan i-search ang details ng Patient sa 01/01/1990 na BDATE field, click <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate=1990-01-01{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
-                            <h6>(Kung kumpleto na ang bakuna after updating, wag na mag-proceed sa Step 4 at pindutin na ang Complete button sa ibaba ng page na ito)</h6>
+                            <h6>(Kung kumpleto na ang bakuna after updating, wag na mag-proceed sa Step 5 at pindutin na ang Complete button sa ibaba ng page na ito)</h6>
                         </ul>
                     </li>
                     <h6>------------</h6>
@@ -601,7 +601,7 @@
                         </ul>
                     </li>
                     <h6>------------</h6>
-                    <h6 class="text-danger"><b>SIGURADUHING "CLOSED" NA LAHAT NG TICKET NG PATIENT SA VAS LINELIST SITE BAGO PINTUDIN ANG <span class="text-success">COMPLETE</span> BUTTON SA IBABA.</b></h6>
+                    <h6 class="text-danger"><b>SIGURADUHING "CLOSED" NA LAHAT NG TICKET NG PATIENT SA VAS LINELIST SITE (CORRECTION/NOT FOUND) BAGO PINTUDIN ANG <span class="text-success">COMPLETE</span> BUTTON SA IBABA.</b></h6>
                     <h6>Maaaring kontakin ang pasyente sa kanyang Mobile Number: <b class="text-info">{{$d->contact_number}}</b> @if(!is_null($d->email))o sa Email Address: <b class="text-info">{{$d->email}}</b>@endif na maaari na siyang mag-generate ng kanyang VaxCert at naayos na ang isyu sa kanyang VaxCert.</h6>
                 </ul>
                 <!--

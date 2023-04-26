@@ -376,4 +376,79 @@ class Forms extends Model
             return 'ALL';
         }
     }
+
+    public function getTkcAdmittedType() {
+        if($this->dispoType == 1) {
+            return 'hospital';
+        }
+        else if($this->dispoType == 6 || $this->dispoType == 7) {
+            return 'facility';
+        }
+        else if($this->dispoType == 2) {
+            return 'facility';
+        }
+        else if($this->dispoType == 3 || $this->dispoType == 4) {
+            return 'home';
+        }
+        else {
+            return 'others';
+        }
+    }
+    
+    public function getTkcTreatmentFacility() {
+        if($this->dispoType == 1 || $this->dispoType == 2) {
+            return $this->dispoName;
+        }
+        else if($this->dispoType == 6) {
+            return 'GENERAL TRIAS ISOLATION FACILITY, BRGY SANTIAGO';
+        }
+        else if($this->dispoType == 7) {
+            return 'GENERAL TRIAS ISOLATION FACILITY, BRGY JAVALERA';
+        }
+        else if($this->dispoType == 3 || $this->dispoType == 4) {
+            return '';
+        }
+        else {
+            return $this->dispoName;
+        }
+    }
+
+    public function getTkcQuarantineStatus() {
+        if($this->outcomeCondition == 'Active') {
+            return 'Ongoing';
+        }
+        else if($this->outcomeCondition == 'Recovered') {
+            return 'Completed';
+        }
+        else {
+            return 'Ongoing';
+        }
+    }
+
+    public function getTkcVerAssessment() {
+        if($this->caseClassification == 'Suspect') {
+            return 'SC';
+        }
+        else if($this->caseClassification == 'Confirmed') {
+            return 'CC';
+        }
+        else if($this->caseClassification == 'Probable') {
+            return 'PC';
+        }
+        else if($this->caseClassification == 'Non-COVID-19 Case') {
+            return 'NCA';
+        }
+    }
+
+    public function getTkcOutcome() {
+        if($this->outcomeCondition == 'Active') {
+            return 'Improving';
+        }
+        else if($this->outcomeCondition == 'Recovered') {
+            return 'Recovered';
+        }
+        else if($this->outcomeCondition == 'Died') {
+            return 'Died';
+        }
+    }
 }

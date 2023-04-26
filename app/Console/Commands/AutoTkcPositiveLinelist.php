@@ -180,7 +180,87 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('CK'.$ind, ($d->isLivesOnClosedSettings == 1) ? $d->institutionType : '');
                 $sheet->setCellValue('CL'.$ind, ($d->isLivesOnClosedSettings == 1) ? $d->institutionName : '');
                 $sheet->setCellValue('CM'.$ind, ''); //illness pregnancy
-                
+                $sheet->setCellValue('CN'.$ind, ($d->dispoType == 1) ? 'TRUE' : 'FALSE');
+                $sheet->setCellValue('CO'.$ind, $d->getTkcAdmittedType());
+                $sheet->setCellValue('CP'.$ind, ''); //reason_for_hospitalization
+                $sheet->setCellValue('CQ'.$ind, $d->getTkcTreatmentFacility());
+                $sheet->setCellValue('CR'.$ind, $d->getTkcQuarantineStatus());
+                $sheet->setCellValue('CS'.$ind, date('m/d/Y', strtotime($d->dispositionDate)));
+                $sheet->setCellValue('CT'.$ind, ($d->outcomeCondition == 'Recovered') ? date('m/d/Y', strtotime($d->outcomeRecovDate)) : '');
+
+                $sheet->setCellValue('CU'.$ind, ''); //quarantine_place
+                $sheet->setCellValue('CV'.$ind, ''); //treatr_code
+                $sheet->setCellValue('CW'.$ind, ''); //treatp_code
+                $sheet->setCellValue('CX'.$ind, ''); //treatm_code
+
+                $sheet->setCellValue('CY'.$ind, $d->healthStatus); //health_status
+                $sheet->setCellValue('CZ'.$ind, $d->drunit); //health_status
+
+                $sheet->setCellValue('DA'.$ind, '');
+                $sheet->setCellValue('DB'.$ind, '');
+                $sheet->setCellValue('DC'.$ind, $d->getTkcVerAssessment());
+                $sheet->setCellValue('DD'.$ind, $d->getTkcOutcome());
+                $sheet->setCellValue('DE'.$ind, ($d->outcomeCondition == 'Recovered') ? date('m/d/Y', strtotime($d->outcomeRecovDate)) : '');
+                $sheet->setCellValue('DF'.$ind, ($d->outcomeCondition == 'Died') ? date('m/d/Y', strtotime($d->outcomeDeathDate)) : '');
+                $sheet->setCellValue('DG'.$ind, ($d->outcomeCondition == 'Died') ? $d->deathImmeCause : '');
+                $sheet->setCellValue('DH'.$ind, ($d->outcomeCondition == 'Died') ? $d->deathAnteCause : '');
+                $sheet->setCellValue('DI'.$ind, ($d->outcomeCondition == 'Died') ? $d->deathUndeCause : '');
+                $sheet->setCellValue('DJ'.$ind, ($d->outcomeCondition == 'Died') ? $d->contriCondi : '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, '');
+
+                $sheet->setCellValue('EA'.$ind, '');
+                $sheet->setCellValue('EB'.$ind, '');
+                $sheet->setCellValue('EC'.$ind, '');
+                $sheet->setCellValue('ED'.$ind, '');
+                $sheet->setCellValue('EE'.$ind, '');
+                $sheet->setCellValue('EF'.$ind, '');
+                $sheet->setCellValue('EG'.$ind, '');
+                $sheet->setCellValue('EH'.$ind, '');
+                $sheet->setCellValue('EI'.$ind, '');
+                $sheet->setCellValue('EJ'.$ind, '');
+                $sheet->setCellValue('EK'.$ind, '');
+                $sheet->setCellValue('EL'.$ind, '');
+                $sheet->setCellValue('EM'.$ind, '');
+                $sheet->setCellValue('EN'.$ind, '');
+                $sheet->setCellValue('EO'.$ind, '');
+                $sheet->setCellValue('EP'.$ind, '');
+                $sheet->setCellValue('EQ'.$ind, '');
+                $sheet->setCellValue('ER'.$ind, '');
+                $sheet->setCellValue('ES'.$ind, '');
+                $sheet->setCellValue('ET'.$ind, '');
+                $sheet->setCellValue('EU'.$ind, '');
+                $sheet->setCellValue('EV'.$ind, '');
+                $sheet->setCellValue('EW'.$ind, '');
+                $sheet->setCellValue('EX'.$ind, '');
+                $sheet->setCellValue('EY'.$ind, '');
+                $sheet->setCellValue('EZ'.$ind, '');
+
+                $sheet->setCellValue('FA'.$ind, '');
+                $sheet->setCellValue('FB'.$ind, '');
+                $sheet->setCellValue('FC'.$ind, '');
+                $sheet->setCellValue('FD'.$ind, '');
+                $sheet->setCellValue('FE'.$ind, '');
+                $sheet->setCellValue('FF'.$ind, '');
+                $sheet->setCellValue('FG'.$ind, '');
+                $sheet->setCellValue('FH'.$ind, '');
+                $sheet->setCellValue('FI'.$ind, '');
+                $sheet->setCellValue('FJ'.$ind, '');
+                $sheet->setCellValue('FK'.$ind, '');
             }
             
             $writer = new Csv($spreadsheet);
