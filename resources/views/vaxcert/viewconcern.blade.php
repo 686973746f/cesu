@@ -311,6 +311,7 @@
                         </div>
                     </div>
                 </div>
+                @if($d->dose1_manufacturer != 'J&J')
                 <div id="vaccine2" class="d-none">
                     <hr>
                     <div class="row">
@@ -394,6 +395,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <div id="vaccine3" class="d-none">
                     <div class="row">
                         <div class="col-md-4">

@@ -206,47 +206,47 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('DH'.$ind, ($d->outcomeCondition == 'Died') ? $d->deathAnteCause : '');
                 $sheet->setCellValue('DI'.$ind, ($d->outcomeCondition == 'Died') ? $d->deathUndeCause : '');
                 $sheet->setCellValue('DJ'.$ind, ($d->outcomeCondition == 'Died') ? $d->contriCondi : '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
-                $sheet->setCellValue('DK'.$ind, '');
+                $sheet->setCellValue('DK'.$ind, 'ENCODER: '.$d->user()->name);
+                $sheet->setCellValue('DL'.$ind, ''); //source_report_id
+                $sheet->setCellValue('DM'.$ind, ''); //exposure_datetime
+                $sheet->setCellValue('DN'.$ind, ''); //exposure_address
+                $sheet->setCellValue('DO'.$ind, ''); //nature of exposure
+                $sheet->setCellValue('DP'.$ind, ''); //exposure remarks
+                $sheet->setCellValue('DQ'.$ind, 'TRUE'); //traced
+                $sheet->setCellValue('DR'.$ind, date('m/d/Y', strtotime($d->created_at))); //traced_date
+                $sheet->setCellValue('DS'.$ind, 'hq'); //advised
+                $sheet->setCellValue('DT'.$ind, date('m/d/Y', strtotime($d->created_at))); //advised_date
+                $sheet->setCellValue('DU'.$ind, ''); //local travel address
+                $sheet->setCellValue('DV'.$ind, 'TRUE'); //has community transmission
+                $sheet->setCellValue('DW'.$ind, ''); //community transmission address
+                $sheet->setCellValue('DX'.$ind, ''); //last conctact date
+                $sheet->setCellValue('DY'.$ind, 'Unavailable'); //has exposure
+                $sheet->setCellValue('DZ'.$ind, ''); //close contact name
 
-                $sheet->setCellValue('EA'.$ind, '');
-                $sheet->setCellValue('EB'.$ind, '');
-                $sheet->setCellValue('EC'.$ind, '');
-                $sheet->setCellValue('ED'.$ind, '');
-                $sheet->setCellValue('EE'.$ind, '');
-                $sheet->setCellValue('EF'.$ind, '');
-                $sheet->setCellValue('EG'.$ind, '');
-                $sheet->setCellValue('EH'.$ind, '');
-                $sheet->setCellValue('EI'.$ind, '');
-                $sheet->setCellValue('EJ'.$ind, '');
-                $sheet->setCellValue('EK'.$ind, '');
-                $sheet->setCellValue('EL'.$ind, '');
-                $sheet->setCellValue('EM'.$ind, '');
-                $sheet->setCellValue('EN'.$ind, '');
+                $sheet->setCellValue('EA'.$ind, ''); //nature of exposure
+                $sheet->setCellValue('EB'.$ind, ''); //reason of contact
+                $sheet->setCellValue('EC'.$ind, ''); //hasExposure
+                $sheet->setCellValue('ED'.$ind, $d->getTkcLabInfoType()); //lab_info_type
+                $sheet->setCellValue('EE'.$ind, $d->getTkcLab()); //lab name
+                $sheet->setCellValue('EF'.$ind, ''); //specimen id
+                $sheet->setCellValue('EG'.$ind, $d->getTkcOtherTest()); //testing_others
+                $sheet->setCellValue('EH'.$ind, $d->getTkcLabResult());
+                $sheet->setCellValue('EI'.$ind, $d->getTkcDateCollected());
+                $sheet->setCellValue('EJ'.$ind, ''); //date specimen received
+                $sheet->setCellValue('EK'.$ind, $d->getTkcDateResult()); //
+                $sheet->setCellValue('EL'.$ind, $d->getTckAntigenKit());
+                $sheet->setCellValue('EM'.$ind, 'FALSE'); //is gida
+                $sheet->setCellValue('EN'.$ind, ($d->isLivesOnClosedSettings == 1) ? 'TRUE' : 'FALSE');
                 $sheet->setCellValue('EO'.$ind, '');
-                $sheet->setCellValue('EP'.$ind, '');
-                $sheet->setCellValue('EQ'.$ind, '');
-                $sheet->setCellValue('ER'.$ind, '');
-                $sheet->setCellValue('ES'.$ind, '');
-                $sheet->setCellValue('ET'.$ind, '');
-                $sheet->setCellValue('EU'.$ind, '');
-                $sheet->setCellValue('EV'.$ind, '');
-                $sheet->setCellValue('EW'.$ind, '');
-                $sheet->setCellValue('EX'.$ind, '');
+                $sheet->setCellValue('EP'.$ind, ($d->caseClassification == 'Probable') ? 'TRUE' : 'FALSE');
+                $sheet->setCellValue('EQ'.$ind, ($d->caseClassification == 'Suspect') ? 'TRUE' : 'FALSE');
+                $sheet->setCellValue('ER'.$ind, ''); //has other reasons
+                $sheet->setCellValue('ES'.$ind, ''); //rayson
+                $sheet->setCellValue('ET'.$ind, ''); //investigation action
+                $sheet->setCellValue('EU'.$ind, ''); //investigation date
+                $sheet->setCellValue('EV'.$ind, ''); //investigation remarks
+                $sheet->setCellValue('EW'.$ind, ''); //investigation by user id
+                $sheet->setCellValue('EX'.$ind, (!is_null($d->records->vaccinationDate1)) ? 'YES' : 'NO'); //is vaccinated
                 $sheet->setCellValue('EY'.$ind, '');
                 $sheet->setCellValue('EZ'.$ind, '');
 

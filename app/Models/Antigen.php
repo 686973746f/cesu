@@ -16,6 +16,7 @@ class Antigen extends Model
         'antigenKitShortName',
         'lotNo',
         'isDOHAccredited',
+        'tkc_code',
     ];
 
     public function user() {

@@ -53,7 +53,12 @@ class CovidVaccinePatientMasterlist extends Model
         }
 
         if($this->second_dose == 'Y') {
-            $str = $str.'(2nd Dose) ';
+            if($this->vaccine_manufacturer_name == 'J&J') {
+                $str = $str.'(1st & 2nd Dose) ';
+            }
+            else {  
+                $str = $str.'(2nd Dose) ';
+            }
         }
 
         if($this->additional_booster_dose == 'Y') {

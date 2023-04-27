@@ -850,7 +850,7 @@
                 $('#ifabroad').removeClass('d-none');
                 $('#passport_no').prop('required', true);
             }
-        });
+        }).trigger('change');
 
         $(document).ready(function(){
             $('#bdate').change(function(){

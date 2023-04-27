@@ -451,4 +451,110 @@ class Forms extends Model
             return 'Died';
         }
     }
+
+    public function getTkcLabInfoType() {
+        $txt_string = '';
+
+        if($this->testType1 == 'OPS AND NPS') {
+            $txt_string = 'OPS & NPS';
+        }
+        else {
+            $txt_string = $this->testType1;
+        }
+
+        if(!is_null($this->testDateCollected2)) {
+            if($this->testType2 == 'OPS AND NPS') {
+                $txt_string = $txt_string.',OPS & NPS';
+            }
+            else {
+                $txt_string = $txt_string.','.$this->testType2;
+            }
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcLab() {
+        $txt_string = $this->testLaboratory1;
+
+        if(!is_null($this->testDateCollected2)) {
+            $txt_string = $txt_string.','.$this->testLaboratory2;
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcOtherTest() {
+        $txt_string = '';
+
+        if($this->testType1 == 'OTHERS') {
+            $txt_string = $this->testTypeOtherRemarks1;
+        }
+
+        if(!is_null($this->testDateCollected2) && $this->testType2 == 'OTHERS') {
+            $txt_string = $txt_string.','.$this->testTypeOtherRemarks2;
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcLabResult() {
+        $txt_string = ucwords(strtolower($this->testResult1));
+
+        if(!is_null($this->testDateCollected2)) {
+            $txt_string = $txt_string.','.ucwords(strtolower($this->testResult2));
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcDateCollected() {
+        $txt_string = date('m/d/Y', strtotime($this->testDateCollected1));
+
+        if(!is_null($this->testDateCollected2)) {
+            $txt_string = $txt_string.','.date('m/d/Y', strtotime($this->testDateCollected2));
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcDateResult() {
+        if(!is_null($this->testDateReleased1)) {
+            $txt_string = date('m/d/Y', strtotime($this->testDateReleased1));
+        }
+        else {
+            $txt_string = '';
+        }
+
+        if(!is_null($this->testDateCollected2)) {
+            if(!is_null($this->testDateReleased2)) {
+                $txt_string = $txt_string.','.date('m/d/Y', strtotime($this->testDateReleased2));
+            }
+            else {
+                $txt_string = $txt_string.',';
+            }
+        }
+        
+        return $txt_string;
+    }
+
+    public function getTckAntigenKit() {
+        if($this->testType1 == 'ANTIGEN') {
+            //get antigen code
+            $g = Antigen::find($this->antigen_id1);
+
+            $txt_string = $g->tkc_code;
+        }
+        else {
+            $txt_string = '';
+        }
+
+        if(!is_null($this->testDateCollected2) && $this->testType2 == 'ANTIGEN') {
+            $g = Antigen::find($this->antigen_id2);
+
+            $txt_string = $txt_string.','.$g->tkc_code;
+        }
+        
+        return $txt_string;
+    }
 }
