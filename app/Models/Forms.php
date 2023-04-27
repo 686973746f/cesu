@@ -538,7 +538,7 @@ class Forms extends Model
         return $txt_string;
     }
 
-    public function getTckAntigenKit() {
+    public function getTkcAntigenKit() {
         if($this->testType1 == 'ANTIGEN') {
             //get antigen code
             $g = Antigen::find($this->antigen_id1);
@@ -556,5 +556,125 @@ class Forms extends Model
         }
         
         return $txt_string;
+    }
+
+    public function getTkcVaccinationCode($code) {
+        if($code == 'BHARAT BIOTECH') {
+            return 'Bharat BioTech';
+        }
+        else if($code == 'GAMALEYA SPUTNIK V') {
+            return 'Sputnik V';
+        }
+        else if($code == 'JANSSEN') {
+            return 'Janssen COVID-19 vaccine';
+        }
+        else if($code == 'MODERNA') {
+            return 'COVID-19 vaccine Moderna';
+        }
+        else if($code == 'NOVARAX' || $code == 'NOVAVAX') {
+            return 'Novavax';
+        }
+        else if($code == 'OXFORD ASTRAZENECA') {
+            return 'COVID-19 vaccine AstraZeneca';
+        }
+        else if($code == 'PFIZER BIONTECH') {
+            return 'Comirnaty';
+        }
+        else if($code == 'SINOPHARM') {
+            return 'COVID-19 vaccine inact (Vero) HB02';
+        }
+        else if($code == 'SINOVAC CORONAVAC') {
+            return 'CoronaVac';
+        }
+    }
+
+    public function getTkcVaccinationName() {
+        if(is_null($this->records->vaccinationDate1)) {
+            $txt_string = '';
+        }
+        else {
+            $txt_string = $this->getTkcVaccinationCode($this->records->vaccinationName1);
+
+            if(!is_null($this->records->vaccinationDate2)) {
+                $txt_string = $txt_string.'::'.$this->getTkcVaccinationCode($this->records->vaccinationName2);
+            }
+
+            if(!is_null($this->records->vaccinationDate3)) {
+                $txt_string = $txt_string.'::'.$this->getTkcVaccinationCode($this->records->vaccinationName3);
+            }
+
+            if(!is_null($this->records->vaccinationDate4)) {
+                $txt_string = $txt_string.'::'.$this->getTkcVaccinationCode($this->records->vaccinationName4);
+            }
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcVaccinationDate() {
+        if(is_null($this->records->vaccinationDate1)) {
+            $txt_string = '';
+        }
+        else {
+            $txt_string = $this->records->vaccinationDate1;
+
+            if(!is_null($this->records->vaccinationDate2)) {
+                $txt_string = $txt_string.'::'.$this->records->vaccinationDate2;
+            }
+
+            if(!is_null($this->records->vaccinationDate3)) {
+                $txt_string = $txt_string.'::'.$this->records->vaccinationDate3;
+            }
+
+            if(!is_null($this->records->vaccinationDate4)) {
+                $txt_string = $txt_string.'::'.$this->records->vaccinationDate4;
+            }
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcVaccineNumberOfDose($type) {
+        if(is_null($this->records->vaccinationDate1)) {
+            $txt_string = '';
+        }
+        else {
+            if($type == 'N') {
+                $txt_string = '1';
+
+                if(!is_null($this->records->vaccinationDate2)) {
+                    $txt_string = $txt_string.'::2';
+                }
+
+                if(!is_null($this->records->vaccinationDate3)) {
+                    $txt_string = $txt_string.'::3';
+                }
+
+                if(!is_null($this->records->vaccinationDate4)) {
+                    $txt_string = $txt_string.'::4';
+                }
+            }
+            else if($type == 'R') {
+                $txt_string = '1st';
+
+                if(!is_null($this->records->vaccinationDate2)) {
+                    $txt_string = $txt_string.'::2nd';
+                }
+
+                if(!is_null($this->records->vaccinationDate3)) {
+                    $txt_string = $txt_string.'::3rd';
+                }
+
+                if(!is_null($this->records->vaccinationDate4)) {
+                    $txt_string = $txt_string.'::4th';
+                }
+            }
+        }
+
+        return $txt_string;
+    }
+
+    public function getTkcNatureOfExposure() {
+        
     }
 }

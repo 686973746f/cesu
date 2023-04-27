@@ -86,6 +86,19 @@ class AutoTkcPositiveLinelist extends Command
 
                 $ocomo_final = implode(',', $ocomo);
 
+                //Get Vaccination Status
+                if(is_null($d->records->vaccinationDate1)) {
+                    $vstatus = 'Unvaccinated';
+                }
+                else {
+                    if(is_null($d->records->vaccinationDate2)) {
+                        $vstatus = 'Partially Vaccinated';
+                    }
+                    else {
+                        $vstatus = 'Fully Vaccinated';
+                    }
+                }
+
                 $sheet->setCellValue('A'.$ind, ''); //report_id
                 $sheet->setCellValue('B'.$ind, date('n/d/Y', strtotime($d->created_at))); //created_at
                 $sheet->setCellValue('C'.$ind, 'CHRISTIAN JAMES HISTORILLO');
@@ -96,36 +109,36 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('H'.$ind, $d->records->mname);
                 $sheet->setCellValue('I'.$ind, $d->records->lname);
                 $sheet->setCellValue('J'.$ind, ''); //suffix
-                $sheet->setCellValue('K'.$ind, date('n/d/Y', strtotime($d->records->bdate))); //
+                $sheet->setCellValue('K'.$ind, date('m/d/Y', strtotime($d->records->bdate)));
                 $sheet->setCellValue('L'.$ind, $d->records->gender);
                 $sheet->setCellValue('M'.$ind, 'Filipino');
                 $sheet->setCellValue('N'.$ind, $d->records->cs);
                 $sheet->setCellValue('O'.$ind, $d->records->phoneno);
                 $sheet->setCellValue('P'.$ind, substr($d->records->mobile, 1));
                 $sheet->setCellValue('Q'.$ind, $d->records->email);
-                $sheet->setCellValue('R'.$ind, '');
-                $sheet->setCellValue('S'.$ind, '');
+                $sheet->setCellValue('R'.$ind, ''); //area address
+                $sheet->setCellValue('S'.$ind, 'home'); //home type
                 $sheet->setCellValue('T'.$ind, $d->records->address_houseno);
-                $sheet->setCellValue('U'.$ind, '');
+                $sheet->setCellValue('U'.$ind, ''); //house block
                 $sheet->setCellValue('V'.$ind, $d->records->address_street);
-                $sheet->setCellValue('W'.$ind, '');
-                $sheet->setCellValue('X'.$ind, '');
-                $sheet->setCellValue('Y'.$ind, '');
-                $sheet->setCellValue('Z'.$ind, '');
-                $sheet->setCellValue('AA'.$ind, '');
+                $sheet->setCellValue('W'.$ind, ''); //apartment unit number
+                $sheet->setCellValue('X'.$ind, ''); //apartment floor number
+                $sheet->setCellValue('Y'.$ind, ''); //apartment_building_name
+                $sheet->setCellValue('Z'.$ind, ''); //kit_brand ???
+                $sheet->setCellValue('AA'.$ind, ''); //other brands ???
                 $sheet->setCellValue('AB'.$ind, $d->records->address_houseno);
-                $sheet->setCellValue('AC'.$ind, '');
+                $sheet->setCellValue('AC'.$ind, ''); //current_address_district
                 $sheet->setCellValue('AD'.$ind, $d->records->address_street);
-                $sheet->setCellValue('AE'.$ind, '');
-                $sheet->setCellValue('AF'.$ind, '');
+                $sheet->setCellValue('AE'.$ind, ''); //current address lat
+                $sheet->setCellValue('AF'.$ind, ''); //current address lng
                 $sheet->setCellValue('AG'.$ind, $d->records->getRegionPsgc());
                 $sheet->setCellValue('AH'.$ind, $d->records->getProvincePsgc());
                 $sheet->setCellValue('AI'.$ind, $d->records->getCityPsgc());
                 $sheet->setCellValue('AJ'.$ind, $d->records->getBrgyPsgc());
                 $sheet->setCellValue('AK'.$ind, ($d->records->hasOccupation == 1) ? $d->records->occupation_name : '');
                 $sheet->setCellValue('AL'.$ind, ($d->records->hasOccupation == 1) ? $d->records->occupation_lotbldg : '');
-                $sheet->setCellValue('AM'.$ind, '');
-                $sheet->setCellValue('AN'.$ind, '');
+                $sheet->setCellValue('AM'.$ind, ''); //work address lat
+                $sheet->setCellValue('AN'.$ind, ''); //work address long
                 $sheet->setCellValue('AO'.$ind, ($d->records->hasOccupation == 1) ? $d->records->occupation : '');
                 $sheet->setCellValue('AP'.$ind, ($d->records->hasOccupation == 1) ? $d->records->occupation_mobile : '');
                 $sheet->setCellValue('AQ'.$ind, ($d->records->hasOccupation == 1) ? $d->records->getWorkRegionPsgc() : '');
@@ -193,11 +206,11 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('CW'.$ind, ''); //treatp_code
                 $sheet->setCellValue('CX'.$ind, ''); //treatm_code
 
-                $sheet->setCellValue('CY'.$ind, $d->healthStatus); //health_status
-                $sheet->setCellValue('CZ'.$ind, $d->drunit); //health_status
+                $sheet->setCellValue('CY'.$ind, $d->healthStatus);
+                $sheet->setCellValue('CZ'.$ind, $d->drunit);
 
-                $sheet->setCellValue('DA'.$ind, '');
-                $sheet->setCellValue('DB'.$ind, '');
+                $sheet->setCellValue('DA'.$ind, ''); //nonhealth dru
+                $sheet->setCellValue('DB'.$ind, ''); //sentinel reporting unit
                 $sheet->setCellValue('DC'.$ind, $d->getTkcVerAssessment());
                 $sheet->setCellValue('DD'.$ind, $d->getTkcOutcome());
                 $sheet->setCellValue('DE'.$ind, ($d->outcomeCondition == 'Recovered') ? date('m/d/Y', strtotime($d->outcomeRecovDate)) : '');
@@ -210,7 +223,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('DL'.$ind, ''); //source_report_id
                 $sheet->setCellValue('DM'.$ind, ''); //exposure_datetime
                 $sheet->setCellValue('DN'.$ind, ''); //exposure_address
-                $sheet->setCellValue('DO'.$ind, ''); //nature of exposure
+                $sheet->setCellValue('DO'.$ind, ''); //nature_of_exposure
                 $sheet->setCellValue('DP'.$ind, ''); //exposure remarks
                 $sheet->setCellValue('DQ'.$ind, 'TRUE'); //traced
                 $sheet->setCellValue('DR'.$ind, date('m/d/Y', strtotime($d->created_at))); //traced_date
@@ -234,7 +247,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('EI'.$ind, $d->getTkcDateCollected());
                 $sheet->setCellValue('EJ'.$ind, ''); //date specimen received
                 $sheet->setCellValue('EK'.$ind, $d->getTkcDateResult()); //
-                $sheet->setCellValue('EL'.$ind, $d->getTckAntigenKit());
+                $sheet->setCellValue('EL'.$ind, $d->getTkcAntigenKit());
                 $sheet->setCellValue('EM'.$ind, 'FALSE'); //is gida
                 $sheet->setCellValue('EN'.$ind, ($d->isLivesOnClosedSettings == 1) ? 'TRUE' : 'FALSE');
                 $sheet->setCellValue('EO'.$ind, '');
@@ -246,21 +259,21 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('EU'.$ind, ''); //investigation date
                 $sheet->setCellValue('EV'.$ind, ''); //investigation remarks
                 $sheet->setCellValue('EW'.$ind, ''); //investigation by user id
-                $sheet->setCellValue('EX'.$ind, (!is_null($d->records->vaccinationDate1)) ? 'YES' : 'NO'); //is vaccinated
-                $sheet->setCellValue('EY'.$ind, '');
-                $sheet->setCellValue('EZ'.$ind, '');
+                $sheet->setCellValue('EX'.$ind, '');
+                $sheet->setCellValue('EY'.$ind, (!is_null($d->records->vaccinationDate1)) ? 'YES' : 'NO'); //is vaccinated
+                $sheet->setCellValue('EZ'.$ind, $vstatus);
 
-                $sheet->setCellValue('FA'.$ind, '');
-                $sheet->setCellValue('FB'.$ind, '');
-                $sheet->setCellValue('FC'.$ind, '');
-                $sheet->setCellValue('FD'.$ind, '');
-                $sheet->setCellValue('FE'.$ind, '');
-                $sheet->setCellValue('FF'.$ind, '');
-                $sheet->setCellValue('FG'.$ind, '');
-                $sheet->setCellValue('FH'.$ind, '');
-                $sheet->setCellValue('FI'.$ind, '');
-                $sheet->setCellValue('FJ'.$ind, '');
-                $sheet->setCellValue('FK'.$ind, '');
+                $sheet->setCellValue('FA'.$ind, $d->getTkcVaccinationName());
+                $sheet->setCellValue('FB'.$ind, $d->getTkcVaccinationDate());
+                $sheet->setCellValue('FC'.$ind, $d->getTkcVaccineNumberOfDose('R'));
+                $sheet->setCellValue('FD'.$ind, $d->getTkcVaccineNumberOfDose('N'));
+                $sheet->setCellValue('FE'.$ind, ''); //vaccination facility id
+                $sheet->setCellValue('FF'.$ind, ''); //vaccination facility r code
+                $sheet->setCellValue('FG'.$ind, ''); //vaccination facility p code
+                $sheet->setCellValue('FH'.$ind, ''); //vaccination facility m code
+                $sheet->setCellValue('FI'.$ind, ''); //vaccination facility b code
+                $sheet->setCellValue('FJ'.$ind, ''); //other facility
+                $sheet->setCellValue('FK'.$ind, ''); //workplace_id
             }
             
             $writer = new Csv($spreadsheet);
