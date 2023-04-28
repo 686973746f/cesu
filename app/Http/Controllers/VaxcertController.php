@@ -592,4 +592,8 @@ class VaxcertController extends Controller
             'd' => $s,
         ]);
     }
+
+    public function report() {
+        
+    }
 }
