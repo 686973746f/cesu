@@ -546,7 +546,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h5>Welcome to VaxCert Concern Ticketing System <b>(General Trias, Cavite Area ONLY)</b></h5>
+                    <h5>Welcome to VaxCert Concern Ticketing System <b>(General Trias Cavite Vaccination Sites Concerns ONLY)</b></h5>
                 </div>
                 <div class="modal-body">
                     <div id="choice1">
