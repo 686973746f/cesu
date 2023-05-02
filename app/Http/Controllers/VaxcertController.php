@@ -513,7 +513,7 @@ class VaxcertController extends Controller
                 $sheet->setCellValue('E'.$c, 'NO'); //INDIGENOUS MEMBER
                 $sheet->setCellValue('F'.$c, $v->last_name);
                 $sheet->setCellValue('G'.$c, $v->first_name);
-                $sheet->setCellValue('H'.$c, (!is_null($v->middle_name)) ? $v->middle_name : '');
+                $sheet->setCellValue('H'.$c, (!is_null($v->middle_name)) ? $v->middle_name : 'NONE');
                 $sheet->setCellValue('I'.$c, (!is_null($v->suffix)) ? $v->suffix : '');
                 $sheet->setCellValue('J'.$c, substr($v->contact_number, 1));
                 $sheet->setCellValue('K'.$c, $v->guardian_name); //GUARDIAN NAME
