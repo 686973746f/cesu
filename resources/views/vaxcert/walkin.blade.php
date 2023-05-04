@@ -546,16 +546,19 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h5>Welcome to VaxCert Concern Ticketing System <b>(General Trias, Cavite Area ONLY)</b></h5>
+                    <h5>Welcome to VaxCert Concern Ticketing System <b>(General Trias Cavite Vaccination Sites Concerns ONLY)</b></h5>
                 </div>
                 <div class="modal-body">
                     <div id="choice1">
                         <div class="alert alert-info text-center" role="alert">
-                            <b class="text-danger">Paalala:</b> Kung ikaw ay nais lamang kumuha ng VaxCert at wala namang problema sa record mo, hindi mo na kailangan magpatuloy dito at dumiretso na lang sa mismong VaxCert website upang makapag-generate: <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph</a></b>
+                            <h4 class="text-danger"><b>BASAHIN MUNA ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
+                            Kung ikaw ay nais lamang kumuha ng VaxCert at wala namang problema sa record mo, hindi mo na kailangan magpatuloy dito at dumiretso na lang sa mismong VaxCert website upang makapag-generate: <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph</a></b>
                             <hr>
                             Hindi po talaga nalabas ang Middle Name/Gitnang Pangalan kapag gagamitin sa Abroad ang VaxCert.
                             <hr>
                             Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate <i>(via text/call or pumunta sa mismong opisina nila)</i> kung saan ka binakunahan dahil sila ang may permission sa system upang maayos ang record mo.
+                            <hr>
+                            Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">General Trias City Facebook Page</a>)</i>
                         </div>
                         <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern/Mag-file ng Bagong Concern <i>(Hindi makita ng VaxCertPH ang Record/Nawawalang Dose/Maling Spelling ng Pangalan, Birthdate, etc.)</i></button>
                         @if(date('w') == 6 || date('w') == 0)

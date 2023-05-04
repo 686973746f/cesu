@@ -84,7 +84,9 @@ class CovidVaccineLinelistImporter extends Command
         }
         */
 
-        CovidVaccinePatientMasterlist::truncate();
+        if (count(File::allFiles(storage_path('app/vaxcert/masterlist'))) != 0 && File::exists(storage_path('app/vaxcert/masterlist/1.xlsx'))) {
+            CovidVaccinePatientMasterlist::truncate();
+        }
 
         foreach($filenames as $f) {
             if(File::exists($f)) {
