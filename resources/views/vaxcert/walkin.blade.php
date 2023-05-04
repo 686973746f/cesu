@@ -544,6 +544,8 @@
         </form>
         <p class="text-center">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a>cesugentrias.vaxcert@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
         <hr>
+        <h6><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
+        <hr>
         <p class="text-center">VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
 

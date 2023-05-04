@@ -305,7 +305,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose1_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <label for="dose1_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator (format: SURNAME, FIRSTNAME)</label>
                                 <input type="text" class="form-control" name="dose1_vaccinator_name" id="dose1_vaccinator_name" value="{{mb_strtoupper(old('dose1_vaccinator_name', $d->dose1_vaccinator_name))}}">
                             </div>
                         </div>
@@ -389,7 +389,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose2_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <label for="dose2_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator (format: SURNAME, FIRSTNAME)</label>
                                 <input type="text" class="form-control" name="dose2_vaccinator_name" id="dose2_vaccinator_name" value="{{mb_strtoupper(old('dose2_vaccinator_name', $d->dose2_vaccinator_name))}}">
                             </div>
                         </div>
@@ -472,7 +472,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose3_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <label for="dose3_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator (format: SURNAME, FIRSTNAME)</label>
                                 <input type="text" class="form-control" name="dose3_vaccinator_name" id="dose3_vaccinator_name" value="{{mb_strtoupper(old('dose3_vaccinator_name', $d->dose3_vaccinator_name))}}">
                             </div>
                         </div>
@@ -554,7 +554,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="dose4_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator</label>
+                                <label for="dose4_vaccinator_name"><span class="text-danger font-weight-bold">*</span>Name of Vaccinator (format: SURNAME, FIRSTNAME)</label>
                                 <input type="text" class="form-control" name="dose4_vaccinator_name" id="dose4_vaccinator_name" value="{{mb_strtoupper(old('dose4_vaccinator_name', $d->dose4_vaccinator_name))}}">
                             </div>
                         </div>

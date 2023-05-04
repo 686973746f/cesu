@@ -5,7 +5,7 @@
     <div class="text-right">
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#vquery"><i class="fa fa-search mr-2" aria-hidden="true"></i>Internal Vaccinee Query</button>
     </div>
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div>VaxCert Concerns</div>
@@ -84,6 +84,9 @@
                 {{$list->links()}}
             </div>
         </div>
+    </div>
+    <div class="text-center">
+        <a href="" class="btn btn-info">Report</a>
     </div>
 </div>
 

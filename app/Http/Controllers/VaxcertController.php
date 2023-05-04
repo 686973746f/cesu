@@ -319,6 +319,8 @@ class VaxcertController extends Controller
         }
         else if($request->submit == 'update') {
             $v->dose1_bakuna_center_code = $request->dose1_bakuna_center_code;
+            $v->dose1_batchno = $request->dose1_batchno;
+            $v->dose1_vaccinator_name = $request->dose1_vaccinator_name;
 
             if($request->howmanydose == 2 || $request->howmanydose == 3 || $request->howmanydose == 4) {
                 $v->dose2_bakuna_center_code = $request->dose2_bakuna_center_code;
