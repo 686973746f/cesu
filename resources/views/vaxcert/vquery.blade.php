@@ -48,7 +48,7 @@
                         <tbody>
                             @foreach($d as $a)
                             <tr>
-                                <th><a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$a->last_name}}&firstname={{$a->first_name}}&birthdate={{date('Y-m-d', strtotime($a->bdate))}}{{(!is_null($a->suffix)) ? '&suffix='.$a->suffix : ''}}" target="_blank">Search in VAS Online</a></th>
+                                <th><a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$a->last_name}}&firstname={{$a->first_name}}&birthdate={{date('Y-m-d', strtotime($a->birthdate))}}{{(!is_null($a->suffix)) ? '&suffix='.$a->suffix : ''}}" target="_blank">Search in VAS Online</a></th>
                                 <td>{{$a->last_name}}</td>
                                 <td>{{$a->first_name}}</td>
                                 <td>{{$a->middle_name}}</td>
