@@ -66,9 +66,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                              <label for="vaxcert_refno">VaxCertPH Ticket Reference No.</label>
+                              <label for="vaxcert_refno">VaxCertPH Ticket Reference No. <i>(Optional)</i></label>
                               <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]" value="{{old('vaxcert_refno')}}">
-                              <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito.</small>
+                              <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito. Binibigay ito ng VaxCertPH Website kapag nag-submit kayo ng "Update Record" Ticket sa kanila.</small>
                             </div>
                         </div>
                     </div>
@@ -127,19 +127,19 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="first_name"><span class="text-danger font-weight-bold">*</span>First Name (Unang Pangalan)</label>
+                                <label for="first_name"><span class="text-danger font-weight-bold">*</span>First Name/Unang Pangalan</label>
                                 <input type="text" class="form-control" id="first_name" name="first_name" value="{{old('first_name')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" placeholder="JUAN" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="middle_name">Middle Name (Gitnang Pangalan)</label>
+                                <label for="middle_name">Middle Name/Gitnang Pangalan (Iwanang blanko kung wala)</label>
                                 <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{old('middle_name')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" placeholder="SANCHEZ">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="last_name"><span class="text-danger font-weight-bold">*</span>Last Name (Apelyido)</label>
+                                <label for="last_name"><span class="text-danger font-weight-bold">*</span>Surname/Apelyido</label>
                                 <input type="text" class="form-control" id="last_name" name="last_name" value="{{old('last_name')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" placeholder="DELA CRUZ" required>
                             </div>
                         </div>
@@ -167,17 +167,22 @@
                                 <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Mobile Number</label>
-                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('mobile', '09')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Mobile Number</label>
+                                        <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('mobile', '09')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email"><span class="text-danger font-weight-bold">*</span>Email Address</label>
+                                        <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}" required>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}" required>
-                            </div>
+                            <small class="text-muted">Ilagay ang aktibong Mobile Number at Email Address upang mabilis namin kayong makausap tungkol sa update.</small>
                         </div>
                     </div>
                     <div id="ifguardian" class="d-none">

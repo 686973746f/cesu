@@ -92,7 +92,7 @@
                   <div class="card-header" id="headingTwo">
                     <h2 class="mb-0">
                       <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        I am a Patient
+                        I am a COVID-19 Swab Test Patient
                       </button>
                     </h2>
                   </div>

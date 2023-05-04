@@ -581,7 +581,7 @@
                     <li>
                         <b>Step 4:</b>
                         <ul>
-                            <li>Search and check record of patient in Vacinee Query by clicking - <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-m-d', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
+                            <li>Search and check record of patient in Vacinee Query by clicking each of the following: <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-m-d', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">A.) Online Vaccinee Query</a> | <a href="{{route('vaxcert_vquery')}}?lname={{$d->last_name}}&fname={{$d->first_name}}&bdate=" target="_blank">B.) Local Vaccinee Query</a></li>
                             <h6>(Kung may lumabas, i-check at i-update ang mga details)</h6>
                             @if(date('d', strtotime($d->bdate)) <= 12)
                             <ul>
@@ -603,7 +603,7 @@
                         </ul>
                     </li>
                     <h6>------------</h6>
-                    <h6 class="text-danger"><b>SIGURADUHING "CLOSED" NA LAHAT NG TICKET NG PATIENT SA VAS LINELIST SITE (CORRECTION/NOT FOUND) BAGO PINTUDIN ANG <span class="text-success">COMPLETE</span> BUTTON SA IBABA.</b></h6>
+                    <h6 class="text-danger"><b>SIGURADUHING "CLOSED" NA LAHAT NG TICKET NG PATIENT SA VAS LINELIST SITE (<a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">CORRECTION</a> & <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">NOT FOUND</a>) BAGO PINTUDIN ANG <span class="text-success">COMPLETE</span> BUTTON SA IBABA.</b></h6>
                     <h6>Maaaring kontakin ang pasyente sa kanyang Mobile Number: <b class="text-info">{{$d->contact_number}}</b> @if(!is_null($d->email))o sa Email Address: <b class="text-info">{{$d->email}}</b>@endif na maaari na siyang mag-generate ng kanyang VaxCert at naayos na ang isyu sa kanyang VaxCert.</h6>
                 </ul>
                 <!--

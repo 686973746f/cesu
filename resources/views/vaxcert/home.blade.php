@@ -29,7 +29,7 @@
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
                         <tr>
-                            <th>Ticket ID</th>
+                            <th>Ticket ID / Code</th>
                             <th>Name</th>
                             <th>Birthdate / Gender</th>
                             <th>Address</th>
@@ -56,7 +56,7 @@
                         }
                         @endphp
                         <tr>
-                            <td class="text-center">{{$d->id}}</td>
+                            <td class="text-center">#{{$d->id}} - {{$d->sys_code}}</td>
                             <td><a href="{{route('vaxcert_viewpatient', $d->id)}}">{{$d->getName()}}</a></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}} / {{$d->gender}}</td>
                             <td><small>{{$d->getAddress()}}</small></td>
