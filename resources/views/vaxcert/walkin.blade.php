@@ -570,15 +570,16 @@
                         <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes ng umaga.</h6>
                         @endif
                         <hr>
-                        <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Track Concern Status/Follow-up <i>(Currently on Maintenance)</i></button>
+                        <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Follow-up Concern Status</button>
                     </div>
-                    <form action="{{route('vaxcert_track')}}" method="GET" id="choice2" class="d-none">
-                        <div class="form-group">
-                            <label for="ref_code">Input reference code</label>
-                            <input type="text" class="form-control" name="ref_code" id="ref_code" required>
-                        </div>
+                    <div  id="choice2" class="d-none text-center">
+                        <p>For Follow-up VaxCert Concern Status, you may contact us with your Reference Number at:</p>
+                        <h6><b>Email:</b> cesugentri.vaxcert@gmail.com</h6>
+                        <h6><b>Mobile:</b> +63919 066 4327</h6>
+                        <h6 class="mt-5"><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
+                        <hr>
                         <button type="button" id="goback" class="btn btn-primary btn-block">Go Back</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
