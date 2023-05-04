@@ -8,7 +8,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>VaxCert Concerns</div>
+                <div><b>VaxCert Concerns</b></div>
                 <div>
                     @if(request()->input('viewcomplete'))
                     Currently Viewing <b class="text-success">COMPLETED</b> List <i>(Oldest to Newest)</i>. <a href="{{route('vaxcert_home')}}" class="btn btn-warning ml-3">Show Pending</a>
