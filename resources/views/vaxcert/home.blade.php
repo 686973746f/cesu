@@ -106,8 +106,8 @@
                       <input type="text" name="lname" id="lname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                     </div>
                     <div class="form-group">
-                        <label for=""><span class="text-danger font-weight-bold">*</span>First Name</label>
-                        <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                        <label for="">First Name <i>(Optional, but Recommended)</i></label>
+                        <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;">
                     </div>
                     <div class="form-group">
                         <label for="">Birthdate <i>(Optional)</i></label>

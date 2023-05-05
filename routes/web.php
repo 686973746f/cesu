@@ -389,7 +389,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/vaxcert/ticket/view/{id}/process', [VaxcertController::class, 'process_patient'])->name('vaxcert_processpatient');
 
     Route::get('/vaxcert/ticket/view/{id}/basedl', [VaxcertController::class, 'dlbase_template'])->name('vaxcert_basedl');
-    Route::get('/vaxcert/ticket/view/{id}/offdl', [VaxcertController::class, 'dloff_template'])->name('vaxcert_offdl');
+    Route::get('/vaxcert/vquery/export/{id}', [VaxcertController::class, 'dloff_template'])->name('vaxcert_vquery_template');
 });
 
 Route::group(['middleware' => ['guest']], function() {

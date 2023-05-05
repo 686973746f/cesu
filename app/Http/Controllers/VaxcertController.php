@@ -503,6 +503,10 @@ class VaxcertController extends Controller
                 $mun_code = 'NONE';
             }
 
+            if($vbrand == 'ASTRAZENECA') {
+                $vbrand == 'AZ';
+            }
+
             if($i == 2 && $v->dose1_manufacturer == 'J&J') {
 
             }
@@ -567,7 +571,58 @@ class VaxcertController extends Controller
     }
 
     public function dloff_template($id) {
+        $v = CovidVaccinePatientMasterlist::findOrFail($id);
 
+        $spreadsheet = IOFactory::load(storage_path('vaslinelist_template.xlsx'));
+        $sheet = $spreadsheet->getActiveSheet('VAS Template');
+        
+        if($v->vaccine_manufacturer_name == 'ASTRAZENECA') {
+            $vbrand = 'AZ';
+        }
+        else {
+            $vbrand = $v->vaccine_manufacturer_name;
+        }
+
+        $sheet->setCellValue('A2', $v->category);
+        $sheet->setCellValue('B2', $v->comorbidity); //COMORBID
+        $sheet->setCellValue('C2', $v->unique_person_id); //UNIQUE PERSON ID
+        $sheet->setCellValue('D2', $v->pwd); //PWD
+        $sheet->setCellValue('E2', $v->indigenous_member); //INDIGENOUS MEMBER
+        $sheet->setCellValue('F2', $v->last_name);
+        $sheet->setCellValue('G2', $v->first_name);
+        $sheet->setCellValue('H2', (!is_null($v->middle_name)) ? $v->middle_name : 'NONE');
+        $sheet->setCellValue('I2', (!is_null($v->suffix)) ? $v->suffix : '');
+        $sheet->setCellValue('J2', $v->contact_no);
+        $sheet->setCellValue('K2', $v->guardian_name); //GUARDIAN NAME
+        $sheet->setCellValue('L2', $v->region); //REGION
+        $sheet->setCellValue('M2', $v->province); //PROVINCE
+        $sheet->setCellValue('N2', $v->muni_city); //MUNCITY
+        $sheet->setCellValue('O2', $v->barangay); //BARANGAY
+        $sheet->setCellValue('P2', $v->sex);
+        $sheet->setCellValue('Q2', Date::PHPToExcel(date('Y-m-d', strtotime($v->birthdate))));
+        $sheet->getStyle('Q2')->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+        $sheet->setCellValue('R2', $v->deferral); //DEFERRAL
+        $sheet->setCellValue('S2', $v->reason_for_deferral); //DEFERRAL REASON
+        $sheet->setCellValue('T2', Date::PHPToExcel(date('Y-m-d', strtotime($v->vaccination_date))));
+        $sheet->getStyle('T2')->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+        $sheet->setCellValue('U2', $vbrand);
+        $sheet->setCellValue('V2', $v->batch_number);
+        $sheet->setCellValue('W2', $v->lot_no);
+        $sheet->setCellValue('X2', $v->bakuna_center_cbcr_id);
+        $sheet->setCellValue('Y2', $v->vaccinator_name);
+        $sheet->setCellValue('Z2', $v->first_dose);
+        $sheet->setCellValue('AA2', $v->second_dose);
+        $sheet->setCellValue('AB2', $v->additional_booster_dose);
+        $sheet->setCellValue('AC2', $v->second_additional_booster_dose);
+        $sheet->setCellValue('AD2', $v->adverse_event); //ADVERSE EVENT
+        $sheet->setCellValue('AE2', $v->adverse_event_condition); //ADVERSE EVENT CONDITION
+
+        $fileName = 'vas-line-template-ped-'.strtolower(Str::random(5)).'.xlsx';
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
     }
 
     public function vquery() {
@@ -577,17 +632,36 @@ class VaxcertController extends Controller
         if(request()->input('bdate')) {
             $bdate = request()->input('bdate');
 
-            $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
-            ->where('first_name', 'LIKE', $fname.'%')
-            ->whereDate('birthdate', $bdate)
-            ->orderBy('vaccination_date', 'ASC')
-            ->get();
+            if(request()->input('fname')) {
+                $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
+                ->where('first_name', 'LIKE', $fname.'%')
+                ->whereDate('birthdate', $bdate)
+                ->orderBy('vaccination_date', 'ASC')
+                ->get();
+            }
+            else {
+                $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
+                ->whereDate('birthdate', $bdate)
+                ->orderBy('last_name', 'ASC')
+                ->orderBy('first_name', 'ASC')
+                ->orderBy('vaccination_date', 'ASC')
+                ->get();
+            }
         }
         else {
-            $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
-            ->where('first_name', 'LIKE', $fname.'%')
-            ->orderBy('vaccination_date', 'ASC')
-            ->get();
+            if(request()->input('fname')) {
+                $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
+                ->where('first_name', 'LIKE', $fname.'%')
+                ->orderBy('vaccination_date', 'ASC')
+                ->get();
+            }
+            else {
+                $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
+                ->orderBy('last_name', 'ASC')
+                ->orderBy('first_name', 'ASC')
+                ->orderBy('vaccination_date', 'ASC')
+                ->get();
+            }
         }
 
         return view('vaxcert.vquery', [

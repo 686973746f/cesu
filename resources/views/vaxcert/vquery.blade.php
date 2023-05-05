@@ -13,7 +13,7 @@
                 </div>
                 @if($d->count() != 0)
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" style="white-space: nowrap">
+                    <table class="table table-bordered table-striped" style="white-space: nowrap" id="maintbl">
                         <thead class="thead-light">
                             <tr>
                                 <th></th>
@@ -48,7 +48,7 @@
                         <tbody>
                             @foreach($d as $a)
                             <tr>
-                                <th><a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$a->last_name}}&firstname={{$a->first_name}}&birthdate={{date('Y-m-d', strtotime($a->birthdate))}}{{(!is_null($a->suffix)) ? '&suffix='.$a->suffix : ''}}" target="_blank">Search in VAS Online</a></th>
+                                <th><a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$a->last_name}}&firstname={{$a->first_name}}&birthdate={{date('Y-m-d', strtotime($a->birthdate))}}{{(!is_null($a->suffix)) ? '&suffix='.$a->suffix : ''}}" target="_blank" class="btn btn-primary">VAS</a> <a href="{{route('vaxcert_vquery_template', $a->id)}}" class="btn btn-success"><i class="fa fa-file-excel" aria-hidden="true"></i></a></th>
                                 <td>{{$a->last_name}}</td>
                                 <td>{{$a->first_name}}</td>
                                 <td>{{$a->middle_name}}</td>
@@ -103,8 +103,8 @@
                           <input type="text" name="lname" id="lname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" value="{{request()->input('lname')}}" required>
                         </div>
                         <div class="form-group">
-                            <label for=""><span class="text-danger font-weight-bold">*</span>First Name</label>
-                            <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" value="{{request()->input('fname')}}" required>
+                            <label for=""><span class="text-danger font-weight-bold">*</span>First Name <i>(Optional, but Recommended)</i></label>
+                            <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" value="{{request()->input('fname')}}">
                         </div>
                         <div class="form-group">
                             <label for="">Birthdate <i>(Optional)</i></label>
@@ -121,4 +121,11 @@
             </div>
         </div>
     </form>
+
+<script>
+    $('#maintbl').DataTable({
+        dom: 'frti',
+        iDisplayLength: -1,
+    });
+</script>
 @endsection
