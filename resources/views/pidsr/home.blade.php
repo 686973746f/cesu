@@ -136,7 +136,8 @@
                 <p>Please execute the Batch Script first before Proceeding.</p>
             </div>
             <div class="modal-footer">
-                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary">Proceed</a>
+                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block">Step 1 - Proceed Importing</a>
+                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block">Step 2 - Early Send Email <i>(This process is automatic every Tuesday, 11AM)</i></a>
             </div>
         </div>
     </div>

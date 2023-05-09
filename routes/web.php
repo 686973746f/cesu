@@ -241,6 +241,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
     Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
+    Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
 
     //ITR
     Route::get('/itr', [ItrController::class, 'index'])->name('itr.home');

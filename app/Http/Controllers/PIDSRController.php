@@ -26,15 +26,16 @@ use App\Models\Meningo;
 use App\Models\Typhoid;
 use App\Models\Hepatitis;
 use App\Models\Influenza;
+use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Imports\PidsrImport;
 use Illuminate\Http\Request;
 use App\Models\Leptospirosis;
-use App\Models\Rotavirus;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Artisan;
 
 class PIDSRController extends Controller
 {
@@ -490,70 +491,459 @@ class PIDSRController extends Controller
 
         if(request()->input('submit') == 'report1') {
             foreach($brgy as $b) {
-                $year = request()->input('year');
+                $sy = request()->input('year');
     
                 if($rtype == 'YEARLY') {
                     //Category 1
-                    $afp = Afp::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $afp = Afp::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $anthrax = Anthrax::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $anthrax = Anthrax::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $hfmd = Hfmd::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $hfmd = Hfmd::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $measles = Measles::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $measles = Measles::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $meningo = Meningo::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $meningo = Meningo::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $nt = Nt::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $nt = Nt::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $psp = Psp::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $psp = Psp::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $rabies = Rabies::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $rabies = Rabies::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
                     //Category 2
     
-                    $abd = Abd::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $abd = Abd::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $aes = Aes::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $aes = Aes::where('Barangay', $b->brgyName)->where('year', $sy)->count();
                     
-                    $ahf = Ahf::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $ahf = Ahf::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $hepatitis = Hepatitis::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $hepatitis = Hepatitis::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $ames = Ames::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $ames = Ames::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $meningitis = Meningitis::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $meningitis = Meningitis::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $chikv = Chikv::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $chikv = Chikv::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $cholera = Cholera::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $cholera = Cholera::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $dengue = Dengue::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $dengue = Dengue::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $diph = Diph::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $diph = Diph::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $influenza = Influenza::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $influenza = Influenza::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $leptospirosis = Leptospirosis::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $leptospirosis = Leptospirosis::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $malaria = Malaria::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $malaria = Malaria::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $nnt = Nnt::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $nnt = Nnt::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $pert = Pert::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $pert = Pert::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $rotavirus = Rotavirus::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $rotavirus = Rotavirus::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
-                    $typhoid = Typhoid::where('Barangay', $b->brgyName)->where('year', $year)->count();
+                    $typhoid = Typhoid::where('Barangay', $b->brgyName)->where('year', $sy)->count();
                 }
                 else if($rtype == 'QUARTERLY') {
+                    $qtr = request()->input('quarter');
+
+                    if(request()->input('quarter') == '1') {
+                        $txt2 = '1ST';
+        
+                        $date = Carbon::parse($sy.'-01-01');
+
+                        $mm1 = 1;
+                        $mm2 = 2;
+                        $mm3 = 3;
+                    }
+                    else if(request()->input('quarter') == '2') {
+                        $txt2 = '2ND';
+        
+                        $date = Carbon::parse($sy.'-04-01');
+
+                        $mm1 = 4;
+                        $mm2 = 5;
+                        $mm3 = 6;
+                    }
+                    else if(request()->input('quarter') == '3') {
+                        $txt2 = '3RD';
+        
+                        $date = Carbon::parse($sy.'-07-01');
+
+                        $mm1 = 7;
+                        $mm2 = 8;
+                        $mm3 = 9;
+                    }
+                    else if(request()->input('quarter') == '4') {
+                        $txt2 = '4TH';
+                        
+                        $date = Carbon::parse($sy.'-10-01');
+
+                        $mm1 = 10;
+                        $mm2 = 11;
+                        $mm3 = 12;
+                    }
+
+                    $txt1 = $txt2.' QUARTER, YEAR '.request()->input('year');
+
+                    //Category 1
+
+                    $afp = Afp::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
     
+                    $anthrax = Anthrax::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $hfmd = Hfmd::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $measles = Measles::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $meningo = Meningo::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $nt = Nt::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $psp = Psp::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $rabies = Rabies::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+
+                    //Category 2
+    
+                    $abd = Abd::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $aes = Aes::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+                    
+                    $ahf = Ahf::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $hepatitis = Hepatitis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $ames = Ames::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $meningitis = Meningitis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $chikv = Chikv::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $cholera = Cholera::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $dengue = Dengue::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $diph = Diph::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $influenza = Influenza::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $leptospirosis = Leptospirosis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $malaria = Malaria::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $nnt = Nnt::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $pert = Pert::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $rotavirus = Rotavirus::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
+    
+                    $typhoid = Typhoid::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->whereIn('MorbidityMonth', [$mm1, $mm2, $mm3])
+                    ->count();
                 }
                 else if($rtype == 'MONTHLY') {
+                    $mm = request()->input('month');
+                    if(request()->input('month') == '1') {
+                        $txt2 = 'January';
+                    }
+                    else if(request()->input('month') == '2') {
+                        $txt2 = 'February';
+                    }
+                    else if(request()->input('month') == '3') {
+                        $txt2 = 'March';
+                    }
+                    else if(request()->input('month') == '4') {
+                        $txt2 = 'April';
+                    }
+                    else if(request()->input('month') == '5') {
+                        $txt2 = 'May';
+                    }
+                    else if(request()->input('month') == '6') {
+                        $txt2 = 'June';
+                    }
+                    else if(request()->input('month') == '7') {
+                        $txt2 = 'July';
+                    }
+                    else if(request()->input('month') == '8') {
+                        $txt2 = 'August';
+                    }
+                    else if(request()->input('month') == '9') {
+                        $txt2 = 'September';
+                    }
+                    else if(request()->input('month') == '10') {
+                        $txt2 = 'October';
+                    }
+                    else if(request()->input('month') == '11') {
+                        $txt2 = 'November';
+                    }
+                    else if(request()->input('month') == '12') {
+                        $txt2 = 'December';
+                    }
+
+                    $txt1 = 'MONTH OF '.strtoupper($txt2).', YEAR '.request()->input('year');
+                    $month = request()->input('month');
+                    $paylname = 'ABTC_REPORT_'.$txt2.' '.$sy.'.docx';
+
+                    //Category 1
+                    $afp = Afp::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
     
+                    $anthrax = Anthrax::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $hfmd = Hfmd::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $measles = Measles::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $meningo = Meningo::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $nt = Nt::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $psp = Psp::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $rabies = Rabies::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    //Category 2
+    
+                    $abd = Abd::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $aes = Aes::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+                    
+                    $ahf = Ahf::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $hepatitis = Hepatitis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $ames = Ames::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $meningitis = Meningitis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $chikv = Chikv::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $cholera = Cholera::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $dengue = Dengue::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $diph = Diph::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $influenza = Influenza::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $leptospirosis = Leptospirosis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $malaria = Malaria::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $nnt = Nnt::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $pert = Pert::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $rotavirus = Rotavirus::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
+    
+                    $typhoid = Typhoid::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityMonth', $mm)
+                    ->count();
                 }
                 else if($rtype == 'WEEKLY') {
+                    $mw = request()->input('week');
+
+                    //Category 1
+                    $afp = Afp::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
     
+                    $anthrax = Anthrax::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $hfmd = Hfmd::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $measles = Measles::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $meningo = Meningo::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $nt = Nt::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $psp = Psp::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $rabies = Rabies::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    //Category 2
+    
+                    $abd = Abd::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $aes = Aes::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+                    
+                    $ahf = Ahf::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $hepatitis = Hepatitis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $ames = Ames::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $meningitis = Meningitis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $chikv = Chikv::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $cholera = Cholera::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $dengue = Dengue::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $diph = Diph::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $influenza = Influenza::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $leptospirosis = Leptospirosis::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $malaria = Malaria::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $nnt = Nnt::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $pert = Pert::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $rotavirus = Rotavirus::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
+    
+                    $typhoid = Typhoid::where('Barangay', $b->brgyName)->where('year', $sy)
+                    ->where('MorbidityWeek', $mw)
+                    ->count();
                 }
     
                 array_push($arr, [
@@ -593,6 +983,14 @@ class PIDSRController extends Controller
                 'arr' => $arr,
             ]);
         }
+    }
+
+    public function manualsend() {
+        Artisan::call('pisdrwndr:weekly');
+
+        return redirect()->route('pidsr.home')
+        ->with('msg', 'Email Sent. Please check your Email.')
+        ->with('msgtype', 'success');
     }
 
     public function report_two() {
