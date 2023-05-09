@@ -133,7 +133,7 @@
                     </button>
             </div>
             <div class="modal-body text-center">
-                <p>Please execute the Batch Script first before Proceeding.</p>
+                <p>Please execute the Batch Script first on "C:\cesu_tools\MDBToExcel" folder before Proceeding.</p>
             </div>
             <div class="modal-footer">
                 <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block">Step 1 - Proceed Importing</a>

@@ -86,7 +86,7 @@
         </div>
     </div>
     <div class="text-center">
-        <a href="" class="btn btn-info">Report</a>
+        <a href="{{route('vaxcert_report')}}" class="btn btn-info text-white">Report</a>
     </div>
 </div>
 

@@ -183,7 +183,7 @@ class VaxcertController extends Controller
                 'gender' => $request->gender,
                 'bdate' => $request->bdate,
                 'contact_number' => $request->contact_number,
-                'email' => ($request->filled('email')) ? $request->email : NULL,
+                'email' => ($request->filled('email')) ? strtolower($request->email) : NULL,
 
                 'comorbidity' => $request->comorbidity,
                 'pwd_yn' => $request->pwd_yn,
@@ -670,6 +670,25 @@ class VaxcertController extends Controller
     }
 
     public function report() {
-        
+        $get_total = VaxcertConcern::where('status', 'COMPLETED')->count();
+
+        $get_total_current_year = VaxcertConcern::where('status', 'COMPLETED')
+        ->whereYear('created_at', date('Y'))
+        ->count();
+
+        $get_total_previous_year = VaxcertConcern::where('status', 'COMPLETED')
+        ->whereYear('created_at', '!=', date('Y'))
+        ->count();
+
+        $get_total_current_month = VaxcertConcern::where('status', 'COMPLETED')
+        ->whereMonth('created_at', date('m'))
+        ->count();
+
+        return view('vaxcert.report', [
+            'get_total' => $get_total,
+            'get_total_current_year' => $get_total_current_year,
+            'get_total_previous_year' => $get_total_previous_year,
+            'get_total_current_month' => $get_total_current_month,
+        ]);
     }
 }
