@@ -39,7 +39,7 @@ $gt_vaxcert = 0;
                             <td class="text-center">{{$i['negative_count']}}</td>
                             <td class="text-center">{{$i['abtc_count']}}</td>
                             <td class="text-center">{{$i['vaxcert_count']}}</td>
-                            <td class="text-center font-weight-bold">{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count'] + [$i['vaxcert_count']]}}</td>
+                            <td class="text-center font-weight-bold">{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count'] + $i['vaxcert_count']}}</td>
                         </tr>
                         @php
                         $gt_suspected += $i['suspected_count'];
