@@ -9,6 +9,7 @@ use App\Models\Forms;
 use App\Models\BrgyCodes;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
+use App\Models\VaxcertConcern;
 use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
@@ -387,6 +388,10 @@ class AdminPanelController extends Controller
             ->whereDate('created_at', date('Y-m-d'))
             ->count();
 
+            $vaxcert_count = VaxcertConcern::where('processed_by', $item->id)
+            ->whereDate('updated_at', date('Y-m-d'))
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
@@ -394,6 +399,7 @@ class AdminPanelController extends Controller
                 'recovered_count' => $recovered_count,
                 'negative_count' => $negative_count,
                 'abtc_count' => $abtc_count,
+                'vaxcert_count' => $vaxcert_count,
             ]);
         }
 
