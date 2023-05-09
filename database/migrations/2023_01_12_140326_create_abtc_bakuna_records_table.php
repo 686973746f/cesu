@@ -20,13 +20,13 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->text('case_id');
             $table->tinyInteger('is_booster')->default(0);
             $table->tinyInteger('is_preexp')->default(0);
-            $table->date('case_date');
-            $table->text('case_location');
-            $table->string('animal_type');
+            $table->date('case_date')->nullable();
+            $table->text('case_location')->nullable();
+            $table->string('animal_type')->nullable();
             $table->string('animal_type_others')->nullable();
             $table->tinyInteger('if_animal_vaccinated')->default(0);
             $table->date('bite_date')->nullable();
-            $table->string('bite_type');
+            $table->string('bite_type')->nullable();
             $table->string('body_site')->nullable();
             $table->tinyInteger('category_level');
             $table->tinyInteger('washing_of_bite');

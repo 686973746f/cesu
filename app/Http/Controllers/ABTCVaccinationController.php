@@ -69,12 +69,12 @@ class ABTCVaccinationController extends Controller
             'vaccination_site_id' => 'required|numeric',
             'case_date' => 'required|date|before_or_equal:today',
             'case_location' => 'nullable',
-            'animal_type' => 'required',
+            'animal_type' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'animal_type_others' => ($request->animal_type == 'O') ? 'required' : 'nullable',
-            'bite_date' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',
-            'bite_type' => 'required',
+            'bite_date' => ($request->is_preexp == 'N') ? 'required|date|after_or_equal:2000-01-01|before_or_equal:today' : 'nullable',
+            'bite_type' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'body_site' => 'nullable',
-            'category_level' => 'required',
+            'category_level' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'washing_of_bite' => 'required',
             'rig_date_given' => 'nullable|date|before_or_equal:today',
             'pep_route' => 'required',
@@ -168,20 +168,40 @@ class ABTCVaccinationController extends Controller
                 $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
             }
 
+            if($request->is_preexp == 'Y') {
+                $is_preexp = 1;
+                $bite_date = NULL;
+                $case_location = NULL;
+                $if_animal_vaccinated = 0;
+                $animal_type = NULL;
+                $bite_type = NULL;
+                $category_level = 1;
+            }
+            else {
+                $is_preexp = 0;
+                $bite_date = $request->bite_date;
+                $case_location = ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL;
+                $if_animal_vaccinated = ($request->if_animal_vaccinated == 'Y') ? 1 : 0;
+                $animal_type = $request->animal_type;
+                $bite_type = $request->bite_type;
+                $category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
+            }
+
             $f = $request->user()->abtcbakunarecord()->create([
                 'patient_id' => $id,
                 'vaccination_site_id' => $request->vaccination_site_id,
                 'case_id' => $case_id,
                 'is_booster' => $is_booster,
+                'is_preexp' => $is_preexp,
                 'case_date' => $request->case_date,
-                'case_location' => ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL,
-                'animal_type' => $request->animal_type,
+                'case_location' => $case_location,
+                'animal_type' => $animal_type,
                 'animal_type_others' => ($request->animal_type == 'O') ? mb_strtoupper($request->animal_type_others) : NULL,
-                'if_animal_vaccinated' => ($request->if_animal_vaccinated == 'Y') ? 1 : 0,
-                'bite_date' => $request->bite_date,
-                'bite_type' => $request->bite_type,
+                'if_animal_vaccinated' => $if_animal_vaccinated,
+                'bite_date' => $bite_date,
+                'bite_type' => $bite_type,
                 'body_site' => ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL,
-                'category_level' => (!is_null($request->rig_date_given)) ? 3 : $request->category_level,
+                'category_level' => $category_level,
                 'washing_of_bite' => ($request->washing_of_bite == 'Y') ? 1 : 0,
                 'rig_date_given' => $request->rig_date_given,
 
@@ -235,12 +255,12 @@ class ABTCVaccinationController extends Controller
             'vaccination_site_id' => 'required|numeric',
             'case_date' => 'required|date',
             'case_location' => 'nullable',
-            'animal_type' => 'required',
+            'animal_type' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'animal_type_others' => ($request->animal_type == 'O') ? 'required' : 'nullable',
-            'bite_date' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',
-            'bite_type' => 'required',
+            'bite_date' => ($request->is_preexp == 'N') ? 'required|date|after_or_equal:2000-01-01|before_or_equal:today' : 'nullable',
+            'bite_type' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'body_site' => 'nullable',
-            'category_level' => 'required',
+            'category_level' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'washing_of_bite' => 'required',
             'rig_date_given' => 'nullable|date',
             'pep_route' => 'required',
@@ -252,17 +272,37 @@ class ABTCVaccinationController extends Controller
 
         $b = AbtcBakunaRecords::findOrFail($bakuna_id);
 
+        if($request->is_preexp == 'Y') {
+            $is_preexp = 1;
+            $bite_date = NULL;
+            $case_location = NULL;
+            $if_animal_vaccinated = 0;
+            $animal_type = NULL;
+            $bite_type = NULL;
+            $category_level = 1;
+        }
+        else {
+            $is_preexp = 0;
+            $bite_date = $request->bite_date;
+            $case_location = ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL;
+            $if_animal_vaccinated = ($request->if_animal_vaccinated == 'Y') ? 1 : 0;
+            $animal_type = $request->animal_type;
+            $bite_type = $request->bite_type;
+            $category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
+        }
+
         $b->is_booster = ($request->is_booster == 'Y') ? 1 : 0;
+        $b->is_preexp = $is_preexp;
         $b->vaccination_site_id = $request->vaccination_site_id;
         $b->case_date = $request->case_date;
-        $b->case_location = ($request->filled('case_location')) ? mb_strtoupper($request->case_location) : NULL;
-        $b->animal_type = $request->animal_type;
+        $b->case_location = $case_location;
+        $b->animal_type = $animal_type;
         $b->animal_type_others = ($request->animal_type == 'O') ? mb_strtoupper($request->animal_type_others) : NULL;
-        $b->if_animal_vaccinated = ($request->if_animal_vaccinated == 'Y') ? 1 : 0;
-        $b->bite_date = $request->bite_date;
-        $b->bite_type = $request->bite_type;
+        $b->if_animal_vaccinated = $if_animal_vaccinated;
+        $b->bite_date = $bite_date;
+        $b->bite_type = $bite_type;
         $b->body_site = ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL;
-        $b->category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
+        $b->category_level = $category_level;
         $b->washing_of_bite = ($request->washing_of_bite == 'Y') ? 1 : 0;
         $b->rig_date_given = $request->rig_date_given;
 
@@ -951,7 +991,7 @@ class ABTCVaccinationController extends Controller
         $templateProcessor->setValue('gend', $b->patient->sg());
         $templateProcessor->setValue('brgy', $b->patient->address_brgy_text);
         $templateProcessor->setValue('muncity', $b->patient->address_muncity_text.', '.$b->patient->address_province_text);
-        $templateProcessor->setValue('dexp', date('m/d/Y', strtotime($b->bite_date)));
+        $templateProcessor->setValue('dexp', ($b->is_preexp == 0) ? date('m/d/Y', strtotime($b->bite_date)) : 'N/A');
         $templateProcessor->setValue('dplace', $b->case_location);
         $templateProcessor->setValue('dtype', $b->getBiteType());
         $templateProcessor->setValue('dsource', $b->getSource());
@@ -961,7 +1001,12 @@ class ABTCVaccinationController extends Controller
         }
         else {
             if($b->d3_done == 0) {
-                $templateProcessor->setValue('dcat', '');
+                if($b->is_preexp == 0) {
+                    $templateProcessor->setValue('dcat', '');
+                }
+                else {
+                    $templateProcessor->setValue('dcat', '1 - PRE-EXPOSURE');
+                }
             }
             else {
                 $templateProcessor->setValue('dcat', $b->category_level);

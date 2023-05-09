@@ -15,6 +15,7 @@ class AbtcBakunaRecords extends Model
         'vaccination_site_id',
         'case_id',
         'is_booster',
+        'is_preexp',
         'case_date',
         'case_location',
         'animal_type',
@@ -335,6 +336,9 @@ class AbtcBakunaRecords extends Model
         else if($this->animal_type == 'O') {
             return mb_strtoupper($this->animal_type_others);
         }
+        else {
+            return 'N/A';
+        }
     }
 
     public function getBranch() {
@@ -348,7 +352,12 @@ class AbtcBakunaRecords extends Model
             return 'BITE';
         }
         else {
-            return 'SCRATCH';
+            if($this->is_preexp == 0) {
+                return 'SCRATCH';
+            }
+            else {
+                return 'N/A';
+            }
         }
     }
 

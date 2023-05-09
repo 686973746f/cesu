@@ -151,95 +151,103 @@
                                 <option value="Y" {{($d->is_booster == 1) ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Date of Exposure/Bite Date</label>
-                            <input type="date" class="form-control" name="bite_date" id="bite_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('bite_date', $d->bite_date)}}" required>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="case_location" class="form-label"><strong id="case_location_ast" class="d-none text-danger">*</strong>Barangay/City (Where biting occured)</label>
-                            <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location', $d->case_location)}}" style="text-transform: uppercase;">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated within the year?</label>
-                            <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
-                                <option value="" disabled {{is_null(old('if_animal_vaccinated', $d)) ? 'selected' : ''}}>Choose...</option>
-                                <option value="N" {{(old('if_animal_vaccinated', $d) == 'N') ? 'selected' : ''}}>No</option>
-                                <option value="Y" {{(old('if_animal_vaccinated', $d) == 'Y') ? 'selected' : ''}}>Yes</option>
+                        <div>
+                            <label for="is_preexp" class="form-label"><strong class="text-danger">*</strong>Is Pre-Exposure?</label>
+                            <select class="form-select" name="is_preexp" id="is_preexp" required>
+                                <option value="N" {{($d->is_preexp == 0) ? 'selected' : ''}}>No</option>
+                                <option value="Y" {{($d->is_preexp == 1) ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Type of Animal</label>
-                            <select class="form-select" name="animal_type" id="animal_type" required>
-                                <option value="" disabled {{is_null(old('animal_type', $d->animal_type)) ? 'selected' : ''}}>Choose...</option>
-                                <option value="PD" {{(old('animal_type', $d->animal_type) == 'PD') ? 'selected' : ''}}>Pet Dog (PD)</option>
-                                <option value="SD" {{(old('animal_type', $d->animal_type) == 'SD') ? 'selected' : ''}}>Stray Dog (SD)</option>
-                                <option value="PC" {{(old('animal_type', $d->animal_type) == 'PC') ? 'selected' : ''}}>Pet Cat</option>
-                                <option value="SC" {{(old('animal_type', $d->animal_type) == 'SC') ? 'selected' : ''}}>Stray Cat</option>
-                                <option value="O" {{(old('animal_type', $d->animal_type) == 'O') ? 'selected' : ''}}>Others</option>
-                            </select>
-                        </div>
-                        <div id="ifanimaltype_othersdiv" class="d-none">
+                <div id="divpostexp">
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="animal_type_others" class="form-label"><strong class="text-danger">*</strong>Others, Please state Animal</label>
-                                <input type="text" class="form-control" name="animal_type_others" id="animal_type_others" value="{{old('animal_type_others', $d->animal_type_others)}}" style="text-transform: uppercase;">
+                                <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Date of Exposure/Bite Date</label>
+                                <input type="date" class="form-control" name="bite_date" id="bite_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('bite_date', $d->bite_date)}}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="case_location" class="form-label"><strong id="case_location_ast" class="d-none text-danger">*</strong>Barangay/City (Where biting occured)</label>
+                                <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location', $d->case_location)}}" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated within the year?</label>
+                                <select class="form-select" name="if_animal_vaccinated" id="if_animal_vaccinated">
+                                    <option value="" disabled {{is_null(old('if_animal_vaccinated', $d)) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="N" {{(old('if_animal_vaccinated', $d) == 'N') ? 'selected' : ''}}>No</option>
+                                    <option value="Y" {{(old('if_animal_vaccinated', $d) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Bite</label>
-                            <select class="form-select" name="bite_type" id="bite_type" required>
-                                <option value="B" {{(old('bite_type', $d->bite_type) == 'B') ? 'selected' : ''}}>Bite</option>
-                                <option value="NB" {{(old('bite_type', $d->bite_type) == 'NB') ? 'selected' : ''}}>Scratch</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Type of Animal</label>
+                                <select class="form-select" name="animal_type" id="animal_type">
+                                    <option value="" disabled {{is_null(old('animal_type', $d->animal_type)) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="PD" {{(old('animal_type', $d->animal_type) == 'PD') ? 'selected' : ''}}>Pet Dog (PD)</option>
+                                    <option value="SD" {{(old('animal_type', $d->animal_type) == 'SD') ? 'selected' : ''}}>Stray Dog (SD)</option>
+                                    <option value="PC" {{(old('animal_type', $d->animal_type) == 'PC') ? 'selected' : ''}}>Pet Cat</option>
+                                    <option value="SC" {{(old('animal_type', $d->animal_type) == 'SC') ? 'selected' : ''}}>Stray Cat</option>
+                                    <option value="O" {{(old('animal_type', $d->animal_type) == 'O') ? 'selected' : ''}}>Others</option>
+                                </select>
+                            </div>
+                            <div id="ifanimaltype_othersdiv" class="d-none">
+                                <div class="mb-3">
+                                    <label for="animal_type_others" class="form-label"><strong class="text-danger">*</strong>Others, Please state Animal</label>
+                                    <input type="text" class="form-control" name="animal_type_others" id="animal_type_others" value="{{old('animal_type_others', $d->animal_type_others)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Bite</label>
+                                <select class="form-select" name="bite_type" id="bite_type">
+                                    <option value="B" {{(old('bite_type', $d->bite_type) == 'B') ? 'selected' : ''}}>Bite</option>
+                                    <option value="NB" {{(old('bite_type', $d->bite_type) == 'NB') ? 'selected' : ''}}>Scratch</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="body_site" class="form-label">Site (Body Parts)</label>
+                                <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site', $d->body_site)}}" style="text-transform: uppercase;">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="body_site" class="form-label">Site (Body Parts)</label>
-                            <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site', $d->body_site)}}" style="text-transform: uppercase;">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="category_level" class="form-label"><strong class="text-danger">*</strong>Category</label>
+                                <select class="form-select" name="category_level" id="category_level">
+                                    <option value="" disabled {{is_null(old('category_level', $d->category_level)) ? 'selected' : ''}}>Choose...</option>
+                                    <!--<option value="1" {{(old('category_level', $d->category_level) == 1) ? 'selected' : ''}}>Category 1</option>-->
+                                    <option value="2" {{(old('category_level', $d->category_level) == 2) ? 'selected' : ''}}>Category 2</option>
+                                    <option value="3" {{(old('category_level', $d->category_level) == 3) ? 'selected' : ''}}>Category 3</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="category_level" class="form-label"><strong class="text-danger">*</strong>Category</label>
-                            <select class="form-select" name="category_level" id="category_level" required>
-                                <option value="" disabled {{is_null(old('category_level', $d->category_level)) ? 'selected' : ''}}>Choose...</option>
-                                <!--<option value="1" {{(old('category_level', $d->category_level) == 1) ? 'selected' : ''}}>Category 1</option>-->
-                                <option value="2" {{(old('category_level', $d->category_level) == 2) ? 'selected' : ''}}>Category 2</option>
-                                <option value="3" {{(old('category_level', $d->category_level) == 3) ? 'selected' : ''}}>Category 3</option>
-                            </select>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="washing_of_bite" class="form-label"><strong class="text-danger">*</strong>Washing of Bite</label>
+                                <select class="form-select" name="washing_of_bite" id="washing_of_bite" required>
+                                    <option value="Y" {{(old('washing_of_bite', $d->washing_of_bite) == 'Y' || $d->washing_of_bite == 1) ? 'selected' : ''}}>Yes</option>
+                                    <option value="N" {{(old('washing_of_bite', $d->washing_of_bite) == 'N' || $d->washing_of_bite == 0) ? 'selected' : ''}}>No</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="washing_of_bite" class="form-label"><strong class="text-danger">*</strong>Washing of Bite</label>
-                            <select class="form-select" name="washing_of_bite" id="washing_of_bite" required>
-                                <option value="" disabled {{is_null(old('washing_of_bite', $d->washing_of_bite)) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('washing_of_bite', $d->washing_of_bite) == 'Y' || $d->washing_of_bite == 1) ? 'selected' : ''}}>Yes</option>
-                                <option value="N" {{(old('washing_of_bite', $d->washing_of_bite) == 'N' || $d->washing_of_bite == 0) ? 'selected' : ''}}>No</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="rig_date_given" class="form-label">RIG Date Given <small><i>(If Applicable)</i></small></label>
-                            <input type="date" class="form-control" name="rig_date_given" id="rig_date_given" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('rig_date_given', $d->rig_date_given)}}">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="rig_date_given" class="form-label">RIG Date Given <small><i>(If Applicable)</i></small></label>
+                                <input type="date" class="form-control" name="rig_date_given" id="rig_date_given" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('rig_date_given', $d->rig_date_given)}}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -437,6 +445,28 @@
 			return false;
 		}
 	});
+
+    $('#is_preexp').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#divpostexp').addClass('d-none');
+            $('#bite_date').prop('required', false);
+            $('#case_location').prop('required', false);
+            $('#if_animal_vaccinated').prop('required', false);
+            $('#animal_type').prop('required', false);
+            $('#bite_type').prop('required', false);
+            $('#category_level').prop('required', false);
+        }
+        else {
+            $('#divpostexp').removeClass('d-none');
+            $('#bite_date').prop('required', true);
+            $('#case_location').prop('required', true);
+            $('#if_animal_vaccinated').prop('required', true);
+            $('#animal_type').prop('required', true);
+            $('#bite_type').prop('required', true);
+            $('#category_level').prop('required', true);
+        }
+    }).trigger('change');
 
     $('#animal_type').change(function (e) { 
         e.preventDefault();
