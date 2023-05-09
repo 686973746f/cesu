@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CovidVaccinePatientMasterlist extends Model
 {
@@ -70,5 +71,9 @@ class CovidVaccinePatientMasterlist extends Model
         }
 
         return $str;
+    }
+
+    public function getAge() {
+        return Carbon::parse($this->birthdate)->age;
     }
 }

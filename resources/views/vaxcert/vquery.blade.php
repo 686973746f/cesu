@@ -48,12 +48,12 @@
                         <tbody>
                             @foreach($d as $a)
                             <tr>
-                                <th><a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$a->last_name}}&firstname={{$a->first_name}}&birthdate={{date('Y-m-d', strtotime($a->birthdate))}}{{(!is_null($a->suffix)) ? '&suffix='.$a->suffix : ''}}" target="_blank" class="btn btn-primary">VAS</a> <a href="{{route('vaxcert_vquery_template', $a->id)}}" class="btn btn-success"><i class="fa fa-file-excel" aria-hidden="true"></i></a></th>
+                                <th><a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$a->last_name}}&firstname={{$a->first_name}}&birthdate={{date('Y-m-d', strtotime($a->birthdate))}}{{(!is_null($a->suffix)) ? '&suffix='.$a->suffix : ''}}" target="_blank" class="btn btn-primary">VAS</a> <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$a->last_name}}&firstname={{$a->first_name}}" class="btn btn-primary" target="_blank">Correction</i></a> <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$a->last_name}}&firstname={{$a->first_name}}" class="btn btn-primary" target="_blank">Not Found</i></a> <a href="{{route('vaxcert_vquery_template', $a->id)}}" class="btn btn-success"><i class="fa fa-file-excel" aria-hidden="true"></i></a></th>
                                 <td>{{$a->last_name}}</td>
                                 <td>{{$a->first_name}}</td>
                                 <td>{{$a->middle_name}}</td>
                                 <td>{{$a->suffix}}</td>
-                                <td>{{date('m/d/Y', strtotime($a->birthdate))}}</td>
+                                <td>{{date('m/d/Y', strtotime($a->birthdate))}} <small class="text-muted">({{$a->getAge()}} y.o)</small></td>
                                 <td>{{$a->sex}}</td>
                                 <td>{{date('m/d/Y', strtotime($a->vaccination_date))}} {{$a->showDoseType()}}</td>
                                 <td>{{$a->vaccine_manufacturer_name}}</td>
