@@ -29,7 +29,7 @@
                             <h4 class="text-danger"><b>BASAHIN ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
                             <li>Lahat ng field na may asterisk (<span class="text-danger font-weight-bold">*</span>) ay kailangang sagutan. Ilagay ang kumpleto at totoong impormasyon na hinihingi. I-double check ang mga inilagay na detalye bago isumite.</li>
                             <li>Tungkol sa "Nawawalang Bakuna/Missing Dose", tanging mga bakunahan lamang sa General Trias ang aming mar-resolba. Kung ang bakunang nawawala ay hindi dito sa Gentri binakunahan ay makipag-ugnayan sa bayan kung saan ka binakunahan upang maayos nila ito.</li>
-                            <li>Inirerekumenda naming mag-submit muna kayo ng "Update Record" ticket ng inyong isyu sa <a href="https://vaxcert.doh.gov.ph/#/">VaxCertPH Website</a> upang mas mabilis namin kayong matulungan. Ilagay ito sa <i>"VaxCertPH Ticket Reference No."</i> na makikita sa ibaba.</li>
+                            <!--<li>Inirerekumenda naming mag-submit muna kayo ng "Update Record" ticket ng inyong isyu sa <a href="https://vaxcert.doh.gov.ph/#/">VaxCertPH Website</a> upang mas mabilis namin kayong matulungan. Ilagay ito sa <i>"VaxCertPH Ticket Reference No."</i> na makikita sa ibaba.</li>-->
                             <li>Mag-antay ng dalawa (2) hanggang tatlong (3) araw upang maayos namin ang inyong concern.  Maglagay ng aktibong mobile number at email address upang mabilis namin kayong makontak tungkol sa inyong concern.</li>
                         </ul>
                         <hr>
@@ -66,15 +66,6 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                              <label for="vaxcert_refno">VaxCertPH Ticket Reference No. <i>(Optional)</i></label>
-                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]" value="{{old('vaxcert_refno')}}">
-                              <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito. Binibigay ito ng VaxCertPH Website kapag nag-submit kayo ng "Update Record" Ticket sa kanila.</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
                                 <label for="category"><span class="text-danger font-weight-bold">*</span>Category</label>
                                 <select class="form-control" name="category" id="category" required>
                                       <option disabled {{(is_null(old('category'))) ? 'selected' : ''}}>Choose...</option>
@@ -96,20 +87,29 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4 d-none">
+                            <div class="form-group">
+                              <label for="vaxcert_refno">VaxCertPH Ticket Reference No. <i>(Optional)</i></label>
+                              <input type="text" name="vaxcert_refno" id="vaxcert_refno" class="form-control" pattern="[0-9]" value="{{old('vaxcert_refno')}}">
+                              <small class="text-muted">Paalala: Mas madali po namin kayong matutulungan kung meron na po kayo nito. Binibigay ito ng VaxCertPH Website kapag nag-submit kayo ng "Update Record" Ticket sa kanila.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-group">
                               <label for="vaxcard_uniqueid">Vaccination Card ID No./Unique Person ID <i>(Leave blank if empty)</i></label>
                               <input type="text" class="form-control" name="vaxcard_uniqueid" id="vaxcard_uniqueid" placeholder="ex: CC1234, RP1234, VM1234" value="{{old('vaxcard_uniqueid')}}">
                               <small class="text-muted">Nakikita ito sa kanang ibabaw na bahagi ng iyong Vaccination Card.</small>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="comorbidity">Comorbidity <i>(Leave blank if empty)</i></label>
                                 <input type="text" class="form-control" name="comorbidity" id="comorbidity" placeholder="ex: Diabetes, Hypertension, Cancer" value="{{old('comorbidity')}}">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="pwd_yn"><span class="text-danger font-weight-bold">*</span>Person with Disability (PWD)</label>
                                 <select class="form-control" name="pwd_yn" id="pwd_yn" required>
@@ -544,7 +544,7 @@
         </form>
         <p class="text-center">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a>cesugentrias.vaxcert@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
         <hr>
-        <h6><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
+        <h6 class="text-center"><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
         <hr>
         <p class="text-center">VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
