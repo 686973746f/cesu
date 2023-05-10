@@ -81,7 +81,7 @@
         </div>
         <div class="card-footer">
             <div class="pagination justify-content-center mt-3">
-                {{$list->links()}}
+                {{$list->appends(request()->input())->links()}}
             </div>
         </div>
     </div>
