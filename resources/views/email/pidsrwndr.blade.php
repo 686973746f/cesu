@@ -110,6 +110,109 @@
         }
         @endphp
     @endforeach
+
+    @php
+    usort($afp_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+    
+    usort($ant_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($mea_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($mgc_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($nt_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($psp_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($rab_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($abd_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($aes_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($ahf_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($hep_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($ame_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($mgt_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($chi_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($cho_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($den_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($dip_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($ili_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($lep_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($mal_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($nnt_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($per_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($rtv_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($typ_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($hfm_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+    
+    @endphp
     
     @if(!empty($afp_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list))
     <p><b>Category I (Immediately Notifiable)</b></p>

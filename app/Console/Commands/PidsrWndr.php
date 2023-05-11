@@ -120,6 +120,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -158,6 +159,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -196,6 +198,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -232,6 +235,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -268,6 +272,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -304,6 +309,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -340,6 +346,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -378,6 +385,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -414,6 +422,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -450,6 +459,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -486,6 +496,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -522,6 +533,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -558,6 +570,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -594,6 +607,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -630,6 +644,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -666,6 +681,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -702,6 +718,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -738,6 +755,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -774,6 +792,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -810,6 +829,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -846,6 +866,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -882,6 +903,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -918,6 +940,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -954,6 +977,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
@@ -990,6 +1014,7 @@ class PidsrWndr extends Command
                     'name' => $i->FullName,
                     'age' => $i->AgeYears,
                     'sex' => $i->Sex,
+                    'brgy' => $i->Barangay,
                     'address' => $i->Barangay.', '.$i->Streetpurok,
                     'doe' => $i->DateOfEntry,
                 ]);
