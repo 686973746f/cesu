@@ -1712,11 +1712,11 @@ class FormsController extends Controller
             if($get_previousswab_positive) {
                 if(!is_null($get_previousswab_positive->testDateCollected2)) {
                     $get_testedPositiveSpecCollectedDate = $get_previousswab_positive->testDateCollected2;
-                    $get_testedPositiveLab = (!is_null($get_previousswab_positive->testLaboratory2)) ? $get_previousswab_positive->testLaboratory2 : $get_previousswab_positive->drunit;
+                    $get_testedPositiveLab = (!is_null($get_previousswab_positive->testLaboratory2)) ? $get_previousswab_positive->testLaboratory2 : NULL;
                 }
                 else {
                     $get_testedPositiveSpecCollectedDate = $get_previousswab_positive->testDateCollected1;
-                    $get_testedPositiveLab = (!is_null($get_previousswab_positive->testLaboratory1)) ? $get_previousswab_positive->testLaboratory1 : $get_previousswab_positive->drunit;
+                    $get_testedPositiveLab = (!is_null($get_previousswab_positive->testLaboratory1)) ? $get_previousswab_positive->testLaboratory1 : NULL;
                 }
             }
             else {
