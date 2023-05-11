@@ -112,7 +112,7 @@
                                         <th colspan="6">Child Care</th>
                                         <th colspan="5">Family Planning</th>
                                         <th colspan="3">Non-Com</th>
-                                        <th rowspan="2">Dental</th>
+                                        <th colspan="2">Dental</th>
                                         <th colspan="3">Environmental</th>
                                     </tr>
                                     <tr>
@@ -130,6 +130,8 @@
                                         <th>RISK ASSESS</th>
                                         <th>PPV</th>
                                         <th>FLU-VACCINE</th>
+                                        <th>BHOC - Male</th>
+                                        <th>BHOC - Female</th>
                                         <th>L1</th>
                                         <th>L2</th>
                                         <th>L3</th>
@@ -155,6 +157,9 @@
                                     $elvl1 = 0;
                                     $elvl2 = 0;
                                     $elvl3 = 0;
+                                    
+                                    $gbhoc_m = 0;
+                                    $gbhoc_f = 0;
                                     @endphp
 
                                     @foreach($bgy_mone_list as $b)
@@ -174,7 +179,8 @@
                                         <td class="text-center">{{$b['ra']}}</td>
                                         <td class="text-center">{{$b['ppv']}}</td>
                                         <td class="text-center">{{$b['flu']}}</td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">{{$b['bhoc_m']}}</td>
+                                        <td class="text-center">{{$b['bhoc_f']}}</td>
                                         <td class="text-center">{{$b['env_lvl1']}}</td>
                                         <td class="text-center">{{$b['env_lvl2']}}</td>
                                         <td class="text-center">{{$b['env_lvl3']}}</td>
@@ -198,6 +204,9 @@
                                     $elvl1 += $b['env_lvl1'];
                                     $elvl2 += $b['env_lvl2'];
                                     $elvl3 += $b['env_lvl3'];
+
+                                    $gbhoc_m += $b['bhoc_m'];
+                                    $gbhoc_f += $b['bhoc_f'];
                                     @endphp
 
                                     @endforeach
@@ -219,10 +228,11 @@
                                         <td>{{number_format($gra)}}</td>
                                         <td>{{number_format($gppv)}}</td>
                                         <td>{{number_format($gflu)}}</td>
-                                        <td></td>
-                                        <td>{{$elvl1}}</td>
-                                        <td>{{$elvl2}}</td>
-                                        <td>{{$elvl3}}</td>
+                                        <td>{{number_format($gbhoc_m)}}</td>
+                                        <td>{{number_format($gbhoc_f)}}</td>
+                                        <td>{{number_format($elvl1)}}</td>
+                                        <td>{{number_format($elvl2)}}</td>
+                                        <td>{{number_format($elvl3)}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -361,8 +371,8 @@
                         <div class="card">
                             <div class="card-header">Prepared by</div>
                             <div class="card-body text-center">
-                                <h5 style="margin-top: 50px;"><b>CHRISTOFER JOHN A. PEDRASA</b></h5>
-                                <h5>J.O Encoder</h5>
+                                <h5 style="margin-top: 50px;"><b>CHRISTOFER JOHN A. PEDRASA & LESTER E. CAMINGAY</b></h5>
+                                <h5>Encoder</h5>
                             </div>
                         </div>
                     </div>

@@ -13,6 +13,7 @@ use App\Models\FhsisBarangay;
 use App\Models\FhsisChildCare;
 use App\Models\FhsisPopulation;
 use App\Models\AbtcBakunaRecords;
+use App\Models\FhsisDental;
 use App\Models\FhsisEnvironmentalHealth;
 use App\Models\FhsisFamilyPlanning1;
 use App\Models\FhsisFamilyPlanning2;
@@ -306,10 +307,117 @@ class FhsisController extends Controller
                     ->whereDate('DATE', $edate)
                     ->where('BGY_CODE', $b->BGY_DESC)
                     ->get();
+
+                    $dental_query = FhsisDental::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->get();
                 }
                 else if($type == 'quarterly') {
+                    $ccare_query = FhsisChildCare::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereBetween('DATE', [$from, $to])
+                    ->get();
+
+                    $ncom_query = FhsisNonComm::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereBetween('DATE', [$from, $to])
+                    ->get();
+
+                    $fp1_query = FhsisFamilyPlanning1::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereBetween('DATE', [$from, $to])
+                    ->get();
+
+                    $fp2_query = FhsisFamilyPlanning2::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereBetween('DATE', [$from, $to])
+                    ->get();
+
+                    $fp3_query = FhsisFamilyPlanning3::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereBetween('DATE', [$from, $to])
+                    ->get();
+
+                    if($q == 1) {
+                        $edate = $base_year.'-03-01';
+                    }
+                    else if($q == 2) {
+                        $edate = $base_year.'-06-01';
+                    }
+                    else if($q == 3) {
+                        $edate = $base_year.'-09-01';
+                    }
+                    else if($q == 4) {
+                        $edate = $base_year.'-12-01';
+                    }
+                    
+                    $env_query = FhsisEnvironmentalHealth::where('YEAR_ENV', $base_year)
+                    ->whereDate('DATE', $edate)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->get();
+
+                    $dental_query = FhsisDental::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereBetween('DATE', [$from, $to])
+                    ->get();
                 }
                 else if($type == 'monthly') {
+                    $im = request()->input('month');
+
+                    $ccare_query = FhsisChildCare::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', request()->input('month'))
+                    ->get();
+
+                    $ncom_query = FhsisNonComm::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', request()->input('month'))
+                    ->get();
+
+                    $fp1_query = FhsisFamilyPlanning1::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', request()->input('month'))
+                    ->get();
+
+                    $fp2_query = FhsisFamilyPlanning2::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', request()->input('month'))
+                    ->get();
+
+                    $fp3_query = FhsisFamilyPlanning3::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', request()->input('month'))
+                    ->get();
+
+                    if($im == '01' || $im == '02' || $im == '03') {
+                        $edate = $base_year.'-03-01';
+                    }
+                    else if($im == '04' || $im == '05' || $im == '06') {
+                        $edate = $base_year.'-06-01';
+                    }
+                    else if($im == '07' || $im == '08' || $im == '09') {
+                        $edate = $base_year.'-09-01';
+                    }
+                    else if($im == '10' || $im == '11' || $im == '12') {
+                        $edate = $base_year.'-12-01';
+                    }
+                    
+                    $env_query = FhsisEnvironmentalHealth::where('YEAR_ENV', $base_year)
+                    ->whereDate('DATE', $edate)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->get();
+
+                    $dental_query = FhsisDental::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', request()->input('month'))
+                    ->get();
                 }
 
                 $fic_m = 0;
@@ -541,10 +649,38 @@ class FhsisController extends Controller
                 $env_lvl2 = 0;
                 $env_lvl3 = 0;
 
+                //ENVIRONMENTAL FETCH
                 foreach($env_query as $row) {
                     $env_lvl1 += $row['HHWATER_LEVEL1'];
                     $env_lvl2 += $row['HHWATER_LEVEL2'];
                     $env_lvl3 += $row['HHWATER_LEVEL3'];
+                }
+                
+                $bhoc_m = 0;
+                $bhoc_f = 0;
+
+                //DENTAL CARE FETCH
+                foreach($dental_query as $row) {
+                    $bhoc_m +=
+                    $row['CHILD_BOHC_M'] +
+                    $row['AY_BOHC_M'] +
+                    $row['OLDPER_BOHC_M'] +
+                    $row['INF011_BOHC_M'] +
+                    $row['CHILD59_BOHC_M'] +
+                    $row['AY1519_BOHC_M'] +
+                    $row['BOHC2059_M'];
+
+                    $bhoc_f +=
+                    $row['CHILD_BOHC_F'] +
+                    $row['AY_BOHC_F'] +
+                    $row['PREG_BOHC_F'] +
+                    $row['OLDPER_BOHC_F'] +
+                    $row['INF011_BOHC_F'] +
+                    $row['CHILD59_BOHC_F'] +
+                    $row['AY1519_BOHC_F'] +
+                    $row['BOHC2059_F'] +
+                    $row['PREG1519_BOHC_F'] +
+                    $row['PREG2049_BOHC_F'];
                 }
 
                 array_push($bgy_mone_list, [
@@ -565,6 +701,9 @@ class FhsisController extends Controller
                     'env_lvl1' => $env_lvl1,
                     'env_lvl2' => $env_lvl2,
                     'env_lvl3' => $env_lvl3,
+
+                    'bhoc_m' => $bhoc_m,
+                    'bhoc_f' => $bhoc_f,
                 ]);
             }
 
