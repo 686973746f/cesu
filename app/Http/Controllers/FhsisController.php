@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AbtcBakunaRecords;
 use PDO;
 use Carbon\Carbon;
 use App\Models\Brgy;
+use App\Models\FhsisM2;
+use App\Models\FhsisMortBhs;
+use App\Models\FhsisNonComm;
 use Illuminate\Http\Request;
+use App\Models\FhsisBarangay;
+use App\Models\FhsisChildCare;
+use App\Models\FhsisPopulation;
+use App\Models\AbtcBakunaRecords;
+use App\Models\FhsisEnvironmentalHealth;
+use App\Models\FhsisFamilyPlanning1;
+use App\Models\FhsisFamilyPlanning2;
+use App\Models\FhsisFamilyPlanning3;
+use App\Models\FhsisMortalityNatality;
 
 class FhsisController extends Controller
 {
@@ -15,52 +26,15 @@ class FhsisController extends Controller
     }
 
     public function report() {
-        // Set up a new PDO connection using the ODBC driver
-        $mdb_location = storage_path('app/efhsis/eFHSIS_be.mdb');
-        
-        /*
-        $uname = explode(" ",php_uname());
-        print_r($uname);
-        $os = $uname[0];
-        echo "<br>";
-        echo $os;
-        switch ($os){
-        case 'Windows':
-            
-            break;
-        case 'Linux':
-            $driver = 'MDBTools';
-            break;
-        default:
-            exit("Don't know about this OS");
-        }
-        */
-
-        $driver = '{Microsoft Access Driver (*.mdb, *.accdb)}';
-
-        $dsn = "odbc:Driver=$driver;Dbq=$mdb_location;charset=utf8";
-        $username = ""; // leave blank if not required
-        $password = ""; // leave blank if not required
-        $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_EMULATE_PREPARES => false,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ];
-        $pdo = new PDO($dsn, $username, $password, $options);
-
-        // Query the database
-        $mort_final_list = [];
-        $morb_final_list = [];
-
-        $bgy_nm_list = [];
-        $bgy_mone_list = [];
-
-        $bgy_list = Brgy::where('displayInList', 1)
-        ->where('city_id', 1)
-        ->orderBy('brgyName', 'asc')
-        ->get();
-
         if(request()->input('type') && request()->input('year')) {
+            $bgy_list = FhsisBarangay::orderBy('BGY_DESC', 'ASC')->get();
+
+            $mort_final_list = [];
+            $morb_final_list = [];
+
+            $bgy_nm_list = [];
+            $bgy_mone_list = [];
+
             $year = request()->input('year');
             $base_year = request()->input('year');
             $type = request()->input('type');
@@ -69,233 +43,173 @@ class FhsisController extends Controller
                 $q = request()->input('quarter');
 
                 if($q == 1) {
-                    $from = '#'.date('m/d/y', strtotime('01/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('03/01/'.request()->input('year'))).'#';
+                    $from = date('Y-m-d', strtotime(request()->input('year').'-01-01'));
+                    $to = date('Y-m-d', strtotime(request()->input('year').'-03-01'));
                 }
                 else if($q == 2) {
-                    $from = '#'.date('m/d/y', strtotime('04/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('06/01/'.request()->input('year'))).'#';
+                    $from = date('Y-m-d', strtotime(request()->input('year').'-04-01'));
+                    $to = date('Y-m-d', strtotime(request()->input('year').'-06-01'));
                 }
                 else if($q == 3) {
-                    $from = '#'.date('m/d/y', strtotime('07/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('09/01/'.request()->input('year'))).'#';
+                    $from = date('Y-m-d', strtotime(request()->input('year').'-07-01'));
+                    $to = date('Y-m-d', strtotime(request()->input('year').'-09-01'));
                 }
                 else if($q == 4) {
-                    $from = '#'.date('m/d/y', strtotime('10/01/'.request()->input('year'))).'#';
-                    $to = '#'.date('m/d/y', strtotime('12/01/'.request()->input('year'))).'#';
+                    $from = date('Y-m-d', strtotime(request()->input('year').'-10-01'));
+                    $to = date('Y-m-d', strtotime(request()->input('year').'-12-01'));
                 }
             }
-            
-            //TOP 10 MORB AND MORT
+
+            //TOP 10 MORBIDITY AND MORTALITY
             if($type == 'yearly') {
-                $mort_distinct_query = "SELECT DISTINCT(DISEASE)
-                FROM [MORT BHS]
-                WHERE FORMAT([DATE], 'yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE <> ''";
+                $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereYear('DATE', $base_year)
+                ->distinct()
+                ->pluck('DISEASE');
 
-                $mort_row_query = "SELECT * FROM [MORT BHS]
-                WHERE FORMAT([DATE], 'yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE = :disease";
-
-                $morb_distinct_query = "SELECT DISTINCT(DISEASE)
-                FROM [M2 BHS]
-                WHERE FORMAT([DATE], 'yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE <> ''";
-
-                $morb_row_query = "SELECT * FROM [M2 BHS]
-                WHERE FORMAT([DATE], 'yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE = :disease";
+                $morb_query = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereYear('DATE', $base_year)
+                ->distinct()
+                ->pluck('DISEASE');
             }
             else if($type == 'quarterly') {
-                $mort_distinct_query = "SELECT DISTINCT(DISEASE)
-                FROM [MORT BHS]
-                WHERE [DATE] BETWEEN $from AND $to
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE <> ''";
+                $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$from, $to])
+                ->distinct()
+                ->pluck('DISEASE');
 
-                $mort_row_query = "SELECT * FROM [MORT BHS]
-                WHERE [DATE] BETWEEN $from AND $to
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE = :disease";
-
-                $morb_distinct_query = "SELECT DISTINCT(DISEASE)
-                FROM [M2 BHS]
-                WHERE [DATE] BETWEEN $from AND $to
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE <> ''";
-
-                $morb_row_query = "SELECT * FROM [M2 BHS]
-                WHERE [DATE] BETWEEN $from AND $to
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE = :disease";
+                $morb_query = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$from, $to])
+                ->distinct()
+                ->pluck('DISEASE');
             }
             else if($type == 'monthly') {
-                $mort_distinct_query = "SELECT DISTINCT(DISEASE)
-                FROM [MORT BHS]
-                WHERE FORMAT([DATE], 'mm/yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE <> ''";
+                $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereYear('DATE', $base_year)
+                ->whereMonth('DATE', date('m', strtotime(request()->input('year').'-'.request()->input('month').'-01')))
+                ->distinct()
+                ->pluck('DISEASE');
 
-                $mort_row_query = "SELECT * FROM [MORT BHS]
-                WHERE FORMAT([DATE], 'mm/yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE = :disease";
-
-                $morb_distinct_query = "SELECT DISTINCT(DISEASE)
-                FROM [M2 BHS]
-                WHERE FORMAT([DATE], 'mm/yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE <> ''";
-
-                $morb_row_query = "SELECT * FROM [M2 BHS]
-                WHERE FORMAT([DATE], 'mm/yyyy') = :year
-                AND MUN_CODE = 'GENERAL TRIAS'
-                AND DISEASE = :disease";
-
-                $year = date('m/Y', strtotime(request()->input('year').'-'.request()->input('month').'-01'));
+                $morb_query = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereYear('DATE', $base_year)
+                ->whereMonth('DATE', date('m', strtotime(request()->input('year').'-'.request()->input('month').'-01')))
+                ->distinct()
+                ->pluck('DISEASE');
             }
 
-            //MORTALITY DISTINCT
-            $mort_stmt = $pdo->prepare($mort_distinct_query);
-
-            if($type != 'quarterly') {
-                $mort_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-            }
             
-            $mort_stmt->execute();
+            //FETCHING MORTALITY
+            foreach($mort_query as $s) {
+                $count = 0;
 
-            while ($row = $mort_stmt->fetch()) {
-                $row_disease = $row['DISEASE'];
-    
-                $stmt2 = $pdo->prepare($mort_row_query);
-    
-                if($type != 'quarterly') {
-                    $stmt2->bindParam(':year', $year, PDO::PARAM_STR);
+                if($type == 'yearly') {
+                    $mort_query2 = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereYear('DATE', $base_year)
+                    ->where('DISEASE', $s)
+                    ->get();
+                }
+                else if($type == 'quarterly') {
+                    $mort_query2 = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereBetween('DATE', [$from, $to])
+                    ->where('DISEASE', $s)
+                    ->get();
+                }
+                else if($type == 'monthly') {
+                    $mort_query2 = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', date('m', strtotime(request()->input('year').'-'.request()->input('month').'-01')))
+                    ->where('DISEASE', $s)
+                    ->get();
                 }
 
-                $stmt2->bindParam(':disease', $row_disease, PDO::PARAM_STR);
-    
-                $stmt2->execute();
-    
-                $count = 0;
-    
-                while ($row2 = $stmt2->fetch()) {
+                foreach ($mort_query2 as $t) {
                     $count +=
-                    $row2['1_4_M'] + $row2['1_4_F'] +
-                    $row2['5_9_M'] + $row2['5_9_F'] +
-                    $row2['10_14_M'] + $row2['10_14_F'] + 
-                    $row2['15_19_M'] + $row2['15_19_F'] +
-                    $row2['20_24_M'] + $row2['20_24_F'] +
-                    $row2['25_29_M'] + $row2['25_29_F'] + 
-                    $row2['30_34_M'] + $row2['30_34_F'] +
-                    $row2['35_39_M'] + $row2['35_39_F'] +
-                    $row2['40_44_M'] + $row2['40_44_F'] +
-                    $row2['45_49_M'] + $row2['45_49_F'] +
-                    $row2['50_54_M'] + $row2['50_54_F'] +
-                    $row2['55_59_M'] + $row2['55_59_F'] +
-                    $row2['60_64_M'] + $row2['60_64_F'] +
-                    $row2['65_69_M'] + $row2['65_69_F'] +
-                    $row2['70ABOVE_M'] + $row2['70ABOVE_F'] +
-                    $row2['0_6DAYS_M'] + $row2['0_6DAYS_F'] +
-                    $row2['7_28DAYS_M'] + $row2['7_28DAYS_F'] +
-                    $row2['29DAYS_11MOS_M'] + $row2['29DAYS_11MOS_F']
+                    $t['1_4_M'] + $t['1_4_F'] +
+                    $t['5_9_M'] + $t['5_9_F'] +
+                    $t['10_14_M'] + $t['10_14_F'] + 
+                    $t['15_19_M'] + $t['15_19_F'] +
+                    $t['20_24_M'] + $t['20_24_F'] +
+                    $t['25_29_M'] + $t['25_29_F'] + 
+                    $t['30_34_M'] + $t['30_34_F'] +
+                    $t['35_39_M'] + $t['35_39_F'] +
+                    $t['40_44_M'] + $t['40_44_F'] +
+                    $t['45_49_M'] + $t['45_49_F'] +
+                    $t['50_54_M'] + $t['50_54_F'] +
+                    $t['55_59_M'] + $t['55_59_F'] +
+                    $t['60_64_M'] + $t['60_64_F'] +
+                    $t['65_69_M'] + $t['65_69_F'] +
+                    $t['70ABOVE_M'] + $t['70ABOVE_F'] +
+                    $t['0_6DAYS_M'] + $t['0_6DAYS_F'] +
+                    $t['7_28DAYS_M'] + $t['7_28DAYS_F'] +
+                    $t['29DAYS_11MOS_M'] + $t['29DAYS_11MOS_F']
                     ;
                 }
-    
+
                 array_push($mort_final_list, [
-                    'disease' => $row_disease,
+                    'disease' => $s,
                     'count' => $count,
                 ]);
             }
 
-            //MORBIDITY
-            $morb_stmt = $pdo->prepare($morb_distinct_query);
-
-            if($type != 'quarterly') {
-                $morb_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-            }
-
-            $morb_stmt->execute();
-
-            while ($row = $morb_stmt->fetch()) {
-                $row_disease = $row['DISEASE'];
-
-                $stmt2 = $pdo->prepare($morb_row_query);
-
-                if($type != 'quarterly') {
-                    $stmt2->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-
-                $stmt2->bindParam(':disease', $row_disease, PDO::PARAM_STR);
-
-                $stmt2->execute();
-
+            //FETCHING MORBIDITY
+            foreach($morb_query as $s) {
                 $count = 0;
 
-                while ($row2 = $stmt2->fetch()) {
+                if($type == 'yearly') {
+                    $morb_query2 = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereYear('DATE', $base_year)
+                    ->where('DISEASE', $s)
+                    ->get();
+                }
+                else if($type == 'quarterly') {
+                    $morb_query2 = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereBetween('DATE', [$from, $to])
+                    ->where('DISEASE', $s)
+                    ->get();
+                }
+                else if($type == 'monthly') {
+                    $morb_query2 = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', date('m', strtotime(request()->input('year').'-'.request()->input('month').'-01')))
+                    ->where('DISEASE', $s)
+                    ->get();
+                }
+
+                foreach ($morb_query2 as $t) {
                     $count +=
-                    $row2['1_4_M'] + $row2['1_4_F'] +
-                    $row2['5_9_M'] + $row2['5_9_F'] +
-                    $row2['10_14_M'] + $row2['10_14_F'] + 
-                    $row2['15_19_M'] + $row2['15_19_F'] +
-                    $row2['20_24_M'] + $row2['20_24_F'] +
-                    $row2['25_29_M'] + $row2['25_29_F'] + 
-                    $row2['30_34_M'] + $row2['30_34_F'] +
-                    $row2['35_39_M'] + $row2['35_39_F'] +
-                    $row2['40_44_M'] + $row2['40_44_F'] +
-                    $row2['45_49_M'] + $row2['45_49_F'] +
-                    $row2['50_54_M'] + $row2['50_54_F'] +
-                    $row2['55_59_M'] + $row2['55_59_F'] +
-                    $row2['60_64_M'] + $row2['60_64_F'] +
-                    $row2['65_69_M'] + $row2['65_69_F'] +
-                    $row2['70ABOVE_M'] + $row2['70ABOVE_F'] +
-                    $row2['0_6DAYS_M'] + $row2['0_6DAYS_F'] +
-                    $row2['7_28DAYS_M'] + $row2['7_28DAYS_F'] +
-                    $row2['29DAYS_11MOS_M'] + $row2['29DAYS_11MOS_F']
+                    $t['1_4_M'] + $t['1_4_F'] +
+                    $t['5_9_M'] + $t['5_9_F'] +
+                    $t['10_14_M'] + $t['10_14_F'] + 
+                    $t['15_19_M'] + $t['15_19_F'] +
+                    $t['20_24_M'] + $t['20_24_F'] +
+                    $t['25_29_M'] + $t['25_29_F'] + 
+                    $t['30_34_M'] + $t['30_34_F'] +
+                    $t['35_39_M'] + $t['35_39_F'] +
+                    $t['40_44_M'] + $t['40_44_F'] +
+                    $t['45_49_M'] + $t['45_49_F'] +
+                    $t['50_54_M'] + $t['50_54_F'] +
+                    $t['55_59_M'] + $t['55_59_F'] +
+                    $t['60_64_M'] + $t['60_64_F'] +
+                    $t['65_69_M'] + $t['65_69_F'] +
+                    $t['70ABOVE_M'] + $t['70ABOVE_F'] +
+                    $t['0_6DAYS_M'] + $t['0_6DAYS_F'] +
+                    $t['7_28DAYS_M'] + $t['7_28DAYS_F'] +
+                    $t['29DAYS_11MOS_M'] + $t['29DAYS_11MOS_F']
                     ;
                 }
 
                 array_push($morb_final_list, [
-                    'disease' => $row_disease,
+                    'disease' => $s,
                     'count' => $count,
                 ]);
             }
 
             //MORT AND NATALITY
             foreach($bgy_list as $b) {
-                $bstring = $b->brgyName;
 
-                //get BGY_CODE
-                $bgy_query = "SELECT * FROM [BARANGAY]
-                WHERE UCASE(BGY_DESC) = :bgy";
-
-                $bgy_stmt = $pdo->prepare($bgy_query);
-
-                $bgy_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-
-                $bgy_stmt->execute();
-
-                $bgy_row = $bgy_stmt->fetch();
-                $bgy_desc = $bgy_row['BGY_CODE'];
-
-                //get population first
-                $pop_query = "SELECT * FROM [POPULATION]
-                WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                AND UCASE(BGY_CODE) = :bgy
-                AND [POP_YEAR] = :year";
-
-                $pop_stmt = $pdo->prepare($pop_query);
-
-                $pop_stmt->bindParam(':year', $base_year, PDO::PARAM_STR);
-                $pop_stmt->bindParam(':bgy', $bgy_desc, PDO::PARAM_STR);
-                
-                $pop_stmt->execute();
-
-                $pop_row = $pop_stmt->fetch();
+                //get population count in barangay first
+                $pop_count = FhsisPopulation::where('BGY_CODE', $b->BGY_CODE)
+                ->where('POP_YEAR', $base_year)->first()->POP_BGY;
 
                 $livebirth = 0;
                 $tot_death = 0;
@@ -304,35 +218,26 @@ class FhsisController extends Controller
                 $unf_death = 0;
 
                 if($type == 'yearly') {
-                    $mn_query = "SELECT * FROM [MORTALITY]
-                    WHERE FORMAT([DATE], 'yyyy') = :year
-                    AND MUN_CODE = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy";
+                    $mn_query = FhsisMortalityNatality::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->get();
                 }
                 else if($type == 'quarterly') {
-                    $mn_query = "SELECT * FROM [MORTALITY]
-                    WHERE [DATE] BETWEEN $from AND $to
-                    AND MUN_CODE = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy";
+                    $mn_query = FhsisMortalityNatality::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereBetween('DATE', [$from, $to])
+                    ->get();
                 }
                 else if($type == 'monthly') {
-                    $mn_query = "SELECT * FROM [MORTALITY]
-                    WHERE FORMAT([DATE], 'mm/yyyy') = :year
-                    AND MUN_CODE = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy";
-
-                    $year = date('m/Y', strtotime(request()->input('year').'-'.request()->input('month').'-01'));
+                    $mn_query = FhsisMortalityNatality::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->whereMonth('DATE', request()->input('month'))
+                    ->get();
                 }
 
-                $mn_stmt = $pdo->prepare($mn_query);
-                if($type != 'quarterly') {
-                    $mn_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-                $mn_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-
-                $mn_stmt->execute();
-                
-                while ($row = $mn_stmt->fetch()) {
+                foreach($mn_query as $row) {
                     $livebirth += $row['LB_M'] + $row['LB_F'];
                     $tot_death += $row['TOTDEATH_M'] + $row['TOTDEATH_F'];
                     $mat_death += $row['MATDEATH_M'] + $row['MATDEATH_F'];
@@ -341,8 +246,8 @@ class FhsisController extends Controller
                 }
 
                 array_push($bgy_nm_list, [
-                    'barangay' => $bstring,
-                    'population' => $pop_row['POP_BGY'],
+                    'barangay' => $b->BGY_DESC,
+                    'population' => $pop_count,
                     'livebirth' => $livebirth,
                     'tot_death' => $tot_death,
                     'mat_death' => $mat_death,
@@ -353,83 +258,60 @@ class FhsisController extends Controller
 
             //M1
             foreach($bgy_list as $b) {
-                $bstring = $b->brgyName;
-
                 if($type == 'yearly') {
-                    $ccare_query = "SELECT * FROM [CHILD CARE]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy
-                    AND FORMAT([DATE], 'yyyy') = :year";
+                    $ccare_query = FhsisChildCare::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->get();
 
-                    $ncom_query = "SELECT * FROM [OTHER INDICATORS]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy
-                    AND FORMAT([DATE], 'yyyy') = :year";
+                    $ncom_query = FhsisNonComm::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->get();
 
-                    $fp1_query = "SELECT * FROM [FAMILY PLANNING]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy
-                    AND FORMAT([DATE], 'yyyy') = :year";
+                    $fp1_query = FhsisFamilyPlanning1::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->get();
 
-                    $fp2_query = "SELECT * FROM [FAMILY PLANNING1]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy
-                    AND FORMAT([DATE], 'yyyy') = :year";
+                    $fp2_query = FhsisFamilyPlanning2::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->get();
 
-                    $fp3_query = "SELECT * FROM [FAMILY PLANNING2]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND UCASE(BGY_CODE) = :bgy
-                    AND FORMAT([DATE], 'yyyy') = :year";
+                    $fp3_query = FhsisFamilyPlanning3::where('MUN_CODE', $b->MUN_CODE)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->whereYear('DATE', $base_year)
+                    ->get();
 
-                    //Environmental
                     if($base_year != date('Y')) {
-                        $edate = date('m/d/y', strtotime($base_year.'-12-01'));
+                        $edate = date('Y-m-d', strtotime($base_year.'-12-01'));
                     }
                     else {
                         if(date('n') >= 2 && date('n') <= 4) {
-                            $edate = date('m/d/y', strtotime($base_year.'-03-01'));
+                            $edate = date('Y-m-d', strtotime($base_year.'-03-01'));
                         }
                         else if(date('n') >= 5 && date('n') <= 7) {
-                            $edate = date('m/d/y', strtotime($base_year.'-06-01'));
+                            $edate = date('Y-m-d', strtotime($base_year.'-06-01'));
                         }
                         else if(date('n') >= 8 && date('n') <= 10) {
-                            $edate = date('m/d/y', strtotime($base_year.'-09-01'));
+                            $edate = date('Y-m-d', strtotime($base_year.'-09-01'));
                         }
                         else if(date('n') >= 11 && date('n') <= 12) {
-                            $edate = date('m/d/y', strtotime($base_year.'-12-01'));
+                            $edate = date('Y-m-d', strtotime($base_year.'-12-01'));
                         }
                     }
 
-                    $env_query = "SELECT * FROM [ENVIRONMENTAL HEALTH]
-                    WHERE [YEAR_ENV] = $base_year
-                    AND [DATE] = :edate
-                    AND UCASE(BGY_CODE) = :bgy";
+                    $env_query = FhsisEnvironmentalHealth::where('YEAR_ENV', $base_year)
+                    ->whereDate('DATE', $edate)
+                    ->where('BGY_CODE', $b->BGY_DESC)
+                    ->get();
                 }
                 else if($type == 'quarterly') {
-                    $ccare_query = "SELECT * FROM [CHILD CARE]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND [DATE] BETWEEN $from AND $to
-                    AND UCASE(BGY_CODE) = :bgy";
-
-                    $ncom_query = "SELECT * FROM [OTHER INDICATORS]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND [DATE] BETWEEN $from AND $to
-                    AND UCASE(BGY_CODE) = :bgy";
                 }
                 else if($type == 'monthly') {
-                    $ccare_query = "SELECT * FROM [CHILD CARE]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND FORMAT([DATE], 'mm/yyyy') = :year
-                    AND UCASE(BGY_CODE) = :bgy";
-
-                    $ncom_query = "SELECT * FROM [OTHER INDICATORS]
-                    WHERE [MUN_CODE] = 'GENERAL TRIAS'
-                    AND FORMAT([DATE], 'mm/yyyy') = :year
-                    AND UCASE(BGY_CODE) = :bgy";
-
-                    $year = date('m/Y', strtotime(request()->input('year').'-'.request()->input('month').'-01'));
                 }
-                
+
                 $fic_m = 0;
                 $fic_f = 0;
                 $cic_m = 0;
@@ -445,53 +327,8 @@ class FhsisController extends Controller
                 $fp_currusers_end = 0;
                 $fp_newaccp_present = 0;
 
-                $ccare_stmt = $pdo->prepare($ccare_query);
-                if($type != 'quarterly') {
-                    $ccare_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-                $ccare_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-                $ccare_stmt->execute();
-
-                $ncom_stmt = $pdo->prepare($ncom_query);
-                if($type != 'quarterly') {
-                    $ncom_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-                $ncom_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-                $ncom_stmt->execute();
-
-                $fp1_stmt = $pdo->prepare($fp1_query);
-                if($type != 'quarterly') {
-                    $fp1_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-                $fp1_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-                $fp1_stmt->execute();
-
-                $fp2_stmt = $pdo->prepare($fp2_query);
-                if($type != 'quarterly') {
-                    $fp2_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-                $fp2_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-                $fp2_stmt->execute();
-
-                $fp3_stmt = $pdo->prepare($fp3_query);
-                if($type != 'quarterly') {
-                    $fp3_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-                $fp3_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-                $fp3_stmt->execute();
-
-                $env_stmt = $pdo->prepare($env_query);
-                /*
-                if($type != 'quarterly') {
-                    $env_stmt->bindParam(':year', $year, PDO::PARAM_STR);
-                }
-                */
-                $env_stmt->bindParam(':edate', $edate, PDO::PARAM_STR);
-                $env_stmt->bindParam(':bgy', $bstring, PDO::PARAM_STR);
-                $env_stmt->execute();
-
                 //CHILD CARE FETCH
-                while ($row = $ccare_stmt->fetch()) {
+                foreach($ccare_query as $row) {
                     $fic_m += $row['FIC_M'];
                     $fic_f += $row['FIC_F'];
                     $cic_m += $row['CIC_M'];
@@ -499,14 +336,14 @@ class FhsisController extends Controller
                 }
 
                 //NON-COMM FETCH
-                while ($row = $ncom_stmt->fetch()) {
+                foreach($ncom_query as $row) {
                     $ra += $row['NONCOM_PPEN_M'] + $row['NONCOM_PPEN_F'];
                     $ppv += $row['NONCOM_PPV_M'] + $row['NONCOM_PPV_F'];
                     $flu += $row['NONCOM_IV_M'] + $row['NONCOM_PPV_F'];
                 }
 
                 //FAMILY PLANNING 1 FETCH
-                while ($row = $fp1_stmt->fetch()) {
+                foreach($fp1_query as $row) {
                     $fp_currusers_beggining +=
                     $row['PREV_FS'] + 
                     $row['PREV_MS'] + 
@@ -571,7 +408,7 @@ class FhsisController extends Controller
                 }
 
                 //FAMILY PLANNING 2 FETCH
-                while ($row = $fp2_stmt->fetch()) {
+                foreach($fp2_query as $row) {
                     $fp_currusers_beggining +=
                     $row['PREV_FS1519'] + 
                     $row['PREV_MS1519'] + 
@@ -636,7 +473,7 @@ class FhsisController extends Controller
                 }
 
                 //FAMILY PLANNING 3 FETCH
-                while ($row = $fp3_stmt->fetch()) {
+                foreach($fp3_query as $row) {
                     $fp_currusers_beggining +=
                     $row['PREV_FS2049'] + 
                     $row['PREV_MS2049'] + 
@@ -704,18 +541,14 @@ class FhsisController extends Controller
                 $env_lvl2 = 0;
                 $env_lvl3 = 0;
 
-                if($env_stmt->rowCount() > 0) {
-                    
-                }
-
-                while ($row = $env_stmt->fetch()) {
+                foreach($env_query as $row) {
                     $env_lvl1 += $row['HHWATER_LEVEL1'];
                     $env_lvl2 += $row['HHWATER_LEVEL2'];
                     $env_lvl3 += $row['HHWATER_LEVEL3'];
                 }
 
                 array_push($bgy_mone_list, [
-                    'barangay' => $b->brgyName,
+                    'barangay' => $b->BGY_DESC,
                     'fic_m' => $fic_m,
                     'fic_f' => $fic_f,
                     'cic_m'  => $cic_m,

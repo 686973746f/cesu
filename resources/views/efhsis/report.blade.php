@@ -159,7 +159,7 @@
 
                                     @foreach($bgy_mone_list as $b)
                                     <tr>
-                                        <td><b>{{$b['barangay']}}</b></td>
+                                        <td><b>{{mb_strtoupper($b['barangay'])}}</b></td>
                                         <td class="text-center">{{$b['fic_m']}}</td>
                                         <td class="text-center">{{$b['fic_f']}}</td>
                                         <td class="text-center"><b>{{($b['fic_m'] + $b['fic_f'])}}</b></td>
@@ -260,7 +260,7 @@
                                     @endphp
                                     @foreach($bgy_nm_list as $b)
                                     <tr>
-                                        <td><b>{{$b['barangay']}}</b></td>
+                                        <td><b>{{mb_strtoupper($b['barangay'])}}</b></td>
                                         <td class="text-center">{{number_format($b['population'])}}</td>
                                         <td class="text-center">{{$b['livebirth']}}</td>
                                         <td class="text-center">{{$b['tot_death']}}</td>

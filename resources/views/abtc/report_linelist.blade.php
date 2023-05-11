@@ -58,21 +58,16 @@
                 <table class="table table-bordered table-striped table-sm" id="mytable">
                     <thead class="text-center thead-light" style="vertical-align: middle;">
                         <tr>
-                            <th colspan="4">Registration</th>
-                            <th colspan="7">History of Exposure</th>
-                            <th colspan="10">Post Exposure Prophylaxis (PEP)</th>
-                            <th rowspan="3">Outcome</th>
-                            <th rowspan="3">Biting Animal Status <small>(after 14 Days)</small></th>
-                            <th rowspan="3">Remarks</th>
-                        </tr>
-                        <tr>
                             <th>No.</th>.
-                            <th>Date</th>
+                            <th>Reg. Date</th>
                             <th>Name of Patient</th>
-                            <th>Address</th>
+                            <th>Lot/Street</th>
+                            <th>Barangay</th>
+                            <th>City</th>
+                            <th>Province</th>
                             <th>Age</th>
                             <th>Sex</th>
-                            <th>Date</th>
+                            <th>Exposure Date</th>
                             <th>Place <small>(Where biting occured)</small></th>
                             <th>Type of Animal</th>
                             <th>Type</th>
@@ -87,6 +82,9 @@
                             <th>D14 (IM)</th>
                             <th>D28</th>
                             <th>Brand Name</th>
+                            <th>Outcome</th>
+                            <th>Biting Animal Status <small>(after 14 Days)</small></th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,7 +93,10 @@
                             <td><a href="{{route('abtc_encode_edit', $d->id)}}">{{$d->case_id}}</a></td>
                             <td>{{date('m/d/Y', strtotime($d->case_date))}}</td>
                             <td><a href="{{route('abtc_patient_edit', ['id' => $d->patient->id])}}">{{$d->patient->getName()}}</a></td>
-                            <td><small>{{$d->patient->address_brgy_text}}, {{$d->patient->address_muncity_text}}, {{$d->patient->address_province_text}}</small></td>
+                            <td>{{(!is_null($d->patient->address_street) && !is_null($d->patient->address_houseno)) ? $d->patient->address_street.', '.$d->patient->address_houseno : 'N/A'}}</td>
+                            <td>{{$d->patient->address_brgy_text}}</td>
+                            <td>{{$d->patient->address_muncity_text}}</td>
+                            <td>{{$d->patient->address_province_text}}</td>
                             <td>{{$d->patient->getAge()}}</td>
                             <td>{{$d->patient->sg()}}</td>
                             <td>{{date('m/d/Y', strtotime($d->bite_date))}}</td>
@@ -149,4 +150,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#mytable').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel',
+        ],
+    });
+</script>
 @endsection
