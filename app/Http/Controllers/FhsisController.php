@@ -1250,4 +1250,48 @@ class FhsisController extends Controller
 
         */
     }
+
+    public function timelinesscheck() {
+        if(request()->input('year')) {
+            $year = request()->input('year');
+        }
+        else {
+            $year = date('Y');
+        }
+
+        $m2l = [];
+
+        //loop through barangay
+        $blist = FhsisBarangay::orderBy('BGY_DESC', 'ASC')->get();
+        foreach($blist as $b) {
+            $m2l[] = $b->BGY_DESC;
+
+            if(request()->input('year') != date('Y')) {
+                $l = date('n');
+            }
+            else {
+                $l = 12;
+            }
+            
+            //loop through months
+            for($i=1;$i<=$l;$i++) {
+                $s = FhsisM2::whereYear('DATE', $year)
+                ->whereMonth('DATE', $i)
+                ->first();
+
+                if($s) {
+                    $m2l[$b->BGY_DESC][] = '✔';
+                }
+                else {
+                    $m2l[$b->BGY_DESC][] = 'X';
+                }
+            }
+        }
+
+        return view('efhsis.timeliness', [
+            'm2l' => $m2l,
+            'year' => $year,
+            'month' => $l,
+        ]);
+    }
 }
