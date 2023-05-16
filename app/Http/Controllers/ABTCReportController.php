@@ -470,6 +470,10 @@ class ABTCReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
+                /*
+
+                Old TCV Count
+
                 $tcv_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
@@ -477,6 +481,10 @@ class ABTCReportController extends Controller
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
+
+                */
+
+                $tcv_count = $male_count + $female_count;
 
                 //$tcv_count = $cat2_count + $cat3_count;
 
@@ -500,6 +508,11 @@ class ABTCReportController extends Controller
                 $booster_count = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
                 ->where('is_booster', 1)
                 ->where('outcome', 'C')
+                ->whereBetween('case_date', [$sd, $ed])
+                ->count();
+
+                $preexp_count = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
+                ->where('is_preexp', 1)
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
@@ -532,7 +545,7 @@ class ABTCReportController extends Controller
                 $sheet->setCellValue('X'.$i, $others_count);
 
                 $sheet->setCellValue('Z'.$i, $booster_count);
-                $sheet->setCellValue('AA'.$i, 0); //Pre-exposure Count
+                $sheet->setCellValue('AA'.$i, $preexp_count); //Pre-exposure Count
             }
 
             $i = $i+1;
@@ -563,6 +576,7 @@ class ABTCReportController extends Controller
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
 
+                /*
                 $cat2_rig = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
@@ -571,6 +585,9 @@ class ABTCReportController extends Controller
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
                 ->count();
+                */
+
+                $cat2_rig = 0;
 
                 $cat2_complete = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
