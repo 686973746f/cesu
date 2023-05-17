@@ -503,7 +503,16 @@ class ABTCReportController extends Controller
                 ->count();
                 */
 
-                $erig = $cat3_count;
+                //$erig = $cat3_count;
+
+                $erig = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->where('category_level', 3)
+                ->whereNotNull('rig_date_given')
+                ->where('vaccination_site_id', $v->id)
+                ->whereBetween('case_date', [$sd, $ed])
+                ->count();
 
                 $booster_count = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
                 ->where('is_booster', 1)
