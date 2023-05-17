@@ -1833,6 +1833,14 @@ class FormsController extends Controller
                 $antigenqr = NULL;
             }
 
+            //Detect Date of Exposure if Same sa Onset of Illness
+            if($request->expoDateLastCont == $request->dateOnsetOfIllness) {
+                return back()
+                ->withInput()
+                ->with('msg', 'Date of Exposure should not be equal to Date of Onset of Illness. Date of Exposure should be before Onset of Illness.')
+                ->with('msgType', 'danger');
+            }
+
             $createform = $request->user()->form()->create([
                 'created_at' => $set_created_at,
                 'reinfected' => ($request->reinfected || $autoreinfect == 1) ? 1 : 0,
