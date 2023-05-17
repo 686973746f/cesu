@@ -575,6 +575,16 @@ class VaxcertController extends Controller
 
         $spreadsheet = IOFactory::load(storage_path('vaslinelist_template.xlsx'));
         $sheet = $spreadsheet->getActiveSheet('VAS Template');
+
+        if($v->category == '_A1_WORKERS_IN_FRONTLINE_HEALTH_SERVICES') {
+            $vcat = 'A1';
+        }
+        else if ($v->category == 'A3') {
+            $vcat = 'A3 - Immunocompromised';
+        }
+        else {
+            $vcat = $v->category;
+        }
         
         if($v->vaccine_manufacturer_name == 'ASTRAZENECA') {
             $vbrand = 'AZ';
@@ -583,7 +593,7 @@ class VaxcertController extends Controller
             $vbrand = $v->vaccine_manufacturer_name;
         }
 
-        $sheet->setCellValue('A2', $v->category);
+        $sheet->setCellValue('A2', $vcat);
         $sheet->setCellValue('B2', $v->comorbidity); //COMORBID
         $sheet->setCellValue('C2', $v->unique_person_id); //UNIQUE PERSON ID
         $sheet->setCellValue('D2', $v->pwd); //PWD
