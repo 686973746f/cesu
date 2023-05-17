@@ -152,11 +152,13 @@
 </div>
 
 <script>
+    @if(request()->input('fyear'))
     $('#mytable').dataTable({
-        dom: 'Bfrtip',
+        dom: 'QBfrtip',
         buttons: [
             'copy', 'excel',
         ],
     });
+    @endif
 </script>
 @endsection
