@@ -1259,12 +1259,16 @@ class FhsisController extends Controller
             $year = date('Y');
         }
 
-        $m2l = [];
+        $m2l = array();
 
         //loop through barangay
         $blist = FhsisBarangay::orderBy('BGY_DESC', 'ASC')->get();
-        foreach($blist as $b) {
-            $m2l[] = $b->BGY_DESC;
+        foreach($blist as $ind => $b) {
+            //$m2l[] = $b->BGY_DESC;
+
+            array_push($m2l, [
+                'barangay' => $b->BGY_DESC,
+            ]);
 
             if(request()->input('year') != date('Y')) {
                 $l = date('n');
@@ -1280,16 +1284,23 @@ class FhsisController extends Controller
                 ->first();
 
                 if($s) {
-                    $m2l[$b->BGY_DESC][] = '✔';
+                    array_push($m2l[$ind], '✔');
+                    //$m2l[$b->BGY_DESC][] = '✔';
                 }
                 else {
-                    $m2l[$b->BGY_DESC][] = 'X';
+                    array_push($m2l[$ind], 'X');
+                    //$m2l[$b->BGY_DESC][] = 'X';
                 }
+
+                $t = Fhsis
             }
         }
 
+        //dd($m2l);
+
         return view('efhsis.timeliness', [
             'm2l' => $m2l,
+            'blist' => $blist,
             'year' => $year,
             'month' => $l,
         ]);
