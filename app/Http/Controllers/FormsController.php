@@ -1834,12 +1834,15 @@ class FormsController extends Controller
             }
 
             //Detect Date of Exposure if Same sa Onset of Illness
-            if($request->expoDateLastCont == $request->dateOnsetOfIllness) {
-                return back()
-                ->withInput()
-                ->with('msg', 'Date of Exposure should not be equal to Date of Onset of Illness. Date of Exposure should be before Onset of Illness.')
-                ->with('msgType', 'danger');
+            if(!is_null($request->dateOnsetOfIllness)) {
+                if(strtotime($request->expoDateLastCont) >= strtotime($request->dateOnsetOfIllness) ) {
+                    return back()
+                    ->withInput()
+                    ->with('msg', 'Date of Exposure SHOULD NOT BE GREATER OR EQUAL to Date of Onset of Illness.')
+                    ->with('msgType', 'danger');
+                }
             }
+            
 
             $createform = $request->user()->form()->create([
                 'created_at' => $set_created_at,

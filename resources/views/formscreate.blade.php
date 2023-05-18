@@ -1789,7 +1789,7 @@
                                     <div id="divExpoitem1">
                                         <div class="form-group">
                                           <label for=""><span class="text-danger font-weight-bold">*</span>Date of Last Contact/Exposure to COVID-19 Positive Area or Patient</label>
-                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont')}}">
+                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont', date('Y-m-d', strtotime('-5 Days')))}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
