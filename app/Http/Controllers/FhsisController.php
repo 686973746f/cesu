@@ -1291,8 +1291,6 @@ class FhsisController extends Controller
                     array_push($m2l[$ind], 'X');
                     //$m2l[$b->BGY_DESC][] = 'X';
                 }
-
-                $t = Fhsis
             }
         }
 
