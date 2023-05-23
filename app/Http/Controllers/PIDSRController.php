@@ -31,6 +31,7 @@ use App\Models\Meningitis;
 use App\Imports\PidsrImport;
 use Illuminate\Http\Request;
 use App\Models\Leptospirosis;
+use App\Models\SiteSettings;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
@@ -986,8 +987,16 @@ class PIDSRController extends Controller
     }
 
     public function manualsend() {
+        $s = SiteSettings::find(1);
+        
         Artisan::call('pisdrwndr:weekly');
 
+        $s->pidsr_early_sent = 1;
+        
+        if($s->isDirty()) {
+            $s->save();
+        }
+        
         return redirect()->route('pidsr.home')
         ->with('msg', 'Email Sent. Please check your Email.')
         ->with('msgtype', 'success');

@@ -414,6 +414,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function(
 
     Route::get('/fhsis/cesum2', [FhsisController::class, 'cesum2'])->name('fhsis_cesum2');
     Route::get('/fhsis/timeliness', [FhsisController::class, 'timelinesscheck'])->name('fhsis_timeliness');
+    Route::get('/fhsis/import', [FhsisController::class, 'pquery'])->name('fhsis_pquery');
 });
 
 Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_process'])->name('abtc_qr_process');

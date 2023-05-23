@@ -28,6 +28,7 @@ use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Mail\PidsrWndrMail;
+use App\Models\SiteSettings;
 use App\Models\Leptospirosis;
 use PhpOffice\PhpWord\PhpWord;
 use Illuminate\Console\Command;
@@ -80,993 +81,1003 @@ class PidsrWndr extends Command
         Settings::setPdfRendererPath(base_path() . '/vendor/barryvdh/laravel-dompdf');
         */
 
-        Settings::setPdfRendererName('MPDF');
-        Settings::setPdfRendererPath(base_path() . '/vendor/mpdf/mpdf');
-        
-        $templateProcessor  = new TemplateProcessor(storage_path('WNDR.docx'));
-        
-        $templateProcessor->setValue('mweek', date('W', strtotime('-1 Week')));
-        $templateProcessor->setValue('myear', date('Y', strtotime('-1 Week')));
+        $s = SiteSettings::find(1);
 
-        $templateProcessor->setValue('pdate', date('m/d/Y'));
-        $templateProcessor->setValue('adate', date('m/d/Y'));
-        $templateProcessor->setValue('sdate', date('m/d/Y'));
+        if($s->pidsr_early_sent == 0) {
+            Settings::setPdfRendererName('MPDF');
+            Settings::setPdfRendererPath(base_path() . '/vendor/mpdf/mpdf');
+            
+            $templateProcessor  = new TemplateProcessor(storage_path('WNDR.docx'));
+            
+            $templateProcessor->setValue('mweek', date('W', strtotime('-1 Week')));
+            $templateProcessor->setValue('myear', date('Y', strtotime('-1 Week')));
 
-        $list = [];
+            $templateProcessor->setValue('pdate', date('m/d/Y'));
+            $templateProcessor->setValue('adate', date('m/d/Y'));
+            $templateProcessor->setValue('sdate', date('m/d/Y'));
 
-        $afp = Afp::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            $list = [];
+
+            $afp = Afp::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
             });
-        });
 
-        if($afp->count() != 0) {
-            $l = $afp->get();
-            $get_type = 'Acute Flaccid Paralysis';
+            if($afp->count() != 0) {
+                $l = $afp->get();
+                $get_type = 'Acute Flaccid Paralysis';
 
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $afp_count = $afp->count();
+
+            $afp_update = $afp->update(['systemsent' => 1]);
+
+            $aefi_count = 0;
+
+            $ant = Anthrax::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($ant->count() != 0) {
+                $l = $ant->get();
+                $get_type = 'Anthrax';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $ant_count = $ant->count();
+
+            $ant_update = $ant->update(['systemsent' => 1]);
+
+            $hai_count = 0; 
+
+            $mea = Measles::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($mea->count() != 0) {
+                $l = $mea->get();
+                $get_type = 'Measles';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $mea_count = $mea->count();
+
+            $mea_update = $mea->update(['systemsent' => 1]);
+
+            $mgc = Meningo::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($mgc->count() != 0) {
+                $l = $mgc->get();
+                $get_type = 'Meningococcal Disease';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $mgc_count = $mgc->count();
+
+            $mgc_update = $mgc->update(['systemsent' => 1]);
+
+            $nt = Nt::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($nt->count() != 0) {
+                $l = $nt->get();
+                $get_type = 'Neonatal Tetanus';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $nt_count = $nt->count();
+
+            $nt_update = $nt->update(['systemsent' => 1]);
+
+            $psp = Psp::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($psp->count() != 0) {
+                $l = $psp->get();
+                $get_type = 'Paralytic Shellfish Poisoning';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $psp_count = $psp->count();
+
+            $psp_update = $psp->update(['systemsent' => 1]);
+
+            $rab = Rabies::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($rab->count() != 0) {
+                $l = $rab->get();
+                $get_type = 'Rabies';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $rab_count = $rab->count();
+            
+            $rab_update = $rab->update(['systemsent' => 1]);
+            
+            $sar_count = 0;
+
+            $abd = Abd::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($abd->count() != 0) {
+                $l = $abd->get();
+                $get_type = 'Acute Bloody Diarrhea';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $abd_count = $abd->count();
+
+            $abd_update = $abd->update(['systemsent' => 1]);
+
+            $aes = Aes::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($aes->count() != 0) {
+                $l = $aes->get();
+                $get_type = 'Acute Encephalitis Syndrome';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $aes_count = $aes->count();
+
+            $aes_update = $aes->update(['systemsent' => 1]);
+
+            $ahf = Ahf::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($ahf->count() != 0) {
+                $l = $ahf->get();
+                $get_type = 'Acute Hemorrhagic Fever Syndrome';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $ahf_count = $ahf->count();
+
+            $ahf_update = $ahf->update(['systemsent' => 1]);
+
+            $hep = Hepatitis::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($hep->count() != 0) {
+                $l = $hep->get();
+                $get_type = 'Acute Viral Hepatitis';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $hep_count = $hep->count();
+
+            $hep_update = $hep->update(['systemsent' => 1]);
+
+            $ame = Ames::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($ame->count() != 0) {
+                $l = $ame->get();
+                $get_type = 'AMES';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $ame_count = $ame->count();
+
+            $ame_update = $ame->update(['systemsent' => 1]);
+
+            $mgt = Meningitis::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+            
+            if($mgt->count() != 0) {
+                $l = $mgt->get();
+                $get_type = 'Bacterial Meningitis';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $mgt_count = $mgt->count();
+
+            $mgt_update = $mgt->update(['systemsent' => 1]);
+
+            $chi = Chikv::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($chi->count() != 0) {
+                $l = $chi->get();
+                $get_type = 'Chikungunya';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $chi_count = $chi->count();
+
+            $chi_update = $chi->update(['systemsent' => 1]);
+
+            $cho = Cholera::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($cho->count() != 0) {
+                $l = $cho->get();
+                $get_type = 'Cholera';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $cho_count = $cho->count();
+
+            $cho_update = $cho->update(['systemsent' => 1]);
+
+            $den = Dengue::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($den->count() != 0) {
+                $l = $den->get();
+                $get_type = 'Dengue';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $den_count = $den->count();
+
+            $den_update = $den->update(['systemsent' => 1]);
+
+            $dip = Diph::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($dip->count() != 0) {
+                $l = $dip->get();
+                $get_type = 'Diphtheria';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $dip_count = $dip->count();
+
+            $dip_update = $dip->update(['systemsent' => 1]);
+
+            $ili = Influenza::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($ili->count() != 0) {
+                $l = $ili->get();
+                $get_type = 'Influenza-like Illness';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $ili_count = $ili->count();
+
+            $ili_update = $ili->update(['systemsent' => 1]);
+
+            $lep = Leptospirosis::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($lep->count() != 0) {
+                $l = $lep->get();
+                $get_type = 'Leptospirosis';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $lep_count = $lep->count();
+
+            $lep_update = $lep->update(['systemsent' => 1]);
+
+            $mal = Malaria::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($mal->count() != 0) {
+                $l = $mal->get();
+                $get_type = 'Malaria';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $mal_count = $mal->count();
+
+            $mal_update = $mal->update(['systemsent' => 1]);
+
+            $nnt = Nnt::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($nnt->count() != 0) {
+                $l = $nnt->get();
+                $get_type = 'Non-Neonatal Tetanus';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $nnt_count = $nnt->count();
+
+            $nnt_update = $nnt->update(['systemsent' => 1]);
+
+            $per = Pert::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($per->count() != 0) {
+                $l = $per->get();
+                $get_type = 'Pertussis';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $per_count = $per->count();
+
+            $per_update = $per->update(['systemsent' => 1]);
+
+            $rtv = Rotavirus::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($rtv->count() != 0) {
+                $l = $rtv->get();
+                $get_type = 'RotaVirus';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $rtv_count = $rtv->count();
+
+            $rtv_update = $rtv->update(['systemsent' => 1]);
+
+            $typ = Typhoid::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($typ->count() != 0) {
+                $l = $typ->get();
+                $get_type = 'Typhoid and Parathyphoid Fever';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $typ_count = $typ->count();
+
+            $typ_update = $typ->update(['systemsent' => 1]);
+
+            $hfm = Hfmd::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+
+            if($hfm->count() != 0) {
+                $l = $hfm->get();
+                $get_type = 'Hfmd';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DateOfEntry,
+                    ]);
+                }
+            }
+
+            $hfm_count = $hfm->count();
+
+            $hfm_update = $hfm->update(['systemsent' => 1]);
+
+            //Category 1
+            $templateProcessor->setValue('afp', $afp_count);
+            $templateProcessor->setValue('aef', $aefi_count); //0
+            $templateProcessor->setValue('ant', $ant_count);
+            $templateProcessor->setValue('inf', $hai_count); //0
+            $templateProcessor->setValue('mea', $mea_count);
+            $templateProcessor->setValue('mgc', $mgc_count);
+            $templateProcessor->setValue('nt', $nt_count);
+            $templateProcessor->setValue('psp', $psp_count);
+            $templateProcessor->setValue('rab', $rab_count);
+            $templateProcessor->setValue('sar', 0); //0
+            $templateProcessor->setValue('hfm', $hfm_count);
+
+            //Category 2
+            $templateProcessor->setValue('abd', $abd_count);
+            $templateProcessor->setValue('aes', $aes_count);
+            $templateProcessor->setValue('ahf', $ahf_count);
+            $templateProcessor->setValue('hep', $hep_count);
+            $templateProcessor->setValue('ame', $ame_count);
+            $templateProcessor->setValue('mgt', $mgt_count);
+            $templateProcessor->setValue('chi', $chi_count);
+            $templateProcessor->setValue('cho', $cho_count);
+            $templateProcessor->setValue('den', $den_count);
+            $templateProcessor->setValue('dip', $dip_count);
+            $templateProcessor->setValue('ili', $ili_count);
+            $templateProcessor->setValue('lep', $lep_count);
+            $templateProcessor->setValue('mal', $mal_count);
+            $templateProcessor->setValue('nnt', $nnt_count);
+            $templateProcessor->setValue('per', $per_count);
+            $templateProcessor->setValue('rtv', $rtv_count);
+            $templateProcessor->setValue('typ', $typ_count);
+
+
+            $templateProcessor->saveAs(public_path('PIDSR_GenTrias_MW'.date('W').'.docx'));
+            
+            $phpWord = IOFactory::load(public_path('PIDSR_GenTrias_MW'.date('W').'.docx'));
+            $xmlWriter = IOFactory::createWriter($phpWord, 'PDF');
+            $xmlWriter->save(public_path('PIDSR_GenTrias_MW'.date('W').'.pdf'));
+
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new PidsrWndrMail($list));
+
+            File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.pdf'));
+            File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.docx'));
+        }
+        else {
+            $s->pidsr_early_sent = 0;
+            if($s->isDirty()) {
+                $s->save();
             }
         }
-
-        $afp_count = $afp->count();
-
-        $afp_update = $afp->update(['systemsent' => 1]);
-
-        $aefi_count = 0;
-
-        $ant = Anthrax::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($ant->count() != 0) {
-            $l = $ant->get();
-            $get_type = 'Anthrax';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $ant_count = $ant->count();
-
-        $ant_update = $ant->update(['systemsent' => 1]);
-
-        $hai_count = 0; 
-
-        $mea = Measles::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($mea->count() != 0) {
-            $l = $mea->get();
-            $get_type = 'Measles';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $mea_count = $mea->count();
-
-        $mea_update = $mea->update(['systemsent' => 1]);
-
-        $mgc = Meningo::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($mgc->count() != 0) {
-            $l = $mgc->get();
-            $get_type = 'Meningococcal Disease';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $mgc_count = $mgc->count();
-
-        $mgc_update = $mgc->update(['systemsent' => 1]);
-
-        $nt = Nt::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($nt->count() != 0) {
-            $l = $nt->get();
-            $get_type = 'Neonatal Tetanus';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $nt_count = $nt->count();
-
-        $nt_update = $nt->update(['systemsent' => 1]);
-
-        $psp = Psp::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($psp->count() != 0) {
-            $l = $psp->get();
-            $get_type = 'Paralytic Shellfish Poisoning';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $psp_count = $psp->count();
-
-        $psp_update = $psp->update(['systemsent' => 1]);
-
-        $rab = Rabies::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($rab->count() != 0) {
-            $l = $rab->get();
-            $get_type = 'Rabies';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $rab_count = $rab->count();
-        
-        $rab_update = $rab->update(['systemsent' => 1]);
-        
-        $sar_count = 0;
-
-        $abd = Abd::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($abd->count() != 0) {
-            $l = $abd->get();
-            $get_type = 'Acute Bloody Diarrhea';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $abd_count = $abd->count();
-
-        $abd_update = $abd->update(['systemsent' => 1]);
-
-        $aes = Aes::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($aes->count() != 0) {
-            $l = $aes->get();
-            $get_type = 'Acute Encephalitis Syndrome';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $aes_count = $aes->count();
-
-        $aes_update = $aes->update(['systemsent' => 1]);
-
-        $ahf = Ahf::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($ahf->count() != 0) {
-            $l = $ahf->get();
-            $get_type = 'Acute Hemorrhagic Fever Syndrome';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $ahf_count = $ahf->count();
-
-        $ahf_update = $ahf->update(['systemsent' => 1]);
-
-        $hep = Hepatitis::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($hep->count() != 0) {
-            $l = $hep->get();
-            $get_type = 'Acute Viral Hepatitis';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $hep_count = $hep->count();
-
-        $hep_update = $hep->update(['systemsent' => 1]);
-
-        $ame = Ames::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($ame->count() != 0) {
-            $l = $ame->get();
-            $get_type = 'AMES';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $ame_count = $ame->count();
-
-        $ame_update = $ame->update(['systemsent' => 1]);
-
-        $mgt = Meningitis::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-        
-        if($mgt->count() != 0) {
-            $l = $mgt->get();
-            $get_type = 'Bacterial Meningitis';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $mgt_count = $mgt->count();
-
-        $mgt_update = $mgt->update(['systemsent' => 1]);
-
-        $chi = Chikv::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($chi->count() != 0) {
-            $l = $chi->get();
-            $get_type = 'Chikungunya';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $chi_count = $chi->count();
-
-        $chi_update = $chi->update(['systemsent' => 1]);
-
-        $cho = Cholera::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($cho->count() != 0) {
-            $l = $cho->get();
-            $get_type = 'Cholera';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $cho_count = $cho->count();
-
-        $cho_update = $cho->update(['systemsent' => 1]);
-
-        $den = Dengue::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($den->count() != 0) {
-            $l = $den->get();
-            $get_type = 'Dengue';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $den_count = $den->count();
-
-        $den_update = $den->update(['systemsent' => 1]);
-
-        $dip = Diph::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($dip->count() != 0) {
-            $l = $dip->get();
-            $get_type = 'Diphtheria';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $dip_count = $dip->count();
-
-        $dip_update = $dip->update(['systemsent' => 1]);
-
-        $ili = Influenza::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($ili->count() != 0) {
-            $l = $ili->get();
-            $get_type = 'Influenza-like Illness';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $ili_count = $ili->count();
-
-        $ili_update = $ili->update(['systemsent' => 1]);
-
-        $lep = Leptospirosis::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($lep->count() != 0) {
-            $l = $lep->get();
-            $get_type = 'Leptospirosis';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $lep_count = $lep->count();
-
-        $lep_update = $lep->update(['systemsent' => 1]);
-
-        $mal = Malaria::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($mal->count() != 0) {
-            $l = $mal->get();
-            $get_type = 'Malaria';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $mal_count = $mal->count();
-
-        $mal_update = $mal->update(['systemsent' => 1]);
-
-        $nnt = Nnt::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($nnt->count() != 0) {
-            $l = $nnt->get();
-            $get_type = 'Non-Neonatal Tetanus';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $nnt_count = $nnt->count();
-
-        $nnt_update = $nnt->update(['systemsent' => 1]);
-
-        $per = Pert::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($per->count() != 0) {
-            $l = $per->get();
-            $get_type = 'Pertussis';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $per_count = $per->count();
-
-        $per_update = $per->update(['systemsent' => 1]);
-
-        $rtv = Rotavirus::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($rtv->count() != 0) {
-            $l = $rtv->get();
-            $get_type = 'RotaVirus';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $rtv_count = $rtv->count();
-
-        $rtv_update = $rtv->update(['systemsent' => 1]);
-
-        $typ = Typhoid::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($typ->count() != 0) {
-            $l = $typ->get();
-            $get_type = 'Typhoid and Parathyphoid Fever';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $typ_count = $typ->count();
-
-        $typ_update = $typ->update(['systemsent' => 1]);
-
-        $hfm = Hfmd::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        });
-
-        if($hfm->count() != 0) {
-            $l = $hfm->get();
-            $get_type = 'Hfmd';
-
-            foreach($l as $i) {
-                array_push($list, [
-                    'type' => $get_type,
-                    'name' => $i->FullName,
-                    'age' => $i->AgeYears,
-                    'sex' => $i->Sex,
-                    'brgy' => $i->Barangay,
-                    'address' => $i->Barangay.', '.$i->Streetpurok,
-                    'doe' => $i->DateOfEntry,
-                ]);
-            }
-        }
-
-        $hfm_count = $hfm->count();
-
-        $hfm_update = $hfm->update(['systemsent' => 1]);
-
-        //Category 1
-        $templateProcessor->setValue('afp', $afp_count);
-        $templateProcessor->setValue('aef', $aefi_count); //0
-        $templateProcessor->setValue('ant', $ant_count);
-        $templateProcessor->setValue('inf', $hai_count); //0
-        $templateProcessor->setValue('mea', $mea_count);
-        $templateProcessor->setValue('mgc', $mgc_count);
-        $templateProcessor->setValue('nt', $nt_count);
-        $templateProcessor->setValue('psp', $psp_count);
-        $templateProcessor->setValue('rab', $rab_count);
-        $templateProcessor->setValue('sar', 0); //0
-        $templateProcessor->setValue('hfm', $hfm_count);
-
-        //Category 2
-        $templateProcessor->setValue('abd', $abd_count);
-        $templateProcessor->setValue('aes', $aes_count);
-        $templateProcessor->setValue('ahf', $ahf_count);
-        $templateProcessor->setValue('hep', $hep_count);
-        $templateProcessor->setValue('ame', $ame_count);
-        $templateProcessor->setValue('mgt', $mgt_count);
-        $templateProcessor->setValue('chi', $chi_count);
-        $templateProcessor->setValue('cho', $cho_count);
-        $templateProcessor->setValue('den', $den_count);
-        $templateProcessor->setValue('dip', $dip_count);
-        $templateProcessor->setValue('ili', $ili_count);
-        $templateProcessor->setValue('lep', $lep_count);
-        $templateProcessor->setValue('mal', $mal_count);
-        $templateProcessor->setValue('nnt', $nnt_count);
-        $templateProcessor->setValue('per', $per_count);
-        $templateProcessor->setValue('rtv', $rtv_count);
-        $templateProcessor->setValue('typ', $typ_count);
-
-
-        $templateProcessor->saveAs(public_path('PIDSR_GenTrias_MW'.date('W').'.docx'));
-        
-        $phpWord = IOFactory::load(public_path('PIDSR_GenTrias_MW'.date('W').'.docx'));
-        $xmlWriter = IOFactory::createWriter($phpWord, 'PDF');
-        $xmlWriter->save(public_path('PIDSR_GenTrias_MW'.date('W').'.pdf'));
-
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new PidsrWndrMail($list));
-
-        File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.pdf'));
-        File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.docx'));
     }
 }

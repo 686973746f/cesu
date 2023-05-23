@@ -6,6 +6,7 @@ use PDO;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use App\Models\FhsisM2;
+use App\Models\FhsisDental;
 use App\Models\FhsisMortBhs;
 use App\Models\FhsisNonComm;
 use Illuminate\Http\Request;
@@ -13,12 +14,13 @@ use App\Models\FhsisBarangay;
 use App\Models\FhsisChildCare;
 use App\Models\FhsisPopulation;
 use App\Models\AbtcBakunaRecords;
-use App\Models\FhsisDental;
-use App\Models\FhsisEnvironmentalHealth;
+use Illuminate\Support\Facades\DB;
 use App\Models\FhsisFamilyPlanning1;
 use App\Models\FhsisFamilyPlanning2;
 use App\Models\FhsisFamilyPlanning3;
 use App\Models\FhsisMortalityNatality;
+use App\Models\FhsisEnvironmentalHealth;
+use Illuminate\Support\Facades\Storage;
 
 class FhsisController extends Controller
 {
@@ -1302,5 +1304,17 @@ class FhsisController extends Controller
             'year' => $year,
             'month' => $l,
         ]);
+    }
+
+    public function pquery() {
+        $filePath = 'D:\laragon\www\cesu\storage\app\efhis\output.sql';
+
+        $sql = file_get_contents($filePath);
+
+        DB::unprepared($sql);
+
+        return redirect()->back()
+        ->with('msg', 'Import Successful.')
+        ->with('msgtype', 'success');
     }
 }

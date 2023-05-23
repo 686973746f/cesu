@@ -12,8 +12,15 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        @if(session('msg'))
+                        <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                            {{session('msg')}}
+                        </div>
+                        @endif
                         <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Report</a>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
+                        <hr>
+                        <a href="{{route('fhsis_pquery')}}" class="btn btn-primary btn-block">Start MDB Import</a>
                     </div>
                 </div>
             </div>

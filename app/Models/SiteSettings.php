@@ -45,5 +45,6 @@ class SiteSettings extends Model
         'default_dru_province_json',
         'default_dru_citymun',
         'default_dru_citymun_json',
+        
     ];
 }
