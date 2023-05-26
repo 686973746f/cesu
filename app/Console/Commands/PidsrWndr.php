@@ -28,6 +28,7 @@ use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Mail\PidsrWndrMail;
+use App\Models\Aefi;
 use App\Models\SiteSettings;
 use App\Models\Leptospirosis;
 use PhpOffice\PhpWord\PhpWord;
@@ -136,6 +137,24 @@ class PidsrWndr extends Command
             $afp_update = $afp->update(['systemsent' => 1]);
 
             $aefi_count = 0;
+
+            /*
+            $aefi_count = Aefi::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            });
+            */
 
             $ant = Anthrax::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
