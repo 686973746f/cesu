@@ -1792,7 +1792,7 @@
                                     <div id="divExpoitem1">
                                         <div class="form-group">
                                           <label for=""><span class="text-danger font-weight-bold">*</span>Date of Last Contact/Exposure to COVID-19 Positive Area or Patient</label>
-                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont', date('Y-m-d', strtotime('-5 Days')))}}">
+                                          <input type="date" class="form-control" name="expoDateLastCont" id="expoDateLastCont" min="{{date('Y-m-d', strtotime('-21 Days'))}}" max="{{date('Y-m-d')}}" value="{{old('expoDateLastCont', date('Y-m-d', strtotime('-6 Days')))}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -1939,7 +1939,7 @@
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited2" value="Closed Settings" {{(is_array(old('placevisited')) && in_array("Cloed Settings", old('placevisited'))) ? 'checked' : ''}}>
+                                                      <input type="checkbox" class="form-check-input" name="placevisited[]" id="placevisited2" value="Closed Settings" {{(is_array(old('placevisited')) && in_array("Cloed Settings", old('placevisited'))) ? 'checked' : 'checked'}}>
                                                       Closed Settings
                                                     </label>
                                                 </div>
@@ -1948,7 +1948,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                               <label for="locName2"><span class="text-danger font-weight-bold">*</span>Name of Place</label>
-                                                              <input class="form-control" type="text" name="locName2" id="locName2" value="{{old('locName2')}}" style="text-transform: uppercase;">
+                                                              <input class="form-control" type="text" name="locName2" id="locName2" value="{{old('locName2', 'HOME')}}" style="text-transform: uppercase;">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -1967,13 +1967,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateFrom2"><span class="text-danger font-weight-bold">*</span>From</label>
-                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2" value="{{old('locDateFrom2')}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateFrom2" id="locDateFrom2" value="{{old('locDateFrom2', date('Y-m-d', strtotime('-12 Days')))}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="locDateTo2"><span class="text-danger font-weight-bold">*</span>To</label>
-                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2" value="{{old('locDateTo2')}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                                <input class="form-control" type="date" name="locDateTo2" id="locDateTo2" value="{{old('locDateTo2', date('Y-m-d', strtotime('-6 Days')))}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
