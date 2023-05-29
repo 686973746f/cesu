@@ -1583,6 +1583,18 @@
                                                                 <input
                                                                   class="form-check-input"
                                                                   type="checkbox"
+                                                                  value="Coryza"
+                                                                  name="sasCheck[]"
+                                                                  id="signsCheck9"
+                                                                  {{(in_array("Coryza", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
+                                                                />
+                                                                <label class="form-check-label" for="signsCheck9">Colds/Coryza</label>
+                                                            </div>
+                                                            <!--
+                                                            <div class="form-check">
+                                                                <input
+                                                                  class="form-check-input"
+                                                                  type="checkbox"
                                                                   value="Colds"
                                                                   name="sasCheck[]"
                                                                   id="signsCheck19"
@@ -1590,6 +1602,7 @@
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck19">Colds</label>
                                                             </div>
+                                                            -->
                                                             <div class="form-check">
                                                                 <input
                                                                   class="form-check-input"
@@ -1632,7 +1645,7 @@
                                                                   id="signsCheck7"
                                                                   {{(in_array("Myalgia", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck7">Myalgia/Body Pain</label>
+                                                                <label class="form-check-label" for="signsCheck7">Body Pain/Myalgia</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1645,17 +1658,7 @@
                                                                 />
                                                                 <label class="form-check-label" for="signsCheck8">Sore Throat</label>
                                                             </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                  class="form-check-input"
-                                                                  type="checkbox"
-                                                                  value="Coryza"
-                                                                  name="sasCheck[]"
-                                                                  id="signsCheck9"
-                                                                  {{(in_array("Coryza", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
-                                                                />
-                                                                <label class="form-check-label" for="signsCheck9">Coryza</label>
-                                                            </div>
+                                                            
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-check">
@@ -1733,7 +1736,7 @@
                                                                   id="signsCheck16"
                                                                   {{(in_array("Anosmia (Loss of Smell)", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck16">Anosmia/Loss of Smell</small></label>
+                                                                <label class="form-check-label" for="signsCheck16">Loss of Smell (Anosmia)</small></label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -1744,7 +1747,7 @@
                                                                   id="signsCheck17"
                                                                   {{(in_array("Ageusia (Loss of Taste)", old('sasCheck', explode(",", $records->SAS)))) ? 'checked' : ''}}
                                                                 />
-                                                                <label class="form-check-label" for="signsCheck17">Ageusia/Loss of Taste</small></label>
+                                                                <label class="form-check-label" for="signsCheck17">Loss of Taste (Ageusia)</small></label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
