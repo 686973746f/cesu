@@ -66,7 +66,7 @@
                                 <td>{{$a->suffix}}</td>
                                 <td>{{date('m/d/Y', strtotime($a->birthdate))}} <small class="text-muted">({{$a->getAge()}} y.o)</small></td>
                                 <td>{{$a->sex}}</td>
-                                <td>{{date('m/d/Y', strtotime($a->vaccination_date))}} {{$a->showDoseType()}}</td>
+                                <td class="{{$a->doseCheckColor()}}">{{date('m/d/Y', strtotime($a->vaccination_date))}} {{$a->showDoseType()}}</td>
                                 <td>{{$a->vaccine_manufacturer_name}}</td>
                                 <td>{{$a->category}}</td>
                                 <td>{{$a->comorbidity}}</td>

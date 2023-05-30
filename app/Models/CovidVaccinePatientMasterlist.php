@@ -76,4 +76,103 @@ class CovidVaccinePatientMasterlist extends Model
     public function getAge() {
         return Carbon::parse($this->birthdate)->age;
     }
+
+    public function doseCheckColor() {
+        if($this->first_dose == 'Y') {
+
+        }
+        else if($this->second_dose == 'Y') {
+            if($this->vaccine_manufacturer_name != 'J&J') {
+                //find first dose
+                $f = CovidVaccinePatientMasterlist::where('first_dose', 'Y')
+                ->where('last_name', $this->last_name)
+                ->where('first_name', $this->first_name)
+                ->whereDate('birthdate', $this->birthdate);
+
+                if(!is_null($this->middle_name)) {
+                    $f = $f->where('middle_name', $this->middle_name);
+                }
+
+                if(!is_null($this->suffix)) {
+                    $f = $f->where('suffix', $this->suffix);
+                }
+
+                $f = $f->first();
+
+                if($f) {
+                    if(strtotime($f->vaccination_date) <= strtotime($this->vaccination_date)) {
+                        return '';
+                    }
+                    else {
+                        return 'bg-danger';
+                    }
+                }
+                else {
+                    return 'bg-danger';
+                }
+            }
+            else {
+                return '';
+            }
+        }
+        else if($this->additional_booster_dose == 'Y') {
+            //find second dose
+            
+            $f = CovidVaccinePatientMasterlist::where('second_dose', 'Y')
+            ->where('last_name', $this->last_name)
+            ->where('first_name', $this->first_name)
+            ->whereDate('birthdate', $this->birthdate);
+
+            if(!is_null($this->middle_name)) {
+                $f = $f->where('middle_name', $this->middle_name);
+            }
+
+            if(!is_null($this->suffix)) {
+                $f = $f->where('suffix', $this->suffix);
+            }
+
+            $f = $f->first();
+
+            if($f) {
+                if(strtotime($f->vaccination_date) <= strtotime($this->vaccination_date)) {
+                    return '';
+                }
+                else {
+                    return 'bg-danger';
+                }
+            }
+            else {
+                return 'bg-danger';
+            }
+        }
+        else if($this->second_additional_booster_dose == 'Y') {
+            //find second dose
+            $f = CovidVaccinePatientMasterlist::where('additional_booster_dose', 'Y')
+            ->where('last_name', $this->last_name)
+            ->where('first_name', $this->first_name)
+            ->whereDate('birthdate', $this->birthdate);
+
+            if(!is_null($this->middle_name)) {
+                $f = $f->where('middle_name', $this->middle_name);
+            }
+
+            if(!is_null($this->suffix)) {
+                $f = $f->where('suffix', $this->suffix);
+            }
+
+            $f = $f->first();
+
+            if($f) {
+                if(strtotime($f->vaccination_date) <= strtotime($this->vaccination_date)) {
+                    return '';
+                }
+                else {
+                    return 'bg-danger';
+                }
+            }
+            else {
+                return 'bg-danger';
+            }
+        }
+    }
 }
