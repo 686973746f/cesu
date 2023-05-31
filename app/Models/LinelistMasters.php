@@ -24,6 +24,8 @@ class LinelistMasters extends Model
         'laSallePreparedBy',
         'laSallePreparedByDate',
         'is_override',
+        'time_started',
+        'date_started',
     ];
 
     public function user() {

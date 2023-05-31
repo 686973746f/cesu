@@ -174,6 +174,13 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/linelist/ajaxList', [LineListController::class, 'ajaxLineList'])->name('linelist.ajax');
     Route::get('/linelist/{link}/print/{id}', [LineListController::class, 'print'])->name('linelist.print');
 
+    //Linelist V2
+    Route::post('linelistv2/create', [LineListController::class, 'createlinelistv2'])->name('llv2.create');
+    Route::get('linelistv2/view/{masterid}', [LineListController::class, 'viewlinelistv2'])->name('llv2.view');
+    Route::post('linelistv2/view/{masterid}/add', [LineListController::class, 'linelistv2addsub'])->name('llv2.add');
+    Route::post('linelistv2/view/{masterid}/process/{subid}', [LineListController::class, 'processlinelistv2'])->name('llv2.process');
+    Route::post('linelistv2/view/{masterid}/close', [LineListController::class, 'linelistv2close'])->name('llv2.close');
+
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/daily', [ReportController::class, 'viewDaily'])->name('report.daily');
     Route::get('/report/situational')->name('report.situational.index');

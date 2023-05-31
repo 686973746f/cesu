@@ -28,6 +28,10 @@ class CreateLinelistMasterTable extends Migration
             $table->string('laSallePreparedBy')->nullable();
             $table->dateTime('laSallePreparedByDate')->nullable();
             $table->tinyInteger('is_override')->default(0);
+
+            $table->time('time_started')->nullable();
+            $table->date('date_started')->nullable();
+            $table->tinyInteger('is_locked')->default(0);
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use Carbon\Carbon;
 use App\Models\Forms;
 use App\Models\Records;
 use App\Models\LinelistSubs;
@@ -522,5 +523,156 @@ class LineListController extends Controller
         }
 
         return redirect()->action([LineListController::class, 'index'])->with('status', 'LaSalle Linelist has been created successfully.')->with('statustype', 'success');
+    }
+
+    public function createlinelistv2(Request $request) {
+        if($request->isOverride == 1) {
+            session(['set_override' => 1]);
+        }
+        else {
+            session(['set_override' => 0]);
+        }
+
+        $c = $request->user()->linelistmaster()->create([
+            'type' => $request->type,
+            'dru' => 'CHO GENERAL TRIAS',
+            'contactPerson' => 'LUIS P. BROAS',
+            'contactMobile' => '09175611254',
+
+            'laSallePhysician' => ($request->type == 2) ? 'JONATHAN P. LUSECO, MD' : NULL,
+            'laSalleDateAndTimeShipment' => ($request->type == 2) ? date('Y-m-d 10:00:00', strtotime('+1 Day')) : NULL,
+            'email' => ($request->type == 2) ? 'cesu.gentrias@gmail.com' : NULL,
+            'contactTelephone' => ($request->type == 2) ? '(046) 509 5289' : NULL,
+            'laSallePreparedBy' => ($request->type == 2) ? 'DAISY A. ROJAS' : NULL,
+            'laSallePreparedByDate' => ($request->type == 2) ? date('Y-m-d 10:00:00', strtotime('+1 Day')) : NULL,
+
+            'is_override' => session('set_override'),
+
+            'date_started' => $request->date_started,
+            'time_started' => $request->time_started,
+        ]);
+
+        return redirect()->route('llv2.view', $c->id);
+    }
+
+    public function viewlinelistv2($masterid) {
+        $d = LinelistMasters::findOrFail($masterid);
+        $e = LinelistSubs::where('linelist_masters_id', $d->id)->get();
+
+        return view('linelistv2_view', [
+            'd' => $d,
+            'e' => $e,
+        ]);
+    }
+
+    public function linelistv2addsub($masterid, Request $request) {
+        $m = LinelistMasters::findOrFail($masterid);
+
+        //check if patient already exists inside
+        $existcheck = LinelistSubs::where('linelist_masters_id', $m->id)
+        ->where('records_id', $request->qr)
+        ->first();
+
+        if($existcheck) {
+            return redirect()->back()
+            ->with('msg', 'Error: Patient already exists inside the Linelist.')
+            ->with('msgtype', 'warning');
+        }
+
+        if($m->type == 2) {
+            //Count number of Swab based on the number of linelist done to the record id
+            $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
+                $q->where('type', 2)
+                ->where('is_override', 0);
+            })
+            ->where('records_id', $request->qr)
+            ->count();
+        }
+        else {
+            $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
+                $q->where('type', 1)
+                ->where('is_override', 0);
+            })
+            ->where('records_id', $request->qr)
+            ->count();
+        }
+
+        if($rctr <= 0) {
+            $fcount = '1ST'; 
+        }
+        else if($rctr == 1) {
+            $fcount = '2ND'; 
+        }
+        else if($rctr >= 2) {
+            $fcount = '3RD'; 
+        }
+
+        //verify patient existence in system
+
+        //count pila sa specimen
+        $pila_count = LinelistSubs::where('linelist_masters_id', $m->id)->count() + 1;
+
+        //add time based on time started
+        $timeStartedDateTime = Carbon::parse($m->date_started.' '.$m->time_started);
+
+        // Increase the time by 2 minutes
+        $timeStartedDateTime->addMinutes($pila_count * 2);
+
+        // Retrieve the updated time value
+        $updatedTime = $timeStartedDateTime->format('Y-m-d H:i:s');
+
+        $r = Records::findOrFail($request->qr);
+
+        $query = LinelistSubs::create([
+            'linelist_masters_id' => $m->id,
+            'specNo' => $pila_count,
+            'records_id' => $r->id,
+            'dateAndTimeCollected' => $updatedTime,
+            'remarks' => $fcount,
+
+            'accessionNo' => NULL,
+            'oniSpecType' => ($m->type == 1) ? $r->getLatestSwabType(): NULL,
+            'oniReferringHospital' => ($m->type == 1) ? 'CHO GENERAL TRIAS' : NULL,
+        ]);
+
+        return redirect()->route('llv2.view', $m->id)
+        ->with('msg', 'Added')
+        ->with('msgtype', 'success');
+    }
+
+    public function processlinelistv2($masterid, $subid, Request $request) {
+        $m = LinelistMasters::findOrFail($masterid);
+
+        if($request->submit == 'delete') {
+            $row = LinelistSubs::findOrFail($subid);
+            $row->delete();
+
+            $msg = 'Deleted';
+            $msgtype = 'success';
+        }
+        else if($request->submit == 'moveup') {
+
+        }
+        else if($request->submit == 'movedown') {
+
+        }
+
+        return redirect()->route('llv2.view', $m->id)
+        ->with('msg', $msg)
+        ->with('msgtype', $msgtype);
+    }
+
+    public function linelistv2close($masterid) {
+        $f = LinelistMasters::findOrFail($masterid);
+
+        $f->is_locked = 1;
+
+        if($f->isDirty()) {
+            $f->save();
+        }
+
+        return redirect()->route('linelist.index')
+        ->with('status', 'Linelist V2 successfully closed.')
+        ->with('statustype', 'success');
     }
 }

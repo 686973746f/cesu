@@ -536,4 +536,25 @@ class Records extends Model
 
         return $brgy_data[$brgy_key]['brgyCode'];
     }
+
+    public function getLatestSwabType() {
+        $s = Forms::where('records_id', $this->id)->orderBy('created_at', 'DESC')->first();
+
+        if(is_null($s->testDateCollected2)) {
+            if($s->testType1 == 'OPS AND NPS') {
+                return 'OPS+NPS';
+            }
+            else {
+                return $s->testType1;
+            }
+        }
+        else {
+            if($s->testType2 == 'OPS AND NPS') {
+                return 'OPS+NPS';
+            }
+            else {
+                return $s->testType2;
+            }
+        }
+    }
 }
