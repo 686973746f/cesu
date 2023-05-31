@@ -13,7 +13,7 @@
                 <form action="{{route('llv2.add', $d->id)}}" method="POST">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Scan QR of Patient CIF here" name="qr" id="qr" required autofocus>
+                        <input type="text" class="form-control" placeholder="Scan QR of Patient CIF here" name="qr" id="qr" autocomplete="off" required autofocus>
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" type="submit" name="submit" value="add">Add</button>
                         </div>
@@ -35,9 +35,11 @@
                             <td class="text-center"><b>{{($ind + 1)}}</b></td>
                             <td>{{$list->records->getName()}}</td>
                             <td class="text-center">{{date('m/d/Y h:i A', strtotime($list->dateAndTimeCollected))}}</td>
-                            <th>
+                            <th class="text-center">
                                 <form action="{{route('llv2.process', ['masterid' => $d->id, 'subid' => $list->id])}}" method="POST">
-                                    <button type="button" class="btn btn-primary"></button>
+                                    <button type="button" class="btn btn-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </form>
                             </th>
                         </tr>
