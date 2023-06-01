@@ -98,10 +98,12 @@
                             <td style="vertical-align: middle;">{{date('m/d/Y h:i A (D)', strtotime($item->created_at))}}</td>
                             <td style="vertical-align: middle;">{{$item->user->name}}</td>
                             <td class="text-center" style="vertical-align: middle;">
-                                <a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                
                                 @if($item->is_locked == 0)
+                                <button type="button" class="btn btn-primary disabled"><i class="fa fa-print" aria-hidden="true"></i></button>
                                 <a class="btn btn-secondary" href="{{route('llv2.view', $item->id)}}"><i class="fa fa-cog" aria-hidden="true"></i></a>
                                 @else
+                                <a class="btn btn-primary" href="linelist/{{$link}}/print/{{$item->id}}?s=a4"><i class="fa fa-print" aria-hidden="true"></i></a>
                                 <button type="button" class="btn btn-secondary disabled"><i class="fa fa-cog" aria-hidden="true"></i></button>
                                 @endif
                             </td>

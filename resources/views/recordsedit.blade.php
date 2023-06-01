@@ -1649,5 +1649,12 @@
                 $('#indg_specify').prop('required', false);
             }
         }).trigger('change');
+
+        $('#philhealth').change(function (e) { 
+            e.preventDefault();
+            var value = $(this).val();
+            var result = value.replace(/-/g, ''); // Remove dashes using regex
+            $(this).val(result);
+        }).trigger('change');
     </script>
 @endsection

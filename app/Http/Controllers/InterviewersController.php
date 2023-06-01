@@ -23,6 +23,9 @@ class InterviewersController extends Controller
             $list = Interviewers::where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',$search)."%")
             ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',$search)."%")
             ->orWhere('id', request()->input('q'))
+            ->orWhereHas('brgy', function($q) use ($search) {
+                $q->where('brgyName', 'LIKE', "%$search%");
+            })
             ->paginate(10);
         }
         else {

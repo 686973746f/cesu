@@ -579,11 +579,28 @@ class LineListController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        //check records
         $r = Records::find($request->qr);
 
         if(!($r)) {
             return redirect()->back()
             ->with('msg', 'Error: Patient record does not exist. Please verify the QR and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        //check record if has swab schedule on the specified date
+        $chk1 = Forms::whereHas('records', function ($q) use ($r) {
+            $q->where('id', $r->id);
+        })
+        ->where(function ($q) use ($m) {
+            $q->whereDate('testDateCollected1', $m->date_started)
+            ->orWhereDate('testDateCollected2', $m->date_started);
+        })
+        ->first();
+
+        if(!($chk1)) {
+            return redirect()->back()
+            ->with('msg', 'Error: Patient has no existing Swab Schedule on '.date('m/d/Y', strtotime($m->date_started)))
             ->with('msgtype', 'warning');
         }
 
