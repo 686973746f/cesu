@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Linelist V2</b></div>
+            <div class="card-header"><b>Linelist V2 - {{$d->getType()}}</b></div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -13,7 +13,7 @@
                 <form action="{{route('llv2.add', $d->id)}}" method="POST">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Scan QR of Patient CIF here" name="qr" id="qr" autocomplete="off" required autofocus>
+                        <input type="text" class="form-control" placeholder="Scan QR/Type ID of Patient CIF here" name="qr" id="qr" autocomplete="off" required autofocus>
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" type="submit" name="submit" value="add">Add</button>
                         </div>
@@ -33,13 +33,22 @@
                         @foreach($e as $ind => $list)
                         <tr>
                             <td class="text-center"><b>{{($ind + 1)}}</b></td>
-                            <td>{{$list->records->getName()}}</td>
+                            <td>{{$list->records->getName()}} #{{$list->records_id}}</td>
                             <td class="text-center">{{date('m/d/Y h:i A', strtotime($list->dateAndTimeCollected))}}</td>
                             <th class="text-center">
                                 <form action="{{route('llv2.process', ['masterid' => $d->id, 'subid' => $list->id])}}" method="POST">
-                                    <button type="button" class="btn btn-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-                                    <button type="button" class="btn btn-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
-                                    <button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    @csrf
+                                    @if($ind != 0)
+                                    <button type="submit" name="submit" class="btn btn-primary" value="moveup"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                                    @else
+                                    <button type="button" class="btn btn-primary disabled"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                                    @endif
+                                    @if(!($loop->last))
+                                    <button type="submit" name="submit" class="btn btn-primary" value="movedown"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                                    @else
+                                    <button type="button" name="submit" class="btn btn-primary disabled"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                                    @endif
+                                    <button type="submit" name="submit" class="btn btn-danger" value="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </form>
                             </th>
                         </tr>

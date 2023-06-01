@@ -579,6 +579,14 @@ class LineListController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        $r = Records::find($request->qr);
+
+        if(!($r)) {
+            return redirect()->back()
+            ->with('msg', 'Error: Patient record does not exist. Please verify the QR and try again.')
+            ->with('msgtype', 'warning');
+        }
+
         if($m->type == 2) {
             //Count number of Swab based on the number of linelist done to the record id
             $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
@@ -621,8 +629,6 @@ class LineListController extends Controller
         // Retrieve the updated time value
         $updatedTime = $timeStartedDateTime->format('Y-m-d H:i:s');
 
-        $r = Records::findOrFail($request->qr);
-
         $query = LinelistSubs::create([
             'linelist_masters_id' => $m->id,
             'specNo' => $pila_count,
@@ -642,19 +648,75 @@ class LineListController extends Controller
 
     public function processlinelistv2($masterid, $subid, Request $request) {
         $m = LinelistMasters::findOrFail($masterid);
+        $row = LinelistSubs::findOrFail($subid);
 
         if($request->submit == 'delete') {
-            $row = LinelistSubs::findOrFail($subid);
-            $row->delete();
+            //loop through rows pababa
+            $list = LinelistSubs::where('linelist_masters_id', $m->id)
+            ->where('id', '>', $row->id)
+            ->get();
+
+            if($list->count() != 0) {
+                foreach($list as $k => $l) {
+                    //transfer id to previous record
+                    $prev_id = LinelistSubs::where('linelist_masters_id', $m->id)
+                    ->where('id', '<', $l->id)
+                    ->orderBy('id', 'DESC')
+                    ->first();
+    
+                    $prev_id->records_id = $l->records->id;
+                    $prev_id->save();
+    
+                    if($k === $list->count() - 1) {
+                        $l->delete();
+                    }
+                }
+            }
+            else {
+                $row->delete();
+            }
 
             $msg = 'Deleted';
             $msgtype = 'success';
         }
         else if($request->submit == 'moveup') {
+            //get id ng nasa itaas
+            $gid = LinelistSubs::where('linelist_masters_id', $m->id)
+            ->where('specNo', ($row->specNo - 1))
+            ->first();
 
+            $x = LinelistSubs::findOrFail($gid->id);
+
+            $a = $x->records_id;
+            $b = $row->records_id;
+
+            $x->records_id = $b;
+            $row->records_id = $a;
+
+            $x->save();
+            $row->save();
+            
+            $msg = 'Moved upwards successfully.';
+            $msgtype = 'success';
         }
         else if($request->submit == 'movedown') {
+            $gid = LinelistSubs::where('linelist_masters_id', $m->id)
+            ->where('specNo', ($row->specNo + 1))
+            ->first();
 
+            $x = LinelistSubs::findOrFail($gid->id);
+
+            $a = $x->records_id;
+            $b = $row->records_id;
+
+            $x->records_id = $b;
+            $row->records_id = $a;
+
+            $x->save();
+            $row->save();
+            
+            $msg = 'Moved downwards successfully.';
+            $msgtype = 'success';
         }
 
         return redirect()->route('llv2.view', $m->id)

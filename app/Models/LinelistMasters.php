@@ -35,4 +35,13 @@ class LinelistMasters extends Model
     public function linelistsub() {
         return $this->hasMany(LinelistSubs::class);
     }
+
+    public function getType() {
+        if($this->type == 1) {
+            return 'City of Imus Molecular Laboratory (CIML)';
+        }
+        else if($this->type == 2) {
+            return 'LaSalle (CDCDC)';
+        }
+    }
 }
