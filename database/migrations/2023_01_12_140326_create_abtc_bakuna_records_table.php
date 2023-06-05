@@ -49,7 +49,9 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->tinyInteger('d28_done')->default(0);
             $table->text('d28_brand')->nullable();
             $table->string('outcome');
+            $table->date('date_died')->nullable();
             $table->string('biting_animal_status');
+            $table->date('animal_died_date')->nullable();
             $table->text('remarks')->nullable();
 
             $table->timestamps();

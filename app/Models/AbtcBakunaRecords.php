@@ -45,7 +45,9 @@ class AbtcBakunaRecords extends Model
         'd28_done',
         'd28_brand',
         'outcome',
+        'date_died',
         'biting_animal_status',
+        'animal_died_date',
         'remarks',
 
         'created_by',
