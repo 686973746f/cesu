@@ -1993,9 +1993,9 @@ class ABTCReportController extends Controller
             $bctr++;
         }
 
-        $templateProcessor->setValue('bgmg', $mgt);
-        $templateProcessor->setValue('bgfg', $fgt);
-        $templateProcessor->setValue('bgtt', $tgt);
+        $templateProcessor->setValue('bgmg', number_format($mgt));
+        $templateProcessor->setValue('bgfg', number_format($fgt));
+        $templateProcessor->setValue('bgtt', number_format($tgt));
 
         ob_clean();
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
