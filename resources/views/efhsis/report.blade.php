@@ -371,7 +371,12 @@
                         <div class="card">
                             <div class="card-header">Prepared by</div>
                             <div class="card-body text-center">
-                                <h5 style="margin-top: 50px;"><b>CHRISTOFER JOHN A. PEDRASA & LESTER E. CAMINGAY</b></h5>
+                                <img src="{{asset('assets/images/SIG_CJPEDRASA.png')}}" class="img-fluid" style="margin-bottom:-110px;width: 20rem;">
+                                <h5 style="margin-top: 50px;"><b>CHRISTOFER JOHN A. PEDRASA</b></h5>
+                                <h5>Encoder</h5>
+                                <hr>
+                                <img src="{{asset('assets/images/SIG_LJCAMINGAY.png')}}" class="img-fluid" style="margin-bottom:-110px;width: 20rem;">
+                                <h5 style="margin-top: 50px;"><b>LESTER E. CAMINGAY</b></h5>
                                 <h5>Encoder</h5>
                             </div>
                         </div>
@@ -380,7 +385,8 @@
                         <div class="card">
                             <div class="card-header">Approved by</div>
                             <div class="card-body text-center">
-                                <h5 style="margin-top: 50px;"><b>LUIS P. BROAS, RN, RPh, MAN</b></h5>
+                                <img src="{{asset('assets/images/SIR LOU PIRMA.PNG')}}" class="img-fluid" style="margin-bottom:-120px;width: 30rem;">
+                                <h5><b>LUIS P. BROAS, RN, RPh, MAN</b></h5>
                                 <h5>Nurse II/CESU Head</h5>
                             </div>
                         </div>
@@ -389,6 +395,7 @@
                         <div class="card">
                             <div class="card-header">Noted by</div>
                             <div class="card-body text-center">
+                                <img src="{{asset('assets/images/signatureonly_docathan.png')}}" class="img-fluid" style="margin-bottom:-90px;width:12rem;">
                                 <h5 style="margin-top: 50px;"><b>JONATHAN P. LUSECO, MD</b></h5>
                                 <h5>City Health Officer II</h5>
                             </div>
