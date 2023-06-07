@@ -136,25 +136,46 @@ class PidsrWndr extends Command
 
             $afp_update = $afp->update(['systemsent' => 1]);
 
-            $aefi_count = 0;
+            //$aefi_count = 0;
 
-            /*
-            $aefi_count = Aefi::where('Province', 'CAVITE')
+            $aefi = Aefi::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
             ->where(function ($q) {
                 $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                    $r->whereYear('DAdmit', date('Y', strtotime('-1 Week')))
+                    ->whereMonth('DAdmit', date('n', strtotime('-1 Week')))
+                    ->whereWeek('DAdmit', date('W', strtotime('-1 Week')));
                 })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    $r->whereYear('DAdmit', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->whereMonth('DAdmit', '<=', date('n', strtotime('-2 Weeks')))
+                    ->whereWeek('DAdmit', '<=', date('W', strtotime('-2 Weeks')))
                     ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
                 });
             });
-            */
+
+            if($aefi->count() != 0) {
+                $l = $aefi->get();
+                $get_type = 'AEFI';
+
+                foreach($l as $i) {
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->FullName,
+                        'age' => $i->AgeYears,
+                        'sex' => $i->Sex,
+                        'brgy' => $i->Barangay,
+                        'address' => $i->Barangay.', '.$i->Streetpurok,
+                        'doe' => $i->DAdmit,
+                        'aefi_type' => $i->Kaso,
+                    ]);
+                }
+            }
+
+            $aefi_count = $aefi->count();
+
+            $aefi_update = $aefi->update(['systemsent' => 1]);
+            
 
             $ant = Anthrax::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -1050,7 +1071,7 @@ class PidsrWndr extends Command
 
             //Category 1
             $templateProcessor->setValue('afp', $afp_count);
-            $templateProcessor->setValue('aef', $aefi_count); //0
+            $templateProcessor->setValue('aef', $aefi_count);
             $templateProcessor->setValue('ant', $ant_count);
             $templateProcessor->setValue('inf', $hai_count); //0
             $templateProcessor->setValue('mea', $mea_count);

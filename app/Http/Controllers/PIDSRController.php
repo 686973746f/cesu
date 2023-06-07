@@ -29,9 +29,10 @@ use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Imports\PidsrImport;
+use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Models\Leptospirosis;
-use App\Models\SiteSettings;
+use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
@@ -444,6 +445,16 @@ class PIDSRController extends Controller
             Excel::import(new PidsrImport('TYPHOID'), storage_path('app/pidsr/Typhoid.xlsx'));
         }
 
+        $aefi_file = storage_path('app/pidsr/aefi.sql');
+
+        if(File::exists($aefi_file)) {
+            $sql = file_get_contents($aefi_file);
+
+            $sql = str_replace('INSERT ', 'INSERT IGNORE ', $sql);
+            
+            DB::unprepared($sql);
+        }
+
         File::delete(storage_path('app/pidsr/ABD.xlsx'));
         File::delete(storage_path('app/pidsr/AES.xlsx'));
         File::delete(storage_path('app/pidsr/AFP.xlsx'));
@@ -469,6 +480,7 @@ class PIDSRController extends Controller
         File::delete(storage_path('app/pidsr/Rabies.xlsx'));
         File::delete(storage_path('app/pidsr/RotaVirus.xlsx'));
         File::delete(storage_path('app/pidsr/Typhoid.xlsx'));
+        File::delete(storage_path('app/pidsr/aefi.sql'));
 
         if(request()->input('m')) {
             return redirect()->route('pidsr.home')

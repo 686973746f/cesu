@@ -4,7 +4,7 @@
     <br><br>
     @php
         $afp_list = [];
-        $aef_list = []; //0
+        $aef_list = [];
         $ant_list = [];
         $hai_list = []; //0
         $mea_list = [];
@@ -36,7 +36,11 @@
         @php
         if($l['type'] == 'Acute Flaccid Paralysis') {
             array_push($afp_list, $l);
-        } else if($l['type'] == 'Anthrax') {
+        }
+        else if($l['type'] == 'AEFI') {
+            array_push($aef_list, $l);
+        }
+        else if($l['type'] == 'Anthrax') {
             array_push($ant_list, $l);
         }
         else if($l['type'] == 'Measles') {
@@ -113,6 +117,10 @@
 
     @php
     usort($afp_list, function($a, $b) {
+        return strcmp($a['brgy'], $b['brgy']);
+    });
+
+    usort($aef_list, function($a, $b) {
         return strcmp($a['brgy'], $b['brgy']);
     });
     
@@ -214,13 +222,21 @@
     
     @endphp
     
-    @if(!empty($afp_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list))
+    @if(!empty($afp_list) || !empty($aef_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list))
     <p><b>Category I (Immediately Notifiable)</b></p>
     @if(!empty($afp_list))
     <ul>
         <b>Acute Flaccid Paralysis:</b>
         @foreach($afp_list as $ind => $p)
         <li>{{($ind + 1)}}.) {{$p['name']}} | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</li>
+        @endforeach
+    </ul>
+    @endif
+    @if(!empty($aef_list))
+    <ul>
+        <b>Adverse Event Following Immunization (AEFI):</b>
+        @foreach($aef_list as $ind => $p)
+        <li>{{($ind + 1)}}.) {{$p['name']}} | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | {{$p['aefi_type']}} Case | Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}}</li>
         @endforeach
     </ul>
     @endif
