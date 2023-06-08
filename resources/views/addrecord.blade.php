@@ -392,13 +392,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="vaccinationFacility1">First Dose Vaccination Center/Facility <small>(Optional)</small></label>
-											<input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											<input type="text" class="form-control" name="vaccinationFacility1" id="vaccinationFacility1" value="{{old('vaccinationFacility1', 'GENERAL TRIAS, CAVITE')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="vaccinationRegion1">First Dose Region of Health Facility <small>(Optional)</small></label>
-											<input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											<input type="text" class="form-control" name="vaccinationRegion1" id="vaccinationRegion1" value="{{old('vaccinationRegion1', 'IV-A')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 										</div>
 									</div>
 								</div>
@@ -423,13 +423,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="vaccinationFacility2">Second Dose Vaccination Center/Facility <small>(Optional)</small></label>
-											<input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											<input type="text" class="form-control" name="vaccinationFacility2" id="vaccinationFacility2" value="{{old('vaccinationFacility2', 'GENERAL TRIAS, CAVITE')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="vaccinationRegion2">Second Dose Region of Health Facility <small>(Optional)</small></label>
-											<input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											<input type="text" class="form-control" name="vaccinationRegion2" id="vaccinationRegion2" value="{{old('vaccinationRegion2', 'IV-A')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 										</div>
 									</div>
 								</div>
@@ -480,13 +480,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="vaccinationFacility3">Booster Vaccination Center/Facility <small>(Optional)</small></label>
-											<input type="text" class="form-control" name="vaccinationFacility3" id="vaccinationFacility3" value="{{old('vaccinationFacility3')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											<input type="text" class="form-control" name="vaccinationFacility3" id="vaccinationFacility3" value="{{old('vaccinationFacility3', 'GENERAL TRIAS, CAVITE')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="vaccinationRegion3">Booster Region of Health Facility <small>(Optional)</small></label>
-											<input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+											<input type="text" class="form-control" name="vaccinationRegion3" id="vaccinationRegion3" value="{{old('vaccinationRegion3', 'IV-A')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 										</div>
 									</div>
 								</div>
@@ -534,13 +534,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label for="vaccinationFacility4">2ND Booster Vaccination Center/Facility <small>(Optional)</small></label>
-												<input type="text" class="form-control" name="vaccinationFacility4" id="vaccinationFacility4" value="{{old('vaccinationFacility4')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+												<input type="text" class="form-control" name="vaccinationFacility4" id="vaccinationFacility4" value="{{old('vaccinationFacility4', 'GENERAL TRIAS, CAVITE')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label for="vaccinationRegion4">2ND Booster Region of Health Facility <small>(Optional)</small></label>
-												<input type="text" class="form-control" name="vaccinationRegion4" id="vaccinationRegion4" value="{{old('vaccinationRegion4')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
+												<input type="text" class="form-control" name="vaccinationRegion4" id="vaccinationRegion4" value="{{old('vaccinationRegion4', 'IV-A')}}" pattern="(^[a-zA-Z0-9 ]+$)+" style="text-transform: uppercase;">
 											</div>
 										</div>
 									</div>

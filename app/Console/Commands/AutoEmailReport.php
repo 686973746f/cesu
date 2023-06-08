@@ -278,7 +278,7 @@ class AutoEmailReport extends Command
         $writer->save(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
         //'glorybemendez06@gmail.com',
         
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com'])->send(new CovidReportWord());
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWord());
         Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ronald888mojica@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'realailesjoeven@gmail.com'])->send(new DilgReportExcel());
 
         File::delete(public_path('CITY-OF-GENERAL-TRIAS-'.date('F-d-Y', strtotime('-1 Day')).'.docx'));
