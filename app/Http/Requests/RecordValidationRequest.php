@@ -95,20 +95,14 @@ class RecordValidationRequest extends FormRequest
 
             'vaccinationDate1' => (!is_null($this->howManyDoseVaccine)) ? 'required|date|before_or_equal:today' : 'nullable|date',
             'haveAdverseEvents1' => (!is_null($this->howManyDoseVaccine)) ? 'required|numeric' : 'nullable|numeric',
-            'vaccinationFacility1' => 'nullable|string|regex:/(^[a-zA-Z0-9 ]+$)+/',
-            'vaccinationRegion1' => 'nullable|string|regex:/(^[a-zA-Z0-9 ]+$)+/',
         
             'vaccinationDate2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|date|after:vaccinationDate1|before_or_equal:today' : 'nullable|date',
             'haveAdverseEvents2' => (!is_null($this->howManyDoseVaccine) && $this->howManyDoseVaccine == 2) ? 'required|numeric' : 'nullable|numeric',
-            'vaccinationFacility2' => 'nullable|string|regex:/(^[a-zA-Z0-9 ]+$)+/',
-            'vaccinationRegion2' => 'nullable|string|regex:/(^[a-zA-Z0-9 ]+$)+/',
 
 			'haveBooster' => ($allow_booster_question) ? 'required' : 'nullable',
             'vaccinationName3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
             'vaccinationDate3' => ($this->haveBooster == 1) ? 'required|date|after:vaccinationDate2|before_or_equal:today' : 'nullable',
             'haveAdverseEvents3' => ($this->haveBooster == 1) ? 'required' : 'nullable',
-            'vaccinationFacility3' => 'nullable|regex:/(^[a-zA-Z0-9 ]+$)+/',
-            'vaccinationRegion3' => 'nullable|regex:/(^[a-zA-Z0-9 ]+$)+/',
         ];
     }
 }
