@@ -7,6 +7,7 @@ use App\Models\Forms;
 use App\Models\DailyCases;
 use App\Mail\CovidReportWord;
 use App\Mail\DilgReportExcel;
+use App\Mail\CovidReportWordv2;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -125,6 +126,9 @@ class AutoEmailReport extends Command
         $bst = 0;
         $bpt = 0;
 
+        $bgynew_total = 0;
+        $v2bgy_list = [];
+
         foreach($brgyList as $brgy) {
             $brgyConfirmedCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($brgy) {
@@ -148,6 +152,17 @@ class AutoEmailReport extends Command
             ->where('outcomeCondition', 'Active')
             ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
             ->count();
+
+            //for V2 Active Counting
+            if($brgyActiveCount != 0) {
+                $bgynew_total += $brgyActiveCount;
+
+                array_push($v2bgy_list, [
+                    'barangay' => $brgy->brgyName,
+                    'active' => $brgyActiveCount,
+                ]);
+            }
+            
 
             $brgyDeathCount = Forms::with('records')
             ->whereHas('records', function ($q) use ($brgy) {
@@ -277,11 +292,48 @@ class AutoEmailReport extends Command
         $writer = new Xlsx($spreadsheet);
         $writer->save(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
         //'glorybemendez06@gmail.com',
-        
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWord());
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ronald888mojica@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'realailesjoeven@gmail.com'])->send(new DilgReportExcel());
 
+        //Template V2
+        $templateProcessorv2  = new TemplateProcessor(public_path('/assets/docs/CovidGentriTemplate_new.docx'));
+        $templateProcessorv2->setValue('date', date('F d, Y'));
+        $templateProcessorv2->setValue('gt_cases', number_format($data->total_all_confirmed_cases));
+        $templateProcessorv2->setValue('c_t', number_format($data->total_active));
+        $templateProcessorv2->setValue('c_n', number_format($data->new_cases));
+        $templateProcessorv2->setValue('c_l', number_format($data->late_cases));
+        $templateProcessorv2->setValue('r_t', number_format($data->total_recoveries));
+        $templateProcessorv2->setValue('r_n', number_format($data->new_recoveries));
+        $templateProcessorv2->setValue('r_l', number_format($data->late_recoveries));
+        $templateProcessorv2->setValue('d_t', number_format($data->total_deaths));
+        $templateProcessorv2->setValue('d_n', number_format($data->new_deaths));
+
+        $templateProcessorv2->setValue('as', number_format($data->active_asymptomatic_count));
+        $templateProcessorv2->setValue('mi', number_format($data->active_mild_with_comorbid_count + $data->active_mild_without_comorbid_count));
+        $templateProcessorv2->setValue('mo', number_format($data->active_moderate_count));
+        $templateProcessorv2->setValue('se', number_format($data->active_severe_count));
+        $templateProcessorv2->setValue('cr', number_format($data->active_critical_count));
+
+        for($i=1;$i<=33;$i++) {
+            if(!is_null($v2bgy_list[$i-1])) {
+                $templateProcessorv2->setValue('bgy'.$i, $v2bgy_list[$i-1]['barangay']);
+                $templateProcessorv2->setValue('bgy'.$i.'_count', $v2bgy_list[$i-1]['active']);
+            }
+            else {
+                $templateProcessorv2->setValue('bgy'.$i, '');
+                $templateProcessorv2->setValue('bgy'.$i.'_count', '');
+            }
+        }
+
+        $templateProcessorv2->setValue('bgynew_total', number_format($bgynew_total));
+        $templateProcessorv2->saveAs(public_path('CITY-OF-GENERAL-TRIAS-NEW-'.date('F-d-Y').'.docx'));
+
+        //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWord());
+        //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWordv2());
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new CovidReportWordv2());
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new CovidReportWord());
+        //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ronald888mojica@gmail.com', 'chogentri2@proton.me', 'realailesjoeven@gmail.com'])->send(new DilgReportExcel());
+        
         File::delete(public_path('CITY-OF-GENERAL-TRIAS-'.date('F-d-Y', strtotime('-1 Day')).'.docx'));
+        File::delete(public_path('CITY-OF-GENERAL-TRIAS-NEW-'.date('F-d-Y', strtotime('-1 Day')).'.docx'));
         File::delete(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y', strtotime('-1 Day')).'.xlsx'));
     }
 }
