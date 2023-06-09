@@ -323,7 +323,7 @@ class AutoEmailReport extends Command
             }
         }
 
-        $templateProcessorv2->setValue('bgynew_total', number_format($bgynew_total));
+        $templateProcessorv2->setValue('bgynew_gtotal', number_format($bgynew_total));
         $templateProcessorv2->saveAs(public_path('CITY-OF-GENERAL-TRIAS-NEW-'.date('F-d-Y').'.docx'));
 
         //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWord());
