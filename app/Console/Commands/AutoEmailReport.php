@@ -313,7 +313,7 @@ class AutoEmailReport extends Command
         $templateProcessorv2->setValue('cr', number_format($data->active_critical_count));
 
         for($i=1;$i<=33;$i++) {
-            if(!is_null($v2bgy_list[$i-1])) {
+            if(isset($v2bgy_list[$i-1])) {
                 $templateProcessorv2->setValue('bgy'.$i, $v2bgy_list[$i-1]['barangay']);
                 $templateProcessorv2->setValue('bgy'.$i.'_count', $v2bgy_list[$i-1]['active']);
             }
