@@ -1317,4 +1317,8 @@ class FhsisController extends Controller
         ->with('msg', 'Import Successful.')
         ->with('msgtype', 'success');
     }
+
+    public function morbreport() {
+        
+    }
 }
