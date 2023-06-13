@@ -9,7 +9,7 @@ class Aefi extends Model
 {
     use HasFactory;
 
-    protected $table = 'pidsr_aefi';
+    protected $table = 'pidsr_AEFI';
 
     public $guarded = [];
 }
