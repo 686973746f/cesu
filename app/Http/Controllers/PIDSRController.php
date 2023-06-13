@@ -10,6 +10,7 @@ use App\Models\Afp;
 use App\Models\Ahf;
 use App\Models\Nnt;
 use App\Models\Psp;
+use App\Models\Aefi;
 use App\Models\Ames;
 use App\Models\Brgy;
 use App\Models\Diph;
@@ -523,6 +524,8 @@ class PIDSRController extends Controller
                     $psp = Psp::where('Barangay', $b->brgyName)->where('year', $sy)->count();
     
                     $rabies = Rabies::where('Barangay', $b->brgyName)->where('year', $sy)->count();
+
+                    $aefi = Aefi::where('Barangay', $b->brgyName)->whereYear('DAdmit', $sy)->count();
     
                     //Category 2
     

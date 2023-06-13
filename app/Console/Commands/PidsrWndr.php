@@ -10,6 +10,7 @@ use App\Models\Afp;
 use App\Models\Ahf;
 use App\Models\Nnt;
 use App\Models\Psp;
+use App\Models\Aefi;
 use App\Models\Ames;
 use App\Models\Diph;
 use App\Models\Hfmd;
@@ -28,13 +29,13 @@ use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Mail\PidsrWndrMail;
-use App\Models\Aefi;
 use App\Models\SiteSettings;
 use App\Models\Leptospirosis;
 use PhpOffice\PhpWord\PhpWord;
 use Illuminate\Console\Command;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -145,11 +146,11 @@ class PidsrWndr extends Command
                 $q->where(function ($r) {
                     $r->whereYear('DAdmit', date('Y', strtotime('-1 Week')))
                     ->whereMonth('DAdmit', date('n', strtotime('-1 Week')))
-                    ->whereWeek('DAdmit', date('W', strtotime('-1 Week')));
+                    ->where(DB::raw("WEEKOFYEAR(DAdmit)"), date('W', strtotime('-1 Week')));
                 })->orWhere(function ($r) {
                     $r->whereYear('DAdmit', '<=', date('Y', strtotime('-2 Weeks')))
                     ->whereMonth('DAdmit', '<=', date('n', strtotime('-2 Weeks')))
-                    ->whereWeek('DAdmit', '<=', date('W', strtotime('-2 Weeks')))
+                    ->whereWeek(DB::raw("WEEKOFYEAR(DAdmit)"), '<=', date('W', strtotime('-2 Weeks')))
                     ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
                 });
             });
