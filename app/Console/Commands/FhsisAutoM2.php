@@ -11,14 +11,14 @@ class FhsisAutoM2 extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'fhsism2autosender:monthly';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'FHSIS Auto Sender Email';
 
     /**
      * Create a new command instance.
