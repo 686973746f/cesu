@@ -217,8 +217,8 @@
                         </div>
                         <div id="ifpatientdied" class="d-none">
                             <div>
-                                <label for="date_died" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
-                                <input type="date" class="form-control" name="date_died" id="date_died" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
+                                <label for="date_died" class="form-label"><strong class="text-danger">*</strong>Date Patient Died</label>
+                                <input type="date" class="form-control" name="date_died" id="date_died" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}">
                             </div>
                         </div>
                     </div>
