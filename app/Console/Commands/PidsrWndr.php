@@ -150,7 +150,7 @@ class PidsrWndr extends Command
                 })->orWhere(function ($r) {
                     $r->whereYear('DAdmit', '<=', date('Y', strtotime('-2 Weeks')))
                     ->whereMonth('DAdmit', '<=', date('n', strtotime('-2 Weeks')))
-                    ->whereWeek(DB::raw("WEEKOFYEAR(DAdmit)"), '<=', date('W', strtotime('-2 Weeks')))
+                    ->where(DB::raw("WEEKOFYEAR(DAdmit)"), '<=', date('W', strtotime('-2 Weeks')))
                     ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
                 });
             });
