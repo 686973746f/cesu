@@ -179,7 +179,7 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label for="d0_date" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
-                            <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
+                            <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -207,13 +207,19 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="">
+                        <div class="mb-3">
                             <label for="outcome" class="form-label"><strong class="text-danger">*</strong>Outcome</label>
                             <select class="form-select" name="outcome" id="outcome" required>
                                 <option value="INC" {{(old('pep_route') == 'INC') ? 'selected' : ''}}>Incomplete (INC)</option>
                                 <option value="D" {{(old('pep_route') == 'D') ? 'selected' : ''}}>Died (D)</option>
                             </select>
                             <small class="text-muted">Will be automatically changed based on completed doses.</small>
+                        </div>
+                        <div id="ifpatientdied" class="d-none">
+                            <div>
+                                <label for="date_died" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
+                                <input type="date" class="form-control" name="date_died" id="date_died" min="{{}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
