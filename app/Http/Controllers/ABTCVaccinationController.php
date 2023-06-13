@@ -221,6 +221,9 @@ class ABTCVaccinationController extends Controller
 
                 'outcome' => $request->outcome,
                 'biting_animal_status' => $request->biting_animal_status,
+
+                'date_died' => ($request->outcome == 'D') ? $request->date_died : NULL,
+                'animal_died_date' => ($request->biting_animal_status == 'DEAD') ? $request->animal_died_date : NULL,
                 'remarks' => $request->remarks,
             ]);
 
@@ -311,6 +314,9 @@ class ABTCVaccinationController extends Controller
 
         $b->outcome = $request->outcome;
         $b->biting_animal_status = $request->biting_animal_status;
+
+        $b->date_died = ($request->outcome == 'D') ? $request->date_died : NULL;
+        $b->animal_died_date = ($request->biting_animal_status == 'DEAD') ? $request->animal_died_date : NULL;
         $b->remarks = $request->remarks;
 
         //Checking of Outcome on Category 3 with Erig

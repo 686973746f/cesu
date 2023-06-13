@@ -218,12 +218,12 @@
                         <div id="ifpatientdied" class="d-none">
                             <div>
                                 <label for="date_died" class="form-label"><strong class="text-danger">*</strong>Date Patient Died</label>
-                                <input type="date" class="form-control" name="date_died" id="date_died" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}">
+                                <input type="date" class="form-control" name="date_died" id="date_died" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('date_died')}}">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="">
+                        <div class="mb-3">
                             <label for="biting_animal_status" class="form-label"><strong class="text-danger">*</strong>Biting Animal Status (After 14 Days)</label>
                             <select class="form-select" name="biting_animal_status" id="biting_animal_status" required>
                                 <option value="N/A" {{(old('biting_animal_status') == 'N/A') ? 'selected' : ''}}>N/A</option>
@@ -231,6 +231,10 @@
                                 <option value="DEAD" {{(old('biting_animal_status') == 'DEAD') ? 'selected' : ''}}>Dead</option>
                                 <option value="LOST" {{(old('biting_animal_status') == 'LOST') ? 'selected' : ''}}>Lost</option>
                             </select>
+                        </div>
+                        <div id="ifdogdied" class="d-none">
+                            <label for="animal_died_date" class="form-label"><strong class="text-danger">*</strong>Date Animal Died</label>
+                            <input type="date" class="form-control" name="animal_died_date" id="animal_died_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('animal_died_date')}}">
                         </div>
                     </div>
                 </div>
@@ -316,6 +320,30 @@
 
             //$('#body_site_ast').addClass('d-none');
             $('#case_location_ast').addClass('d-none');
+        }
+    }).trigger('change');
+    
+    $('#outcome').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'D') {
+            $('#ifpatientdied').removeClass('d-none');
+            $('#date_died').prop('required', true);
+        }
+        else {
+            $('#ifpatientdied').addClass('d-none');
+            $('#date_died').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#biting_animal_status').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'DEAD') {
+            $('#ifdogdied').removeClass('d-none');
+            $('#animal_died_date').prop('required', true);
+        }
+        else {
+            $('#ifdogdied').addClass('d-none');
+            $('#animal_died_date').prop('required', false);
         }
     }).trigger('change');
 </script>
