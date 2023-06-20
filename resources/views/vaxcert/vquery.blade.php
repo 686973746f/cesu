@@ -95,11 +95,7 @@
                 <p class="text-center">No Results Found.</p>
                 @endif
             </div>
-            <div class="card-footer">
-                <div class="pagination justify-content-center mt-3">
-                    {{$d->appends(request()->input())->links()}}
-                </div>
-            </div>
+            
         </div>
     </div>
 
