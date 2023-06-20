@@ -47,7 +47,7 @@ class PidsrWndr extends Command
      *
      * @var string
      */
-    protected $signature = 'pisdrwndr:weekly';
+    protected $signature = 'pidsrwndr:weekly';
 
     /**
      * The console command description.

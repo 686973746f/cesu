@@ -687,7 +687,7 @@ class VaxcertController extends Controller
                 ->orderBy('last_name', 'ASC')
                 ->orderBy('first_name', 'ASC')
                 ->orderBy('vaccination_date', 'ASC')
-                ->get();
+                ->paginate(25);
             }
         }
 

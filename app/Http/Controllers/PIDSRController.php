@@ -1004,7 +1004,7 @@ class PIDSRController extends Controller
     public function manualsend() {
         $s = SiteSettings::find(1);
         
-        Artisan::call('pisdrwndr:weekly');
+        Artisan::call('pidsrwndr:weekly');
 
         $s->pidsr_early_sent = 1;
         
