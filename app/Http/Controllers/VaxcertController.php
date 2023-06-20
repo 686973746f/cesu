@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -273,15 +274,25 @@ class VaxcertController extends Controller
     }
 
     public function home() {
-        if(request()->input('viewcomplete')) {
-            $list = VaxcertConcern::where('status', '!=', 'PENDING')
-            ->orderBy('updated_at', 'DESC')
+        if(request()->input('q')) {
+            $s = request()->input('q');
+
+            $list = VaxcertConcern::where('id', $s)
+            ->orWhere('sys_code', $s)
+            ->orWhere(DB::raw('CONCAT(last_name," ",first_name)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($s))."%")
             ->paginate(10);
         }
         else {
-            $list = VaxcertConcern::where('status', 'PENDING')
-            ->orderBy('created_at', 'ASC')
-            ->paginate(10);
+            if(request()->input('viewcomplete')) {
+                $list = VaxcertConcern::where('status', '!=', 'PENDING')
+                ->orderBy('updated_at', 'DESC')
+                ->paginate(10);
+            }
+            else {
+                $list = VaxcertConcern::where('status', 'PENDING')
+                ->orderBy('created_at', 'ASC')
+                ->paginate(10);
+            }
         }
         
         return view('vaxcert.home', [
@@ -349,7 +360,13 @@ class VaxcertController extends Controller
             $v->save();
         }
 
+        /*
         return redirect()->route('vaxcert_home')
+        ->with('msg', $msg)
+        ->with('msgtype', $msgtype);
+        */
+
+        return redirect()->route('vaxcert_viewpatient', $v->id)
         ->with('msg', $msg)
         ->with('msgtype', $msgtype);
     }

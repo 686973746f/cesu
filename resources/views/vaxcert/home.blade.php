@@ -24,6 +24,19 @@
                 {{session('msg')}}
             </div>
             @endif
+            <form action="" method="GET">
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search by Name / Ticket ID" style="text-transform: uppercase;" required>
+                            <div class="input-group-append">
+                              <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
             @if($list->count() != 0)
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">

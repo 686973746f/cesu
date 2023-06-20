@@ -8,7 +8,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>View VaxCert Concern Ticket - No. {{$d->id}}</b></div>
-                    <div></div>
+                    <div>Submitted at: {{date('m/d/Y H:i A', strtotime($d->created_at))}}</div>
                 </div>
             </div>
             <div class="card-body">
