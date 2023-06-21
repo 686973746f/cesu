@@ -659,7 +659,7 @@ class LineListController extends Controller
         ]);
 
         return redirect()->route('llv2.view', $m->id)
-        ->with('msg', 'Added')
+        ->with('msg', 'Line Number: '.$pila_count.' ('.$query->records->getName().'), was added.')
         ->with('msgtype', 'success');
     }
 
