@@ -25,6 +25,9 @@
                                 <th>Gender</th>
                                 <th>Vaccination Date</th>
                                 <th>Vaccine</th>
+                                <th>Batch No.</th>
+                                <th>Bakuna Center Code</th>
+                                <th>Vaccinator Name</th>
                                 <th>Category</th>
                                 <th>Comorbidity</th>
                                 <th>Unique Person ID</th>
@@ -36,10 +39,6 @@
                                 <th>Province</th>
                                 <th>Municipality</th>
                                 <th>Barangay</th>
-                                <th>Batch No.</th>
-                                <th>Lot No.</th>
-                                <th>Bakuna Center Code</th>
-                                <th>Vaccinator Name</th>
                                 <th>Adverse Event</th>
                                 <th>Adverse Event Condition</th>
                                 <th>Row Hash</th>
@@ -68,6 +67,9 @@
                                 <td>{{$a->sex}}</td>
                                 <td class="{{$a->doseCheckColor()}}">{{date('m/d/Y', strtotime($a->vaccination_date))}} {{$a->showDoseType()}}</td>
                                 <td>{{$a->vaccine_manufacturer_name}}</td>
+                                <td>{{$a->batch_number}}</td>
+                                <td>{{$a->bakuna_center_cbcr_id}}</td>
+                                <td>{{$a->vaccinator_name}}</td>
                                 <td>{{$a->category}}</td>
                                 <td>{{$a->comorbidity}}</td>
                                 <td>{{$a->unique_person_id}}</td>
@@ -79,10 +81,6 @@
                                 <td>{{$a->province}}</td>
                                 <td>{{$a->muni_city}}</td>
                                 <td>{{$a->barangay}}</td>
-                                <td>{{$a->batch_number}}</td>
-                                <td>{{$a->lot_no}}</td>
-                                <td>{{$a->bakuna_center_cbcr_id}}</td>
-                                <td>{{$a->vaccinator_name}}</td>
                                 <td>{{$a->adverse_event}}</td>
                                 <td>{{$a->adverse_event_condition}}</td>
                                 <td><small>{{$a->row_hash}}</small></td>
