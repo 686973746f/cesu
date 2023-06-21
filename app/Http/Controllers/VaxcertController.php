@@ -360,15 +360,16 @@ class VaxcertController extends Controller
             $v->save();
         }
 
-        /*
-        return redirect()->route('vaxcert_home')
-        ->with('msg', $msg)
-        ->with('msgtype', $msgtype);
-        */
-
-        return redirect()->route('vaxcert_viewpatient', $v->id)
-        ->with('msg', $msg)
-        ->with('msgtype', $msgtype);
+        if($request->submit == 'complete') {
+            return redirect()->route('vaxcert_home')
+            ->with('msg', $msg)
+            ->with('msgtype', $msgtype);
+        }
+        else {
+            return redirect()->route('vaxcert_viewpatient', $v->id)
+            ->with('msg', $msg)
+            ->with('msgtype', $msgtype);
+        }
     }
 
     public function dlbase_template($id) {
