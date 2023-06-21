@@ -68,7 +68,7 @@
                                 <td class="{{$a->doseCheckColor()}}">{{date('m/d/Y', strtotime($a->vaccination_date))}} {{$a->showDoseType()}}</td>
                                 <td>{{$a->vaccine_manufacturer_name}}</td>
                                 <td>{{$a->batch_number}}</td>
-                                <td>{{$a->bakuna_center_cbcr_id}}</td>
+                                <td><small>{{$a->bakuna_center_cbcr_id}}</small></td>
                                 <td>{{$a->vaccinator_name}}</td>
                                 <td>{{$a->category}}</td>
                                 <td>{{$a->comorbidity}}</td>
