@@ -661,11 +661,19 @@ class VaxcertController extends Controller
             $bdate = request()->input('bdate');
 
             if(request()->input('fname')) {
-                $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
-                ->where('first_name', 'LIKE', $fname.'%')
-                ->whereDate('birthdate', $bdate)
-                ->orderBy('vaccination_date', 'ASC')
-                ->get();
+                if(request()->input('lname')) {
+                    $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
+                    ->where('first_name', 'LIKE', $fname.'%')
+                    ->whereDate('birthdate', $bdate)
+                    ->orderBy('vaccination_date', 'ASC')
+                    ->get();
+                }
+                else {
+                    $s = CovidVaccinePatientMasterlist::where('first_name', 'LIKE', $fname.'%')
+                    ->whereDate('birthdate', $bdate)
+                    ->orderBy('vaccination_date', 'ASC')
+                    ->get();
+                }
             }
             else {
                 $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
@@ -675,13 +683,24 @@ class VaxcertController extends Controller
                 ->orderBy('vaccination_date', 'ASC')
                 ->get();
             }
+
+            $paginate = false;
         }
         else {
             if(request()->input('fname')) {
-                $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
-                ->where('first_name', 'LIKE', $fname.'%')
-                ->orderBy('vaccination_date', 'ASC')
-                ->get();
+                if(request()->input('lname')) {
+                    $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
+                    ->where('first_name', 'LIKE', $fname.'%')
+                    ->orderBy('vaccination_date', 'ASC')
+                    ->paginate(25);
+                }
+                else {
+                    $s = CovidVaccinePatientMasterlist::where('first_name', 'LIKE', $fname.'%')
+                    ->orderBy('vaccination_date', 'ASC')
+                    ->paginate(25);
+                }
+
+                $paginate = true;
             }
             else {
                 $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
@@ -689,6 +708,8 @@ class VaxcertController extends Controller
                 ->orderBy('first_name', 'ASC')
                 ->orderBy('vaccination_date', 'ASC')
                 ->paginate(25);
+
+                $paginate = true;
             }
         }
 
@@ -702,6 +723,7 @@ class VaxcertController extends Controller
         return view('vaxcert.vquery', [
             'd' => $s,
             'enyecheck' => $enyecheck,
+            'paginate' => $paginate,
         ]);
     }
 

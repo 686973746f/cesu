@@ -97,7 +97,13 @@
                 <p class="text-center">No Results Found.</p>
                 @endif
             </div>
-            
+            @if($paginate)
+            <div class="card-footer">
+                <div class="pagination justify-content-center mt-3">
+                    {{$d->appends(request()->input())->links()}}
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 
@@ -113,12 +119,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                          <label for=""><span class="text-danger font-weight-bold">*</span>Last Name</label>
-                          <input type="text" name="lname" id="lname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" value="{{request()->input('lname')}}" required>
+                          <label for="">Last Name</label>
+                          <input type="text" name="lname" id="lname" class="form-control" minlength="1" maxlength="50" style="text-transform: uppercase;" value="{{request()->input('lname')}}">
                         </div>
                         <div class="form-group">
-                            <label for=""><span class="text-danger font-weight-bold">*</span>First Name <i>(Optional, but Recommended)</i></label>
-                            <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" value="{{request()->input('fname')}}">
+                            <label for="">First Name</label>
+                            <input type="text" name="fname" id="fname" class="form-control" minlength="1" maxlength="50" style="text-transform: uppercase;" value="{{request()->input('fname')}}">
                         </div>
                         <div class="form-group">
                             <label for="">Birthdate <i>(Optional)</i></label>

@@ -281,7 +281,7 @@ class FhsisAutoM2 extends Command
                     ->count();
                 }
                 else if($s == 'COVID') {
-
+                    
                 }
                 else if($s == 'ACUTE_BLOODY_DIARRHEA') {
 
