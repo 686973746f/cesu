@@ -59,7 +59,11 @@
                                         </div>
                                     </div>
                                 </td>
+                                @if($enyecheck && mb_strpos(request()->input('lname'), 'Ñ') == mb_strpos($a->last_name, 'N'))
+                                <td class="bg-danger">{{$a->last_name}}</td>
+                                @else
                                 <td>{{$a->last_name}}</td>
+                                @endif
                                 <td>{{$a->first_name}}</td>
                                 <td>{{$a->middle_name}}</td>
                                 <td>{{$a->suffix}}</td>

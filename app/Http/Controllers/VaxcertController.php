@@ -692,8 +692,16 @@ class VaxcertController extends Controller
             }
         }
 
+        if(mb_strpos($lname, 'Ñ') !== false) {
+            $enyecheck = true;
+        }
+        else {
+            $enyecheck = false;
+        }
+
         return view('vaxcert.vquery', [
             'd' => $s,
+            'enyecheck' => $enyecheck,
         ]);
     }
 
