@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\SendFhsisM2;
 use App\Models\Brgy;
+use App\Models\Forms;
+use App\Models\Dengue;
+use App\Mail\SendFhsisM2;
 use Illuminate\Console\Command;
 use App\Models\AbtcBakunaRecords;
-use App\Models\Dengue;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -44,6 +45,7 @@ class FhsisAutoM2 extends Command
      */
     public function handle()
     {
+        /*
         $slist = [
             'ANIMALBITE',
             'DENGUE',
@@ -62,6 +64,13 @@ class FhsisAutoM2 extends Command
             'TYPHOID_PARATHYPOID',
             'VIRAL_HEPATITIS',
             'VIRAL_MENINGITIS',
+        ];
+        */
+
+        $slist = [
+            'ANIMALBITE',
+            'DENGUE',
+            'COVID',
         ];
 
         $spreadsheet = IOFactory::load(storage_path('FHSIS_REPORT.xlsx'));
@@ -281,7 +290,145 @@ class FhsisAutoM2 extends Command
                     ->count();
                 }
                 else if($s == 'COVID') {
+                    $item1 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'MALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', 0)
+                    ->where('age_months', 0)
+                    ->whereBetWeen('age_days', [0,6])
+                    ->count();
+
+                    $item2 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'FEMALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', 0)
+                    ->where('age_months', 0)
+                    ->whereBetWeen('age_days', [0,6])
+                    ->count();
+
+                    $item3 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'MALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', 0)
+                    ->where('age_months', 0)
+                    ->whereBetWeen('age_days', [7,28])
+                    ->count();
+
+                    $item4 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'FEMALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', 0)
+                    ->where('age_months', 0)
+                    ->whereBetWeen('age_days', [7,28])
+                    ->count();
                     
+                    $item5 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'MALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', 0)
+                    ->where('age_months', 0)
+                    ->whereBetWeen('age_days', [7,28])
+                    ->count();
+
+                    $item6 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'FEMALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', 0)
+                    ->where('age_months', '<=', 11)
+                    ->where('age_days', '>=', 29)
+                    ->count();
+
+                    foreach($agebrackets as $ind => $ab) {
+                        if($ind == 0) {
+                            $vind = $ind + 7;
+                        }
+                        else {
+                            $vind = $ind + $ind + 7;
+                        }
+                        
+                        $ae = explode(',', $ab);
+
+                        ${'item'.$vind} = Forms::whereHas('records', function ($q) use ($b) {
+                            $q->where('records.address_city', $b->city->cityName)
+                            ->where('records.address_brgy', $b->brgyName)
+                            ->where('records.gender', 'MALE');
+                        })
+                        ->where('caseClassification', 'Confirmed')
+                        ->whereYear('morbidityMonth', date('Y'))
+                        ->whereMonth('morbidityMonth', date('n'))
+                        ->whereBetween('age_years', $ae)
+                        ->count();
+
+                        if($ind == 0) {
+                            $vind = $ind + 8;
+                        }
+                        else {
+                            $vind = $ind + $ind + 8;
+                        }
+
+                        ${'item'.$vind} = Forms::whereHas('records', function ($q) use ($b) {
+                            $q->where('records.address_city', $b->city->cityName)
+                            ->where('records.address_brgy', $b->brgyName)
+                            ->where('records.gender', 'FEMALE');
+                        })
+                        ->where('caseClassification', 'Confirmed')
+                        ->whereYear('morbidityMonth', date('Y'))
+                        ->whereMonth('morbidityMonth', date('n'))
+                        ->whereBetween('age_years', $ae)
+                        ->count();
+                    }
+
+                    $item35 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'MALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', '>=', 70)
+                    ->count();
+
+                    $item36 = Forms::whereHas('records', function ($q) use ($b) {
+                        $q->where('records.address_city', $b->city->cityName)
+                        ->where('records.address_brgy', $b->brgyName)
+                        ->where('records.gender', 'FEMALE');
+                    })
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', date('n'))
+                    ->where('age_years', '>=', 70)
+                    ->count();
                 }
                 else if($s == 'ACUTE_BLOODY_DIARRHEA') {
 
@@ -381,7 +528,8 @@ class FhsisAutoM2 extends Command
 
         $writer = new Xlsx($spreadsheet);
         $writer->save(storage_path('FHSIS_REPORT_'.date('F_Y').'.xlsx'));
-
+        
+        //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'chogentri@gmail.com])->send(new SendFhsisM2());
         //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SendFhsisM2());
     }
 }

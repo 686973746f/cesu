@@ -1842,7 +1842,14 @@ class FormsController extends Controller
                     ->with('msgType', 'danger');
                 }
             }
-            
+
+            //get age in years, month, days
+            $birthdate = Carbon::parse($rec->bdate);
+            $currentDate = Carbon::parse($set_dr);
+
+            $get_ageyears = $birthdate->diffInYears($currentDate);
+            $get_agemonths = $birthdate->diffInMonths($currentDate);
+            $get_agedays = $birthdate->diffInDays($currentDate);
 
             $createform = $request->user()->form()->create([
                 'created_at' => $set_created_at,
@@ -2034,6 +2041,10 @@ class FormsController extends Controller
 
                 'remarks' => ($request->filled('remarks')) ? mb_strtoupper($request->remarks) : NULL,
                 'antigenqr' => $antigenqr,
+
+                'age_years' => $get_ageyears,
+                'age_months' => $get_agemonths,
+                'age_days' => $get_agedays,
             ]);
 
             //Create Monitoring Sheet

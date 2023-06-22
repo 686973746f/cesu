@@ -699,8 +699,6 @@ class VaxcertController extends Controller
                     ->orderBy('vaccination_date', 'ASC')
                     ->paginate(25);
                 }
-
-                $paginate = true;
             }
             else {
                 $s = CovidVaccinePatientMasterlist::where('last_name', 'LIKE', $lname.'%')
@@ -709,8 +707,10 @@ class VaxcertController extends Controller
                 ->orderBy('vaccination_date', 'ASC')
                 ->paginate(25);
 
-                $paginate = true;
+                
             }
+
+            $paginate = true;
         }
 
         if(mb_strpos($lname, 'Ñ') !== false) {

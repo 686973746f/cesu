@@ -256,6 +256,10 @@ class CreateFormsTable extends Migration
 
             $table->text('antigenqr')->nullable();
             $table->tinyInteger('sent')->default(0);
+
+            $table->integer('age_years')->nullable();
+            $table->integer('age_months')->nullable();
+            $table->integer('age_days')->nullable();
         });
     }
 
