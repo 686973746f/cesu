@@ -25,6 +25,7 @@ use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\File;
 
 class FhsisAutoM2 extends Command
 {
@@ -188,8 +189,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'DENGUE') {
                     $item1 = Dengue::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -198,8 +197,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Dengue::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -208,8 +205,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Dengue::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -218,8 +213,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Dengue::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -305,8 +298,6 @@ class FhsisAutoM2 extends Command
                     ->where('caseClassification', 'Confirmed')
                     ->whereYear('morbidityMonth', date('Y'))
                     ->whereMonth('morbidityMonth', date('n'))
-                    ->where('age_years', 0)
-                    ->where('age_months', 0)
                     ->whereBetWeen('age_days', [0,6])
                     ->count();
 
@@ -318,8 +309,6 @@ class FhsisAutoM2 extends Command
                     ->where('caseClassification', 'Confirmed')
                     ->whereYear('morbidityMonth', date('Y'))
                     ->whereMonth('morbidityMonth', date('n'))
-                    ->where('age_years', 0)
-                    ->where('age_months', 0)
                     ->whereBetWeen('age_days', [0,6])
                     ->count();
 
@@ -331,8 +320,6 @@ class FhsisAutoM2 extends Command
                     ->where('caseClassification', 'Confirmed')
                     ->whereYear('morbidityMonth', date('Y'))
                     ->whereMonth('morbidityMonth', date('n'))
-                    ->where('age_years', 0)
-                    ->where('age_months', 0)
                     ->whereBetWeen('age_days', [7,28])
                     ->count();
 
@@ -344,8 +331,6 @@ class FhsisAutoM2 extends Command
                     ->where('caseClassification', 'Confirmed')
                     ->whereYear('morbidityMonth', date('Y'))
                     ->whereMonth('morbidityMonth', date('n'))
-                    ->where('age_years', 0)
-                    ->where('age_months', 0)
                     ->whereBetWeen('age_days', [7,28])
                     ->count();
                     
@@ -357,8 +342,6 @@ class FhsisAutoM2 extends Command
                     ->where('caseClassification', 'Confirmed')
                     ->whereYear('morbidityMonth', date('Y'))
                     ->whereMonth('morbidityMonth', date('n'))
-                    ->where('age_years', 0)
-                    ->where('age_months', 0)
                     ->whereBetWeen('age_days', [7,28])
                     ->count();
 
@@ -440,8 +423,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'ACUTE_BLOODY_DIARRHEA') {
                     $item1 = Abd::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -450,8 +431,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Abd::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -460,8 +439,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Abd::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -470,8 +447,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Abd::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -551,8 +526,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'CHOLERA') {
                     $item1 = Cholera::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -561,8 +534,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Cholera::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -571,8 +542,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Cholera::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -581,8 +550,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Cholera::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -662,8 +629,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'DIPTHERIA') {
                     $item1 = Diph::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -672,8 +637,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Diph::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -682,8 +645,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Diph::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -692,8 +653,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Diph::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -773,8 +732,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'INFLUENZALIKE') {
                     $item1 = Influenza::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -783,8 +740,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Influenza::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -793,8 +748,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Influenza::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -803,8 +756,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Influenza::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -884,8 +835,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'LEPTOSPIROSIS') {
                     $item1 = Leptospirosis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -894,8 +843,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Leptospirosis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -904,8 +851,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Leptospirosis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -914,8 +859,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Leptospirosis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -995,8 +938,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'MALARIA') {
                     $item1 = Malaria::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1005,8 +946,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Malaria::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1015,8 +954,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Malaria::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1025,8 +962,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Malaria::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1106,8 +1041,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'MEASLES') {
                     $item1 = Measles::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1116,8 +1049,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Measles::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1126,8 +1057,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Measles::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1136,8 +1065,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Measles::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1217,8 +1144,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'MENINGO') {
                     $item1 = Meningo::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1227,8 +1152,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Meningo::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1237,8 +1160,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Meningo::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1247,8 +1168,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Meningo::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1328,8 +1247,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'NEONATAL_TETANUS') {
                     $item1 = Nt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1338,8 +1255,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Nt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1348,8 +1263,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Nt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1358,8 +1271,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Nt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1439,8 +1350,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'NONNEONATAL_TETANUS') {
                     $item1 = Nnt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1449,8 +1358,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Nnt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1459,8 +1366,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Nnt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1469,8 +1374,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Nnt::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1550,8 +1453,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'PARALYRIC_SHELLFISH_POISONING') {
                     $item1 = Psp::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1560,8 +1461,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Psp::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1570,8 +1469,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Psp::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1580,8 +1477,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Psp::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1661,8 +1556,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'TYPHOID_PARATHYPOID') {
                     $item1 = Typhoid::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1671,8 +1564,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Typhoid::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1681,8 +1572,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Typhoid::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1691,8 +1580,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Typhoid::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1772,8 +1659,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'VIRAL_HEPATITIS') {
                     $item1 = Hepatitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1782,8 +1667,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Hepatitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1792,8 +1675,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Hepatitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1802,8 +1683,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Hepatitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1883,8 +1762,6 @@ class FhsisAutoM2 extends Command
                 else if($s == 'VIRAL_MENINGITIS') {
                     $item1 = Meningitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1893,8 +1770,6 @@ class FhsisAutoM2 extends Command
 
                     $item2 = Meningitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [0,6])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1903,8 +1778,6 @@ class FhsisAutoM2 extends Command
 
                     $item3 = Meningitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -1913,8 +1786,6 @@ class FhsisAutoM2 extends Command
 
                     $item4 = Meningitis::where('Muncity', $b->city->cityName)
                     ->where('Barangay', $b->brgyName)
-                    ->where('AgeYears', 0)
-                    ->where('AgeMons', 0)
                     ->whereBetween('AgeDays', [7,28])
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
@@ -2090,9 +1961,11 @@ class FhsisAutoM2 extends Command
         }
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save(storage_path('FHSIS_REPORT_'.date('F_Y').'.xlsx'));
+        $writer->save(public_path('FHSIS_M2_REPORT_'.date('F_Y').'.xlsx'));
         
-        //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'chogentri@gmail.com])->send(new SendFhsisM2());
+        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'chogentri@gmail.com', 'christoferpedrasa24@gmail.com'])->send(new SendFhsisM2());
+
+        File::delete(public_path('FHSIS_M2_REPORT_'.date('F_Y', strtotime('-1 Month')).'.xlsx'));
         //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SendFhsisM2());
     }
 }

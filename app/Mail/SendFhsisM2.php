@@ -29,5 +29,10 @@ class SendFhsisM2 extends Mailable
     public function build()
     {
         return $this->view('email.fhsism2');
+        
+        return $this->view('email.fhsism2')
+        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->subject('eFHSIS M2 Monthy Report for '.date('F, Y'))
+        ->attach(public_path('FHSIS_M2_REPORT_'.date('F_Y').'.xlsx'));
     }
 }
