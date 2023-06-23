@@ -1961,11 +1961,11 @@ class FhsisAutoM2 extends Command
         }
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save(public_path('FHSIS_M2_REPORT_'.date('F_Y').'.xlsx'));
+        $writer->save(storage_path('FHSIS_M2_REPORT_'.date('F_Y').'.xlsx'));
         
         Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'chogentri@gmail.com', 'christoferpedrasa24@gmail.com'])->send(new SendFhsisM2());
 
-        File::delete(public_path('FHSIS_M2_REPORT_'.date('F_Y', strtotime('-1 Month')).'.xlsx'));
+        File::delete(storage_path('FHSIS_M2_REPORT_'.date('F_Y', strtotime('-1 Month')).'.xlsx'));
         //Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SendFhsisM2());
     }
 }
