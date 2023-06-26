@@ -22,7 +22,7 @@ class CreateAntigensTable extends Migration
             $table->string('antigenKitShortName');
             $table->string('lotNo');
             $table->tinyInteger('isDOHAccredited');
-            $table->stringe('tkc_code')->nullable();
+            $table->string('tkc_code')->nullable();
         });
     }
 

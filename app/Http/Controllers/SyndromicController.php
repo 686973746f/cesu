@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ItrController extends Controller
+class SyndromicController extends Controller
 {
     public function index() {
-        return view('itr.home');
+        return view('syndromic.home');
     }
 
     public function create() {
@@ -21,4 +21,6 @@ class ItrController extends Controller
     public function diseasemap() {
 
     }
+
+
 }

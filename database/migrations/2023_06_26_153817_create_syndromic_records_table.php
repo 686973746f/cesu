@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItrListsTable extends Migration
+class CreateSyndromicRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateItrListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('itr_lists', function (Blueprint $table) {
+        Schema::create('syndromic_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('itrpatient_id')->constrained('itr_patients')->onDelete('cascade');
+            $table->foreignId('syndromic_patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             $table->text('opdno');
             $table->datetime('consulation_date');
             $table->string('temperature');
@@ -62,6 +62,7 @@ class CreateItrListsTable extends Migration
             $table->text('bigmessage')->nullable();
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
         });
@@ -74,6 +75,6 @@ class CreateItrListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('itr_lists');
+        Schema::dropIfExists('syndromic_records');
     }
 }

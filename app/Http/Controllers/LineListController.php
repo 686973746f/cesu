@@ -309,6 +309,7 @@ class LineListController extends Controller
             'contactPerson' => $request->contactPerson,
             'contactMobile' => $request->contactMobile,
             'is_override' => session('set_override'),
+            'is_locked' => 1,
         ]);
 
         for($i=0;$i<count($request->user);$i++) {
@@ -424,6 +425,7 @@ class LineListController extends Controller
             'laSallePreparedBy' => $request->laSallePreparedBy,
             'laSallePreparedByDate' => date('Y-m-d H:i:s', strtotime($request->laSallePreparedByDate." ".$request->laSallePreparedByTime)),
             'is_override' => session('set_override'),
+            'is_locked' => 1,
         ]);
 
         for($i=0;$i<count($request->user);$i++) {
