@@ -453,6 +453,7 @@ class VaxcertController extends Controller
 
         for($i = 1; $i <= $v->getNumberOfDose(); $i++) {
             if($i == 1) {
+                $vbasedate = $v->dose1_date;
                 $vdate = strtotime($v->dose1_date);
                 $vbrand = mb_strtoupper($v->dose1_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose1_batchno);
@@ -472,6 +473,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 2 && $v->dose1_manufacturer != 'J&J') {
+                $vbasedate = $v->dose2_date;
                 $vdate = strtotime($v->dose2_date);
                 $vbrand = mb_strtoupper($v->dose2_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose2_batchno);
@@ -485,6 +487,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 3) {
+                $vbasedate = $v->dose3_date;
                 $vdate = strtotime($v->dose3_date);
                 $vbrand = mb_strtoupper($v->dose3_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose3_batchno);
@@ -498,6 +501,7 @@ class VaxcertController extends Controller
                 $vdose4yn = 'N';
             }
             else if($i == 4) {
+                $vbasedate = $v->dose4_date;
                 $vdate = strtotime($v->dose4_date);
                 $vbrand = mb_strtoupper($v->dose4_manufacturer);
                 $vbatchlot = mb_strtoupper($v->dose4_batchno);
@@ -533,7 +537,7 @@ class VaxcertController extends Controller
 
                 //check age if matched sa ropp
                 $check_bdate = Carbon::parse($v->bdate);
-                $check_age = $check_bdate->diffInYears($v->vdate);
+                $check_age = $check_bdate->diffInYears($vbasedate);
                 if($check_age >= 5 && $check_age <= 11 && $v->category != 'ROPP (5-11 YEARS OLD)') {
                     $vcat = 'ROPP (5-11 YEARS OLD)';
                 }
