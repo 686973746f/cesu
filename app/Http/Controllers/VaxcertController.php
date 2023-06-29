@@ -530,8 +530,22 @@ class VaxcertController extends Controller
             }
             else {
                 $c = $i+1;
-                $sheet->setCellValue('A'.$c, $v->category);
-                $sheet->setCellValue('B'.$c, ''); //COMORBID
+
+                //check age if matched sa ropp
+                $check_bdate = Carbon::parse($v->bdate);
+                $check_age = $check_bdate->diffInYears($v->vdate);
+                if($check_age >= 5 && $check_age <= 11 && $v->category != 'ROPP (5-11 YEARS OLD)') {
+                    $vcat = 'ROPP (5-11 YEARS OLD)';
+                }
+                else if($check_age >= 12 && $check_age <= 17 && $v->category != 'ROPP (12-17 YEARS OLD)') {
+                    $vcat = 'ROPP (12-17 YEARS OLD)';
+                }
+                else {
+                    $vcat = $v->category;
+                }
+
+                $sheet->setCellValue('A'.$c, $vcat);
+                $sheet->setCellValue('B'.$c, $v->comorbidity); //COMORBID
                 $sheet->setCellValue('C'.$c, (!is_null($v->vaxcard_uniqueid)) ? $v->vaxcard_uniqueid : 'NONE'); //UNIQUE PERSON ID
                 $sheet->setCellValue('D'.$c, $v->pwd_yn); //PWD
                 $sheet->setCellValue('E'.$c, 'NO'); //INDIGENOUS MEMBER
@@ -599,9 +613,6 @@ class VaxcertController extends Controller
         }
         else if ($v->category == 'A3') {
             $vcat = 'A3 - Immunocompromised';
-        }
-        else {
-            $vcat = $v->category;
         }
         
         if($v->vaccine_manufacturer_name == 'ASTRAZENECA') {

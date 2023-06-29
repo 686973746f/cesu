@@ -546,7 +546,7 @@
         <hr>
         <h6 class="text-center"><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
         <hr>
-        <p class="text-center">VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
+        <p class="text-center">GenTrias LGU VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
 
     <div class="modal fade" id="selectchoice" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -559,15 +559,18 @@
                     <div id="choice1">
                         <div class="alert alert-info text-center" role="alert">
                             <h4 class="text-danger"><b>BASAHIN MUNA ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
-                            Kung ikaw ay nais lamang kumuha ng VaxCert at wala namang problema sa record mo, hindi mo na kailangan magpatuloy dito at dumiretso na lang sa mismong VaxCert website upang makapag-generate: <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph</a></b>
+                            <h6>Kung ikaw ay nais lamang kumuha ng VaxCert at wala namang problema sa record mo, hindi mo na kailangan magpatuloy dito at dumiretso na lang sa mismong VaxCert website upang makapag-generate.</h6>
+                            <h6>Pindutin lang ang link na ito ☛ <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph</a></b></h6>
                             <hr>
                             Hindi po talaga nalabas ang Middle Name/Gitnang Pangalan kapag gagamitin sa Abroad ang VaxCert.
                             <hr>
                             Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate <i>(via text/call or pumunta sa mismong opisina nila)</i> kung saan ka binakunahan dahil sila ang may permission sa system upang maayos ang record mo.
                             <hr>
-                            Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">General Trias City Facebook Page</a>)</i>
+                            Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">GenTrias Official Facebook Page</a>)</i>
+                            <hr>
+                            <b>LIBRE PO</b> ang pagpapaayos ng VaxCert Record.
                         </div>
-                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">New Concern/Mag-file ng Bagong Concern <i>(Hindi makita ng VaxCertPH ang Record/Nawawalang Dose/Maling Spelling ng Pangalan, Birthdate, etc.)</i></button>
+                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Mag-file ng bagong Ticket <i>(No Record Found/Missing Doses/etc.)</i></button>
                         @if(date('w') == 6 || date('w') == 0)
                         <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes ng umaga.</h6>
                         @endif

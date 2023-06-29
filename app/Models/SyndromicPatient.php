@@ -13,6 +13,7 @@ class SyndromicPatient extends Model
         'lname',
         'fname',
         'mname',
+        'suffix',
         'bdate',
         'gender',
         'cs',
@@ -35,4 +36,8 @@ class SyndromicPatient extends Model
         
         'qr',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

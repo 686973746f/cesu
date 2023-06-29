@@ -62,7 +62,7 @@
                     <p>Thank you. Keep Safe.</p>
                 </div>
             </div>
-            <p class="text-center">VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
+            <p class="text-center">GenTrias LGU VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
         </div>
     </div>
 </div>

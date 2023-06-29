@@ -49,6 +49,7 @@ use App\Http\Controllers\AcceptanceLetterController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
+use App\Http\Controllers\SyndromicController;
 use App\Http\Controllers\VaxcertController;
 
 /*
@@ -250,9 +251,17 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
     Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
 
-    //ITR
-    Route::get('/itr', [ItrController::class, 'index'])->name('itr.home');
-    Route::post('/itr/store', [ItrController::class, 'store'])->name('itr.store');
+    //Syndromic
+    Route::get('/syndromic', [SyndromicController::class, 'index'])->name('syndromic_home');
+    Route::get('/syndromic/patient/new', [SyndromicController::class, 'newPatient'])->name('syndromic_newPatient');
+    Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
+    Route::get('/syndromic/patient/{patient_id}/records/new', [SyndromicController::class, 'newRecord'])->name('syndromic_newRecord');
+    Route::post('/syndromic/patient/{patient_id}/records/store', [SyndromicController::class, 'storeRecord'])->name('syndromic_storeRecord');
+    
+    Route::get('/syndromic/patient/{patient_id}/view', [SyndromicController::class, 'viewPatient'])->name('syndromic_viewPatient');
+    Route::get('/syndromic/records/{records_id}/view', [SyndromicController::class, 'viewRecord'])->name('syndromic_viewRecord');
+    Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
+    Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

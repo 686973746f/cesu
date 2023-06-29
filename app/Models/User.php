@@ -10,6 +10,7 @@ use App\Models\AbtcPatient;
 use App\Models\PaSwabLinks;
 use App\Models\LinelistMaster;
 use App\Models\AcceptanceLetter;
+use App\Models\SyndromicPatient;
 use App\Models\AbtcBakunaRecords;
 use App\Models\SecondaryTertiaryRecords;
 use Illuminate\Notifications\Notifiable;
@@ -151,6 +152,10 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function acceptanceletter() {
         return $this->hasMany(AcceptanceLetter::class);
+    }
+
+    public function syndromicpatient() {
+        return $this->hasMany(SyndromicPatient::class, 'created_by');
     }
 
     public function defaultInterviewer() {
