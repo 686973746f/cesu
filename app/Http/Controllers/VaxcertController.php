@@ -526,7 +526,7 @@ class VaxcertController extends Controller
             }
 
             if($vbrand == 'ASTRAZENECA') {
-                $vbrand == 'AZ';
+                $vbrand = 'AZ';
             }
 
             if($i == 2 && $v->dose1_manufacturer == 'J&J') {
