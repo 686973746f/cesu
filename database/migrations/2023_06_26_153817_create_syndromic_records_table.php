@@ -30,6 +30,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('rash_remarks')->nullable();
             $table->tinyInteger('cough');
             $table->text('cough_remarks')->nullable();
+            $table->tinyInteger('colds');
+            $table->text('colds_remarks')->nullable();
             $table->tinyInteger('conjunctivitis');
             $table->text('conjunctivitis_remarks')->nullable();
             $table->tinyInteger('mouthsore');
