@@ -100,8 +100,10 @@ class SyndromicController extends Controller
         ]);
     }
 
-    public function storeRecord() {
+    public function storeRecord($patient_id, Request $r) {
+        $p = SyndromicPatient::findOrFail($patient_id);
 
+        $c = $r->user()->
     }
 
     public function viewPatient() {
