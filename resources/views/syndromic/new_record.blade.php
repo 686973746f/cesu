@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <hr>
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header"><b>Signs and Symptoms</b> (Please check if applicable)</div>
                     <div class="card-body">
                         <div class="row">
@@ -90,7 +90,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="conjunctivitis_yn" id="conjunctivitis_yn" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="colds_yn" id="colds_yn" value="checkedValue">
                                     Colds
                                   </label>
                                 </div>
@@ -98,7 +98,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="conjunctivitis_yn" id="conjunctivitis_yn" value="checkedValue">
                                     Conjunctivitis
                                   </label>
                                 </div>
@@ -106,7 +106,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="mouthsore_yn" id="mouthsore_yn" value="checkedValue">
                                     Mouth Sore
                                   </label>
                                 </div>
@@ -114,7 +114,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="lossoftaste_yn" id="lossoftaste_yn" value="checkedValue">
                                     Loss of Taste
                                   </label>
                                 </div>
@@ -122,7 +122,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="lossofsmell_yn" id="lossofsmell_yn" value="checkedValue">
                                     Loss of Smell
                                   </label>
                                 </div>
@@ -130,7 +130,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="headache_yn" id="headache_yn" value="checkedValue">
                                     Headache
                                   </label>
                                 </div>
@@ -138,7 +138,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="jointpain_yn" id="jointpain_yn" value="checkedValue">
                                     Joint Pain
                                   </label>
                                 </div>
@@ -146,7 +146,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue">
                                     Muscle Pain
                                   </label>
                                 </div>
@@ -154,7 +154,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="diarrhea_yn" id="diarrhea_yn" value="checkedValue">
                                     Diarrhea
                                   </label>
                                 </div>
@@ -162,7 +162,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="abdominalpain_yn" id="abdominalpain_yn" value="checkedValue">
                                     Abdominal Pain
                                   </label>
                                 </div>
@@ -170,7 +170,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="vomiting_yn" id="vomiting_yn" value="checkedValue">
                                     Vomiting
                                   </label>
                                 </div>
@@ -178,7 +178,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="weaknessofextremities_yn" id="weaknessofextremities_yn" value="checkedValue">
                                     Weakness of Extemities
                                   </label>
                                 </div>
@@ -186,7 +186,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="paralysis_yn" id="paralysis_yn" value="checkedValue">
                                     Paralysis
                                   </label>
                                 </div>
@@ -194,7 +194,7 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="alteredmentalstatus_yn" id="alteredmentalstatus_yn" value="checkedValue">
                                     Altered Mental Status
                                   </label>
                                 </div>
@@ -202,13 +202,17 @@
                             <div class="col-md-3">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue">
+                                    <input type="checkbox" class="form-check-input" name="animalbite_yn" id="animalbite_yn" value="checkedValue">
                                     Animal Bite
                                   </label>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="form-group">
+                  <label for="bigmessage">Findings</label>
+                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3"></textarea>
                 </div>
             </div>
             <div class="card-footer">

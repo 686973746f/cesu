@@ -618,6 +618,9 @@ class VaxcertController extends Controller
         else if ($v->category == 'A3') {
             $vcat = 'A3 - Immunocompromised';
         }
+        else {
+            $vcat = $v->category;
+        }
         
         if($v->vaccine_manufacturer_name == 'ASTRAZENECA') {
             $vbrand = 'AZ';
