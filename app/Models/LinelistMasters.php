@@ -26,6 +26,7 @@ class LinelistMasters extends Model
         'is_override',
         'time_started',
         'date_started',
+        'is_locked',
     ];
 
     public function user() {
