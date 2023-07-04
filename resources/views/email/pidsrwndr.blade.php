@@ -224,6 +224,7 @@
     
     @if(!empty($afp_list) || !empty($aef_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list))
     <p><b>Category I (Immediately Notifiable)</b></p>
+    <h2 style="color: red;">MW{{date('W, Y', strtotime('-1 Week'))}}</h2>
     @if(!empty($afp_list))
     <ul>
         <b>Acute Flaccid Paralysis:</b>
@@ -301,6 +302,7 @@
 
     @if(!empty($abd_list) || !empty($aes_list) || !empty($ahf_list) || !empty($hep_list) || !empty($ame_list) || !empty($mgt_list) || !empty($chi_list) || !empty($cho_list) || !empty($den_list) || !empty($dip_list) || !empty($ili_list) || !empty($lep_list) || !empty($mal_list) || !empty($nnt_list) || !empty($per_list) || !empty($rtv_list) || !empty($typ_list))
     <p><b>Category II (Weekly Notifiable)</b></p>
+    <h2 style="color: red;">MW{{date('W, Y', strtotime('-1 Week'))}}</h2>
     @if(!empty($abd_list))
     <ul>
         <b>Acute Bloody Diarrhea:</b>
