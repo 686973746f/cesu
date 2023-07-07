@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SyndromicPatient;
+use App\Models\SyndromicRecords;
 use Illuminate\Support\Facades\DB;
 
 class SyndromicController extends Controller
@@ -103,7 +104,59 @@ class SyndromicController extends Controller
     public function storeRecord($patient_id, Request $r) {
         $p = SyndromicPatient::findOrFail($patient_id);
 
-        $c = $r->user()->
+        //opd number generator
+
+        $patient_yearcount = SyndromicRecords::whereYear('created_at', date('Y'))->count() + 1;
+        
+        $getopd_num = date('Y').'-'.$patient_yearcount;
+
+        $c = $r->user()->syndromicrecord()->create([
+            'opdno' => $getopd_num,
+            'consulation_date' => $r->consulation_date,
+            'temperature' => $r->temperature,
+            'bloodpressure' => $r->bloodpressure,
+            'weight' => $r->weight,
+            'respiratoryrate' => $r->bloodpressure,
+            'pulserate' => $r->pulserate,
+            'saturationperioxigen' => $r->saturationperioxigen,
+            'fever' => ($r->fever_yn) ? 1 : 0,
+            'fever_remarks' => ($r->fever_yn) ? $r->fever_remarks : NULL,
+            'rash' => ($r->rash_yn) ? 1 : 0,
+            'rash_remarks' => ($r->rash_yn) ? $r->rash_remarks : NULL,
+            'cough',
+            'cough_remarks' => ($r->cough_yn) ? $r->cough_remarks : NULL,
+            'colds',
+            'colds_remarks' => ($r->colds_yn) ? $r->colds_remarks : NULL,
+            'conjunctivitis',
+            'conjunctivitis_remarks' => ($r->conjunctivitis) ? $r->conjunctivitis_remarks : NULL,
+            'mouthsore',
+            'mouthsore_remarks' => ($r->fever_yn) ? $r->mouthsore_remarks : NULL,
+            'lossoftaste',
+            'lossoftaste_remarks' => ($r->fever_yn) ? $r->lossoftaste_remarks : NULL,
+            'lossofsmell',
+            'lossofsmell_remarks' => ($r->fever_yn) ? $r->lossofsmell_remarks : NULL,
+            'headache',
+            'headache_remarks' => ($r->fever_yn) ? $r->headache_remarks : NULL,
+            'jointpain',
+            'jointpain_remarks' => ($r->fever_yn) ? $r->jointpain_remarks : NULL,
+            'musclepain',
+            'musclepain_remarks' => ($r->fever_yn) ? $r->musclepain_remarks : NULL,
+            'diarrhea',
+            'diarrhea_remarks' => ($r->fever_yn) ? $r->diarrhea_remarks : NULL,
+            'abdominalpain',
+            'abdominalpain_remarks' => ($r->fever_yn) ? $r->abdominalpain_remarks : NULL,
+            'vomiting',
+            'vomiting_remarks' => ($r->fever_yn) ? $r->vomiting_remarks : NULL,
+            'weaknessofextremities',
+            'weaknessofextremities_remarks' => ($r->fever_yn) ? $r->weaknessofextremities_remarks : NULL,
+            'paralysis',
+            'paralysis_remarks' => ($r->fever_yn) ? $r->paralysis_remarks : NULL,
+            'alteredmentalstatus',
+            'alteredmentalstatus_remarks' => ($r->fever_yn) ? $r->alteredmentalstatus_remarks : NULL,
+            'animalbite',
+            'animalbite_remarks' => ($r->fever_yn) ? $r->animalbite_remarks : NULL,
+            'bigmessage',
+        ]);
     }
 
     public function viewPatient() {

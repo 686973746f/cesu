@@ -233,7 +233,7 @@ class LineListController extends Controller
 
         if($link == 'lasalle') {
             $pdf = PDF::loadView('lasalle_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper])->setPaper($setPaper, 'landscape');
-            return $pdf->download('LINELIST_LASALLE_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
+            return $pdf->download('CHOGENTRIAS_LINELIST_CDCDC_'.date('m_d_Y', strtotime($details->created_at)).'.pdf');
         }
         else if($link == 'oni') {
             //return view('oni_pdf', ['details' => $details, 'list' => $list, 'size' => $setPaper]);
