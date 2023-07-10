@@ -116,10 +116,10 @@
                 <div class="modal-body">
                     <div class="form-group">
                       <label for=""><span class="text-danger font-weight-bold">*</span>Last Name</label>
-                      <input type="text" name="lname" id="lname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                      <input type="text" name="lname" id="lname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;">
                     </div>
                     <div class="form-group">
-                        <label for="">First Name <i>(Optional, but Recommended)</i></label>
+                        <label for="">First Name</label>
                         <input type="text" name="fname" id="fname" class="form-control" minlength="2" maxlength="50" style="text-transform: uppercase;">
                     </div>
                     <div class="form-group">
