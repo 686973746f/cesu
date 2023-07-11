@@ -18,9 +18,9 @@
     </div>
 </div>
 <script>
-    var map = Leaflet.map('map').setView([14.3895, 120.8777], 13);
+    var map = L.map('map').setView([14.3895, 120.8777], 13);
 
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     }).addTo(map);
 

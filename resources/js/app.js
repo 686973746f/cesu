@@ -20,7 +20,6 @@ import 'holderjs';
 import 'select2';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import download from 'downloadjs';
-import Chart from 'chart.js/auto';
 import L from 'leaflet';
 
 window.JSZip = jsZip;
@@ -29,5 +28,4 @@ window.PDFDocument = PDFDocument;
 window.StandardFonts = StandardFonts;
 window.rgb = rgb;
 window.download = download;
-window.Chart = Chart;
-window.Leaflet = L;
+window.L = L;
