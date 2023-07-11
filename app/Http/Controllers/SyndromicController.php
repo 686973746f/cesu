@@ -111,6 +111,7 @@ class SyndromicController extends Controller
         $getopd_num = date('Y').'-'.$patient_yearcount;
 
         $c = $r->user()->syndromicrecord()->create([
+            'syndromic_patient_id' => $p->id,
             'opdno' => $getopd_num,
             'consulation_date' => $r->consulation_date,
             'temperature' => $r->temperature,
@@ -123,40 +124,45 @@ class SyndromicController extends Controller
             'fever_remarks' => ($r->fever_yn) ? $r->fever_remarks : NULL,
             'rash' => ($r->rash_yn) ? 1 : 0,
             'rash_remarks' => ($r->rash_yn) ? $r->rash_remarks : NULL,
-            'cough',
+            'cough' => ($r->cough_yn) ? 1 : 0,
             'cough_remarks' => ($r->cough_yn) ? $r->cough_remarks : NULL,
-            'colds',
+            'colds' => ($r->colds_yn) ? 1 : 0,
             'colds_remarks' => ($r->colds_yn) ? $r->colds_remarks : NULL,
-            'conjunctivitis',
-            'conjunctivitis_remarks' => ($r->conjunctivitis) ? $r->conjunctivitis_remarks : NULL,
-            'mouthsore',
-            'mouthsore_remarks' => ($r->fever_yn) ? $r->mouthsore_remarks : NULL,
-            'lossoftaste',
-            'lossoftaste_remarks' => ($r->fever_yn) ? $r->lossoftaste_remarks : NULL,
-            'lossofsmell',
-            'lossofsmell_remarks' => ($r->fever_yn) ? $r->lossofsmell_remarks : NULL,
-            'headache',
-            'headache_remarks' => ($r->fever_yn) ? $r->headache_remarks : NULL,
-            'jointpain',
-            'jointpain_remarks' => ($r->fever_yn) ? $r->jointpain_remarks : NULL,
-            'musclepain',
-            'musclepain_remarks' => ($r->fever_yn) ? $r->musclepain_remarks : NULL,
-            'diarrhea',
-            'diarrhea_remarks' => ($r->fever_yn) ? $r->diarrhea_remarks : NULL,
-            'abdominalpain',
-            'abdominalpain_remarks' => ($r->fever_yn) ? $r->abdominalpain_remarks : NULL,
-            'vomiting',
-            'vomiting_remarks' => ($r->fever_yn) ? $r->vomiting_remarks : NULL,
-            'weaknessofextremities',
-            'weaknessofextremities_remarks' => ($r->fever_yn) ? $r->weaknessofextremities_remarks : NULL,
-            'paralysis',
-            'paralysis_remarks' => ($r->fever_yn) ? $r->paralysis_remarks : NULL,
-            'alteredmentalstatus',
-            'alteredmentalstatus_remarks' => ($r->fever_yn) ? $r->alteredmentalstatus_remarks : NULL,
-            'animalbite',
-            'animalbite_remarks' => ($r->fever_yn) ? $r->animalbite_remarks : NULL,
-            'bigmessage',
+            'conjunctivitis' => ($r->conjunctivitis_yn) ? 1 : 0,
+            'conjunctivitis_remarks' => ($r->conjunctivitis_yn) ? $r->conjunctivitis_remarks : NULL,
+            'mouthsore' => ($r->mouthsore_yn) ? 1 : 0,
+            'mouthsore_remarks' => ($r->mouthsore_yn) ? $r->mouthsore_remarks : NULL,
+            'lossoftaste' => ($r->lossoftaste_yn) ? 1 : 0,
+            'lossoftaste_remarks' => ($r->lossoftaste_yn) ? $r->lossoftaste_remarks : NULL,
+            'lossofsmell' => ($r->lossofsmell_yn) ? 1 : 0,
+            'lossofsmell_remarks' => ($r->lossofsmell_yn) ? $r->lossofsmell_remarks : NULL,
+            'headache' => ($r->headache_yn) ? 1 : 0,
+            'headache_remarks' => ($r->headache_yn) ? $r->headache_remarks : NULL,
+            'jointpain' => ($r->jointpain_yn) ? 1 : 0,
+            'jointpain_remarks' => ($r->jointpain_yn) ? $r->jointpain_remarks : NULL,
+            'musclepain' => ($r->musclepain_yn) ? 1 : 0,
+            'musclepain_remarks' => ($r->musclepain_yn) ? $r->musclepain_remarks : NULL,
+            'diarrhea' => ($r->diarrhea_yn) ? 1 : 0,
+            'diarrhea_remarks' => ($r->diarrhea_yn) ? $r->diarrhea_remarks : NULL,
+            'abdominalpain' => ($r->abdominalpain_yn) ? 1 : 0,
+            'abdominalpain_remarks' => ($r->abdominalpain_yn) ? $r->abdominalpain_remarks : NULL,
+            'vomiting' => ($r->vomiting_yn) ? 1 : 0,
+            'vomiting_remarks' => ($r->vomiting_yn) ? $r->vomiting_remarks : NULL,
+            'weaknessofextremities' => ($r->weaknessofextremities_yn) ? 1 : 0,
+            'weaknessofextremities_remarks' => ($r->weaknessofextremities_yn) ? $r->weaknessofextremities_remarks : NULL,
+            'paralysis' => ($r->paralysis_yn) ? 1 : 0,
+            'paralysis_remarks' => ($r->paralysis_yn) ? $r->paralysis_remarks : NULL,
+            'alteredmentalstatus' => ($r->alteredmentalstatus_yn) ? 1 : 0,
+            'alteredmentalstatus_remarks' => ($r->alteredmentalstatus_yn) ? $r->alteredmentalstatus_remarks : NULL,
+            'animalbite' => ($r->animalbite_yn) ? 1 : 0,
+            'animalbite_remarks' => ($r->animalbite_yn) ? $r->animalbite_remarks : NULL,
+            'bigmessage' => $r->bigmessage,
+            'status' => 'approved',
         ]);
+
+        return redirect()->route('syndromic_home')
+        ->with('msg', 'Record successfully created.')
+        ->with('msgtype', 'success');
     }
 
     public function viewPatient() {
@@ -176,8 +182,7 @@ class SyndromicController extends Controller
     }
 
     public function diseasemap() {
-
+        
+        return view('syndromic.mapdashboard');
     }
-
-
 }

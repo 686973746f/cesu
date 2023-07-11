@@ -10,6 +10,7 @@ class SyndromicRecords extends Model
     use HasFactory;
 
     protected $fillable = [
+        'syndromic_patient_id',
         'opdno',
         'consulation_date',
         'temperature',
@@ -55,5 +56,6 @@ class SyndromicRecords extends Model
         'animalbite',
         'animalbite_remarks',
         'bigmessage',
+        'status',
     ];
 }

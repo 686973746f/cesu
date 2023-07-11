@@ -21,8 +21,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('temperature');
             $table->string('bloodpressure');
             $table->string('weight');
-            $table->string('respiratoryrate');
-            $table->string('pulserate');
+            $table->string('respiratoryrate')->nullable();
+            $table->string('pulserate')->nullable();
             $table->string('saturationperioxigen')->nullable();
             $table->tinyInteger('fever');
             $table->text('fever_remarks')->nullable();
