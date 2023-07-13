@@ -262,8 +262,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/syndromic/records/{records_id}/view', [SyndromicController::class, 'viewRecord'])->name('syndromic_viewRecord');
     Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
     Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
-
     Route::get('/syndromic/map', [SyndromicController::class, 'diseasemap'])->name('syndromic_map');
+
+    Route::get
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
@@ -416,6 +417,10 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/abtc/walkin', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('abtc_walkin_part1');
     Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
     Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
+    
+    Route::get('/itr', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('syndromic_walkin1');
+    Route::get('/itr/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('syndromic_walkin2');
+    Route::post('/itr/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('syndromic_walkin3');
 });
 
 //Vaxcert

@@ -13,6 +13,7 @@ class SyndromicRecords extends Model
         'syndromic_patient_id',
         'opdno',
         'consulation_date',
+        'chief_complain',
         'temperature',
         'bloodpressure',
         'weight',
@@ -57,5 +58,11 @@ class SyndromicRecords extends Model
         'animalbite_remarks',
         'bigmessage',
         'status',
+        'brgy_verified',
+        'verified_by',
+
+        'age_years',
+        'age_months',
+        'age_days',
     ];
 }

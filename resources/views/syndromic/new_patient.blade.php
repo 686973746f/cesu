@@ -66,12 +66,39 @@
                                     <option value="WIDOWED" {{(old('cs') == 'WIDOWED') ? 'selected' : ''}}>Widowed</option>
                                 </select>
                             </div>
+                            <div class="form-group d-none" id="ifmarried_div">
+                                <label for="spouse_name"><span class="text-danger font-weight-bold">*</span>Spouse Name</label>
+                                <input type="text" class="form-control" name="spouse_name" id="spouse_name">
+                              </div>
+                            <div class="form-group">
+                              <label for="">Email Address (Optional)</label>
+                              <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Contact Number</label>
                                 <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', '09')}}" pattern="[0-9]{11}" placeholder="09*********" required>
                             </div>
+                            <div class="form-group">
+                                <label for="contact_number2">Contact Number 2 (Optional)</label>
+                                <input type="text" class="form-control" id="contact_number2" name="contact_number2" value="{{old('contact_number2')}}" pattern="[0-9]{11}" placeholder="09*********">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="mother_name">Mother's Name</label>
+                              <input type="text" class="form-control" name="mother_name" id="mother_name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="father_name">Father's Name</label>
+                                <input type="text" class="form-control" name="father_name" id="father_name">
+                              </div>
                         </div>
                     </div>
                     @if($getage <= 17)
@@ -85,7 +112,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="ifminor_resrelation">Relationship</label>
+                              <label for="ifminor_resrelation"><span class="text-danger font-weight-bold">*</span>Relationship</label>
                               <select class="form-control" name="ifminor_resrelation" id="ifminor_resrelation" required>
                                 <option value="" disabled {{(is_null(old('ifminor_resrelation'))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="PARENT" {{(old('cs') == 'PARENT') ? 'selected' : ''}}>Parent/Magulang</option>
@@ -335,5 +362,17 @@
         $('#address_region_text').val('REGION IV-A (CALABARZON)');
         $('#address_province_text').val('CAVITE');
         $('#address_muncity_text').val('GENERAL TRIAS');
+
+        $('#cs').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'MARRIED') {
+                $('#ifmarried_div').removeClass('d-none');
+                $('#spouse_name').prop('required', true);
+            }
+            else {
+                $('#ifmarried_div').addClass('d-none');
+                $('#spouse_name').prop('required', false);
+            }
+        }).trigger('change');
     </script>
 @endsection

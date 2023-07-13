@@ -18,7 +18,13 @@ class SyndromicPatient extends Model
         'gender',
         'cs',
         'contact_number',
+        'contact_number2',
+        'email',
         'philhealth',
+
+        'spouse_name',
+        'mother_name',
+        'father_name',
 
         'address_region_code',
         'address_region_text',
@@ -35,6 +41,8 @@ class SyndromicPatient extends Model
         'ifminor_resrelation',
         
         'qr',
+        'id_file',
+        'selfie_file',
     ];
 
     public function user() {

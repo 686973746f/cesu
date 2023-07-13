@@ -58,6 +58,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                  <label for="chief_complain">Chief Complain</label>
+                  <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain')}}" required>
+                </div>
                 <hr>
                 <div class="card mb-3">
                     <div class="card-header"><b>Signs and Symptoms</b> (Please check if applicable)</div>
