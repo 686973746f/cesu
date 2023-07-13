@@ -18,6 +18,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->foreignId('syndromic_patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             $table->text('opdno');
             $table->datetime('consulation_date');
+            $table->string('chief_complain');
             $table->string('temperature');
             $table->string('bloodpressure');
             $table->string('weight');
@@ -63,6 +64,13 @@ class CreateSyndromicRecordsTable extends Migration
 
             $table->text('bigmessage')->nullable();
             $table->string('status');
+            $table->tinyInteger('brgy_verified')->default(0);
+            $table->foreignId('verified_by')->nullable()->constrained('users')->onDelete('cascade');
+
+            $table->integer('age_years')->nullable();
+            $table->integer('age_months')->nullable();
+            $table->integer('age_days')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');

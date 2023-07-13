@@ -23,7 +23,13 @@ class CreateSyndromicPatientsTable extends Migration
             $table->string('gender');
             $table->string('cs');
             $table->string('contact_number')->nullable();
+            $table->string('contact_number2')->nullable();
+            $table->string('email')->nullable();
             $table->string('philhealth')->nullable();
+
+            $table->string('spouse_name')->nullable();
+            $table->string('mother_name')->nullable();
+            $table->string('father_name')->nullable();
 
             $table->text('address_region_code');
             $table->text('address_region_text');
@@ -38,6 +44,11 @@ class CreateSyndromicPatientsTable extends Migration
 
             $table->string('ifminor_resperson')->nullable();
             $table->string('ifminor_resrelation')->nullable();
+
+            $table->string('qr');
+            $table->string('id_file')->nullable();
+            $table->string('selfie_file')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');

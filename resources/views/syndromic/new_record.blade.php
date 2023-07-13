@@ -283,7 +283,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label for="bigmessage">Findings</label>
+                  <label for="bigmessage">Findings/Remarks</label>
                   <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3"></textarea>
                 </div>
             </div>
