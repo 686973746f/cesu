@@ -568,7 +568,7 @@
                             <hr>
                             Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">GenTrias Official Facebook Page</a>)</i>
                             <hr>
-                            <b>LIBRE PO</b> ang pagpapaayos ng VaxCert Record.
+                            <b>LIBRE PO</b> ang magpaayos ng VaxCert Record.
                         </div>
                         <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Mag-file ng bagong Ticket <i>(No Record Found/Missing Doses/etc.)</i></button>
                         @if(date('w') == 6 || date('w') == 0)
@@ -578,9 +578,9 @@
                         <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Follow-up Concern Status</button>
                     </div>
                     <div  id="choice2" class="d-none text-center">
-                        <p>For Follow-up VaxCert Concern Status, you may contact us with your Reference Number at:</p>
+                        <p>Kung makalipas ng 2-3 araw at wala kayong na-receive na update mula saamin, maaari niyo kami ma-contact sa pamamagitan ng:</p>
                         <h6><b>Email:</b> cesugentri.vaxcert@gmail.com</h6>
-                        <h6><b>Mobile:</b> +63919 066 4327</h6>
+                        <h6><b>Text/Call/Viber:</b> +63919 066 4327</h6>
                         <h6 class="mt-5"><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
                         <hr>
                         <button type="button" id="goback" class="btn btn-primary btn-block">Go Back</button>

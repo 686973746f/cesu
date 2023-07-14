@@ -65,4 +65,22 @@ class SyndromicRecords extends Model
         'age_months',
         'age_days',
     ];
+
+    public function syndromic_patient() {
+        return $this->belongsTo(SyndromicPatient::class, 'syndromic_patient_id');
+    }
+
+    public function getListOfSuspDiseases() {
+        $list_arr = [];
+
+        if($this->diarrhea == 1) {
+            $list_arr[] = 'Acute Bloody Diarrhea (ABD)';
+        }
+
+        if($this->fever == 1 && $this->alteredmentalstatus == 1) {
+            $list_arr[] = 'Acute Encephalitis';
+        }
+        
+        
+    }
 }

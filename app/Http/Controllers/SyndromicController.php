@@ -12,11 +12,39 @@ use Illuminate\Support\Facades\DB;
 class SyndromicController extends Controller
 {
     public function index() {
-        if(auth()->user()->isAdmin == 1) {
+        if(!is_null(auth()->user()->brgy_id)) {
+            $uv = SyndromicRecords::where('brgy_verified', 0)
+            ->whereHas('syndromic_patient', function ($q) {
+                $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
+            })
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
+            $v = SyndromicRecords::where('brgy_verified', 1)
+            ->whereHas('syndromic_patient', function ($q) {
+                $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
+            })
+            ->orderBy('created_at', 'DESC')
+            ->get();
         }
+        else {
+            $uv = SyndromicRecords::where('brgy_verified', 0)
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
-        return view('syndromic.home');
+            $v = SyndromicRecords::where('brgy_verified', 1)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        }
+        
+        return view('syndromic.home', [
+            'uv' => $uv,
+            'v' => $v,
+        ]);
     }
 
     public function newPatient() {

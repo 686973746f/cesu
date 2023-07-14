@@ -32,7 +32,7 @@
                     <table class="table text-center table-bordered">
                         <tbody>
                             <tr>
-                                <td scope="row" rowspan="3" style="vertical-align: middle;"><i class="fas fa-phone-alt mr-2"></i>Mobile Numbers</td>
+                                <td scope="row" rowspan="3" style="vertical-align: middle;"><i class="fas fa-phone-alt mr-2"></i>Text/Call/Viber</td>
                                 <td>0919 066 4324</td>
                             </tr>
                             <tr>
@@ -50,7 +50,7 @@
                                 <td><a href = "mailto: cesugentrias.vaxcert@gmail.com">cesugentrias.vaxcert@gmail.com</a></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><a href="https://www.facebook.com/cesugentrias">Facebook Page</a></td>
+                                <td colspan="2"><a href="https://www.facebook.com/cesugentrias">CESU GenTri Facebook Page</a></td>
                             </tr>
                             <tr>
                                 <td scope="row">Address</td>
@@ -58,8 +58,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p class="font-weight-bold"><i class="far fa-clock mr-2"></i>Office Hours: 08:00 AM - 05:00 PM (from Monday - Friday ONLY)</p>
-                    <p>Thank you. Keep Safe.</p>
+                    <p class="font-weight-bold"><i class="far fa-clock mr-2"></i>Office Hours: 08:00 AM - 05:00 PM (from Monday - Friday ONLY, except Holidays)</p>
+                    <p>Thank you very much.</p>
                 </div>
             </div>
             <p class="text-center">GenTrias LGU VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>

@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="card">
+<div class="container-fluid">
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr">New Patient</button>
+    </div>
+
+    <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>ITR</div>
-                <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#additr">Add</button></div>
+                <div><b>Unverified by Barangays</b></div>
+                <div></div>
             </div>
         </div>
         <div class="card-body">
@@ -15,25 +19,73 @@
                 {{session('msg')}}
             </div>
             @endif
-            <table class="table">
-                <thead>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light text-center">
                     <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th>Name</th>
+                        <th>Birthdate</th>
+                        <th>Age/Sex</th>
+                        <th>Lot/Street</th>
+                        <th>Barangay</th>
+                        <th>Status</th>
+                        <th>Encoded by / At</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($uv as $l)
                     <tr>
-                        <td scope="row"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                     </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div>Already Verified by Barangays</div>
+            </div>
+        </div>
+        <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light text-center">
                     <tr>
-                        <td scope="row"></td>
+                        <th>Name</th>
+                        <th>Birthdate</th>
+                        <th>Age/Sex</th>
+                        <th>Lot/Street</th>
+                        <th>Barangay</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($v as $l)
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
