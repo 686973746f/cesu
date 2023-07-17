@@ -75,7 +75,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->date('weaknessofextremities_onset')->nullable();
             $table->text('weaknessofextremities_remarks')->nullable();
             $table->tinyInteger('paralysis');
-            $table->date('paralysis_onset_onset')->nullable();
+            $table->date('paralysis_onset')->nullable();
             $table->text('paralysis_remarks')->nullable();
             $table->tinyInteger('alteredmentalstatus');
             $table->date('alteredmentalstatus_onset')->nullable();
@@ -91,7 +91,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('jaundice_remarks')->nullable();
             $table->tinyInteger('nausea');
             $table->date('nausea_onset')->nullable();
-            $table->text('nausea_onset')->nullable();
+            $table->text('nausea_remarks')->nullable();
             $table->tinyInteger('fatigue');
             $table->date('fatigue_onset')->nullable();
             $table->text('fatigue_remarks')->nullable();

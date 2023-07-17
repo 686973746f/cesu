@@ -44,7 +44,8 @@
                         <tr>
                             <th>Ticket ID / Code</th>
                             <th>Name</th>
-                            <th>Birthdate / Gender</th>
+                            <th>Birthdate</th>
+                            <th>Age / Sex</th>
                             <th>Address</th>
                             <th>Contact Number</th>
                             <th>Email</th>
@@ -70,18 +71,19 @@
                         @endphp
                         <tr>
                             <td class="text-center">#{{$d->id}} - {{$d->sys_code}}</td>
-                            <td><a href="{{route('vaxcert_viewpatient', $d->id)}}">{{$d->getName()}}</a></td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}} / {{$d->gender}}</td>
+                            <td><b><a href="{{route('vaxcert_viewpatient', $d->id)}}">{{$d->getName()}}</a></b></td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}}</td>
+                            <td class="text-center">{{$d->getAge()}} / {{$d->gender}}</td>
                             <td><small>{{$d->getAddress()}}</small></td>
                             <td class="text-center">{{$d->contact_number}}</td>
                             <td class="text-center">{{(!is_null($d->email)) ? $d->email : 'N/A'}}</td>
                             <td class="text-center">{{$d->concern_type}}</td>
                             <td class="text-center">{{$d->category}}</td>
                             <td class="text-center">{{($d->use_type == 'ABROAD') ? 'ABROAD - '.$d->passport_no : 'LOCAL'}}</td>
-                            <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></td>
+                            <td class="text-center"><small>{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}}</small></td>
                             @if(request()->input('viewcomplete'))
                             <td class="text-center"><b>{{$d->status}}</b></td>
-                            <td>{{$d->getProcessedBy()}} / <small>{{date('m/d/Y H:i A', strtotime($d->updated_at))}}</small></td>
+                            <td class="text-center">{{$d->getProcessedBy()}} / <small>{{date('m/d/Y (D) h:i A', strtotime($d->updated_at))}}</small></td>
                             @endif
                         </tr>
                         @endforeach
