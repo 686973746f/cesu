@@ -9,7 +9,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>Unverified by Barangays</b></div>
+                <div><b>List of Unverified - per Barangay</b></div>
                 <div></div>
             </div>
         </div>
@@ -53,7 +53,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>Already Verified by Barangays</div>
+                <div>List of Verifieds - per Brgy</div>
             </div>
         </div>
         <div class="card-body">

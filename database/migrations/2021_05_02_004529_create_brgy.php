@@ -22,6 +22,7 @@ class CreateBrgy extends Migration
             $table->tinyInteger('displayInList')->default(1);
             $table->integer('estimatedPopulation')->nullable();
             $table->text('dilgCustCode')->nullable();
+            $table->text('json_code')->nullable();
         });
     }
 

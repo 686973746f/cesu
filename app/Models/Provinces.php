@@ -15,9 +15,14 @@ class Provinces extends Model
     protected $fillable = [
         'region_id',
         'provinceName',
+        'json_code',
     ];
 
     public function region() {
         return $this->belongsTo(Regions::class);
+    }
+
+    public function getPsgcCode() {
+        return $this->json_code.'00000';
     }
 }

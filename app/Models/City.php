@@ -15,9 +15,14 @@ class City extends Model
     protected $fillable = [
         'province_id',
         'cityName',
+        'json_code',
     ];
 
     public function province() {
         return $this->belongsTo(Provinces::class);
+    }
+
+    public function getPsgcCode() {
+        return $this->json_code.'000';
     }
 }

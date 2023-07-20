@@ -13,8 +13,11 @@ class Brgy extends Model
     protected $table = 'brgy';
 
     protected $fillable = [
-        'brgyName',
+        'user_id',
         'city_id',
+        'brgyName',
+        'displayInList',
+        'json_code',
     ];
 
     public function city(){

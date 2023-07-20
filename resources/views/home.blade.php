@@ -201,6 +201,7 @@
             <div class="modal-body">
                 <a href="{{route('abtc_home')}}" class="btn btn-primary btn-block">Animal Bite (ABTC)</a>
                 <a href="{{route('vaxcert_home')}}" class="btn btn-primary btn-block">VaxCert Concerns</a>
+                <a href="{{route('syndromic_home')}}" class="btn btn-primary btn-block">Syndromic (ITR)</a>
                 <hr>
                 <a href="{{route('pidsr.home')}}" class="btn btn-primary btn-block">PIDSR</a>
                 <a href="{{route('fhsis_home')}}" class="btn btn-primary btn-block">eFHSIS</a>

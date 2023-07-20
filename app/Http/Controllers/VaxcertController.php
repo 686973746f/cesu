@@ -13,9 +13,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Imports\VaxcertMasterlistImport;
+use App\Models\City;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\CovidVaccinePatientMasterlist;
+use App\Models\Provinces;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 
@@ -520,9 +522,13 @@ class VaxcertController extends Controller
                 $mun_code = '042108000City of General Trias';
             }
             else {
-                //autofind soon
-                $prov_code = 'NONE';
-                $mun_code = 'NONE';
+                //search province
+                $ps = Provinces::where('provinceName', $v->address_province_text)->first();
+                $cs = City::where('province_id', $ps->id)
+                ->where('cityName', $v->address_muncity_text)->first();
+
+                $prov_code = $ps->getPsgcCode().ucwords(strtolower($ps->provinceName));
+                $mun_code = $cs->getPsgcCode().ucwords(strtolower($cs->cityName));
             }
 
             if($vbrand == 'ASTRAZENECA') {

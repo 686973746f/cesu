@@ -121,4 +121,8 @@ class SyndromicRecords extends Model
         
         
     }
+
+    public function permittedToEdit() {
+        
+    }
 }

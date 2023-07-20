@@ -412,7 +412,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="sorethroat" id="sorethroat" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="sorethroat_yn" id="sorethroat_yn" value="checkedValue">
                               Sore Throat
                             </label>
                           </div>
@@ -507,7 +507,7 @@
       $('#fever_div').addClass('d-none');
       //$('#fever_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#rash_yn').change(function (e) { 
     e.preventDefault();
@@ -519,7 +519,7 @@
       $('#rash_div').addClass('d-none');
       //$('#rash_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#cough_yn').change(function (e) { 
     e.preventDefault();
@@ -531,7 +531,7 @@
       $('#cough_div').addClass('d-none');
       //$('#cough_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#colds_yn').change(function (e) { 
     e.preventDefault();
@@ -543,7 +543,7 @@
       $('#colds_div').addClass('d-none');
       //$('#colds_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#conjunctivitis_yn').change(function (e) { 
     e.preventDefault();
@@ -555,7 +555,7 @@
       $('#conjunctivitis_div').addClass('d-none');
       //$('#conjunctivitis_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#mouthsore_yn').change(function (e) { 
     e.preventDefault();
@@ -567,7 +567,7 @@
       $('#mouthsore_div').addClass('d-none');
       //$('#mouthsore_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#lossoftaste_yn').change(function (e) { 
     e.preventDefault();
@@ -579,7 +579,7 @@
       $('#lossoftaste_div').addClass('d-none');
       //$('#lossoftaste_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#lossofsmell_yn').change(function (e) { 
     e.preventDefault();
@@ -591,7 +591,7 @@
       $('#lossofsmell_div').addClass('d-none');
       //$('#lossofsmell_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#headache_yn').change(function (e) { 
     e.preventDefault();
@@ -603,7 +603,7 @@
       $('#headache_div').addClass('d-none');
       //$('#headache_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#jointpain_yn').change(function (e) { 
     e.preventDefault();
@@ -615,7 +615,7 @@
       $('#jointpain_div').addClass('d-none');
       //$('#jointpain_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#musclepain_yn').change(function (e) { 
     e.preventDefault();
@@ -627,7 +627,7 @@
       $('#musclepain_div').addClass('d-none');
       //$('#musclepain_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#diarrhea_yn').change(function (e) { 
     e.preventDefault();
@@ -639,7 +639,7 @@
       $('#diarrhea_div').addClass('d-none');
       //$('#diarrhea_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#abdominalpain_yn').change(function (e) { 
     e.preventDefault();
@@ -651,7 +651,7 @@
       $('#abdominalpain_div').addClass('d-none');
       //$('#abdominalpain_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#vomiting_yn').change(function (e) { 
     e.preventDefault();
@@ -663,7 +663,7 @@
       $('#vomiting_div').addClass('d-none');
       //$('#vomiting_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#weaknessofextremities_yn').change(function (e) { 
     e.preventDefault();
@@ -675,7 +675,7 @@
       $('#weaknessofextremities_div').addClass('d-none');
       //$('#weaknessofextremities_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#paralysis_yn').change(function (e) { 
     e.preventDefault();
@@ -687,7 +687,7 @@
       $('#paralysis_div').addClass('d-none');
       //$('#paralysis_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#alteredmentalstatus_yn').change(function (e) { 
     e.preventDefault();
@@ -699,18 +699,76 @@
       $('#alteredmentalstatus_div').addClass('d-none');
       //$('#alteredmentalstatus_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
 
   $('#animalbite_yn').change(function (e) { 
     e.preventDefault();
     if($(this).prop('checked')) {
       $('#animalbite_div').removeClass('d-none');
-      //$('#animalbite_remarks').prop('required', true);
     }
     else {
       $('#animalbite_div').addClass('d-none');
-      //$('#animalbite_remarks').prop('required', false);
     }
-  });
+  }).trigger('change');
+
+  $('#anorexia_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#anorexia_div').removeClass('d-none');
+    }
+    else {
+      $('#anorexia_div').addClass('d-none');
+    }
+  }).trigger('change');
+
+  $('#fatigue_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#fatigue_div').removeClass('d-none');
+    }
+    else {
+      $('#fatigue_div').addClass('d-none');
+    }
+  }).trigger('change');
+
+  $('#dyspnea_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#dyspnea_div').removeClass('d-none');
+    }
+    else {
+      $('#dyspnea_div').addClass('d-none');
+    }
+  }).trigger('change');
+
+  $('#jaundice_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#jaundice_div').removeClass('d-none');
+    }
+    else {
+      $('#jaundice_div').addClass('d-none');
+    }
+  }).trigger('change');
+
+  $('#nausea_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#nausea_div').removeClass('d-none');
+    }
+    else {
+      $('#nausea_div').addClass('d-none');
+    }
+  }).trigger('change');
+
+  $('#sorethroat_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#sorethroat_div').removeClass('d-none');
+    }
+    else {
+      $('#sorethroat_div').addClass('d-none');
+    }
+  }).trigger('change');
 </script>
 @endsection
