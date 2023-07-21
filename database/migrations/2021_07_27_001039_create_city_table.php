@@ -19,6 +19,8 @@ class CreateCityTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('province_id')->constrained()->onDelete('cascade');
             $table->string('cityName');
+            $table->text('json_code')->nullable();
+            $table->text('alt_name')->nullable();
         });
     }
 

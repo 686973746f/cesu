@@ -18,6 +18,8 @@ class CreateRegionsTable extends Migration
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('regionName');
+            $table->text('json_code')->nullable();
+            $table->text('alt_name')->nullable();
         });
     }
 

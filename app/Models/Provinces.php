@@ -16,6 +16,7 @@ class Provinces extends Model
         'region_id',
         'provinceName',
         'json_code',
+        'alt_name',
     ];
 
     public function region() {

@@ -19,6 +19,8 @@ class CreateProvincesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('region_id')->constrained()->onDelete('cascade');
             $table->string('provinceName');
+            $table->text('json_code')->nullable();
+            $table->text('alt_name')->nullable();
         });
     }
 

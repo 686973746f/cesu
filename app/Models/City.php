@@ -16,6 +16,7 @@ class City extends Model
         'province_id',
         'cityName',
         'json_code',
+        'alt_name',
     ];
 
     public function province() {

@@ -18,6 +18,7 @@ class Brgy extends Model
         'brgyName',
         'displayInList',
         'json_code',
+        'alt_name',
     ];
 
     public function city(){

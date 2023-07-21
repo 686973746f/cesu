@@ -23,6 +23,7 @@ class CreateBrgy extends Migration
             $table->integer('estimatedPopulation')->nullable();
             $table->text('dilgCustCode')->nullable();
             $table->text('json_code')->nullable();
+            $table->text('alt_name')->nullable();
         });
     }
 

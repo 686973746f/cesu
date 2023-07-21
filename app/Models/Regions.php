@@ -12,6 +12,7 @@ class Regions extends Model
     protected $fillable = [
         'regionName',
         'json_code',
+        'alt_name',
     ];
 
     public function getPsgcCode() {
