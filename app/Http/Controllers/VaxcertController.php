@@ -527,8 +527,8 @@ class VaxcertController extends Controller
                 $cs = City::where('province_id', $ps->id)
                 ->where('cityName', $v->address_muncity_text)->first();
 
-                $prov_code = $ps->getPsgcCode().ucwords(strtolower($ps->provinceName));
-                $mun_code = $cs->getPsgcCode().ucwords(strtolower($cs->cityName));
+                $prov_code = $ps->getPsgcCode().$ps->alt_name;
+                $mun_code = $cs->getPsgcCode().$cs->alt_name;
             }
 
             if($vbrand == 'ASTRAZENECA') {
