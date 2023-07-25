@@ -44,8 +44,11 @@ class PidsrImport implements ToCollection, WithStartRow
     }
 
     private function tDate($value) {
-        if(!is_null($value) && date('Y-m-d', strtotime($value)) != '1970-01-01' && !empty($value)) {
-            return date('Y-m-d', strtotime($value));
+        $cdate = Carbon::parse(Date::excelToDateTimeObject($value))->format('Y-m-d');
+
+        if(!is_null($value) && $cdate != '1970-01-01' && !empty($value)) {
+            //return date('Y-m-d', strtotime(Date::excelToDateTimeObject($value)));
+            return $cdate;
         }
         else {
             return NULL;
