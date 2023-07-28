@@ -441,6 +441,9 @@
     @endif
     
     @endif
-    <p>-</p>
+    <p>= = = = =</p>
+    <h3>To view the full details of the patients in this lists, you may visit <b><a href="{{route('pidsr.weeklyviewer', ['year' => date('Y'), 'mw' => date('W', strtotime('-1 Week'))])}}">{{route('pidsr.weeklyviewer', ['year' => date('Y'), 'mw' => date('W', strtotime('-1 Week'))])}}</a></b></h3>
+    <h4>Use the Password: <b>cesugentri@2017</b></h4>
+    <p>= = = = =</p>
     <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
 </div>

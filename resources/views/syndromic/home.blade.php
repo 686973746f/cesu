@@ -27,6 +27,8 @@
                         <th>Age/Sex</th>
                         <th>Lot/Street</th>
                         <th>Barangay</th>
+                        <th>Symptoms</th>
+                        <th>List of Susp. Disease/s</th>
                         <th>Status</th>
                         <th>Encoded by / At</th>
                         <th>Actions</th>
@@ -35,6 +37,8 @@
                 <tbody>
                     @foreach($uv as $l)
                     <tr>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

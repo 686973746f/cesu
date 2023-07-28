@@ -1307,7 +1307,9 @@ class FhsisController extends Controller
     }
 
     public function pquery() {
-        $filePath = 'D:\laragon\www\cesu\storage\app\efhis\output.sql';
+        ini_set('max_execution_time', 9999999999);
+
+        $filePath = 'D:\laragon\www\cesu\storage\app\efhsis\output.sql';
 
         $sql = file_get_contents($filePath);
 
@@ -1319,6 +1321,6 @@ class FhsisController extends Controller
     }
 
     public function morbreport() {
-        
+
     }
 }

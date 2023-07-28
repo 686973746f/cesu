@@ -250,6 +250,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
     Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
+    Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');
+    Route::get('/pidsr/view/{year}/{mw}', [PIDSRController::class, 'weeklycaseviewer'])->name('pidsr.weeklyviewer');
 
     //Syndromic
     Route::get('/syndromic', [SyndromicController::class, 'index'])->name('syndromic_home');
@@ -418,9 +420,9 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
     Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
     
-    Route::get('/itr', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('syndromic_walkin1');
-    Route::get('/itr/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('syndromic_walkin2');
-    Route::post('/itr/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('syndromic_walkin3');
+    Route::get('/itr', [SyndromicController::class, 'walkin_part1'])->name('syndromic_walkin1');
+    Route::get('/itr/register', [SyndromicController::class, 'walkin_part2'])->name('syndromic_walkin2');
+    Route::post('/itr/register', [SyndromicController::class, 'walkin_part3'])->name('syndromic_walkin3');
 });
 
 //Vaxcert

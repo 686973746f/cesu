@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header">Case Viewer</div>
+        <div class="card-header"><b>PIDSR Cases Viewer</b></div>
         <div class="card-body">
             <form action="" method="get">
                 <div class="row">

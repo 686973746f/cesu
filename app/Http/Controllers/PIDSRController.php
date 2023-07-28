@@ -1024,4 +1024,24 @@ class PIDSRController extends Controller
     public function fhsis_report() {
 
     }
+
+    public function casechecker() {
+        if(request()->input('case')) {
+
+        }
+        else {
+            return view('pidsr.casechecker');
+        }
+    }
+
+    public function weeklycaseviewer($year, $mw) {
+        if(session('bypass')) {
+            $proceed = true;
+        }
+        else {
+            $proceed = false;
+
+            return view();
+        }
+    }
 }

@@ -335,7 +335,7 @@ class SyndromicController extends Controller
     }
 
     public function walkin_part1() {
-
+        
     }
 
     public function walkin_part2() {

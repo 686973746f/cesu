@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SyndromicRecords extends Model
 {
@@ -94,6 +95,10 @@ class SyndromicRecords extends Model
         'dyspnea_onset',
         'dyspnea_remarks',
 
+        'is_hospitalized',
+        'date_admitted',
+        'date_released',
+
         'bigmessage',
         'status',
         'brgy_verified',
@@ -111,15 +116,84 @@ class SyndromicRecords extends Model
     public function getListOfSuspDiseases() {
         $list_arr = [];
 
-        if($this->diarrhea == 1) {
+        if($this->diarrhea == 1 && $this->bloody_stool == 1) {
             $list_arr[] = 'Acute Bloody Diarrhea (ABD)';
         }
 
         if($this->fever == 1 && $this->alteredmentalstatus == 1) {
             $list_arr[] = 'Acute Encephalitis';
         }
+
+        if($this->fever == 1 && $this->is_hospitalized == 1 && $this->bloody_stool == 1) {
+            $list_arr[] = 'Acute Hemorrhagic Fever Syndrome';
+        }
+
+        if($this->jaundice == 1 && $this->fatigue == 1 && $this->weaknessofextremities == 1) {
+            $list_arr[] = 'Acute Viral Hepatitis';
+        }
+
+        if($this->age_years < 15 && $this->paralysis == 1) {
+            $list_arr[] = 'Acute Flaccid Paralysis';
+        }
+ 
+        if($this->fever == 1) {
+            $bdate = Carbon::parse($this->syndromic_patient->fever_onset);
+            $dengue_case_date = Carbon::parse($this->consulation_date);
+
+            $dengue_getdays = $bdate->diffInDays($dengue_case_date);
+
+            if($dengue_getdays >= 2 && $dengue_getdays <= 7) {
+                $count = 0;
+
+                if($this->headache == 1) {
+                    $count++;
+                }
+
+                if($this->musclepain == 1) {
+                    $count++;
+                }
+
+                if($this->anorexia == 1) {
+                    $count++;
+                }
+
+                if($this->vomiting == 1) {
+                    $count++;
+                }
+
+                if($this->nausea == 1) {
+                    $count++;
+                }
+
+                if($this->diarrhea == 1) {
+                    $count++;
+                }
+
+                if($this->rash == 1) {
+                    $count++;
+                }
+
+                if($count >= 2) {
+                    $list_arr[] = 'Dengue';
+                }
+            }
+        }
+
+        if($this->fever == 1 && $this->rashes == 1 && $this->temperature >= 38) {
+            $list_arr[] = 'HFMD';
+        }
         
-        
+        if($this->fever == 1) {
+            if($this->cough == 1 || $this->sorethroat == 1) {
+                $list_arr[] = 'Influenza-like Illness (ILI)';
+            }
+        }
+
+        if($this->musclepain == 1 && $this->fever == 1) {
+            if($this->jaundice == 1 || $this->rashes == 1 || $this->nausea == 1 || $this->vomiting == 1 || $this->diarrhea == 1) {
+                $list_arr[] = 'Leptospirosis';
+            }
+        }
     }
 
     public function permittedToEdit() {
