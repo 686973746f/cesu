@@ -481,13 +481,64 @@
                             </div>
                           </div>
                         </div>
+                        <div class="col-md-3">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="other_symptoms_yn" id="other_symptoms_yn" value="checkedValue">
+                              Others
+                            </label>
+                          </div>
+                          <div id="other_symptoms_div" class="d-none">
+                            <hr>
+                            <div class="form-group">
+                              <label for="other_symptoms_onset">Date of Onset</label>
+                              <input type="date" class="form-control" name="other_symptoms_onset" id="other_symptoms_onset" value="{{old('other_symptoms_onset')}}">
+                            </div>
+                            <div class="form-group">
+                              <label for="other_symptoms_onset_remarks">Remarks</label>
+                              <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks')}}">
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                 </div>
                 <div class="form-group">
-                  <label for="bigmessage">Findings/Remarks</label>
-                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3"></textarea>
+                  <label for="bigmessage">Doctor's Note:</label>
+                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3">
+                    Assessment:
+                    
+                    
+                    Plan of Action:
+
+
+                    Diagnostic Procedure:
+                  </textarea>
                 </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="outcome">Outcome</label>
+                      <select class="form-control" name="outcome" id="outcome">
+                        <option value="ALIVE">Alive (Active)</option>
+                        <option value="RECOVERED">Recovered</option>
+                        <option value="DIED">Died</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="name_of_physician">Name of Physician</label>
+                      <select class="form-control" name="name_of_physician" id="name_of_physician" required>
+                        <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
+                        @foreach($doclist as $d)
+                        <option value="{{$d->doctor_name}}">{{$d->doctor_name}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -768,6 +819,16 @@
     }
     else {
       $('#sorethroat_div').addClass('d-none');
+    }
+  }).trigger('change');
+
+  $('#other_symptoms_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#other_symptoms_div').removeClass('d-none');
+    }
+    else {
+      $('#other_symptoms_div').addClass('d-none');
     }
   }).trigger('change');
 </script>

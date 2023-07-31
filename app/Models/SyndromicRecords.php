@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SyndromicRecords extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'syndromic_patient_id',
@@ -94,19 +96,31 @@ class SyndromicRecords extends Model
         'dyspnea',
         'dyspnea_onset',
         'dyspnea_remarks',
+        'other_symptoms',
+        'other_symptoms_onset',
+        'other_symptoms_onset_remarks',
 
         'is_hospitalized',
         'date_admitted',
         'date_released',
 
         'bigmessage',
+        'name_of_interviewer',
+        'name_of_physician',
         'status',
         'brgy_verified',
-        'verified_by',
+        'brgy_verified_date',
+        'brgy_verified_by',
+
+        'cesu_verified',
+        'cesu_verified_date',
+        'cesu_verified_by',
 
         'age_years',
         'age_months',
         'age_days',
+
+        'document_file',
     ];
 
     public function syndromic_patient() {

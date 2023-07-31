@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SyndromicDoctor;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -185,8 +186,11 @@ class SyndromicController extends Controller
     public function newRecord($patient_id) {
         $patient = SyndromicPatient::findOrFail($patient_id);
 
+        $doclist = SyndromicDoctor::get();
+
         return view('syndromic.new_record', [
             'patient' => $patient,
+            'doclist' => $doclist,
         ]);
     }
 

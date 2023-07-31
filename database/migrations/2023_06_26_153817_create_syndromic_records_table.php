@@ -98,15 +98,24 @@ class CreateSyndromicRecordsTable extends Migration
             $table->tinyInteger('dyspnea');
             $table->date('dyspnea_onset')->nullable();
             $table->text('dyspnea_remarks')->nullable();
+            $table->tinyInteger('other_symptoms');
+            $table->date('other_symptoms_onset')->nullable();
+            $table->text('other_symptoms_onset_remarks')->nullable();
 
             $table->tinyInteger('is_hospitalized');
             $table->date('date_admitted')->nullable();
             $table->date('date_released')->nullable();
 
             $table->text('bigmessage')->nullable();
+            $table->text('name_of_interviewer')->nullable();
+            $table->text('name_of_physician')->nullable();
             $table->string('status');
             $table->tinyInteger('brgy_verified')->default(0);
-            $table->foreignId('verified_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->date('brgy_verified_date')->nullable();
+            $table->foreignId('brgy_verified_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->tinyInteger('cesu_verified')->default(0);
+            $table->date('cesu_verified_date')->nullable();
+            $table->foreignId('cesu_verified_by')->nullable()->constrained('users')->onDelete('cascade');
 
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();
@@ -115,6 +124,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('outcome');
             $table->date('outcome_recovered_date')->nullable();
             $table->date('outcome_died_date')->nullable();
+
+            $table->text('document_file')->nullable();
             
             $table->timestamps();
             $table->softDeletes();
