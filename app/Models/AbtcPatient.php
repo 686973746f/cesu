@@ -48,7 +48,18 @@ class AbtcPatient extends Model
     }
 
     public function getName() {
-        return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+        $fullname = $this->lname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
     }
 
     public function getNameFormal() {

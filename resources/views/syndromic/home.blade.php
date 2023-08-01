@@ -9,7 +9,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>List of Unverified - per Barangay</b></div>
+                <div><b>UNVERIFIED Cases by Barangays</b></div>
                 <div></div>
             </div>
         </div>
@@ -27,25 +27,23 @@
                         <th>Age/Sex</th>
                         <th>Lot/Street</th>
                         <th>Barangay</th>
+                        <th>Contact Number</th>
                         <th>Symptoms</th>
                         <th>List of Susp. Disease/s</th>
-                        <th>Status</th>
                         <th>Encoded by / At</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($uv as $l)
                     <tr>
+                        <td class="text-center"><b><a href="">{{$l->syndromic_patient->getName()}}</a></b></td>
+                        <td class="text-center">{{date('m/d/Y', strtotime($l->syndromic_patient->bdate))}}</td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center">{{$l->listSymptoms()}}</td>
+                        <td class="text-center">{{$l->getListOfSuspDiseases()}}</td>
                         <td></td>
                     </tr>
                     @endforeach
@@ -57,7 +55,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>List of Verifieds - per Brgy</div>
+                <div><b>VERIFIED Cases by Barangays</b></div>
             </div>
         </div>
         <div class="card-body">

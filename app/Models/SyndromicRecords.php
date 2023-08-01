@@ -107,6 +107,7 @@ class SyndromicRecords extends Model
         'bigmessage',
         'name_of_interviewer',
         'name_of_physician',
+        'dru_name',
         'status',
         'brgy_verified',
         'brgy_verified_date',
@@ -120,11 +121,104 @@ class SyndromicRecords extends Model
         'age_months',
         'age_days',
 
+        'outcome',
+        'outcome_recovered_date',
+        'outcome_died_date',
+
         'document_file',
+
+        'qr',
     ];
 
     public function syndromic_patient() {
         return $this->belongsTo(SyndromicPatient::class, 'syndromic_patient_id');
+    }
+
+    public function listSymptoms() {
+        $list = [];
+
+        if($this->fever == 1) {
+            $list[] = 'Fever';
+        }
+        if($this->rash == 1) {
+            $list[] = 'Rash';
+        }
+        if($this->cough == 1) {
+            $list[] = 'Cough';
+        }
+        if($this->colds == 1) {
+            $list[] = 'Colds';
+        }
+        if($this->conjunctivitis == 1) {
+            $list[] = 'Conjunctivitis';
+        }
+        if($this->mouthsore == 1) {
+            $list[] = 'Mouth sore';
+        }
+        if($this->sorethroat == 1) {
+            $list[] = 'Sore throat';
+        }
+        if($this->lossoftaste == 1) {
+            $list[] = 'Loss of Taste';
+        }
+        if($this->lossofsmell == 1) {
+            $list[] = 'Loss of Smell';
+        }
+        if($this->headache == 1) {
+            $list[] = 'Headache';
+        }
+        if($this->jointpain == 1) {
+            $list[] = 'Joint Pain';
+        }
+        if($this->musclepain == 1) {
+            $list[] = 'Muscle Pain';
+        }
+        if($this->diarrhea == 1) {
+            if($this->bloody_stool == 1) {
+                $list[] = 'Diarrhea (Bloody Stool)';
+            }
+            else {
+                $list[] = 'Diarrhea';
+            }
+        }
+        if($this->abdominalpain == 1) {
+            $list[] = 'Abdominal Pain';
+        }
+        if($this->vomiting == 1) {
+            $list[] = 'Vomiting';
+        }
+        if($this->weaknessofextremities == 1) {
+            $list[] = 'Weakness of Extremities';
+        }
+        if($this->paralysis == 1) {
+            $list[] = 'Paralysis';
+        }
+        if($this->alteredmentalstatus == 1) {
+            $list[] = 'Altered Mental Status';
+        }
+        if($this->animalbite == 1) {
+            $list[] = 'Animal Bite';
+        }
+        if($this->anorexia == 1) {
+            $list[] = 'Anorexia (Eating Disorder)';
+        }
+        if($this->jaundice == 1) {
+            $list[] = 'Jaundice';
+        }
+        if($this->nausea == 1) {
+            $list[] = 'Nausea';
+        }
+        if($this->fatigue == 1) {
+            $list[] = 'Fatigue';
+        }
+        if($this->dyspnea == 1) {
+            $list[] = 'Dyspnea';
+        }
+        if($this->other_symptoms == 1) {
+            $list[] = 'Others ('.$this->other_symptoms_onset_remarks.')';
+        }
+
+        return implode(", ", $list);
     }
 
     public function getListOfSuspDiseases() {
@@ -151,8 +245,14 @@ class SyndromicRecords extends Model
         }
  
         if($this->fever == 1) {
-            $bdate = Carbon::parse($this->syndromic_patient->fever_onset);
-            $dengue_case_date = Carbon::parse($this->consulation_date);
+            if(!is_null($this->fever_onset)) {
+                $bdate = Carbon::parse($this->fever_onset);
+            }
+            else {
+                $bdate = Carbon::parse($this->created_at);
+            }
+            
+            $dengue_case_date = Carbon::parse($this->consultation_date);
 
             $dengue_getdays = $bdate->diffInDays($dengue_case_date);
 
@@ -208,6 +308,12 @@ class SyndromicRecords extends Model
                 $list_arr[] = 'Leptospirosis';
             }
         }
+
+        if($this->fever == 1 || $this->cough == 1) {
+            $list_arr[] = 'COVID-19';
+        }
+
+        return implode(", ", $list_arr);
     }
 
     public function permittedToEdit() {

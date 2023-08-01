@@ -15,8 +15,8 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="consulation_date">Date and Time of Consultation</label>
-                            <input type="datetime-local" class="form-control" name="consulation_date" id="consulation_date" required>
+                            <label for="consultation_date">Date and Time of Consultation</label>
+                            <input type="datetime-local" class="form-control" name="consultation_date" id="consultation_date" required>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -58,9 +58,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                  <label for="chief_complain"><span class="text-danger font-weight-bold">*</span>Chief Complain</label>
-                  <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain')}}" required>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="chief_complain"><span class="text-danger font-weight-bold">*</span>Chief Complain</label>
+                      <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain')}}" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="is_hospitalized"><span class="text-danger font-weight-bold">*</span>Patient was Admitted?</label>
+                      <select class="form-control" name="is_hospitalized" id="is_hospitalized" required>
+                        <option disabled {{(is_null(old('is_hospitalized'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="Y">YES</option>
+                        <option value="N">NO</option>
+                      </select>
+                    </div>
+                    <div id="if_hospitalized" class="d-none">
+                      <div class="form-group">
+                        <label for="hospital_name"><span class="text-danger font-weight-bold">*</span>Name of Hospital</label>
+                        <input type="text" class="form-control" name="hospital_name" id="hospital_name" value="{{old('hospital_name')}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted</label>
+                        <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted')}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="date_released">Date Released</label>
+                        <input type="date" class="form-control" name="date_released" id="date_released" value="{{old('date_released')}}">
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <hr>
                 <div class="card mb-3">
@@ -527,8 +555,14 @@
                     </div>
                     <div id="if_recovered" class="d-none">
                       <div class="form-group">
-                        <label for=""></label>
-                        <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                        <label for="outcome_recovered_date"><span class="text-danger font-weight-bold">*</span>Date Recovered</label>
+                        <input type="date" class="form-control" name="outcome_recovered_date" id="outcome_recovered_date">
+                      </div>
+                    </div>
+                    <div id="if_died" class="d-none">
+                      <div class="form-group">
+                        <label for="outcome_died_date"><span class="text-danger font-weight-bold">*</span>Date Died</label>
+                        <input type="date" class="form-control" name="outcome_died_date" id="outcome_died_date">
                       </div>
                     </div>
                   </div>
@@ -547,7 +581,7 @@
                 
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
             </div>
         </div>
     </form>
@@ -837,5 +871,41 @@
       $('#other_symptoms_div').addClass('d-none');
     }
   }).trigger('change');
+
+  $('#outcome').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'RECOVERED') {
+      $('#if_recovered').removeClass('d-none');
+      $('#if_died').addClass('d-none');
+      $('#outcome_recovered_date').prop('required', true);
+      $('#outcome_died_date').prop('required', false);
+    }
+    else if($(this).val() == 'DIED') {
+      $('#if_recovered').addClass('d-none');
+      $('#if_died').removeClass('d-none');
+      $('#outcome_recovered_date').prop('required', false);
+      $('#outcome_died_date').prop('required', true);
+    }
+    else {
+      $('#if_recovered').addClass('d-none');
+      $('#if_died').addClass('d-none');
+      $('#outcome_recovered_date').prop('required', false);
+      $('#outcome_died_date').prop('required', false);
+    }
+  });
+
+  $('#is_hospitalized').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#if_hospitalized').removeClass('d-none');
+      $('#hospital_name').prop('required', true);
+      $('#date_admitted').prop('required', true);
+    }
+    else {
+      $('#if_hospitalized').addClass('d-none');
+      $('#hospital_name').prop('required', false);
+      $('#date_admitted').prop('required', false);
+    }
+  });
 </script>
 @endsection
