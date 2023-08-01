@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\DB;
 class SyndromicController extends Controller
 {
     public function index() {
-        if(!is_null(auth()->user()->brgy_id)) {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
             $uv = SyndromicRecords::where('brgy_verified', 0)
             ->whereHas('syndromic_patient', function ($q) {
                 $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
@@ -214,9 +216,22 @@ class SyndromicController extends Controller
         ->whereDate('created_at', date('Y-m-d'))
         ->first();
 
+        $foundunique = false;
+        while(!$foundunique) {
+            $for_qr = mb_strtoupper(Str::random(6));
+            
+            $search = SyndromicRecords::where('qr', $for_qr)->first();
+            if(!$search) {
+                $foundunique = true;
+            }
+        }
+        
+        //permission check
+        $perm_list = explode(",", auth()->user()->permission_list);
+
         if(!$check1) {
             $c = $r->user()->syndromicrecord()->create([
-                'chief_complain' => $r->chief_complain,
+                'chief_complain' => mb_strtoupper($r->chief_complain),
                 'syndromic_patient_id' => $p->id,
                 'opdno' => $getopd_num,
                 'consulation_date' => $r->consulation_date,
@@ -227,85 +242,108 @@ class SyndromicController extends Controller
                 'pulserate' => $r->pulserate,
                 'saturationperioxigen' => $r->saturationperioxigen,
                 'fever' => ($r->fever_yn) ? 1 : 0,
-                'fever_onset' => ($r->fever_yn) ? $r->fever_onset : 0,
+                'fever_onset' => ($r->fever_yn) ? $r->fever_onset : NULL,
                 'fever_remarks' => ($r->fever_yn) ? $r->fever_remarks : NULL,
                 'rash' => ($r->rash_yn) ? 1 : 0,
-                'rash_onset' => ($r->rash_yn) ? $r->rash_onset : 0,
+                'rash_onset' => ($r->rash_yn) ? $r->rash_onset : NULL,
                 'rash_remarks' => ($r->rash_yn) ? $r->rash_remarks : NULL,
                 'cough' => ($r->cough_yn) ? 1 : 0,
-                'cough_onset' => ($r->cough_yn) ? $r->cough_onset : 0,
+                'cough_onset' => ($r->cough_yn) ? $r->cough_onset : NULL,
                 'cough_remarks' => ($r->cough_yn) ? $r->cough_remarks : NULL,
                 'colds' => ($r->colds_yn) ? 1 : 0,
-                'colds_onset' => ($r->colds_yn) ? $r->colds_onset : 0,
+                'colds_onset' => ($r->colds_yn) ? $r->colds_onset : NULL,
                 'colds_remarks' => ($r->colds_yn) ? $r->colds_remarks : NULL,
                 'conjunctivitis' => ($r->conjunctivitis_yn) ? 1 : 0,
-                'conjunctivitis_onset' => ($r->conjunctivitis_yn) ? $r->conjunctivitis_onset : 0,
+                'conjunctivitis_onset' => ($r->conjunctivitis_yn) ? $r->conjunctivitis_onset : NULL,
                 'conjunctivitis_remarks' => ($r->conjunctivitis_yn) ? $r->conjunctivitis_remarks : NULL,
                 'mouthsore' => ($r->mouthsore_yn) ? 1 : 0,
-                'mouthsore_onset' => ($r->mouthsore_yn) ? $r->mouthsore_onset : 0,
+                'mouthsore_onset' => ($r->mouthsore_yn) ? $r->mouthsore_onset : NULL,
                 'mouthsore_remarks' => ($r->mouthsore_yn) ? $r->mouthsore_remarks : NULL,
                 'sorethroat' => ($r->sorethroat_yn) ? 1 : 0,
-                'sorethroat_onset' => ($r->sorethroat_yn) ? $r->sorethroat_onset : 0,
+                'sorethroat_onset' => ($r->sorethroat_yn) ? $r->sorethroat_onset : NULL,
                 'sorethroat_remarks' => ($r->sorethroat_yn) ? $r->sorethroat_remarks : NULL,
                 'lossoftaste' => ($r->lossoftaste_yn) ? 1 : 0,
-                'lossoftaste_onset' => ($r->lossoftaste_yn) ? $r->lossoftaste_onset : 0,
+                'lossoftaste_onset' => ($r->lossoftaste_yn) ? $r->lossoftaste_onset : NULL,
                 'lossoftaste_remarks' => ($r->lossoftaste_yn) ? $r->lossoftaste_remarks : NULL,
                 'lossofsmell' => ($r->lossofsmell_yn) ? 1 : 0,
-                'lossofsmell_onset' => ($r->lossofsmell_yn) ? $r->lossofsmell_onset : 0,
+                'lossofsmell_onset' => ($r->lossofsmell_yn) ? $r->lossofsmell_onset : NULL,
                 'lossofsmell_remarks' => ($r->lossofsmell_yn) ? $r->lossofsmell_remarks : NULL,
                 'headache' => ($r->headache_yn) ? 1 : 0,
-                'headache_onset' => ($r->headache_yn) ? $r->headache_onset : 0,
+                'headache_onset' => ($r->headache_yn) ? $r->headache_onset : NULL,
                 'headache_remarks' => ($r->headache_yn) ? $r->headache_remarks : NULL,
                 'jointpain' => ($r->jointpain_yn) ? 1 : 0,
-                'jointpain_onset' => ($r->jointpain_yn) ? $r->jointpain_onset : 0,
+                'jointpain_onset' => ($r->jointpain_yn) ? $r->jointpain_onset : NULL,
                 'jointpain_remarks' => ($r->jointpain_yn) ? $r->jointpain_remarks : NULL,
                 'musclepain' => ($r->musclepain_yn) ? 1 : 0,
-                'musclepain_onset' => ($r->musclepain_yn) ? $r->musclepain_onset : 0,
+                'musclepain_onset' => ($r->musclepain_yn) ? $r->musclepain_onset : NULL,
                 'musclepain_remarks' => ($r->musclepain_yn) ? $r->musclepain_remarks : NULL,
                 'diarrhea' => ($r->diarrhea_yn) ? 1 : 0,
                 'bloody_stool' => ($r->diarrhea_yn && $r->bloody_stool) ? 1 : 0,
-                'diarrhea_onset' => ($r->diarrhea_yn) ? $r->diarrhea_onset : 0,
+                'diarrhea_onset' => ($r->diarrhea_yn) ? $r->diarrhea_onset : NULL,
                 'diarrhea_remarks' => ($r->diarrhea_yn) ? $r->diarrhea_remarks : NULL,
                 'abdominalpain' => ($r->abdominalpain_yn) ? 1 : 0,
-                'abdominalpain_onset' => ($r->abdominalpain_yn) ? $r->abdominalpain_onset : 0,
+                'abdominalpain_onset' => ($r->abdominalpain_yn) ? $r->abdominalpain_onset : NULL,
                 'abdominalpain_remarks' => ($r->abdominalpain_yn) ? $r->abdominalpain_remarks : NULL,
                 'vomiting' => ($r->vomiting_yn) ? 1 : 0,
-                'vomiting_onset' => ($r->vomiting_yn) ? $r->vomiting_onset : 0,
+                'vomiting_onset' => ($r->vomiting_yn) ? $r->vomiting_onset : NULL,
                 'vomiting_remarks' => ($r->vomiting_yn) ? $r->vomiting_remarks : NULL,
                 'weaknessofextremities' => ($r->weaknessofextremities_yn) ? 1 : 0,
-                'weaknessofextremities_onset' => ($r->weaknessofextremities_yn) ? $r->weaknessofextremities_onset : 0,
+                'weaknessofextremities_onset' => ($r->weaknessofextremities_yn) ? $r->weaknessofextremities_onset : NULL,
                 'weaknessofextremities_remarks' => ($r->weaknessofextremities_yn) ? $r->weaknessofextremities_remarks : NULL,
                 'paralysis' => ($r->paralysis_yn) ? 1 : 0,
-                'paralysis_onset' => ($r->paralysis_yn) ? $r->paralysis_onset : 0,
+                'paralysis_onset' => ($r->paralysis_yn) ? $r->paralysis_onset : NULL,
                 'paralysis_remarks' => ($r->paralysis_yn) ? $r->paralysis_remarks : NULL,
                 'alteredmentalstatus' => ($r->alteredmentalstatus_yn) ? 1 : 0,
-                'alteredmentalstatus_onset' => ($r->alteredmentalstatus_yn) ? $r->alteredmentalstatus_onset : 0,
+                'alteredmentalstatus_onset' => ($r->alteredmentalstatus_yn) ? $r->alteredmentalstatus_onset : NULL,
                 'alteredmentalstatus_remarks' => ($r->alteredmentalstatus_yn) ? $r->alteredmentalstatus_remarks : NULL,
                 'animalbite' => ($r->animalbite_yn) ? 1 : 0,
-                'animalbite_onset' => ($r->animalbite_yn) ? $r->animalbite_onset : 0,
+                'animalbite_onset' => ($r->animalbite_yn) ? $r->animalbite_onset : NULL,
                 'animalbite_remarks' => ($r->animalbite_yn) ? $r->animalbite_remarks : NULL,
                 'anorexia' => ($r->anorexia_yn) ? 1 : 0,
-                'anorexia_onset' => ($r->anorexia_yn) ? $r->anorexia_onset : 0,
+                'anorexia_onset' => ($r->anorexia_yn) ? $r->anorexia_onset : NULL,
                 'anorexia_remarks' => ($r->anorexia_yn) ? $r->anorexia_remarks : NULL,
                 'jaundice' => ($r->jaundice_yn) ? 1 : 0,
-                'jaundice_onset' => ($r->jaundice_yn) ? $r->jaundice_onset : 0,
+                'jaundice_onset' => ($r->jaundice_yn) ? $r->jaundice_onset : NULL,
                 'jaundice_remarks' => ($r->jaundice_yn) ? $r->jaundice_remarks : NULL,
                 'nausea' => ($r->nausea_yn) ? 1 : 0,
-                'nausea_onset' => ($r->nausea_yn) ? $r->nausea_onset : 0,
+                'nausea_onset' => ($r->nausea_yn) ? $r->nausea_onset : NULL,
                 'nausea_remarks' => ($r->nausea_yn) ? $r->nausea_remarks : NULL,
                 'fatigue' => ($r->fatigue_yn) ? 1 : 0,
-                'fatigue_onset' => ($r->fatigue_yn) ? $r->fatigue_onset : 0,
+                'fatigue_onset' => ($r->fatigue_yn) ? $r->fatigue_onset : NULL,
                 'fatigue_remarks' => ($r->fatigue_yn) ? $r->fatigue_remarks : NULL,
                 'dyspnea' => ($r->dyspnea_yn) ? 1 : 0,
-                'dyspnea_onset' => ($r->dyspnea_yn) ? $r->dyspnea_onset : 0,
+                'dyspnea_onset' => ($r->dyspnea_yn) ? $r->dyspnea_onset : NULL,
                 'dyspnea_remarks' => ($r->dyspnea_yn) ? $r->dyspnea_remarks : NULL,
+                'other_symptoms' => ($r->other_symptoms_yn) ? 1 : 0,
+                'other_symptoms_onset' => ($r->other_symptoms_yn) ? $r->other_symptoms_onset : NULL,
+                'other_symptoms_onset_remarks' => ($r->other_symptoms_yn) ? $r->other_symptoms_onset_remarks : NULL,
+
+                'is_hospitalized' => ($r->is_hospitalized == 'Y') ? 1 : 0,
+                'date_admitted' => ($r->is_hospitalized == 'Y') ? $r->date_admitted : NULL,
+                'date_released' => ($r->is_hospitalized == 'Y') ? $r->date_released : NULL,
+
+                'outcome' => $r->outcome,
+                'outcome_recovered_date' => ($r->outcome == 'RECOVERED') ? $r->outcome_recovered_date : NULL,
+                'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
                 'bigmessage' => $r->bigmessage,
                 'status' => 'approved',
+                'name_of_physician' => $r->name_of_physician,
+                'dru_name'=> SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name,
+
+                'brgy_verified' => (in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) ? 1 : 0,
+                'brgy_verified_date' => (in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) ? date('Y-m-d H:i:s') : NULL,
+                'brgy_verified_by' => (in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) ? auth()->user()->id : NULL,
+
+                'cesu_verified' => (in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) ? 1 : 0,
+                'cesu_verified_date' => (in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) ? date('Y-m-d H:i:s') : NULL,
+                'cesu_verified_by' => (in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) ? auth()->user()->id : NULL,
     
                 'age_years' => $get_ageyears,
                 'age_months' => $get_agemonths,
                 'age_days' => $get_agedays,
+
+                'qr' => $for_qr,
             ]);
     
             return redirect()->route('syndromic_home')
