@@ -518,17 +518,23 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="outcome">Outcome</label>
-                      <select class="form-control" name="outcome" id="outcome">
+                      <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
+                      <select class="form-control" name="outcome" id="outcome" required>
                         <option value="ALIVE">Alive (Active)</option>
                         <option value="RECOVERED">Recovered</option>
                         <option value="DIED">Died</option>
                       </select>
                     </div>
+                    <div id="if_recovered" class="d-none">
+                      <div class="form-group">
+                        <label for=""></label>
+                        <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                      </div>
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="name_of_physician">Name of Physician</label>
+                      <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
                         @foreach($doclist as $d)
