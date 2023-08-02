@@ -377,7 +377,7 @@ class VaxcertController extends Controller
     public function dlbase_template($id) {
         $v = VaxcertConcern::findOrFail($id);
 
-        if($v->getNumberOfDose() == 1) {
+        if($v->getNumberOfDose() == 1 || $v->dose1_manufacturer == 'J&J') {
             if(is_null($v->dose1_bakuna_center_code)) {
                 return redirect()->back()
                 ->with('msg', 'Error: Please fill up CBCR ID of 1st Dose before proceeding.')
