@@ -10,6 +10,7 @@ use App\Models\LinelistSubs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\City;
 
 class Records extends Model
 {
@@ -443,7 +444,9 @@ class Records extends Model
     }
 
     public function getBrgyPsgc() {
-        $get_code = City::where('json_code', $this->address_cityjson)->first()->brgy->json_code;
+        $city = City::where('json_code', $this->address_cityjson)->pluck('id')->first();
+
+        $get_code = Brgy::where('city_id', $city)->where('brgyName', $this->address_brgy)->first()->json_code;
 
         return $get_code;
     }
@@ -467,7 +470,9 @@ class Records extends Model
     }
 
     public function getWorkBrgyPsgc() {
-        $get_code = City::where('json_code', $this->occupation_cityjson)->first()->brgy->json_code;
+        $city = City::where('json_code', $this->occupation_cityjson)->pluck('id')->first();
+
+        $get_code = Brgy::where('city_id', $city)->where('brgyName', $this->occupation_brgy)->first()->json_code;
 
         return $get_code;
     }

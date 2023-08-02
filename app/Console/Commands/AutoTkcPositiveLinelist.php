@@ -221,7 +221,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('DH'.$ind, ($d->outcomeCondition == 'Died') ? $d->deathAnteCause : '');
                 $sheet->setCellValue('DI'.$ind, ($d->outcomeCondition == 'Died') ? $d->deathUndeCause : '');
                 $sheet->setCellValue('DJ'.$ind, ($d->outcomeCondition == 'Died') ? $d->contriCondi : '');
-                $sheet->setCellValue('DK'.$ind, 'ENCODER: '.$d->user()->name);
+                $sheet->setCellValue('DK'.$ind, 'ENCODER: '.$d->user->name);
                 $sheet->setCellValue('DL'.$ind, ''); //source_report_id
                 $sheet->setCellValue('DM'.$ind, ''); //exposure_datetime
                 $sheet->setCellValue('DN'.$ind, ''); //exposure_address
