@@ -3,7 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\Forms;
+use App\Mail\TkcDaily;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 
@@ -48,8 +51,7 @@ class AutoTkcPositiveLinelist extends Command
         ->where('status', 'approved')
         ->whereDate('morbidityMonth', date('Y-m-d'))
         ->where('outcomeCondition', 'Active')
-        ->where('caseClassification', 'Confirmed')
-        ->where('sent', 0)
+        ->whereIn('caseClassification', ['Suspect', 'Probable', 'Confirmed'])
         ->get();
 
         if($query->count() != 0) {
@@ -280,7 +282,11 @@ class AutoTkcPositiveLinelist extends Command
             $writer->setDelimiter(','); // You can set your delimiter here
             $writer->setEnclosure('"'); // You can set your enclosure here
 
-            $writer->save(storage_path('TESTTKC.csv'));
-        }        
+            $writer->save(public_path('TKC_'.date('mdY').'.csv'));
+
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new TkcDaily());
+        }
+
+        File::delete(public_path('TKC_'.date('mdY', strtotime('-1 Day')).'.csv'));
     }
 }

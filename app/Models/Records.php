@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Forms;
 use App\Models\MonkeyPox;
+use App\Models\Provinces;
 use App\Models\LinelistSubs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -441,6 +442,55 @@ class Records extends Model
         }
     }
 
+    public function getBrgyPsgc() {
+        $get_code = City::where('json_code', $this->address_cityjson)->first()->brgy->json_code;
+
+        return $get_code;
+    }
+
+    public function getCityPsgc() {
+        $get_code = City::where('json_code', $this->address_cityjson)->first()->getPsgcCode();
+
+        return $get_code;
+    }
+
+    public function getProvincePsgc() {
+        $get_code = Provinces::where('json_code', $this->address_provincejson)->first()->getPsgcCode();
+
+        return $get_code;
+    }
+
+    public function getRegionPsgc() {
+        $get_code = Provinces::where('json_code', $this->address_provincejson)->first()->region->getPsgcCode();
+
+        return $get_code;
+    }
+
+    public function getWorkBrgyPsgc() {
+        $get_code = City::where('json_code', $this->occupation_cityjson)->first()->brgy->json_code;
+
+        return $get_code;
+    }
+
+    public function getWorkCityPsgc() {
+        $get_code = City::where('json_code', $this->occupation_cityjson)->first()->getPsgcCode();
+
+        return $get_code;
+    }
+
+    public function getWorkProvincePsgc() {
+        $get_code = Provinces::where('json_code', $this->occupation_provincejson)->first()->getPsgcCode();
+
+        return $get_code;
+    }
+
+    public function getWorkRegionPsgc() {
+        $get_code = Provinces::where('json_code', $this->occupation_provincejson)->first()->region->getPsgcCode();
+
+        return $get_code;
+    }
+
+    /*
     public function getRegionPsgc() {
         $regionString = file_get_contents(storage_path('json/refregion.json'));
         $provinceString = file_get_contents(storage_path('json/refprovince.json'));
@@ -536,6 +586,8 @@ class Records extends Model
 
         return $brgy_data[$brgy_key]['brgyCode'];
     }
+
+    */
 
     public function getLatestSwabType() {
         $s = Forms::where('records_id', $this->id)->orderBy('created_at', 'DESC')->first();
