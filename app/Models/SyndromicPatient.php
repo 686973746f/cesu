@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -64,5 +65,35 @@ class SyndromicPatient extends Model
 
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function getAge() {
+        if(!is_null($this->bdate)) {
+            if(Carbon::parse($this->attributes['bdate'])->age > 0) {
+                return Carbon::parse($this->attributes['bdate'])->age;
+            }
+            else {
+                if (Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%d DAYS');
+                }
+                else {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
+                }
+            }
+        }
+        else {
+            return $this->age;
+        }
+    }
+
+    public function getContactNumber() {
+        $txt = $this->contact_number;
+
+        if(!is_null($this->contact_number2)) {
+            return $txt.'/'.$this->contact_number2;
+        }
+        else {
+            return $txt;
+        }
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SyndromicDoctor;
 use Carbon\Carbon;
+use App\Models\Brgy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\SyndromicDoctor;
 use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ class SyndromicController extends Controller
                 ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
                 ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
             })
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('brgy_verified_date', 'DESC')
             ->get();
         }
         else {
@@ -40,7 +41,7 @@ class SyndromicController extends Controller
             ->get();
 
             $v = SyndromicRecords::where('brgy_verified', 1)
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('brgy_verified_date', 'DESC')
             ->get();
         }
         
@@ -234,11 +235,11 @@ class SyndromicController extends Controller
                 'chief_complain' => mb_strtoupper($r->chief_complain),
                 'syndromic_patient_id' => $p->id,
                 'opdno' => $getopd_num,
-                'consulation_date' => $r->consulation_date,
+                'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,
                 'bloodpressure' => $r->bloodpressure,
                 'weight' => $r->weight,
-                'respiratoryrate' => $r->bloodpressure,
+                'respiratoryrate' => $r->respiratoryrate,
                 'pulserate' => $r->pulserate,
                 'saturationperioxigen' => $r->saturationperioxigen,
                 'fever' => ($r->fever_yn) ? 1 : 0,
@@ -359,21 +360,67 @@ class SyndromicController extends Controller
 
     }
 
-    public function viewRecord() {
-
-    }
-    
     public function updatePatient() {
 
+    }
+
+    public function viewRecord($record_id) {
+        $r = SyndromicRecords::findOrFail($record_id);
+        $doclist = SyndromicDoctor::get();
+
+        if($r->canAccessRecord()) {
+            return view('syndromic.edit_record', [
+                'd' => $r,
+                'doclist' => $doclist,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function updateRecord() {
 
     }
 
+    public function cesuVerifyInit() {
+
+    }
+
+    public function brgyVerifyInit() {
+
+    }
+
+    public function generateMedCert($record_id) {
+
+    }
+
+    public function medcertOnlineVerify($record_id) {
+
+    }
+
+    public function createLabResult($record_id) {
+
+    }
+
+    public function storeLabResult($record_id) {
+
+    }
+
     public function diseasemap() {
+        //fetch brgy
+        $brgy_list = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->orderBy('brgyName', 'ASC')
+        ->get();
         
-        return view('syndromic.mapdashboard');
+        return view('syndromic.mapdashboard', [
+            'brgy' => $brgy_list,
+        ]);
+    }
+
+    public function viewDiseaseList() {
+
     }
 
     public function walkin_part1() {

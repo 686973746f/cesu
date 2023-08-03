@@ -15,7 +15,7 @@ class SyndromicRecords extends Model
     protected $fillable = [
         'syndromic_patient_id',
         'opdno',
-        'consulation_date',
+        'consultation_date',
         'chief_complain',
         'temperature',
         'bloodpressure',
@@ -134,6 +134,52 @@ class SyndromicRecords extends Model
         return $this->belongsTo(SyndromicPatient::class, 'syndromic_patient_id');
     }
 
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getCesuVerified() {
+        if($this->cesu_verified == 1) {
+            return 'YES - '.date('m/d/Y h:i A', strtotime($this->cesu_verified_date)).' by '.$this->getCesuVerifiedBy->name;
+        }
+        else {
+            return 'NO';
+        }
+    }
+    
+    public function getCesuVerifiedBy() {
+        return $this->belongsTo(User::class, 'cesu_verified_by');
+    }
+
+    public function getBrgyVerified() {
+        if($this->cesu_verified == 1) {
+            return 'YES - '.date('m/d/Y h:i A', strtotime($this->brgy_verified_date)).' by '.$this->getBrgyVerifiedBy->name;
+        }
+        else {
+            return 'NO';
+        }
+    }
+
+    public function getBrgyVerifiedBy() {
+        return $this->belongsTo(User::class, 'brgy_verified_by');
+    }
+
+    public function canAccessRecord() {
+        $perm_list = explode(',', auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) {
+            return true;
+        }
+        else {
+            if($this->syndromic_patient->address_brgy_text == auth()->user()->brgy->brgyName && $this->syndromic_patient->address_muncity_text == auth()->user()->brgy->city->cityName) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
     public function listSymptoms() {
         $list = [];
 
@@ -224,6 +270,13 @@ class SyndromicRecords extends Model
     public function getListOfSuspDiseases() {
         $list_arr = [];
 
+        if(!is_null($this->other_symptoms_onset_remarks) && $this->other_symptoms == 1) {
+            $osymp_list = explode(",", mb_strtoupper($this->other_symptoms_onset_remarks));
+        }
+        else {
+            $osymp_list = [];
+        }
+
         if($this->diarrhea == 1 && $this->bloody_stool == 1) {
             $list_arr[] = 'Acute Bloody Diarrhea (ABD)';
         }
@@ -293,7 +346,7 @@ class SyndromicRecords extends Model
             }
         }
 
-        if($this->fever == 1 && $this->rashes == 1 && $this->temperature >= 38) {
+        if($this->fever == 1 && $this->rash == 1 && $this->temperature >= 38) {
             $list_arr[] = 'HFMD';
         }
         
@@ -304,13 +357,112 @@ class SyndromicRecords extends Model
         }
 
         if($this->musclepain == 1 && $this->fever == 1) {
-            if($this->jaundice == 1 || $this->rashes == 1 || $this->nausea == 1 || $this->vomiting == 1 || $this->diarrhea == 1) {
+            if($this->jaundice == 1 || $this->rash == 1 || $this->nausea == 1 || $this->vomiting == 1 || $this->diarrhea == 1) {
                 $list_arr[] = 'Leptospirosis';
             }
         }
 
-        if($this->fever == 1 || $this->cough == 1) {
+        //MALARIA
+        if($this->fever == 1) {
+            if(in_array("SPLENOMEGALY", $osymp_list) || in_array("ANEMIC", $osymp_list) || in_array("ANEMIA", $osymp_list)) {
+                $list_arr[] = 'Malaria';
+            }
+        }
+
+        if($this->fever == 1 && $this->rash == 1) {
+            if($this->cough == 1 || $this->colds == 1 || $this->conjunctivitis == 1) {
+                $list_arr[] = 'Measles';
+            }
+        }
+
+        if($this->fever == 1) {
+            if(in_array('STIFF NECK', $osymp_list) || $this->alteredmentalstatus == 1 || $this->rash == 1 || $this->headache == 1 || in_array('PHOTOPHOBIA', $osymp_list)) {
+                $list_arr[] = 'Meningococcal Disease';
+            }
+        }
+
+        if($this->cough == 1) {
+            if(!is_null($this->cough_onset)) {
+                $base_date = Carbon::parse($this->cough_onset);
+            }
+            else {
+                $base_date = Carbon::parse($this->created_at);
+            }
+
+            $case_date = Carbon::parse($this->consultation_date);
+
+            $get_days = $base_date->diffInDays($case_date);
+
+            if($get_days >= 13) {
+                if($this->cough == 1 || $this->vomiting == 1) {
+                    $list_arr[] = 'Pertussis';
+                }
+            }
+        }
+
+        if($this->animalbite == 1 || in_array('ENCEPHALITIS', $osymp_list)) {
+            $list_arr[] = 'Rabies';
+        }
+
+        if($this->fever == 1 && $this->headache == 1) {
+            if(in_array('MALAISE', $osymp_list) || $this->anorexia == 1 || in_array('BRADYCARDIA', $osymp_list) || in_array('CONSTIPATION', $osymp_list) || $this->diarrhea == 1) {
+                $list_arr[] = 'Typhoid and Paratyphoid Fever';
+            }
+        }
+
+        if($this->fever == 1 && $this->cough == 1) {
             $list_arr[] = 'COVID-19';
+        }
+        else {
+            $covid_count = 0;
+
+            if($this->fever == 1) {
+                $covid_count++;
+            }
+
+            if($this->cough == 1) {
+                $covid_count++;
+            }
+
+            if($this->weaknessofextremities == 1 || $this->fatigue == 1) {
+                $covid_count++;
+            }
+
+            if($this->headache == 1) {
+                $covid_count++;
+            }
+
+            if($this->musclepain == 1) {
+                $covid_count++;
+            }
+
+            if($this->sorethroat == 1) {
+                $covid_count++;
+            }
+
+            if($this->colds == 1) {
+                $covid_count++;
+            }
+
+            if($this->dyspnea == 1) {
+                $covid_count++;
+            }
+
+            if($this->anorexia == 1 || $this->nausea == 1 || $this->vomiting == 1) {
+                $covid_count++;
+            }
+
+            if($this->diarrhea == 1) {
+                $covid_count++;
+            }
+
+            if($this->alteredmentalstatus == 1) {
+                $covid_count++;
+            }
+
+            if($covid_count >= 3) {
+                $list_arr[] = 'COVID-19';
+            }
         }
 
         return implode(", ", $list_arr);

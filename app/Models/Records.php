@@ -514,7 +514,7 @@ class Records extends Model
     }
 
     public function getWorkProvincePsgc() {
-        $get_code = Provinces::where('json_code', $this->occupation_province)->pluck('json_code')->first();
+        $get_code = Provinces::where('json_code', $this->occupation_provincejson)->pluck('json_code')->first();
 
         if(substr($get_code,0,1) === '0') {
             return substr($get_code,1);
@@ -525,7 +525,7 @@ class Records extends Model
     }
 
     public function getWorkRegionPsgc() {
-        $get_code = Provinces::where('json_code', $this->occupation_province)->first()->region->json_code;
+        $get_code = Provinces::where('json_code', $this->occupation_provincejson)->first()->region->json_code;
 
         if(substr($get_code,0,1) === '0') {
             return substr($get_code,1);

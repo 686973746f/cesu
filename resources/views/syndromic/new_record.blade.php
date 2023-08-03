@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('syndromic_storeRecord', $patient->id)}}" method="POST">
+    <form action="{{route('syndromic_updatePatient', $patient->id)}}" method="POST">
         @csrf
         <div class="card">
-            <div class="card-header"><b>New ITR - Step 3/3</b></div>
+            <div class="card-header"><b>Edit ITR</b> | Patient: {{$patient->getName()}}</div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -16,7 +16,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="consultation_date">Date and Time of Consultation</label>
-                            <input type="datetime-local" class="form-control" name="consultation_date" id="consultation_date" required>
+                            <input type="datetime-local" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date')}}" required>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -70,8 +70,8 @@
                       <label for="is_hospitalized"><span class="text-danger font-weight-bold">*</span>Patient was Admitted?</label>
                       <select class="form-control" name="is_hospitalized" id="is_hospitalized" required>
                         <option disabled {{(is_null(old('is_hospitalized'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y">YES</option>
-                        <option value="N">NO</option>
+                        <option value="Y" {{(old('is_hospitalized') == 'Y') ? 'selected' : ''}}>YES</option>
+                        <option value="N" {{(old('is_hospitalized') == 'N') ? 'selected' : ''}}>NO</option>
                       </select>
                     </div>
                     <div id="if_hospitalized" class="d-none">
@@ -98,7 +98,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="abdominalpain_yn" id="abdominalpain_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="abdominalpain_yn" id="abdominalpain_yn" value="checkedValue" {{old('abdominalpain_yn') ? 'checked' : ''}}>
                               Abdominal Pain
                             </label>
                           </div>
@@ -116,7 +116,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="alteredmentalstatus_yn" id="alteredmentalstatus_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="alteredmentalstatus_yn" id="alteredmentalstatus_yn" value="checkedValue" {{old('alteredmentalstatus_yn') ? 'checked' : ''}}>
                               Altered Mental Status
                             </label>
                           </div>
@@ -134,7 +134,7 @@
                         <div class="col-md-3">
                             <div class="form-check">
                               <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="animalbite_yn" id="animalbite_yn" value="checkedValue">
+                                <input type="checkbox" class="form-check-input" name="animalbite_yn" id="animalbite_yn" value="checkedValue" {{old('animalbite_yn') ? 'checked' : ''}}>
                                 Animal Bite
                               </label>
                             </div>
@@ -152,7 +152,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="cough_yn" id="cough_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="cough_yn" id="cough_yn" value="checkedValue" {{old('cough_yn') ? 'checked' : ''}}>
                               Cough
                             </label>
                           </div>
@@ -170,7 +170,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="colds_yn" id="colds_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="colds_yn" id="colds_yn" value="checkedValue" {{old('colds_yn') ? 'checked' : ''}}>
                               Colds/Coryza
                             </label>
                           </div>
@@ -188,7 +188,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="conjunctivitis_yn" id="conjunctivitis_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="conjunctivitis_yn" id="conjunctivitis_yn" value="checkedValue" {{old('conjunctivitis_yn') ? 'checked' : ''}}>
                               Conjunctivitis/Red Eyes
                             </label>
                           </div>
@@ -206,7 +206,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="anorexia_yn" id="anorexia_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="anorexia_yn" id="anorexia_yn" value="checkedValue" {{old('anorexia_yn') ? 'checked' : ''}}>
                               Eating Disorder (Anorexia)
                             </label>
                           </div>
@@ -224,7 +224,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="fatigue_yn" id="fatigue_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="fatigue_yn" id="fatigue_yn" value="checkedValue" {{old('fatigue_yn') ? 'checked' : ''}}>
                               Fatigue
                             </label>
                           </div>
@@ -242,7 +242,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="fever_yn" id="fever_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="fever_yn" id="fever_yn" value="checkedValue" {{old('fever_yn') ? 'checked' : ''}}>
                               Fever
                             </label>
                           </div>
@@ -260,7 +260,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="headache_yn" id="headache_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="headache_yn" id="headache_yn" value="checkedValue" {{old('headache_yn') ? 'checked' : ''}}>
                               Headache
                             </label>
                           </div>
@@ -278,7 +278,7 @@
                         <div class="col-md-3">
                             <div class="form-check">
                               <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="jointpain_yn" id="jointpain_yn" value="checkedValue">
+                                <input type="checkbox" class="form-check-input" name="jointpain_yn" id="jointpain_yn" value="checkedValue" {{old('jointpain_yn') ? 'checked' : ''}}>
                                 Joint Pain
                               </label>
                             </div>
@@ -296,7 +296,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="jaundice_yn" id="jaundice_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="jaundice_yn" id="jaundice_yn" value="checkedValue" {{old('jaundice_yn') ? 'checked' : ''}}>
                               Jaundice
                             </label>
                           </div>
@@ -314,7 +314,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="lossofsmell_yn" id="lossofsmell_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="lossofsmell_yn" id="lossofsmell_yn" value="checkedValue" {{old('lossofsmell_yn') ? 'checked' : ''}}>
                               Loss of Smell (Anosmia)
                             </label>
                           </div>
@@ -332,7 +332,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="lossoftaste_yn" id="lossoftaste_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="lossoftaste_yn" id="lossoftaste_yn" value="checkedValue" {{old('lossoftaste_yn') ? 'checked' : ''}}>
                               Loss of Taste (Ageusia)
                             </label>
                           </div>
@@ -350,7 +350,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue" {{old('musclepain_yn') ? 'checked' : ''}}>
                               Muscle Pain
                             </label>
                           </div>
@@ -368,7 +368,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="nausea_yn" id="nausea_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="nausea_yn" id="nausea_yn" value="checkedValue" {{old('nausea_yn') ? 'checked' : ''}}>
                               Nausea
                             </label>
                           </div>
@@ -386,7 +386,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="paralysis_yn" id="paralysis_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="paralysis_yn" id="paralysis_yn" value="checkedValue" {{old('paralysis_yn') ? 'checked' : ''}}>
                               Paralysis
                             </label>
                           </div>
@@ -404,7 +404,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="rash_yn" id="rash_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="rash_yn" id="rash_yn" value="checkedValue" {{old('rash_yn') ? 'checked' : ''}}>
                               Rash
                             </label>
                           </div>
@@ -422,7 +422,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="mouthsore_yn" id="mouthsore_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="mouthsore_yn" id="mouthsore_yn" value="checkedValue" {{old('mouthsore_yn') ? 'checked' : ''}}>
                               Sore Mouth
                             </label>
                           </div>
@@ -440,7 +440,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="sorethroat_yn" id="sorethroat_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="sorethroat_yn" id="sorethroat_yn" value="checkedValue" {{old('sorethroat_yn') ? 'checked' : ''}}>
                               Sore Throat
                             </label>
                           </div>
@@ -458,7 +458,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="dyspnea_yn" id="dyspnea_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="dyspnea_yn" id="dyspnea_yn" value="checkedValue" {{old('dyspnea_yn') ? 'checked' : ''}}>
                               Shortness of Breath (Dyspnea)
                             </label>
                           </div>
@@ -476,7 +476,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="vomiting_yn" id="vomiting_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="vomiting_yn" id="vomiting_yn" value="checkedValue" {{old('vomiting_yn') ? 'checked' : ''}}>
                               Vomiting
                             </label>
                           </div>
@@ -494,7 +494,7 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="weaknessofextremities_yn" id="weaknessofextremities_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="weaknessofextremities_yn" id="weaknessofextremities_yn" value="checkedValue" {{old('weaknessofextremities_yn') ? 'checked' : ''}}>
                               Weakness of Extremities
                             </label>
                           </div>
@@ -512,19 +512,19 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="other_symptoms_yn" id="other_symptoms_yn" value="checkedValue">
+                              <input type="checkbox" class="form-check-input" name="other_symptoms_yn" id="other_symptoms_yn" value="checkedValue" {{old('other_symptoms_yn') ? 'checked' : ''}}>
                               Others
                             </label>
                           </div>
                           <div id="other_symptoms_div" class="d-none">
                             <hr>
                             <div class="form-group">
-                              <label for="other_symptoms_onset">Date of Onset</label>
-                              <input type="date" class="form-control" name="other_symptoms_onset" id="other_symptoms_onset" value="{{old('other_symptoms_onset')}}">
+                              <label for="other_symptoms_onset_remarks">Specify <i><small>(Can be separated with commas ",")</small></i></label>
+                              <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks')}}">
                             </div>
                             <div class="form-group">
-                              <label for="other_symptoms_onset_remarks">Remarks</label>
-                              <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks')}}">
+                              <label for="other_symptoms_onset">Date of Onset</label>
+                              <input type="date" class="form-control" name="other_symptoms_onset" id="other_symptoms_onset" value="{{old('other_symptoms_onset')}}">
                             </div>
                           </div>
                         </div>
@@ -548,21 +548,21 @@
                     <div class="form-group">
                       <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                       <select class="form-control" name="outcome" id="outcome" required>
-                        <option value="ALIVE">Alive (Active)</option>
-                        <option value="RECOVERED">Recovered</option>
-                        <option value="DIED">Died</option>
+                        <option value="ALIVE" {{(old('outcome') == 'ALIVE') ? 'selected' : ''}}>Alive (Active)</option>
+                        <option value="RECOVERED" {{(old('outcome') == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
+                        <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
                       </select>
                     </div>
                     <div id="if_recovered" class="d-none">
                       <div class="form-group">
                         <label for="outcome_recovered_date"><span class="text-danger font-weight-bold">*</span>Date Recovered</label>
-                        <input type="date" class="form-control" name="outcome_recovered_date" id="outcome_recovered_date">
+                        <input type="date" class="form-control" name="outcome_recovered_date" id="outcome_recovered_date" value="{{old('outcome_recovered_date')}}">
                       </div>
                     </div>
                     <div id="if_died" class="d-none">
                       <div class="form-group">
                         <label for="outcome_died_date"><span class="text-danger font-weight-bold">*</span>Date Died</label>
-                        <input type="date" class="form-control" name="outcome_died_date" id="outcome_died_date">
+                        <input type="date" class="form-control" name="outcome_died_date" id="outcome_died_date" value="{{old('outcome_died_date')}}">
                       </div>
                     </div>
                   </div>
@@ -572,16 +572,15 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
                         @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}">{{$d->doctor_name}}</option>
+                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician') == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}}</option>
                         @endforeach
                       </select>
                     </div>
                   </div>
                 </div>
-                
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button type="submit" class="btn btn-primary btn-block">Save</button>
             </div>
         </div>
     </form>

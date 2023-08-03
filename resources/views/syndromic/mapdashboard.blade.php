@@ -24,18 +24,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($brgy as $b)
                             <tr>
-                                <td scope="row"></td>
+                                <td>{{$b->brgyName}}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                            <tr>
-                                <td scope="row"></td>
-                                <td>a</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
