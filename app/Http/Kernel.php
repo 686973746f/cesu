@@ -71,5 +71,9 @@ class Kernel extends HttpKernel
         'isLevel3' => \App\Http\Middleware\isLevel3::class,
         'canAccessCovid' => \App\Http\Middleware\canAccessCovid::class,
         'canAccessAbtc' => \App\Http\Middleware\canAccessAbtc::class,
+        'canAccessVaxcert' => \App\Http\Middleware\canAccessVaxcert::class,
+        'canAccessPidsr' => \App\Http\Middleware\canAccessPidsr::class,
+        'canAccessSyndromic' => \App\Http\Middleware\canAccessSyndromic::class,
+        'canAccessFhsis' => \App\Http\Middleware\canAccessFhsis::class,
     ];
 }

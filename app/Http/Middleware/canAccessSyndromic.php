@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class canAccessCovid
+class canAccessSyndromic
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class canAccessCovid
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!($request->user()->canAccessCovid())) {
+        if(!($request->user()->canAccessSyndromic())) {
             return abort(401);
         }
-        
+
         return $next($request);
     }
 }

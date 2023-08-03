@@ -30,6 +30,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        /*
         if(auth()->user()->isLevel1()) {
             if(auth()->user()->canaccess_covid == 1) {
                 Session::put('default_menu', 'COVID');
@@ -53,6 +54,22 @@ class HomeController extends Controller
         else if(auth()->user()->isLevel3()) {
             return redirect()->route('facility.home');
         }
+        */
+
+        return view('main_menu');
+    }
+
+    public function covid_home() {
+        Session::put('default_menu', 'COVID');
+        Session::put('default_home_url', route('main'));
+
+        $paswabctr = PaSwabDetails::where('status', 'pending')->count();
+        $selfreport_count = SelfReports::where('status', 'pending')->count();
+        
+        return view('home', [
+            'paswabctr' => $paswabctr,
+            'selfreport_count' => $selfreport_count,
+        ]);
     }
 
     public function pendingSchedChecker() {

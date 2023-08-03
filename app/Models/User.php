@@ -222,4 +222,145 @@ class User extends Authenticatable implements MustVerifyEmail
     public function abtcbakunarecord() {
         return $this->hasMany(AbtcBakunaRecords::class, 'created_by');
     }
+
+    //perms
+    public function canAccessCovid() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('CESU_ADMIN', $plist) || in_array('CESU_ENCODER', $plist) || in_array('CESU_BRGY_ADMIN', $plist) || in_array('CESU_BRGY_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isAdminCovid() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('CESU_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function getAccessLevelCovid() {
+        
+    }
+
+    public function canAccessAbtc() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ABTC_ADMIN', $plist) || in_array('ABTC_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isAdminAbtc() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ABTC_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessVaxcert() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('VAXCERT_ADMIN', $plist) || in_array('VAXCERT_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isAdminVaxcert() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('VAXCERT_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessSyndromic() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist) || in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function getAccessLevelSyndromic() {
+        
+    }
+
+    public function isAdminSyndromic() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessFhsis() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('FHSIS_ADMIN', $plist) || in_array('FHSIS_ENCODER', $plist) || in_array('CESU_BRGY_ADMIN', $plist) || in_array('CESU_BRGY_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isAdminFhsis() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('FHSIS_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessPidsr() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PIDSR_ADMIN', $plist) || in_array('PIDSR_ENCODER', $plist) || in_array('CESU_BRGY_ADMIN', $plist) || in_array('CESU_BRGY_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isAdminPidsr() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PIDSR_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

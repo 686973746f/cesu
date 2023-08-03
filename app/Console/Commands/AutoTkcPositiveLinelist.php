@@ -119,7 +119,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('P'.$ind, substr($d->records->mobile, 1));
                 $sheet->setCellValue('Q'.$ind, $d->records->email);
                 $sheet->setCellValue('R'.$ind, ''); //area address
-                $sheet->setCellValue('S'.$ind, 'home'); //home type
+                $sheet->setCellValue('S'.$ind, ''); //home type
                 $sheet->setCellValue('T'.$ind, $d->records->address_houseno);
                 $sheet->setCellValue('U'.$ind, ''); //house block
                 $sheet->setCellValue('V'.$ind, $d->records->address_street);
@@ -142,7 +142,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('AM'.$ind, ''); //work address lat
                 $sheet->setCellValue('AN'.$ind, ''); //work address long
                 $sheet->setCellValue('AO'.$ind, ($d->records->hasOccupation == 1) ? $d->records->occupation : '');
-                $sheet->setCellValue('AP'.$ind, ($d->records->hasOccupation == 1) ? $d->records->occupation_mobile : '');
+                $sheet->setCellValue('AP'.$ind, ($d->records->hasOccupation == 1 && !is_null($d->records->occupation_mobile)) ? $d->records->occupation_mobile : '');
                 $sheet->setCellValue('AQ'.$ind, ($d->records->hasOccupation == 1) ? $d->records->getWorkRegionPsgc() : '');
                 $sheet->setCellValue('AR'.$ind, ($d->records->hasOccupation == 1) ? $d->records->getWorkProvincePsgc() : '');
                 $sheet->setCellValue('AS'.$ind, ($d->records->hasOccupation == 1) ? $d->records->getWorkCityPsgc() : '');
@@ -165,7 +165,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('BI'.$ind, (in_array('Nausea', $arr_sas)) ? 'TRUE' : 'FALSE');
                 $sheet->setCellValue('BJ'.$ind, (in_array('Altered Mental Status', $arr_sas)) ? 'TRUE' : 'FALSE');
                 
-                $sheet->setCellValue('BK'.$ind, date('m/d/Y', strtotime($d->dateOnsetOfIllness)));
+                $sheet->setCellValue('BK'.$ind, (!is_null($d->dateOnsetOfIllness) || !is_null($d->SAS)) ? date('m/d/Y', strtotime($d->dateOnsetOfIllness)) : '');
                 $sheet->setCellValue('BL'.$ind, (in_array('Hypertension', $arr_como)) ? 'TRUE' : 'FALSE');
                 $sheet->setCellValue('BM'.$ind, (in_array('Diabetes', $arr_como)) ? 'TRUE' : 'FALSE');
                 $sheet->setCellValue('BN'.$ind, (in_array('Heart Disease', $arr_como)) ? 'TRUE' : 'FALSE');
@@ -200,7 +200,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('CP'.$ind, ''); //reason_for_hospitalization
                 $sheet->setCellValue('CQ'.$ind, $d->getTkcTreatmentFacility());
                 $sheet->setCellValue('CR'.$ind, $d->getTkcQuarantineStatus());
-                $sheet->setCellValue('CS'.$ind, date('m/d/Y', strtotime($d->dispositionDate)));
+                $sheet->setCellValue('CS'.$ind, ($d->dispoType == 1) ? date('m/d/Y', strtotime($d->dispoDate)) : '');
                 $sheet->setCellValue('CT'.$ind, ($d->outcomeCondition == 'Recovered') ? date('m/d/Y', strtotime($d->outcomeRecovDate)) : '');
 
                 $sheet->setCellValue('CU'.$ind, ''); //quarantine_place
@@ -227,10 +227,10 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('DN'.$ind, ''); //exposure_address
                 $sheet->setCellValue('DO'.$ind, ''); //nature_of_exposure
                 $sheet->setCellValue('DP'.$ind, ''); //exposure remarks
-                $sheet->setCellValue('DQ'.$ind, 'TRUE'); //traced
-                $sheet->setCellValue('DR'.$ind, date('m/d/Y', strtotime($d->created_at))); //traced_date
-                $sheet->setCellValue('DS'.$ind, 'hq'); //advised
-                $sheet->setCellValue('DT'.$ind, date('m/d/Y', strtotime($d->created_at))); //advised_date
+                $sheet->setCellValue('DQ'.$ind, ''); //traced
+                $sheet->setCellValue('DR'.$ind, ''); //traced_date
+                $sheet->setCellValue('DS'.$ind, ''); //advised
+                $sheet->setCellValue('DT'.$ind, ''); //advised_date
                 $sheet->setCellValue('DU'.$ind, ''); //local travel address
                 $sheet->setCellValue('DV'.$ind, 'TRUE'); //has community transmission
                 $sheet->setCellValue('DW'.$ind, ''); //community transmission address

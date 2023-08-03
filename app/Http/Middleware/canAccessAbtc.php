@@ -16,7 +16,7 @@ class canAccessAbtc
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->user()->canaccess_abtc == 0) {
+        if(!($request->user()->canAccessAbtc())) {
             return abort(401);
         }
 

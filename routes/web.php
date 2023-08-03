@@ -87,35 +87,16 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::group(['middleware' => ['guest']], function () {
-    Route::get('/paswab', [PaSwabController::class, 'selectLanguage'])->name('paswab.language');
-    Route::get('/paswab/{locale}', [PaSwabController::class, 'index'])->name('paswab.index');
-    Route::post('/paswab/{locale}', [PaSwabController::class, 'store'])->name('paswab.store');
-    Route::get('/paswab/{locale}/completed', [PaSwabController::class, 'complete'])->name('paswab.complete');
-    Route::post('/paswab/{locale}/check', [PaSwabController::class, 'check'])->name('paswab.check');
-    
-    Route::get('/selfreport/{locale}', [SelfReportController::class, 'index'])->name('selfreport.index');
-    Route::get('/selfreport', [SelfReportController::class, 'selectLanguage'])->name('selfreport.language');
-    Route::post('/selfreport', [SelfReportController::class, 'store'])->name('selfreport.store');
-    Route::get('/selfreport/{locale}/completed', [SelfReportController::class, 'storeComplete'])->name('selfreport.storeComplete');
-
-    Route::get('/msheet/guest/{id}', [MonitoringSheetController::class, 'view'])->name('msheet.guest.view');
-    Route::get('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.guest.viewdate');
-    Route::post('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.guest.updatemonitoring');
-    Route::get('/msheet/guest/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.guest.print');
-
-    //Route::get('/medcert', [OnlineMedCertController::class, 'index'])->name('onlinemedcert_index');
-    //Route::post('/medcert', [OnlineMedCertController::class, 'check'])->name('onlinemedcert_check');
-});
-
+//MAIN LOGIN ROUTES
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/main_menu', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'covid_home'])->name('covid_home');
     Route::get('/account/changepw', [ChangePasswordController::class, 'index'])->name('changepw.index');
     Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
 });
 
+//PASWAB INTERNAL
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount', 'canAccessCovid']], function() {
-    //Pa-swab
     Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
     Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
     Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
@@ -127,8 +108,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrB
     Route::get('/check_pending', [HomeController::class, 'pendingSchedChecker'])->name('pendingshedchecker.index');
 });
 
+//COVID
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessCovid']], function() {
-    // your routes
     Route::get('/records/duplicatechecker', [RecordsController::class, 'duplicateCheckerDashboard'])->name('records.duplicatechecker');
     Route::post('/records/check', [RecordsController::class, 'check'])->name('records.check');
     Route::resource('records', RecordsController::class);
@@ -229,56 +210,27 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/report/fhsis', [ReportV2Controller::class, 'm2fhsis'])->name('report.fhsis');
 
     //Monkeypox
+    /*
     Route::get('/monkeypox', [MonkeyPoxController::class, 'home'])->name('mp.home');
     Route::get('/monkeypox/ajaxlist', [MonkeyPoxController::class, 'ajaxlist'])->name('mp.ajaxlist');
     Route::get('/monkeypox/cif/{record_id}/new', [MonkeyPoxController::class, 'create_cif'])->name('mp.newcif');
     Route::post('/monkeypox/cif/{record_id}/new', [MonkeyPoxController::class, 'store_cif'])->name('mp.storecif');
     Route::get('/monkeypox/cif/{mk}/edit', [MonkeyPoxController::class, 'edit_cif'])->name('mp.editcif');
     Route::post('/monkeypox/cif/{mk}/update', [MonkeyPoxController::class, 'update_cif'])->name('mp.updatecif');
+    */
 
     //Dengue
+    /*
     Route::get('/dengue', [DengueController::class, 'home'])->name('dg.home');
     Route::get('/dengue/cif', [DengueController::class, 'cifhome'])->name('dg.cifhome');
     Route::get('/dengue/cif/{record_id}/new', [DengueController::class, 'create_cif'])->name('dg.newcif');
     Route::post('/dengue/cif/{record_id}/new', [DengueController::class, 'store_cif'])->name('dg.storecif');
     Route::get('/dengue/cif/{cif_id}/edit', [DengueController::class, 'edit_cif'])->name('dg.editcif');
     Route::post('/dengue/cif/{cif_id}/update', [DengueController::class, 'update_cif'])->name('dg.updatecif');
-
-    //PIDSR
-    Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
-    Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
-    Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
-    Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
-    Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
-    Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');
-    Route::get('/pidsr/view/{year}/{mw}', [PIDSRController::class, 'weeklycaseviewer'])->name('pidsr.weeklyviewer');
-
-    //Syndromic
-    Route::get('/syndromic', [SyndromicController::class, 'index'])->name('syndromic_home');
-    Route::get('/syndromic/patient/new', [SyndromicController::class, 'newPatient'])->name('syndromic_newPatient');
-    Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
-    Route::get('/syndromic/patient/{patient_id}/records/new', [SyndromicController::class, 'newRecord'])->name('syndromic_newRecord');
-    Route::post('/syndromic/patient/{patient_id}/records/store', [SyndromicController::class, 'storeRecord'])->name('syndromic_storeRecord');
-    
-    Route::get('/syndromic/patient/{patient_id}/view', [SyndromicController::class, 'viewPatient'])->name('syndromic_viewPatient');
-    Route::get('/syndromic/records/{records_id}/view', [SyndromicController::class, 'viewRecord'])->name('syndromic_viewRecord');
-    Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
-    Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
-    Route::get('/syndromic/map', [SyndromicController::class, 'diseasemap'])->name('syndromic_map');
+    */
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
-    
-});
-
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
-    //Facility Account Middleware
-    Route::get('facility/home', [FacilityController::class, 'index'])->name('facility.home');
-    Route::get('facility/{id}/viewPatient', [FacilityController::class, 'viewPatient'])->name('facility.viewdischarge');
-    Route::post('facility/{id}/update', [FacilityController::class, 'update'])->name('facility.update');
-    Route::post('facility/{id}/viewPatient', [FacilityController::class, 'initDischarge'])->name('facility.initdischarge');
-});
-
+//COVID ADMIN
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 'canAccessCovid']], function()
 {
     //Admin Page
@@ -341,8 +293,46 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
 });
 
-//ANIMAL BITE ROUTES
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessAbtc']], function () {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
+    
+});
+
+//PIDSR
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsr']], function() {
+    Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
+    Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
+    Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
+    Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
+    Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
+    Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');
+    Route::get('/pidsr/view/{year}/{mw}', [PIDSRController::class, 'weeklycaseviewer'])->name('pidsr.weeklyviewer');
+});
+
+//SYNDROMIC
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessSyndromic']], function() {
+    Route::get('/syndromic', [SyndromicController::class, 'index'])->name('syndromic_home');
+    Route::get('/syndromic/patient/new', [SyndromicController::class, 'newPatient'])->name('syndromic_newPatient');
+    Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
+    Route::get('/syndromic/patient/{patient_id}/records/new', [SyndromicController::class, 'newRecord'])->name('syndromic_newRecord');
+    Route::post('/syndromic/patient/{patient_id}/records/store', [SyndromicController::class, 'storeRecord'])->name('syndromic_storeRecord');
+    
+    Route::get('/syndromic/patient/{patient_id}/view', [SyndromicController::class, 'viewPatient'])->name('syndromic_viewPatient');
+    Route::get('/syndromic/records/{records_id}/view', [SyndromicController::class, 'viewRecord'])->name('syndromic_viewRecord');
+    Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
+    Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
+    Route::get('/syndromic/map', [SyndromicController::class, 'diseasemap'])->name('syndromic_map');
+});
+
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
+    //Facility Account Middleware
+    Route::get('facility/home', [FacilityController::class, 'index'])->name('facility.home');
+    Route::get('facility/{id}/viewPatient', [FacilityController::class, 'viewPatient'])->name('facility.viewdischarge');
+    Route::post('facility/{id}/update', [FacilityController::class, 'update'])->name('facility.update');
+    Route::post('facility/{id}/viewPatient', [FacilityController::class, 'initDischarge'])->name('facility.initdischarge');
+});
+
+//ANIMAL BITE ABTC
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtc']], function () {
     Route::get('/abtc', [ABTCPatientController::class, 'home'])->name('abtc_home');
     Route::get('/abtc/patient', [ABTCPatientController::class, 'index'])->name('abtc_patient_index');
     Route::get('/abtc/patient/create', [ABTCPatientController::class, 'create'])->name('abtc_patient_create');
@@ -401,34 +391,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::post('/abtc/xlimport', [ABTCAdminController::class, 'xlimport'])->name('abtc_xlimport');
 });
 
-//VaxCert Temp Routes
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessCovid']], function() {
-    Route::get('/vaxcert/home', [VaxcertController::class, 'home'])->name('vaxcert_home');
-    Route::get('/vaxcert/vquery', [VaxcertController::class, 'vquery'])->name('vaxcert_vquery');
-    Route::get('/vaxcert/report', [VaxcertController::class, 'report'])->name('vaxcert_report');
-    Route::get('/vaxcert/ticket/view/{id}', [VaxcertController::class, 'view_patient'])->name('vaxcert_viewpatient');
-    Route::post('/vaxcert/ticket/view/{id}/process', [VaxcertController::class, 'process_patient'])->name('vaxcert_processpatient');
-
-    Route::get('/vaxcert/ticket/view/{id}/basedl', [VaxcertController::class, 'dlbase_template'])->name('vaxcert_basedl');
-    Route::get('/vaxcert/vquery/export/{id}', [VaxcertController::class, 'dloff_template'])->name('vaxcert_vquery_template');
-});
-
-Route::group(['middleware' => ['guest']], function() {
-    Route::get('/abtc/walkin', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('abtc_walkin_part1');
-    Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
-    Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
-    
-    Route::get('/itr', [SyndromicController::class, 'walkin_part1'])->name('syndromic_walkin1');
-    Route::get('/itr/register', [SyndromicController::class, 'walkin_part2'])->name('syndromic_walkin2');
-    Route::post('/itr/register', [SyndromicController::class, 'walkin_part3'])->name('syndromic_walkin3');
-});
-
-//Vaxcert
-Route::get('/vaxcert', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin');
-Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
-Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
-
-Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function()
+//FHSIS
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessFhsis']], function()
 {
     Route::get('/fhsis', [FhsisController::class, 'home'])->name('fhsis_home');
 
@@ -439,6 +403,56 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled']], function(
     Route::get('/fhsis/timeliness', [FhsisController::class, 'timelinesscheck'])->name('fhsis_timeliness');
     Route::get('/fhsis/import', [FhsisController::class, 'pquery'])->name('fhsis_pquery');
 });
+
+//ABTC (WALK IN)
+Route::group(['middleware' => ['guest']], function() {
+    Route::get('/abtc/walkin', [ABTCWalkInRegistrationController::class, 'walkin_part1'])->name('abtc_walkin_part1');
+    Route::get('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part2'])->name('abtc_walkin_part2');
+    Route::post('/abtc/walkin/register', [ABTCWalkInRegistrationController::class, 'walkin_part3'])->name('abtc_walkin_part3');
+    
+    Route::get('/itr', [SyndromicController::class, 'walkin_part1'])->name('syndromic_walkin1');
+    Route::get('/itr/register', [SyndromicController::class, 'walkin_part2'])->name('syndromic_walkin2');
+    Route::post('/itr/register', [SyndromicController::class, 'walkin_part3'])->name('syndromic_walkin3');
+});
+
+//PASWAB GUEST, SELF REPORT, MONITORING SHEET
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/paswab', [PaSwabController::class, 'selectLanguage'])->name('paswab.language');
+    Route::get('/paswab/{locale}', [PaSwabController::class, 'index'])->name('paswab.index');
+    Route::post('/paswab/{locale}', [PaSwabController::class, 'store'])->name('paswab.store');
+    Route::get('/paswab/{locale}/completed', [PaSwabController::class, 'complete'])->name('paswab.complete');
+    Route::post('/paswab/{locale}/check', [PaSwabController::class, 'check'])->name('paswab.check');
+    
+    Route::get('/selfreport/{locale}', [SelfReportController::class, 'index'])->name('selfreport.index');
+    Route::get('/selfreport', [SelfReportController::class, 'selectLanguage'])->name('selfreport.language');
+    Route::post('/selfreport', [SelfReportController::class, 'store'])->name('selfreport.store');
+    Route::get('/selfreport/{locale}/completed', [SelfReportController::class, 'storeComplete'])->name('selfreport.storeComplete');
+
+    Route::get('/msheet/guest/{id}', [MonitoringSheetController::class, 'view'])->name('msheet.guest.view');
+    Route::get('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.guest.viewdate');
+    Route::post('/msheet/guest/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.guest.updatemonitoring');
+    Route::get('/msheet/guest/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.guest.print');
+
+    //Route::get('/medcert', [OnlineMedCertController::class, 'index'])->name('onlinemedcert_index');
+    //Route::post('/medcert', [OnlineMedCertController::class, 'check'])->name('onlinemedcert_check');
+});
+
+//VAXCERT
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessVaxcert']], function() {
+    Route::get('/vaxcert/home', [VaxcertController::class, 'home'])->name('vaxcert_home');
+    Route::get('/vaxcert/vquery', [VaxcertController::class, 'vquery'])->name('vaxcert_vquery');
+    Route::get('/vaxcert/report', [VaxcertController::class, 'report'])->name('vaxcert_report');
+    Route::get('/vaxcert/ticket/view/{id}', [VaxcertController::class, 'view_patient'])->name('vaxcert_viewpatient');
+    Route::post('/vaxcert/ticket/view/{id}/process', [VaxcertController::class, 'process_patient'])->name('vaxcert_processpatient');
+
+    Route::get('/vaxcert/ticket/view/{id}/basedl', [VaxcertController::class, 'dlbase_template'])->name('vaxcert_basedl');
+    Route::get('/vaxcert/vquery/export/{id}', [VaxcertController::class, 'dloff_template'])->name('vaxcert_vquery_template');
+});
+
+//VAXCERT (WALK IN)
+Route::get('/vaxcert', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin');
+Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
+Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
 
 Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_process'])->name('abtc_qr_process');
 
