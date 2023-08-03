@@ -446,53 +446,93 @@ class Records extends Model
     public function getBrgyPsgc() {
         $city = City::where('json_code', $this->address_cityjson)->pluck('id')->first();
 
-        $get_code = Brgy::where('city_id', $city)->where('brgyName', $this->address_brgy)->first()->json_code;
+        $get_code = Brgy::where('city_id', $city)->where('brgyName', $this->address_brgy)->pluck('json_code')->first();
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     public function getCityPsgc() {
-        $get_code = City::where('json_code', $this->address_cityjson)->first()->getPsgcCode();
+        $get_code = City::where('json_code', $this->address_cityjson)->pluck('json_code')->first();
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     public function getProvincePsgc() {
-        $get_code = Provinces::where('json_code', $this->address_provincejson)->first()->getPsgcCode();
+        $get_code = Provinces::where('json_code', $this->address_provincejson)->pluck('json_code')->first();
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     public function getRegionPsgc() {
-        $get_code = Provinces::where('json_code', $this->address_provincejson)->first()->region->getPsgcCode();
+        $get_code = Provinces::where('json_code', $this->address_provincejson)->first()->region->json_code;
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     public function getWorkBrgyPsgc() {
         $city = City::where('json_code', $this->occupation_cityjson)->pluck('id')->first();
 
-        $get_code = Brgy::where('city_id', $city)->where('brgyName', $this->occupation_brgy)->first()->json_code;
+        $get_code = Brgy::where('city_id', $city)->where('brgyName', $this->occupation_brgy)->pluck('json_code')->first();
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     public function getWorkCityPsgc() {
-        $get_code = City::where('json_code', $this->occupation_cityjson)->first()->getPsgcCode();
+        $get_code = City::where('json_code', $this->occupation_cityjson)->pluck('json_code')->first();
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     public function getWorkProvincePsgc() {
-        $get_code = Provinces::where('json_code', $this->occupation_provincejson)->first()->getPsgcCode();
+        $get_code = Provinces::where('json_code', $this->occupation_province)->pluck('json_code')->first();
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     public function getWorkRegionPsgc() {
-        $get_code = Provinces::where('json_code', $this->occupation_provincejson)->first()->region->getPsgcCode();
+        $get_code = Provinces::where('json_code', $this->occupation_province)->first()->region->json_code;
 
-        return $get_code;
+        if(substr($get_code,0,1) === '0') {
+            return substr($get_code,1);
+        }
+        else {
+            return $get_code;
+        }
     }
 
     /*

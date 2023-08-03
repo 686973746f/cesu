@@ -454,21 +454,45 @@ class Forms extends Model
 
     public function getTkcLabInfoType() {
         $txt_string = '';
+        
+        if($this->testType1 == 'OPS AND NPS' || $this->testType1 == 'OPS' || $this->testType1 == 'NPS') {
+            $txt_string = 'RTPCR';
+        }
+        else if($this->testType1 == 'ANTIGEN') {
+            $txt_string = 'ANTIGEN';
+        }
+        else {
+            $txt_string = 'OTHERS';
+        }
 
+        /*
         if($this->testType1 == 'OPS AND NPS') {
             $txt_string = 'OPS & NPS';
         }
         else {
             $txt_string = $this->testType1;
         }
+        */
 
         if(!is_null($this->testDateCollected2)) {
+            if($this->testType2 == 'OPS AND NPS' || $this->testType2 == 'OPS' || $this->testType2 == 'NPS') {
+                $txt_string = $txt_string.',RTPCR';
+            }
+            else if($this->testType2 == 'ANTIGEN') {
+                $txt_string = $txt_string.',ANTIGEN';
+            }
+            else {
+                $txt_string = $txt_string.',OTHERS';
+            }
+
+            /*
             if($this->testType2 == 'OPS AND NPS') {
                 $txt_string = $txt_string.',OPS & NPS';
             }
             else {
                 $txt_string = $txt_string.','.$this->testType2;
             }
+            */
         }
 
         return $txt_string;

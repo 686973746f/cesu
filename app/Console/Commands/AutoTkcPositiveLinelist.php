@@ -112,7 +112,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('I'.$ind, $d->records->lname);
                 $sheet->setCellValue('J'.$ind, ''); //suffix
                 $sheet->setCellValue('K'.$ind, date('m/d/Y', strtotime($d->records->bdate)));
-                $sheet->setCellValue('L'.$ind, $d->records->gender);
+                $sheet->setCellValue('L'.$ind, strtolower($d->records->gender));
                 $sheet->setCellValue('M'.$ind, 'Filipino');
                 $sheet->setCellValue('N'.$ind, $d->records->cs);
                 $sheet->setCellValue('O'.$ind, $d->records->phoneno);

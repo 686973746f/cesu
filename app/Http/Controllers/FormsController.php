@@ -772,6 +772,10 @@ class FormsController extends Controller
                     $swabdate = Carbon::parse($item->testDateCollected1)->format('m/d/Y');
                     $swabtime = Carbon::parse($item->oniTimeCollected1)->format('h:i A');
                 }
+
+                if($swabtype == 'OPS AND NPS') {
+                    $swabtype = 'OPS+NPS';
+                }
                 
                 if($request->submit == 'printsticker') {
                     if(!is_null($item->records->philhealth)) {
