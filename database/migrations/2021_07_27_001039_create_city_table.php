@@ -21,6 +21,9 @@ class CreateCityTable extends Migration
             $table->string('cityName');
             $table->text('json_code')->nullable();
             $table->text('alt_name')->nullable();
+            $table->text('latitude')->nullable();
+            $table->text('longitude')->nullable();
+            $table->integer('population')->nullable();
         });
     }
 

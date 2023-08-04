@@ -2304,7 +2304,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="localDateArrive1">Date of Arrival</label>
-                                                                <input type="text" class="form-control" name="localDateArrive1" id="localDateArrive1" value="{{old('localDateArrive1')}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
+                                                                <input type="date" class="form-control" name="localDateArrive1" id="localDateArrive1" value="{{old('localDateArrive1')}}" min="{{date('Y-m-d', strtotime('-1 Month'))}}" max="{{date('Y-m-d')}}">
                                                             </div>
                                                         </div>
                                                     </div>

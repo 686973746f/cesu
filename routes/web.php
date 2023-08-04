@@ -456,6 +456,9 @@ Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('
 
 Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_process'])->name('abtc_qr_process');
 
+//SYNDROMIC ONLINE MEDCERT
+Route::get('/medcert/verify/{qr}', [SyndromicController::class, 'medcertOnlineVerify'])->name('medcert_online_verify');
+
 //JSON Reports
 Route::get('/json/brgy', [JsonReportController::class, 'brgyCases']);
 Route::get('/json/totalCases', [JsonReportController::class, 'totalCases']);

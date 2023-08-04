@@ -41,6 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('covidvaccinelinelistimporter:weekly')->weeklyOn(1, '22:00')->evenInMaintenanceMode();
 
         $schedule->command('fhsism2autosender:monthly')->monthlyOn(date('t'), '17:00');
+        $schedule->command('autotkc:daily')->dailyAt('16:40')->evenInMaintenanceMode();
         //$schedule->command('queue:work')->everyMinute()->withoutOverlapping();
         
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(15, '16:05');

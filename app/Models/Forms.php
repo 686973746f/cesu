@@ -698,7 +698,77 @@ class Forms extends Model
         return $txt_string;
     }
 
+    public function getTkcInvestigationAction() {
+        if($this->caseClassification == 'Confirmed') {
+            return 'TEST_CONFIRMED';
+        }
+        else if(!is_null($this->testDateCollected1) || !is_null($this->testDateCollected2)) {
+            if($this->isPresentOnSwabDay == 1) {
+                return 'TEST_INITIATED';
+            }
+            else {
+                return 'TEST_SCHEDULED';
+            }
+        }
+        else if($this->dispoType == 1) {
+            return 'FOR_HOSPITAL';
+        }
+        else {
+            return 'TRACE_INFO';
+        }
+    }
+
     public function getTkcNatureOfExposure() {
-        
+        $arr_search = explode(",", $this->placevisited);
+        /*
+        Health Facility,Closed Settings,School,Workplace,Market,Social Gathering,Others,Transport Service
+        */
+
+        $final_list = [];
+        if(in_array('Health Facility', $arr_search)) {
+            $final_list[] = 'HF';
+        }
+
+        if(in_array('Closed Settings', $arr_search)) {
+            $final_list[] = 'HH';
+        }
+
+        if(in_array('School', $arr_search)) {
+            $final_list[] = 'SCH';
+        }
+
+        if(in_array('Workplace', $arr_search)) {
+            $final_list[] = 'WS';
+        }
+
+        if(in_array('Market', $arr_search)) {
+            $final_list[] = 'M';
+        }
+
+        if(in_array('Social Gathering', $arr_search)) {
+            $final_list[] = 'E';
+        }
+
+        if(in_array('Others', $arr_search)) {
+            $final_list[] = 'O';
+        }
+
+        if(in_array('Transport Service', $arr_search)) {
+            $final_list[] = 'LV';
+        }
+
+        return implode(",", $final_list);
+    }
+
+    public function getTkcHasExposure() {
+        if($this->expoitem2 == 0) {
+            return 'UNAVAILABLE';
+        }
+        else if($this->expoitem2 == 3) {
+            return 'UNKNOWN';
+        }
+        else {
+            return 'KNOWN';
+        }
     }
 }

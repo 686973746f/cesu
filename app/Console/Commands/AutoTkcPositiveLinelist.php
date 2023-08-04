@@ -119,7 +119,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('P'.$ind, substr($d->records->mobile, 1));
                 $sheet->setCellValue('Q'.$ind, $d->records->email);
                 $sheet->setCellValue('R'.$ind, ''); //area address
-                $sheet->setCellValue('S'.$ind, ''); //home type
+                $sheet->setCellValue('S'.$ind, 'house'); //home type
                 $sheet->setCellValue('T'.$ind, $d->records->address_houseno);
                 $sheet->setCellValue('U'.$ind, ''); //house block
                 $sheet->setCellValue('V'.$ind, $d->records->address_street);
@@ -238,9 +238,9 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('DY'.$ind, 'Unavailable'); //has exposure
                 $sheet->setCellValue('DZ'.$ind, ''); //close contact name
 
-                $sheet->setCellValue('EA'.$ind, ''); //nature of exposure
+                $sheet->setCellValue('EA'.$ind, $d->getTkcNatureOfExposure()); //nature of exposure
                 $sheet->setCellValue('EB'.$ind, ''); //reason of contact
-                $sheet->setCellValue('EC'.$ind, ''); //hasExposure
+                $sheet->setCellValue('EC'.$ind, $d->getTkcHasExposure()); //hasExposure
                 $sheet->setCellValue('ED'.$ind, $d->getTkcLabInfoType()); //lab_info_type
                 $sheet->setCellValue('EE'.$ind, $d->getTkcLab()); //lab name
                 $sheet->setCellValue('EF'.$ind, ''); //specimen id
@@ -257,7 +257,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('EQ'.$ind, ($d->caseClassification == 'Suspect') ? 'TRUE' : 'FALSE');
                 $sheet->setCellValue('ER'.$ind, ''); //has other reasons
                 $sheet->setCellValue('ES'.$ind, ''); //rayson
-                $sheet->setCellValue('ET'.$ind, ''); //investigation action
+                $sheet->setCellValue('ET'.$ind, $d->getTkcInvestigationAction()); //investigation action
                 $sheet->setCellValue('EU'.$ind, ''); //investigation date
                 $sheet->setCellValue('EV'.$ind, ''); //investigation remarks
                 $sheet->setCellValue('EW'.$ind, ''); //investigation by user id

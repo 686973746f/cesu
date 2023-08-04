@@ -30,7 +30,7 @@ class TkcDaily extends Mailable
     {
         return $this->view('email.tkcmail')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
-        ->subject('TKC Import CSV'.date('F d, Y'))
+        ->subject('TKC Import CSV '.date('F d, Y'))
         ->attach(public_path('TKC_'.date('mdY').'.csv'));
     }
 }

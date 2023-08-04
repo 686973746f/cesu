@@ -2,6 +2,10 @@
 
 @section('content')
 <div class="container">
+  <div class="text-right mb-3">
+    <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR</a>
+    <a href="" class="btn btn-primary">Generate MedCert</a>
+  </div>
     <form action="{{route('syndromic_updatePatient', $d->id)}}" method="POST">
         @csrf
         <div class="card">
@@ -80,11 +84,11 @@
                       </div>
                       <div class="form-group">
                         <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted</label>
-                        <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted', $d->date_admitted)}}">
+                        <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted', $d->date_admitted)}}" max="{{date('Y-m-d')}}">
                       </div>
                       <div class="form-group">
                         <label for="date_released">Date Released</label>
-                        <input type="date" class="form-control" name="date_released" id="date_released" value="{{old('date_released', $d->date_released)}}">
+                        <input type="date" class="form-control" name="date_released" id="date_released" value="{{old('date_released', $d->date_released)}}" max="{{date('Y-m-d')}}">
                       </div>
                     </div>
                   </div>
@@ -104,7 +108,7 @@
                           <div id="abdominalpain_div" class="d-none">
                             <div class="form-group">
                               <label for="abdominalpain_onset">Abdominal Pain Onset</label>
-                              <input type="date" class="form-control" name="abdominalpain_onset" id="abdominalpain_onset" value="{{old('abdominalpain_onset', $d->abdominalpain_onset)}}">
+                              <input type="date" class="form-control" name="abdominalpain_onset" id="abdominalpain_onset" value="{{old('abdominalpain_onset', $d->abdominalpain_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="abdominalpain_remarks">Abdominal Pain Remarks</label>
@@ -115,14 +119,14 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="alteredmentalstatus_yn" id="alteredmentalstatus_yn" value="checkedValue" {{old('alteredmentalstatus_yn' || $d->alteredmentalstatus == 1) ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="alteredmentalstatus_yn" id="alteredmentalstatus_yn" value="checkedValue" {{(old('alteredmentalstatus_yn') || $d->alteredmentalstatus == 1)  ? 'checked' : ''}}>
                               Altered Mental Status
                             </label>
                           </div>
                           <div class="d-none" id="alteredmentalstatus_div">
                             <div class="form-group">
                               <label for="alteredmentalstatus_onset">ltered Mental Status Onset</label>
-                              <input type="date" class="form-control" name="alteredmentalstatus_onset" id="alteredmentalstatus_onset" value="{{old('alteredmentalstatus_onset', $d->alteredmentalstatus_onset)}}">
+                              <input type="date" class="form-control" name="alteredmentalstatus_onset" id="alteredmentalstatus_onset" value="{{old('alteredmentalstatus_onset', $d->alteredmentalstatus_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="alteredmentalstatus_remarks">Altered Mental Status Remarks</label>
@@ -133,385 +137,385 @@
                         <div class="col-md-3">
                             <div class="form-check">
                               <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="animalbite_yn" id="animalbite_yn" value="checkedValue" {{old('animalbite_yn') ? 'checked' : ''}}>
+                                <input type="checkbox" class="form-check-input" name="animalbite_yn" id="animalbite_yn" value="checkedValue" {{(old('animalbite_yn') || $d->animalbite == 1) ? 'checked' : ''}}>
                                 Animal Bite
                               </label>
                             </div>
                             <div id="animalbite_div" class="d-none">
                               <div class="form-group">
                                 <label for="animalbite_onset">Animal Bite Onset</label>
-                                <input type="date" class="form-control" name="animalbite_onset" id="animalbite_onset" value="{{old('animalbite_onset')}}">
+                                <input type="date" class="form-control" name="animalbite_onset" id="animalbite_onset" value="{{old('animalbite_onset', $d->animalbite_onset)}}" max="{{date('Y-m-d')}}">
                               </div>
                               <div class="form-group">
                                 <label for="animalbite_remarks">Animal Bite Remarks</label>
-                                <input type="text" class="form-control" name="animalbite_remarks" id="animalbite_remarks" value="{{old('animalbite_remarks')}}">
+                                <input type="text" class="form-control" name="animalbite_remarks" id="animalbite_remarks" value="{{old('animalbite_remarks', $d->animalbite_remarks)}}">
                               </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="cough_yn" id="cough_yn" value="checkedValue" {{old('cough_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="cough_yn" id="cough_yn" value="checkedValue" {{(old('cough_yn') || $d->cough == 1) ? 'checked' : ''}}>
                               Cough
                             </label>
                           </div>
                           <div id="cough_div" class="d-none">
                             <div class="form-group">
                               <label for="cough_onset">Cough Onset</label>
-                              <input type="date" class="form-control" name="cough_onset" id="cough_onset" value="{{old('cough_onset')}}">
+                              <input type="date" class="form-control" name="cough_onset" id="cough_onset" value="{{old('cough_onset', $d->cough_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="cough_remarks">Cough Remarks</label>
-                              <input type="text" class="form-control" name="cough_remarks" id="cough_remarks" value="{{old('cough_remarks')}}">
+                              <input type="text" class="form-control" name="cough_remarks" id="cough_remarks" value="{{old('cough_remarks', $d->cough_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="colds_yn" id="colds_yn" value="checkedValue" {{old('colds_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="colds_yn" id="colds_yn" value="checkedValue" {{(old('colds_yn') || $d->colds == 1) ? 'checked' : ''}}>
                               Colds/Coryza
                             </label>
                           </div>
                           <div id="colds_div" class="d-none">
                             <div class="form-group">
                               <label for="colds_onset">Colds Onset</label>
-                              <input type="date" class="form-control" name="colds_onset" id="colds_onset" value="{{old('colds_onset')}}">
+                              <input type="date" class="form-control" name="colds_onset" id="colds_onset" value="{{old('colds_onset', $d->colds_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="colds_remarks">Colds Remarks</label>
-                              <input type="text" class="form-control" name="colds_remarks" id="colds_remarks" value="{{old('colds_remarks')}}">
+                              <input type="text" class="form-control" name="colds_remarks" id="colds_remarks" value="{{old('colds_remarks', $d->colds_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="conjunctivitis_yn" id="conjunctivitis_yn" value="checkedValue" {{old('conjunctivitis_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="conjunctivitis_yn" id="conjunctivitis_yn" value="checkedValue" {{(old('conjunctivitis_yn') || $d->conjunctivitis == 1) ? 'checked' : ''}}>
                               Conjunctivitis/Red Eyes
                             </label>
                           </div>
                           <div id="conjunctivitis_div" class="d-none">
                             <div class="form-group">
                               <label for="conjunctivitis_onset">Conjunctivitis Onset</label>
-                              <input type="date" class="form-control" name="conjunctivitis_onset" id="conjunctivitis_onset" value="{{old('conjunctivitis_onset')}}">
+                              <input type="date" class="form-control" name="conjunctivitis_onset" id="conjunctivitis_onset" value="{{old('conjunctivitis_onset', $d->conjunctivitis_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="conjunctivitis_remarks">Conjunctivitis Remarks</label>
-                              <input type="text" class="form-control" name="conjunctivitis_remarks" id="conjunctivitis_remarks" value="{{old('conjunctivitis_remarks')}}">
+                              <input type="text" class="form-control" name="conjunctivitis_remarks" id="conjunctivitis_remarks" value="{{old('conjunctivitis_remarks', $d->conjunctivitis_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="anorexia_yn" id="anorexia_yn" value="checkedValue" {{old('anorexia_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="anorexia_yn" id="anorexia_yn" value="checkedValue" {{(old('anorexia_yn') || $d->anorexia == 1) ? 'checked' : ''}}>
                               Eating Disorder (Anorexia)
                             </label>
                           </div>
                           <div id="anorexia_div" class="d-none">
                             <div class="form-group">
                               <label for="anorexia_onset">Eating Disorder Onset</label>
-                              <input type="date" class="form-control" name="anorexia_onset" id="anorexia_onset" value="{{old('anorexia_onset')}}">
+                              <input type="date" class="form-control" name="anorexia_onset" id="anorexia_onset" value="{{old('anorexia_onset', $d->anorexia_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="anorexia_remarks">Eating Disorder Remarks</label>
-                              <input type="text" class="form-control" name="anorexia_remarks" id="anorexia_remarks" value="{{old('anorexia_remarks')}}">
+                              <input type="text" class="form-control" name="anorexia_remarks" id="anorexia_remarks" value="{{old('anorexia_remarks', $d->anorexia_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="fatigue_yn" id="fatigue_yn" value="checkedValue" {{old('fatigue_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="fatigue_yn" id="fatigue_yn" value="checkedValue" {{(old('fatigue_yn') || $d->fatigue == 1) ? 'checked' : ''}}>
                               Fatigue
                             </label>
                           </div>
                           <div id="fatigue_div" class="d-none">
                             <div class="form-group">
                               <label for="fatigue_onset">Fatigue Onset</label>
-                              <input type="date" class="form-control" name="fatigue_onset" id="fatigue_onset" value="{{old('fatigue_onset')}}">
+                              <input type="date" class="form-control" name="fatigue_onset" id="fatigue_onset" value="{{old('fatigue_onset', $d->fatigue_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="fatigue_remarks">Fatigue Remarks</label>
-                              <input type="text" class="form-control" name="fatigue_remarks" id="fatigue_remarks" value="{{old('fatigue_remarks')}}">
+                              <input type="text" class="form-control" name="fatigue_remarks" id="fatigue_remarks" value="{{old('fatigue_remarks', $d->fatigue_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="fever_yn" id="fever_yn" value="checkedValue" {{old('fever_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="fever_yn" id="fever_yn" value="checkedValue" {{(old('fever_yn') || $d->fever == 1)  ? 'checked' : ''}}>
                               Fever
                             </label>
                           </div>
                           <div id="fever_div" class="d-none">
                             <div class="form-group">
                               <label for="fever_onset">Fever Onset</label>
-                              <input type="date" class="form-control" name="fever_onset" id="fever_onset" value="{{old('fever_onset')}}">
+                              <input type="date" class="form-control" name="fever_onset" id="fever_onset" value="{{old('fever_onset', $d->fever_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="fever_remarks">Fever Remarks</label>
-                              <input type="text" class="form-control" name="fever_remarks" id="fever_remarks" value="{{old('fever_remarks')}}">
+                              <input type="text" class="form-control" name="fever_remarks" id="fever_remarks" value="{{old('fever_remarks', $d->fever_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="headache_yn" id="headache_yn" value="checkedValue" {{old('headache_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="headache_yn" id="headache_yn" value="checkedValue" {{(old('headache_yn') || $d->headache == 1) ? 'checked' : ''}}>
                               Headache
                             </label>
                           </div>
                           <div id="headache_div" class="d-none">
                             <div class="form-group">
                               <label for="headache_onset">Headache Onset</label>
-                              <input type="date" class="form-control" name="headache_onset" id="headache_onset" value="{{old('headache_onset')}}">
+                              <input type="date" class="form-control" name="headache_onset" id="headache_onset" value="{{old('headache_onset', $d->headache_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="headache_remarks">Headache Remarks</label>
-                              <input type="text" class="form-control" name="headache_remarks" id="headache_remarks" value="{{old('headache_remarks')}}">
+                              <input type="text" class="form-control" name="headache_remarks" id="headache_remarks" value="{{old('headache_remarks', $d->headache_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-check">
                               <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="jointpain_yn" id="jointpain_yn" value="checkedValue" {{old('jointpain_yn') ? 'checked' : ''}}>
+                                <input type="checkbox" class="form-check-input" name="jointpain_yn" id="jointpain_yn" value="checkedValue" {{(old('jointpain_yn') || $d->jointpain == 1) ? 'checked' : ''}}>
                                 Joint Pain
                               </label>
                             </div>
                             <div id="jointpain_div" class="d-none">
                               <div class="form-group">
                                 <label for="jointpain_onset">Joint Pain Onset</label>
-                                <input type="date" class="form-control" name="jointpain_onset" id="jointpain_onset" value="{{old('jointpain_onset')}}">
+                                <input type="date" class="form-control" name="jointpain_onset" id="jointpain_onset" value="{{old('jointpain_onset', $d->jointpain_onset)}}" max="{{date('Y-m-d')}}">
                               </div>
                               <div class="form-group">
                                 <label for="jointpain_remarks">Joint Pain Remarks</label>
-                                <input type="text" class="form-control" name="jointpain_remarks" id="jointpain_remarks" value="{{old('jointpain_remarks')}}">
+                                <input type="text" class="form-control" name="jointpain_remarks" id="jointpain_remarks" value="{{old('jointpain_remarks', $d->jointpain_remarks)}}">
                               </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="jaundice_yn" id="jaundice_yn" value="checkedValue" {{old('jaundice_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="jaundice_yn" id="jaundice_yn" value="checkedValue" {{(old('jaundice_yn') || $d->jaundice == 1) ? 'checked' : ''}}>
                               Jaundice
                             </label>
                           </div>
                           <div id="jaundice_div" class="d-none">
                             <div class="form-group">
                               <label for="jaundice_onset">Jaundice Onset</label>
-                              <input type="date" class="form-control" name="jaundice_onset" id="jaundice_onset" value="{{old('jaundice_onset')}}">
+                              <input type="date" class="form-control" name="jaundice_onset" id="jaundice_onset" value="{{old('jaundice_onset', $d->jaundice_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="jaundice_remarks">Jaundice Remarks</label>
-                              <input type="text" class="form-control" name="jaundice_remarks" id="jaundice_remarks" value="{{old('jaundice_remarks')}}">
+                              <input type="text" class="form-control" name="jaundice_remarks" id="jaundice_remarks" value="{{old('jaundice_remarks', $d->jaundice_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="lossofsmell_yn" id="lossofsmell_yn" value="checkedValue" {{old('lossofsmell_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="lossofsmell_yn" id="lossofsmell_yn" value="checkedValue" {{(old('lossofsmell_yn') || $d->lossofsmell == 1) ? 'checked' : ''}}>
                               Loss of Smell (Anosmia)
                             </label>
                           </div>
                           <div id="lossofsmell_div" class="d-none">
                             <div class="form-group">
                               <label for="lossofsmell_onset">Loss of Smell Onset</label>
-                              <input type="date" class="form-control" name="lossofsmell_onset" id="lossofsmell_onset" value="{{old('lossofsmell_onset')}}">
+                              <input type="date" class="form-control" name="lossofsmell_onset" id="lossofsmell_onset" value="{{old('lossofsmell_onset', $d->lossofsmell_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="lossofsmell_remarks">Loss of Smell Remarks</label>
-                              <input type="text" class="form-control" name="lossofsmell_remarks" id="lossofsmell_remarks" value="{{old('lossofsmell_remarks')}}">
+                              <input type="text" class="form-control" name="lossofsmell_remarks" id="lossofsmell_remarks" value="{{old('lossofsmell_remarks', $d->lossofsmell_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="lossoftaste_yn" id="lossoftaste_yn" value="checkedValue" {{old('lossoftaste_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="lossoftaste_yn" id="lossoftaste_yn" value="checkedValue" {{(old('lossoftaste_yn') || $d->lossoftaste == 1) ? 'checked' : ''}}>
                               Loss of Taste (Ageusia)
                             </label>
                           </div>
                           <div id="lossoftaste_div" class="d-none">
                             <div class="form-group">
                               <label for="lossoftaste_onset">Loss of Taste Onset</label>
-                              <input type="date" class="form-control" name="lossoftaste_onset" id="lossoftaste_onset" value="{{old('lossoftaste_onset')}}">
+                              <input type="date" class="form-control" name="lossoftaste_onset" id="lossoftaste_onset" value="{{old('lossoftaste_onset', $d->lossoftaste_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="lossoftaste_remarks">Loss of Taste Remarks</label>
-                              <input type="text" class="form-control" name="lossoftaste_remarks" id="lossoftaste_remarks" value="{{old('lossoftaste_remarks')}}">
+                              <input type="text" class="form-control" name="lossoftaste_remarks" id="lossoftaste_remarks" value="{{old('lossoftaste_remarks', $d->lossoftaste_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue" {{old('musclepain_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue" {{(old('musclepain_yn') || $d->musclepain == 1) ? 'checked' : ''}}>
                               Muscle Pain
                             </label>
                           </div>
                           <div id="musclepain_div" class="d-none">
                             <div class="form-group">
                               <label for="musclepain_onset">Muscle Pain Onset</label>
-                              <input type="date" class="form-control" name="musclepain_onset" id="musclepain_onset" value="{{old('musclepain_onset')}}">
+                              <input type="date" class="form-control" name="musclepain_onset" id="musclepain_onset" value="{{old('musclepain_onset', $d->musclepain_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="musclepain_remarks">Muscle Pain Remarks</label>
-                              <input type="text" class="form-control" name="musclepain_remarks" id="musclepain_remarks" value="{{old('musclepain_remarks')}}">
+                              <input type="text" class="form-control" name="musclepain_remarks" id="musclepain_remarks" value="{{old('musclepain_remarks', $d->musclepain_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="nausea_yn" id="nausea_yn" value="checkedValue" {{old('nausea_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="nausea_yn" id="nausea_yn" value="checkedValue" {{(old('nausea_yn') || $d->nausea == 1) ? 'checked' : ''}}>
                               Nausea
                             </label>
                           </div>
                           <div id="nausea_div" class="d-none">
                             <div class="form-group">
                               <label for="nausea_onset">Nausea Onset</label>
-                              <input type="date" class="form-control" name="nausea_onset" id="nausea_onset" value="{{old('nausea_onset')}}">
+                              <input type="date" class="form-control" name="nausea_onset" id="nausea_onset" value="{{old('nausea_onset', $d->nausea_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="nausea_remarks">Nausea Remarks</label>
-                              <input type="text" class="form-control" name="nausea_remarks" id="nausea_remarks" value="{{old('nausea_remarks')}}">
+                              <input type="text" class="form-control" name="nausea_remarks" id="nausea_remarks" value="{{old('nausea_remarks', $d->nausea_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="paralysis_yn" id="paralysis_yn" value="checkedValue" {{old('paralysis_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="paralysis_yn" id="paralysis_yn" value="checkedValue" {{(old('paralysis_yn') || $d->paralysis == 1) ? 'checked' : ''}}>
                               Paralysis
                             </label>
                           </div>
                           <div id="paralysis_div" class="d-none">
                             <div class="form-group">
                               <label for="paralysis_onset">Paralysis Onset</label>
-                              <input type="date" class="form-control" name="paralysis_onset" id="paralysis_onset" value="{{old('paralysis_onset')}}">
+                              <input type="date" class="form-control" name="paralysis_onset" id="paralysis_onset" value="{{old('paralysis_onset', $d->paralysis_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="paralysis_remarks">Paralysis Remarks</label>
-                              <input type="text" class="form-control" name="paralysis_remarks" id="paralysis_remarks" value="{{old('paralysis_remarks')}}">
+                              <input type="text" class="form-control" name="paralysis_remarks" id="paralysis_remarks" value="{{old('paralysis_remarks', $d->paralysis_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="rash_yn" id="rash_yn" value="checkedValue" {{old('rash_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="rash_yn" id="rash_yn" value="checkedValue" {{(old('rash_yn') || $d->rash == 1) ? 'checked' : ''}}>
                               Rash
                             </label>
                           </div>
                           <div id="rash_div" class="d-none">
                             <div class="form-group">
                               <label for="rash_onset">Rash Onset</label>
-                              <input type="date" class="form-control" name="rash_onset" id="rash_onset" value="{{old('rash_onset')}}">
+                              <input type="date" class="form-control" name="rash_onset" id="rash_onset" value="{{old('rash_onset', $d->rash_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group" >
                               <label for="rash_remarks">Rash Remarks</label>
-                              <input type="text" class="form-control" name="rash_remarks" id="rash_remarks" value="{{old('rash_remarks')}}">
+                              <input type="text" class="form-control" name="rash_remarks" id="rash_remarks" value="{{old('rash_remarks', $d->rash_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="mouthsore_yn" id="mouthsore_yn" value="checkedValue" {{old('mouthsore_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="mouthsore_yn" id="mouthsore_yn" value="checkedValue" {{(old('mouthsore_yn') || $d->mouthsore == 1) ? 'checked' : ''}}>
                               Sore Mouth
                             </label>
                           </div>
                           <div id="mouthsore_div" class="d-none">
                             <div class="form-group">
                               <label for="mouthsore_onset">Mouth Sore Onset</label>
-                              <input type="date" class="form-control" name="mouthsore_onset" id="mouthsore_onset" value="{{old('mouthsore_onset')}}">
+                              <input type="date" class="form-control" name="mouthsore_onset" id="mouthsore_onset" value="{{old('mouthsore_onset', $d->mouthsore_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="mouthsore_remarks">Mouth Sore Remarks</label>
-                              <input type="text" class="form-control" name="mouthsore_remarks" id="mouthsore_remarks" value="{{old('mouthsore_remarks')}}">
+                              <input type="text" class="form-control" name="mouthsore_remarks" id="mouthsore_remarks" value="{{old('mouthsore_remarks', $d->mouthsore_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="sorethroat_yn" id="sorethroat_yn" value="checkedValue" {{old('sorethroat_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="sorethroat_yn" id="sorethroat_yn" value="checkedValue" {{(old('sorethroat_yn') || $d->sorethroat == 1) ? 'checked' : ''}}>
                               Sore Throat
                             </label>
                           </div>
                           <div id="sorethroat_div" class="d-none">
                             <div class="form-group">
                               <label for="sorethroat_onset">Sore Throat Onset</label>
-                              <input type="date" class="form-control" name="sorethroat_onset" id="sorethroat_onset" value="{{old('sorethroat_onset')}}">
+                              <input type="date" class="form-control" name="sorethroat_onset" id="sorethroat_onset" value="{{old('sorethroat_onset', $d->sorethroat_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="sorethroat_remarks">Sore Throat Remarks</label>
-                              <input type="text" class="form-control" name="sorethroat_remarks" id="sorethroat_remarks" value="{{old('sorethroat_remarks')}}">
+                              <input type="text" class="form-control" name="sorethroat_remarks" id="sorethroat_remarks" value="{{old('sorethroat_remarks', $d->sorethroat_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="dyspnea_yn" id="dyspnea_yn" value="checkedValue" {{old('dyspnea_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="dyspnea_yn" id="dyspnea_yn" value="checkedValue" {{(old('dyspnea_yn') || $d->dyspnea == 1) ? 'checked' : ''}}>
                               Shortness of Breath (Dyspnea)
                             </label>
                           </div>
                           <div id="dyspnea_div" class="d-none">
                             <div class="form-group">
                               <label for="dyspnea_onset">Shortness of Breath Onset</label>
-                              <input type="date" class="form-control" name="dyspnea_onset" id="dyspnea_onset" value="{{old('dyspnea_onset')}}">
+                              <input type="date" class="form-control" name="dyspnea_onset" id="dyspnea_onset" value="{{old('dyspnea_onset', $d->dyspnea_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="dyspnea_remarks">Shortness of Breath Remarks</label>
-                              <input type="text" class="form-control" name="dyspnea_remarks" id="dyspnea_remarks" value="{{old('dyspnea_remarks')}}">
+                              <input type="text" class="form-control" name="dyspnea_remarks" id="dyspnea_remarks" value="{{old('dyspnea_remarks', $d->dyspnea_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="vomiting_yn" id="vomiting_yn" value="checkedValue" {{old('vomiting_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="vomiting_yn" id="vomiting_yn" value="checkedValue" {{(old('vomiting_yn') || $d->vomiting == 1) ? 'checked' : ''}}>
                               Vomiting
                             </label>
                           </div>
                           <div id="vomiting_div" class="d-none">
                             <div class="form-group">
                               <label for="vomiting_onset">Vomiting Onset</label>
-                              <input type="date" class="form-control" name="vomiting_onset" id="vomiting_onset" value="{{old('vomiting_onset')}}">
+                              <input type="date" class="form-control" name="vomiting_onset" id="vomiting_onset" value="{{old('vomiting_onset', $d->vomiting_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="vomiting_remarks">Vomiting Remarks</label>
-                              <input type="text" class="form-control" name="vomiting_remarks" id="vomiting_remarks" value="{{old('vomiting_remarks')}}">
+                              <input type="text" class="form-control" name="vomiting_remarks" id="vomiting_remarks" value="{{old('vomiting_remarks', $d->vomiting_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="weaknessofextremities_yn" id="weaknessofextremities_yn" value="checkedValue" {{old('weaknessofextremities_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="weaknessofextremities_yn" id="weaknessofextremities_yn" value="checkedValue" {{(old('weaknessofextremities_yn') || $d->weaknessofextremities == 1) ? 'checked' : ''}}>
                               Weakness of Extremities
                             </label>
                           </div>
                           <div id="weaknessofextremities_div" class="d-none">
                             <div class="form-group">
                               <label for="weaknessofextremities_onset">Weakness of Extremities Onset</label>
-                              <input type="date" class="form-control" name="weaknessofextremities_onset" id="weaknessofextremities_onset" value="{{old('weaknessofextremities_onset')}}">
+                              <input type="date" class="form-control" name="weaknessofextremities_onset" id="weaknessofextremities_onset" value="{{old('weaknessofextremities_onset', $d->weaknessofextremities_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
                               <label for="weaknessofextremities_remarks">Weakness of Extremities Remarks</label>
-                              <input type="text" class="form-control" name="weaknessofextremities_remarks" id="weaknessofextremities_remarks" value="{{old('weaknessofextremities_remarks')}}">
+                              <input type="text" class="form-control" name="weaknessofextremities_remarks" id="weaknessofextremities_remarks" value="{{old('weaknessofextremities_remarks', $d->weaknessofextremities_remarks)}}">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="other_symptoms_yn" id="other_symptoms_yn" value="checkedValue" {{old('other_symptoms_yn') ? 'checked' : ''}}>
+                              <input type="checkbox" class="form-check-input" name="other_symptoms_yn" id="other_symptoms_yn" value="checkedValue" {{(old('other_symptoms_yn') || $d->other_symptoms == 1) ? 'checked' : ''}}>
                               Others
                             </label>
                           </div>
@@ -519,11 +523,11 @@
                             <hr>
                             <div class="form-group">
                               <label for="other_symptoms_onset_remarks">Specify <i><small>(Can be separated with commas ",")</small></i></label>
-                              <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks')}}">
+                              <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks', $d->other_symptoms_onset_remarks)}}">
                             </div>
                             <div class="form-group">
                               <label for="other_symptoms_onset">Date of Onset</label>
-                              <input type="date" class="form-control" name="other_symptoms_onset" id="other_symptoms_onset" value="{{old('other_symptoms_onset')}}">
+                              <input type="date" class="form-control" name="other_symptoms_onset" id="other_symptoms_onset" value="{{old('other_symptoms_onset', $d->other_symptoms_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                           </div>
                         </div>
@@ -532,36 +536,28 @@
                 </div>
                 <div class="form-group">
                   <label for="bigmessage">Doctor's Note:</label>
-                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3">
-                    Assessment:
-                    
-                    
-                    Plan of Action:
-
-
-                    Diagnostic Procedure:
-                  </textarea>
+                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3">{{$d->bigmessage}}}</textarea>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                       <select class="form-control" name="outcome" id="outcome" required>
-                        <option value="ALIVE" {{(old('outcome') == 'ALIVE') ? 'selected' : ''}}>Alive (Active)</option>
-                        <option value="RECOVERED" {{(old('outcome') == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
-                        <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
+                        <option value="ALIVE" {{(old('outcome', $d->outcome) == 'ALIVE') ? 'selected' : ''}}>Alive (Active)</option>
+                        <option value="RECOVERED" {{(old('outcome', $d->outcome) == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
+                        <option value="DIED" {{(old('outcome', $d->outcome) == 'DIED') ? 'selected' : ''}}>Died</option>
                       </select>
                     </div>
                     <div id="if_recovered" class="d-none">
                       <div class="form-group">
                         <label for="outcome_recovered_date"><span class="text-danger font-weight-bold">*</span>Date Recovered</label>
-                        <input type="date" class="form-control" name="outcome_recovered_date" id="outcome_recovered_date" value="{{old('outcome_recovered_date')}}">
+                        <input type="date" class="form-control" name="outcome_recovered_date" id="outcome_recovered_date" value="{{old('outcome_recovered_date', $d->outcome_recovered_date)}}" max="{{date('Y-m-d')}}">
                       </div>
                     </div>
                     <div id="if_died" class="d-none">
                       <div class="form-group">
                         <label for="outcome_died_date"><span class="text-danger font-weight-bold">*</span>Date Died</label>
-                        <input type="date" class="form-control" name="outcome_died_date" id="outcome_died_date" value="{{old('outcome_died_date')}}">
+                        <input type="date" class="form-control" name="outcome_died_date" id="outcome_died_date" value="{{old('outcome_died_date', $d->outcome_died_date)}}" max="{{date('Y-m-d')}}">
                       </div>
                     </div>
                   </div>
@@ -570,8 +566,8 @@
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
-                        @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician') == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}}</option>
+                        @foreach($doclist as $dr)
+                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}}</option>
                         @endforeach
                       </select>
                     </div>
@@ -579,7 +575,22 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-block">Update (CTRL + S)</button>
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="submit" name="" id="" class="btn btn-primary btn-block" {{($d->brgy_verified == 1) ? 'disabled' : ''}} name="submit" value="verify_brgy">Mark as Verified (BRGY)</button>
+                  @if($d->brgy_verified == 1)
+                  <p class="text-center">BRGY Verified at: {{date('m/d/Y h:i A', strtotime($d->brgy_verified_date))}}, by: {{$d->getBrgyVerifiedBy->name}}</p>
+                  @endif
+                </div>
+                <div class="col-md-6">
+                  <button type="submit" name="" id="" class="btn btn-primary btn-block" {{(in_array('GLOBAL_ADMIN', explode(",", auth()->user()->permission_list)) || in_array('ITR_ADMIN', explode(",", auth()->user()->permission_list)) || in_array('ITR_ENCODER', explode(",", auth()->user()->permission_list))) ? ($d->cesu_verified == 1) ? 'disabled' : '' : 'disabled'}} name="submit" value="verify_cesu">Mark as Verified (CESU)</button>
+                  @if($d->cesu_verified == 1)
+                  <p class="text-center">CESU Verified at: {{date('m/d/Y h:i A', strtotime($d->cesu_verified_date))}}, by: {{$d->getCesuVerifiedBy->name}}</p>
+                  @endif
+                </div>
+              </div>
+              <hr>
+                <button type="submit" class="btn btn-success btn-block" name="submit" value="update">Update (CTRL + S)</button>
             </div>
         </div>
     </form>

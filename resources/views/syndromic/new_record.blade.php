@@ -81,11 +81,11 @@
                       </div>
                       <div class="form-group">
                         <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted</label>
-                        <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted')}}">
+                        <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted')}}" max="{{date('Y-m-d')}}">
                       </div>
                       <div class="form-group">
                         <label for="date_released">Date Released</label>
-                        <input type="date" class="form-control" name="date_released" id="date_released" value="{{old('date_released')}}">
+                        <input type="date" class="form-control" name="date_released" id="date_released" value="{{old('date_released')}}" max="{{date('Y-m-d')}}">
                       </div>
                     </div>
                   </div>
@@ -580,7 +580,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-block">Save</button>
+                <button type="submit" class="btn btn-success btn-block">Save (CTRL + S)</button>
             </div>
         </div>
     </form>

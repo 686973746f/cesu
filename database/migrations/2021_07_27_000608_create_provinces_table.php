@@ -21,6 +21,7 @@ class CreateProvincesTable extends Migration
             $table->string('provinceName');
             $table->text('json_code')->nullable();
             $table->text('alt_name')->nullable();
+            $table->integer('population')->nullable();
         });
     }
 
