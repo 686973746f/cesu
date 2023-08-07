@@ -773,4 +773,8 @@ class VaxcertController extends Controller
             'get_total_current_month' => $get_total_current_month,
         ]);
     }
+
+    public function walkinmenu() {
+        return view('vaxcert.walkin_menu');
+    }
 }

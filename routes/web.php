@@ -450,7 +450,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 });
 
 //VAXCERT (WALK IN)
-Route::get('/vaxcert', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin');
+Route::get('/vaxcert', [VaxcertController::class, 'walkinmenu'])->name('vaxcert_walkin');
+Route::get('/vaxcert/sendticket', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin_file');
 Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
 Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
 
