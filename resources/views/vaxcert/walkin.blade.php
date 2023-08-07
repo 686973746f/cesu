@@ -28,13 +28,7 @@
                         <ul>
                             <h4 class="text-danger"><b>BASAHIN ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
                             <li>Lahat ng field na may asterisk (<span class="text-danger font-weight-bold">*</span>) ay kailangang sagutan. Ilagay ang kumpleto at totoong impormasyon na hinihingi. I-double check ang mga inilagay na detalye bago isumite.</li>
-                            <li>Tungkol sa "Nawawalang Bakuna/Missing Dose", tanging mga bakunahan lamang sa General Trias ang aming mar-resolba. Kung ang bakunang nawawala ay hindi dito sa Gentri binakunahan ay makipag-ugnayan sa bayan kung saan ka binakunahan upang maayos nila ito.</li>
-                            <!--<li>Inirerekumenda naming mag-submit muna kayo ng "Update Record" ticket ng inyong isyu sa <a href="https://vaxcert.doh.gov.ph/#/">VaxCertPH Website</a> upang mas mabilis namin kayong matulungan. Ilagay ito sa <i>"VaxCertPH Ticket Reference No."</i> na makikita sa ibaba.</li>-->
-                            <li>Mag-antay ng dalawa (2) hanggang tatlong (3) araw upang maayos namin ang inyong concern.  Maglagay ng aktibong mobile number at email address upang mabilis namin kayong makontak tungkol sa inyong concern.</li>
-                        </ul>
-                        <hr>
-                        <ul>
-                            <li>Ihanda ang litrato ng iyong <b>1.</b> Vaccination Card at <b>2.</b> Valid ID <i>(Passport, National ID, Postal ID, Philhealth ID, UMID, etc.)</i> at Affidavit <i>(Kung papalitan ang apelyido dahil kinasal)</i> na kailangan upang mai-sumite ang iyong form.</li>
+                            <li>Mag-antay ng dalawa (2) hanggang tatlong (3) araw upang maayos namin ang inyong concern.  Ilagay ang iyong aktibong mobile number at email address sa pag-fill out sa ibaba upang mabilis namin kayong mabalitaan tungkol sa inyong concern.</li>
                         </ul>
                     </div>
                     <div class="row">
@@ -515,13 +509,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                <label for="id_file"><span class="text-danger font-weight-bold">*</span>Upload Valid ID/Birth Certificate/Affidavit Picture</label>
+                                <label for="id_file"><span class="text-danger font-weight-bold">*</span>Upload Valid ID/Birth Certificate/Affidavit Picture here</label>
                                 <input type="file" class="form-control-file" name="id_file" id="id_file" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="vaxcard_file"><span class="text-danger font-weight-bold">*</span>Upload Vaccination Card Picture</label>
+                                    <label for="vaxcard_file"><span class="text-danger font-weight-bold">*</span>Upload Vaccination Card/s Picture here (<b class="text-danger">Note:</b> Isama sa picture lahat ng dose na mayroon ka)</label>
                                     <input type="file" class="form-control-file" name="vaxcard_file" id="vaxcard_file" required>
                                 </div>
                             </div>
@@ -557,24 +551,38 @@
                 </div>
                 <div class="modal-body">
                     <div id="choice1">
-                        <div class="alert alert-info text-center" role="alert">
-                            <h4 class="text-danger"><b>BASAHIN MUNA ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="text-danger text-center"><b>BASAHIN MUNA ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
                             <!--
                             <h6>Kung ikaw ay nais lamang kumuha ng VaxCert at wala namang problema sa record mo, hindi mo na kailangan magpatuloy dito at dumiretso na lang sa mismong VaxCert website upang makapag-generate.</h6>
                             <h6>Pindutin lang ang link na ito ☛ <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph</a></b></h6>
                             <hr>
                             -->
-                            Hindi po talaga nalabas ang Middle Name/Gitnang Pangalan kapag gagamitin sa Abroad ang VaxCert.
-                            <hr>
-                            Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate <i>(via text/call/email or pumunta sa mismong opisina nila)</i> kung saan ka binakunahan dahil sila ang may permission sa system upang maayos ang record mo.
-                            <hr>
-                            Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">GenTrias Official Facebook Page</a>). Magdala lamang ng Valid ID at Affidavit of Loss.</i>
-                            <hr>
-                            <b>LIBRE PO</b> ang magpaayos ng VaxCert Record.
+                            Ihanda ang picture ng iyong:
+                            <ul>
+                                <li><b>Vaccination Card</b> (<i><b class="text-danger">Note:</b> Pakisigurado na kasama sa picture lahat ng bakunang natanggap mo</i>)</li>
+                                <li><b>Valid IDs</b> katulad ng:
+                                    <ul>
+                                        <li>Passport, National ID, Postal ID, Philhealth ID, SSS/UMID, Voters ID, etc. <i>(As long as may nakasulat na Birthdate)</i></li>
+                                        <li>Kung wala sa mga nabanggit, maaaring mag-provide ng <b>Birth Certificate</b></li>
+                                        <li>Para sa magpapapalit ng Apelyido/Surname dahil sa Kasal o Annulment, mag-provide ng picture ng iyong Affidavit.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="text-center">
+                                <hr>
+                                Hindi po talaga nalabas ang Middle Name/Gitnang Pangalan kapag gagamitin sa Abroad ang VaxCert.
+                                <hr>
+                                Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate kung saan ka binakunahan <i>(via text/call/email or pumunta sa mismong opisina nila)</i> dahil sila ang may kontrol/permisong mag-update ng record mo.
+                                <hr>
+                                Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">GenTrias Official FB Page</a>). Magdala lamang ng Photocopy ng Valid ID/Birth Certificate at Affidavit of Loss.</i>
+                                <hr>
+                                <b>LIBRE PO</b> ang magpaayos ng VaxCert Record.
+                            </div>
                         </div>
                         <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Mag-file ng bagong Ticket <i>(No Record Found/Missing Doses/etc.)</i></button>
                         @if(date('w') == 6 || date('w') == 0)
-                        <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes ng umaga.</h6>
+                        <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes.</h6>
                         @endif
                         <hr>
                         <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Follow-up Concern Status</button>
