@@ -1018,8 +1018,9 @@ class ABTCReportController extends Controller
             ->where('address_muncity_text', 'GENERAL TRIAS');
         })->where('outcome', 'D');
 
-        $rabiesdeath = Rabies::where('muncity', 'GENERAL TRIAS')
-        ->where('province', 'CAVITE');
+        $rabiesdeath = Rabies::where('Muncity', 'GENERAL TRIAS')
+        ->where('Province', 'CAVITE')
+        ->where('enabled', 1);
 
         $ag1m = AbtcBakunaRecords::whereHas('patients', function ($q) {
             $q->where('address_province_text', 'CAVITE')
