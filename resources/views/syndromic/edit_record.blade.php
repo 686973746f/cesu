@@ -590,13 +590,25 @@
                 </div>
               </div>
               <hr>
-                <button type="submit" class="btn btn-success btn-block" name="submit" value="update">Update (CTRL + S)</button>
+                <button type="submit" class="btn btn-success btn-block" name="submit" value="update" id="submitBtn">Update (CTRL + S)</button>
             </div>
         </div>
     </form>
 </div>
 
 <script>
+  $(document).bind('keydown', function(e) {
+      if(e.ctrlKey && (e.which == 83)) {
+          e.preventDefault();
+          $('#submitBtn').trigger('click');
+          $('#submitBtn').prop('disabled', true);
+          setTimeout(function() {
+              $('#submitBtn').prop('disabled', false);
+          }, 2000);
+          return false;
+      }
+  });
+
   $('#fever_yn').change(function (e) { 
     e.preventDefault();
     if($(this).prop('checked')) {

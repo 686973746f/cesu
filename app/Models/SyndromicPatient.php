@@ -96,4 +96,34 @@ class SyndromicPatient extends Model
             return $txt;
         }
     }
+
+    public function getBrgyId() {
+        $get_province_id = Provinces::where('provinceName', $this->address_province_text)->pluck('id')->first();
+
+        $get_city_id = City::where('province_id', $get_province_id)->where('cityName', $this->address_muncity_text)->pluck('id')->first();
+
+        $get_brgy_id = Brgy::where('city_id', $get_city_id)->where('brgyName', $this->address_brgy_text)->pluck('id')->first();
+
+        return $get_brgy_id;
+    }
+
+    public function userHasPermissionToAccess() {
+        if(in_array("GLOBAL_ADMIN", auth()->user()->getPermissions()) || in_array("ITR_ADMIN", auth()->user()->getPermissions()) || in_array("ITR_ENCODER", auth()->user()->getPermissions())) {
+            return true;
+        }
+        else {
+            if(auth()->user()->id == $this->created_by) {
+                return true;
+            }
+            else if($this->getBrgyId() == auth()->user()->brgy_id) {
+                return true;
+            }
+            else if(in_array(auth()->user()->id, explode(",", $this->shared_access_list))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
 }

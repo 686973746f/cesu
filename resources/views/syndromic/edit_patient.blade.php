@@ -182,7 +182,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Update (CTRL + S)</button>
+                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Update (CTRL + S)</button>
                 </div>
             </div>
         </form>

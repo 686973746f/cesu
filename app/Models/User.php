@@ -363,4 +363,8 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
     }
+
+    public function getPermissions() {
+        return explode(",", $this->permission_list);
+    }
 }

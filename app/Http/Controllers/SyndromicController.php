@@ -17,32 +17,43 @@ class SyndromicController extends Controller
         $plist = explode(",", auth()->user()->permission_list);
 
         if(in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
-            $uv = SyndromicRecords::where('brgy_verified', 0)
-            ->whereHas('syndromic_patient', function ($q) {
-                $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
-                ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
-                ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
-            })
-            ->orderBy('created_at', 'DESC')
-            ->get();
+            if(!(request()->input('q'))) {
+                $uv = SyndromicRecords::where('brgy_verified', 0)
+                ->whereHas('syndromic_patient', function ($q) {
+                    $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                    ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                    ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
+                })
+                ->orderBy('created_at', 'ASC')
+                ->paginate(10);
 
-            $v = SyndromicRecords::where('brgy_verified', 1)
-            ->whereHas('syndromic_patient', function ($q) {
-                $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
-                ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
-                ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
-            })
-            ->orderBy('brgy_verified_date', 'DESC')
-            ->get();
+                $v = SyndromicRecords::where('brgy_verified', 1)
+                ->whereHas('syndromic_patient', function ($q) {
+                    $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                    ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                    ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
+                })
+                ->orderBy('brgy_verified_date', 'DESC')
+                ->paginate(10);
+            }
+            else {
+
+            }
         }
         else {
-            $uv = SyndromicRecords::where('brgy_verified', 0)
-            ->orderBy('created_at', 'DESC')
-            ->get();
+            if(!(request()->input('q'))) {
+                $uv = SyndromicRecords::where('brgy_verified', 0)
+                ->orderBy('created_at', 'ASC')
+                ->paginate(10);
 
-            $v = SyndromicRecords::where('brgy_verified', 1)
-            ->orderBy('brgy_verified_date', 'DESC')
-            ->get();
+                $v = SyndromicRecords::where('brgy_verified', 1)
+                ->orderBy('brgy_verified_date', 'DESC')
+                ->paginate(10);
+            }
+            else {
+
+            }
+            
         }
         
         return view('syndromic.home', [
@@ -371,9 +382,14 @@ class SyndromicController extends Controller
     public function viewPatient($patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        return view('syndromic.edit_patient', [
-            'd' => $d,
-        ]);
+        if($d->userHasPermissionToAccess()) {
+            return view('syndromic.edit_patient', [
+                'd' => $d,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function updatePatient($patient_id, Request $request) {
@@ -409,14 +425,16 @@ class SyndromicController extends Controller
             'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
         ]);
 
-        
+        return redirect()->back()
+        ->with('msg', 'Patient record was updated successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function viewRecord($record_id) {
         $r = SyndromicRecords::findOrFail($record_id);
         $doclist = SyndromicDoctor::get();
 
-        if($r->canAccessRecord()) {
+        if($r->syndromic_patient->userHasPermissionToAccess()) {
             return view('syndromic.edit_record', [
                 'd' => $r,
                 'doclist' => $doclist,

@@ -164,6 +164,7 @@ class SyndromicRecords extends Model
         return $this->belongsTo(User::class, 'brgy_verified_by');
     }
 
+    /*
     public function canAccessRecord() {
         $perm_list = explode(',', auth()->user()->permission_list);
 
@@ -179,6 +180,7 @@ class SyndromicRecords extends Model
             }
         }
     }
+    */
 
     public function listSymptoms() {
         $list = [];
