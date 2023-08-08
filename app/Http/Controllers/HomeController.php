@@ -84,8 +84,6 @@ class HomeController extends Controller
 
         $paswabctr = PaSwabDetails::where('status', 'pending')->count();
 
-        
-
         foreach($period as $date) {
             $num = Forms::whereDate('testDateCollected1', $date->format('Y-m-d'))
             ->orWhereDate('testDateCollected2', $date->format('Y-m-d'))->count();
