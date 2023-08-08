@@ -368,12 +368,48 @@ class SyndromicController extends Controller
         }        
     }
 
-    public function viewPatient() {
+    public function viewPatient($patient_id) {
+        $d = SyndromicPatient::findOrFail($patient_id);
 
+        return view('syndromic.edit_patient', [
+            'd' => $d,
+        ]);
     }
 
-    public function updatePatient() {
+    public function updatePatient($patient_id, Request $request) {
+        $u = SyndromicPatient::where('id', $patient_id)
+        ->update([
+            'lname' => mb_strtoupper($request->lname),
+            'fname' => mb_strtoupper($request->fname),
+            'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
+            'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+            'bdate' => $request->bdate,
+            'gender' => $request->gender,
+            'cs' => $request->cs,
+            'spouse_name' => ($request->cs == 'MARRIED') ? $request->spouse_name : NULL,
+            'email' => $request->email,
+            'contact_number' => $request->contact_number,
+            'contact_number2' => $request->contact_number2,
 
+            'mother_name' => $request->mother_name,
+            'father_name' => $request->father_name,
+
+            'address_region_code' => $request->address_region_code,
+            'address_region_text' => $request->address_region_text,
+            'address_province_code' => $request->address_province_code,
+            'address_province_text' => $request->address_province_text,
+            'address_muncity_code' => $request->address_muncity_code,
+            'address_muncity_text' => $request->address_muncity_text,
+            'address_brgy_code' => $request->address_brgy_text,
+            'address_brgy_text' => $request->address_brgy_text,
+            'address_street' => mb_strtoupper($request->address_street),
+            'address_houseno' => mb_strtoupper($request->address_houseno),
+
+            'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
+            'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
+        ]);
+
+        
     }
 
     public function viewRecord($record_id) {
@@ -397,14 +433,9 @@ class SyndromicController extends Controller
         $perm_list = explode(",", auth()->user()->permission_list);
         
         if($r->submit == 'update') {
-
-            $d->chief_complain = mb_strtoupper($r->chief_complain);
-            
-            /*
-            $c = $r->user()->syndromicrecord()->create([
+            $u = SyndromicRecords::where('id', $d->id)
+            ->update([
                 'chief_complain' => mb_strtoupper($r->chief_complain),
-                'syndromic_patient_id' => $p->id,
-                'opdno' => $getopd_num,
                 'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,
                 'bloodpressure' => $r->bloodpressure,
@@ -488,7 +519,7 @@ class SyndromicController extends Controller
                 'other_symptoms' => ($r->other_symptoms_yn) ? 1 : 0,
                 'other_symptoms_onset' => ($r->other_symptoms_yn) ? $r->other_symptoms_onset : NULL,
                 'other_symptoms_onset_remarks' => ($r->other_symptoms_yn) ? $r->other_symptoms_onset_remarks : NULL,
-
+                
                 'is_hospitalized' => ($r->is_hospitalized == 'Y') ? 1 : 0,
                 'date_admitted' => ($r->is_hospitalized == 'Y') ? $r->date_admitted : NULL,
                 'date_released' => ($r->is_hospitalized == 'Y') ? $r->date_released : NULL,
@@ -502,56 +533,42 @@ class SyndromicController extends Controller
                 'name_of_physician' => $r->name_of_physician,
                 'dru_name'=> SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name,
 
-                'brgy_verified' => (in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) ? 1 : 0,
-                'brgy_verified_date' => (in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) ? date('Y-m-d H:i:s') : NULL,
-                'brgy_verified_by' => (in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) ? auth()->user()->id : NULL,
+                'updated_by' => auth()->user()->id,
+            ]);
 
-                'cesu_verified' => (in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) ? 1 : 0,
-                'cesu_verified_date' => (in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) ? date('Y-m-d H:i:s') : NULL,
-                'cesu_verified_by' => (in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) ? auth()->user()->id : NULL,
-    
-                'age_years' => $get_ageyears,
-                'age_months' => $get_agemonths,
-                'age_days' => $get_agedays,
-
-                'qr' => $for_qr,
-            */
+            $msg = 'Record was updated successfully';
         }
         else if($r->submit == "verify_cesu") {
-            
-            if(in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) {
-                $d->cesu_verified = 1;
-                $d->cesu_verified_date = date('Y-m-d H:i:s');
-                $d->cesu_verified_by = auth()->user()->id;
+            if($d->cesu_verified == 0) {
+                if(in_array('GLOBAL_ADMIN', $perm_list) || in_array('ITR_ADMIN', $perm_list) || in_array('ITR_ENCODER', $perm_list)) {
+                    $d->cesu_verified = 1;
+                    $d->cesu_verified_date = date('Y-m-d H:i:s');
+                    $d->cesu_verified_by = auth()->user()->id;
+
+                    $d->save();
+                }
             }
 
             $msg = 'Record was marked verified by CESU successfully';
         }
         else if($r->submit == "verify_brgy") {
-            if(in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) {
-                $d->brgy_verified = 1;
-                $d->brgy_verified_date = date('Y-m-d H:i:s');
-                $d->brgy_verified_by = auth()->user()->id;
+
+            if($d->brgy_verified == 0) {
+                if(in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) {
+                    $d->brgy_verified = 1;
+                    $d->brgy_verified_date = date('Y-m-d H:i:s');
+                    $d->brgy_verified_by = auth()->user()->id;
+    
+                    $d->save();
+                }
             }
 
             $msg = 'Record was marked verified by Barangay successfully';
         }
 
-        if($d->isDirty()) {
-            $d->save();
-        }
-
         return redirect()->back()
         ->with('msg', $msg)
         ->with('msgtype', 'success');
-    }
-
-    public function cesuVerifyInit() {
-
-    }
-
-    public function brgyVerifyInit() {
-
     }
 
     public function generateMedCert($record_id) {

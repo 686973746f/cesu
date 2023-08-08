@@ -129,6 +129,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -169,6 +170,7 @@ class PidsrWndr extends Command
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DAdmit,
                         'aefi_type' => $i->Kaso,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -207,6 +209,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -246,6 +249,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -283,6 +287,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -320,6 +325,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -357,6 +363,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -394,6 +401,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -433,6 +441,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -470,6 +479,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -507,6 +517,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -544,6 +555,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -581,6 +593,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -618,6 +631,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -655,6 +669,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -692,6 +707,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -729,6 +745,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -766,6 +783,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -803,6 +821,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -840,6 +859,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -877,6 +897,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -914,6 +935,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -951,6 +973,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -988,6 +1011,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -1025,6 +1049,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }
@@ -1062,6 +1087,7 @@ class PidsrWndr extends Command
                         'brgy' => $i->Barangay,
                         'address' => $i->Barangay.', '.$i->Streetpurok,
                         'doe' => $i->DateOfEntry,
+                        'dru' => $i->NameOfDru,
                     ]);
                 }
             }

@@ -208,10 +208,10 @@
         theme: 'bootstrap',
     });
 
-    var rdefault = '{{$d->address_region_code}}';
-    var pdefault = '{{$d->address_province_code}}';
-    var cdefault = '{{$d->address_muncity_code}}';
-    var bdefault = '{{$d->address_brgy_text}}';
+    var rdefault = "{{old('address_region_code', $d->address_region_code)}}";
+    var pdefault = "{{old('address_province_code', $d->address_province_code)}}";
+    var cdefault = "{{old('address_muncity_code', $d->address_muncity_code)}}";
+    var bdefault = "{{old('address_brgy_text', $d->address_brgy_text)}}";
 
     //Region Select Initialize
     $.getJSON("{{asset('json/refregion.json')}}", function(data) {

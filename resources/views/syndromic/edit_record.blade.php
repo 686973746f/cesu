@@ -9,7 +9,7 @@
     <form action="{{route('syndromic_updatePatient', $d->id)}}" method="POST">
         @csrf
         <div class="card">
-            <div class="card-header"><b>Edit ITR</b> | Patient: {{$d->syndromic_patient->getName()}}</div>
+            <div class="card-header"><b>Edit ITR</b> | Patient: <a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}}</a></div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">

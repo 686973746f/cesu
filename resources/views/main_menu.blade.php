@@ -16,8 +16,8 @@
             @endif
             @if(auth()->user()->canAccessSyndromic())
             <a href="{{route('syndromic_home')}}" class="btn btn-block btn-primary">Syndromic (Individual Treatment Records - ITR)</a>
-            @endif
             <hr>
+            @endif
             @if(auth()->user()->canAccessPidsr())
             <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary">PIDSR (Integrated)</a>
             @endif
