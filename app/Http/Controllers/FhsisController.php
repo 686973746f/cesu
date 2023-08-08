@@ -1309,7 +1309,11 @@ class FhsisController extends Controller
     public function pquery() {
         ini_set('max_execution_time', 9999999999);
 
-        $filePath = 'D:\laragon\www\cesu\storage\app\efhsis\output.sql';
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $filePath = 'D:\laragon\www\cesu\storage\app\efhsis\output.sql';
+        } else {
+            $filePath = storage_path('app/efhsis/output.sql');
+        }
 
         $sql = file_get_contents($filePath);
 
