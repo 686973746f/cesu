@@ -385,7 +385,7 @@
                         <div class="card">
                             <div class="card-header">Approved by</div>
                             <div class="card-body text-center">
-                                <img src="{{asset('assets/images/SIR LOU PIRMA.PNG')}}" class="img-fluid" style="margin-bottom:-120px;width: 30rem;">
+                                <img src="{{asset('assets/images/SIR_LOU_PIRMA.png')}}" class="img-fluid" style="margin-bottom:-120px;width: 30rem;">
                                 <h5><b>LUIS P. BROAS, RN, RPh, MAN</b></h5>
                                 <h5>Nurse II/CESU Head</h5>
                             </div>
