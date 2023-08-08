@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Brgy;
+use App\Models\Rabies;
 use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
@@ -1017,6 +1018,9 @@ class ABTCReportController extends Controller
             ->where('address_muncity_text', 'GENERAL TRIAS');
         })->where('outcome', 'D');
 
+        $rabiesdeath = Rabies::where('muncity', 'GENERAL TRIAS')
+        ->where('province', 'CAVITE');
+
         $ag1m = AbtcBakunaRecords::whereHas('patients', function ($q) {
             $q->where('address_province_text', 'CAVITE')
             ->where('address_muncity_text', 'GENERAL TRIAS')
@@ -1222,7 +1226,11 @@ class ABTCReportController extends Controller
                 ->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_brgy_text', $b->brgyName)
                 ->where('gender', 'MALE');
-            });            
+            });
+
+            ${'bgrd'. $bctr} = Rabies::where('Muncity', 'GENERAL TRIAS')
+            ->where('Province', 'CAVITE')
+            ->where('Barangay', $b->brgyName);
 
             //${'bgf'. $bctr} = ${'bgt' . $bctr} - ${'bgm' . $bctr};
 
@@ -1243,6 +1251,8 @@ class ABTCReportController extends Controller
             $tcasesi = $tcasesi->whereYear('case_date', $sy);
 
             $tcasesd = $tcasesd->whereYear('case_date', $sy);
+
+            $rabiesdeath = $rabiesdeath->where('Year', $sy);
 
             $ag1m = $ag1m->whereYear('case_date', $sy);
             
@@ -1313,6 +1323,8 @@ class ABTCReportController extends Controller
 
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy);
 
+                ${'bgrd'. $bctr} = ${'bgrd'. $bctr}->where('Year', $sy);
+
                 //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
                 $bctr++;
@@ -1356,6 +1368,9 @@ class ABTCReportController extends Controller
 
             $tcasesd = $tcasesd->whereYear('case_date', $sy)
             ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
+
+            $rabiesdeath = $rabiesdeath->where('Year', $sy)
+            ->whereBetween('DateOfEntry', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $ag1m = $ag1m->whereYear('case_date', $sy)
             ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
@@ -1458,6 +1473,9 @@ class ABTCReportController extends Controller
 
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
                 ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
+
+                ${'bgrd'. $bctr} = ${'bgrd'. $bctr}->where('Year', $sy)
+                ->whereBetween('DateOfEntry', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
                 //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
@@ -1518,6 +1536,9 @@ class ABTCReportController extends Controller
             $tcasesd = $tcasesd->whereYear('case_date', $sy)
             ->whereMonth('case_date', $month);
 
+            $rabiesdeath = $rabiesdeath->where('Year', $sy)
+            ->where('MorbidityMonth', $month);
+
             $ag1m = $ag1m->whereYear('case_date', $sy)
             ->whereMonth('case_date', $month);
             
@@ -1619,6 +1640,9 @@ class ABTCReportController extends Controller
 
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
                 ->whereMonth('case_date', $month);
+
+                ${'bgrd'. $bctr} = ${'bgrd'. $bctr}->where('Year', $sy)
+                ->where('MorbidityMonth', $month);
 
                 //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
@@ -1642,6 +1666,9 @@ class ABTCReportController extends Controller
             $tcasesd = $tcasesd->whereYear('case_date', $sy)
             ->whereRaw('WEEK(case_date) = ?', [$week]);
 
+            $rabiesdeath = $rabiesdeath->where('Year', $sy)
+            ->where('MorbidityWeek', $week);
+
             $ag1m = $ag1m->whereYear('case_date', $sy)
             ->whereRaw('WEEK(case_date) = ?', [$week]);
             
@@ -1744,6 +1771,9 @@ class ABTCReportController extends Controller
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->whereYear('case_date', $sy)
                 ->whereRaw('WEEK(case_date) = ?', [$week]);
 
+                ${'bgrd'. $bctr} = ${'bgrd'. $bctr}->where('Year', $sy)
+                ->where('MorbidityWeek', $week);
+
                 //${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
                 $bctr++;
@@ -1760,6 +1790,8 @@ class ABTCReportController extends Controller
             $tcasesi = $tcasesi->count();
 
             $tcasesd = $tcasesd->count();
+
+            $rabiesdeath = $rabiesdeath->count();
 
             $ag1m = $ag1m->count();
             
@@ -1826,9 +1858,11 @@ class ABTCReportController extends Controller
             $bctr = 1;
 
             foreach($bgy as $b) {
+                ${'bgrd'. $bctr} = ${'bgrd'. $bctr}->count();
+
                 ${'bgt'. $bctr} = ${'bgt'. $bctr}->count();
 
-                ${'bgm'. $bctr} = ${'bgm'. $bctr}->count();
+                ${'bgm'. $bctr} = ${'bgm'. $bctr}->count(); 
 
                 ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
 
@@ -1846,6 +1880,8 @@ class ABTCReportController extends Controller
             $tcasesi = $tcasesi->where('vaccination_site_id', $vid)->count();
 
             $tcasesd = $tcasesd->where('vaccination_site_id', $vid)->count();
+
+            $rabiesdeath = $rabiesdeath->count();
 
             $ag1m = $ag1m->where('vaccination_site_id', $vid)->count();
             
@@ -1912,12 +1948,14 @@ class ABTCReportController extends Controller
             $bctr = 1;
 
             foreach($bgy as $b) {
+                ${'bgrd'. $bctr} = ${'bgrd'. $bctr}->count();
+
                 ${'bgt'. $bctr} = ${'bgt'. $bctr}->where('vaccination_site_id', $vid)->count();
 
                 ${'bgm'. $bctr} = ${'bgm'. $bctr}->where('vaccination_site_id', $vid)->count();
 
                 ${'bgf'. $bctr} = ${'bgt'. $bctr} - ${'bgm'. $bctr};
-
+                
                 $bctr++;
             }
         }
@@ -1929,10 +1967,10 @@ class ABTCReportController extends Controller
         $templateProcessor->setValue('duration', $txt1);
         $templateProcessor->setValue('branch', $dbranch);
         
-        $templateProcessor->setValue('tcases', number_format($tcases));
+        $templateProcessor->setValue('tcases', number_format($tcases + $rabiesdeath));
         $templateProcessor->setValue('tcasesc', number_format($tcasesc));
         $templateProcessor->setValue('tcasesi', number_format($tcasesi));
-        $templateProcessor->setValue('tcasesd', number_format($tcasesd));
+        $templateProcessor->setValue('tcasesd', number_format($tcasesd + $rabiesdeath));
 
         $templateProcessor->setValue('ag1m', number_format($ag1m));
         $templateProcessor->setValue('ag2m', number_format($ag2m));
@@ -1978,6 +2016,7 @@ class ABTCReportController extends Controller
         $bctr = 1;
         $mgt = 0;
         $fgt = 0;
+        $bgrdt = 0;
         $tgt = 0;
 
         foreach($bgy as $b) {
@@ -1987,14 +2026,31 @@ class ABTCReportController extends Controller
             $templateProcessor->setValue('bgf'.$bctr, ${'bgf'.$bctr});
             $fgt += ${'bgf'.$bctr};
 
-            $templateProcessor->setValue('bgt'.$bctr, ${'bgt'.$bctr});
-            $tgt += ${'bgt'.$bctr};
+            if(${'bgrd'.$bctr} == 0) {
+                $templateProcessor->setValue('bgrd'.$bctr, '');
+            }
+            else {
+                $templateProcessor->setValue('bgrd'.$bctr, ${'bgrd'.$bctr});
+            }
+            
+            $bgrdt += ${'bgrd'.$bctr};
+            
+            if(${'bgrd'.$bctr} == '') {
+                $bgrdt_final = 0;
+            }
+            else {
+                $bgrdt_final = ${'bgrd'.$bctr};
+            }
+
+            $templateProcessor->setValue('bgt'.$bctr, ${'bgt'.$bctr} + $bgrdt_final);
+            $tgt += ${'bgt'.$bctr} + ${'bgrd'.$bctr};
 
             $bctr++;
         }
 
         $templateProcessor->setValue('bgmg', number_format($mgt));
         $templateProcessor->setValue('bgfg', number_format($fgt));
+        $templateProcessor->setValue('bgrdg', number_format($bgrdt));
         $templateProcessor->setValue('bgtt', number_format($tgt));
 
         ob_clean();
