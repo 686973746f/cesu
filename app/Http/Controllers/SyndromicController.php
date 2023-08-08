@@ -397,6 +397,9 @@ class SyndromicController extends Controller
         $perm_list = explode(",", auth()->user()->permission_list);
         
         if($r->submit == 'update') {
+
+            $d->chief_complain = mb_strtoupper($r->chief_complain);
+            
             /*
             $c = $r->user()->syndromicrecord()->create([
                 'chief_complain' => mb_strtoupper($r->chief_complain),
