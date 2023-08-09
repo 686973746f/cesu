@@ -18,8 +18,14 @@ class SyndromicController extends Controller
 
         if(in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
             if(!(request()->input('q'))) {
-                $uv = SyndromicRecords::where('brgy_verified', 0)
-                ->whereHas('syndromic_patient', function ($q) {
+                if(!(request()->input('showVerified'))) {
+                    $ll = SyndromicRecords::where('brgy_verified', 0);
+                }
+                else {
+                    $ll = SyndromicRecords::where('brgy_verified', 1);
+                }
+
+                $ll = $ll->whereHas('syndromic_patient', function ($q) {
                     $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
                     ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
                     ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
@@ -27,39 +33,54 @@ class SyndromicController extends Controller
                 ->orderBy('created_at', 'ASC')
                 ->paginate(10);
 
-                $v = SyndromicRecords::where('brgy_verified', 1)
-                ->whereHas('syndromic_patient', function ($q) {
-                    $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
-                    ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
-                    ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
-                })
-                ->orderBy('brgy_verified_date', 'DESC')
-                ->paginate(10);
+                return view('syndromic.home', [
+                    'list' => $ll,
+                ]);
             }
             else {
+                $ll = SyndromicPatient::where(function ($q) {
+                    $q->where('id', $q)
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
+                })
+                ->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                ->where('address_province_text', auth()->user()->brgy->city->province->provinceName)
+                ->paginate(10);
 
+                return view('syndromic.search_patient', [
+                    'list' => $ll,
+                ]);
             }
         }
         else {
             if(!(request()->input('q'))) {
-                $uv = SyndromicRecords::where('brgy_verified', 0)
-                ->orderBy('created_at', 'ASC')
-                ->paginate(10);
+                if(!(request()->input('showVerified'))) {
+                    $ll = SyndromicRecords::where('brgy_verified', 0)
+                    ->orderBy('created_at', 'ASC')
+                    ->paginate(10);
+                }
+                else {
+                    $ll = SyndromicRecords::where('brgy_verified', 1)
+                    ->orderBy('created_at', 'ASC')
+                    ->paginate(10);
+                }
 
-                $v = SyndromicRecords::where('brgy_verified', 1)
-                ->orderBy('brgy_verified_date', 'DESC')
-                ->paginate(10);
+                return view('syndromic.home', [
+                    'list' => $ll,
+                ]);
             }
             else {
+                $q = request()->input('q');
 
+                $ll = SyndromicPatient::where('id', $q)
+                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%")
+                ->paginate(10);
+
+                return view('syndromic.search_patient', [
+                    'list' => $ll,
+                ]);
             }
-            
         }
-        
-        return view('syndromic.home', [
-            'uv' => $uv,
-            'v' => $v,
-        ]);
     }
 
     public function newPatient() {
@@ -393,41 +414,79 @@ class SyndromicController extends Controller
     }
 
     public function updatePatient($patient_id, Request $request) {
-        $u = SyndromicPatient::where('id', $patient_id)
-        ->update([
-            'lname' => mb_strtoupper($request->lname),
-            'fname' => mb_strtoupper($request->fname),
-            'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
-            'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
-            'bdate' => $request->bdate,
-            'gender' => $request->gender,
-            'cs' => $request->cs,
-            'spouse_name' => ($request->cs == 'MARRIED') ? $request->spouse_name : NULL,
-            'email' => $request->email,
-            'contact_number' => $request->contact_number,
-            'contact_number2' => $request->contact_number2,
+        $lname = $request->lname;
+        $fname = $request->fname;
+        $bdate = $request->bdate;
+        
+        $mname = $request->mname;
 
-            'mother_name' => $request->mother_name,
-            'father_name' => $request->father_name,
+        //new method of checking duplicate before storing records
+        $s = SyndromicPatient::where('id', '!=', $patient_id)
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
+        ->whereDate('bdate', $bdate);
 
-            'address_region_code' => $request->address_region_code,
-            'address_region_text' => $request->address_region_text,
-            'address_province_code' => $request->address_province_code,
-            'address_province_text' => $request->address_province_text,
-            'address_muncity_code' => $request->address_muncity_code,
-            'address_muncity_text' => $request->address_muncity_text,
-            'address_brgy_code' => $request->address_brgy_text,
-            'address_brgy_text' => $request->address_brgy_text,
-            'address_street' => mb_strtoupper($request->address_street),
-            'address_houseno' => mb_strtoupper($request->address_houseno),
+        if($request->filled('mname')) {
+            $getname = $lname.', '.$fname.' '.$mname;
 
-            'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
-            'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
-        ]);
+            $s = $s->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)));
+        }
+        else {
+            $getname = $lname.', '.$fname;
+        }
 
-        return redirect()->back()
-        ->with('msg', 'Patient record was updated successfully.')
-        ->with('msgtype', 'success');
+        if($request->filled('suffix')) {
+            $suffix = $request->suffix;
+            $getname = $getname.' '.$suffix;
+
+            $s = $s->where('suffix', $suffix)->first();
+        }
+        else {
+            $s = $s->first();
+        }
+
+        if($s) {
+            return redirect()->back()
+            ->with('msg', 'Cannot update record. Patient name already exists.')
+            ->with('msgtype', 'warning');
+        }
+        else {
+            $u = SyndromicPatient::where('id', $patient_id)
+            ->update([
+                'lname' => mb_strtoupper($request->lname),
+                'fname' => mb_strtoupper($request->fname),
+                'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
+                'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+                'bdate' => $request->bdate,
+                'gender' => $request->gender,
+                'cs' => $request->cs,
+                'spouse_name' => ($request->cs == 'MARRIED') ? $request->spouse_name : NULL,
+                'email' => $request->email,
+                'contact_number' => $request->contact_number,
+                'contact_number2' => $request->contact_number2,
+
+                'mother_name' => $request->mother_name,
+                'father_name' => $request->father_name,
+
+                'address_region_code' => $request->address_region_code,
+                'address_region_text' => $request->address_region_text,
+                'address_province_code' => $request->address_province_code,
+                'address_province_text' => $request->address_province_text,
+                'address_muncity_code' => $request->address_muncity_code,
+                'address_muncity_text' => $request->address_muncity_text,
+                'address_brgy_code' => $request->address_brgy_text,
+                'address_brgy_text' => $request->address_brgy_text,
+                'address_street' => mb_strtoupper($request->address_street),
+                'address_houseno' => mb_strtoupper($request->address_houseno),
+
+                'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
+                'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
+            ]);
+
+            return redirect()->back()
+            ->with('msg', 'Patient record was updated successfully.')
+            ->with('msgtype', 'success');
+        }
     }
 
     public function viewRecord($record_id) {

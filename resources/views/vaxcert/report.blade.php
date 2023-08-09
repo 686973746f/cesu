@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card bg-light text-center mb-3">
                         <div class="card-header"><h4>Resolved VaxCert Concerns for this Month ({{date('F')}})</h4></div>
                         <div class="card-body">
@@ -29,7 +29,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="card bg-light text-center mb-3">
+                        <div class="card-header"><h4>Resolved VaxCert Concerns for Previous Month ({{date('F', strtotime('-1 Month'))}})</h4></div>
+                        <div class="card-body">
+                            <h1><b>{{$get_total_previous_month}}</b></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="card bg-primary text-white text-center mb-3">
                         <div class="card-header"><h4>Resolved VaxCert Concerns for this Year ({{date('Y')}})</h4></div>
                         <div class="card-body">
@@ -37,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card bg-info text-white text-center mb-3">
                         <div class="card-header"><h4>Resolved VaxCert Concerns for Previous Years</h4></div>
                         <div class="card-body">

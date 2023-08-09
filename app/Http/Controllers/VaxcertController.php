@@ -766,11 +766,16 @@ class VaxcertController extends Controller
         ->whereMonth('created_at', date('m'))
         ->count();
 
+        $get_total_previous_month = VaxcertConcern::where('status', 'COMPLETED')
+        ->whereMonth('created_at', date('m', strtotime('-1 Month')))
+        ->count();
+
         return view('vaxcert.report', [
             'get_total' => $get_total,
             'get_total_current_year' => $get_total_current_year,
             'get_total_previous_year' => $get_total_previous_year,
             'get_total_current_month' => $get_total_current_month,
+            'get_total_previous_month' => $get_total_previous_month,
         ]);
     }
 

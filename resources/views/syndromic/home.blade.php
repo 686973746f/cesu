@@ -6,12 +6,28 @@
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr">New Patient</button>
         <a href="{{route('syndromic_map')}}" class="btn btn-primary">Map</a>
     </div>
-
+    <form action="" method="GET">
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="SEARCH BY SURNAME, NAME / ID" style="text-transform: uppercase;" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>UNVERIFIED Cases by Barangays</b></div>
-                <div></div>
+                <div>Showing <b>UNVERIFIED</b> cases by Barangay</div>
+                @if(request()->input('showVerified'))
+                <div><a href="{{route('syndromic_home')}}">Show UNVERIFIED CASES</a></div>
+                @else
+                <div><a href="{{route('syndromic_home')}}?showVerified=1">Show VERIFIED CASES</a></div>
+                @endif
             </div>
         </div>
         <div class="card-body">
@@ -36,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($uv as $l)
+                    @foreach($list as $l)
                     <tr>
                         <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $l->id)}}">{{$l->syndromic_patient->getName()}} <small>(#{{$l->syndromic_patient->id}})</small></a></b></td>
                         <td class="text-center">{{date('m/d/Y', strtotime($l->syndromic_patient->bdate))}}</td>
@@ -52,55 +68,9 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <div><b>VERIFIED Cases by Barangays</b></div>
+            <div class="pagination justify-content-center mt-3">
+                {{$list->appends(request()->input())->links()}}
             </div>
-        </div>
-        <div class="card-body">
-            @if(session('msg'))
-            <div class="alert alert-{{session('msgtype')}}" role="alert">
-                {{session('msg')}}
-            </div>
-            @endif
-            <table class="table table-bordered table-striped">
-                <thead class="thead-light text-center">
-                    <tr>
-                        <th>Name / ITR ID</th>
-                        <th>Birthdate</th>
-                        <th>Age/Sex</th>
-                        <th>Lot/Street</th>
-                        <th>Barangay</th>
-                        <th>Contact Number</th>
-                        <th>Symptoms</th>
-                        <th>List of Susp. Disease/s</th>
-                        <th>Encoded by / At</th>
-                        <th>CESU Verified</th>
-                        <th>Brgy Verified</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($v as $l)
-                    <tr>
-                        <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $l->id)}}">{{$l->syndromic_patient->getName()}} <small>(#{{$l->syndromic_patient->id}})</small></a></b></td>
-                        <td class="text-center">{{date('m/d/Y', strtotime($l->syndromic_patient->bdate))}}</td>
-                        <td class="text-center">{{$l->syndromic_patient->getAge()}} / {{substr($l->syndromic_patient->gender,0,1)}}</td>
-                        <td class="text-center"><small>{{$l->syndromic_patient->address_houseno}}, {{$l->syndromic_patient->address_street}}</small></td>
-                        <td class="text-center">{{$l->syndromic_patient->address_brgy_text}}</td>
-                        <td class="text-center">{{$l->syndromic_patient->getContactNumber()}}</td>
-                        <td class="text-center">{{$l->listSymptoms()}}</td>
-                        <td class="text-center">{{$l->getListOfSuspDiseases()}}</td>
-                        <td class="text-center"><small>{{$l->user->name}} @ {{date('m/d/Y h:i A', strtotime($l->created_at))}}</small></td>
-                        <td class="text-center"><small>{{$l->getCesuVerified()}}</small></td>
-                        <td class="text-center"><small>{{$l->getBrgyVerified()}}</small></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
         </div>
     </div>
 </div>
