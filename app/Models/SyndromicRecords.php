@@ -138,6 +138,10 @@ class SyndromicRecords extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function getUpdatedBy() {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
     public function getCesuVerified() {
         if($this->cesu_verified == 1) {
             return 'YES - '.date('m/d/Y h:i A', strtotime($this->cesu_verified_date)).' by '.$this->getCesuVerifiedBy->name;

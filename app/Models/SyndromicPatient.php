@@ -46,10 +46,16 @@ class SyndromicPatient extends Model
         'qr',
         'id_file',
         'selfie_file',
+
+        'shared_access_list',
     ];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        return $this->belongsTo(User::class, 'updated_by');
     }
     
     public function getName() {
@@ -124,6 +130,18 @@ class SyndromicPatient extends Model
             else {
                 return false;
             }
+        }
+    }
+
+    public function userHasPermissionToShareAccess() {
+        if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('ITR_ENCODER', auth()->user()->getPermissions())) {
+            return true;
+        }
+        else if(auth()->user()->id == $this->created_by) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

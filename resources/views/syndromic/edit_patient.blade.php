@@ -5,7 +5,16 @@
         <form action="{{route('syndromic_updatePatient', $d->id)}}" method="POST">
             @csrf
             <div class="card">
-                <div class="card-header"><b>Edit Patient Details</b> - Patient ID: {{$d->id}}</div>
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div><b>Edit Patient Details</b> - Patient ID: {{$d->id}}</div>
+                        <div><b>Date Encoded:</b> {{date('m/d/Y h:i A', strtotime($d->created_at))}} by {{$d->user->name}} @if(!is_null($d->updated_by)) | <b>Date Updated:</b> {{date('m/d/Y h:i A', strtotime($d->updated_at))}} by {{$d->getUpdatedBy->name}}@endif</div>
+                    </div>
+                    @if($has_record)
+                    <hr>
+                    <a href="{{route('syndromic_viewItrList', $d->id)}}" class="btn btn-block btn-info text-white">View Existing ITR/s of Patient</a>
+                    @endif
+                </div>
                 <div class="card-body">
                     @if(session('msg'))
                     <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -180,6 +189,17 @@
                             </div>
                         </div>
                     </div>
+                    @if($d->userHasPermissionToShareAccess())
+                    <hr>
+                    <div class="form-group">
+                        <label for="shared_access_list">Share Patient Access to User/s:</label>
+                        <select class="form-control" name="shared_access_list[]" id="shared_access_list" multiple>
+                            @foreach($sal as $i)
+                            <option value="{{$i->id}}" {{(collect(old('shared_access_list', explode(',', $d->shared_access_list)))->contains($i->id)) ? 'selected' : ''}}>{{mb_strtoupper($i->name)}} - ID: {{$i->id}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @endif
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block" id="submitBtn">Update (CTRL + S)</button>
@@ -202,7 +222,7 @@
         });
         
         //Select2 Init for Address Bar
-        $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
+        $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #shared_access_list').select2({
             theme: 'bootstrap',
         });
 

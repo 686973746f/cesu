@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Brgy;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SyndromicDoctor;
@@ -403,9 +404,28 @@ class SyndromicController extends Controller
     public function viewPatient($patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
+        $sal = User::where('id', '!=', auth()->user()->id)
+        ->where('id', '!=', $d->created_by)
+        ->where(function ($q) {
+            $q->where('permission_list', 'LIKE', '%ITR_BRGY_ADMIN')
+            ->orWhere('permission_list', 'LIKE', '%ITR_BRGY_ENCODER');
+        })->get();
+
+        $hasRecord_check = SyndromicRecords::where('syndromic_patient_id', $d->id)
+        ->first();
+
+        if($hasRecord_check) {
+            $has_record = true;
+        }
+        else {
+            $has_record = false;
+        }
+
         if($d->userHasPermissionToAccess()) {
             return view('syndromic.edit_patient', [
                 'd' => $d,
+                'sal' => $sal,
+                'has_record' => $has_record,
             ]);
         }
         else {
@@ -451,6 +471,15 @@ class SyndromicController extends Controller
             ->with('msgtype', 'warning');
         }
         else {
+            $getpatient = SyndromicPatient::findOrFail($patient_id);
+
+            if($getpatient->userHasPermissionToShareAccess()) {
+                $sharedAccessList = (!is_null($request->shared_access_list)) ? implode(",", $request->shared_access_list) : NULL;
+            }
+            else {
+                $sharedAccessList = $getpatient->shared_access_list;
+            }
+
             $u = SyndromicPatient::where('id', $patient_id)
             ->update([
                 'lname' => mb_strtoupper($request->lname),
@@ -481,12 +510,25 @@ class SyndromicController extends Controller
 
                 'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
                 'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
+
+                'shared_access_list' => $sharedAccessList,
+                'updated_by' => auth()->user()->id,
             ]);
 
             return redirect()->back()
             ->with('msg', 'Patient record was updated successfully.')
             ->with('msgtype', 'success');
         }
+    }
+
+    public function viewExistingRecordList($patient_id) {
+        $list = SyndromicRecords::where('syndromic_patient_id', $patient_id)
+        ->orderBy('created_at', 'DESC')
+        ->get();
+
+        return view('syndromic.view_existing_records', [
+            'list' => $list,
+        ]);
     }
 
     public function viewRecord($record_id) {

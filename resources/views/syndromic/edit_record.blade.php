@@ -6,10 +6,16 @@
     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR</a>
     <a href="" class="btn btn-primary">Generate MedCert</a>
   </div>
-    <form action="{{route('syndromic_updatePatient', $d->id)}}" method="POST">
+    <form action="{{route('syndromic_updateRecord', $d->id)}}" method="POST">
         @csrf
         <div class="card">
-            <div class="card-header"><b>Edit ITR</b> | Patient: <a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}}</a></div>
+            <div class="card-header">
+              <div class="d-flex justify-content-between">
+                <div><b>Edit ITR</b> | <b>ITR ID:</b> {{$d->id}} | <b>Patient:</b> <a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}}</a></div>
+                <div><b>Date Encoded:</b> {{date('m/d/Y h:i A', strtotime($d->created_at))}} by {{$d->user->name}} @if(!is_null($d->updated_by)) | <b>Date Updated:</b> {{date('m/d/Y h:i A', strtotime($d->updated_at))}} by {{$d->getUpdatedBy->name}}@endif</div>
+              </div>
+              
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
