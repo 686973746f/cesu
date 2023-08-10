@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('syndromic_updatePatient', $patient->id)}}" method="POST">
+    <form action="{{route('syndromic_storeRecord', $patient->id)}}" method="POST">
         @csrf
         <div class="card">
             <div class="card-header"><b>Edit ITR</b> | Patient: {{$patient->getName()}}</div>
