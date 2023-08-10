@@ -160,7 +160,7 @@ class AutoEmailCTReport extends Command
         $item16 = ($item15 != 0 && $item14 != 0) ? round(($item15 / $item14) * 100) : 0;
 
         //Case: Close Contact Ratio
-        $item17 = ($item6/$item6).':'.($item14/$item6);
+        $item17 = (($item6 != 0) ? ($item6/$item6) : 0).':'.($item14 != 0 && $item6 != 0) ? ($item14/$item6) : 0;
 
         //No. of CCs placed under home quarantine within 24 hours
         $item18 = Forms::where('status', 'approved')
