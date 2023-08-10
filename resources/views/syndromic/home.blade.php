@@ -24,13 +24,12 @@
         {{session('msg')}}
         @if(session('p'))
         <hr>
-        @if(session('p')->userHasPermissionToAccess())
-
-        @else
-        Unfortunately,
+            @if(session('p')->userHasPermissionToAccess())
+            To view the existing record of the patient, click <a href="{{route('syndromic_viewPatient', session('p')->id)}}">HERE</a>
+            @else
+            Unfortunately, you don't have permission to access the record because it was created by other user on other barangay. You may contact CESU Staff or the Encoder of the record ({{session('p')->user->name}}) to gain rights access.
+            @endif
         @endif
-        @endif
-        
     </div>
     @endif
     <div class="card mb-3">
