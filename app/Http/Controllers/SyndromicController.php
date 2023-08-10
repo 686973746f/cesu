@@ -714,13 +714,76 @@ class SyndromicController extends Controller
         ->orderBy('brgyName', 'ASC')
         ->get();
         
+        $final_arr = [];
+
+        foreach($brgy_list as $b) {
+            $case_now = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($b) {
+                $q->where('address_brgy_text', $b->brgyName)
+                ->where('address_muncity_text', $b->city->cityName)
+                ->where('address_province_text', $b->city->province->provinceName);
+            })->whereDate('created_at', date('Y-m-d'))
+            ->count();
+
+            $case_month = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($b) {
+                $q->where('address_brgy_text', $b->brgyName)
+                ->where('address_muncity_text', $b->city->cityName)
+                ->where('address_province_text', $b->city->province->provinceName);
+            })->whereMonth('created_at', date('m'))
+            ->count();
+
+            $case_year = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($b) {
+                $q->where('address_brgy_text', $b->brgyName)
+                ->where('address_muncity_text', $b->city->cityName)
+                ->where('address_province_text', $b->city->province->provinceName);
+            })->whereYear('created_at', date('Y'))
+            ->count();
+
+            $final_arr[] = [
+                'brgy' => $b->brgyName,
+                'brgy_id' => $b->id,
+                'case_now' => $case_now,
+                'case_month' => $case_month,
+                'case_year' => $case_year,
+            ];
+        }
+        
         return view('syndromic.mapdashboard', [
-            'brgy' => $brgy_list,
+            'list' => $final_arr,
         ]);
     }
 
     public function viewDiseaseList() {
+        if(request()->input('brgy_id') && request()->input('type')) {
+            $brgy_id = request()->input('brgy_id');
+            $type = request()->input('type');
 
+            $b = Brgy::findOrFail($brgy_id);
+            
+            $query = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($b) {
+                $q->where('address_brgy_text', $b->brgyName)
+                ->where('address_muncity_text', $b->city->cityName)
+                ->where('address_province_text', $b->city->province->provinceName);
+            });
+
+            if($type == 'daily') {
+                $query = $query->whereDate('created_at', date('Y-m-d'))->orderBy('created_at', 'DESC')->get();
+            }
+            else if($type == 'monthly') {
+                $query = $query->whereMonth('created_at', date('m'))->orderBy('created_at', 'DESC')->get();
+            }
+            else if($type == 'yearly') {
+                $query = $query->whereYear('created_at', date('Y'))->orderBy('created_at', 'DESC')->get();
+            }
+
+            return view('syndromic.map_disease_list', [
+                'list' => $query,
+                'type' => $type,
+                'b' => $b,
+            ]);
+        }
+        else {
+
+        }
     }
 
     public function walkin_part1() {

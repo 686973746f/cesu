@@ -27,7 +27,7 @@
             @if(session('p')->userHasPermissionToAccess())
             To view the existing record of the patient, click <a href="{{route('syndromic_viewPatient', session('p')->id)}}">HERE</a>
             @else
-            Unfortunately, you don't have permission to access the record because it was created by other user on other barangay. You may contact CESU Staff or the Encoder of the record ({{session('p')->user->name}}) to gain rights access.
+            Unfortunately, you don't have permission to access the record because it was created by other user on other barangay. You may contact CESU Staff or the Encoder of the record ({{session('p')->user->name}}) to gain rights access for the patient record.
             @endif
         @endif
     </div>

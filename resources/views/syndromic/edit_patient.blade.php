@@ -53,7 +53,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-                                <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $d->bdate)}}" readonly>
+                                <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $d->bdate)}}">
                                 <small>Age: {{$d->getAge()}}</small>
                             </div>
                         </div>

@@ -10,12 +10,12 @@
 
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header">Map</div>
+        <div class="card-header"><b>Map</b></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <table class="table table-striped table-bordered">
-                        <thead class="thead-light">
+                        <thead class="thead-light text-center">
                             <tr>
                                 <th>Barangay</th>
                                 <th>Current Day</th>
@@ -24,12 +24,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($brgy as $b)
+                            @foreach($list as $l)
                             <tr>
-                                <td>{{$b->brgyName}}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$l['brgy']}}</td>
+                                <td class="text-center">@if($l['case_now'] != 0)<a href="{{route('syndromic_disease_list')}}?brgy_id={{$l['brgy_id']}}&type=daily">{{$l['case_now']}}</a>@else 0 @endif</td>
+                                <td class="text-center">@if($l['case_month'] != 0)<a href="{{route('syndromic_disease_list')}}?brgy_id={{$l['brgy_id']}}&type=monthly">{{$l['case_month']}}</a>@else 0 @endif</td>
+                                <td class="text-center">@if($l['case_year'] != 0)<a href="{{route('syndromic_disease_list')}}?brgy_id={{$l['brgy_id']}}&type=yearly">{{$l['case_year']}}</a>@else 0 @endif</td>
                             </tr>
                             @endforeach
                         </tbody>

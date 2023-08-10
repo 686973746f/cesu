@@ -144,7 +144,7 @@ class SyndromicRecords extends Model
 
     public function getCesuVerified() {
         if($this->cesu_verified == 1) {
-            return 'YES - '.date('m/d/Y h:i A', strtotime($this->cesu_verified_date)).' by '.$this->getCesuVerifiedBy->name;
+            return date('m/d/Y h:i A', strtotime($this->cesu_verified_date)).' by '.$this->getCesuVerifiedBy->name;
         }
         else {
             return 'NO';
@@ -156,8 +156,8 @@ class SyndromicRecords extends Model
     }
 
     public function getBrgyVerified() {
-        if($this->cesu_verified == 1) {
-            return 'YES - '.date('m/d/Y h:i A', strtotime($this->brgy_verified_date)).' by '.$this->getBrgyVerifiedBy->name;
+        if($this->brgy_verified == 1) {
+            return date('m/d/Y h:i A', strtotime($this->brgy_verified_date)).' by '.$this->getBrgyVerifiedBy->name;
         }
         else {
             return 'NO';
