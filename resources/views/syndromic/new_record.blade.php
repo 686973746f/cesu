@@ -16,7 +16,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="consultation_date">Date and Time of Consultation</label>
-                            <input type="datetime-local" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date')}}" required>
+                            <input type="datetime-local" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date', date('Y-m-d\TH:i'))}}" required>
                         </div>
                     </div>
                     <div class="col-md-3">
