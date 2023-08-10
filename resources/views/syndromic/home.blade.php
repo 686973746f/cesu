@@ -21,10 +21,10 @@
     </form>
     @if(session('msg'))
     <div class="alert alert-{{session('msgtype')}}" role="alert">
-        {{session('msg')}} {{dd(session('p'))}}
+        {{session('msg')}}
         @if(session('p'))
         <hr>
-        @if(session('p')->syndromic_patient->userHasPermissionToAccess())
+        @if(session('p')->userHasPermissionToAccess())
 
         @else
         Unfortunately,
