@@ -118,7 +118,7 @@ class SyndromicController extends Controller
         if($s) {
             return redirect()->back()
             ->with('msg', 'Error: Patient ('.$getname.') already exists in the database.')
-            ->with('patient_id', $s->id)
+            ->with('p', $s)
             ->with('msgtype', 'warning');
         }
         else {
