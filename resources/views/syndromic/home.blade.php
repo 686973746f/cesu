@@ -21,7 +21,7 @@
     </form>
     @if(session('msg'))
     <div class="alert alert-{{session('msgtype')}}" role="alert">
-        {{session('msg')}} {{session('p')->syndromic_patient->getName()}}
+        {{session('msg')}} {{dd(session('p'))}}
         @if(session('p'))
         <hr>
         @if(session('p')->syndromic_patient->userHasPermissionToAccess())
