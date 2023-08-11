@@ -38,6 +38,7 @@ use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 
 class PIDSRController extends Controller
@@ -1027,7 +1028,122 @@ class PIDSRController extends Controller
 
     public function casechecker() {
         if(request()->input('case')) {
+            $case = request()->input('case');
+            $year = request()->input('year');
+            
+            if($case == 'ABD') {
+                $query = Abd::where('year', $year);
+                $columns = Schema::getColumnListing('abd');
+            }
+            else if($case == 'AEFI') {
+                $query = Aefi::where('year', $year);
+                $columns = Schema::getColumnListing('pidsr_aefi');
+            }
+            else if($case == 'AES') {
+                $query = Aes::where('year', $year);
+                $columns = Schema::getColumnListing('aes');
+            }
+            else if($case == 'AFP') {
+                $query = Afp::where('year', $year);
+                $columns = Schema::getColumnListing('afp');
+            }
+            else if($case == 'AHF') {
+                $query = Ahf::where('year', $year);
+                $columns = Schema::getColumnListing('ahf');
+            }
+            else if($case == 'AMES') {
+                $query = Ames::where('year', $year);
+                $columns = Schema::getColumnListing('ames');
+            }
+            else if($case == 'ANTHRAX') {
+                $query = Anthrax::where('year', $year);
+                $columns = Schema::getColumnListing('anthrax');
+            }
+            else if($case == 'CHIKV') {
+                $query = Chikv::where('year', $year);
+                $columns = Schema::getColumnListing('chikv');
+            }
+            else if($case == 'CHOLERA') {
+                $query = Cholera::where('year', $year);
+                $columns = Schema::getColumnListing('cholera');
+            }
+            else if($case == 'DENGUE') {
+                $query = Dengue::where('year', $year);
+                $columns = Schema::getColumnListing('dengue');
+            }
+            else if($case == 'DIPH') {
+                $query = Diph::where('year', $year);
+                $columns = Schema::getColumnListing('diph');
+            }
+            else if($case == 'HEPATITIS') {
+                $query = Hepatitis::where('year', $year);
+                $columns = Schema::getColumnListing('hepatitis');
+            }
+            else if($case == 'HFMD') {
+                $query = Hfmd::where('year', $year);
+                $columns = Schema::getColumnListing('hfmd');
+            }
+            else if($case == 'INFLUENZA') {
+                $query = Influenza::where('year', $year);
+                $columns = Schema::getColumnListing('influenza');
+            }
+            else if($case == 'LEPTOSPIROSIS') {
+                $query = Leptospirosis::where('year', $year);
+                $columns = Schema::getColumnListing('leptospirosis');
+            }
+            else if($case == 'MALARIA') {
+                $query = Malaria::where('year', $year);
+                $columns = Schema::getColumnListing('malaria');
+            }
+            else if($case == 'MEASLES') {
+                $query = Measles::where('year', $year);
+                $columns = Schema::getColumnListing('measles');
+            }
+            else if($case == 'MENINGITIS') {
+                $query = Meningitis::where('year', $year);
+                $columns = Schema::getColumnListing('meningitis');
+            }
+            else if($case == 'MENINGO') {
+                $query = Meningo::where('year', $year);
+                $columns = Schema::getColumnListing('meningo');
+            }
+            else if($case == 'NNT') {
+                $query = Nnt::where('year', $year);
+                $columns = Schema::getColumnListing('nnt');
+            }
+            else if($case == 'NT') {
+                $query = Nt::where('year', $year);
+                $columns = Schema::getColumnListing('nt');
+            }
+            else if($case == 'PERT') {
+                $query = Pert::where('year', $year);
+                $columns = Schema::getColumnListing('pert');
+            }
+            else if($case == 'PSP') {
+                $query = Psp::where('year', $year);
+                $columns = Schema::getColumnListing('psp');
+            }
+            else if($case == 'RABIES') {
+                $query = Rabies::where('year', $year);
+                $columns = Schema::getColumnListing('rabies');
+            }
+            else if($case == 'ROTAVIRUS') {
+                $query = Rotavirus::where('year', $year);
+                $columns = Schema::getColumnListing('rotavirus');
+            }
+            else if($case == 'TYPHOID') {
+                $query = Typhoid::where('year', $year);
+                $columns = Schema::getColumnListing('typhoid');
+            }
 
+            $query = $query->where('Muncity', 'GENERAL TRIAS')
+            ->where('Province', 'CAVITE')
+            ->get();
+
+            return view('pidsr.casechecker', [
+                'list' => $query,
+                'columns' => $columns,
+            ]);
         }
         else {
             return view('pidsr.casechecker');

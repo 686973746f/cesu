@@ -533,10 +533,10 @@ class Forms extends Model
     }
 
     public function getTkcDateCollected() {
-        $txt_string = date('m/d/Y', strtotime($this->testDateCollected1));
+        $txt_string = date('Y-m-d', strtotime($this->testDateCollected1));
 
         if(!is_null($this->testDateCollected2)) {
-            $txt_string = $txt_string.','.date('m/d/Y', strtotime($this->testDateCollected2));
+            $txt_string = $txt_string.','.date('Y-m-d', strtotime($this->testDateCollected2));
         }
 
         return $txt_string;
@@ -552,7 +552,7 @@ class Forms extends Model
 
         if(!is_null($this->testDateCollected2)) {
             if(!is_null($this->testDateReleased2)) {
-                $txt_string = $txt_string.','.date('m/d/Y', strtotime($this->testDateReleased2));
+                $txt_string = $txt_string.','.date('Y-m-d', strtotime($this->testDateReleased2));
             }
             else {
                 $txt_string = $txt_string.',';
