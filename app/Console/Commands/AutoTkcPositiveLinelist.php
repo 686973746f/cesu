@@ -238,7 +238,8 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('DY'.$ind, 'Unavailable'); //has exposure
                 $sheet->setCellValue('DZ'.$ind, ''); //close contact name
 
-                $sheet->setCellValue('EA'.$ind, $d->getTkcNatureOfExposure()); //nature of exposure
+                //$sheet->setCellValue('EA'.$ind, $d->getTkcNatureOfExposure()); //nature of exposure
+                $sheet->setCellValue('EA'.$ind, ''); //nature of exposure
                 $sheet->setCellValue('EB'.$ind, ''); //reason of contact
                 $sheet->setCellValue('EC'.$ind, $d->getTkcHasExposure()); //hasExposure
                 $sheet->setCellValue('ED'.$ind, $d->getTkcLabInfoType()); //lab_info_type
