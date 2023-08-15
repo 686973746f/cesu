@@ -572,7 +572,7 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
                         @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician') == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}}</option>
+                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician') == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}} ({{$dr->dru_name}})</option>
                         @endforeach
                       </select>
                     </div>

@@ -4165,6 +4165,9 @@
                             $('#antigenExport1').removeClass('d-none');
                             $('#ifAntigen1').removeClass('d-none');
                             $('#antigen_id1').prop('required', true);
+                            if($('#testLaboratory1').val() == '') {
+                                $('#testLaboratory1').val('CHO GENERAL TRIAS');
+                            }
                         }
                         else {
                             $('#antigenExport1').addClass('d-none');
@@ -4279,6 +4282,9 @@
                             $('#antigenExport2').removeClass('d-none');
                             $('#ifAntigen2').removeClass('d-none');
                             $('#antigen_id2').prop('required', true);
+                            if($('#testLaboratory2').val() == '') {
+                                $('#testLaboratory2').val('CHO GENERAL TRIAS');
+                            }
                         }
                         else {
                             $('#antigenExport2').addClass('d-none');

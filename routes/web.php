@@ -321,8 +321,13 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::get('/syndromic/records/{records_id}/view', [SyndromicController::class, 'viewRecord'])->name('syndromic_viewRecord');
     Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
     Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
+    Route::get('/syndromic/records/lab/{record_id}/create', [SyndromicController::class, 'createLabResult'])->name('syndromic_create_labresult');
+
     Route::get('/syndromic/map', [SyndromicController::class, 'diseasemap'])->name('syndromic_map');
     Route::get('/syndromic/disease_list', [SyndromicController::class, 'viewDiseaseList'])->name('syndromic_disease_list');
+
+    Route::post('/syndromic/records/{records_id}/medcert/generate', [SyndromicController::class, 'generateMedCert'])->name('syndromic_generate_medcert');
+    Route::get('/syndromic/records/{records_id}/medcert', [SyndromicController::class, 'viewMedCert'])->name('syndromic_view_medcert');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

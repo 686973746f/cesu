@@ -3379,10 +3379,12 @@
                         if($(this).val() == 'ANTIGEN') {
                             $('#ifAntigen1').removeClass('d-none');
                             $('#antigen_id1').prop('required', true);
+                            $('#testLaboratory1').val('CHO GENERAL TRIAS');
                         }
                         else {
                             $('#ifAntigen1').addClass('d-none');
                             $('#antigen_id1').prop('required', false);
+                            $('#testLaboratory1').val('');
                         }
                     }
                     else {
@@ -3506,10 +3508,12 @@
                         if($(this).val() == 'ANTIGEN') {
                             $('#ifAntigen2').removeClass('d-none');
                             $('#antigen_id2').prop('required', true);
+                            $('#testLaboratory2').val('CHO GENERAL TRIAS');
                         }
                         else {
                             $('#ifAntigen2').addClass('d-none');
                             $('#antigen_id2').prop('required', false);
+                            $('#testLaboratory2').val('');
                         }
                     }
                     else {

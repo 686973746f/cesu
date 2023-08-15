@@ -17,6 +17,8 @@ class CreateSyndromicDoctorsTable extends Migration
             $table->id();
             $table->string('doctor_name');
             $table->string('dru_name');
+            $table->string('position')->nullable();
+            $table->string('reg_no')->nullable();
             $table->timestamps();
         });
     }

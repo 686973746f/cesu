@@ -4,7 +4,7 @@
 <div class="container">
   <div class="text-right mb-3">
     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR</a>
-    <a href="" class="btn btn-primary">Generate MedCert</a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
   </div>
     <form action="{{route('syndromic_updateRecord', $d->id)}}" method="POST">
         @csrf
@@ -542,7 +542,7 @@
                 </div>
                 <div class="form-group">
                   <label for="bigmessage">Doctor's Note:</label>
-                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3">{{$d->bigmessage}}}</textarea>
+                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3">{{$d->bigmessage}}</textarea>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -573,10 +573,18 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
                         @foreach($doclist as $dr)
-                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}}</option>
+                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
                         @endforeach
                       </select>
                     </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="card">
+                  <div class=""></div>
+                  <div class="card-body">
+                    <h4 class="card-title">Title</h4>
+                    <p class="card-text">Text</p>
                   </div>
                 </div>
             </div>
@@ -585,13 +593,13 @@
                 <div class="col-md-6">
                   <button type="submit" name="" id="" class="btn btn-primary btn-block" {{($d->brgy_verified == 1) ? 'disabled' : ''}} name="submit" value="verify_brgy">Mark as Verified (BRGY)</button>
                   @if($d->brgy_verified == 1)
-                  <p class="text-center">BRGY Verified at: {{date('m/d/Y h:i A', strtotime($d->brgy_verified_date))}}, by: {{$d->getBrgyVerifiedBy->name}}</p>
+                  <p class="text-center" style="margin-bottom: 0px;">BRGY Verified at: {{date('m/d/Y h:i A', strtotime($d->brgy_verified_date))}}, by: {{$d->getBrgyVerifiedBy->name}}</p>
                   @endif
                 </div>
                 <div class="col-md-6">
                   <button type="submit" name="" id="" class="btn btn-primary btn-block" {{(in_array('GLOBAL_ADMIN', explode(",", auth()->user()->permission_list)) || in_array('ITR_ADMIN', explode(",", auth()->user()->permission_list)) || in_array('ITR_ENCODER', explode(",", auth()->user()->permission_list))) ? ($d->cesu_verified == 1) ? 'disabled' : '' : 'disabled'}} name="submit" value="verify_cesu">Mark as Verified (CESU)</button>
                   @if($d->cesu_verified == 1)
-                  <p class="text-center">CESU Verified at: {{date('m/d/Y h:i A', strtotime($d->cesu_verified_date))}}, by: {{$d->getCesuVerifiedBy->name}}</p>
+                  <p class="text-center" style="margin-bottom: 0px;">CESU Verified at: {{date('m/d/Y h:i A', strtotime($d->cesu_verified_date))}}, by: {{$d->getCesuVerifiedBy->name}}</p>
                   @endif
                 </div>
               </div>
@@ -601,6 +609,49 @@
         </div>
     </form>
 </div>
+
+<form action="{{route('syndromic_generate_medcert', $d->id)}}" method="POST">
+  @csrf
+  <div class="modal fade" id="generateMedCert" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><b>Generate Medcert</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="medcert_generated_date"><span class="text-danger font-weight-bold">*</span>Date</label>
+            <input type="date" class="form-control" value="{{old('medcert_generated_date', date('Y-m-d'))}}" name="medcert_generated_date" id="medcert_generated_date" max="{{date('Y-m-d')}}" required>
+          </div>
+          <div class="form-group">
+            <label for="medcert_validity_date"><span class="text-danger font-weight-bold">*</span>Effectivity Date</label>
+            <input type="date" class="form-control" value="{{old('medcert_validity_date', date('Y-m-d'))}}" name="medcert_validity_date" id="medcert_validity_date" min="{{date('Y-m-d')}}" max="{{'12-31-'.date('Y')}}" required>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="medcert_start_date">Start Date (From)</label>
+                <input type="date" class="form-control" value="{{old('medcert_start_date')}}" name="medcert_start_date" id="medcert_start_date" max="{{date('Y-m-d')}}">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="medcert_end_date">End Date (To)</label>
+                <input type="date" class="form-control" value="{{old('medcert_end_date')}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-d')}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 
 <script>
   $(document).bind('keydown', function(e) {

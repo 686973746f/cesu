@@ -558,6 +558,8 @@
                             <h6>Pindutin lang ang link na ito ☛ <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph</a></b></h6>
                             <hr>
                             -->
+                            <h6>Sa ngayon, hindi pa po talaga kasama sa mag-generate na VaxCert ang 3rd Booster Record (Bivalent).</h6>
+                            <hr>
                             Ihanda ang picture ng iyong:
                             <ul>
                                 <li><b>Vaccination Card</b> (<i><b class="text-danger">Note:</b> Pakisigurado na kasama sa picture lahat ng bakunang natanggap mo</i>)</li>

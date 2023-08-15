@@ -128,6 +128,12 @@ class SyndromicRecords extends Model
         'document_file',
 
         'qr',
+
+        'medcert_enabled',
+        'medcert_generated_date',
+        'medcert_validity_date',
+        'medcert_start_date',
+        'medcert_end_date',
     ];
 
     public function syndromic_patient() {
@@ -472,6 +478,30 @@ class SyndromicRecords extends Model
         }
 
         return implode(", ", $list_arr);
+    }
+
+    public function getMedCertStartDate() {
+        if(!is_null($this->medcert_start_date)) {
+            return date('m/d/Y', strtotime($this->medcert_start_date));
+        }
+        else {
+            return '____________________';
+        }
+    }
+
+    public function getMedCertEndDate() {
+        if(!is_null($this->medcert_end_date)) {
+            return date('m/d/Y', strtotime($this->medcert_end_date));
+        }
+        else {
+            return '____________________';
+        }
+    }
+
+    public function getPhysicianDetails() {
+        $d = SyndromicDoctor::where('doctor_name', $this->name_of_physician)->first();
+
+        return $d;
     }
 
     public function permittedToEdit() {

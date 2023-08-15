@@ -127,6 +127,12 @@ class CreateSyndromicRecordsTable extends Migration
             $table->date('outcome_recovered_date')->nullable();
             $table->date('outcome_died_date')->nullable();
 
+            $table->tinyInteger('medcert_enabled')->default(0);
+            $table->date('medcert_generated_date')->nullable();
+            $table->date('medcert_validity_date')->nullable();
+            $table->date('medcert_start_date')->nullable();
+            $table->date('medcert_end_date')->nullable();
+
             $table->text('document_file')->nullable();
             $table->text('qr');
             

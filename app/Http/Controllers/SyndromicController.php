@@ -691,12 +691,34 @@ class SyndromicController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function generateMedCert($record_id) {
+    public function generateMedCert($record_id, Request $r) {
+        $d = SyndromicRecords::findOrFail($record_id);
 
+        $d->medcert_enabled = 1;
+        $d->medcert_generated_date = $r->medcert_generated_date;
+        $d->medcert_validity_date = $r->medcert_validity_date;
+        if($r->filled('medcert_start_date') && $r->filled('medcert_end_date')) {
+            $d->medcert_start_date = $r->medcert_start_date;
+            $d->medcert_end_date = $r->medcert_end_date;
+        }
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->route('syndromic_view_medcert', $d->id);
     }
 
-    public function medcertOnlineVerify($record_id) {
+    public function viewMedCert($record_id) {
+        $d = SyndromicRecords::findOrFail($record_id);
 
+        return view('syndromic.view_medcert', ['d' => $d]);
+    }
+
+    public function medcertOnlineVerify($qr) {
+        $d = SyndromicRecords::where('qr', $qr)->where('medcert_enabled', 1)->first();
+
+        return view('syndromic.online_medcert', ['c' => $d]);
     }
 
     public function createLabResult($record_id) {

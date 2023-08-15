@@ -103,6 +103,11 @@ class SyndromicPatient extends Model
         }
     }
 
+    public function getFullAddress() {
+        //will be used at MedCert
+        return $this->address_houseno.', '.$this->address_street.', BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+    }
+
     public function getBrgyId() {
         $get_province_id = Provinces::where('provinceName', $this->address_province_text)->pluck('id')->first();
 
