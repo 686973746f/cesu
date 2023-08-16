@@ -745,7 +745,7 @@
 
   $('#musclepain_yn').change(function (e) { 
     e.preventDefault();
-    if($(this).prop('checked')) 
+    if($(this).prop('checked')) {
       $('#musclepain_div').removeClass('d-none');
       //$('#musclepain_remarks').prop('required', true);
     }
