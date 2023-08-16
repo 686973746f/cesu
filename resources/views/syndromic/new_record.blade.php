@@ -206,6 +206,30 @@
                         <div class="col-md-3">
                           <div class="form-check">
                             <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="diarrhea_yn" id="diarrhea_yn" value="checkedValue" {{(old('diarrhea_yn')) ? 'checked' : ''}}>
+                              Diarrhea
+                            </label>
+                          </div>
+                          <div id="diarrhea_div" class="d-none">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="bloody_stool" id="bloody_stool" value="checkedValue" {{(old('bloody_stool')) ? 'checked' : ''}}>
+                                Bloody Stool
+                              </label>
+                            </div>
+                            <div class="form-group">
+                              <label for="diarrhea_onset">Diarrhea Onset</label>
+                              <input type="date" class="form-control" name="diarrhea_onset" id="diarrhea_onset" value="{{old('diarrhea_onset')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                              <label for="diarrhea_remarks">Diarrhea Remarks</label>
+                              <input type="text" class="form-control" name="diarrhea_remarks" id="diarrhea_remarks" value="{{old('diarrhea_remarks')}}">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-check">
+                            <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="anorexia_yn" id="anorexia_yn" value="checkedValue" {{old('anorexia_yn') ? 'checked' : ''}}>
                               Eating Disorder (Anorexia)
                             </label>
@@ -721,7 +745,7 @@
 
   $('#musclepain_yn').change(function (e) { 
     e.preventDefault();
-    if($(this).prop('checked')) {
+    if($(this).prop('checked')) 
       $('#musclepain_div').removeClass('d-none');
       //$('#musclepain_remarks').prop('required', true);
     }
