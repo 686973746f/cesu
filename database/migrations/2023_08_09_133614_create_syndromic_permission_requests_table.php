@@ -15,6 +15,9 @@ class CreateSyndromicPermissionRequestsTable extends Migration
     {
         Schema::create('syndromic_permission_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('what_patient_id')->nullable()->constrained('syndromic_patients')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->string('status')->default('PENDING');
             $table->timestamps();
         });
     }

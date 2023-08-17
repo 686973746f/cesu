@@ -570,7 +570,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
-                      <select class="form-control" name="name_of_physician" id="name_of_physician" required>
+                      <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
                         @foreach($doclist as $dr)
                         <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}} ({{$dr->dru_name}})</option>

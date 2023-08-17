@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->tinyInteger('isAdmin')->default(0);
             $table->foreignId('brgy_id')->nullable()->constrained('brgy')->onDelete('cascade');
+            $table->foreignId('bhs_id')->nullable()->constrained('barangay_health_stations')->onDelete('cascade');
             $table->foreignId('subdivision_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('interviewer_id')->nullable()->constrained()->onDelete('cascade');

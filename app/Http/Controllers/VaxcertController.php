@@ -280,6 +280,7 @@ class VaxcertController extends Controller
             $s = request()->input('q');
 
             $list = VaxcertConcern::where('id', $s)
+            ->orWhere('contact_number', $s)
             ->orWhere('sys_code', $s)
             ->orWhere(DB::raw('CONCAT(last_name," ",first_name)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($s))."%")
             ->paginate(10);
