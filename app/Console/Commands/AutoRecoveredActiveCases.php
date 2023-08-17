@@ -71,7 +71,8 @@ class AutoRecoveredActiveCases extends Command
 
                 //Note: If may babaguhin dito, dapat palitan din yung sa FormsController Store and Update
                 if($item->dispoType == 1 || $item->healthStatus == 'Severe' || $item->healthStatus == 'Critical') {
-                    $daysToRecover = 21;
+                    //$daysToRecover = 21;
+                    $daysToRecover = 10;
                 }
                 else {
                     if(!is_null($item->records->vaccinationDate2)) {
@@ -79,10 +80,12 @@ class AutoRecoveredActiveCases extends Command
                         $days_diff = $date1->diffInDays($dateToday);
 
                         if($days_diff >= 14) {
-                            $daysToRecover = 7;
+                            //$daysToRecover = 7;
+                            $daysToRecover = 5;
                         }
                         else {
-                            $daysToRecover = 10;
+                            //$daysToRecover = 10;
+                            $daysToRecover = 5;
                         }
                     }
                     else {
@@ -91,14 +94,17 @@ class AutoRecoveredActiveCases extends Command
                             $days_diff = $date1->diffInDays($dateToday);
 
                             if($days_diff >= 14) {
-                                $daysToRecover = 7;
+                                //$daysToRecover = 7;
+                                $daysToRecover = 5;
                             }
                             else {
-                                $daysToRecover = 10;
+                                //$daysToRecover = 10;
+                                $daysToRecover = 5;
                             }
                         }
                         else {
-                            $daysToRecover = 10;
+                            //$daysToRecover = 10;
+                            $daysToRecover = 5;
                         }
                     }
                 }

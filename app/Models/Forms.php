@@ -286,7 +286,8 @@ class Forms extends Model
                 }
 
                 if($this->dispositionType == 1 || $this->healthStatus == 'Severe' || $this->healthStatus == 'Critical') {
-                    $daysToRecover = 21;
+                    //$daysToRecover = 21;
+                    $daysToRecover = 10;
                 }
                 else {
                     if(!is_null($this->records->vaccinationDate2)) {
@@ -294,10 +295,12 @@ class Forms extends Model
                         $days_diff = $date1->diffInDays($dateToday);
 
                         if($days_diff >= 14) {
-                            $daysToRecover = 7;
+                            //$daysToRecover = 7;
+                            $daysToRecover = 5;
                         }
                         else {
-                            $daysToRecover = 10;
+                            //$daysToRecover = 10;
+                            $daysToRecover = 5;
                         }
                     }
                     else {
@@ -306,14 +309,17 @@ class Forms extends Model
                             $days_diff = $date1->diffInDays($dateToday);
 
                             if($days_diff >= 14) {
-                                $daysToRecover = 7;
+                                //$daysToRecover = 7;
+                                $daysToRecover = 5;
                             }
                             else {
-                                $daysToRecover = 10;
+                                //$daysToRecover = 10;
+                                $daysToRecover = 5;
                             }
                         }
                         else {
-                            $daysToRecover = 10;
+                            //$daysToRecover = 10;
+                            $daysToRecover = 5;
                         }
                     }
                 }
