@@ -712,7 +712,14 @@ class SyndromicController extends Controller
     public function viewMedCert($record_id) {
         $d = SyndromicRecords::findOrFail($record_id);
 
-        return view('syndromic.view_medcert', ['d' => $d]);
+        if(!is_null($d->name_of_physician)) {
+            return view('syndromic.view_medcert', ['d' => $d]);
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Please specify Physician before generating MedCert')
+            ->with('msgtype', 'warning');
+        }
     }
 
     public function medcertOnlineVerify($qr) {

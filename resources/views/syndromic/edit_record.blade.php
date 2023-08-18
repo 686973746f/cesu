@@ -4,7 +4,9 @@
 <div class="container">
   <div class="text-right mb-3">
     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR</a>
+    @if(in_array('ITR_ENCODER', auth()->user()->getPermissions) || in_array('ITR_ADMIN', auth()->user()->getPermissions) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions))
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
+    @endif
   </div>
     <form action="{{route('syndromic_updateRecord', $d->id)}}" method="POST">
         @csrf
@@ -633,7 +635,7 @@
         </div>
     </form>
 </div>
-
+@if(in_array('ITR_ENCODER', auth()->user()->getPermissions) || in_array('ITR_ADMIN', auth()->user()->getPermissions) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions))
 <form action="{{route('syndromic_generate_medcert', $d->id)}}" method="POST">
   @csrf
   <div class="modal fade" id="generateMedCert" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -676,6 +678,7 @@
     </div>
   </div>
 </form>
+@endif
 
 <script>
   $(document).bind('keydown', function(e) {
