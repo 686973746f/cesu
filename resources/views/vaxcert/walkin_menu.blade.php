@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="text-center">
+                <img src="{{asset('assets/images/CHO_LETTERHEAD_WITH_CESU.png')}}" class="mb-3 img-fluid" style="width: 50rem;">
+            </div>
             <div class="card">
                 <div class="card-header"><b>GenTri LGU VaxCert Concern Menu</b></div>
                 <div class="card-body">
