@@ -32,9 +32,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        Excel::import(new EdcsImport(), storage_path('app/edcs/TEST.xlsx'));
-        
         /*
         if(auth()->user()->isLevel1()) {
             if(auth()->user()->canaccess_covid == 1) {
