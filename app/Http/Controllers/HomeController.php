@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Forms;
 use Carbon\CarbonPeriod;
+use App\Imports\EdcsImport;
 use App\Models\SelfReports;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -30,6 +32,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        Excel::import(new EdcsImport(), storage_path('app/edcs/TEST.xlsx'));
+        
         /*
         if(auth()->user()->isLevel1()) {
             if(auth()->user()->canaccess_covid == 1) {

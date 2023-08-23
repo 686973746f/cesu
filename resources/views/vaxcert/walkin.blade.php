@@ -553,12 +553,15 @@
                     <div id="choice1">
                         <div class="alert alert-info" role="alert">
                             <h4 class="text-danger text-center"><b>BASAHIN MUNA ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
+                            <hr>
                             <!--
                             <h6>Kung ikaw ay nais lamang kumuha ng VaxCert at wala namang problema sa record mo, hindi mo na kailangan magpatuloy dito at dumiretso na lang sa mismong VaxCert website upang makapag-generate.</h6>
                             <h6>Pindutin lang ang link na ito ☛ <b><a href="https://vaxcert.doh.gov.ph/#/">https://vaxcert.doh.gov.ph</a></b></h6>
                             <hr>
                             -->
-                            <h6>Sa ngayon, hindi pa po talaga kasama sa mag-generate na VaxCert ang 3rd Booster Record (Bivalent).</h6>
+                            <h6 class="text-center">Sa ngayon, ang ika-limang dose o ang ikatlong booster (na Bivalent) ay hindi pa talaga nalabas sa VaxCertPH.</h6>
+                            <hr>
+                            <h6 class="text-center">Hindi po talaga nalabas ang Middle Name/Gitnang Pangalan kapag gagamitin sa Abroad ang VaxCert.</h6>
                             <hr>
                             Ihanda ang picture ng iyong:
                             <ul>
@@ -573,11 +576,9 @@
                             </ul>
                             <div class="text-center">
                                 <hr>
-                                Hindi po talaga nalabas ang Middle Name/Gitnang Pangalan kapag gagamitin sa Abroad ang VaxCert.
+                                Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate sa LGU kung saan ka binakunahan <i>(via text/call/email or pumunta sa mismong opisina nila)</i> dahil sila ang may kontrol/permisong mag-update ng record mo.
                                 <hr>
-                                Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate kung saan ka binakunahan <i>(via text/call/email or pumunta sa mismong opisina nila)</i> dahil sila ang may kontrol/permisong mag-update ng record mo.
-                                <hr>
-                                Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">GenTrias Official FB Page</a>). Magdala lamang ng Photocopy ng Valid ID/Birth Certificate at Affidavit of Loss.</i>
+                                Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">GenTrias Official FB Page</a>)</i> Magdala lamang ng Photocopy ng Valid ID/Birth Certificate at Affidavit of Loss.
                                 <hr>
                                 <b>LIBRE PO</b> ang magpaayos ng VaxCert Record.
                             </div>

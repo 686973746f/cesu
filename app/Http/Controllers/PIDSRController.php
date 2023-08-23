@@ -41,6 +41,37 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 
+/*
+ALL TABLES
+
+ALTER TABLE abd ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE pidsr_AEFI ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE aes ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE afp ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE ahf ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE ames ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE anthrax ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE chikv ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE cholera ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE dengue ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE diph ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE hepatitis ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE hfmd ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE influenza ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE leptospirosis ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE malaria ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE measles ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE meningitis ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE meningo ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE nnt ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE nt ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE pert ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE psp ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE rabies ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE rotavirus ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE typhoid ADD from_edcs TINYINT(1) DEFAULT 0;
+*/
+
 class PIDSRController extends Controller
 {
     public function home() {
