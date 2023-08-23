@@ -51,7 +51,7 @@ class AfpImport implements ToModel, WithHeadingRow
                 //CHECK FOR DUPLICATES
                 $check1 = Afp::where('FamilyName', $row['last_name'])
                 ->where('FirstName', $row['first_name'])
-                ->where('DOB', $row['date_of_birth'])
+                ->whereDate('DOB', $row['date_of_birth'])
                 ->where('Year', $row['year'])
                 ->where('MorbidityWeek', $row['morbidity_week'])
                 ->first();
