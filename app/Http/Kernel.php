@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
         'canAccessPidsr' => \App\Http\Middleware\canAccessPidsr::class,
         'canAccessSyndromic' => \App\Http\Middleware\canAccessSyndromic::class,
         'canAccessFhsis' => \App\Http\Middleware\canAccessFhsis::class,
+        'canAccessPharmacy' => \App\Http\Middleware\canAccessPharmacy::class,
     ];
 }

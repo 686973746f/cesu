@@ -48,6 +48,7 @@ use App\Http\Controllers\ABTCUserSettingsController;
 use App\Http\Controllers\AcceptanceLetterController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
+use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 use App\Http\Controllers\SyndromicController;
 use App\Http\Controllers\VaxcertController;
@@ -454,6 +455,11 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 
     Route::get('/vaxcert/ticket/view/{id}/basedl', [VaxcertController::class, 'dlbase_template'])->name('vaxcert_basedl');
     Route::get('/vaxcert/vquery/export/{id}', [VaxcertController::class, 'dloff_template'])->name('vaxcert_vquery_template');
+});
+
+//PHARMACY
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy']], function() {
+    Route::get('/pharmacy/home', [PharmacyController::class, 'home'])->name('pharmacy_home');
 });
 
 //VAXCERT (WALK IN)

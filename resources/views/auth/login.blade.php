@@ -5,6 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="text-center">
+                <img src="{{asset('assets/images/gentri_icon_large.png')}}" class="mb-3" style="width: 12rem;">
+                <img src="{{asset('assets/images/cho_icon_large.png')}}" class="mb-3" style="width: 12rem;">
                 <img src="{{asset('assets/images/cesu_icon.png')}}" class="mb-3" style="width: 12rem;">
             </div>
             <div class="accordion" id="accordionExample">
@@ -12,7 +14,7 @@
                   <div class="card-header" id="headingOne">
                     <h2 class="mb-0">
                       <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        I am a CESU Staff/Encoder/Company Encoder/Barangay Staff
+                        Staff Login
                       </button>
                     </h2>
                   </div>
@@ -88,6 +90,7 @@
                     </div>
                   </div>
                 </div>
+                <!--
                 <div class="card">
                   <div class="card-header" id="headingTwo">
                     <h2 class="mb-0">
@@ -116,6 +119,7 @@
                     </form>
                   </div>
                 </div>
+                -->
             </div>
             <p class="text-center mt-3">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a>cesu.gentrias@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
             <hr>

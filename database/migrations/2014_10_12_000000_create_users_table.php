@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('subdivision_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('interviewer_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('pharmacy_branch_id')->nullable()->constrained('pharmacy_branches');
             $table->tinyInteger('canAccessLinelist')->default(0);
             $table->tinyInteger('canByPassValidation')->default(0);
             $table->tinyInteger('canByPassCutoff')->default(0);

@@ -224,6 +224,10 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     //perms
+    public function getPermissions() {
+        return explode(",", $this->permission_list);
+    }
+
     public function canAccessCovid() {
         $plist = explode(",", auth()->user()->permission_list);
 
@@ -364,7 +368,14 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function getPermissions() {
-        return explode(",", $this->permission_list);
+    public function canAccessPharmacy() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
