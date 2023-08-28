@@ -9,6 +9,8 @@ use App\Models\CifUploads;
 use App\Models\AbtcPatient;
 use App\Models\PaSwabLinks;
 use App\Models\LinelistMaster;
+use App\Models\PharmacyBranch;
+use App\Models\PharmacySupply;
 use App\Models\AcceptanceLetter;
 use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
@@ -161,6 +163,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function syndromicrecord() {
         return $this->hasMany(SyndromicRecords::class, 'created_by');
+    }
+    
+    public function pharmacybranch() {
+        return $this->hasOne(PharmacyBranch::class, 'id');
+    }
+
+    public function pharmacysupply() {
+        return $this->hasMany(PharmacySupply::class, 'created_by');
+    }
+
+    public function pharmacysupplystock() {
+        return $this->hasMany(PharmacySupplyStock::class, 'created_by');
+    }
+
+    public function pharmacystockcard() {
+        return $this->hasMany(PharmacyStockCard::class, 'created_by');
     }
 
     public function defaultInterviewer() {

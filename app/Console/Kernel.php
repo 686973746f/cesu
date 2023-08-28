@@ -48,6 +48,9 @@ class Kernel extends ConsoleKernel
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(date('t'), '16:05');
 
         //$schedule->command('test:everyminute')->everyMinute();
+
+        $schedule->command('pharmacylog:weekly')->weeklyOn(7, '21:00')->evenInMaintenanceMode();
+        $schedule->command('pharmacylog:monthly')->monthlyOn(date('t'), '22:00')->evenInMaintenanceMode();
     }
 
     /**

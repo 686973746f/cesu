@@ -6,25 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PharmacyStockCard extends Model
+class PharmacySupplyStock extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
         'supply_id',
-        'type',
-        'before_qty',
-        'qty_to_process',
-        'after_qty',
-        'total_cost',
-        'drsi_number',
+        'expiration_date',
 
-        'recipient',
-        'remarks',
+        'current_box_stock',
+        'current_piece_stock',
     ];
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function pharmacysupply() {
+        return $this->belongsTo(PharmacySupply::class, 'supply_id');
     }
 }

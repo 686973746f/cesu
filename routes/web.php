@@ -460,6 +460,15 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 //PHARMACY
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy']], function() {
     Route::get('/pharmacy/home', [PharmacyController::class, 'home'])->name('pharmacy_home');
+    Route::get('/pharmacy/item_list', [PharmacyController::class, 'viewItemList'])->name('pharmacy_itemlist');
+    Route::post('/pharmacy/item_list/add_item', [PharmacyController::class, 'addItem'])->name('pharmacy_additem');
+
+    Route::get('/pharmacy/process', [PharmacyController::class, 'modifyStockView'])->name('pharmacy_modify_view');
+    Route::post('/pharmacy/process/{code}/submit', [PharmacyController::class, 'modifyStockProcess'])->name('pharmacy_modify_process');
+    
+    Route::get('/pharmacy/item_list/{item_id}/view', [PharmacyController::class, 'viewItem'])->name('pharmacy_itemlist_viewitem');
+    Route::get('/pharmacy/item_list/{item_id}/view/update', [PharmacyController::class, 'updateItem'])->name('pharmacy_itemlist_updateitem');
+    Route::get('/pharmacy/report', [PharmacyController::class, 'viewReport'])->name('pharmacy_viewreport');
 });
 
 //VAXCERT (WALK IN)

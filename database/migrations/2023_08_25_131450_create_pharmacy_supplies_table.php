@@ -32,13 +32,15 @@ class CreatePharmacySuppliesTable extends Migration
             $table->string('mode_of_procurement')->nullable();
             $table->string('end_user')->nullable();
 
-            $table->string('expiration_month')->nullable();
-            $table->string('expiration_year')->nullable();
+            $table->integer('config_piecePerBox');
 
-            $table->integer('config_piecePerStock');
-            $table->integer('box_currentStock');
-            $table->integer('piece_currentStock');
+            $table->integer('master_box_stock');
+            $table->integer('master_piece_stock');
+
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -17,6 +17,7 @@ class CreatePharmacyBranchesTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('focal_person')->nullable();
+            $table->text('contact_number')->nullable();
             $table->timestamps();
         });
     }
