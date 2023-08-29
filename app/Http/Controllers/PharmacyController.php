@@ -52,7 +52,8 @@ class PharmacyController extends Controller
             ]);
 
             $add_stock_card = $r->user()->pharmacystockcard()->create([
-                'type' => 'ADD',
+                'supply_id' => $add->id,
+                'type' => 'RECEIVED',
                 'before_qty' => 0,
                 'qty_to_process' => $r->supply_base_stock,
                 'after_qty' => $r->supply_base_stock,

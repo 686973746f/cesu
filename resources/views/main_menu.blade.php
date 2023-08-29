@@ -25,10 +25,8 @@
             <a href="{{route('fhsis_home')}}" class="btn btn-block btn-primary">eFHSIS (Integrated)</a>
             @endif
             @if(auth()->user()->canAccessPharmacy())
-            <!--
-                <hr>
-                <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary">Pharmacy Inventory System</a>
-            -->
+            <hr>
+            <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary">Pharmacy Inventory System</a>
             @endif
         </div>
     </div>

@@ -34,56 +34,67 @@
                                 <input type="text" class="form-control" name="sku_code" id="sku_code" required>
                             </div>
                             <hr>
-                            <div class="form-group">
-                                <label for="po_contract_number">PO Contract Number</label>
-                                <input type="text" class="form-control" name="po_contract_number" id="po_contract_number">
-                            </div>
-                            <div class="form-group">
-                                <label for="supplier">Supplier</label>
-                                <input type="text" class="form-control" name="supplier" id="supplier">
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="dosage_form">Dosage Form</label>
-                                        <input type="text" class="form-control" name="dosage_form" id="dosage_form">
+                            <div id="accordianId" role="tablist" aria-multiselectable="true">
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="section1HeaderId">
+                                        <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">Other Details</a>
+                                    </div>
+                                    <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="po_contract_number">PO Contract Number</label>
+                                                <input type="text" class="form-control" name="po_contract_number" id="po_contract_number">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="supplier">Supplier</label>
+                                                <input type="text" class="form-control" name="supplier" id="supplier">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="dosage_form">Dosage Form</label>
+                                                        <input type="text" class="form-control" name="dosage_form" id="dosage_form">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="dosage_strength">Dosage Strength</label>
+                                                        <input type="text" class="form-control" name="dosage_strength" id="dosage_strength">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="unit_measure">Unit Measure</label>
+                                                <input type="text" class="form-control" name="unit_measure" id="unit_measure">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="entity_name">Entity Name</label>
+                                                <input type="text" class="form-control" name="entity_name" id="entity_name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="source_of_funds">Source of Funds</label>
+                                                <input type="text" class="form-control" name="source_of_funds" id="source_of_funds">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="unit_cost">Unit Cost</label>
+                                                <input type="text" class="form-control" name="unit_cost" id="unit_cost">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="mode_of_procurement">Mode of Procurement</label>
+                                                <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="end_user">End User</label>
+                                                <input type="text" class="form-control" name="end_user" id="end_user">
+                                            </div>
+                                            <hr>
+                                            <div class="form-group">
+                                                <label for="config_piecePerBox">Piece per Box</label>
+                                                <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="dosage_strength">Dosage Strength</label>
-                                        <input type="text" class="form-control" name="dosage_strength" id="dosage_strength">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="unit_measure">Unit Measure</label>
-                                <input type="text" class="form-control" name="unit_measure" id="unit_measure">
-                            </div>
-                            <div class="form-group">
-                                <label for="entity_name">Entity Name</label>
-                                <input type="text" class="form-control" name="entity_name" id="entity_name">
-                            </div>
-                            <div class="form-group">
-                                <label for="source_of_funds">Source of Funds</label>
-                                <input type="text" class="form-control" name="source_of_funds" id="source_of_funds">
-                            </div>
-                            <div class="form-group">
-                                <label for="unit_cost">Unit Cost</label>
-                                <input type="text" class="form-control" name="unit_cost" id="unit_cost">
-                            </div>
-                            <div class="form-group">
-                                <label for="mode_of_procurement">Mode of Procurement</label>
-                                <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement">
-                            </div>
-                            <div class="form-group">
-                                <label for="end_user">End User</label>
-                                <input type="text" class="form-control" name="end_user" id="end_user">
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="config_piecePerBox">Piece per Box</label>
-                                <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox">
                             </div>
                         </div>
                         <div class="card-footer">
