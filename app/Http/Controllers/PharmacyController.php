@@ -24,6 +24,7 @@ class PharmacyController extends Controller
                 'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
                 'name' => mb_strtoupper($r->name),
                 'category' => $r->category,
+                'quantity_type' => $r->quantity_type,
     
                 'sku_code' => mb_strtoupper($r->sku_code),
                 'po_contract_number' => $r->po_contract_number,
@@ -165,7 +166,28 @@ class PharmacyController extends Controller
                 $search->master_box_stock = ($search->master_box_stock + $r->qty_to_process);
                 $actiontxt = 'Received';
 
-                $sub_stock->current_box_stock = $search->master_box_stock;
+                //$sub_stock->current_box_stock = $search->master_box_stock;
+
+                //add stock supply
+                $stock_search = PharmacySupplyStock::where('supply_id', $search->id)
+                ->whereDate('expiration_date', $r->expiration_date)
+                ->first();
+                
+                if($stock_search) {
+                    $stock_search->current_box_stock = $stock_search->current_box_stock + $r->qty_to_process;
+                    $stock_search->updated_by = auth()->user()->id;
+
+                    if($stock_search->isDirty()) {
+                        $stock_search->save();
+                    }
+                }
+                else {
+                    $new_stock_create = $r->user()->pharmacysupplystock()->create([
+                        'supply_id' => $search->id,
+                        'expiration_date' => $r->expiration_date,
+                        'current_box_stock' => $r->qty_to_process,
+                    ]);
+                }
             }
 
             $process = $r->user()->pharmacystockcard()->create([
@@ -210,7 +232,7 @@ class PharmacyController extends Controller
         ->get();
 
         $scard = PharmacyStockCard::where('supply_id', $item->id)
-        ->orderBy('created_at', 'DESC')
+        ->orderBy('created_at', 'ASC')
         ->get();
 
         if($item->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {

@@ -30,7 +30,7 @@
                     @foreach($list as $i)
                     <tr>
                         <td class="text-center">{{$i->id}}</td>
-                        <td><a href="{{route('pharmacy_itemlist_viewitem', $i->id)}}" class="btn btn-link btn-block">{{$i->name}}</a></td>
+                        <td><a href="{{route('pharmacy_itemlist_viewitem', $i->id)}}">{{$i->name}}</a></td>
                         <td class="text-center">{{$i->sku_code}}</td>
                         <td class="text-center">{{$i->master_box_stock}}</td>
                         <td class="text-center"></td>
@@ -142,10 +142,24 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="form-group">
-                        <label for="supply_base_stock"><b class="text-danger">*</b>Current Quantity (in Boxes)</label>
-                        <input type="number" class="form-control" name="supply_base_stock" id="supply_base_stock" required>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="supply_base_stock"><b class="text-danger">*</b>Current Quantity (in Boxes/Bottles)</label>
+                                <input type="number" class="form-control" name="supply_base_stock" id="supply_base_stock" min="1" value="{{old('supply_base_stock', 1)}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
+                                <select class="form-control" name="quantity_type" id="quantity_type" required>
+                                    <option value="BOX">PER BOX</option>
+                                    <option value="BOTTLE">PER BOTTLE</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="form-group">
                         <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
                         <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d')}}" required>

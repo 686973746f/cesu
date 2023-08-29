@@ -15,6 +15,7 @@ class PharmacySupply extends Model
         'pharmacy_branch_id',
         'name',
         'category',
+        'quantity_type',
 
         'sku_code',
         'po_contract_number',
@@ -36,5 +37,14 @@ class PharmacySupply extends Model
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getQtyType() {
+        if($this->quantity_type == 'BOX') {
+            return 'Boxes';
+        }
+        else {
+            return 'Bottles';
+        }
     }
 }

@@ -18,6 +18,7 @@ class CreatePharmacySuppliesTable extends Migration
             $table->foreignId('pharmacy_branch_id')->constrained('pharmacy_branches')->onDelete('cascade');
             $table->text('name');
             $table->string('category');
+            $table->string('quantity_type')->default('BOX');
 
             $table->text('sku_code')->nullable();
             $table->text('po_contract_number')->nullable();
