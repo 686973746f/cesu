@@ -843,7 +843,6 @@ class FormsController extends Controller
                         'get_sex' => substr($item->records->gender,0,1),
                         'get_bdate' => date('m/d/Y', strtotime($item->records->bdate)),
                         'get_test_type' => $item->getLatestTestType(),
-                        'get_sdate' => $item->getLatestTestDate(),
                         'get_sdate_time' => $updatedTime,
                     ));
 

@@ -12,6 +12,7 @@
                 <div>
                     <form action="{{route('linelist.create')}}" method="POST">
                         @csrf
+                        <!--
                         <div class="form-check">
                           <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" name="isOverride" id="isOverride" value="1">
@@ -35,13 +36,17 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="text-right">
-                            <button class="btn btn-success" name="submit" value="1">Create LaSalle</button>
-                            <button class="btn btn-success" name="submit" value="2">Create ONI</button>
-                        </div>
-                        <hr>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#llv2">Create Linelist V2</button>
+                        -->
+                        <!--
+                            <hr>
+                            <div class="text-right">
+                                <button class="btn btn-success" name="submit" value="1">Create LaSalle</button>
+                                <button class="btn btn-success" name="submit" value="2">Create ONI</button>
+                            </div>
+                            <hr>
+                        -->
+                        
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#llv2">Create Linelist</button>
                     </form>
                 </div>
             </div>
@@ -93,7 +98,7 @@
                         @endphp
                         <tr>
                             <td scope="row" style="vertical-align: middle;">{{$item->id}}</td>
-                            <td style="vertical-align: middle;">{{($item->type == 1) ? 'ONI' : 'LASALLE'}}</td>
+                            <td style="vertical-align: middle;">{{$item->getType()}}</td>
                             <td style="vertical-align: middle;">{{$item->linelistsub->where('linelist_masters_id', $item->id)->count()}}</td>
                             <td style="vertical-align: middle;">{{date('m/d/Y h:i A (D)', strtotime($item->created_at))}}</td>
                             <td style="vertical-align: middle;">{{$item->user->name}}</td>
@@ -139,7 +144,7 @@
                         @endphp
                         <tr>
                             <td style="vertical-align: middle;">{{$item->records->lname.", ".$item->records->fname." ".$item->records->mname}}</td>
-                            <td class="text-center" style="vertical-align: middle;">{{(!is_null($item->oniSpecType)) ? 'ONI' : 'LASALLE'}}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{$item->linelistmaster->getType()}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->created_at))}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($item->dateAndTimeCollected))}}</td>
                             <td class="text-center" style="vertical-align: middle;">{{($item->res_released == 1) ? 'Y '.$item->ricon() : 'N'}}</td>
