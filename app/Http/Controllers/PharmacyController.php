@@ -218,7 +218,16 @@ class PharmacyController extends Controller
     }
     
     public function viewItemList() {
-        $list = PharmacySupply::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)->orderBy('name', 'ASC')->paginate(10);
+        if(request()->input('q')) {
+            $q = request()->input('q');
+
+            $list = PharmacySupply::where('sku_code', $q)
+            ->orWhere('name', 'LIKE', '%'.$q.'%')
+            ->paginate(10);
+        }
+        else {
+            $list = PharmacySupply::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)->orderBy('name', 'ASC')->paginate(10);
+        }
 
         return view('pharmacy.itemlist', [
             'list' => $list,
@@ -228,14 +237,15 @@ class PharmacyController extends Controller
     public function viewItem($item_id) {
         $item = PharmacySupply::findOrFail($item_id);
 
-        $sub_list = PharmacySupplyStock::where('supply_id', $item->id)
-        ->get();
-
-        $scard = PharmacyStockCard::where('supply_id', $item->id)
-        ->orderBy('created_at', 'ASC')
-        ->get();
-
         if($item->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
+            $sub_list = PharmacySupplyStock::where('supply_id', $item->id)
+            ->orderBy('expiration_date', 'ASC')
+            ->get();
+
+            $scard = PharmacyStockCard::where('supply_id', $item->id)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
             return view('pharmacy.itemlist_viewitem', [
                 'd' => $item,
                 'sub_list' => $sub_list,
@@ -248,7 +258,66 @@ class PharmacyController extends Controller
     }
 
     public function updateItem($item_id, Request $r) {
+        $item = PharmacySupply::findOrFail($item_id);
 
+        if($item->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
+
+            $check = PharmacySupply::where('sku_code', mb_strtoupper($r->sku_code))
+            ->where('id', '!=', $item->id)
+            ->first();
+
+            if($check) {
+                return redirect()->back()
+                ->with('msg', 'Error: SKU Code already exists in the system.')
+                ->with('msgtype', 'warning');
+            }
+            else {
+                $check2 = PharmacySupply::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+                ->where('id', '!=', $item->id)
+                ->first();
+
+                if($check2) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Item Name already exists in the system.')
+                    ->with('msgtype', 'warning');
+                }
+                else {
+                    $item->update([
+                        'name' => mb_strtoupper($r->name),
+                        'category' => ($r->filled('category')) ? mb_strtoupper($r->category) : NULL,
+                        'quantity_type' => $r->quantity_type,
+
+                        'sku_code' => mb_strtoupper($r->sku_code),
+                        'po_contract_number' => $r->po_contract_number,
+                        'supplier' => $r->supplier,
+                        'description' => $r->description,
+                        'dosage_form' => $r->dosage_form,
+                        'dosage_strength' => $r->dosage_strength,
+                        'unit_measure' => $r->unit_measure,
+                        'entity_name' => $r->entity_name,
+                        'source_of_funds' => $r->source_of_funds,
+                        'unit_cost' => $r->unit_cost,
+                        'mode_of_procurement' => $r->mode_of_procurement,
+                        'end_user' => $r->end_user,
+
+                        'config_piecePerBox' => $r->config_piecePerBox,
+                    ]);
+
+                    return redirect()->back()
+                    ->with('msg', 'Item Details were updated successfully.')
+                    ->with('msgtype', 'success');
+                }
+            }
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function exportStockCard($supply_id) {
+        $item = PharmacyStockCard::where('supply_id', $supply_id)
+        ->orderBy('created_at', 'ASC')
+        ->get();
     }
 
     public function viewReport() {

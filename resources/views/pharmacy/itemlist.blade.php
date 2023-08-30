@@ -15,6 +15,19 @@
                 {{session('msg')}}
             </div>
             @endif
+            <form action="" method="GET">
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search By Item Name / SKU" style="text-transform: uppercase;" autocomplete="off" required>
+                            <div class="input-group-append">
+                              <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <table class="table table-bordered table-striped">
                 <thead class="thead-light text-center">
                     <tr>
@@ -33,8 +46,8 @@
                         <td><a href="{{route('pharmacy_itemlist_viewitem', $i->id)}}">{{$i->name}}</a></td>
                         <td class="text-center">{{$i->sku_code}}</td>
                         <td class="text-center">{{$i->master_box_stock}}</td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}}</small></td>
+                        <td class="text-center"><small>{{(!is_null($i->updated_by)) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : NULL}}</small></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -57,11 +70,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                       <label for="name"><b class="text-danger">*</b>Item Name</label>
-                      <input type="text" class="form-control" name="name" id="name" required>
+                      <input type="text" class="form-control" name="name" id="name" style="text-transform: uppercase;" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <input type="text" class="form-control" name="description" id="description">
+                        <input type="text" class="form-control" name="description" id="description" >
                     </div>
                     <div class="form-group">
                         <label for="category"><b class="text-danger">*</b>Category</label>
@@ -88,49 +101,49 @@
                                     
                                     <div class="form-group">
                                         <label for="po_contract_number">PO Contract Number</label>
-                                        <input type="text" class="form-control" name="po_contract_number" id="po_contract_number">
+                                        <input type="text" class="form-control" name="po_contract_number" id="po_contract_number" style="text-transform: uppercase;">
                                     </div>
                                     <div class="form-group">
                                         <label for="supplier">Supplier</label>
-                                        <input type="text" class="form-control" name="supplier" id="supplier">
+                                        <input type="text" class="form-control" name="supplier" id="supplier" style="text-transform: uppercase;">
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="dosage_form">Dosage Form</label>
-                                                <input type="text" class="form-control" name="dosage_form" id="dosage_form">
+                                                <input type="text" class="form-control" name="dosage_form" id="dosage_form" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="dosage_strength">Dosage Strength</label>
-                                                <input type="text" class="form-control" name="dosage_strength" id="dosage_strength">
+                                                <input type="text" class="form-control" name="dosage_strength" id="dosage_strength" style="text-transform: uppercase;">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="unit_measure">Unit Measure</label>
-                                        <input type="text" class="form-control" name="unit_measure" id="unit_measure">
+                                        <input type="text" class="form-control" name="unit_measure" id="unit_measure" style="text-transform: uppercase;">
                                     </div>
                                     <div class="form-group">
                                         <label for="entity_name">Entity Name</label>
-                                        <input type="text" class="form-control" name="entity_name" id="entity_name">
+                                        <input type="text" class="form-control" name="entity_name" id="entity_name" style="text-transform: uppercase;">
                                     </div>
                                     <div class="form-group">
                                         <label for="source_of_funds">Source of Funds</label>
-                                        <input type="text" class="form-control" name="source_of_funds" id="source_of_funds">
+                                        <input type="text" class="form-control" name="source_of_funds" id="source_of_funds" style="text-transform: uppercase;">
                                     </div>
                                     <div class="form-group">
                                         <label for="unit_cost">Unit Cost</label>
-                                        <input type="text" class="form-control" name="unit_cost" id="unit_cost">
+                                        <input type="text" class="form-control" name="unit_cost" id="unit_cost" style="text-transform: uppercase;">
                                     </div>
                                     <div class="form-group">
                                         <label for="mode_of_procurement">Mode of Procurement</label>
-                                        <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement">
+                                        <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement" style="text-transform: uppercase;">
                                     </div>
                                     <div class="form-group">
                                         <label for="end_user">End User</label>
-                                        <input type="text" class="form-control" name="end_user" id="end_user">
+                                        <input type="text" class="form-control" name="end_user" id="end_user" style="text-transform: uppercase;">
                                     </div>
                                     <hr>
                                     <div class="form-group">

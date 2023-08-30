@@ -27,4 +27,14 @@ class PharmacyStockCard extends Model
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }
+        
+    }
 }

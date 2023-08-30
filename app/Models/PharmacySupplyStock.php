@@ -23,6 +23,16 @@ class PharmacySupplyStock extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }
+        
+    }
+
     public function pharmacysupply() {
         return $this->belongsTo(PharmacySupply::class, 'supply_id');
     }

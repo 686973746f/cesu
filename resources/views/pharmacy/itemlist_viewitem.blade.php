@@ -10,32 +10,49 @@
                 </div>
             </div>
             <div class="card-body">
-
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <form action="{{route('pharmacy_itemlist_updateitem', $d->id)}}">
                     <div class="card mb-3">
                         <div class="card-header"><b>Item Details</b></div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name"><b class="text-danger">*</b>Item Name</label>
-                                <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->description)}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="category"><b class="text-danger">*</b>Category</label>
-                                <select class="form-control" name="category" id="category" required>
-                                    <option value="ANTIBIOTICS" {{(old('category', $d->category) == 'ANTIBIOTICS') ? 'selected' : ''}}>ANTIBIOTICS</option>
-                                    <option value="FAMILY PLANNING" {{(old('category', $d->category) == 'FAMILY PLANNING') ? 'selected' : ''}}>FAMILY PLANNING</option>
-                                    <option value="MAINTENANCE" {{(old('category', $d->category) == 'MAINTENANCE') ? 'selected' : ''}}>MAINTENANCE</option>
-                                    <option value="OINTMENT" {{(old('category', $d->category) == 'OINTMENT') ? 'selected' : ''}}>OINTMENT</option>
-                                    <option value="OTHERS" {{(old('category', $d->category) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
-                                </select>
+                                <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" style="text-transform: uppercase;" required>
                             </div>
                             <div class="form-group">
                                 <label for="sku_code"><b class="text-danger">*</b>SKU Code</label>
-                                <input type="text" class="form-control" name="sku_code" id="sku_code" value="{{old('sku_code', $d->sku_code)}}" required>
+                                <input type="text" class="form-control" name="sku_code" id="sku_code" value="{{old('sku_code', $d->sku_code)}}" style="text-transform: uppercase;" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->description)}}" style="text-transform: uppercase;">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="category"><b class="text-danger">*</b>Category</label>
+                                        <select class="form-control" name="category" id="category" required>
+                                            <option value="ANTIBIOTICS" {{(old('category', $d->category) == 'ANTIBIOTICS') ? 'selected' : ''}}>ANTIBIOTICS</option>
+                                            <option value="FAMILY PLANNING" {{(old('category', $d->category) == 'FAMILY PLANNING') ? 'selected' : ''}}>FAMILY PLANNING</option>
+                                            <option value="MAINTENANCE" {{(old('category', $d->category) == 'MAINTENANCE') ? 'selected' : ''}}>MAINTENANCE</option>
+                                            <option value="OINTMENT" {{(old('category', $d->category) == 'OINTMENT') ? 'selected' : ''}}>OINTMENT</option>
+                                            <option value="OTHERS" {{(old('category', $d->category) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
+                                        <select class="form-control" name="quantity_type" id="quantity_type" required>
+                                            <option value="BOX" {{(old('quantity_type', $d->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
+                                            <option value="BOTTLE" {{(old('quantity_type', $d->quantity_type) == 'BOTTLE') ? 'selected' : ''}}>PER BOTTLE</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <hr>
                             <div id="accordianId" role="tablist" aria-multiselectable="true">
@@ -47,49 +64,49 @@
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <label for="po_contract_number">PO Contract Number</label>
-                                                <input type="text" class="form-control" name="po_contract_number" id="po_contract_number" value="{{old('po_contract_number', $d->po_contract_number)}}">
+                                                <input type="text" class="form-control" name="po_contract_number" id="po_contract_number" value="{{old('po_contract_number', $d->po_contract_number)}}" style="text-transform: uppercase;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="supplier">Supplier</label>
-                                                <input type="text" class="form-control" name="supplier" id="supplier" value="{{old('supplier', $d->supplier)}}">
+                                                <input type="text" class="form-control" name="supplier" id="supplier" value="{{old('supplier', $d->supplier)}}" style="text-transform: uppercase;">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="dosage_form">Dosage Form</label>
-                                                        <input type="text" class="form-control" name="dosage_form" id="dosage_form" value="{{old('dosage_form', $d->dosage_form)}}">
+                                                        <input type="text" class="form-control" name="dosage_form" id="dosage_form" value="{{old('dosage_form', $d->dosage_form)}}" style="text-transform: uppercase;">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="dosage_strength">Dosage Strength</label>
-                                                        <input type="text" class="form-control" name="dosage_strength" id="dosage_strength" value="{{old('dosage_strength', $d->dosage_strength)}}">
+                                                        <input type="text" class="form-control" name="dosage_strength" id="dosage_strength" value="{{old('dosage_strength', $d->dosage_strength)}}" style="text-transform: uppercase;">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="unit_measure">Unit Measure</label>
-                                                <input type="text" class="form-control" name="unit_measure" id="unit_measure" value="{{old('unit_measure', $d->unit_measure)}}">
+                                                <input type="text" class="form-control" name="unit_measure" id="unit_measure" value="{{old('unit_measure', $d->unit_measure)}}" style="text-transform: uppercase;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="entity_name">Entity Name</label>
-                                                <input type="text" class="form-control" name="entity_name" id="entity_name" value="{{old('entity_name', $d->entity_name)}}">
+                                                <input type="text" class="form-control" name="entity_name" id="entity_name" value="{{old('entity_name', $d->entity_name)}}" style="text-transform: uppercase;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="source_of_funds">Source of Funds</label>
-                                                <input type="text" class="form-control" name="source_of_funds" id="source_of_funds" value="{{old('source_of_funds', $d->source_of_funds)}}">
+                                                <input type="text" class="form-control" name="source_of_funds" id="source_of_funds" value="{{old('source_of_funds', $d->source_of_funds)}}" style="text-transform: uppercase;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="unit_cost">Unit Cost</label>
-                                                <input type="text" class="form-control" name="unit_cost" id="unit_cost" value="{{old('unit_cost', $d->unit_cost)}}">
+                                                <input type="text" class="form-control" name="unit_cost" id="unit_cost" value="{{old('unit_cost', $d->unit_cost)}}" style="text-transform: uppercase;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="mode_of_procurement">Mode of Procurement</label>
-                                                <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement" value="{{old('mode_of_procurement', $d->mode_of_procurement)}}">
+                                                <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement" value="{{old('mode_of_procurement', $d->mode_of_procurement)}}" style="text-transform: uppercase;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="end_user">End User</label>
-                                                <input type="text" class="form-control" name="end_user" id="end_user" value="{{old('end_user', $d->end_user)}}">
+                                                <input type="text" class="form-control" name="end_user" id="end_user" value="{{old('end_user', $d->end_user)}}" style="text-transform: uppercase;">
                                             </div>
                                             <hr>
                                             <div class="form-group">
@@ -116,7 +133,7 @@
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered table-striped text-center">
-                            <thead>
+                            <thead class="thead-light">
                                 <tr>
                                     <th>#</th>
                                     <th>Expiration Date</th>
@@ -131,8 +148,8 @@
                                     <td>{{$ind+1}}</td>
                                     <td>{{date('Y-m-d', strtotime($sl->expiration_date))}}</td>
                                     <td>{{$sl->current_box_stock}}</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</td>
+                                    <td>{{(!is_null($sl->updated_by)) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : ''}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -144,7 +161,7 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <div><b>Stock Card / Transactions</b></div>
-                            <div><button type="button" class="btn btn-success">Download</button></div>
+                            <div><button type="button" class="btn btn-success" {{($scard->count() == 0) ? 'disabled' : ''}}>Download</button></div>
                         </div>
                     </div>
                     <div class="card-body">
