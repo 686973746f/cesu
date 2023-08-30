@@ -475,6 +475,7 @@
     $('#changeTypeBtn').prop('disabled', true);
     $('#reschedBtn').prop('disabled', true);
     $('#exportBtn').prop('disabled', true);
+    $('#exportDropdown1').prop('disabled', true);
     $('#exportBtnStk').prop('disabled', true);
     $('#exportBtnExp').prop('disabled', true);
     $('#exportBtnAlp').prop('disabled', true);
@@ -554,6 +555,7 @@
             $('#changeTypeBtn').prop('disabled', false);
             $('#reschedBtn').prop('disabled', false);
             $('#exportBtn').prop("disabled", false);
+            $('#exportDropdown1').prop('disabled', false);
             $('#exportBtnStk').prop("disabled", false);
             $('#exportBtnExp').prop('disabled', false);
             $('#exportBtnAlp').prop("disabled", false);
@@ -564,11 +566,12 @@
             if ($('.checks').filter(':checked').length < 1 || $('#select_all').prop('checked') == false) {
                 $('#changeTypeBtn').prop('disabled', true);
                 $('#reschedBtn').prop('disabled', true);
-                $('#exportBtn').attr('disabled',true);
+                $('#exportBtn').attr('disabled', true);
+                $('#exportDropdown1').prop('disabled', true);
                 $('#exportBtnStk').prop("disabled", true);
                 $('#exportBtnExp').prop('disabled', true);
                 $('#exportBtnAlp').prop("disabled", true);
-                $('#newExportBtn_main').prop("disabled", false);
+                $('#newExportBtn_main').prop("disabled", true);
                 $('#exportBtnStk2').prop("disabled", true);
                 $('#exportDropdown').prop('disabled', true);
             }
