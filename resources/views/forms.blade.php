@@ -302,7 +302,7 @@
                                 <td style="vertical-align: middle;" class="text-center">{{strtoupper($form->healthStatus)}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->getReferralCode()}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testDateCollected2 : $form->testDateCollected1}}</td>
-                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testType2 : $form->testType1}}</td>
+                                <td style="vertical-align: middle;" class="text-center font-weight-bold">{{$form->displayTestType()}}</td>
                                 <td style="vertical-align: middle;" class="text-center font-weight-bold">{{(!is_null($form->testDateCollected2)) ? $form->testResult2 : $form->testResult1}}</td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{$form->user->name}}{{(!is_null($form->updated_by) && $form->user_id != $form->updated_by) ? ' / '.$form->getEditedBy() : ''}}</small></td>
                                 <td style="vertical-align: middle;" class="text-center"><small>{{(!is_null($form->updated_by)) ? date("m/d/Y h:i A", strtotime($form->updated_at)) : date("m/d/Y h:i A", strtotime($form->created_at))}}</small></td>

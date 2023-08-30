@@ -148,6 +148,41 @@ class Forms extends Model
         }
     }
 
+    public function displayTestType() {
+        if(!is_null($this->testDateCollected2)) {
+            if($this->testType2 == 'OPS' || $this->testType2 == 'NPS' || $this->testType2 == 'OPS AND NPS') {
+                if($this->testType2 == 'OPS AND NPS') {
+                    return 'RT-PCR (OPS+NPS)';
+                }
+                else {
+                    return 'RT-PCR ('.$this->testType2.')';
+                }
+            }
+            else if($this->testType2) {
+                return 'ANTIGEN';
+            }
+            else {
+                return 'OTHERS';
+            }
+        }
+        else {
+            if($this->testType1 == 'OPS' || $this->testType1 == 'NPS' || $this->testType1 == 'OPS AND NPS') {
+                if($this->testType1 == 'OPS AND NPS') {
+                    return 'RT-PCR (OPS+NPS)';
+                }
+                else {
+                    return 'RT-PCR ('.$this->testType1.')';
+                }
+            }
+            else if($this->testType1) {
+                return 'ANTIGEN';
+            }
+            else {
+                return 'OTHERS';
+            }
+        }
+    }
+
     public function getQuarantineStatus() {
         if($this->dispoType == 1) {
             return 'ADMITTED AT HOSPITAL';
