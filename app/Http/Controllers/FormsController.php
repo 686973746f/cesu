@@ -855,7 +855,7 @@ class FormsController extends Controller
 
             $templateProcessor->cloneBlock('clone_block', 0, true, false, $replacements);
 
-            $paylname = 'TEST.docx';
+            $paylname = 'VTM_STICKER_DASMA_'.date('mdY').'.docx';
 
             ob_clean();
             header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
