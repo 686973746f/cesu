@@ -197,20 +197,13 @@
                     @endif
                     @if(auth()->user()->isCesuAccount())
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-primary" id="exportBtn" name="submit" value="export"><i class="fas fa-file-csv mr-2"></i>Export to CSV</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="exportDropdown">
-                          <span class="sr-only">Toggle Dropdown</span>
-                        </button>
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" id="newExportBtn_main"><i class="fas fa-file-csv mr-2"></i>Export</button>
                         <div class="dropdown-menu">
-                            <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic"><i class="fas fa-file-csv mr-2"></i>Export to CSV <i>(Alphabetical)</i> - <b>For Sticker/Habol</b></button>
-                            <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp"><i class="fas fa-file-csv mr-2"></i>Export to CSV <i>(Alphabetical w/ Priority)</i> - <b>For CIF</b></button>
-                            <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_brgy"><i class="fas fa-file-csv mr-2"></i>Export to CSV <i>(Brgy Random Sort)</i> - <b>For CIF [Experimental]</b></button>
-                            <!--<button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic_withp2"><i class="fas fa-file-csv mr-2"></i>Export to CSV (Alphabetical w/ Priority & Philhealth First)</button>-->
+                            <button type="submit" class="dropdown-item" id="exportBtnAlp" name="submit" value="export_alphabetic"><i class="fas fa-file-csv mr-2"></i>To CSV (Mail Merge)</button>
                             <div class="dropdown-divider"></div>
-                            <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker"><i class="fas fa-print mr-2"></i>VTM Sticker <i>(ONI & LaSalle)</i></button>
-                            <button type="submit" class="dropdown-item" id="exportBtnStk2" name="submit" value="printsticker_alllasalle"><i class="fas fa-print mr-2"></i>VTM Sticker <i>(LaSalle)</i> - <b>Paperang</b></button>
+                            <button type="submit" class="dropdown-item" id="exportBtnStk" name="submit" value="printsticker_dasma"><i class="fas fa-print mr-2"></i>VTM Sticker (Dasma Molecular)</button>
                         </div>
-                    </div>
+                      </div>
                     @endif
                 </div>
                 @endif
@@ -485,6 +478,7 @@
     $('#exportBtnStk').prop('disabled', true);
     $('#exportBtnExp').prop('disabled', true);
     $('#exportBtnAlp').prop('disabled', true);
+    $('#newExportBtn_main').prop('disabled', true);
     $('#exportBtnStk2').prop('disabled', true);
     $('#exportDropdown').prop('disabled', true);
 
@@ -563,6 +557,7 @@
             $('#exportBtnStk').prop("disabled", false);
             $('#exportBtnExp').prop('disabled', false);
             $('#exportBtnAlp').prop("disabled", false);
+            $('#newExportBtn_main').prop("disabled", false);
             $('#exportBtnStk2').prop("disabled", false);
             $('#exportDropdown').prop('disabled', false);
         } else {        
@@ -573,6 +568,7 @@
                 $('#exportBtnStk').prop("disabled", true);
                 $('#exportBtnExp').prop('disabled', true);
                 $('#exportBtnAlp').prop("disabled", true);
+                $('#newExportBtn_main').prop("disabled", false);
                 $('#exportBtnStk2').prop("disabled", true);
                 $('#exportDropdown').prop('disabled', true);
             }

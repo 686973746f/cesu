@@ -19,6 +19,7 @@ use App\Models\ExposureHistory;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\MonitoringSheetMaster;
+use PhpOffice\PhpWord\TemplateProcessor;
 use PragmaRX\Countries\Package\Countries;
 use App\Http\Requests\FormValidationRequest;
 use IlluminateAgnostic\Collection\Support\Str;
@@ -812,6 +813,54 @@ class FormsController extends Controller
                     $swabtype.'<br><br>';
                 }
             }
+        }
+        else if($request->submit == 'printsticker_dasma') {
+            $models = Forms::with('records')->whereIn('id', $list)->get();
+
+            $models = $models->sortBy('records.lname');
+            
+            $templateProcessor  = new TemplateProcessor(storage_path('STICKER_DASMA.docx'));
+
+            $replacements = array();
+
+            $pila_count = 1;
+
+            foreach($models as $item) {
+                if($item->getLatestTestType() != 'ANTIGEN') {
+                    if(time() < strtotime('13:00')) {
+                        $timeStartedDateTime = Carbon::parse($item->getLatestTestDate().' '.date('H:i', strtotime('08:30')));
+                    }
+                    else {
+                        $timeStartedDateTime = Carbon::parse($item->getLatestTestDate().' '.date('H:i', strtotime('14:00')));
+                    }
+    
+                    $timeStartedDateTime->addMinutes($pila_count * 2);
+                    $updatedTime = $timeStartedDateTime->format('m/d/Y : g:iA');
+    
+                    array_push($replacements, array(
+                        'get_name' => $item->records->getName(),
+                        'get_age' => $item->records->getAge(),
+                        'get_sex' => substr($item->records->gender,0,1),
+                        'get_bdate' => date('m/d/Y', strtotime($item->records->bdate)),
+                        'get_test_type' => $item->getLatestTestType(),
+                        'get_sdate' => $item->getLatestTestDate(),
+                        'get_sdate_time' => $updatedTime,
+                    ));
+
+                    $pila_count++;
+                }
+            }
+
+            //NEW SPACE: 24 CHARS
+
+            $templateProcessor->cloneBlock('clone_block', 0, true, false, $replacements);
+
+            $paylname = 'TEST.docx';
+
+            ob_clean();
+            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            header('Content-Disposition: attachment; filename="'. urlencode($paylname).'"');
+            $templateProcessor->saveAs('php://output');
         }
         else if($request->submit == 'resched') {
             $request->validate([

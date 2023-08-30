@@ -606,23 +606,13 @@ class LineListController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        if($m->type == 2) {
-            //Count number of Swab based on the number of linelist done to the record id
-            $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
-                $q->where('type', 2)
-                ->where('is_override', 0);
-            })
-            ->where('records_id', $request->qr)
-            ->count();
-        }
-        else {
-            $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) {
-                $q->where('type', 1)
-                ->where('is_override', 0);
-            })
-            ->where('records_id', $request->qr)
-            ->count();
-        }
+        //Count number of Swab based on the number of linelist done to the record id
+        $rctr = LinelistSubs::whereHas('linelistmaster', function ($q) use ($m) {
+            $q->where('type', $m->type)
+            ->where('is_override', 0);
+        })
+        ->where('records_id', $request->qr)
+        ->count();
 
         if($rctr <= 0) {
             $fcount = '1ST'; 

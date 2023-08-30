@@ -148,7 +148,17 @@ class Records extends Model
     }
 
     public function getName() {
-        return $this->lname.", ".$this->fname." ".$this->mname;
+        $final = $this->lname.', '.$this->fname;
+
+        if(!is_null($this->mname)) {
+            $final = $final.' '.$this->mname;
+            
+        }
+        else {
+            return $final;
+        }
+
+        return $final;
     }
 
     public function form(){

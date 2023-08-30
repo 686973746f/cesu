@@ -44,5 +44,8 @@ class LinelistMasters extends Model
         else if($this->type == 2) {
             return 'LaSalle (CDCDC)';
         }
+        else if($this->type == 3) {
+            return 'City of Dasmariñas Molecular Diagnostic Laboratory (CDMDL)';
+        }
     }
 }

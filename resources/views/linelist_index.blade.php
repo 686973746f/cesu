@@ -173,6 +173,7 @@
                     <div class="form-group">
                         <label for="type">Select Molecular Lab</label>
                         <select class="form-control" name="type" id="type" required>
+                            <option value="3">City of Dasmariñas Molecular Diagnostic Laboratory (CDMDL)</option>
                             <option value="2">LaSalle (CDCDC)</option>
                             <option value="1">City of Imus Molecular Laboratory (CIML)</option>
                         </select>
@@ -187,14 +188,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="time_started">Start Time</label>
-                                <input type="time" class="form-control" name="time_started" id="time_started" value="14:00" required>
+                                <input type="time" class="form-control" name="time_started" id="time_started" value="{{(time() <= strtotime('13:00')) ? '08:30' : '14:00'}}" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-check">
                         <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" name="isOverride" id="isOverride" value="1">
-                            ONLY Check if processing REJECTED Records
+                            Processing REJECTED Records?
                         </label>
                     </div>
                 </div>
