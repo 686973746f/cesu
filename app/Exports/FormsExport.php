@@ -546,6 +546,23 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
         //Symptoms Switch
         $tempsx = 1;
 
+        //Get Reason for Swabbing
+        if($form->records->isPregnant == 1) {
+            $getReason = 'PREGNANT';
+        }
+        else if(in_array("Dialysis", $arr_como)) {
+            $getReason = 'DIALYSIS PATIENT';
+        }
+        else if(in_array("Operation", $arr_como)) {
+            $getReason = 'FOR OPERATION';
+        }
+        else if(in_array("Transplant", $arr_como)) {
+            $getReason = 'TRANSPLANT';
+        }
+        else {
+            $getReason = 'SYMPTOMATIC';
+        }
+
         if($tempsx == 1 && is_null($form->dateOnsetOfIllness)) {
             $set_asymp = "NO";
             $set_mild = "YES";
@@ -945,6 +962,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($first_testingcat == "J1.1" || $first_testingcat == "J1.2" || $first_testingcat == "J1.3" || $first_testingcat == "J1.4" || $first_testingcat == "J1.5" || $first_testingcat == "J1.6" || $first_testingcat == "J1.7" || $first_testingcat == "J1.8" || $first_testingcat == "J1.9" || $first_testingcat == "J1.10" || $first_testingcat == "J1.11" || $first_testingcat == "J.2") ? $first_testingcat : 'J', //J
             $sg_a_specify,
             (!is_null($form->antigenqr)) ? 'https://cesugentri.com/verify/'.$form->antigenqr : '',
+            $$getReason,
         ];
     }
 
@@ -1268,6 +1286,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             'sg_j_specify',
             'sg_a_specify',
             'AntigenQR',
+            'GetReasonForSwabbing',
         ];
     }
 }
