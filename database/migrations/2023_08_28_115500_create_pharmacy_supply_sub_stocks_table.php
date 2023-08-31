@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePharmacySupplyStocksTable extends Migration
+class CreatePharmacySupplySubStocksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreatePharmacySupplyStocksTable extends Migration
      */
     public function up()
     {
-        Schema::create('pharmacy_supply_stocks', function (Blueprint $table) {
+        Schema::create('pharmacy_supply_sub_stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('supply_id')->constrained('pharmacy_supplies')->onDelete('cascade');
+            $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
             $table->date('expiration_date')->nullable();
 
             $table->integer('current_box_stock');
@@ -35,6 +35,6 @@ class CreatePharmacySupplyStocksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pharmacy_supply_stocks');
+        Schema::dropIfExists('pharmacy_supply_sub_stocks');
     }
 }

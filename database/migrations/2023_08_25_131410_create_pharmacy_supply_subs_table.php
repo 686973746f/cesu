@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePharmacySuppliesTable extends Migration
+class CreatePharmacySupplySubsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreatePharmacySuppliesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pharmacy_supplies', function (Blueprint $table) {
+        Schema::create('pharmacy_supply_subs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('supply_master_id')->constrained('pharmacy_supply_masters')->onDelete('cascade');
             $table->foreignId('pharmacy_branch_id')->constrained('pharmacy_branches')->onDelete('cascade');
-            $table->text('name');
-            $table->string('category');
-            $table->string('quantity_type')->default('BOX');
+            $table->text('self_sku_code')->nullable();
+            $table->text('self_description')->nullable();
 
-            $table->text('sku_code')->nullable();
             $table->text('po_contract_number')->nullable();
             $table->text('supplier')->nullable();
-            $table->text('description')->nullable();
             $table->string('dosage_form')->nullable();
             $table->string('dosage_strength')->nullable();
             $table->string('unit_measure')->nullable();
@@ -33,10 +31,11 @@ class CreatePharmacySuppliesTable extends Migration
             $table->string('mode_of_procurement')->nullable();
             $table->string('end_user')->nullable();
 
-            $table->integer('config_piecePerBox');
-
+            $table->integer('default_issuance_per_box')->nullable();
+            $table->integer('default_issuance_per_piece')->nullable();
+            
             $table->integer('master_box_stock');
-            $table->integer('master_piece_stock');
+            $table->integer('master_piece_stock')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
@@ -52,6 +51,6 @@ class CreatePharmacySuppliesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pharmacy_supplies');
+        Schema::dropIfExists('pharmacy_supply_subs');
     }
 }

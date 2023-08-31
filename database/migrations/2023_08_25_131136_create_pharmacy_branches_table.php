@@ -18,6 +18,8 @@ class CreatePharmacyBranchesTable extends Migration
             $table->string('name');
             $table->text('focal_person')->nullable();
             $table->text('contact_number')->nullable();
+            $table->string('level')->nullable();
+            $table->foreignId('if_bhs_id')->nullable()->constrained('barangay_health_stations')->onDelete('cascade');
             $table->timestamps();
         });
     }
