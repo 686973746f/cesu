@@ -15,7 +15,7 @@ class CreatePharmacyStockLogsTable extends Migration
     {
         Schema::create('pharmacy_stock_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('supply_id')->constrained('pharmacy_supplies')->onDelete('cascade');
+            $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
             $table->string('type');
             $table->integer('get_stock');
             $table->integer('stock_credit')->nullable();

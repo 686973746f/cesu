@@ -15,7 +15,7 @@ class CreatePharmacyStockCardsTable extends Migration
     {
         Schema::create('pharmacy_stock_cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('supply_id')->constrained('pharmacy_supplies')->onDelete('cascade');
+            $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
             $table->string('type');
             $table->integer('before_qty');
             $table->integer('qty_to_process');
@@ -24,6 +24,8 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->text('drsi_number')->nullable();
             
             $table->text('recipient')->nullable();
+            $table->foreignId('receiving_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
+            $table->foreignId('receiving_patient_id')->nullable()->constrained('pharmacy_patients')->onDelete('cascade');
             $table->text('remarks')->nullable();
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
