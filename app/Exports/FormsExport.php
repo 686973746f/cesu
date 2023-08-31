@@ -962,7 +962,7 @@ class FormsExport implements FromCollection, WithMapping, WithHeadings
             ($first_testingcat == "J1.1" || $first_testingcat == "J1.2" || $first_testingcat == "J1.3" || $first_testingcat == "J1.4" || $first_testingcat == "J1.5" || $first_testingcat == "J1.6" || $first_testingcat == "J1.7" || $first_testingcat == "J1.8" || $first_testingcat == "J1.9" || $first_testingcat == "J1.10" || $first_testingcat == "J1.11" || $first_testingcat == "J.2") ? $first_testingcat : 'J', //J
             $sg_a_specify,
             (!is_null($form->antigenqr)) ? 'https://cesugentri.com/verify/'.$form->antigenqr : '',
-            $$getReason,
+            $getReason,
         ];
     }
 
