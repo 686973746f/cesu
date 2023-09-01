@@ -243,8 +243,10 @@
                                 <option value="AZ" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
                                 <option value="J&J" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
                                 <option value="Moderna" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="ModernaBivalent" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
                                 <option value="Novavax" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="PfizerBivalent" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
                                 <option value="Sinohpharm" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
@@ -327,8 +329,10 @@
                                 <option value="AZ" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
                                 <option value="J&J" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
                                 <option value="Moderna" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="ModernaBivalent" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
                                 <option value="Novavax" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="PfizerBivalent" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
                                 <option value="Sinohpharm" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
@@ -410,8 +414,10 @@
                                 <option value="AZ" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
                                 <option value="J&J" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
                                 <option value="Moderna" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="ModernaBivalent" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
                                 <option value="Novavax" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="PfizerBivalent" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
                                 <option value="Sinohpharm" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
@@ -492,8 +498,10 @@
                                 <option value="AZ" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
                                 <option value="J&J" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
                                 <option value="Moderna" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
+                                <option value="ModernaBivalent" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
                                 <option value="Novavax" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
+                                <option value="PfizerBivalent" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
                                 <option value="Sinohpharm" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
