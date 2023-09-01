@@ -1174,6 +1174,7 @@ class PIDSRController extends Controller
 
             $query = $query->where('Muncity', 'GENERAL TRIAS')
             ->where('Province', 'CAVITE')
+            ->where('enabled', 1)
             ->get();
 
             return view('pidsr.casechecker', [
@@ -1183,6 +1184,15 @@ class PIDSRController extends Controller
         }
         else {
             return view('pidsr.casechecker');
+        }
+    }
+
+    public function casechecker_action() {
+        if(request()->input('d') && request()->input('action') && request()->input('epi_id')) {
+
+        }
+        else {
+            return abort(401);
         }
     }
 

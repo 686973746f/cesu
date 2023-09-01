@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PharmacyStockCard;
 use App\Models\PharmacyStockLog;
 use App\Models\PharmacySupply;
+use App\Models\PharmacySupplyMaster;
 use App\Models\PharmacySupplyStock;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,28 @@ class PharmacyController extends Controller
 {
     public function home() {
         return view('pharmacy.home');
+    }
+
+    public function addMasterItem(Request $r) {
+        $check = PharmacySupplyMaster::where('sku_code', mb_strtoupper($r->sku_code))
+        ->orWhere('name', mb_strtoupper($r->name))
+        ->first();
+
+        if(!($check)) {
+            $c = $r->user()->pharmacysupplymaster()->create([
+                'name' => mb_strtoupper($r->name),
+                'sku_code' => mb_strtoupper($r->sku_code),
+                'category' => $r->category,
+                'description' => $r->description,
+                'quantity_type' => $r->quantity_type,
+                'config_piecePerBox' => $r->config_piecePerBox,
+            ]);
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Master Item already exists in the database. Please double check the Item Name and SKU Code.')
+            ->with('msgtype', 'warning');
+        }   
     }
 
     public function addItem(Request $r) {

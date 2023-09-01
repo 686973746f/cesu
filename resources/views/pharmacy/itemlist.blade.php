@@ -6,7 +6,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b>List of Items</b></div>
-                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct">Add Product</button></div>
+                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterItem">Add Master Item</button></div>
+                <!-- <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct">Add Product</button></div> -->
             </div>
         </div>
         <div class="card-body">
@@ -56,6 +57,61 @@
     </div>
 </div>
 
+<div class="modal fade" id="addMasterItem" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Master Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="name"><b class="text-danger">*</b>Item Name</label>
+                    <input type="text" class="form-control" name="name" id="name" style="text-transform: uppercase;" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" name="description" id="description">
+                </div>
+                <div class="form-group">
+                    <label for="category"><b class="text-danger">*</b>Category</label>
+                    <select class="form-control" name="category" id="category" required>
+                        <option value="" disabled {{is_null(old('category')) ? 'selected' : ''}}>Select...</option>
+                        <option value="ANTIBIOTICS">ANTIBIOTICS</option>
+                        <option value="FAMILY PLANNING">FAMILY PLANNING</option>
+                        <option value="MAINTENANCE">MAINTENANCE</option>
+                        <option value="OINTMENT">OINTMENT</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="sku_code"><b class="text-danger">*</b>SKU Code</label>
+                    <input type="text" class="form-control" name="sku_code" id="sku_code" required>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
+                        <select class="form-control" name="quantity_type" id="quantity_type" required>
+                            <option value="BOX">PER BOX</option>
+                            <option value="BOTTLE">PER BOTTLE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="config_piecePerBox"><b class="text-danger">*</b>Piece per Box</label>
+                    <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <form action="{{route('pharmacy_additem')}}" method="POST">
     @csrf
     <div class="modal fade" id="addProduct" tabindex="-1" role="dialog">
@@ -68,29 +124,10 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                      <label for="name"><b class="text-danger">*</b>Item Name</label>
-                      <input type="text" class="form-control" name="name" id="name" style="text-transform: uppercase;" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" class="form-control" name="description" id="description" >
-                    </div>
-                    <div class="form-group">
-                        <label for="category"><b class="text-danger">*</b>Category</label>
-                        <select class="form-control" name="category" id="category" required>
-                            <option value="" disabled {{is_null(old('category')) ? 'selected' : ''}}>Select...</option>
-                            <option value="ANTIBIOTICS">ANTIBIOTICS</option>
-                            <option value="FAMILY PLANNING">FAMILY PLANNING</option>
-                            <option value="MAINTENANCE">MAINTENANCE</option>
-                            <option value="OINTMENT">OINTMENT</option>
-                            <option value="OTHERS">OTHERS</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sku_code"><b class="text-danger">*</b>SKU Code</label>
-                        <input type="text" class="form-control" name="sku_code" id="sku_code" required>
-                    </div>
+                    
+                    
+                    
+                    
                     <div id="accordianId" role="tablist" aria-multiselectable="true">
                         <div class="card">
                             <div class="card-header" role="tab" id="section1HeaderId">
@@ -146,10 +183,7 @@
                                         <input type="text" class="form-control" name="end_user" id="end_user" style="text-transform: uppercase;">
                                     </div>
                                     <hr>
-                                    <div class="form-group">
-                                        <label for="config_piecePerBox">Piece per Box</label>
-                                        <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox">
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -162,15 +196,7 @@
                                 <input type="number" class="form-control" name="supply_base_stock" id="supply_base_stock" min="1" value="{{old('supply_base_stock', 1)}}" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
-                                <select class="form-control" name="quantity_type" id="quantity_type" required>
-                                    <option value="BOX">PER BOX</option>
-                                    <option value="BOTTLE">PER BOTTLE</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     
                     <div class="form-group">

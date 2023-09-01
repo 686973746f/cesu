@@ -59,14 +59,16 @@
                             @foreach($columns as $c)
                             <th>{{ucfirst($c)}}</th>
                             @endforeach
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list as $l)
                         <tr>
                             @foreach($columns as $c)
-                            <td>{{$l->$c}}</td>
+                            <td>{{mb_strtoupper($l->$c)}}</td>
                             @endforeach
+                            <td><a href="{{route('pidsr_casechecker_action')}}?d={{request()->input('case')}}&action=DELETE&epi_id={{$l->EPIID}}" class="btn btn-warning" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a></td>
                         </tr>
                         @endforeach
                     </tbody>
