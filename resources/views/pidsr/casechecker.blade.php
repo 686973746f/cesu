@@ -78,6 +78,11 @@
 </div>
 
 <script>
-    $('#list_table').dataTable();
+    $('#list_table').dataTable({
+        dom: 'Bfritp',
+        buttons: [
+            'excel',
+        ],
+    });
 </script>
 @endsection

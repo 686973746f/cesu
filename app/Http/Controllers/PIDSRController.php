@@ -1067,8 +1067,13 @@ class PIDSRController extends Controller
                 $columns = Schema::getColumnListing('abd');
             }
             else if($case == 'AEFI') {
-                $query = Aefi::where('year', $year);
-                $columns = Schema::getColumnListing('pidsr_aefi');
+                $query = Aefi::whereYear('DAdmit', $year);
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                    $columns = Schema::getColumnListing('pidsr_aefi');
+                }
+                else {
+                    $columns = Schema::getColumnListing('pidsr_AEFI');
+                }   
             }
             else if($case == 'AES') {
                 $query = Aes::where('year', $year);

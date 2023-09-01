@@ -591,7 +591,7 @@
                                 <b>LIBRE PO</b> ang magpaayos ng VaxCert Record.
                             </div>
                         </div>
-                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Mag-file ng bagong Ticket <i>(No Record Found/Missing Doses/etc.)</i></button>
+                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Magpatuloy</button>
                         @if(date('w') == 6 || date('w') == 0)
                         <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes.</h6>
                         @endif
