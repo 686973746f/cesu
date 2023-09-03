@@ -86,23 +86,98 @@
                         <option value="OTHERS">OTHERS</option>
                     </select>
                 </div>
-                <hr>
                 <div class="form-group">
                     <label for="sku_code"><b class="text-danger">*</b>SKU Code</label>
                     <input type="text" class="form-control" name="sku_code" id="sku_code" required>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
-                        <select class="form-control" name="quantity_type" id="quantity_type" required>
-                            <option value="BOX">PER BOX</option>
-                            <option value="BOTTLE">PER BOTTLE</option>
-                        </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
+                            <select class="form-control" name="quantity_type" id="quantity_type" required>
+                                <option value="BOX">PER BOX</option>
+                                <option value="BOTTLE">PER BOTTLE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="config_piecePerBox"><b class="text-danger">*</b>Max Quantity per Box/Bottle</label>
+                            <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" min="1" required>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="config_piecePerBox"><b class="text-danger">*</b>Piece per Box</label>
-                    <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" required>
+                <hr>
+                <div id="accordianId" role="tablist" aria-multiselectable="true">
+                    <div class="card mb-3">
+                        <div class="card-header btn-dropdown" role="tab" id="section1HeaderId">
+                            <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">Stock Card Details</a>
+                        </div>
+                        <div id="section1ContentId" class="collapse" role="tabpanel" aria-labelledby="section1HeaderId">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="po_contract_number">PO Contract Number</label>
+                                    <input type="text" class="form-control" name="po_contract_number" id="po_contract_number" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier">Supplier</label>
+                                    <input type="text" class="form-control" name="supplier" id="supplier" style="text-transform: uppercase;">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="dosage_form">Dosage Form</label>
+                                            <input type="text" class="form-control" name="dosage_form" id="dosage_form" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="dosage_strength">Dosage Strength</label>
+                                            <input type="text" class="form-control" name="dosage_strength" id="dosage_strength" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="unit_measure">Unit Measure</label>
+                                    <input type="text" class="form-control" name="unit_measure" id="unit_measure" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="entity_name">Entity Name</label>
+                                    <input type="text" class="form-control" name="entity_name" id="entity_name" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="source_of_funds">Source of Funds</label>
+                                    <input type="text" class="form-control" name="source_of_funds" id="source_of_funds" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="unit_cost">Unit Cost</label>
+                                    <input type="text" class="form-control" name="unit_cost" id="unit_cost" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mode_of_procurement">Mode of Procurement</label>
+                                    <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="end_user">End User</label>
+                                    <input type="text" class="form-control" name="end_user" id="end_user" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="master_box_stock"><b class="text-danger">*</b>Current Stock (in Boxes/Bottles)</label>
+                            <input type="number" class="form-control" name="master_box_stock" id="master_box_stock" min="1" value="{{old('master_box_stock', 1)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
+                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d')}}" required>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -124,85 +199,8 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    
-                    
-                    
-                    
-                    <div id="accordianId" role="tablist" aria-multiselectable="true">
-                        <div class="card">
-                            <div class="card-header" role="tab" id="section1HeaderId">
-                                <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">Other Details</a>
-                            </div>
-                            <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
-                                <div class="card-body">
-                                    
-                                    <div class="form-group">
-                                        <label for="po_contract_number">PO Contract Number</label>
-                                        <input type="text" class="form-control" name="po_contract_number" id="po_contract_number" style="text-transform: uppercase;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="supplier">Supplier</label>
-                                        <input type="text" class="form-control" name="supplier" id="supplier" style="text-transform: uppercase;">
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="dosage_form">Dosage Form</label>
-                                                <input type="text" class="form-control" name="dosage_form" id="dosage_form" style="text-transform: uppercase;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="dosage_strength">Dosage Strength</label>
-                                                <input type="text" class="form-control" name="dosage_strength" id="dosage_strength" style="text-transform: uppercase;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="unit_measure">Unit Measure</label>
-                                        <input type="text" class="form-control" name="unit_measure" id="unit_measure" style="text-transform: uppercase;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="entity_name">Entity Name</label>
-                                        <input type="text" class="form-control" name="entity_name" id="entity_name" style="text-transform: uppercase;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="source_of_funds">Source of Funds</label>
-                                        <input type="text" class="form-control" name="source_of_funds" id="source_of_funds" style="text-transform: uppercase;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="unit_cost">Unit Cost</label>
-                                        <input type="text" class="form-control" name="unit_cost" id="unit_cost" style="text-transform: uppercase;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="mode_of_procurement">Mode of Procurement</label>
-                                        <input type="text" class="form-control" name="mode_of_procurement" id="mode_of_procurement" style="text-transform: uppercase;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="end_user">End User</label>
-                                        <input type="text" class="form-control" name="end_user" id="end_user" style="text-transform: uppercase;">
-                                    </div>
-                                    <hr>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="supply_base_stock"><b class="text-danger">*</b>Current Quantity (in Boxes/Bottles)</label>
-                                <input type="number" class="form-control" name="supply_base_stock" id="supply_base_stock" min="1" value="{{old('supply_base_stock', 1)}}" required>
-                            </div>
-                        </div>
-                        
-                    </div>
                     
-                    <div class="form-group">
-                        <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
-                        <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d')}}" required>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Save</button>

@@ -10,7 +10,7 @@ class PharmacyStockLog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'supply_id',
+        'subsupply_id',
         'type',
         'get_stock',
         'stock_credit',

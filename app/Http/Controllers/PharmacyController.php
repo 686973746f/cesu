@@ -7,6 +7,7 @@ use App\Models\PharmacyStockLog;
 use App\Models\PharmacySupply;
 use App\Models\PharmacySupplyMaster;
 use App\Models\PharmacySupplyStock;
+use App\Models\PharmacySupplySub;
 use Illuminate\Http\Request;
 
 class PharmacyController extends Controller
@@ -29,6 +30,50 @@ class PharmacyController extends Controller
                 'quantity_type' => $r->quantity_type,
                 'config_piecePerBox' => $r->config_piecePerBox,
             ]);
+
+            $d = $r->user()->pharmacysupplysub()->create([
+                'supply_master_id' => $c->id,
+                'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+                'self_sku_code' => NULL,
+                'self_description' => NULL,
+
+                'po_contract_number' => $c->po_contract_number,
+                'supplier' => $c->supplier,
+                'dosage_form' => $c->dosage_form,
+                'dosage_strength' => $c->dosage_strength,
+                'unit_measure' => $c->unit_measure,
+                'entity_name' => $c->entity_name,
+                'source_of_funds' => $c->source_of_funds,
+                'unit_cost' => $c->unit_cost,
+                'mode_of_procurement' => $c->mode_of_procurement,
+                'end_user' => $c->end_user,
+                'default_issuance_per_box' => NULL,
+                'default_issuance_per_piece' => NULL,
+
+                'master_box_stock' => $c->master_box_stock,
+                'master_piece_stock' => $c->master_piece_stock,
+            ]);
+
+            $e = $r->user()->pharmacysupplysubstock()->create([
+                'subsupply_id' => $d->id,
+                'expiration_date' => $r->expiration_date,
+                'current_box_stock' => $r->master_box_stock,
+                'current_piece_stock' => $r->master_piece_stock,
+            ]);
+
+            $f = $r->user()->pharmacystockcard()->create([
+                'subsupply_id' => $d->id,
+
+                'type' => 'RECEIVED',
+                'before_qty' => 0,
+                'qty_to_process' => ,
+                'after_qty',
+                'total_cost',
+                'drsi_number',
+
+                'recipient',
+                'remarks' => 'INITIAL ENCODING',
+            ]);
         }
         else {
             return redirect()->back()
@@ -37,7 +82,9 @@ class PharmacyController extends Controller
         }   
     }
 
-    public function addItem(Request $r) {
+    public function addSubItem($master_id, Request $r) {
+
+        /*
         $check = PharmacySupply::where('sku_code', mb_strtoupper($r->sku_code))
         ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
         ->first();
@@ -97,6 +144,7 @@ class PharmacyController extends Controller
             ->with('msg', 'Error: Item already exists in the database.')
             ->with('msgtype', 'warning');
         }
+        */
     }
 
     public function modifyStockView() {
@@ -244,12 +292,17 @@ class PharmacyController extends Controller
         if(request()->input('q')) {
             $q = request()->input('q');
 
-            $list = PharmacySupply::where('sku_code', $q)
-            ->orWhere('name', 'LIKE', '%'.$q.'%')
+            $list = PharmacySupplySub::whereHas('pharmacy_supply_masters', function ($r) use ($q) {
+                $r->where('sku_code', $q)
+                ->orWhere('name','LIKE', '%'.$q.'%');
+            })
+            ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
             ->paginate(10);
         }
         else {
-            $list = PharmacySupply::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)->orderBy('name', 'ASC')->paginate(10);
+            $list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->orderBy('name', 'ASC')
+            ->paginate(10);
         }
 
         return view('pharmacy.itemlist', [
