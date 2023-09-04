@@ -203,45 +203,163 @@ class PharmacyController extends Controller
         $d = PharmacySupplySub::findOrFail($subsupply_id);
         
         if($r->type == 'ISSUED') {
-            if($r->qty_type == 'BOX') {
-                //double check logic - if has enough stock
-                if($d->master_box_stock >= $r->qty_to_process) {
+            if($d->pharmacysupplymaster->quantity_type == 'BOX') {
+                if($r->qty_type == 'BOX') {
+                    //BOX TYPE QTY ISSUANCE
+                    //double check logic - if has enough stock
+                    if($d->master_box_stock >= $r->qty_to_process) {
+                        $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
+    
+                        $d->master_box_stock = $d->master_box_stock - $r->qty_to_process;
+                        
+                        if($stock->current_box_stock < $r->qty_to_process) {
+                            $qty_remaining = $r->qty_to_process - $stock->current_box_stock;
+                            $stock->current_box_stock = 0;
+                            $stock->current_piece_stock = $stock->current_piece_stock - ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
+    
+                            $array_of_ids = [];
+                            $array_of_ids[] = $r->select_sub_supply_id;
+    
+                            while($qty_remaining > 0) {
+                                $loop_search = PharmacySupplySubStock::whereNotIn('id', $array_of_ids)
+                                ->where('subsupply_id', $d->id)
+                                ->where('current_box_stock', '>', 0)
+                                ->orderBy('expiration_date', 'ASC')
+                                ->first();
+    
+                                if($loop_search->current_box_stock < $qty_remaining) {
+                                    $loop_search->current_box_stock = 0;
+                                    $loop_search->current_piece_stock = 0;
+                                    $array_of_ids[] = $loop_search->id;
+                                }
+                                else {
+                                    $loop_search->current_box_stock = ($loop_search->current_box_stock - $qty_remaining);
+                                    $loop_search->current_piece_stock = $loop_search->current_piece_stock - ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
+                                }
+            
+                                $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_box_stock'));
+                                
+                                if($loop_search->isDirty()) {
+                                    $loop_search->save();
+                                }
+                            }
+                        }
+                        else {
+                            $stock->current_box_stock = $stock->current_box_stock - $r->qty_to_process;
+                            $stock->current_piece_stock = $stock->current_piece_stock - ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
+                        }
+    
+                        if($d->isDirty()) {
+                            $d->save();
+                        }
+    
+                        if($stock->isDirty()) {
+                            $stock->save();
+                        }
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Stock was changed upon processing. Please try again.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+                    //PIECE TYPE QTY ISSUANCE
+                    if($d->master_piece_stock >= $r->qty_to_process) {
+                        $d->master_piece_stock = $d->master_piece_stock - $r->qty_to_process;
+                    
+                        //Check how many box can exist with the updated pieces
+                        while(($d->master_box_stock * $d->pharmacysupplymaster->config_piecePerBox) > $d->master_piece_stock) {
+                            $d->master_box_stock = $d->master_box_stock - 1;
+                        }
+    
+                        //proceed with deducting the sub stock
+                        $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
+                        if($stock->current_piece_stock >= $r->qty_to_process) {
+                            $stock->current_piece_stock = $stock->current_piece_stock - $r->qty_to_process;
+                            
+                            while(($stock->current_box_stock * $d->pharmacysupplymaster->config_piecePerBox) > $stock->current_piece_stock) {
+                                $stock->current_box_stock = $stock->current_box_stock - 1;
+                            }
+                        }
+                        else {
+                            $qty_remaining = $r->qty_to_process - $stock->current_piece_stock;
+                            $stock->current_piece_stock = 0;
+                            $stock->current_box_stock = 0;
+                            
+                            $array_of_ids = [];
+                            $array_of_ids[] = $r->select_sub_supply_id;
+                            
+                            while($qty_remaining > 0) {
+                                $loop_search = PharmacySupplySubStock::whereNotIn('id', $array_of_ids)
+                                ->where('subsupply_id', $d->id)
+                                ->where('current_piece_stock', '>', 0)
+                                ->orderBy('expiration_date', 'ASC')
+                                ->first();
+
+                                if($loop_search->current_piece_stock < $qty_remaining) {
+                                    $loop_search->current_box_stock = 0;
+                                    $loop_search->current_piece_stock = 0;
+                                    
+                                    $array_of_ids[] = $loop_search->id;
+                                }
+                                else {
+                                    $loop_search->current_piece_stock = $loop_search->current_piece_stock - $qty_remaining;
+
+                                    while(($loop_search->current_box_stock * $d->pharmacysupplymaster->config_piecePerBox) > $loop_search->current_piece_stock) {
+                                        $loop_search->current_box_stock = $loop_search->current_box_stock - 1;
+                                    }
+                                }
+            
+                                $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_piece_stock'));
+                                
+                                if($loop_search->isDirty()) {
+                                    $loop_search->save();
+                                }
+                            }
+                        }
+
+                        if($d->isDirty()) {
+                            $d->save();
+                        }
+    
+                        if($stock->isDirty()) {
+                            $stock->save();
+                        }
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Stock was changed upon processing. Please try again.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+    
+                $actiontxt = 'Issued';
+            }
+            else {
+                //ISSUE BOTTLE TYPE
+                $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
+                $d->master_box_stock = $d->master_box_stock - $r->qty_to_process;
+
+                if($stock->current_box_stock <)
+            }
+        }
+        else {
+            if($d->pharmacysupplymaster->quantity_type == 'BOX') {
+                if($r->qty_type == 'BOX') {
 
                 }
                 else {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Stock was changed upon processing. Please try again.')
-                    ->with('msgtype', 'warning');
+        
                 }
             }
             else {
-                if($d->master_piece_stock >= $r->qty_to_process) {
-                    $d->master_piece_stock = $d->master_piece_stock - $r->qty_to_process;
-                
-                    //Check how many box can exist with the updated pieces
-                    while(($d->master_box_stock * $d->pharmacysupplymaster->config_piecePerBox) > $d->master_piece_stock) {
-                        $d->master_box_stock = $d->master_box_stock - 1;
-                    }
-                }
-            }
 
-            $actiontxt = 'Issued';
-        }
-        else {
-            if($r->qty_type == 'BOX') {
-
-            }
-            else {
-    
             }
 
             $actiontxt = 'Received';
         }
-
-        if($d->isDirty()) {
-            $d->save();
-        }
-
+        
         /*
         if($r->type == 'ISSUED') {
             $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
