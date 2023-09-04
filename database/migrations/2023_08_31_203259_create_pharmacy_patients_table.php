@@ -44,6 +44,9 @@ class CreatePharmacyPatientsTable extends Migration
             $table->string('status')->default('ENABLED');
             $table->text('status_remarks')->nullable();
             $table->foreignId('pharmacy_branch_id')->constrained('pharmacy_branches')->onDelete('cascade');
+
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

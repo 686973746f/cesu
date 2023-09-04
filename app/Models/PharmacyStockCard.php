@@ -14,9 +14,12 @@ class PharmacyStockCard extends Model
     protected $fillable = [
         'subsupply_id',
         'type',
-        'before_qty',
+        'before_qty_box',
+        'before_qty_piece',
         'qty_to_process',
-        'after_qty',
+        'qty_type',
+        'after_qty_box',
+        'after_qty_piece',
         'total_cost',
         'drsi_number',
 
@@ -35,6 +38,5 @@ class PharmacyStockCard extends Model
         else {
             return NULL;
         }
-        
     }
 }

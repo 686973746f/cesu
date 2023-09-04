@@ -17,9 +17,12 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->id();
             $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
             $table->string('type');
-            $table->integer('before_qty');
+            $table->integer('before_qty_box');
+            $table->integer('before_qty_piece')->nullable();
             $table->integer('qty_to_process');
-            $table->integer('after_qty');
+            $table->string('qty_type')->default('BOX');
+            $table->integer('after_qty_box');
+            $table->integer('after_qty_piece')->nullable();
             $table->double('total_cost')->nullable();
             $table->text('drsi_number')->nullable();
             

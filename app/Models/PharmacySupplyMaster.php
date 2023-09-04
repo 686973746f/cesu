@@ -17,4 +17,17 @@ class PharmacySupplyMaster extends Model
         'quantity_type',
         'config_piecePerBox',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    
+    public function getQtyType() {
+        if($this->quantity_type == 'BOX') {
+            return 'Boxes';
+        }
+        else {
+            return 'Bottles';
+        }
+    }
 }

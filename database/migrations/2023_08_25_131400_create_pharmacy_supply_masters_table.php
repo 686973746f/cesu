@@ -23,6 +23,8 @@ class CreatePharmacySupplyMastersTable extends Migration
 
             $table->integer('config_piecePerBox')->nullable();
             
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

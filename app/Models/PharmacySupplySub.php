@@ -31,4 +31,12 @@ class PharmacySupplySub extends Model
         'master_box_stock',
         'master_piece_stock',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function pharmacysupplymaster() {
+        return $this->belongsTo(PharmacySupplyMaster::class, 'supply_master_id');
+    }
 }

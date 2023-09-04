@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PharmacyBranch;
 use App\Models\PharmacyStockCard;
 use App\Models\PharmacyStockLog;
 use App\Models\PharmacySupply;
 use App\Models\PharmacySupplyMaster;
 use App\Models\PharmacySupplyStock;
 use App\Models\PharmacySupplySub;
+use App\Models\PharmacySupplySubStock;
 use Illuminate\Http\Request;
 
 class PharmacyController extends Controller
@@ -28,52 +30,58 @@ class PharmacyController extends Controller
                 'category' => $r->category,
                 'description' => $r->description,
                 'quantity_type' => $r->quantity_type,
-                'config_piecePerBox' => $r->config_piecePerBox,
+                'config_piecePerBox' => ($r->quantity_type == 'BOX') ? $r->config_piecePerBox : NULL, 
             ]);
 
-            $d = $r->user()->pharmacysupplysub()->create([
-                'supply_master_id' => $c->id,
-                'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
-                'self_sku_code' => NULL,
-                'self_description' => NULL,
+            if($r->master_box_stock != 0) {
+                $d = $r->user()->pharmacysupplysub()->create([
+                    'supply_master_id' => $c->id,
+                    'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+                    'self_sku_code' => NULL,
+                    'self_description' => NULL,
+    
+                    'po_contract_number' => $r->po_contract_number,
+                    'supplier' => $r->supplier,
+                    'dosage_form' => $r->dosage_form,
+                    'dosage_strength' => $r->dosage_strength,
+                    'unit_measure' => $r->unit_measure,
+                    'entity_name' => $r->entity_name,
+                    'source_of_funds' => $r->source_of_funds,
+                    'unit_cost' => $r->unit_cost,
+                    'mode_of_procurement' => $r->mode_of_procurement,
+                    'end_user' => $r->end_user,
+                    'default_issuance_per_box' => NULL,
+                    'default_issuance_per_piece' => NULL,
+    
+                    'master_box_stock' => $r->master_box_stock,
+                    'master_piece_stock' => ($r->quantity_type == 'BOX') ? ($r->config_piecePerBox * $r->master_box_stock) : NULL, 
+                ]);
+    
+                $e = $r->user()->pharmacysupplysubstock()->create([
+                    'subsupply_id' => $d->id,
+                    'expiration_date' => $r->expiration_date,
+                    'current_box_stock' => $r->master_box_stock,
+                    'current_piece_stock' => ($r->quantity_type == 'BOX') ? ($r->config_piecePerBox * $r->master_box_stock) : NULL, 
+                ]);
+    
+                $f = $r->user()->pharmacystockcard()->create([
+                    'subsupply_id' => $d->id,
+    
+                    'type' => 'RECEIVED',
+                    'before_qty' => 0,
+                    'qty_to_process' => $r->master_box_stock,
+                    'after_qty' => $r->master_box_stock,
+                    'total_cost' => NULL,
+                    'drsi_number' => NULL,
+    
+                    'recipient' => NULL,
+                    'remarks' => 'INITIAL ENCODING',
+                ]);
+            }
 
-                'po_contract_number' => $c->po_contract_number,
-                'supplier' => $c->supplier,
-                'dosage_form' => $c->dosage_form,
-                'dosage_strength' => $c->dosage_strength,
-                'unit_measure' => $c->unit_measure,
-                'entity_name' => $c->entity_name,
-                'source_of_funds' => $c->source_of_funds,
-                'unit_cost' => $c->unit_cost,
-                'mode_of_procurement' => $c->mode_of_procurement,
-                'end_user' => $c->end_user,
-                'default_issuance_per_box' => NULL,
-                'default_issuance_per_piece' => NULL,
-
-                'master_box_stock' => $c->master_box_stock,
-                'master_piece_stock' => $c->master_piece_stock,
-            ]);
-
-            $e = $r->user()->pharmacysupplysubstock()->create([
-                'subsupply_id' => $d->id,
-                'expiration_date' => $r->expiration_date,
-                'current_box_stock' => $r->master_box_stock,
-                'current_piece_stock' => $r->master_piece_stock,
-            ]);
-
-            $f = $r->user()->pharmacystockcard()->create([
-                'subsupply_id' => $d->id,
-
-                'type' => 'RECEIVED',
-                'before_qty' => 0,
-                'qty_to_process' => ,
-                'after_qty',
-                'total_cost',
-                'drsi_number',
-
-                'recipient',
-                'remarks' => 'INITIAL ENCODING',
-            ]);
+            return redirect()->back()
+            ->with('msg', 'Master Item was added successfully.')
+            ->with('msgtype', 'success');
         }
         else {
             return redirect()->back()
@@ -147,34 +155,25 @@ class PharmacyController extends Controller
         */
     }
 
-    public function modifyStockView() {
+    public function modifyStockQr() {
         if(request()->input('code')) {
-            $c = request()->input('code');
+            $code = request()->input('code');
 
-            $search = PharmacySupply::where('sku_code', $c)
-            ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-            ->first();
+            $s = PharmacySupplyMaster::where('sku_code', $code)->first();
 
-            
+            if($s) {
+                //find if sub supply exists
+                $t = PharmacySupplySubStock::where('subsupply_id', $s->id)
+                ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+                ->first();
 
-            //$search->name = 'PARAZZZ';
-
-            //dd($search->getOriginal('name'));
-
-            if($search) {
-                $sub_list = PharmacySupplyStock::where('supply_id', $search->id)
-                ->where('current_box_stock', '>', 0)
-                ->orderBy('expiration_date', 'ASC')
-                ->get();
-
-                return view('pharmacy.modify_stock', [
-                    'd' => $search,
-                    'sub_list' => $sub_list,
-                ]);
+                if($t) {
+                    return redirect()->route('pharmacy_modify_view', $t->id);
+                }
             }
             else {
                 return redirect()->back()
-                ->with('msg', 'SKU Code does not exists or belongs to other branches.')
+                ->with('msg', 'Error: SKU Code does not exists in the database.')
                 ->with('msgtype', 'warning');
             }
         }
@@ -183,7 +182,138 @@ class PharmacyController extends Controller
         }
     }
 
-    public function modifyStockProcess($product_id, Request $r) {
+    public function modifyStockView($subsupply_id) {
+        $d = PharmacySupplySub::findOrFail($subsupply_id);
+
+        $sub_list = PharmacySupplySubStock::where('subsupply_id', $d->id)
+        ->get();
+
+        $branch_list = PharmacyBranch::where('id', '!=', auth()->user()->pharmacy_branch_id)
+        ->orderBy('name', 'ASC')
+        ->get();
+
+        return view('pharmacy.modify_stock', [
+            'd' => $d,
+            'sub_list' => $sub_list,
+            'branch_list' => $branch_list,
+        ]);
+    }
+
+    public function modifyStockProcess($subsupply_id, Request $r) {
+        $d = PharmacySupplySub::findOrFail($subsupply_id);
+        
+        if($r->type == 'ISSUED') {
+            if($r->qty_type == 'BOX') {
+                //double check logic - if has enough stock
+                if($d->master_box_stock >= $r->qty_to_process) {
+
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Stock was changed upon processing. Please try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else {
+                if($d->master_piece_stock >= $r->qty_to_process) {
+                    $d->master_piece_stock = $d->master_piece_stock - $r->qty_to_process;
+                
+                    //Check how many box can exist with the updated pieces
+                    while(($d->master_box_stock * $d->pharmacysupplymaster->config_piecePerBox) > $d->master_piece_stock) {
+                        $d->master_box_stock = $d->master_box_stock - 1;
+                    }
+                }
+            }
+
+            $actiontxt = 'Issued';
+        }
+        else {
+            if($r->qty_type == 'BOX') {
+
+            }
+            else {
+    
+            }
+
+            $actiontxt = 'Received';
+        }
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        /*
+        if($r->type == 'ISSUED') {
+            $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
+            
+            $d->master_box_stock = ($d->master_box_stock - $r->qty_to_process);
+            $actiontxt = 'Issued';
+
+            if($stock->current_box_stock < $r->qty_to_process) {
+                $qty_remaining = $r->qty_to_process - $stock->current_box_stock;
+
+                $array_of_ids = [];
+                $array_of_ids[] = $r->select_sub_supply_id;
+
+                while($qty_remaining > 0) {
+                    $loop_search = PharmacySupplySubStock::whereNotIn('id', $array_of_ids)
+                    ->where('current_box_stock', '>', 0)
+                    ->orderBy('expiration_date', 'ASC')
+                    ->first();
+
+                    if($loop_search->current_box_stock < $qty_remaining) {
+                        $loop_search->current_box_stock = 0;
+                        $array_of_ids[] = $loop_search->id;
+                    }
+                    else {
+                        $loop_search->current_box_stock = ($loop_search->current_box_stock - $qty_remaining);
+                    }
+
+                    $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_box_stock'));
+                    
+                    if($loop_search->isDirty()) {
+                        $loop_search->save();
+                    }
+                }
+
+                $stock->current_box_stock = 0;
+            }
+            else {
+                $stock->current_box_stock = $d->master_box_stock;
+            }
+        }
+        else {
+            $d->master_box_stock = ($d->master_box_stock + $r->qty_to_process);
+            $d->master_piece_stock = (!is_null($d->master_piece_stock)) ? $d->master_piece_stock + ($d->pharmacysupplymaster->config_piecePerBox * $r->qty_to_process) : NULL;
+            $actiontxt = 'Received';
+
+            //$sub_stock->current_box_stock = $search->master_box_stock;
+
+            //add stock supply
+            $substock_search = PharmacySupplySubStock::where('subsupply_id', $d->id)
+            ->whereDate('expiration_date', $r->expiration_date)
+            ->first();
+            
+            if($substock_search) {
+                $substock_search->current_box_stock = $substock_search->current_box_stock + $r->qty_to_process;
+
+                $substock_search->updated_by = auth()->user()->id;
+
+                if($substock_search->isDirty()) {
+                    $substock_search->save();
+                }
+            }
+            else {
+                $new_stock_create = $r->user()->pharmacysupplystock()->create([
+                    'supply_id' => $search->id,
+                    'expiration_date' => $r->expiration_date,
+                    'current_box_stock' => $r->qty_to_process,
+                ]);
+            }
+        }
+        */
+
+        /*
         $c = $product_id;
 
         $search = PharmacySupply::where('sku_code', $c)
@@ -286,13 +416,14 @@ class PharmacyController extends Controller
         else {
             return abort(401);
         }
+        */
     }
     
     public function viewItemList() {
         if(request()->input('q')) {
             $q = request()->input('q');
 
-            $list = PharmacySupplySub::whereHas('pharmacy_supply_masters', function ($r) use ($q) {
+            $list = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($r) use ($q) {
                 $r->where('sku_code', $q)
                 ->orWhere('name','LIKE', '%'.$q.'%');
             })
@@ -301,7 +432,9 @@ class PharmacyController extends Controller
         }
         else {
             $list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-            ->orderBy('name', 'ASC')
+            ->whereHas('pharmacysupplymaster', function ($q) {
+                $q->orderBy('name', 'ASC');
+            })
             ->paginate(10);
         }
 
@@ -311,18 +444,18 @@ class PharmacyController extends Controller
     }
 
     public function viewItem($item_id) {
-        $item = PharmacySupply::findOrFail($item_id);
+        $item = PharmacySupplySub::findOrFail($item_id);
 
         if($item->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
-            $sub_list = PharmacySupplyStock::where('supply_id', $item->id)
+            $sub_list = PharmacySupplySubStock::where('subsupply_id', $item->id)
             ->orderBy('expiration_date', 'ASC')
             ->get();
 
-            $scard = PharmacyStockCard::where('supply_id', $item->id)
+            $scard = PharmacyStockCard::where('subsupply_id', $item->id)
             ->orderBy('created_at', 'DESC')
             ->get();
 
-            return view('pharmacy.itemlist_viewitem', [
+            return view('pharmacy.itemlist_viewSub', [
                 'd' => $item,
                 'sub_list' => $sub_list,
                 'scard' => $scard,

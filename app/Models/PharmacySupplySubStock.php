@@ -15,4 +15,8 @@ class PharmacySupplySubStock extends Model
         'current_box_stock',
         'current_piece_stock',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

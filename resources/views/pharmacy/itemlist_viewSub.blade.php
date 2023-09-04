@@ -5,8 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>View Item</b></div>
-                    <div><!--<a href="{{route('pharmacy_modify_view')}}?code={{$d->sku_code}}" class="btn btn-success">Modify Stock</a>--></div>
+                    <div><b>View Sub Item</b> (Under Branch: {{auth()->user()->pharmacybranch->name}})</div>
                 </div>
             </div>
             <div class="card-body">
@@ -19,48 +18,57 @@
                     <div class="card mb-3">
                         <div class="card-header"><b>Item Details</b></div>
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="name"><b class="text-danger">*</b>Item Name</label>
-                                <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" style="text-transform: uppercase;" required>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label for="">Master Item Name</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{$d->pharmacysupplymaster->name}}" style="text-transform: uppercase;" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Master ID</label>
+                                        <input type="text" class="form-control text-center" name="" id="" value="#{{$d->pharmacysupplymaster->id}}" style="text-transform: uppercase;" disabled>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="sku_code"><b class="text-danger">*</b>SKU Code</label>
-                                <input type="text" class="form-control" name="sku_code" id="sku_code" value="{{old('sku_code', $d->sku_code)}}" style="text-transform: uppercase;" required>
+                                <label for="sku_code">Master SKU Code</label>
+                                <input type="text" class="form-control" name="sku_code" id="sku_code" value="{{old('sku_code', $d->pharmacysupplymaster->sku_code)}}" style="text-transform: uppercase;" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->description)}}" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->pharmacysupplymaster->description)}}" style="text-transform: uppercase;" disabled>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="category"><b class="text-danger">*</b>Category</label>
-                                        <select class="form-control" name="category" id="category" required>
-                                            <option value="ANTIBIOTICS" {{(old('category', $d->category) == 'ANTIBIOTICS') ? 'selected' : ''}}>ANTIBIOTICS</option>
-                                            <option value="FAMILY PLANNING" {{(old('category', $d->category) == 'FAMILY PLANNING') ? 'selected' : ''}}>FAMILY PLANNING</option>
-                                            <option value="MAINTENANCE" {{(old('category', $d->category) == 'MAINTENANCE') ? 'selected' : ''}}>MAINTENANCE</option>
-                                            <option value="OINTMENT" {{(old('category', $d->category) == 'OINTMENT') ? 'selected' : ''}}>OINTMENT</option>
-                                            <option value="OTHERS" {{(old('category', $d->category) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
+                                        <label for="category">Category</label>
+                                        <select class="form-control" name="category" id="category" disabled>
+                                            <option value="ANTIBIOTICS" {{(old('category', $d->pharmacysupplymaster->category) == 'ANTIBIOTICS') ? 'selected' : ''}}>ANTIBIOTICS</option>
+                                            <option value="FAMILY PLANNING" {{(old('category', $d->pharmacysupplymaster->category) == 'FAMILY PLANNING') ? 'selected' : ''}}>FAMILY PLANNING</option>
+                                            <option value="MAINTENANCE" {{(old('category', $d->pharmacysupplymaster->category) == 'MAINTENANCE') ? 'selected' : ''}}>MAINTENANCE</option>
+                                            <option value="OINTMENT" {{(old('category', $d->pharmacysupplymaster->category) == 'OINTMENT') ? 'selected' : ''}}>OINTMENT</option>
+                                            <option value="OTHERS" {{(old('category', $d->pharmacysupplymaster->category) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
-                                        <select class="form-control" name="quantity_type" id="quantity_type" required>
-                                            <option value="BOX" {{(old('quantity_type', $d->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
-                                            <option value="BOTTLE" {{(old('quantity_type', $d->quantity_type) == 'BOTTLE') ? 'selected' : ''}}>PER BOTTLE</option>
+                                        <label for="quantity_type">Quantity Type</label>
+                                        <select class="form-control" name="quantity_type" id="quantity_type" disabled>
+                                            <option value="BOX" {{(old('quantity_type', $d->pharmacysupplymaster->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
+                                            <option value="BOTTLE" {{(old('quantity_type', $d->pharmacysupplymaster->quantity_type) == 'BOTTLE') ? 'selected' : ''}}>PER BOTTLE</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
                             <div id="accordianId" role="tablist" aria-multiselectable="true">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="section1HeaderId">
-                                        <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">Other Details</a>
+                                        <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">Stock Card Details</a>
                                     </div>
-                                    <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                                    <div id="section1ContentId" class="collapse show" role="tabpanel" aria-labelledby="section1HeaderId">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <label for="po_contract_number">PO Contract Number</label>
@@ -128,7 +136,7 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <div><b>Batch Details</b></div>
-                            <div><a href="{{route('pharmacy_modify_view')}}?code={{$d->sku_code}}" class="btn btn-success">Modify Stock</a></div>
+                            <div><a href="{{route('pharmacy_modify_view', $d->id)}}" class="btn btn-success">Modify Stock</a></div>
                         </div>
                     </div>
                     <div class="card-body">
