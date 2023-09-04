@@ -248,6 +248,26 @@ class PharmacyController extends Controller
                             $stock->current_box_stock = $stock->current_box_stock - $r->qty_to_process;
                             $stock->current_piece_stock = $stock->current_piece_stock - ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
                         }
+
+                        //PROCESS STOCK CARD
+                        $create_sc = $r->user()->pharmacystockcard()->create([
+                            'subsupply_id' => $d->id,
+                            'type' => 'ISSUED',
+                            'before_qty_box' => $d->getOriginal('master_box_stock'),
+                            'before_qty_piece' => $d->getOriginal('master_piece_stock'),
+                            'qty_to_process' => $r->qty_to_process,
+                            'qty_type' => 'BOX',
+                            'after_qty_box' => $d->master_box_stock,
+                            'after_qty_piece' => $d->master_piece_stock,
+                            'total_cost' => $r->total_cost,
+                            'drsi_number' => $r->drsi_number,
+
+                            'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
+                            'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $r->receiving_patient_id : NULL,
+                            'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
+
+                            'remarks' => $r->remarks,
+                        ]);
     
                         if($d->isDirty()) {
                             $d->save();
@@ -256,6 +276,7 @@ class PharmacyController extends Controller
                         if($stock->isDirty()) {
                             $stock->save();
                         }
+
                     }
                     else {
                         return redirect()->back()
@@ -319,6 +340,26 @@ class PharmacyController extends Controller
                             }
                         }
 
+                        //PROCESS STOCK CARD
+                        $create_sc = $r->user()->pharmacystockcard()->create([
+                            'subsupply_id' => $d->id,
+                            'type' => 'ISSUED',
+                            'before_qty_box' => $d->getOriginal('master_box_stock'),
+                            'before_qty_piece' => $d->getOriginal('master_piece_stock'),
+                            'qty_to_process' => $r->qty_to_process,
+                            'qty_type' => 'BOX',
+                            'after_qty_box' => $d->master_box_stock,
+                            'after_qty_piece' => $d->master_piece_stock,
+                            'total_cost' => $r->total_cost,
+                            'drsi_number' => $r->drsi_number,
+
+                            'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
+                            'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $r->receiving_patient_id : NULL,
+                            'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
+
+                            'remarks' => $r->remarks,
+                        ]);
+
                         if($d->isDirty()) {
                             $d->save();
                         }
@@ -341,20 +382,176 @@ class PharmacyController extends Controller
                 $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
                 $d->master_box_stock = $d->master_box_stock - $r->qty_to_process;
 
-                if($stock->current_box_stock <)
+                if($stock->current_box_stock < $r->qty_to_process) {
+                    $qty_remaining = $r->qty_to_process - $stock->current_box_stock;
+                    $stock->current_box_stock = 0;
+                    
+                    $array_of_ids = [];
+                    $array_of_ids[] = $r->select_sub_supply_id;
+                    
+                    while($qty_remaining > 0) {
+                        $loop_search = PharmacySupplySubStock::whereNotIn('id', $array_of_ids)
+                        ->where('subsupply_id', $d->id)
+                        ->where('current_box_stock', '>', 0)
+                        ->orderBy('expiration_date', 'ASC')
+                        ->first();
+
+                        if($loop_search->current_piece_stock < $qty_remaining) {
+                            $loop_search->current_box_stock = 0;
+                            
+                            $array_of_ids[] = $loop_search->id;
+                        }
+                        else {
+                            $loop_search->current_box_stock = $loop_search->current_box_stock - $qty_remaining;
+                        }
+    
+                        $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_box_stock'));
+                        
+                        if($loop_search->isDirty()) {
+                            $loop_search->save();
+                        }
+                    }
+                }
+                else {
+                    $stock->current_box_stock = $stock->current_box_stock - $r->qty_to_process;
+                }
+
+                //PROCESS STOCK CARD
+                $create_sc = $r->user()->pharmacystockcard()->create([
+                    'subsupply_id' => $d->id,
+                    'type' => 'ISSUED',
+                    'before_qty_box' => $d->getOriginal('master_box_stock'),
+                    'before_qty_piece' => $d->getOriginal('master_piece_stock'),
+                    'qty_to_process' => $r->qty_to_process,
+                    'qty_type' => 'BOX',
+                    'after_qty_box' => $d->master_box_stock,
+                    'after_qty_piece' => $d->master_piece_stock,
+                    'total_cost' => $r->total_cost,
+                    'drsi_number' => $r->drsi_number,
+
+                    'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
+                    'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $r->receiving_patient_id : NULL,
+                    'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
+
+                    'remarks' => $r->remarks,
+                ]);
+
+                if($d->isDirty()) {
+                    $d->save();
+                }
+
+                if($stock->isDirty()) {
+                    $stock->save();
+                }
             }
         }
         else {
+            //RECEIVE
             if($d->pharmacysupplymaster->quantity_type == 'BOX') {
                 if($r->qty_type == 'BOX') {
+                    $d->master_box_stock += $r->qty_to_process;
+                    $d->master_piece_stock += ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
 
+                    //check if sub stock with expiration date exists
+                    $stock = PharmacySupplySubStock::where('subsupply_id', $d->id)
+                    ->whereDate('expiration_date', $r->expiration_date)
+                    ->first();
+
+                    if($stock) {
+                        $stock->update([
+                            'current_box_stock' => $stock->current_box_stock + $r->qty_to_process,
+                            'current_piece_stock' => $stock->current_piece_stock + ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox),
+                        ]);
+                    }
+                    else {
+                        $create_stock = $r->user()->pharmacysupplysubstock()->create([
+                            'subsupply_id' => $d->id,
+                            'expiration_date' => $r->expiration_date,
+                            'current_box_stock' => $r->$r->qty_to_process,
+                            'current_piece_stock' => $r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox,
+                        ]);
+                    }
+
+                    //PROCESS STOCK CARD
+                    $create_sc = $r->user()->pharmacystockcard()->create([
+                        'subsupply_id' => $d->id,
+                        'type' => 'ISSUED',
+                        'before_qty_box' => $d->getOriginal('master_box_stock'),
+                        'before_qty_piece' => $d->getOriginal('master_piece_stock'),
+                        'qty_to_process' => $r->qty_to_process,
+                        'qty_type' => 'BOX',
+                        'after_qty_box' => $d->master_box_stock,
+                        'after_qty_piece' => $d->master_piece_stock,
+                        'total_cost' => $r->total_cost,
+                        'drsi_number' => $r->drsi_number,
+
+                        'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
+                        'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $r->receiving_patient_id : NULL,
+                        'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
+
+                        'remarks' => $r->remarks,
+                    ]);
+
+                    if($d->isDirty()) {
+                        $d->save();
+                    }
+    
+                    if($stock->isDirty()) {
+                        $stock->save();
+                    }
                 }
                 else {
-        
+                    //PER PIECE, NOT ALLOWED
                 }
             }
             else {
+                $d->master_box_stock += $r->qty_to_process;
+                
+                //check if sub stock with expiration date exists
+                $stock = PharmacySupplySubStock::where('subsupply_id', $d->id)
+                ->whereDate('expiration_date', $r->expiration_date)
+                ->first();
 
+                if($stock) {
+                    $stock->update([
+                        'current_box_stock' => $stock->current_box_stock + $r->qty_to_process,
+                    ]);
+                }
+                else {
+                    $create_stock = $r->user()->pharmacysupplysubstock()->create([
+                        'subsupply_id' => $d->id,
+                        'expiration_date' => $r->expiration_date,
+                        'current_box_stock' => $r->$r->qty_to_process,
+                    ]);
+                }
+
+                //PROCESS STOCK CARD
+                $create_sc = $r->user()->pharmacystockcard()->create([
+                    'subsupply_id' => $d->id,
+                    'type' => 'RECEIVED',
+                    'before_qty_box' => $d->getOriginal('master_box_stock'),
+                    'before_qty_piece' => $d->getOriginal('master_piece_stock'),
+                    'qty_to_process' => $r->qty_to_process,
+                    'qty_type' => 'BOX',
+                    'after_qty_box' => $d->master_box_stock,
+                    'after_qty_piece' => $d->master_piece_stock,
+                    'total_cost' => $r->total_cost,
+                    'drsi_number' => $r->drsi_number,
+
+                    'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
+                    'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $r->receiving_patient_id : NULL,
+                    'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
+
+                    'remarks' => $r->remarks,
+                ]);
+
+                if($d->isDirty()) {
+                    $d->save();
+                }
+
+                if($stock->isDirty()) {
+                    $stock->save();
+                }
             }
 
             $actiontxt = 'Received';

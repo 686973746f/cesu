@@ -20,7 +20,7 @@
                     {{session('msg')}}
                 </div>
                 @endif
-                <form action="{{route('pharmacy_modify_view')}}" method="GET">
+                <form action="{{route('pharmacy_modify_qr')}}" method="GET">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Search via QR / SKU Code" name="code" id="code" autocomplete="off" required autofocus>
                         <div class="input-group-append">

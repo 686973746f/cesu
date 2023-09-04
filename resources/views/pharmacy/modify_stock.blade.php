@@ -114,9 +114,9 @@
                           </div>
                           <div id="if_branch" class="d-none">
                               <div class="form-group">
-                                  <label for="transfer_branch_id"><b class="text-danger">*</b>Select Branch</label>
-                                  <select class="form-control" name="transfer_branch_id" id="transfer_branch_id">
-                                    <option value="" disabled {{(is_null(old('transfer_branch_id'))) ? 'selected' : ''}}>Choose...</option>
+                                  <label for="receiving_branch_id"><b class="text-danger">*</b>Select Branch</label>
+                                  <select class="form-control" name="receiving_branch_id" id="receiving_branch_id">
+                                    <option value="" disabled {{(is_null(old('receiving_branch_id'))) ? 'selected' : ''}}>Choose...</option>
                                     @foreach($branch_list as $br)
                                     <option value="{{$br->id}}">{{$br->name}}</option>
                                     @endforeach
@@ -125,8 +125,8 @@
                           </div>
                           <div id="if_patient" class="d-none">
                               <div class="form-group">
-                                <label for="patient_qr"><b class="text-danger">*</b>Patient ID / Scan QR</label>
-                                <input type="text" class="form-control" name="patient_qr" id="patient_qr">
+                                <label for="receiving_patient_id"><b class="text-danger">*</b>Patient ID / Scan QR</label>
+                                <input type="text" class="form-control" name="receiving_patient_id" id="receiving_patient_id">
                               </div>
                           </div>
                           <div id="if_others" class="d-none">
@@ -210,26 +210,26 @@
                 $('#if_patient').addClass('d-none');
                 $('#if_others').addClass('d-none');
                 
-                $('transfer_branch_id').prop('required', true);
-                $('patient_qr').prop('required', false);
-                $('recipient').prop('required', false);
+                $('#receiving_branch_id').prop('required', true);
+                $('#receiving_patient_id').prop('required', false);
+                $('#recipient').prop('required', false);
             }
             else if($(this).val() == 'PATIENT') {
                 $('#if_branch').addClass('d-none');
                 $('#if_patient').removeClass('d-none');
                 $('#if_others').addClass('d-none');
                 
-                $('transfer_branch_id').prop('required', false);
-                $('patient_qr').prop('required', true);
-                $('recipient').prop('required', false);
+                $('#receiving_branch_id').prop('required', false);
+                $('#receiving_patient_id').prop('required', true);
+                $('#recipient').prop('required', false);
             }
             else if($(this).val() == 'OTHERS') {
                 $('#if_branch').addClass('d-none');
                 $('#if_patient').addClass('d-none');
                 $('#if_others').removeClass('d-none');
                 
-                $('transfer_branch_id').prop('required', false);
-                $('patient_qr').prop('required', false);
+                $('receiving_branch_id').prop('required', false);
+                $('receiving_patient_id').prop('required', false);
                 $('recipient').prop('required', true);
             }
             else {
@@ -237,8 +237,8 @@
                 $('#if_patient').addClass('d-none');
                 $('#if_others').addClass('d-none');
                 
-                $('transfer_branch_id').prop('required', false);
-                $('patient_qr').prop('required', false);
+                $('receiving_branch_id').prop('required', false);
+                $('receiving_patient_id').prop('required', false);
                 $('recipient').prop('required', false);
             }
         }).trigger('change');

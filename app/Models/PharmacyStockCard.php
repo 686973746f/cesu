@@ -24,6 +24,9 @@ class PharmacyStockCard extends Model
         'drsi_number',
 
         'recipient',
+        'receiving_branch_id',
+        'receiving_patient_id',
+        
         'remarks',
     ];
 
