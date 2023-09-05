@@ -32,7 +32,7 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">Import Excel to Database</button>
-                    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#export">Settings</button>
+                    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#settings">Settings</button>
                 </div>
             </div>
         </div>
