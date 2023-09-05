@@ -32,6 +32,7 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">Import Excel to Database</button>
+                    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#export">Settings</button>
                 </div>
             </div>
         </div>
@@ -54,6 +55,35 @@
               <hr>
               <a href="{{route('abtc_home')}}" class="btn btn-primary btn-block">Animal Bite (ABTC)</a>
               <a href="{{route('fhsis_home')}}" class="btn btn-primary btn-block">eFHSIS</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="settings" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('pidsr_reset_sent')}}" method="GET">
+                    <div class="card">
+                        <div class="card-header"><b>Reset Resending</b></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                              <label for="dtr">Select Date to Reset</label>
+                              <input type="date" class="form-control" name="dtr" id="dtr" value="{{date('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-block">Process Reset</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

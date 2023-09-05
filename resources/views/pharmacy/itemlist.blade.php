@@ -81,10 +81,13 @@
                         <label for="category"><b class="text-danger">*</b>Category</label>
                         <select class="form-control" name="category" id="category" required>
                             <option value="" disabled {{is_null(old('category')) ? 'selected' : ''}}>Select...</option>
+                            <option value="GENERAL">GENERAL</option>
                             <option value="ANTIBIOTICS">ANTIBIOTICS</option>
+                            <option value="BOTTLES">BOTTLES</option>
                             <option value="FAMILY PLANNING">FAMILY PLANNING</option>
                             <option value="MAINTENANCE">MAINTENANCE</option>
                             <option value="OINTMENT">OINTMENT</option>
+                            <option value="YELLOW RX">YELLOW RX</option>
                             <option value="OTHERS">OTHERS</option>
                         </select>
                     </div>
@@ -98,7 +101,7 @@
                                 <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
                                 <select class="form-control" name="quantity_type" id="quantity_type" required>
                                     <option value="BOX">PER BOX</option>
-                                    <option value="BOTTLE">PER BOTTLE</option>
+                                    <option value="BOTTLE">PER PIECE/BOTTLES</option>
                                 </select>
                             </div>
                         </div>

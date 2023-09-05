@@ -12,6 +12,7 @@ class PharmacySupplyMaster extends Model
     protected $fillable = [
         'name',
         'sku_code',
+        'sku_code_doh',
         'category',
         'description',
         'quantity_type',

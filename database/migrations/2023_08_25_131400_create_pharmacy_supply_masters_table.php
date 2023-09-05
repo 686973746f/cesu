@@ -17,6 +17,7 @@ class CreatePharmacySupplyMastersTable extends Migration
             $table->id();
             $table->text('name');
             $table->text('sku_code');
+            $table->text('sku_code_doh')->nullable();
             $table->string('category');
             $table->text('description')->nullable();
             $table->string('quantity_type')->default('BOX');
