@@ -398,24 +398,24 @@ class PIDSRController extends Controller
             Excel::import(new PidsrImport('AMES'), storage_path('app/pidsr/AMES.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Anthrax.xlsx'))) {
-            Excel::import(new PidsrImport('ANTHRAX'), storage_path('app/pidsr/Anthrax.xlsx'));
+        if(File::exists(storage_path('app/pidsr/ANTHRAX.xlsx'))) {
+            Excel::import(new PidsrImport('ANTHRAX'), storage_path('app/pidsr/ANTHRAX.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/ChikV.xlsx'))) {
-            Excel::import(new PidsrImport('CHIKV'), storage_path('app/pidsr/ChikV.xlsx'));
+        if(File::exists(storage_path('app/pidsr/CHIKV.xlsx'))) {
+            Excel::import(new PidsrImport('CHIKV'), storage_path('app/pidsr/CHIKV.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Cholera.xlsx'))) {
-            Excel::import(new PidsrImport('CHOLERA'), storage_path('app/pidsr/Cholera.xlsx'));
+        if(File::exists(storage_path('app/pidsr/CHOLERA.xlsx'))) {
+            Excel::import(new PidsrImport('CHOLERA'), storage_path('app/pidsr/CHOLERA.xlsx'));
         }
 
         if(File::exists(storage_path('app/pidsr/DENGUE.xlsx'))) {
             Excel::import(new PidsrImport('DENGUE'), storage_path('app/pidsr/DENGUE.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Diph.xlsx'))) {
-            Excel::import(new PidsrImport('DIPH'), storage_path('app/pidsr/Diph.xlsx'));
+        if(File::exists(storage_path('app/pidsr/DIPH.xlsx'))) {
+            Excel::import(new PidsrImport('DIPH'), storage_path('app/pidsr/DIPH.xlsx'));
         }
 
         if(File::exists(storage_path('app/pidsr/HEPATITIS.xlsx'))) {
@@ -426,28 +426,28 @@ class PIDSRController extends Controller
             Excel::import(new PidsrImport('HFMD'), storage_path('app/pidsr/HFMD.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Influenza.xlsx'))) {
-            Excel::import(new PidsrImport('INFLUENZA'), storage_path('app/pidsr/Influenza.xlsx'));
+        if(File::exists(storage_path('app/pidsr/INFLUENZA.xlsx'))) {
+            Excel::import(new PidsrImport('INFLUENZA'), storage_path('app/pidsr/INFLUENZA.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Leptospirosis.xlsx'))) {
-            Excel::import(new PidsrImport('LEPTOSPIROSIS'), storage_path('app/pidsr/Leptospirosis.xlsx'));
+        if(File::exists(storage_path('app/pidsr/LEPTOSPIROSIS.xlsx'))) {
+            Excel::import(new PidsrImport('LEPTOSPIROSIS'), storage_path('app/pidsr/LEPTOSPIROSIS.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Malaria.xlsx'))) {
-            Excel::import(new PidsrImport('MALARIA'), storage_path('app/pidsr/Malaria.xlsx'));
+        if(File::exists(storage_path('app/pidsr/MALARIA.xlsx'))) {
+            Excel::import(new PidsrImport('MALARIA'), storage_path('app/pidsr/MALARIA.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Measles.xlsx'))) {
-            Excel::import(new PidsrImport('MEASLES'), storage_path('app/pidsr/Measles.xlsx'));
+        if(File::exists(storage_path('app/pidsr/MEASLES.xlsx'))) {
+            Excel::import(new PidsrImport('MEASLES'), storage_path('app/pidsr/MEASLES.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Meningitis.xlsx'))) {
-            Excel::import(new PidsrImport('MENINGITIS'), storage_path('app/pidsr/Meningitis.xlsx'));
+        if(File::exists(storage_path('app/pidsr/MENINGITIS.xlsx'))) {
+            Excel::import(new PidsrImport('MENINGITIS'), storage_path('app/pidsr/MENINGITIS.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Meningo.xlsx'))) {
-            Excel::import(new PidsrImport('MENINGO'), storage_path('app/pidsr/Meningo.xlsx'));
+        if(File::exists(storage_path('app/pidsr/MENINGO.xlsx'))) {
+            Excel::import(new PidsrImport('MENINGO'), storage_path('app/pidsr/MENINGO.xlsx'));
         }
 
         if(File::exists(storage_path('app/pidsr/NNT.xlsx'))) {
@@ -458,24 +458,24 @@ class PIDSRController extends Controller
             Excel::import(new PidsrImport('NT'), storage_path('app/pidsr/NT.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Pert.xlsx'))) {
-            Excel::import(new PidsrImport('PERT'), storage_path('app/pidsr/Pert.xlsx'));
+        if(File::exists(storage_path('app/pidsr/PERT.xlsx'))) {
+            Excel::import(new PidsrImport('PERT'), storage_path('app/pidsr/PERT.xlsx'));
         }
 
         if(File::exists(storage_path('app/pidsr/PSP.xlsx'))) {
             Excel::import(new PidsrImport('PSP'), storage_path('app/pidsr/PSP.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Rabies.xlsx'))) {
-            Excel::import(new PidsrImport('RABIES'), storage_path('app/pidsr/Rabies.xlsx'));
+        if(File::exists(storage_path('app/pidsr/RABIES.xlsx'))) {
+            Excel::import(new PidsrImport('RABIES'), storage_path('app/pidsr/RABIES.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/RotaVirus.xlsx'))) {
-            Excel::import(new PidsrImport('ROTAVIRUS'), storage_path('app/pidsr/RotaVirus.xlsx'));
+        if(File::exists(storage_path('app/pidsr/ROTAVIRUS.xlsx'))) {
+            Excel::import(new PidsrImport('ROTAVIRUS'), storage_path('app/pidsr/ROTAVIRUS.xlsx'));
         }
 
-        if(File::exists(storage_path('app/pidsr/Typhoid.xlsx'))) {
-            Excel::import(new PidsrImport('TYPHOID'), storage_path('app/pidsr/Typhoid.xlsx'));
+        if(File::exists(storage_path('app/pidsr/TYPHOID.xlsx'))) {
+            Excel::import(new PidsrImport('TYPHOID'), storage_path('app/pidsr/TYPHOID.xlsx'));
         }
 
         $aefi_file = storage_path('app/pidsr/aefi.sql');
@@ -493,26 +493,26 @@ class PIDSRController extends Controller
         File::delete(storage_path('app/pidsr/AFP.xlsx'));
         File::delete(storage_path('app/pidsr/AHF.xlsx'));
         File::delete(storage_path('app/pidsr/AMES.xlsx'));
-        File::delete(storage_path('app/pidsr/Anthrax.xlsx'));
-        File::delete(storage_path('app/pidsr/ChikV.xlsx'));
-        File::delete(storage_path('app/pidsr/Cholera.xlsx'));
+        File::delete(storage_path('app/pidsr/ANTHRAX.xlsx'));
+        File::delete(storage_path('app/pidsr/CHIKV.xlsx'));
+        File::delete(storage_path('app/pidsr/CHOLERA.xlsx'));
         File::delete(storage_path('app/pidsr/DENGUE.xlsx'));
-        File::delete(storage_path('app/pidsr/Diph.xlsx'));
+        File::delete(storage_path('app/pidsr/DIPH.xlsx'));
         File::delete(storage_path('app/pidsr/HEPATITIS.xlsx'));
         File::delete(storage_path('app/pidsr/HFMD.xlsx'));
-        File::delete(storage_path('app/pidsr/Influenza.xlsx'));
-        File::delete(storage_path('app/pidsr/Leptospirosis.xlsx'));
-        File::delete(storage_path('app/pidsr/Malaria.xlsx'));
-        File::delete(storage_path('app/pidsr/Measles.xlsx'));
-        File::delete(storage_path('app/pidsr/Meningitis.xlsx'));
-        File::delete(storage_path('app/pidsr/Meningo.xlsx'));
+        File::delete(storage_path('app/pidsr/INFLUENZA.xlsx'));
+        File::delete(storage_path('app/pidsr/LEPTOSPIROSIS.xlsx'));
+        File::delete(storage_path('app/pidsr/MALARIA.xlsx'));
+        File::delete(storage_path('app/pidsr/MEASLES.xlsx'));
+        File::delete(storage_path('app/pidsr/MENINGITIS.xlsx'));
+        File::delete(storage_path('app/pidsr/MENINGO.xlsx'));
         File::delete(storage_path('app/pidsr/NNT.xlsx'));
         File::delete(storage_path('app/pidsr/NT.xlsx'));
-        File::delete(storage_path('app/pidsr/Pert.xlsx'));
+        File::delete(storage_path('app/pidsr/PERT.xlsx'));
         File::delete(storage_path('app/pidsr/PSP.xlsx'));
-        File::delete(storage_path('app/pidsr/Rabies.xlsx'));
-        File::delete(storage_path('app/pidsr/RotaVirus.xlsx'));
-        File::delete(storage_path('app/pidsr/Typhoid.xlsx'));
+        File::delete(storage_path('app/pidsr/RABIES.xlsx'));
+        File::delete(storage_path('app/pidsr/ROTAVIRUS.xlsx'));
+        File::delete(storage_path('app/pidsr/TYPHOID.xlsx'));
         File::delete(storage_path('app/pidsr/aefi.sql'));
 
         if(request()->input('m')) {
