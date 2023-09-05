@@ -32,7 +32,9 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">Import Excel to Database</button>
+                    @if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
                     <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#settings">Settings</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -59,7 +61,7 @@
         </div>
     </div>
 </div>
-
+@if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
 <div class="modal fade" id="settings" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -88,6 +90,7 @@
         </div>
     </div>
 </div>
+@endif
 
 <form action="{{route('pidsr.threshold')}}" method="GET">
     <div class="modal fade" id="thresh" tabindex="-1" role="dialog">

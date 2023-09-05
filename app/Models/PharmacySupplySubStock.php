@@ -12,6 +12,8 @@ class PharmacySupplySubStock extends Model
     protected $fillable = [
         'subsupply_id',
         'expiration_date',
+        'batch_number',
+        'lot_number',
         'current_box_stock',
         'current_piece_stock',
     ];

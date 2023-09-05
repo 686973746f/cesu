@@ -17,6 +17,8 @@ class CreatePharmacySupplySubStocksTable extends Migration
             $table->id();
             $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
             $table->date('expiration_date')->nullable();
+            $table->text('batch_number')->nullable();
+            $table->text('lot_number')->nullable();
 
             $table->integer('current_box_stock');
             $table->integer('current_piece_stock')->nullable();
