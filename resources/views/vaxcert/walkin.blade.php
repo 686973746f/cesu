@@ -584,10 +584,6 @@
                             </ul>
                             <div class="text-center">
                                 <hr>
-                                Kung ang dose na may problema ay hindi po dito sa General Trias binakunahan, doon ka makikipag-coordinate sa LGU kung saan ka binakunahan <i>(via text/call/email or pumunta sa mismong opisina nila)</i> dahil sila ang may kontrol/permisong mag-update ng record mo.
-                                <hr>
-                                Kung nawawala ang Vaccination Card, maaaring mag-request sa pinakamalapit na Vaccination Sites sa General Trias <i>(Ang schedule ng bakunahan ay naka-post sa <a href="https://www.facebook.com/GenTriOfficial/">GenTrias Official FB Page</a>)</i> Magdala lamang ng Photocopy ng Valid ID/Birth Certificate at Affidavit of Loss.
-                                <hr>
                                 <b>LIBRE PO</b> ang magpaayos ng VaxCert Record.
                             </div>
                         </div>

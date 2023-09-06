@@ -35,7 +35,9 @@ class PharmacyExcelImport implements OnEachRow, WithHeadingRow
         ->first();
 
         if(!($check)) {
-            $new1
+            $new1 = PharmacySupplyMaster::create([
+                ''
+            ]);
         }
         else {
 
