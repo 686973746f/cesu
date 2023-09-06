@@ -17,10 +17,21 @@ class PharmacySupplyMaster extends Model
         'description',
         'quantity_type',
         'config_piecePerBox',
+
+        'created_by',
     ];
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }
     }
     
     public function getQtyType() {

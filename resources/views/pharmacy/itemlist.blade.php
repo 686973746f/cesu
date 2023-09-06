@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>List of Items</b></div>
+                <div><b>List of Inventory</b> (Branch: {{auth()->user()->pharmacybranch->name}} | Total: {{$list->total()}})</div>
                 <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterItem">Add Master Item</button></div>
                 <!-- <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct">Add Product</button></div> -->
             </div>
@@ -21,7 +21,7 @@
                     <div class="col-md-8"></div>
                     <div class="col-md-4">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search By Item Name / SKU" style="text-transform: uppercase;" autocomplete="off" required>
+                            <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search By Item Name | SKU Code" style="text-transform: uppercase;" autocomplete="off" required>
                             <div class="input-group-append">
                               <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </div>
@@ -32,7 +32,7 @@
             <table class="table table-bordered table-striped">
                 <thead class="thead-light text-center">
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>Item Name</th>
                         <th>SKU Code</th>
                         <th>Current Stock</th>
@@ -41,18 +41,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($list as $i)
+                    @foreach($list as $ind => $i)
                     <tr>
-                        <td class="text-center">{{$i->id}}</td>
+                        <td class="text-center">{{$list->firstItem() + $ind}}</td>
                         <td><a href="{{route('pharmacy_itemlist_viewitem', $i->id)}}">{{$i->pharmacysupplymaster->name}}</a></td>
                         <td class="text-center">{{$i->pharmacysupplymaster->sku_code}}</td>
                         <td class="text-center">{{$i->master_box_stock}}</td>
-                        <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}}</small></td>
-                        <td class="text-center"><small>{{(!is_null($i->updated_by)) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : NULL}}</small></td>
+                        <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
+                        <td class="text-center"><small>{{(!is_null($i->updated_by)) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : 'N/A'}}</small></td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            <div class="pagination justify-content-center mt-3">
+                {{$list->appends(request()->input())->links()}}
+            </div>
         </div>
     </div>
 </div>

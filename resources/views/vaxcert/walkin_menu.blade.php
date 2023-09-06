@@ -75,9 +75,9 @@
                     <button type="button" id="problembtn_no" class="btn btn-danger btn-lg btn-block">Hindi/No</button>
                 </div>
                 <div id="problemdiv2" class="d-none">
-                    <p style="font-size: 20px;"><b>Kung hindi sa General Trias binakunahan ang concern</b> <i>(Halimbawa: ang nawawalang 2nd dose, o lahat ng dose ay sa ibang LGU nagpabakuna)</i>, makipag-ugnayan sa LGU kung saan ka binakuhan <i>(via call/text/email/viber, or mag-walkin mismo sa kanilang opisina)</i> patungkol sa inyong concern dahil sila ang may kontrol at permission sa inyong records.</p>
+                    <p style="font-size: 20px;"><b>Kung hindi sa General Trias binakunahan ang concern</b> <i>(Halimbawa: ang nawawalang 2nd dose, o lahat ng dose ay sa ibang LGU nagpabakuna)</i>, makipag-ugnayan sa LGU kung saan ka binakuhan <i>(via call/text/email/viber/facebook page, or mag-walkin mismo sa kanilang opisina)</i> patungkol sa inyong concern dahil sila ang may kontrol at permission sa inyong records.</p>
                     <hr>
-                    <p style="font-size: 20px;">Ang mga Staff/Encoders ng GenTrias LGU VaxCert Concerns ay otorisado lamang mag-ayos ng mga records na dito lamang sa GenTrias LGU binakunahan.</p>
+                    <p style="font-size: 20px;">Ang mga Staff/Encoders ng GenTrias LGU VaxCert Concerns ay otorisado lamang mag-ayos ng mga records na dito sa GenTrias LGU lamang binakunahan.</p>
                 </div>
             </div>
         </div>

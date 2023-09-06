@@ -28,6 +28,8 @@ class PharmacyStockCard extends Model
         'receiving_patient_id',
         
         'remarks',
+
+        'created_by',
     ];
 
     public function user() {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PharmacyBranch;
+use App\Models\PharmacyPatient;
 use App\Models\PharmacyStockCard;
 use App\Models\PharmacyStockLog;
 use App\Models\PharmacySupply;
@@ -172,9 +173,16 @@ class PharmacyController extends Controller
                 }
             }
             else {
-                return redirect()->back()
-                ->with('msg', 'Error: SKU Code does not exists in the database.')
+                $s1 = PharmacyPatient::where('id', $code)->first();
+
+                if($s1) {
+
+                }
+                else {
+                    return redirect()->back()
+                ->with('msg', 'Error: SKU Code or Patient ID does not exists in the database.')
                 ->with('msgtype', 'warning');
+                }
             }
         }
         else {
@@ -733,6 +741,27 @@ class PharmacyController extends Controller
         }
         */
     }
+
+    public function masterItemHome() {
+        $list = PharmacySupplyMaster::orderBy('name', 'ASC')
+        ->paginate(10);
+
+        return view('pharmacy.itemlist_viewMasterList', [
+            'list' => $list,
+        ]);
+    }
+
+    public function viewMasterItem($id) {
+        $d = PharmacySupplyMaster::findOrFail($id);
+        
+        return view('pharmacy.itemlist_viewMaster', [
+            'd' => $d,
+        ]);
+    }
+
+    public function updateMasterItem($id, Request $request) {
+
+    }
     
     public function viewItemList() {
         if(request()->input('q')) {
@@ -846,7 +875,7 @@ class PharmacyController extends Controller
 
     public function viewReport() {
         //get expiration within 3 months
-        $expired_list = PharmacySupplyStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
+        $expired_list = PharmacySupplySubStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
         ->where('current_box_stock', '>', 0)
         ->orderBy('expiration_date', 'ASC')
         ->get();

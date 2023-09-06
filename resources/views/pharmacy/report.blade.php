@@ -7,36 +7,41 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-8">
-                    <table class="table table-bordered table-striped text-center">
-                        <thead class="thead-light">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th colspan="3">Top Fast Moving Meds</th>
+                            </tr>
                             <tr>
                                 <th>Item Name</th>
-                                <th>JAN</th>
-                                <th>FEB</th>
-                                <th>MAR</th>
-                                <th>APR</th>
-                                <th>MAY</th>
-                                <th>JUN</th>
-                                <th>JUL</th>
-                                <th>AUG</th>
-                                <th>SEP</th>
-                                <th>OCT</th>
-                                <th>NOV</th>
-                                <th>DEC</th>
+                                <th>Current Stock</th>
+                                <th>% of Issuance vs. Previous Month</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>PARACETAMOL</td>
+                                <td scope="row"></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th colspan="4">Top Barangays Issued</th>
+                            </tr>
+                            <tr>
+                                <th>Top</th>
+                                <th>Barangay</th>
+                                <th>Issued QTY (Boxes)</th>
+                                <th>Issued QTY (Pieces)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row"></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -48,18 +53,18 @@
                     <table class="table table-striped table-bordered text-center">
                         <thead class="thead-light">
                             <tr>
-                                <th colspan="3">Expiring Items (after 3 Months)</th>
+                                <th colspan="3">List of Expiring Meds (after 3 Months)</th>
                             </tr>
                             <tr>
-                                <th>Items Name</th>
-                                <th>Quantity (in Boxes)</th>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
                                 <th>Expiration Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($expired_list as $expired_item)
                             <tr>
-                                <td>{{$expired_item->pharmacysupply->name}}</td>
+                                <td>{{$expired_item->pharmacysub->pharmacysupplymaster->name}}</td>
                                 <td>{{$expired_item->current_box_stock}}</td>
                                 <td><b class="text-danger">{{date('m/d/Y', strtotime($expired_item->expiration_date))}}</b></td>
                             </tr>
@@ -67,6 +72,60 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th colspan="26">Stock Report (Year {{date('Y')}})</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">Name</th>
+                            <th rowspan="2">Category</th>
+                            <th colspan="2">JAN</th>
+                            <th colspan="2">FEB</th>
+                            <th colspan="2">MAR</th>
+                            <th colspan="2">APR</th>
+                            <th colspan="2">MAY</th>
+                            <th colspan="2">JUN</th>
+                            <th colspan="2">JUL</th>
+                            <th colspan="2">AUG</th>
+                            <th colspan="2">SEP</th>
+                            <th colspan="2">OCT</th>
+                            <th colspan="2">NOV</th>
+                            <th colspan="2">DEC</th>
+                        </tr>
+                        <tr>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                            <th>+</th>
+                            <th>-</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

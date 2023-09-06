@@ -18,51 +18,41 @@
                     <div class="card mb-3">
                         <div class="card-header"><b>Item Details</b></div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <label for="">Master Item Name</label>
-                                        <input type="text" class="form-control" name="" id="" value="{{$d->pharmacysupplymaster->name}}" style="text-transform: uppercase;" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Master ID</label>
-                                        <input type="text" class="form-control text-center" name="" id="" value="#{{$d->pharmacysupplymaster->id}}" style="text-transform: uppercase;" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="sku_code">Master SKU Code</label>
-                                <input type="text" class="form-control" name="sku_code" id="sku_code" value="{{old('sku_code', $d->pharmacysupplymaster->sku_code)}}" style="text-transform: uppercase;" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->pharmacysupplymaster->description)}}" style="text-transform: uppercase;" disabled>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="category">Category</label>
-                                        <select class="form-control" name="category" id="category" disabled>
-                                            <option value="ANTIBIOTICS" {{(old('category', $d->pharmacysupplymaster->category) == 'ANTIBIOTICS') ? 'selected' : ''}}>ANTIBIOTICS</option>
-                                            <option value="FAMILY PLANNING" {{(old('category', $d->pharmacysupplymaster->category) == 'FAMILY PLANNING') ? 'selected' : ''}}>FAMILY PLANNING</option>
-                                            <option value="MAINTENANCE" {{(old('category', $d->pharmacysupplymaster->category) == 'MAINTENANCE') ? 'selected' : ''}}>MAINTENANCE</option>
-                                            <option value="OINTMENT" {{(old('category', $d->pharmacysupplymaster->category) == 'OINTMENT') ? 'selected' : ''}}>OINTMENT</option>
-                                            <option value="OTHERS" {{(old('category', $d->pharmacysupplymaster->category) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="quantity_type">Quantity Type</label>
-                                        <select class="form-control" name="quantity_type" id="quantity_type" disabled>
-                                            <option value="BOX" {{(old('quantity_type', $d->pharmacysupplymaster->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
-                                            <option value="BOTTLE" {{(old('quantity_type', $d->pharmacysupplymaster->quantity_type) == 'BOTTLE') ? 'selected' : ''}}>PER BOTTLE</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="font-weight-bold">Master Item Name</td>
+                                        <td class="text-center">{{$d->pharmacysupplymaster->name}}</td>
+                                        <td class="font-weight-bold">Master ID</td>
+                                        <td class="text-center">
+                                            @if(auth()->user()->isAdminPharmacy())
+                                            <a href="">#{{$d->pharmacysupplymaster->id}}</a>
+                                            @else
+                                            #{{$d->pharmacysupplymaster->id}}
+                                            @endif
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">SKU Code (Master)</td>
+                                        <td class="text-center">
+                                            {{$d->pharmacysupplymaster->sku_code}} {!! QrCode::size(70)->generate($d->pharmacysupplymaster->sku_code) !!}
+                                        </td>
+                                        <td class="font-weight-bold">SKU Code (DOH)</td>
+                                        <td class="text-center">{{($d->pharmacysupplymaster->sku_code_doh) ? $d->pharmacysupplymaster->sku_code_doh : 'N/A'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Description</td>
+                                        <td class="text-center" colspan="3">{{$d->pharmacysupplymaster->description}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Category</td>
+                                        <td class="text-center">{{$d->pharmacysupplymaster->category}}</td>
+                                        <td class="font-weight-bold">Quantity Type</td>
+                                        <td class="text-center">{{$d->pharmacysupplymaster->quantity_type}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <div id="accordianId" role="tablist" aria-multiselectable="true">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="section1HeaderId">
@@ -140,28 +130,30 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped text-center">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Expiration Date</th>
-                                    <th>Quantity (in Boxes)</th>
-                                    <th>Date Added / By</th>
-                                    <th>Date Modified / By</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($sub_list as $ind => $sl)
-                                <tr>
-                                    <td>{{$ind+1}}</td>
-                                    <td>{{date('Y-m-d', strtotime($sl->expiration_date))}}</td>
-                                    <td>{{$sl->current_box_stock}}</td>
-                                    <td>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</td>
-                                    <td>{{(!is_null($sl->updated_by)) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : ''}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped text-center" id="batch_tbl">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Expiration Date</th>
+                                        <th>Quantity (in Boxes)</th>
+                                        <th>Date Added / By</th>
+                                        <th>Date Modified / By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($sub_list as $ind => $sl)
+                                    <tr>
+                                        <td>{{$ind+1}}</td>
+                                        <td>{{date('Y-m-d', strtotime($sl->expiration_date))}}</td>
+                                        <td>{{$sl->current_box_stock}}</td>
+                                        <td>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</td>
+                                        <td>{{(!is_null($sl->updated_by)) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : ''}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -173,32 +165,36 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead class="thead-light text-center">
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Received</th>
-                                    <th>Issued</th>
-                                    <th>Balance</th>
-                                    <th>Total Cost</th>
-                                    <th>DR/SI/RIS/PTR/BL No.</th>
-                                    <th>Recipient/Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($scard as $s)
-                                <tr class="text-center">
-                                    <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
-                                    <td>{{($s->type == 'RECEIVED') ? $s->qty_to_process : ''}}</td>
-                                    <td>{{($s->type == 'ISSUED') ? $s->qty_to_process : ''}}</td>
-                                    <td>{{$s->after_qty}}</td>
-                                    <td>{{$s->total_cost}}</td>
-                                    <td>{{$s->drsi_number}}</td>
-                                    <td>{{$s->recipient}}  {{(!is_null($s->remarks)) ? '/ '.$s->remarks : ''}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id="card_tbl">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Received</th>
+                                        <th>Issued</th>
+                                        <th>Balance</th>
+                                        <th>Total Cost</th>
+                                        <th>DR/SI/RIS/PTR/BL No.</th>
+                                        <th>Recipient/Remarks</th>
+                                        <th>Processed by</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($scard as $s)
+                                    <tr class="text-center">
+                                        <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
+                                        <td>{{($s->type == 'RECEIVED') ? $s->qty_to_process : ''}}</td>
+                                        <td>{{($s->type == 'ISSUED') ? $s->qty_to_process : ''}}</td>
+                                        <td>{{$s->after_qty}}</td>
+                                        <td>{{$s->total_cost}}</td>
+                                        <td>{{$s->drsi_number}}</td>
+                                        <td>{{$s->recipient}}  {{(!is_null($s->remarks)) ? '/ '.$s->remarks : ''}}</td>
+                                        <td>{{$s->user->name}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,5 +213,7 @@
                 return false;
             }
         });
+
+        $('#batch_tbl, #card_tbl').dataTable();
     </script>
 @endsection

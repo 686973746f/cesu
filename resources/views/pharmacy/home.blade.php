@@ -4,8 +4,12 @@
     <div class="container">
         <div class="text-right mb-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#checkstock">Check Item Stock</button>
-            <a href="{{route('pharmacy_itemlist')}}" class="btn btn-primary">Product List</a>
+            <a href="{{route('pharmacy_itemlist')}}" class="btn btn-primary">View Inventory ({{auth()->user()->pharmacybranch->name}})</a>
             <a href="{{route('pharmacy_viewreport')}}" class="btn btn-primary">Report</a>
+            @if(auth()->user()->isAdminPharmacy())
+            <hr>
+            <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">View Master Item</a>
+            @endif
         </div>
         <div class="card">
             <div class="card-header">
@@ -22,7 +26,7 @@
                 @endif
                 <form action="{{route('pharmacy_modify_qr')}}" method="GET">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search via QR / SKU Code" name="code" id="code" autocomplete="off" required autofocus>
+                        <input type="text" class="form-control" placeholder="Search Patient ID | SKU Code | Meds QR" name="code" id="code" autocomplete="off" required autofocus>
                         <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">Search</button>
                         </div>

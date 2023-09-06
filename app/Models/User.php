@@ -393,6 +393,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canAccessPharmacy() {
         $plist = $this->getPermissions();
 
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_ADMIN', $plist) || in_array('PHARMACY_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isAdminPharmacy() {
+        $plist = $this->getPermissions();
+
         if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_ADMIN', $plist)) {
             return true;
         }

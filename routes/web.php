@@ -476,6 +476,12 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/report', [PharmacyController::class, 'viewReport'])->name('pharmacy_viewreport');
 });
 
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyAdminMode']], function() {
+    Route::get('/pharmacy/master_item/', [PharmacyController::class, 'masterItemHome'])->name('pharmacy_masteritem_list');
+    Route::get('/pharmacy/master_item/view/{id}', [PharmacyController::class, 'viewMasterItem'])->name('pharmacy_view_masteritem');
+    Route::post('/pharmacy/master_item/{id}', [PharmacyController::class, 'updateMasterItem'])->name('pharmacy_update_masteritem');
+});
+
 //VAXCERT (WALK IN)
 Route::get('/vaxcert', [VaxcertController::class, 'walkinmenu'])->name('vaxcert_walkin');
 Route::get('/vaxcert/sendticket', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin_file');
