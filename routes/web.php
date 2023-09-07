@@ -473,11 +473,21 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/process/scan', [PharmacyController::class, 'modifyStockQr'])->name('pharmacy_modify_qr');
     Route::get('/pharmacy/process/{subsupply_id}', [PharmacyController::class, 'modifyStockView'])->name('pharmacy_modify_view');
     Route::post('/pharmacy/process/{subsupply_id}/submit', [PharmacyController::class, 'modifyStockProcess'])->name('pharmacy_modify_process');
+
+    Route::get('/pharmacy/process/patient/{id}', [PharmacyController::class, 'modifyStockPatientView'])->name('pharmacy_modify_patient_stock');
+    //Route::post('/pharmacy/process/patient/{id}', [PharmacyController::class, 'modifyStockPatientProcess'])->name('pharmacy_modify_patient_stock_process');
     
     Route::get('/pharmacy/item_list/{item_id}/view', [PharmacyController::class, 'viewItem'])->name('pharmacy_itemlist_viewitem');
     Route::get('/pharmacy/item_list/{item_id}/monthly_stock', [PharmacyController::class, 'viewItem'])->name('pharmacy_view_monthlystock');
     Route::post('/pharmacy/item_list/{item_id}/view/update', [PharmacyController::class, 'updateItem'])->name('pharmacy_itemlist_updateitem');
     Route::get('/pharmacy/report', [PharmacyController::class, 'viewReport'])->name('pharmacy_viewreport');
+
+    Route::get('/pharmacy/patients', [PharmacyController::class, 'viewPatientList'])->name('pharmacy_view_patient_list');
+    Route::get('/pharmacy/patients/view/{id}', [PharmacyController::class, 'viewPatient'])->name('pharmacy_view_patient');
+    Route::post('/pharmacy/patients/view/{id}', [PharmacyController::class, 'updatePatient'])->name('pharmacy_update_patient');
+
+    Route::get('/pharmacy/patients/create', [PharmacyController::class, 'newPatient'])->name('pharmacy_add_patient');
+    Route::post('/pharmacy/patients/create', [PharmacyController::class, 'storePatient'])->name('pharmacy_store_patient');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyAdminMode']], function() {
