@@ -86,7 +86,7 @@
                             <div class="form-group">
                                 <label for="qty_to_process"><b class="text-danger">*</b>Quantity to Process (in <span id="qty_to_process_in"></span>)</label>
                                 <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="{{$d->master_box_stock}}" value="1" required>
-                                <small class="text-muted">Current Amount in Stock: {{$d->master_box_stock}} {{$d->pharmacysupplymaster->getQtyType()}}</small>
+                                <small class="text-muted">Current Amount in Stock: {{$d->master_box_stock}} {{$d->pharmacysupplymaster->getQtyType()}} {{(($d->master_piece_stock)) ? '('.$d->master_piece_stock.' Pieces)' : ''}}</small>
                             </div>
                         </div>
                         <div class="col-md-4">

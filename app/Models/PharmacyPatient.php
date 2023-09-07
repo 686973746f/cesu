@@ -9,6 +9,41 @@ class PharmacyPatient extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'lname',
+        'fname',
+        'mname',
+        'suffix',
+        'bdate',
+        'gender',
+        'contact_number',
+        'contact_number2',
+        'email',
+        'philhealth',
+
+        'address_region_code',
+        'address_region_text',
+        'address_province_code',
+        'address_province_text',
+        'address_muncity_code',
+        'address_muncity_text',
+        'address_brgy_code',
+        'address_brgy_text',
+        'address_street',
+        'address_houseno',
+        
+        'concerns_list',
+        'qr',
+
+        'id_file',
+        'selfie_file',
+
+        'status',
+        'status_remarks',
+
+        'pharmacy_branch_id',
+    ];
+
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,5 +44,67 @@ class PharmacyStockCard extends Model
         else {
             return NULL;
         }
+    }
+
+    public function getReceivingBranch() {
+        return $this->belongsTo(PharmacyBranch::class, 'receiving_branch_id');
+    }
+
+    public function getReceivingPatient() {
+        return $this->belongsTo(PharmacyBranch::class, 'receiving_patient_id');
+    }
+
+    public function getQtyAndType() {
+        if($this->qty_type == 'BOX') {
+            if($this->qty_to_process <= 1) {
+                return $this->qty_to_process.' BOX';
+            }
+            else {
+                return $this->qty_to_process.' BOXES';
+            }
+        }
+        else {
+            if($this->qty_to_process <= 1) {
+                return $this->qty_to_process.' PC';
+            }
+            else {
+                return $this->qty_to_process.' PCS';
+            }
+        }
+    }
+
+    public function getBalance() {
+        if($this->qty_type == 'BOX') {
+            return $this->after_qty_box.' '.Str::plural('BOX', $this->after_qty_box).' ('.$this->after_qty_piece.' '.Str::plural('PC', $this->after_qty_piece).')';
+        }
+        else {
+            return $this->after_qty_piece.' '.Str::plural('PC', $this->after_qty_piece);
+        }
+    }
+
+    public function getRecipientAndRemarks() {
+        $finalstr = '';
+
+        if($this->receiving_branch_id) {
+            $finalstr = $finalstr.$this->getReceivingBranch->name;
+        }
+        else if ($this->receiving_patient_id){
+            $finalstr = $finalstr.$this->getReceivingBranch->getName();
+        }
+        else {
+            $finalstr = $this->recipient;
+        }
+
+        if($this->remarks) {
+            if($this->receiving_branch_id || $this->receiving_patient_id || $this->recipient) {
+                $finalstr = $finalstr.' / '.$this->remarks;
+            }
+            else {
+                $finalstr = $this->remarks;
+            }
+            
+        }
+
+        return $finalstr;
     }
 }

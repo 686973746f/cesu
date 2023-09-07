@@ -136,7 +136,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Expiration Date</th>
-                                        <th>Quantity (in Boxes)</th>
+                                        <th>Batch #</th>
+                                        <th>Quantity</th>
                                         <th>Date Added / By</th>
                                         <th>Date Modified / By</th>
                                     </tr>
@@ -146,9 +147,10 @@
                                     <tr>
                                         <td>{{$ind+1}}</td>
                                         <td>{{date('Y-m-d', strtotime($sl->expiration_date))}}</td>
-                                        <td>{{$sl->current_box_stock}}</td>
-                                        <td>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</td>
-                                        <td>{{(!is_null($sl->updated_by)) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : ''}}</td>
+                                        <td>{{($sl->batch_number) ? $sl->batch_number : 'N/A'}}</td>
+                                        <td>{{$sl->getQtyAndType()}}</td>
+                                        <td><small>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</small></td>
+                                        <td>{{($sl->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : 'N/A'}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -169,6 +171,7 @@
                             <table class="table table-bordered table-striped" id="card_tbl">
                                 <thead class="thead-light text-center">
                                     <tr>
+                                        <th>#</th>
                                         <th>Date</th>
                                         <th>Received</th>
                                         <th>Issued</th>
@@ -180,15 +183,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($scard as $s)
+                                    @foreach($scard as $ind => $s)
                                     <tr class="text-center">
+                                        <td class="text-center">{{$ind+1}}</td>
                                         <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
-                                        <td>{{($s->type == 'RECEIVED') ? $s->qty_to_process : ''}}</td>
-                                        <td>{{($s->type == 'ISSUED') ? $s->qty_to_process : ''}}</td>
-                                        <td>{{$s->after_qty}}</td>
+                                        <td>{{($s->type == 'RECEIVED') ? '+ '.$s->getQtyAndType() : ''}}</td>
+                                        <td>{{($s->type == 'ISSUED') ? '- '.$s->getQtyAndType() : ''}}</td>
+                                        <td>{{$s->getBalance()}}</td>
                                         <td>{{$s->total_cost}}</td>
                                         <td>{{$s->drsi_number}}</td>
-                                        <td>{{$s->recipient}}  {{(!is_null($s->remarks)) ? '/ '.$s->remarks : ''}}</td>
+                                        <td>{{$s->getRecipientAndRemarks()}}</td>
                                         <td>{{$s->user->name}}</td>
                                     </tr>
                                     @endforeach
@@ -214,6 +218,9 @@
             }
         });
 
-        $('#batch_tbl, #card_tbl').dataTable();
+        $('#batch_tbl').dataTable();
+
+        $('#card_tbl').dataTable({
+        });
     </script>
 @endsection

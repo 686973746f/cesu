@@ -160,12 +160,17 @@ class PharmacyController extends Controller
         if(request()->input('code')) {
             $code = request()->input('code');
 
-            $s = PharmacySupplyMaster::where('sku_code', $code)->first();
+            //$s = PharmacySupplyMaster::where('sku_code', $code)->first();
+            $s = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($code) {
+                $q->where('sku_code', $code);
+            })
+            ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->first();
 
             if($s) {
                 //find if sub supply exists
                 $t = PharmacySupplySubStock::where('subsupply_id', $s->id)
-                ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+                ->orderBy('expiration_date', 'ASC')
                 ->first();
 
                 if($t) {
@@ -219,7 +224,8 @@ class PharmacyController extends Controller
                         $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
     
                         $d->master_box_stock = $d->master_box_stock - $r->qty_to_process;
-                        
+                        $d->master_piece_stock = $d->master_piece_stock - ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
+
                         if($stock->current_box_stock < $r->qty_to_process) {
                             $qty_remaining = $r->qty_to_process - $stock->current_box_stock;
                             $stock->current_box_stock = 0;
@@ -248,6 +254,7 @@ class PharmacyController extends Controller
                                 $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_box_stock'));
                                 
                                 if($loop_search->isDirty()) {
+                                    $loop_search->updated_by = auth()->user()->id;
                                     $loop_search->save();
                                 }
                             }
@@ -278,10 +285,12 @@ class PharmacyController extends Controller
                         ]);
     
                         if($d->isDirty()) {
+                            $d->updated_by = auth()->user()->id;
                             $d->save();
                         }
     
                         if($stock->isDirty()) {
+                            $stock->updated_by = auth()->user()->id;
                             $stock->save();
                         }
 
@@ -343,6 +352,7 @@ class PharmacyController extends Controller
                                 $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_piece_stock'));
                                 
                                 if($loop_search->isDirty()) {
+                                    $loop_search->updated_by = auth()->user()->id;
                                     $loop_search->save();
                                 }
                             }
@@ -369,10 +379,12 @@ class PharmacyController extends Controller
                         ]);
 
                         if($d->isDirty()) {
+                            $d->updated_by = auth()->user()->id;
                             $d->save();
                         }
     
                         if($stock->isDirty()) {
+                            $stock->updated_by = auth()->user()->id;
                             $stock->save();
                         }
                     }
@@ -416,6 +428,7 @@ class PharmacyController extends Controller
                         $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_box_stock'));
                         
                         if($loop_search->isDirty()) {
+                            $loop_search->updated_by = auth()->user()->id;
                             $loop_search->save();
                         }
                     }
@@ -445,10 +458,12 @@ class PharmacyController extends Controller
                 ]);
 
                 if($d->isDirty()) {
+                    $d->updated_by = auth()->user()->id;
                     $d->save();
                 }
 
                 if($stock->isDirty()) {
+                    $stock->updated_by = auth()->user()->id;
                     $stock->save();
                 }
             }
@@ -469,6 +484,7 @@ class PharmacyController extends Controller
                         $stock->update([
                             'current_box_stock' => $stock->current_box_stock + $r->qty_to_process,
                             'current_piece_stock' => $stock->current_piece_stock + ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox),
+                            'updated_by' => auth()->user()->id,
                         ]);
                     }
                     else {
@@ -501,6 +517,7 @@ class PharmacyController extends Controller
                     ]);
 
                     if($d->isDirty()) {
+                        $d->updated_by = auth()->user()->id;
                         $d->save();
                     }
     
@@ -523,6 +540,7 @@ class PharmacyController extends Controller
                 if($stock) {
                     $stock->update([
                         'current_box_stock' => $stock->current_box_stock + $r->qty_to_process,
+                        'updated_by' => auth()->user()->id,
                     ]);
                 }
                 else {
@@ -564,182 +582,6 @@ class PharmacyController extends Controller
 
             $actiontxt = 'Received';
         }
-        
-        /*
-        if($r->type == 'ISSUED') {
-            $stock = PharmacySupplySubStock::findOrFail($r->select_sub_stock_id);
-            
-            $d->master_box_stock = ($d->master_box_stock - $r->qty_to_process);
-            $actiontxt = 'Issued';
-
-            if($stock->current_box_stock < $r->qty_to_process) {
-                $qty_remaining = $r->qty_to_process - $stock->current_box_stock;
-
-                $array_of_ids = [];
-                $array_of_ids[] = $r->select_sub_supply_id;
-
-                while($qty_remaining > 0) {
-                    $loop_search = PharmacySupplySubStock::whereNotIn('id', $array_of_ids)
-                    ->where('current_box_stock', '>', 0)
-                    ->orderBy('expiration_date', 'ASC')
-                    ->first();
-
-                    if($loop_search->current_box_stock < $qty_remaining) {
-                        $loop_search->current_box_stock = 0;
-                        $array_of_ids[] = $loop_search->id;
-                    }
-                    else {
-                        $loop_search->current_box_stock = ($loop_search->current_box_stock - $qty_remaining);
-                    }
-
-                    $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_box_stock'));
-                    
-                    if($loop_search->isDirty()) {
-                        $loop_search->save();
-                    }
-                }
-
-                $stock->current_box_stock = 0;
-            }
-            else {
-                $stock->current_box_stock = $d->master_box_stock;
-            }
-        }
-        else {
-            $d->master_box_stock = ($d->master_box_stock + $r->qty_to_process);
-            $d->master_piece_stock = (!is_null($d->master_piece_stock)) ? $d->master_piece_stock + ($d->pharmacysupplymaster->config_piecePerBox * $r->qty_to_process) : NULL;
-            $actiontxt = 'Received';
-
-            //$sub_stock->current_box_stock = $search->master_box_stock;
-
-            //add stock supply
-            $substock_search = PharmacySupplySubStock::where('subsupply_id', $d->id)
-            ->whereDate('expiration_date', $r->expiration_date)
-            ->first();
-            
-            if($substock_search) {
-                $substock_search->current_box_stock = $substock_search->current_box_stock + $r->qty_to_process;
-
-                $substock_search->updated_by = auth()->user()->id;
-
-                if($substock_search->isDirty()) {
-                    $substock_search->save();
-                }
-            }
-            else {
-                $new_stock_create = $r->user()->pharmacysupplystock()->create([
-                    'supply_id' => $search->id,
-                    'expiration_date' => $r->expiration_date,
-                    'current_box_stock' => $r->qty_to_process,
-                ]);
-            }
-        }
-        */
-
-        /*
-        $c = $product_id;
-
-        $search = PharmacySupply::where('sku_code', $c)
-        ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-        ->first();
-
-        if($search) {
-            $sub_stock = PharmacySupplyStock::where('supply_id', $search->id)
-            ->where('id', $r->select_sub_supply_id)
-            ->first();
-
-            if($r->type == 'ISSUED') {
-                $search->master_box_stock = ($search->master_box_stock - $r->qty_to_process);
-                $actiontxt = 'Issued';
-
-                if($sub_stock->current_box_stock < $r->qty_to_process) {
-                    
-                    $qty_remaining = $r->qty_to_process - $sub_stock->current_box_stock;
-
-                    $array_of_ids = [];
-                    $array_of_ids[] = $r->select_sub_supply_id;
-
-                    while($qty_remaining > 0) {
-                        $loop_search = PharmacySupplyStock::whereNotIn('id', $array_of_ids)
-                        ->where('current_box_stock', '>', 0)
-                        ->orderBy('expiration_date', 'ASC')
-                        ->first();
-
-                        if($loop_search->current_box_stock < $qty_remaining) {
-                            $loop_search->current_box_stock = 0;
-                            $array_of_ids[] = $loop_search->id;
-                        }
-                        else {
-                            $loop_search->current_box_stock = ($loop_search->current_box_stock - $qty_remaining);
-                        }
-
-                        $qty_remaining = ($qty_remaining - $loop_search->getOriginal('current_box_stock'));
-                        
-                        if($loop_search->isDirty()) {
-                            $loop_search->save();
-                        }
-                    }
-
-                    $sub_stock->current_box_stock = 0;
-                }
-                else {
-                    $sub_stock->current_box_stock = $search->master_box_stock;
-                }
-            }
-            else {
-                $search->master_box_stock = ($search->master_box_stock + $r->qty_to_process);
-                $actiontxt = 'Received';
-
-                //$sub_stock->current_box_stock = $search->master_box_stock;
-
-                //add stock supply
-                $stock_search = PharmacySupplyStock::where('supply_id', $search->id)
-                ->whereDate('expiration_date', $r->expiration_date)
-                ->first();
-                
-                if($stock_search) {
-                    $stock_search->current_box_stock = $stock_search->current_box_stock + $r->qty_to_process;
-                    $stock_search->updated_by = auth()->user()->id;
-
-                    if($stock_search->isDirty()) {
-                        $stock_search->save();
-                    }
-                }
-                else {
-                    $new_stock_create = $r->user()->pharmacysupplystock()->create([
-                        'supply_id' => $search->id,
-                        'expiration_date' => $r->expiration_date,
-                        'current_box_stock' => $r->qty_to_process,
-                    ]);
-                }
-            }
-
-            $process = $r->user()->pharmacystockcard()->create([
-                'supply_id' => $search->id,
-                'type' => $r->type,
-                'before_qty' => $search->getOriginal('master_box_stock'),
-                'qty_to_process' => $r->qty_to_process,
-                'after_qty' => $search->master_box_stock,
-                'total_cost' => $r->total_cost,
-                'drsi_number' => $r->drsi_number,
-
-                'recipient' => $r->recipient,
-                'remarks' => $r->remarks,
-            ]);
-
-            if($search->isDirty()) {
-                $search->save();
-                $sub_stock->save();
-            }
-
-            return redirect()->route('pharmacy_home')
-            ->with('msg', 'Success: '.$actiontxt.' '.$r->qty_to_process.' pcs. of '.$search->name.' [SKU Code: '.$search->sku_code.']')
-            ->with('msgtype', 'success');
-        }
-        else {
-            return abort(401);
-        }
-        */
     }
 
     public function masterItemHome() {
