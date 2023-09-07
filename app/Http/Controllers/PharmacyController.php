@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PharmacyBranch;
-use App\Models\PharmacyPatient;
-use App\Models\PharmacyStockCard;
-use App\Models\PharmacyStockLog;
-use App\Models\PharmacySupply;
-use App\Models\PharmacySupplyMaster;
-use App\Models\PharmacySupplyStock;
-use App\Models\PharmacySupplySub;
-use App\Models\PharmacySupplySubStock;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PharmacyBranch;
+use App\Models\PharmacySupply;
+use App\Models\PharmacyPatient;
+use App\Models\PharmacyStockLog;
+use App\Models\PharmacyStockCard;
+use App\Models\PharmacySupplySub;
+use Illuminate\Support\Facades\DB;
+use App\Models\PharmacySupplyStock;
+use App\Models\PharmacySupplyMaster;
+use App\Models\PharmacySupplySubStock;
 
 class PharmacyController extends Controller
 {
@@ -178,15 +180,15 @@ class PharmacyController extends Controller
                 }
             }
             else {
-                $s1 = PharmacyPatient::where('id', $code)->first();
+                $s1 = PharmacyPatient::where('qr', $code)->first();
 
                 if($s1) {
-
+                    return redirect()->route('pharmacy_modify_patient_stock', $s1->id);
                 }
                 else {
                     return redirect()->back()
-                ->with('msg', 'Error: SKU Code or Patient ID does not exists in the database.')
-                ->with('msgtype', 'warning');
+                    ->with('msg', 'Error: SKU Code or Patient ID does not exists in the database.')
+                    ->with('msgtype', 'warning');
                 }
             }
         }
@@ -768,19 +770,131 @@ class PharmacyController extends Controller
     }
 
     public function viewPatientList() {
+        if(request()->input('q')) {
+            $search = request()->input('q');
 
+            $list = PharmacyPatient::where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($search))."%")
+            ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($search))."%")
+            ->orWhere('id', $search)
+            ->paginate(10);
+        }
+        else {
+            $list = PharmacyPatient::orderBy('created_at', 'DESC')
+            ->paginate(10);
+        }
+
+        return view('pharmacy.patient_list', [
+            'list' => $list,
+        ]);
     }
 
-    public function viewPatient() {
+    public function newPatient() {
+        if(request()->input('lname') && request()->input('fname') && request()->input('bdate')) {
+            if(PharmacyPatient::ifDuplicateFound(request()->input('lname'), request()->input('fname'), request()->input('mname'), request()->input('suffix'), request()->input('bdate'))) {
+                dd('exit');
+            }
+            else {
+                return view('pharmacy.patient_register');
+            }
+        }
+        else {
+            return abort(401);
+        }
+    }
 
+    public function storePatient(Request $r) {
+        $foundunique = false;
+
+        while(!$foundunique) {
+            $qr = mb_strtoupper(Str::random(6));
+
+            $search = PharmacyPatient::where('qr', $qr)->first();
+            if(!$search) {
+                $foundunique = true;
+            }
+        }
+
+        $c = $r->user()->pharmacypatient()->create([
+            'lname' => mb_strtoupper($r->lname),
+            'fname' => mb_strtoupper($r->fname),
+            'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+            'bdate' => $r->bdate,
+            'gender' => $r->gender,
+            'email' => $r->email,
+            'contact_number' => $r->contact_number,
+            'contact_number2' => $r->contact_number2,
+            'philhealth' => NULL,
+    
+            'address_region_code' => $r->address_region_code,
+            'address_region_text' => $r->address_region_text,
+            'address_province_code' => $r->address_province_code,
+            'address_province_text' => $r->address_province_text,
+            'address_muncity_code' => $r->address_muncity_code,
+            'address_muncity_text' => $r->address_muncity_text,
+            'address_brgy_code' => $r->address_brgy_text,
+            'address_brgy_text' => $r->address_brgy_text,
+            'address_street' => mb_strtoupper($r->address_street),
+            'address_houseno' => mb_strtoupper($r->address_houseno),
+            
+            'concerns_list' => implode(',', $r->concerns_list),
+            'qr' => $qr,
+    
+            'id_file' => NULL,
+            'selfie_file' => NULL,
+    
+            'status' => 'ENABLED',
+    
+            'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+        ]);
+
+        return redirect()->route('pharmacy_view_patient_list')
+        ->with('msg', 'Patient record successfully created.')
+        ->with('msgtype', 'success');
+    }
+
+    public function viewPatient($id) {
+        $d = PharmacyPatient::findOrFail($id);
+
+        $scard = PharmacyStockCard::where('receiving_patient_id', $d->id)
+        ->orderBy('created_at', 'DESC')
+        ->get();
+
+        return view('pharmacy.patient_view', [
+            'd' => $d,
+            'scard' => $scard,
+        ]);
     }
     
-    public function updatePatient() {
+    public function updatePatient($id, Request $r) {
 
     }
 
-    public function modifyStockPatientView() {
+    public function modifyStockPatientView($id) {
+        $d = PharmacyPatient::findOrFail($id);
 
+        if(request()->input('meds')) {
+            $meds = request()->input('meds');
+
+            $e = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($meds) {
+                $q->where('sku_code', $meds);
+            })->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->first();
+
+            if($e) {
+                return redirect()->route('pharmacy_modify_view', [
+                    $e->id,
+                    'process_patient' => $d->id,
+                ]);
+            }
+            else {
+
+            }
+        }
+
+        return view('pharmacy.modify_stock_patientview', [
+            'd' => $d,
+        ]);
     }
 
     public function modifyStockPatientProcess($id, Request $r) {

@@ -168,6 +168,11 @@
             $('#qty_type').val('PIECE');
         }
 
+        @if(request()->input('process_patient'))
+            $('#select_recipient').val('PATIENT');
+            $('#receiving_patient_id').val("{{request()->input('process_patient')}}");
+        @endif
+
         $('#qty_type').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'BOX') {
