@@ -743,9 +743,19 @@ class PharmacyController extends Controller
     }
 
     public function masterItemHome() {
-        $list = PharmacySupplyMaster::orderBy('name', 'ASC')
-        ->paginate(10);
-
+        if(request()->input('q')) {
+            $q = request()->input('q');
+            
+            $list = PharmacySupplyMaster::where('sku_code', $q)
+            ->orWhere('name','LIKE', '%'.$q.'%')
+            ->orWhere('sku_code_doh', $q)
+            ->paginate(10);
+        }
+        else {
+            $list = PharmacySupplyMaster::orderBy('name', 'ASC')
+            ->paginate(10);
+        }
+        
         return view('pharmacy.itemlist_viewMasterList', [
             'list' => $list,
         ]);
@@ -759,8 +769,38 @@ class PharmacyController extends Controller
         ]);
     }
 
-    public function updateMasterItem($id, Request $request) {
+    public function updateMasterItem($id, Request $r) {
+        //find existing first
 
+        $d = PharmacySupplyMaster::where('id', '!=', $id)
+        ->where(function ($q) use ($r) {
+            $q->where('name', mb_strtoupper($r->name))
+            ->orWhere('sku_code', mb_strtoupper($r->sku_code));
+        })->first();
+
+        if(!($d)) {
+            $u = PharmacySupplyMaster::where('id', $id)
+            ->update([
+                'name' => mb_strtoupper($r->name),
+                'sku_code' => mb_strtoupper($r->sku_code),
+                'sku_code_doh' => mb_strtoupper($r->sku_code_doh),
+                'category' => $r->category,
+                'description' => $r->description,
+                'quantity_type' => $r->quantity_type,
+                'config_piecePerBox' => $r->config_piecePerBox,
+
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            return redirect()->route('pharmacy_masteritem_list')
+            ->with('msg', 'Master Item details were updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Another Master Item Name or SKU already exists in the server.')
+            ->with('msgtype', 'warning');
+        }
     }
     
     public function viewItemList() {
@@ -883,5 +923,25 @@ class PharmacyController extends Controller
         return view('pharmacy.report', [
             'expired_list' => $expired_list,
         ]);
+    }
+
+    public function viewPatientList() {
+
+    }
+
+    public function viewPatient() {
+
+    }
+    
+    public function updatePatient() {
+
+    }
+
+    public function modifyStockPatientView() {
+
+    }
+
+    public function modifyStockPatientProcess($id, Request $r) {
+        
     }
 }

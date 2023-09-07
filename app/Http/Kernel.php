@@ -73,6 +73,7 @@ class Kernel extends HttpKernel
         'canAccessAbtc' => \App\Http\Middleware\canAccessAbtc::class,
         'canAccessVaxcert' => \App\Http\Middleware\canAccessVaxcert::class,
         'canAccessPidsr' => \App\Http\Middleware\canAccessPidsr::class,
+        'canAccessPidsrAdminMode' => \App\Http\Middleware\canAccessPidsrAdminMode::class,
         'canAccessSyndromic' => \App\Http\Middleware\canAccessSyndromic::class,
         'canAccessFhsis' => \App\Http\Middleware\canAccessFhsis::class,
         'canAccessPharmacy' => \App\Http\Middleware\canAccessPharmacy::class,

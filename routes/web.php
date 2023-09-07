@@ -308,6 +308,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');
     Route::get('/pidsr/casechecker/action', [PIDSRController::class, 'casechecker_action'])->name('pidsr_casechecker_action');
     Route::get('/pidsr/view/{year}/{mw}', [PIDSRController::class, 'weeklycaseviewer'])->name('pidsr.weeklyviewer');
+});
+
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsrAdminMode']], function() {
 
     Route::get('/pidsr/reset_sent', [PIDSRController::class, 'resetSendingStatus'])->name('pidsr_reset_sent');
 });
@@ -466,13 +469,14 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/item_list', [PharmacyController::class, 'viewItemList'])->name('pharmacy_itemlist');
     Route::post('/pharmacy/item_list/add_master_item', [PharmacyController::class, 'addMasterItem'])->name('pharmacy_add_master_item');
     Route::post('/pharmacy/item_list/add_item', [PharmacyController::class, 'addItem'])->name('pharmacy_additem');
-
+    
     Route::get('/pharmacy/process/scan', [PharmacyController::class, 'modifyStockQr'])->name('pharmacy_modify_qr');
     Route::get('/pharmacy/process/{subsupply_id}', [PharmacyController::class, 'modifyStockView'])->name('pharmacy_modify_view');
     Route::post('/pharmacy/process/{subsupply_id}/submit', [PharmacyController::class, 'modifyStockProcess'])->name('pharmacy_modify_process');
     
     Route::get('/pharmacy/item_list/{item_id}/view', [PharmacyController::class, 'viewItem'])->name('pharmacy_itemlist_viewitem');
-    Route::get('/pharmacy/item_list/{item_id}/view/update', [PharmacyController::class, 'updateItem'])->name('pharmacy_itemlist_updateitem');
+    Route::get('/pharmacy/item_list/{item_id}/monthly_stock', [PharmacyController::class, 'viewItem'])->name('pharmacy_view_monthlystock');
+    Route::post('/pharmacy/item_list/{item_id}/view/update', [PharmacyController::class, 'updateItem'])->name('pharmacy_itemlist_updateitem');
     Route::get('/pharmacy/report', [PharmacyController::class, 'viewReport'])->name('pharmacy_viewreport');
 });
 

@@ -2,11 +2,16 @@
 
 @section('content')
 <div class="container">
-    <form action="">
+    <form action="{{route('pharmacy_update_masteritem', $d->id)}}" method="POST">
         @csrf
         <div class="card">
             <div class="card-header"><b>Manage Master Item</b></div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="form-group">
                   <label for="name"><b class="text-danger">*</b>Name</label>
                   <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" required>
@@ -59,8 +64,17 @@
                         </div>
                     </div>
                 </div>
-                
-                
+                <hr>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="bg-light">Created at / By</td>
+                            <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}} / {{$d->user->name}}</td>
+                            <td class="bg-light">Updated at / By</td>
+                            <td class="text-center">{{($d->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($d->updated_at)).' / '.$d->getUpdatedBy->name : 'N/A'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success btn-block">Update</button>

@@ -6,6 +6,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>View Sub Item</b> (Under Branch: {{auth()->user()->pharmacybranch->name}})</div>
+                    <div><a href="{{route('pharmacy_view_monthlystock', $d->id)}}" class="btn btn-primary">View Monthly Stock Table</a></div>
                 </div>
             </div>
             <div class="card-body">
@@ -30,7 +31,6 @@
                                             @else
                                             #{{$d->pharmacysupplymaster->id}}
                                             @endif
-                                            
                                         </td>
                                     </tr>
                                     <tr>

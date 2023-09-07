@@ -5,6 +5,24 @@
         <div class="card">
             <div class="card-header"><b>List of Master Items</b> (Total: {{$list->total()}})</div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
+                <form action="" method="GET">
+                    <div class="row">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="Search By Item Name | SKU Code" style="text-transform: uppercase;" autocomplete="off" required>
+                                <div class="input-group-append">
+                                  <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered">
                         <thead class="thead-light text-center">
@@ -29,7 +47,7 @@
                                 <td class="text-center">{{$i->category}}</td>
                                 <td class="text-center">{{$i->quantity_type}}</td>
                                 <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
-                                <td class="text-center"><small>{{($i->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->user->name : ''}} </small></td>
+                                <td class="text-center"><small>{{($i->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : ''}} </small></td>
                             </tr>
                             @endforeach
                         </tbody>
