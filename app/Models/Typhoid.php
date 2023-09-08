@@ -10,6 +10,8 @@ class Typhoid extends Model
     use HasFactory;
 
     protected $table = 'typhoid';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

@@ -10,6 +10,8 @@ class Meningo extends Model
     use HasFactory;
 
     protected $table = 'meningo';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

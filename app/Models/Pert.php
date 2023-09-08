@@ -12,6 +12,8 @@ class Pert extends Model
     use HasFactory;
 
     protected $table = 'pert';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

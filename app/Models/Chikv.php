@@ -10,6 +10,8 @@ class Chikv extends Model
     use HasFactory;
 
     protected $table = 'chikv';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

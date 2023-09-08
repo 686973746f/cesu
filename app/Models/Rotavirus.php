@@ -10,6 +10,8 @@ class Rotavirus extends Model
     use HasFactory;
 
     protected $table = 'rotavirus';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

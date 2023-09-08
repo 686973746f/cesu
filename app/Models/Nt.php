@@ -12,6 +12,8 @@ class Nt extends Model
     use HasFactory;
 
     protected $table = 'nt';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

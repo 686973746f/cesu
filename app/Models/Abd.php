@@ -13,5 +13,8 @@ class Abd extends Model
 
     protected $table = 'abd';
 
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
+
     public $guarded = [];
 }

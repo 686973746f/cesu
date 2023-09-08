@@ -10,6 +10,8 @@ class Hepatitis extends Model
     use HasFactory;
 
     protected $table = 'hepatitis';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

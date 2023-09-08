@@ -12,6 +12,8 @@ class Afp extends Model
     use HasFactory;
 
     protected $table = 'afp';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

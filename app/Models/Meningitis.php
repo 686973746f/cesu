@@ -10,6 +10,8 @@ class Meningitis extends Model
     use HasFactory;
 
     protected $table = 'meningitis';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

@@ -5,6 +5,11 @@
     <div class="card">
         <div class="card-header"><b>PIDSR Cases Viewer</b></div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             <form action="" method="GET">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -56,6 +61,7 @@
                 <table class="table table-bordered table-striped" id="list_table">
                     <thead class="thead-light text-center">
                         <tr>
+                            <th>#</th>
                             @foreach($columns as $c)
                             <th>{{ucfirst($c)}}</th>
                             @endforeach
@@ -63,12 +69,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($list as $l)
+                        @foreach($list as $key => $l)
                         <tr>
+                            <td class="text-center">{{$key+1}}</td>
                             @foreach($columns as $c)
                             <td>{{mb_strtoupper($l->$c)}}</td>
                             @endforeach
-                            <td><a href="{{route('pidsr_casechecker_action')}}?d={{request()->input('case')}}&action=DELETE&epi_id={{$l->EPIID}}" class="btn btn-warning" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a></td>
+                            <td><a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $l->EPIID])}}" class="btn btn-warning" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -81,9 +88,9 @@
 
 <script>
     $('#list_table').dataTable({
-        dom: 'Bfritp',
+        dom: 'QBfritp',
         buttons: [
-            'excel',
+            'excel', 'copy',
         ],
     });
 </script>

@@ -10,6 +10,8 @@ class Rabies extends Model
     use HasFactory;
 
     protected $table = 'rabies';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

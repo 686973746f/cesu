@@ -10,6 +10,8 @@ class Measles extends Model
     use HasFactory;
 
     protected $table = 'measles';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

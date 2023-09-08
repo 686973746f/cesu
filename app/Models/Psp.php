@@ -12,6 +12,8 @@ class Psp extends Model
     use HasFactory;
 
     protected $table = 'psp';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

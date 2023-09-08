@@ -11,6 +11,8 @@ class Dengue extends Model
     use HasFactory;
 
     protected $table = 'dengue';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     protected $fillable = [
         'Region',

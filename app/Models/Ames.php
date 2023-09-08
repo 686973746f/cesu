@@ -12,6 +12,8 @@ class Ames extends Model
     use HasFactory;
     
     protected $table = 'ames';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

@@ -10,6 +10,8 @@ class Anthrax extends Model
     use HasFactory;
 
     protected $table = 'anthrax';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

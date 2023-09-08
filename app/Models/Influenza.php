@@ -10,6 +10,8 @@ class Influenza extends Model
     use HasFactory;
 
     protected $table = 'influenza';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

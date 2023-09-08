@@ -10,6 +10,8 @@ class Malaria extends Model
     use HasFactory;
 
     protected $table = 'malaria';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

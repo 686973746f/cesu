@@ -12,6 +12,8 @@ class Aes extends Model
     use HasFactory;
 
     protected $table = 'aes';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

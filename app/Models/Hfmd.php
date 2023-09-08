@@ -10,6 +10,8 @@ class Hfmd extends Model
     use HasFactory;
 
     protected $table = 'hfmd';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

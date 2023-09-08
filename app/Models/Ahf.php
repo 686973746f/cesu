@@ -12,6 +12,8 @@ class Ahf extends Model
     use HasFactory;
 
     protected $table = 'ahf';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

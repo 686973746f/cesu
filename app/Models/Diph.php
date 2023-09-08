@@ -12,6 +12,8 @@ class Diph extends Model
     use HasFactory;
     
     protected $table = 'diph';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }

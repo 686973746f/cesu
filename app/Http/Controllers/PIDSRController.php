@@ -30,6 +30,7 @@ use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Imports\PidsrImport;
+use App\Imports\RabiesImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Models\Leptospirosis;
@@ -1064,113 +1065,171 @@ class PIDSRController extends Controller
             
             if($case == 'ABD') {
                 $query = Abd::where('year', $year);
-                $columns = Schema::getColumnListing('abd');
+                //$columns = Schema::getColumnListing('abd');
+
+                $tbl_name = 'abd';
             }
             else if($case == 'AEFI') {
                 $query = Aefi::whereYear('DAdmit', $year);
                 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                    $columns = Schema::getColumnListing('pidsr_aefi');
+                    //$columns = Schema::getColumnListing('pidsr_aefi');
+                    $tbl_name = 'pidsr_aefi';
                 }
                 else {
-                    $columns = Schema::getColumnListing('pidsr_AEFI');
-                }   
+                    //$columns = Schema::getColumnListing('pidsr_AEFI');
+                    $tbl_name = 'pidsr_AEFI';
+                }
             }
             else if($case == 'AES') {
                 $query = Aes::where('year', $year);
-                $columns = Schema::getColumnListing('aes');
+                //$columns = Schema::getColumnListing('aes');
+
+                $tbl_name = 'aes';
             }
             else if($case == 'AFP') {
                 $query = Afp::where('year', $year);
-                $columns = Schema::getColumnListing('afp');
+                //$columns = Schema::getColumnListing('afp');
+
+                $tbl_name = 'afp';
             }
             else if($case == 'AHF') {
                 $query = Ahf::where('year', $year);
-                $columns = Schema::getColumnListing('ahf');
+                //$columns = Schema::getColumnListing('ahf');
+
+                $tbl_name = 'ahf';
             }
             else if($case == 'AMES') {
                 $query = Ames::where('year', $year);
-                $columns = Schema::getColumnListing('ames');
+                //$columns = Schema::getColumnListing('ames');
+
+                $tbl_name = 'ames';
             }
             else if($case == 'ANTHRAX') {
                 $query = Anthrax::where('year', $year);
-                $columns = Schema::getColumnListing('anthrax');
+                //$columns = Schema::getColumnListing('anthrax');
+
+                $tbl_name = 'anthrax';
             }
             else if($case == 'CHIKV') {
                 $query = Chikv::where('year', $year);
-                $columns = Schema::getColumnListing('chikv');
+                //$columns = Schema::getColumnListing('chikv');
+
+                $tbl_name = 'chikv';
             }
             else if($case == 'CHOLERA') {
                 $query = Cholera::where('year', $year);
-                $columns = Schema::getColumnListing('cholera');
+                //$columns = Schema::getColumnListing('cholera');
+
+                $tbl_name = 'cholera';
             }
             else if($case == 'DENGUE') {
                 $query = Dengue::where('year', $year);
-                $columns = Schema::getColumnListing('dengue');
+                //$columns = Schema::getColumnListing('dengue');
+
+                $tbl_name = 'dengue';
             }
             else if($case == 'DIPH') {
                 $query = Diph::where('year', $year);
-                $columns = Schema::getColumnListing('diph');
+                //$columns = Schema::getColumnListing('diph');
+
+                $tbl_name = 'diph';
             }
             else if($case == 'HEPATITIS') {
                 $query = Hepatitis::where('year', $year);
-                $columns = Schema::getColumnListing('hepatitis');
+                //$columns = Schema::getColumnListing('hepatitis');
+
+                $tbl_name = 'hepatitis';
             }
             else if($case == 'HFMD') {
                 $query = Hfmd::where('year', $year);
-                $columns = Schema::getColumnListing('hfmd');
+                //$columns = Schema::getColumnListing('hfmd');
+
+                $tbl_name = 'hfmd';
             }
             else if($case == 'INFLUENZA') {
                 $query = Influenza::where('year', $year);
-                $columns = Schema::getColumnListing('influenza');
+                //$columns = Schema::getColumnListing('influenza');
+
+                $tbl_name = 'influenza';
             }
             else if($case == 'LEPTOSPIROSIS') {
                 $query = Leptospirosis::where('year', $year);
-                $columns = Schema::getColumnListing('leptospirosis');
+                //$columns = Schema::getColumnListing('leptospirosis');
+
+                $tbl_name = 'leptospirosis';
             }
             else if($case == 'MALARIA') {
                 $query = Malaria::where('year', $year);
-                $columns = Schema::getColumnListing('malaria');
+                //$columns = Schema::getColumnListing('malaria');
+
+                $tbl_name = 'malaria';
             }
             else if($case == 'MEASLES') {
                 $query = Measles::where('year', $year);
-                $columns = Schema::getColumnListing('measles');
+                //$columns = Schema::getColumnListing('measles');
+
+                $tbl_name = 'measles';
             }
             else if($case == 'MENINGITIS') {
                 $query = Meningitis::where('year', $year);
-                $columns = Schema::getColumnListing('meningitis');
+                //$columns = Schema::getColumnListing('meningitis');
+
+                $tbl_name = 'meningitis';
             }
             else if($case == 'MENINGO') {
                 $query = Meningo::where('year', $year);
-                $columns = Schema::getColumnListing('meningo');
+                //$columns = Schema::getColumnListing('meningo');
+
+                $tbl_name = 'meningo';
             }
             else if($case == 'NNT') {
                 $query = Nnt::where('year', $year);
-                $columns = Schema::getColumnListing('nnt');
+                //$columns = Schema::getColumnListing('nnt');
+
+                $tbl_name = 'nnt';
             }
             else if($case == 'NT') {
                 $query = Nt::where('year', $year);
-                $columns = Schema::getColumnListing('nt');
+                //$columns = Schema::getColumnListing('nt');
+
+                $tbl_name = 'nt';
             }
             else if($case == 'PERT') {
                 $query = Pert::where('year', $year);
-                $columns = Schema::getColumnListing('pert');
+                //$columns = Schema::getColumnListing('pert');
+
+                $tbl_name = 'pert';
             }
             else if($case == 'PSP') {
                 $query = Psp::where('year', $year);
-                $columns = Schema::getColumnListing('psp');
+                //$columns = Schema::getColumnListing('psp');
+
+                $tbl_name = 'psp';
             }
             else if($case == 'RABIES') {
                 $query = Rabies::where('year', $year);
-                $columns = Schema::getColumnListing('rabies');
+                //$columns = Schema::getColumnListing('rabies');
+
+                $tbl_name = 'rabies';
             }
             else if($case == 'ROTAVIRUS') {
                 $query = Rotavirus::where('year', $year);
-                $columns = Schema::getColumnListing('rotavirus');
+                //$columns = Schema::getColumnListing('rotavirus');
+
+                $tbl_name = 'rotavirus';
             }
             else if($case == 'TYPHOID') {
                 $query = Typhoid::where('year', $year);
-                $columns = Schema::getColumnListing('typhoid');
+                //$columns = Schema::getColumnListing('typhoid');
+
+                $tbl_name = 'typhoid';
             }
+
+            $ctxt = "SHOW COLUMNS FROM $tbl_name";
+            $c = DB::select($ctxt);
+            $columns = array_map(function ($column) {
+                return $column->Field;
+            }, $c);
 
             $query = $query->where('Muncity', 'GENERAL TRIAS')
             ->where('Province', 'CAVITE')
@@ -1189,7 +1248,100 @@ class PIDSRController extends Controller
 
     public function casechecker_action() {
         if(request()->input('d') && request()->input('action') && request()->input('epi_id')) {
+            $d = request()->input('d');
+            $action = request()->input('action');
+            $epi_id = request()->input('epi_id');
 
+            if($action == "DEL") {
+                if($d == 'ABD') {
+                    $data = Abd::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'AEFI') {
+                    $data = Aefi::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'AES') {
+                    $data = Aes::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'AFP') {
+                    $data = Afp::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'AHF') {
+                    $data = Ahf::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'AMES') {
+                    $data = Ames::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'ANTHRAX') {
+                    $data = Anthrax::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'CHIKV') {
+                    $data = Chikv::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'CHOLERA') {
+                    $data = Cholera::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'DENGUE') {
+                    $data = Dengue::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'DIPH') {
+                    $data = Diph::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'HEPATITIS') {
+                    $data = Hepatitis::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'HFMD') {
+                    $data = Hfmd::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'INFLUENZA') {
+                    $data = Influenza::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'LEPTOSPIROSIS') {
+                    $data = Leptospirosis::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'MALARIA') {
+                    $data = Malaria::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'MEASLES') {
+                    $data = Measles::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'MENINGITIS') {
+                    $data = Meningitis::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'MENINGO') {
+                    $data = Meningo::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'NNT') {
+                    $data = Nnt::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'NT') {
+                    $data = Nt::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'PERT') {
+                    $data = Pert::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'PSP') {
+                    $data = Psp::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'RABIES') {
+                    $data = Rabies::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'ROTAVIRUS') {
+                    $data = Rotavirus::where('EPIID', $epi_id)->first();
+                }
+                else if($d == 'TYPHOID') {
+                    $data = Typhoid::where('EPIID', $epi_id)->first();
+                }
+
+                $data->enabled = 0;
+
+                if($data->isDirty()) {
+                    $data->save();
+                }
+
+                return redirect()->back()
+                ->with('msg', $d.' Case EPI_ID ['.$data->EPIID.'] Patient ['.$data->FullName.'] has been disabled successfully.')
+                ->with('msgtype', 'success');
+            }
         }
         else {
             return abort(401);

@@ -10,6 +10,8 @@ class Cholera extends Model
     use HasFactory;
 
     protected $table = 'cholera';
+    protected $primaryKey = 'EPIID';
+    public $incrementing = false;
 
     public $guarded = [];
 }
