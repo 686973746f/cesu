@@ -58,7 +58,7 @@
             @if(isset($list))
             <hr>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="list_table">
+                <table class="table table-bordered table-striped table-hover" id="list_table">
                     <thead class="thead-light text-center">
                         <tr>
                             <th>#</th>

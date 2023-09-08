@@ -107,9 +107,9 @@
                             <label for="select_recipient"><b class="text-danger">*</b>Recipient / Transfer to</label>
                             <select class="form-control" name="select_recipient" id="select_recipient">
                               <option value="" disabled {{(is_null(old('select_recipient'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="BRANCH">Barangay Health Stations (BHS) / Hospitals</option>
-                              <option value="PATIENT">Patient</option>
-                              <option value="OTHERS">Others</option>
+                              <option value="BRANCH" id="selection_branch">Entities (BHS/Hospitals/Other Institutions)</option>
+                              <option value="PATIENT" id="selection_patient">Patient</option>
+                              <option value="OTHERS" id="selection_others">Others</option>
                             </select>
                           </div>
                           <div id="if_branch" class="d-none">
@@ -171,6 +171,9 @@
         @if(request()->input('process_patient'))
             $('#select_recipient').val('PATIENT');
             $('#receiving_patient_id').val("{{request()->input('process_patient')}}");
+            $('#receiving_patient_id').prop('readonly', true);
+            $('#selection_branch').addClass('d-none');
+            $('#selection_others').addClass('d-none');
         @endif
 
         $('#qty_type').change(function (e) { 

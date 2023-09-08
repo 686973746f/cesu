@@ -26,7 +26,7 @@
                         {{session('msg')}}
                     </div>
                     @endif
-                    <a href="{{route('pidsr.casechecker')}}" class="btn btn-primary btn-block">Case Checker</a>
+                    <a href="{{route('pidsr.casechecker')}}" class="btn btn-primary btn-block">Case Viewer/Checker</a>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#thresh">Threshold Count</button>
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>

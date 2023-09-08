@@ -46,6 +46,10 @@ class PharmacyStockCard extends Model
         }
     }
 
+    public function pharmacysub() {
+        return $this->belongsTo(PharmacySupplySub::class, 'subsupply_id');
+    }
+
     public function getReceivingBranch() {
         return $this->belongsTo(PharmacyBranch::class, 'receiving_branch_id');
     }
