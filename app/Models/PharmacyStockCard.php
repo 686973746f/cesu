@@ -51,7 +51,7 @@ class PharmacyStockCard extends Model
     }
 
     public function getReceivingPatient() {
-        return $this->belongsTo(PharmacyBranch::class, 'receiving_patient_id');
+        return $this->belongsTo(PharmacyPatient::class, 'receiving_patient_id');
     }
 
     public function getQtyAndType() {
@@ -89,7 +89,7 @@ class PharmacyStockCard extends Model
             $finalstr = $finalstr.$this->getReceivingBranch->name;
         }
         else if ($this->receiving_patient_id){
-            $finalstr = $finalstr.$this->getReceivingBranch->getName();
+            $finalstr = $finalstr.$this->getReceivingPatient->getName();
         }
         else {
             $finalstr = $this->recipient;

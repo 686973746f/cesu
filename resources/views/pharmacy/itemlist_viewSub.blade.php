@@ -15,50 +15,50 @@
                     {{session('msg')}}
                 </div>
                 @endif
-                <form action="{{route('pharmacy_itemlist_updateitem', $d->id)}}">
-                    <div class="card mb-3">
-                        <div class="card-header"><b>Item Details</b></div>
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td class="font-weight-bold">Master Item Name</td>
-                                        <td class="text-center">{{$d->pharmacysupplymaster->name}}</td>
-                                        <td class="font-weight-bold">Master ID</td>
-                                        <td class="text-center">
-                                            @if(auth()->user()->isAdminPharmacy())
-                                            <a href="">#{{$d->pharmacysupplymaster->id}}</a>
-                                            @else
-                                            #{{$d->pharmacysupplymaster->id}}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">SKU Code (Master)</td>
-                                        <td class="text-center">
-                                            {{$d->pharmacysupplymaster->sku_code}} {!! QrCode::size(70)->generate($d->pharmacysupplymaster->sku_code) !!}
-                                        </td>
-                                        <td class="font-weight-bold">SKU Code (DOH)</td>
-                                        <td class="text-center">{{($d->pharmacysupplymaster->sku_code_doh) ? $d->pharmacysupplymaster->sku_code_doh : 'N/A'}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">Description</td>
-                                        <td class="text-center" colspan="3">{{$d->pharmacysupplymaster->description}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">Category</td>
-                                        <td class="text-center">{{$d->pharmacysupplymaster->category}}</td>
-                                        <td class="font-weight-bold">Quantity Type</td>
-                                        <td class="text-center">{{$d->pharmacysupplymaster->quantity_type}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <div class="card mb-3">
+                    <div class="card-header"><b>Item Details</b></div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td class="font-weight-bold">Master Item Name</td>
+                                    <td class="text-center">{{$d->pharmacysupplymaster->name}}</td>
+                                    <td class="font-weight-bold">Master ID</td>
+                                    <td class="text-center">
+                                        @if(auth()->user()->isAdminPharmacy())
+                                        <a href="">#{{$d->pharmacysupplymaster->id}}</a>
+                                        @else
+                                        #{{$d->pharmacysupplymaster->id}}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">SKU Code (Master)</td>
+                                    <td class="text-center">
+                                        {{$d->pharmacysupplymaster->sku_code}} {!! QrCode::size(70)->generate($d->pharmacysupplymaster->sku_code) !!}
+                                    </td>
+                                    <td class="font-weight-bold">SKU Code (DOH)</td>
+                                    <td class="text-center">{{($d->pharmacysupplymaster->sku_code_doh) ? $d->pharmacysupplymaster->sku_code_doh : 'N/A'}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Description</td>
+                                    <td class="text-center" colspan="3">{{$d->pharmacysupplymaster->description}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Category</td>
+                                    <td class="text-center">{{$d->pharmacysupplymaster->category}}</td>
+                                    <td class="font-weight-bold">Quantity Type</td>
+                                    <td class="text-center">{{$d->pharmacysupplymaster->quantity_type}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <form action="">
                             <div id="accordianId" role="tablist" aria-multiselectable="true">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="section1HeaderId">
                                         <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">Stock Card Details</a>
                                     </div>
-                                    <div id="section1ContentId" class="collapse show" role="tabpanel" aria-labelledby="section1HeaderId">
+                                    <div id="section1ContentId" class="collapse" role="tabpanel" aria-labelledby="section1HeaderId">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <label for="po_contract_number">PO Contract Number</label>
@@ -112,15 +112,17 @@
                                                 <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" value="{{old('config_piecePerBox', $d->config_piecePerBox)}}">
                                             </div>
                                         </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary btn-block" id="submitbtn">Update (CTRL + S)</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-block" id="submitbtn">Update (CTRL + S)</button>
-                        </div>
+                        </form>
+                        
                     </div>
-                </form>
+                    
+                </div>
 
                 <div class="card mb-3">
                     <div class="card-header">
@@ -146,11 +148,11 @@
                                     @foreach($sub_list as $ind => $sl)
                                     <tr>
                                         <td>{{$ind+1}}</td>
-                                        <td>{{date('Y-m-d', strtotime($sl->expiration_date))}}</td>
+                                        <td><a href="{{route('pharmacy_view_substock', $sl->id)}}">{{date('m/d/Y (D)', strtotime($sl->expiration_date))}}</a></td>
                                         <td>{{($sl->batch_number) ? $sl->batch_number : 'N/A'}}</td>
                                         <td>{{$sl->getQtyAndType()}}</td>
                                         <td><small>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</small></td>
-                                        <td>{{($sl->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : 'N/A'}}</td>
+                                        <td><small>{{($sl->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : 'N/A'}}</small></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

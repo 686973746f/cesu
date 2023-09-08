@@ -46,4 +46,13 @@ class PharmacySupplySubStock extends Model
             return Str::plural('PC', $this->current_piece_stock);
         }
     }
+
+    public function ifUserAuthorized() {
+        if(auth()->user()->isAdminPharmacy() || $this->pharmacysub->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

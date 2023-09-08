@@ -5,6 +5,11 @@
         <div class="card">
             <div class="card-header"><b>View Patient</b></div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
@@ -37,6 +42,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Date</th>
+                                        <th>Name of Meds</th>
                                         <th>QTY Issued</th>
                                         <th>Processed by</th>
                                     </tr>
@@ -46,6 +52,7 @@
                                     <tr class="text-center">
                                         <td class="text-center">{{$ind+1}}</td>
                                         <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
+                                        <td>{{$s->pharmacysub->pharmacysupplymaster->name}}</td>
                                         <td>{{($s->type == 'ISSUED') ? $s->getQtyAndType() : ''}}</td>
                                         <td>{{$s->user->name}}</td>
                                     </tr>

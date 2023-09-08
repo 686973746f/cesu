@@ -31,8 +31,14 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-success shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{route('home')}}">
+                    
+                    @if(Str::contains(request()->url(), 'pharmacy'))
+                    <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 3rem;">
+                    Pharmacy
+                    @else
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
                     {{ config('app.name', 'Laravel') }}
+                    @endif
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

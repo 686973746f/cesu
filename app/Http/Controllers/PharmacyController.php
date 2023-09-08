@@ -751,6 +751,40 @@ class PharmacyController extends Controller
         }
     }
 
+    public function viewSubStock($id) {
+        $d = PharmacySupplySubStock::findOrFail($id);
+
+        if($d->ifUserAuthorized()) {
+            return view('pharmacy.substock_view', [
+                'd' => $d,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function updateSubStock($id, Request $r) {
+        $d = PharmacySupplySubStock::findOrFail($id);
+
+        if($d->ifUserAuthorized()) {
+            $d->expiration_date = $r->expiration_date;
+            $d->batch_number = $r->batch_number;
+            $d->lot_number = $r->lot_number;
+
+            if($d->isDirty()) {
+                $d->save();
+            }
+
+            return redirect()->route('pharmacy_itemlist_viewitem', $d->pharmacysub->id)
+            ->with('msg', 'Pharmacy Sub Stock (ID: #'.$d->id.') was updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }        
+    }
+
     public function exportStockCard($supply_id) {
         $item = PharmacyStockCard::where('supply_id', $supply_id)
         ->orderBy('created_at', 'ASC')
@@ -758,6 +792,13 @@ class PharmacyController extends Controller
     }
 
     public function viewReport() {
+        if(request()->input('select_branch')) {
+
+        }
+        else {
+
+        }
+        
         //get expiration within 3 months
         $expired_list = PharmacySupplySubStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
         ->where('current_box_stock', '>', 0)
@@ -897,7 +938,50 @@ class PharmacyController extends Controller
         ]);
     }
 
-    public function modifyStockPatientProcess($id, Request $r) {
+    public function listBranch() {
+        if(request()->input('q')) {
+            $search = request()->input('q');
+
+            $list = PharmacyBranch::where('name', 'LIKE', '%'.$search.'%')
+            ->paginate(10);
+        }
+        else {
+            $list = PharmacyBranch::orderBy('name', 'ASC')
+            ->paginate(10);
+        }
         
+        return view('pharmacy.branches_list', [
+            'list' => $list,
+        ]);
+    }
+
+    public function viewBranch($id) {
+        $d = PharmacyBranch::findOrFail($id);
+
+        return view('pharmacy.brances_view', [
+            'd' => $d,
+        ]);
+    }
+
+    public function updateBranch($id, Request $r) {
+        $d = PharmacyBranch::findOrFail($id);
+
+        $search = PharmacyBranch::where('name', mb_strtoupper($r->name))
+        ->first();
+
+        if(!($search)) {
+            $d->name = mb_strtoupper($r->name);
+            $d->focal_person = ($r->filled('focal_person')) ? $r->focal_person : NULL;
+            $d->focal_person = ($r->filled('contact_number')) ? $r->contact_number : NULL;
+
+            return redirect()->route('pharmacy_list_branch')
+            ->with('msg', 'Pharmacy Branch (ID: #'.$d->id.') was updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Another Branch with the updated name already exists in the server.')
+            ->with('msgtype', 'warning');
+        }
     }
 }

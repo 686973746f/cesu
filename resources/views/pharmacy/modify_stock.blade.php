@@ -149,7 +149,7 @@
     </div>
 
     <script>
-        $('#transfer_branch_id').select2({
+        $('#receiving_branch_id').select2({
             theme: 'bootstrap',
         });
         
