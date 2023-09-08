@@ -10,6 +10,7 @@
             @if(auth()->user()->isAdminPharmacy())
             <hr>
             <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">View Master Item</a>
+            <a href="" class="btn btn-warning">View Branches</a>
             @endif
         </div>
         <div class="card">

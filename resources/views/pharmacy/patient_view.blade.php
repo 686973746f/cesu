@@ -9,13 +9,20 @@
                     <tbody>
                         <tr>
                             <td>Name of Patient</td>
-                            <td>{{$d->getName()}}</td>
+                            <td class="text-center">{{$d->getName()}}</td>
                             <td>Patient ID</td>
-                            <td>#{{$d->id}}</td>
+                            <td class="text-center">#{{$d->id}}</td>
+                        </tr>
+                        <tr>
+                            <td>Patient QR</td>
+                            <td class="text-center">
+                                <div>{!! QrCode::size(70)->generate($d->qr) !!}</div>
+                                <div>{{$d->qr}}</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-
+                
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
