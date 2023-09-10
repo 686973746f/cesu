@@ -955,6 +955,10 @@ class PharmacyController extends Controller
         ]);
     }
 
+    public function storeBranch(Request $r) {
+        
+    }
+
     public function viewBranch($id) {
         $d = PharmacyBranch::findOrFail($id);
 

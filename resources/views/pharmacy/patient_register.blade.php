@@ -58,14 +58,9 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
-                            <select class="form-control" id="cs" name="cs" required>
-                                <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="SINGLE" {{(old('cs') == 'SINGLE') ? 'selected' : ''}}>Single</option>
-                                <option value="MARRIED" {{(old('cs') == 'MARRIED') ? 'selected' : ''}}>Married</option>
-                                <option value="WIDOWED" {{(old('cs') == 'WIDOWED') ? 'selected' : ''}}>Widowed</option>
-                            </select>
-                        </div>
+							<label for="philhealth">Philhealth No. (Optional)</label>
+							<input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}">
+						</div>
                         <div class="form-group">
                           <label for="">Email Address (Optional)</label>
                           <input type="email" class="form-control" name="email" id="email" value="{{old('email')}}">
@@ -131,14 +126,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="address_houseno" class="form-label"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                            <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="" required>
+                            <label for="address_houseno" class="form-label">House No./Lot/Building</label>
+                            <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="address_street" class="form-label"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
-                            <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                            <label for="address_street" class="form-label">Street/Subdivision/Purok/Sitio</label>
+                            <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                         </div>
                     </div>
                 </div>

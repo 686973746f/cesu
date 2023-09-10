@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,6 +50,19 @@ class PharmacyPatient extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public function pharmacybranch() {
+        return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
+    }
+
     public function getName() {
         $fullname = $this->lname.", ".$this->fname;
 
@@ -62,6 +76,46 @@ class PharmacyPatient extends Model
 
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function sg() {
+        return substr($this->gender,0,1);
+    }
+
+    public function getAge() {
+        if(!is_null($this->bdate)) {
+            if(Carbon::parse($this->attributes['bdate'])->age > 0) {
+                return Carbon::parse($this->attributes['bdate'])->age;
+            }
+            else {
+                if (Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%d DAYS');
+                }
+                else {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
+                }
+            }
+        }
+        else {
+            return $this->age;
+        }
+    }
+
+    public function getStreetPurok() {
+        if($this->address_houseno) {
+            $get_txt = $this->address_houseno;
+        }
+
+        if($this->address_street) {
+            if($get_txt) {
+                $get_txt = $get_txt.', '.$this->address_street;
+            }
+            else {
+                $get_txt = $this->address_street;
+            }
+        }
+        
+        return $get_txt;
     }
 
     public static function ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {

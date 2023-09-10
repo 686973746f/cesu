@@ -14,6 +14,9 @@
                             {{session('msg')}}
                         </div>
                         @endif
+                        <div class="alert alert-info" role="alert">
+                            <b class="text-danger">Note:</b> Template Maker can only be used in GenTrias LGU Vaccination Sites only. All fields marked with an asterisk (<b class="text-danger">*</b>) are required to be filled-out properly.
+                        </div>
                         <div class="form-group">
                             <label for="last_name"><span class="text-danger font-weight-bold">*</span>Last Name</label>
                             <input type="text" class="form-control" id="last_name" name="last_name" value="{{old('last_name', $pretemp['last_name'])}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>

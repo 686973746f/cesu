@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#addPatient">Add Patient</button>
     </div>
     <div class="card">
-        <div class="card-header"><b>Patient List</b></div>
+        <div class="card-header"><b>Patient List</b> (Total: {{$list->total()}})</div>
         <div class="card-body">
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
@@ -30,10 +30,12 @@
                 <thead class="thead-light text-center">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
+                        <th>Name / ID</th>
                         <th>Age / Sex</th>
                         <th>Birthdate</th>
-                        <th>Complete Address</th>
+                        <th>Street/Purok</th>
+                        <th>Barangay</th>
+                        <th>City / Province</th>
                         <th>Encoded from Branch</th>
                         <th>Date Encoded / By</th>
                         <th>Date Updated / By</th>
@@ -42,14 +44,22 @@
                 <tbody>
                     @foreach($list as $ind => $i)
                     <tr>
-                        <td class="text-center">{{$list->firstItem() + $ind}}</td>
-                        <td><a href="{{route('pharmacy_view_patient', $i->id)}}">{{$i->getName()}}</a></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center"><b>{{$list->firstItem() + $ind}}</b></td>
+                        <td><b><a href="{{route('pharmacy_view_patient', $i->id)}}">{{$i->getName()}}</a> <small>(#{{$i->id}})</small></b></td>
+                        <td class="text-center">{{$i->getAge()}} / {{$i->sg()}}</td>
+                        <td class="text-center">{{date('m/d/Y', strtotime($i->bdate))}}</td>
+                        <td class="text-center">{{$i->getStreetPurok()}}</td>
+                        <td class="text-center">{{$i->address_brgy_text}}</td>
+                        <td class="text-center">{{$i->address_muncity_text}}, {{$i->address_province_text}}</td>
+                        <td class="text-center">
+                            @if(auth()->user()->isAdminPharmacy())
+                            <a href="{{route('pharmacy_view_branch', $i->pharmacybranch->id)}}">{{$i->pharmacybranch->name}}</a>
+                            @else
+                            {{$i->pharmacybranch->name}}
+                            @endif
+                        </td>
+                        <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
+                        <td class="text-center"><small>{{($i->getUpdatedBy()) ? $i->getUpdatedBy() : 'N/A'}}</small></td>
                     </tr>
                     @endforeach
                 </tbody>

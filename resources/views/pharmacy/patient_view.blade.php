@@ -44,6 +44,7 @@
                                         <th>Date</th>
                                         <th>Name of Meds</th>
                                         <th>QTY Issued</th>
+                                        <th>Branch</th>
                                         <th>Processed by</th>
                                     </tr>
                                 </thead>
@@ -54,6 +55,7 @@
                                         <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
                                         <td>{{$s->pharmacysub->pharmacysupplymaster->name}}</td>
                                         <td>{{($s->type == 'ISSUED') ? $s->getQtyAndType() : ''}}</td>
+                                        <td>{{$s->pharmacysub->pharmacybranch->name}}</td>
                                         <td>{{$s->user->name}}</td>
                                     </tr>
                                     @endforeach
