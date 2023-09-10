@@ -22,14 +22,22 @@
                             <label for="first_name"><span class="text-danger font-weight-bold">*</span>First Name</label>
                             <input type="text" class="form-control" id="first_name" name="first_name" value="{{old('first_name', $pretemp['first_name'])}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
                         </div>
-                        <div class="form-group">
-                            <label for="middle_name">Middle Name</label>
-                            <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{old('middle_name', $pretemp['middle_name'])}}" minlength="2" maxlength="50" style="text-transform: uppercase;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="middle_name">Middle Name</label>
+                                    <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{old('middle_name', $pretemp['middle_name'])}}" minlength="2" maxlength="50" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="suffix">Suffix <small>(ex. JR, SR, II, III, etc.)</small></label>
+                                    <input type="text" class="form-control" id="suffix" name="suffix" value="{{old('suffix', $pretemp['suffix'])}}" minlength="2" maxlength="6" style="text-transform: uppercase;">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="suffix">Suffix <small>(ex. JR, SR, II, III, etc.)</small></label>
-                            <input type="text" class="form-control" id="suffix" name="suffix" value="{{old('suffix', $pretemp['suffix'])}}" minlength="2" maxlength="6" style="text-transform: uppercase;">
-                        </div>
+
+                        
                         <div class="form-group">
                             <label for="birthdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
                             <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{old('birthdate', $pretemp['birthdate'])}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
@@ -81,7 +89,7 @@
                         <div id="ifguardian" class="d-none">
                             <div class="form-group">
                                 <label for="guardian_name"><b class="text-danger">*</b>Name of Guardian (format: SURNAME, FIRST NAME)</label>
-                                <input type="text" class="form-control" name="guardian_name" id="guardian_name" value="{{old('guardian_name', $pretemp['guardian_name'])}}" style="text-transform: uppercase;" pattern=".*[,].*">
+                                <input type="text" class="form-control" name="guardian_name" id="guardian_name" value="{{old('guardian_name', $pretemp['guardian_name'])}}" style="text-transform: uppercase;" pattern="^[^0-9]*,[^0-9]*$">
                             </div>
                         </div>
                         <hr>
@@ -155,7 +163,7 @@
                                 <select class="form-control" name="dose1_bakuna_center_cbcr_id" id="dose1_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose1_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
                                   @foreach($gentri_cbcr_list as $g)
-                                  <option value="{{$g['cbcr_code']}}" {{(old('dose1_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}}</option>
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose1_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -165,14 +173,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="dose1_vaccinator_name"><span class="text-danger font-weight-bold">*</span>1ST Dose Name of Vaccinator (format: LAST NAME, FIRST NAME)</label>
-                                <input type="text" class="form-control" name="dose1_vaccinator_name" id="dose1_vaccinator_name" value="{{old('dose1_vaccinator_name')}}" pattern=".*[,].*" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="dose1_vaccinator_name" id="dose1_vaccinator_name" value="{{old('dose1_vaccinator_name')}}" pattern="^[^0-9]*,[^0-9]*$" style="text-transform: uppercase;">
                             </div>
                         </div>
-                        <hr>
                         <div class="form-check" id="dose2_checkbox">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="process_dose2" id="process_dose2" value="1" {{ old('process_dose2') ? 'checked' : '' }}>Process 2nd Dose
-                          </label>
+                            <hr>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="process_dose2" id="process_dose2" value="1" {{ old('process_dose2') ? 'checked' : '' }}>Process 2nd Dose
+                            </label>
                         </div>
                         <div id="dose2_div" class="d-none">
                             <div class="form-group mt-3">
@@ -195,7 +203,7 @@
                                 <select class="form-control" name="dose2_bakuna_center_cbcr_id" id="dose2_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose2_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
                                   @foreach($gentri_cbcr_list as $g)
-                                  <option value="{{$g['cbcr_code']}}" {{(old('dose2_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}}</option>
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose2_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -205,14 +213,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="dose2_vaccinator_name"><span class="text-danger font-weight-bold">*</span>2ND Dose Name of Vaccinator (format: LAST NAME, FIRST NAME)</label>
-                                <input type="text" class="form-control" name="dose2_vaccinator_name" id="dose2_vaccinator_name" value="{{old('dose2_vaccinator_name')}}" pattern=".*[,].*" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="dose2_vaccinator_name" id="dose2_vaccinator_name" value="{{old('dose2_vaccinator_name')}}" pattern="^[^0-9]*,[^0-9]*$" style="text-transform: uppercase;">
                             </div>
                         </div>
-                        <hr>
                         <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="process_dose3" id="process_dose3" value="1" {{ old('process_dose3') ? 'checked' : '' }}>Process 3rd Dose (Booster)
-                          </label>
+                            <hr>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="process_dose3" id="process_dose3" value="1" {{ old('process_dose3') ? 'checked' : '' }}>Process 3rd Dose (Booster)
+                            </label>
                         </div>
                         <div id="dose3_div" class="d-none">
                             <div class="form-group">
@@ -233,7 +241,7 @@
                                 <select class="form-control" name="dose3_bakuna_center_cbcr_id" id="dose3_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose3_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
                                   @foreach($gentri_cbcr_list as $g)
-                                  <option value="{{$g['cbcr_code']}}" {{(old('dose3_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}}</option>
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose3_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -243,14 +251,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="dose3_vaccinator_name"><span class="text-danger font-weight-bold">*</span>3RD Dose Name of Vaccinator (format: LAST NAME, FIRST NAME)</label>
-                                <input type="text" class="form-control" name="dose3_vaccinator_name" id="dose3_vaccinator_name" value="{{old('dose3_vaccinator_name')}}" pattern=".*[,].*" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="dose3_vaccinator_name" id="dose3_vaccinator_name" value="{{old('dose3_vaccinator_name')}}" pattern="^[^0-9]*,[^0-9]*$" style="text-transform: uppercase;">
                             </div>
                         </div>
-                        <hr>
                         <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="process_dose4" id="process_dose4" value="1" {{ old('process_dose4') ? 'checked' : '' }}>Process 4th Dose (2nd Booster)
-                          </label>
+                            <hr>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="process_dose4" id="process_dose4" value="1" {{ old('process_dose4') ? 'checked' : '' }}>Process 4th Dose (2nd Booster)
+                            </label>
                         </div>
                         <div id="dose4_div" class="d-none">
                             <div class="form-group">
@@ -271,7 +279,7 @@
                                 <select class="form-control" name="dose4_bakuna_center_cbcr_id" id="dose4_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose4_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
                                   @foreach($gentri_cbcr_list as $g)
-                                  <option value="{{$g['cbcr_code']}}" {{(old('dose4_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}}</option>
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose4_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -281,7 +289,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="dose4_vaccinator_name"><span class="text-danger font-weight-bold">*</span>4TH Dose Name of Vaccinator (format: LAST NAME, FIRST NAME)</label>
-                                <input type="text" class="form-control" name="dose4_vaccinator_name" id="dose4_vaccinator_name" value="{{old('dose4_vaccinator_name')}}" pattern=".*[,].*" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" name="dose4_vaccinator_name" id="dose4_vaccinator_name" value="{{old('dose4_vaccinator_name')}}" pattern="^[^0-9]*,[^0-9]*$" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
@@ -297,7 +305,7 @@
 
 <script>
     //Select2 Init for Address Bar
-    $('#address_region_code, #address_province_code, #address_muncity_code').select2({
+    $('#address_region_code, #address_province_code, #address_muncity_code, #dose1_vaccine_manufacturer_name, #dose1_bakuna_center_cbcr_id, #dose2_vaccine_manufacturer_name, #dose2_bakuna_center_cbcr_id, #dose3_vaccine_manufacturer_name, #dose3_bakuna_center_cbcr_id, #dose4_vaccine_manufacturer_name, #dose4_bakuna_center_cbcr_id, #category').select2({
         theme: 'bootstrap',
     });
 

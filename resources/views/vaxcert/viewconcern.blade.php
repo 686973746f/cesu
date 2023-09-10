@@ -602,14 +602,28 @@
                         </ul>
                     </li>
                     <h6>------------</h6>
-                    <li>
-                        <b>Step 5:</b>
-                        <ul>
-                            <li>Download Patient Linelist Template by clicking - <a href="{{route('vaxcert_basedl', $d->id)}}">HERE</a></li>
-                            <li>Go to <a href="https://vaslinelist.dict.gov.ph/vas-line-import/approved">VAS Linelist Import</a> and upload the downloaded Excel (.XLSX) file.</li>
-                            <li>Use <b class="text-info">cesugentri.vaxcert@gmail.com</b> as the email for uploading the linelist.</li>
-                        </ul>
-                    </li>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <li>
+                                <b>Step 5A:</b>
+                                <ul>
+                                    <li>Load the Ticket details to the <a href="{{route('vaxcert_vquery_templatemaker', ['concern_id' => $d->id])}}" target="_blank">TEMPLATE MAKER</a></li>
+                                    <li>Fill-out the necessary details and the dose needed to process before generating.</li>
+                                </ul>
+                            </li>
+                        </div>
+                        <div class="col-md-6">
+                            <li>
+                                <b>Step 5B:</b>
+                                <ul>
+                                    <li>Download Patient Linelist Template by clicking - <a href="{{route('vaxcert_basedl', $d->id)}}">HERE</a></li>
+                                    <li>Go to <a href="https://vaslinelist.dict.gov.ph/vas-line-import/approved">VAS Linelist Import</a> and upload the downloaded Excel (.XLSX) file.</li>
+                                    <li>Use <b class="text-info">cesugentri.vaxcert@gmail.com</b> as the email for uploading the linelist.</li>
+                                </ul>
+                            </li>
+                        </div>
+                    </div>
+                    
                     <h6>------------</h6>
                     <h6 class="text-danger"><b>SIGURADUHING "CLOSED" NA LAHAT NG TICKET NG PATIENT SA VAS LINELIST SITE (<a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">CORRECTION</a> & <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">NOT FOUND</a>) BAGO PINTUDIN ANG <span class="text-success">COMPLETE</span> BUTTON SA IBABA.</b></h6>
                     <h6>Maaaring kontakin ang pasyente sa kanyang Mobile Number: <b class="text-info">{{$d->contact_number}}</b> @if(!is_null($d->email))o sa Email Address: <b class="text-info">{{$d->email}}</b>@endif na maaari na siyang mag-generate ng kanyang VaxCert at naayos na ang isyu sa kanyang VaxCert.</h6>

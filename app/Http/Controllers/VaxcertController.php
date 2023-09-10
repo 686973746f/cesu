@@ -786,31 +786,59 @@ class VaxcertController extends Controller
     }
 
     public function templateMaker() {
-        if(request()->input('use_id')) {
-            $s = CovidVaccinePatientMasterlist::findOrFail(request()->input('use_id'));
+        if(request()->input('use_id') || request()->input('concern_id')) {
+            if(request()->input('use_id')) {
+                $s = CovidVaccinePatientMasterlist::findOrFail(request()->input('use_id'));
 
-            $pretemp = [
-                'category' => $s->category,
-                'comorbidity' => $s->comorbidity,
-                'unique_person_id' => $s->unique_person_id,
-                'pwd' => $s->pwd,
-                'indigenous_member' => $s->indigenous_member,
-                'last_name' => $s->last_name,
-                'first_name' => $s->first_name,
-                'middle_name' => $s->middle_name,
-                'suffix' => $s->suffix,
-                'contact_no' => '0'.$s->contact_no,
-                'guardian_name' => $s->guardian_name,
-                'region' => $s->region,
-                'region_json' => $s->convertRegionToJson(),
-                'province' => $s->province,
-                'province_json' => $s->convertProvinceToJson(),
-                'muni_city' => $s->muni_city,
-                'muni_city_json' => $s->convertMuncityToJson(),
-                'barangay' => $s->barangay,
-                'sex' => $s->sex,
-                'birthdate' => $s->birthdate,
-            ];
+                $pretemp = [
+                    'category' => $s->category,
+                    'comorbidity' => $s->comorbidity,
+                    'unique_person_id' => $s->unique_person_id,
+                    'pwd' => $s->pwd,
+                    'indigenous_member' => $s->indigenous_member,
+                    'last_name' => $s->last_name,
+                    'first_name' => $s->first_name,
+                    'middle_name' => $s->middle_name,
+                    'suffix' => $s->suffix,
+                    'contact_no' => '0'.$s->contact_no,
+                    'guardian_name' => $s->guardian_name,
+                    'region' => $s->region,
+                    'region_json' => $s->convertRegionToJson(),
+                    'province' => $s->province,
+                    'province_json' => $s->convertProvinceToJson(),
+                    'muni_city' => $s->muni_city,
+                    'muni_city_json' => $s->convertMuncityToJson(),
+                    'barangay' => $s->barangay,
+                    'sex' => $s->sex,
+                    'birthdate' => $s->birthdate,
+                ];
+            }
+            else {
+                $s = VaxcertConcern::findOrFail(request()->input('concern_id'));
+
+                $pretemp = [
+                    'category' => $s->category,
+                    'comorbidity' => $s->comorbidity,
+                    'unique_person_id' => $s->vaxcard_uniqueid,
+                    'pwd' => $s->pwd_yn,
+                    'indigenous_member' => $s->indigenous_member,
+                    'last_name' => $s->last_name,
+                    'first_name' => $s->first_name,
+                    'middle_name' => $s->middle_name,
+                    'suffix' => $s->suffix,
+                    'contact_no' => $s->contact_number,
+                    'guardian_name' => $s->guardian_name,
+                    'region' => $s->address_region_text,
+                    'region_json' => $s->address_region_code,
+                    'province' => $s->address_province_text,
+                    'province_json' => $s->address_province_code,
+                    'muni_city' => $s->address_muncity_text,
+                    'muni_city_json' => $s->address_muncity_code,
+                    'barangay' => $s->address_brgy_text,
+                    'sex' => $s->gender,
+                    'birthdate' => $s->bdate,
+                ];
+            }
         }
         else {
             $pretemp = [
@@ -1064,12 +1092,12 @@ class VaxcertController extends Controller
 
         $gentri_cbcr_list = [
             ['cbcr_code' => 'CBC000000000006637', 'cbcr_name' => 'CITY OF GENERAL TRIAS CONVENTION CENTER'],
-            ['cbcr_code' => 'CBC000000000005586', 'cbcr_name' => 'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER'],
-            ['cbcr_code' => 'CBC000000000002325', 'cbcr_name' => 'CITY OF GENERAL TRIAS HEALTH OFFICE'],
+            ['cbcr_code' => 'CBC000000000005586', 'cbcr_name' => 'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER (GENTRIDOCS)'],
+            ['cbcr_code' => 'CBC000000000002325', 'cbcr_name' => 'CITY OF GENERAL TRIAS HEALTH OFFICE (CHO GENTRIAS)'],
             ['cbcr_code' => 'CBC000000000009906', 'cbcr_name' => 'DBA VACCINATION FACILITY'],
             ['cbcr_code' => 'CBC000000000005588', 'cbcr_name' => 'DIVINE GRACE MEDICAL HOSPITAL'],
             ['cbcr_code' => 'CBC000000000007978', 'cbcr_name' => 'GEN TRIAS LGU / VISTA MALL GEN TRIAS / RED CROSS CAVITE CHAPTER VACCINATION SITE'],
-            ['cbcr_code' => 'CBC000000000007746', 'cbcr_name' => 'GENERAL TRIAS MOBILE VACCINATION CENTER'],
+            ['cbcr_code' => 'CBC000000000007746', 'cbcr_name' => 'GENERAL TRIAS MOBILE VACCINATION CENTER (BARANGAY)'],
             ['cbcr_code' => 'CBC000000000005587', 'cbcr_name' => 'GENTRIMEDICAL CENTER AND HOSPITAL'],
             ['cbcr_code' => 'CBC000000000007459', 'cbcr_name' => 'ROBINSONS PLACE GEN TRIAS BAKUNA CENTER'],
             ['cbcr_code' => 'CBC000000000008481', 'cbcr_name' => 'SSMC GATEWAY VACCINATION CENTER'],
@@ -1355,7 +1383,7 @@ class VaxcertController extends Controller
 
             if($proceed) {
                 $sheet->setCellValue('A'.$c, $r->category);
-                $sheet->setCellValue('B'.$c, $r->comorbidity); //COMORBID
+                $sheet->setCellValue('B'.$c, $r->filled('comorbidity') ? mb_strtoupper($r->comorbidity) : ''); //COMORBID
                 $sheet->setCellValue('C'.$c, (!is_null($r->unique_person_id)) ? $r->unique_person_id : 'NONE'); //UNIQUE PERSON ID
                 $sheet->setCellValue('D'.$c, $r->pwd); //PWD
                 $sheet->setCellValue('E'.$c, $r->indigenous_member); //INDIGENOUS MEMBER

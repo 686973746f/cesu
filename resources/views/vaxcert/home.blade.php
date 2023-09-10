@@ -3,6 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="text-right">
+        <a href="{{route('vaxcert_vquery_templatemaker')}}" class="btn btn-secondary mb-3">Template Maker</a>
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#vquery"><i class="fa fa-search mr-2" aria-hidden="true"></i>Internal Vaccinee Query</button>
     </div>
     <div class="card mb-3">
