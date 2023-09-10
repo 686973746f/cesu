@@ -118,6 +118,18 @@ class PharmacyPatient extends Model
         return $get_txt;
     }
 
+    public function getCompleteAddress() {
+        $get_txt = '';
+
+        if($this->address_houseno || $this->address_street) {
+            $get_txt = $this->getStreetPurok();
+        }
+        
+        $get_txt = $get_txt.', BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+
+        return $get_txt;
+    }
+
     public static function ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
         $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
         $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));

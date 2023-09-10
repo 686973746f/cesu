@@ -3,7 +3,13 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>View Patient</b></div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div><b>View Patient</b></div>
+                    <div><a href="{{route('pharmacy_print_patient_card', $d->id)}}" class="btn btn-primary">Print Card</a></div>
+                </div>
+                
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}} text-center" role="alert">

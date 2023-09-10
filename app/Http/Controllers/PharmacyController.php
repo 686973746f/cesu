@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PharmacySupplyStock;
 use App\Models\PharmacySupplyMaster;
 use App\Models\PharmacySupplySubStock;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class PharmacyController extends Controller
 {
@@ -182,9 +183,12 @@ class PharmacyController extends Controller
             }
             else {
                 $s1 = PharmacyPatient::where('qr', $code)->first();
-
+                
                 if($s1) {
-                    return redirect()->route('pharmacy_modify_patient_stock', $s1->id);
+
+                    return redirect()->route('pharmacy_modify_patient_stock', [
+                        'id' => $s1->id,
+                    ]);
                 }
                 else {
                     return redirect()->back()
@@ -208,10 +212,18 @@ class PharmacyController extends Controller
         ->orderBy('name', 'ASC')
         ->get();
 
+        if(request()->input('process_patient')) {
+            $get_name = PharmacyPatient::findOrFail(request()->input('process_patient'))->getName();
+        }
+        else {
+            $get_name = NULL;
+        }
+
         return view('pharmacy.modify_stock', [
             'd' => $d,
             'sub_list' => $sub_list,
             'branch_list' => $branch_list,
+            'get_name' => $get_name,
         ]);
     }
 
@@ -585,6 +597,10 @@ class PharmacyController extends Controller
 
             $actiontxt = 'Received';
         }
+
+        return redirect()->route('pharmacy_home')
+        ->with('msg', 'Success')
+        ->with('msgtype', 'success');
     }
 
     public function masterItemHome() {
@@ -907,6 +923,27 @@ class PharmacyController extends Controller
             'scard' => $scard,
         ]);
     }
+
+    public function printPatientCard($id) {
+        $d = PharmacyPatient::findOrFail($id);
+
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_CARD_".$d->lname.".docx");
+
+        $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_PATIENT_CARD.docx'));
+
+        $templateProcessor->setValue('patient_id', $d->id);
+        $templateProcessor->setValue('dreg', date('m/d/Y', strtotime($d->created_at)));
+        $templateProcessor->setValue('name', $d->getName());
+        $templateProcessor->setValue('bdate', date('m/d/Y', strtotime($d->bdate)));
+        $templateProcessor->setValue('agesex', $d->getAge().' / '.$d->sg());
+        $templateProcessor->setValue('address', $d->getCompleteAddress());
+        $templateProcessor->setValue('patient_qr', 'PATIENT_'.$d->qr);
+        $templateProcessor->setValue('qr', $d->qr);
+        $templateProcessor->setValue('branch', $d->pharmacybranch->name);
+
+        $templateProcessor->saveAs('php://output');
+    }
     
     public function updatePatient($id, Request $r) {
 
@@ -915,8 +952,13 @@ class PharmacyController extends Controller
     public function modifyStockPatientView($id) {
         $d = PharmacyPatient::findOrFail($id);
 
-        if(request()->input('meds')) {
-            $meds = request()->input('meds');
+        if(request()->input('meds') || request()->input('alt_meds_id')) {
+            if(request()->input('meds')) {
+                $meds = request()->input('meds');
+            }
+            else {
+                $meds = request()->input('alt_meds_id');
+            }
 
             $e = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($meds) {
                 $q->where('sku_code', $meds);
@@ -934,8 +976,12 @@ class PharmacyController extends Controller
             }
         }
 
+        $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+        ->get();
+
         return view('pharmacy.modify_stock_patientview', [
             'd' => $d,
+            'meds_list' => $meds_list,
         ]);
     }
 

@@ -127,6 +127,9 @@
                               <div class="form-group">
                                 <label for="receiving_patient_id"><b class="text-danger">*</b>Patient ID / Scan QR</label>
                                 <input type="text" class="form-control" name="receiving_patient_id" id="receiving_patient_id">
+                                @if($get_name)
+                                <small>Patient Selected: <b>{{$get_name}}</b></small>
+                                @endif
                               </div>
                           </div>
                           <div id="if_others" class="d-none">
