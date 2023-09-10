@@ -49,7 +49,7 @@
                                 <label for="use_type"><span class="text-danger font-weight-bold">*</span>Saan gagamitin ang VaxCert</label>
                                 <select class="form-control" name="use_type" id="use_type" required>
                                       <option disabled {{(is_null(old('use_type'))) ? 'selected' : ''}}>Choose...</option>
-                                      <option value="ABROAD" {{(old('use_type') == 'ABROAD') ? 'selected' : ''}}>Abroad</option>
+                                      <option value="ABROAD" {{(old('use_type') == 'ABROAD') ? 'selected' : ''}}>Abroad/International</option>
                                       <option value="LOCAL" {{(old('use_type') == 'LOCAL') ? 'selected' : ''}}>Local Travel</option>
                                 </select>
                             </div>
