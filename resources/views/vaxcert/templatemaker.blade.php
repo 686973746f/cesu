@@ -97,22 +97,22 @@
                         <div class="form-group">
                             <label for="category"><span class="text-danger font-weight-bold">*</span>Category</label>
                             <select class="form-control" name="category" id="category" required>
-                                  <option disabled {{(is_null(old('category', $pretemp['category']))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="A1" {{(old('category', $pretemp['category']) == 'A1') ? 'selected' : ''}}>A1</option>
-                                  <option value="A1.8" {{(old('category', $pretemp['category']) == 'A1.8') ? 'selected' : ''}}>A1.8</option>
-                                  <option value="A1.9" {{(old('category', $pretemp['category']) == 'A1') ? 'selected' : ''}}>A1.9</option>
-                                  <option value="A2" {{(old('category', $pretemp['category']) == 'A2') ? 'selected' : ''}}>A2</option>
-                                  <option value="A3 - IMMUNOCOMPETENT" {{(old('category', $pretemp['category']) == 'A3 - IMMUNOCOMPETENT') ? 'selected' : ''}}>A3 - Immunocompetent</option>
-                                  <option value="A3 - IMMUNOCOMPROMISED" {{(old('category', $pretemp['category']) == 'A3 - IMMUNOCOMPROMISED') ? 'selected' : ''}}>A3 - Immunocompromised</option>
-                                  <option value="A4" {{(old('category', $pretemp['category']) == 'A4') ? 'selected' : ''}}>A4</option>
-                                  <option value="A5" {{(old('category', $pretemp['category']) == 'A5') ? 'selected' : ''}}>A5</option>
-                                  <option value="ADDITIONAL A1" {{(old('category', $pretemp['category']) == 'ADDITIONAL A1') ? 'selected' : ''}}>Additional A1</option>
-                                  <option value="EXPANDED A3" {{(old('category', $pretemp['category']) == 'EXPANDED A3') ? 'selected' : ''}}>Expanded A3</option>
-                                  <option value="PEDRIATRIC A3 (12-17 YEARS OLD)" {{(old('category', $pretemp['category']) == 'PEDRIATRIC A3 (12-17 YEARS OLD)') ? 'selected' : ''}}>Pediatric A3 (12-17 years old)</option>
-                                  <option value="PEDRIATRIC A3 (5-11 YEARS OLD)" {{(old('category', $pretemp['category']) == 'PEDRIATRIC A3 (5-11 YEARS OLD)') ? 'selected' : ''}}>Pediatric A3 (5-11 years old)</option>
-                                  <option value="ROAP" {{(old('category', $pretemp['category']) == 'ROAP') ? 'selected' : ''}}>ROAP</option>
-                                  <option value="ROPP (12-17 YEARS OLD)" {{(old('category', $pretemp['category']) == 'ROPP (12-17 YEARS OLD)') ? 'selected' : ''}}>ROPP (12-17 years old)</option>
-                                  <option value="ROPP (5-11 YEARS OLD)" {{(old('category', $pretemp['category']) == 'ROPP (5-11 YEARS OLD)') ? 'selected' : ''}}>ROPP (5-11 years old)</option>
+                                <option disabled {{(is_null(old('category', $pretemp['category']))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="A1" {{(old('category', $pretemp['category']) == 'A1') ? 'selected' : ''}}>A1 (Workers in Frontline Health Services)</option>
+                                <option value="A1.8" {{(old('category', $pretemp['category']) == 'A1.8') ? 'selected' : ''}}>A1.8 (OFW living within 4 months)</option>
+                                <option value="A1.9" {{(old('category', $pretemp['category']) == 'A1') ? 'selected' : ''}}>A1.9 (Family members of A1.1 to A1.3, newly hired priority A1)</option>
+                                <option value="ADDITIONAL A1" {{(old('category', $pretemp['category']) == 'ADDITIONAL A1') ? 'selected' : ''}}>Additional A1 (All adult population eligible to be categorized as Priority Group A1)</option>
+                                <option value="A2" {{(old('category', $pretemp['category']) == 'A2') ? 'selected' : ''}}>A2 (All Senior Citizens)</option>
+                                <option value="A3 - IMMUNOCOMPETENT" {{(old('category', $pretemp['category']) == 'A3 - IMMUNOCOMPETENT') ? 'selected' : ''}}>A3 - Immunocompetent (HIV; 3rd Dose to be considered fully vaccinated)</option>
+                                <option value="A3 - IMMUNOCOMPROMISED" {{(old('category', $pretemp['category']) == 'A3 - IMMUNOCOMPROMISED') ? 'selected' : ''}}>A3 - Immunocompromised (Asthma; if approved, will be considered a booster)</option>
+                                <option value="EXPANDED A3" {{(old('category', $pretemp['category']) == 'EXPANDED A3') ? 'selected' : ''}}>Expanded A3 (Pregnant with Comorbidity)</option>
+                                <option value="A4" {{(old('category', $pretemp['category']) == 'A4') ? 'selected' : ''}}>A4 (Frontline personnel in essential sectors, including uniformed personnel)</option>
+                                <option value="A5" {{(old('category', $pretemp['category']) == 'A5') ? 'selected' : ''}}>A5 (Indigent Population)</option>
+                                <option value="PEDRIATRIC A3 (12-17 YEARS OLD)" {{(old('category', $pretemp['category']) == 'PEDRIATRIC A3 (12-17 YEARS OLD)') ? 'selected' : ''}}>Pediatric A3 (12-17 years old with comorbidity)</option>
+                                <option value="PEDRIATRIC A3 (5-11 YEARS OLD)" {{(old('category', $pretemp['category']) == 'PEDRIATRIC A3 (5-11 YEARS OLD)') ? 'selected' : ''}}>Pediatric A3 (5-11 years old with comorbidity)</option>
+                                <option value="ROAP" {{(old('category', $pretemp['category']) == 'ROAP') ? 'selected' : ''}}>ROAP - Rest of Adult Population</option>
+                                <option value="ROPP (12-17 YEARS OLD)" {{(old('category', $pretemp['category']) == 'ROPP (12-17 YEARS OLD)') ? 'selected' : ''}}>ROPP - Rest of Pediatric Population (12-17 years old)</option>
+                                <option value="ROPP (5-11 YEARS OLD)" {{(old('category', $pretemp['category']) == 'ROPP (5-11 YEARS OLD)') ? 'selected' : ''}}>ROPP - Rest of Pediatric Population (5-11 years old)</option>
                             </select>
                         </div>
                         <div class="form-group">
