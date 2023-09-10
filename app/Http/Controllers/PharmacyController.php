@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brgy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PharmacyBranch;
@@ -949,20 +950,46 @@ class PharmacyController extends Controller
             $list = PharmacyBranch::orderBy('name', 'ASC')
             ->paginate(10);
         }
+
+        $list_brgy = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->get();
         
         return view('pharmacy.branches_list', [
             'list' => $list,
+            'list_brgy' => $list_brgy,
         ]);
     }
 
     public function storeBranch(Request $r) {
-        
+        $s = PharmacyBranch::where('name', mb_strtoupper($r->name))->first();
+
+        if(!($s)) {
+            $c = $r->user()->createpharmacybranch()->create([
+                'name' => mb_strtoupper($r->name),
+                'focal_person' => $r->filled('focal_person') ? mb_strtoupper($r->focal_person) : NULL,
+                'contact_number' => $r->filled('contact_number') ? mb_strtoupper($r->contact_number) : NULL,
+                'description' => $r->filled('description') ? mb_strtoupper($r->description) : NULL,
+                'level' => $r->level,
+                'if_bhs_id' => ($r->if_bhs) ? $r->if_bhs_id : NULL,
+            ]);
+
+            return redirect()->back()
+            ->with('msg', 'New Pharmacy Entity/Branch was added successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Branch Name already exists. Please try again by using a different name.')
+            ->with('msgtype', 'warning');
+        }
     }
 
     public function viewBranch($id) {
         $d = PharmacyBranch::findOrFail($id);
 
-        return view('pharmacy.brances_view', [
+        return view('pharmacy.branches_view', [
             'd' => $d,
         ]);
     }

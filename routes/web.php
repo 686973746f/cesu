@@ -502,7 +502,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/master_item/{id}', [PharmacyController::class, 'updateMasterItem'])->name('pharmacy_update_masteritem');
 
     Route::get('/pharmacy/branches', [PharmacyController::class, 'listBranch'])->name('pharmacy_list_branch');
-    Route::get('/pharmacy/branches/add', [PharmacyController::class, 'listBranch'])->name('pharmacy_list_branch');
+    Route::post('/pharmacy/branches/add', [PharmacyController::class, 'storeBranch'])->name('pharmacy_store_branch');
     Route::get('/pharmacy/branches/{id}', [PharmacyController::class, 'viewBranch'])->name('pharmacy_view_branch');
     Route::post('/pharmacy/branches/{id}', [PharmacyController::class, 'updateBranch'])->name('pharmacy_update_branch');
 });

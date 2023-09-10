@@ -14,6 +14,7 @@ class PharmacyStockCard extends Model
 
     protected $fillable = [
         'subsupply_id',
+        'status',
         'type',
         'before_qty_box',
         'before_qty_piece',
@@ -31,6 +32,7 @@ class PharmacyStockCard extends Model
         'remarks',
 
         'created_by',
+        'processed_by',
     ];
 
     public function user() {

@@ -16,6 +16,7 @@ class CreatePharmacyStockCardsTable extends Migration
         Schema::create('pharmacy_stock_cards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
+            $table->string('status')->default('approved');
             $table->string('type');
             $table->integer('before_qty_box');
             $table->integer('before_qty_piece')->nullable();
@@ -34,6 +35,8 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
+            $table->foreignId('processed_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->dateTime('processed_at')->nullable();
             $table->softDeletes();
         });
     }
