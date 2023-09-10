@@ -3,6 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="text-right">
+            <a href="{{route('vaxcert_vquery_templatemaker')}}" class="btn btn-secondary mb-3">Template Maker</a>
             <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#vquery"><i class="fa fa-search mr-2" aria-hidden="true"></i>Search Again</button>
         </div>
         <div class="card">
@@ -55,6 +56,7 @@
                                             <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$a->last_name}}&firstname={{$a->first_name}}" class="dropdown-item" target="_blank">Search in CORRECTION Request</i></a>
                                             <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$a->last_name}}&firstname={{$a->first_name}}" class="dropdown-item" target="_blank">Search in NOT FOUND Requests</i></a>
                                             <div class="dropdown-divider"></div>
+                                            <a href="{{route('vaxcert_vquery_templatemaker', ['use_id' => $a->id])}}" class="dropdown-item">Load into Template Maker</a>
                                             <a href="{{route('vaxcert_vquery_template', $a->id)}}" class="dropdown-item"><i class="fa fa-file-excel mr-2" aria-hidden="true"></i>Download (.XLSX)</a>
                                         </div>
                                     </div>

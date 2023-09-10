@@ -331,7 +331,6 @@
                                 <select class="form-control" name="dose2_manufacturer" id="dose2_manufacturer">
                                     <option disabled {{(is_null(old('dose2_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="AZ" {{(old('dose2_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                    <option value="J&J" {{(old('dose2_manufacturer') == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
                                     <option value="Moderna" {{(old('dose2_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
                                     <option value="ModernaBivalent" {{(old('dose2_manufacturer') == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
                                     <option value="Novavax" {{(old('dose2_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>

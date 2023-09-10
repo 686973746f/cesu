@@ -20,6 +20,7 @@ use App\Models\CovidVaccinePatientMasterlist;
 use App\Models\Provinces;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Faker\Provider\sv_SE\Municipality;
 
 class VaxcertController extends Controller
 {
@@ -782,5 +783,620 @@ class VaxcertController extends Controller
 
     public function walkinmenu() {
         return view('vaxcert.walkin_menu');
+    }
+
+    public function templateMaker() {
+        if(request()->input('use_id')) {
+            $s = CovidVaccinePatientMasterlist::findOrFail(request()->input('use_id'));
+
+            $pretemp = [
+                'category' => $s->category,
+                'comorbidity' => $s->comorbidity,
+                'unique_person_id' => $s->unique_person_id,
+                'pwd' => $s->pwd,
+                'indigenous_member' => $s->indigenous_member,
+                'last_name' => $s->last_name,
+                'first_name' => $s->first_name,
+                'middle_name' => $s->middle_name,
+                'suffix' => $s->suffix,
+                'contact_no' => '0'.$s->contact_no,
+                'guardian_name' => $s->guardian_name,
+                'region' => $s->region,
+                'region_json' => $s->convertRegionToJson(),
+                'province' => $s->province,
+                'province_json' => $s->convertProvinceToJson(),
+                'muni_city' => $s->muni_city,
+                'muni_city_json' => $s->convertMuncityToJson(),
+                'barangay' => $s->barangay,
+                'sex' => $s->sex,
+                'birthdate' => $s->birthdate,
+            ];
+        }
+        else {
+            $pretemp = [
+                'category' => NULL,
+                'comorbidity' => NULL,
+                'unique_person_id' => NULL,
+                'pwd' => NULL,
+                'indigenous_member' => NULL,
+                'last_name' => NULL,
+                'first_name' => NULL,
+                'middle_name' => NULL,
+                'suffix' => NULL,
+                'contact_no' => NULL,
+                'guardian_name' => NULL,
+                'region' => NULL,
+                'region_json' => '04',
+                'province' => NULL,
+                'province_json' => '0421',
+                'muni_city' => NULL,
+                'muni_city_json' => '042108',
+                'barangay' => NULL,
+                'sex' => NULL,
+                'birthdate' => NULL,
+            ];
+        }
+
+        $indg_list = [
+            "Abelling/Aberling",
+            "Aeta",
+            "Aeta/Ayta",
+            "Aeta/Ayta-Sambal",
+            "Aeta/Ayta-Ambala",
+            "Aeta/Ayta-Abelling/Abellen",
+            "Aeta/Ayta-Mag-indi",
+            "Aeta/Ayta-Mang-ansti",
+            "Aeta/Ayta-Magbukun",
+            "Agta",
+            "Agta-Labin",
+            "Agta-Dupanigan",
+            "Agta Isigiran",
+            "Agta-Cimaron",
+            "Agta-Tabangnon",
+            "Agta-Taboy",
+            "Agta-Abay",
+            "Agta-Dumagat",
+            "Agutaynen",
+            "Alangan Mangyan",
+            "Alta",
+            "Applai",
+            "Applai-Kachakran/Kadaclan",
+            "Aromanen-Manobo/Eromanen-Manobo",
+            "Aromanen-Manobo/Eromanen-Manobo Dibabeen",
+            "Aromanen-Manobo/Eromanen-Manobo Direrayaan",
+            "Aromanen-Manobo/Eromanen-Manobo Ilianen",
+            "Aromanen-Manobo/Eromanen-Manobo Isoroken",
+            "Aromanen-Manobo/Eromanen-Manobo Kirenteken",
+            "Aromanen-Manobo/Eromanen-Manobo Lahitanen",
+            "Aromanen-Manobo/Eromanen-Manobo Livunganen",
+            "Aromanen-Manobo/Eromanen-Manobo Mulitaan",
+            "Aromanen-Manobo/Eromanen-Manobo Pulengien",
+            "Aromanen-Manobo/Eromanen-Manobo Kulmanen",
+            "Ata",
+            "Ata-Manobo",
+            "Ati",
+            "Ayangan",
+            "Ayangan-Henanga",
+            "Ayta",
+            "Badjao",
+            "Bago",
+            "Bagobo Lkata",
+            "Bagobo Tagabawa",
+            "Bajau",
+            "Balangao",
+            "Balangao - Lias",
+            "Baliwon",
+            "Baliwon - Gaddang",
+            "Baliwon - Miligan",
+            "Baliwon - I-sadanga",
+            "Baliwon - Fiallig/Fialika",
+            "Bangon Mangyan",
+            "Bantoanon",
+            "Banwaon",
+            "Batak",
+            "B'laan/Blaan",
+            "Bontok",
+            "Bontok-Majukayong",
+            "Bugkalot/Ilongot",
+            "Buhid Mangyan",
+            "Bukidnon",
+            "Bukidnon - Akeanon",
+            "Bukidnon - Pan-anayon",
+            "Bukidnon - Halowodnon",
+            "Bukidnon - Magahat",
+            "Bukidnon - Ituman",
+            "Bukidnon - Iraynon",
+            "Bukidnon - Tagoloanon",
+            "Cagayanen",
+            "Calinga",
+            "Cuyonen/Cuyunon",
+            "Diangan",
+            "Dibabawon",
+            "Dumagat",
+            "Dumagat - Remontado",
+            "Dumagat - Kabolowen",
+            "Dumagat - Tagebolus",
+            "Dumagat - Edimala",
+            "Eskaya",
+            "Gaddang",
+            "Gubatnon-Ratagnon Mangyan",
+            "Hanunuo Mangyan",
+            "Higaonon/Higa-onon",
+            "Higaonon - Tagoloanon",
+            "Ibanag",
+            "Ibatan",
+            "Ibaloy",
+            "Ibukid",
+            "Ifugao",
+            "Imalawa",
+            "Iraya Mangyan",
+            "Isinai",
+            "Isnag",
+            "Isneg",
+            "Isneg/Isnag",
+            "Itawes",
+            "Itneg",
+            "Itneg/Tinguian",
+            "Itneg/Tinguian - Adasen",
+            "Itneg/Tinguian - Balatok",
+            "Itneg/Tinguian - Banao",
+            "Itneg/Tinguian - Belwang",
+            "Itneg/Tinguian - Binongan",
+            "Itneg/Tinguian - Gubang",
+            "Itneg/Tinguian - Inlaud",
+            "Itneg/Tinguian - Mabaka",
+            "Itneg/Tinguian - Maeng",
+            "Itneg/Tinguian - Masadiit",
+            "Itneg/Tinguian - Muyadan",
+            "Ivatan",
+            "Iwak",
+            "Kabihug",
+            "Kabihug - Manide",
+            "Kagan/Kalagan",
+            "Kalanguya",
+            "Kalanguya - Yattuka",
+            "Kalanguya-Ikalahan",
+            "Kalinga",
+            "Kalinga - Lubo",
+            "Kalinga - Mangali",
+            "Kalinga - Taloctoc",
+            "Kalinga - Pangol",
+            "Kalinga - Gaang",
+            "Kalinga - Dacalan",
+            "Kalinga - Guilayon",
+            "Kalinga - Nanong",
+            "Kalinga - Dallac",
+            "Kalinga - Biga",
+            "Kalinga - Tobog",
+            "Kalinga - Gaddang",
+            "Kalinga - Culminga",
+            "Kalinga - Malbong",
+            "Kalinga - Minanga",
+            "Kalinga - Dao-Angan",
+            "Kalinga - Banao",
+            "Kalinga - Salegseg",
+            "Kalinga - Gubang",
+            "Kalinga - Mabaca",
+            "Kalinga - Poswoy",
+            "Kalinga - Ab-abaan",
+            "Kalinga - Buaya",
+            "Kalinga - Balatoc",
+            "Kalinga - Dangtalan",
+            "Kalinga - Cagaluan",
+            "Kalinga - Balinciagao",
+            "Kalinga - Ableg/Dalupa",
+            "Kalinga - Limos",
+            "Kalinga - Pinukpuk",
+            "Kalinga - Magaogao",
+            "Kalinga - Aciga",
+            "Kalinga - Ballayangan",
+            "Kalinga - Ammacian",
+            "Kalinga - Dugpa",
+            "Kalinga - Uma",
+            "Kalinga - Luluagan",
+            "Kalinga - Mabongtot",
+            "Kalinga - Tanglag",
+            "Kalinga - Tulgao",
+            "Kalinga - Dananao",
+            "Kalinga - Tongrayan",
+            "Kalinga - Bangad",
+            "Kalinga - Basao",
+            "Kalinga - Guina-Ang",
+            "Kalinga - Sumadel",
+            "Kalinga - Butbut",
+            "Kamiguin",
+            "Kankanaey",
+            "Kankanaey - Hak'ki",
+            "Karao",
+            "Karulano",
+            "Kolibugan",
+            "Lambanguian",
+            "Malaueg",
+            "Mamanwa",
+            "Mandaya",
+            "Mangguangan",
+            "Mangyan",
+            "Mansaka",
+            "Manobo",
+            "Manobo - Pulanguinon",
+            "Manobo - Dunggoanon",
+            "Manobo - Kirenteken",
+            "Manobo - Aromanon",
+            "Manobo-Blit",
+            "Manobo-Blit - Tasaday",
+            "Manobo-Dulangan",
+            "Manobo-Dulangan - Lambangian",
+            "Ubo Monuvu/Manobo-Ubo/Ubo Manobo/Ubo Manuvu/Ubo Menuvu",
+            "Matigsalog",
+            "Molbog",
+            "Obu-Manuvu",
+            "Palawan-o",
+            "Palawan-o - Tao't Bato",
+            "Palawan-o - Ken-ey",
+            "Pan-ayanon",
+            "Panay Bukidnon",
+            "Parananum",
+            "Sama",
+            "Sama Badjao",
+            "Sama Bangingi",
+            "Sama Delaut",
+            "Sibuyan Mangyan-Tagabukid",
+            "Subanen/Subanon - Kolibugan",
+            "Tagakaulo",
+            "Tagbanua",
+            "Tagbanua-Calamian",
+            "Tagbanua Tandulanen",
+            "Tadyawan Mangyan",
+            "Talaandig",
+            "T'boli/Tboli",
+            "Tau-buid Mangyan",
+            "T'duray/Teduray",
+            "Tigwahanon",
+            "Tinananen",
+            "Tingguian",
+            "Tuwali",
+            "Tuwali - Kele-i",
+            "Umayamnon",
+            "Yakan",
+            "Yapayao",
+            "Yogad",
+        ];
+
+        $gentri_cbcr_list = [
+            ['cbcr_code' => 'CBC000000000006637', 'cbcr_name' => 'CITY OF GENERAL TRIAS CONVENTION CENTER'],
+            ['cbcr_code' => 'CBC000000000005586', 'cbcr_name' => 'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER'],
+            ['cbcr_code' => 'CBC000000000002325', 'cbcr_name' => 'CITY OF GENERAL TRIAS HEALTH OFFICE'],
+            ['cbcr_code' => 'CBC000000000009906', 'cbcr_name' => 'DBA VACCINATION FACILITY'],
+            ['cbcr_code' => 'CBC000000000005588', 'cbcr_name' => 'DIVINE GRACE MEDICAL HOSPITAL'],
+            ['cbcr_code' => 'CBC000000000007978', 'cbcr_name' => 'GEN TRIAS LGU / VISTA MALL GEN TRIAS / RED CROSS CAVITE CHAPTER VACCINATION SITE'],
+            ['cbcr_code' => 'CBC000000000007746', 'cbcr_name' => 'GENERAL TRIAS MOBILE VACCINATION CENTER'],
+            ['cbcr_code' => 'CBC000000000005587', 'cbcr_name' => 'GENTRIMEDICAL CENTER AND HOSPITAL'],
+            ['cbcr_code' => 'CBC000000000007459', 'cbcr_name' => 'ROBINSONS PLACE GEN TRIAS BAKUNA CENTER'],
+            ['cbcr_code' => 'CBC000000000008481', 'cbcr_name' => 'SSMC GATEWAY VACCINATION CENTER'],
+            ['cbcr_code' => 'CBC000000000008932', 'cbcr_name' => 'ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS'],
+        ];
+
+        $vaccine_list = [
+            ['code' => 'AZ', 'name' => 'AstraZeneca'],
+            ['code' => 'J&J', 'name' => 'Johnson and Johnson (J&J) / Janssen'],
+            ['code' => 'Moderna', 'name' => 'Moderna'],
+            ['code' => 'ModernaBivalent', 'name' => 'Moderna Bivalent'],
+            ['code' => 'Novavax', 'name' => 'Novavax'],
+            ['code' => 'Pfizer', 'name' => 'Pfizer'],
+            ['code' => 'PfizerBivalent', 'name' => 'Pfizer Bivalent'],
+            ['code' => 'Sinohpharm', 'name' => 'Sinopharm'],
+            ['code' => 'Sinovac', 'name' => 'Sinovac'],
+            ['code' => 'SputnikLight', 'name' => 'Sputnik Light'],
+            ['code' => 'Gamaleya', 'name' => 'Sputnik V/Gamaleya'],
+        ];
+
+        return view('vaxcert.templatemaker', [
+            'pretemp' => $pretemp,
+            'indg_list' => $indg_list,
+            'vaccine_list' => $vaccine_list,
+            'gentri_cbcr_list' => $gentri_cbcr_list,
+        ]);
+    }
+
+    public function templateMakerProcess(Request $r) {
+        $spreadsheet = IOFactory::load(storage_path('vaslinelist_template.xlsx'));
+        $sheet = $spreadsheet->getActiveSheet('VAS Template');
+
+        $c = 2;
+        
+        //check if dose dates were correct
+        if($r->process_dose1) {
+            $date1 = Carbon::parse($r->dose1_vaccination_date);
+
+            if($r->process_dose2) {
+                $date2 = Carbon::parse($r->dose2_vaccination_date);
+
+                if($date2->lt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 2nd Dose Date should be greater than 1st Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose3) {
+                $date2 = Carbon::parse($r->dose3_vaccination_date);
+
+                if($date2->lt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 3rd Dose Date should be greater than 1st Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose4) {
+                $date2 = Carbon::parse($r->dose4_vaccination_date);
+
+                if($date2->lt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 4th Dose Date should be greater than 1st Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+        }
+
+        if($r->process_dose2) {
+            $date1 = Carbon::parse($r->dose2_vaccination_date);
+
+            if($r->process_dose1) {
+                $date2 = Carbon::parse($r->dose1_vaccination_date);
+
+                if($date2->gt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 1st Dose Date should be less than 2nd Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose3) {
+                $date2 = Carbon::parse($r->dose3_vaccination_date);
+
+                if($date2->lt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 3rd Dose Date should be greater than 2nd Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose4) {
+                $date2 = Carbon::parse($r->dose4_vaccination_date);
+
+                if($date2->lt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 4th Dose Date should be greater than 2nd Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+        }
+
+        if($r->process_dose3) {
+            $date1 = Carbon::parse($r->dose3_vaccination_date);
+
+            if($r->process_dose1) {
+                $date2 = Carbon::parse($r->dose1_vaccination_date);
+
+                if($date2->gt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 1st Dose Date should be less than 3rd Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose2) {
+                $date2 = Carbon::parse($r->dose2_vaccination_date);
+
+                if($date2->gt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 2nd Dose Date should be less than 3rd Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose4) {
+                $date2 = Carbon::parse($r->dose4_vaccination_date);
+
+                if($date2->lt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 4th Dose Date should be greater than 3rd Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+        }
+
+        if($r->process_dose4) {
+            $date1 = Carbon::parse($r->dose4_vaccination_date);
+
+            if($r->process_dose1) {
+                $date2 = Carbon::parse($r->dose1_vaccination_date);
+
+                if($date2->gt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 1st Dose Date should be less than 4th Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose2) {
+                $date2 = Carbon::parse($r->dose2_vaccination_date);
+
+                if($date2->gt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 2nd Dose Date should be less than 4th Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            if($r->process_dose3) {
+                $date2 = Carbon::parse($r->dose3_vaccination_date);
+
+                if($date2->gt($date1)) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: 3rd Dose Date should be less than 4th Dose Date. Please check the dates and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+        }
+
+        //get prov_code and mun_code
+        $mun_search = City::where('json_code', $r->address_muncity_code)->first();
+        $mun_code = $mun_search->getPsgcCode().$mun_search->alt_name;
+        $prov_code = $mun_search->province->getPsgcCode().$mun_search->province->alt_name;
+        $region_code = $mun_search->province->region->regionName;
+        
+        for($i = 1; $i <= 4; $i++) {
+            $proceed = false;
+
+            if($i == 1) {
+                if($r->process_dose1) {
+                    $proceed = true;
+
+                    $vbasedate = $r->dose1_vaccination_date;
+                    $vdate = strtotime($r->dose1_vaccination_date);
+                    $vbrand = $r->dose1_vaccine_manufacturer_name;
+                    $vbatchlot = mb_strtoupper($r->dose1_batch_number);
+
+                    $vcbcr = $r->dose1_bakuna_center_cbcr_id;
+                    $vvacname = mb_strtoupper($r->dose1_vaccinator_name);
+
+                    if($r->dose1_manufacturer == 'J&J') {
+                        $vdose1yn = 'N';
+                        $vdose2yn = 'Y';
+                    }
+                    else {
+                        $vdose1yn = 'Y';
+                        $vdose2yn = 'N';
+                    }
+                    $vdose3yn = 'N';
+                    $vdose4yn = 'N';
+                }
+                else {
+                    $proceed = false;
+                }
+            }
+            else if($i == 2 && $r->dose1_manufacturer != 'J&J') {
+                if($r->process_dose2) {
+                    $proceed = true;
+
+                    $vbasedate = $r->dose2_vaccination_date;
+                    $vdate = strtotime($r->dose2_vaccination_date);
+                    $vbrand = $r->dose2_vaccine_manufacturer_name;
+                    $vbatchlot = mb_strtoupper($r->dose2_batch_number);
+
+                    $vcbcr = $r->dose2_bakuna_center_cbcr_id;
+                    $vvacname = mb_strtoupper($r->dose2_vaccinator_name);
+
+                    $vdose1yn = 'N';
+                    $vdose2yn = 'Y';
+                    $vdose3yn = 'N';
+                    $vdose4yn = 'N';
+                }
+                else {
+                    $proceed = false;
+                }
+            }
+            else if($i == 3) {
+                if($r->process_dose3) {
+                    $proceed = true;
+
+                    $vbasedate = $r->dose3_vaccination_date;
+                    $vdate = strtotime($r->dose3_vaccination_date);
+                    $vbrand = $r->dose3_vaccine_manufacturer_name;
+                    $vbatchlot = mb_strtoupper($r->dose3_batch_number);
+
+                    $vcbcr = $r->dose3_bakuna_center_cbcr_id;
+                    $vvacname = mb_strtoupper($r->dose3_vaccinator_name);
+
+                    $vdose1yn = 'N';
+                    $vdose2yn = 'N';
+                    $vdose3yn = 'Y';
+                    $vdose4yn = 'N';
+                }
+                else {
+                    $proceed = false;
+                }
+            }
+            else if($i == 4) {
+                if($r->process_dose4) {
+                    $proceed = true;
+
+                    $vbasedate = $r->dose4_vaccination_date;
+                    $vdate = strtotime($r->dose4_vaccination_date);
+                    $vbrand = $r->dose4_vaccine_manufacturer_name;
+                    $vbatchlot = mb_strtoupper($r->dose4_batch_number);
+
+                    $vcbcr = $r->dose4_bakuna_center_cbcr_id;
+                    $vvacname = mb_strtoupper($r->dose4_vaccinator_name);
+
+                    $vdose1yn = 'N';
+                    $vdose2yn = 'N';
+                    $vdose3yn = 'N';
+                    $vdose4yn = 'Y';
+                }
+                else {
+                    $proceed = false;
+                }
+            }
+
+            if($proceed) {
+                $sheet->setCellValue('A'.$c, $r->category);
+                $sheet->setCellValue('B'.$c, $r->comorbidity); //COMORBID
+                $sheet->setCellValue('C'.$c, (!is_null($r->unique_person_id)) ? $r->unique_person_id : 'NONE'); //UNIQUE PERSON ID
+                $sheet->setCellValue('D'.$c, $r->pwd); //PWD
+                $sheet->setCellValue('E'.$c, $r->indigenous_member); //INDIGENOUS MEMBER
+                $sheet->setCellValue('F'.$c, $r->last_name);
+                $sheet->setCellValue('G'.$c, $r->first_name);
+                $sheet->setCellValue('H'.$c, (!is_null($r->middle_name)) ? $r->middle_name : 'NONE');
+                $sheet->setCellValue('I'.$c, (!is_null($r->suffix)) ? $r->suffix : '');
+                $sheet->setCellValue('J'.$c, substr($r->contact_no, 1));
+                $sheet->setCellValue('K'.$c, mb_strtoupper($r->guardian_name)); //GUARDIAN NAME
+                $sheet->setCellValue('L'.$c, $region_code); //REGION
+                $sheet->setCellValue('M'.$c, $prov_code); //PROVINCE
+                $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
+                $sheet->setCellValue('O'.$c, mb_strtoupper($r->barangay)); //BARANGAY
+                $sheet->setCellValue('P'.$c, $r->sex);
+                $sheet->setCellValue('Q'.$c, Date::PHPToExcel(date('Y-m-d', strtotime($r->birthdate))));
+                $sheet->getStyle('Q'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                $sheet->setCellValue('R'.$c, 'N'); //DEFERRAL
+                $sheet->setCellValue('S'.$c, ''); //DEFERRAL REASON
+                $sheet->setCellValue('T'.$c, Date::PHPToExcel(date('Y-m-d', $vdate)));
+                $sheet->getStyle('T'.$c)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                $sheet->setCellValue('U'.$c, $vbrand);
+                $sheet->setCellValue('V'.$c, $vbatchlot);
+                $sheet->setCellValue('W'.$c, $vbatchlot);
+                $sheet->setCellValue('X'.$c, $vcbcr);
+                $sheet->setCellValue('Y'.$c, $vvacname);
+                $sheet->setCellValue('Z'.$c, $vdose1yn);
+                $sheet->setCellValue('AA'.$c, $vdose2yn);
+                $sheet->setCellValue('AB'.$c, $vdose3yn);
+                $sheet->setCellValue('AC'.$c, $vdose4yn);
+                $sheet->setCellValue('AD'.$c, 'N'); //ADVERSE EVENT
+                $sheet->setCellValue('AE'.$c, ''); //ADVERSE EVENT CONDITION
+
+                $c++;
+            }
+        }
+
+        $fileName = 'vas-line-template-ped-gen-'.strtolower(Str::random(5)).'.xlsx';
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
     }
 }

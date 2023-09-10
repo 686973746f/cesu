@@ -175,4 +175,21 @@ class CovidVaccinePatientMasterlist extends Model
             }
         }
     }
+    public function convertRegionToJson() {
+        $s = Regions::where('regionName', $this->region)->first();
+
+        return $s->json_code;
+    }
+
+    public function convertProvinceToJson() {
+        $s = substr($this->province, 0, 4);
+
+        return $s;
+    }
+
+    public function convertMuncityToJson() {
+        $s = substr($this->muni_city, 0, 6);
+
+        return $s;
+    }
 }
