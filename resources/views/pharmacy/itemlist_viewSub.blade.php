@@ -6,7 +6,10 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>View Sub Item</b> (Under Branch: {{auth()->user()->pharmacybranch->name}})</div>
-                    <div><a href="{{route('pharmacy_view_monthlystock', $d->id)}}" class="btn btn-primary">View Monthly Stock Table</a></div>
+                    <div>
+                        <a href="{{route('pharmacy_view_monthlystock', $d->id)}}" class="btn btn-primary">View Monthly Stock Table</a>
+                        <a href="{{route('pharmacy_itemlist_printqr', $d->id)}}" class="btn btn-success">Print Item QR</a>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -142,6 +145,7 @@
                                         <th>Quantity</th>
                                         <th>Date Added / By</th>
                                         <th>Date Modified / By</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -153,6 +157,7 @@
                                         <td>{{$sl->getQtyAndType()}}</td>
                                         <td><small>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</small></td>
                                         <td><small>{{($sl->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : 'N/A'}}</small></td>
+                                        <td><a href="{{route('pharmacy_printqr_substock', $sl->id)}}" class="btn btn-success">Print QR</a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

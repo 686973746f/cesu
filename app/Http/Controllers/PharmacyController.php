@@ -711,6 +711,21 @@ class PharmacyController extends Controller
         }
     }
 
+    public function printQrItem ($item_id) {
+        $d = PharmacySupplySub::findOrFail($item_id);
+
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_SUBCARD_".$d->id.".docx");
+
+        $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_SUBQR.docx'));
+        $templateProcessor->setValue('sku_code', $d->pharmacysupplymaster->sku_code);
+        $templateProcessor->setValue('name', $d->pharmacysupplymaster->name);
+        $templateProcessor->setValue('branch', $d->pharmacybranch->name);
+
+        $templateProcessor->saveAs('php://output');
+
+    }
+
     public function updateItem($item_id, Request $r) {
         $item = PharmacySupply::findOrFail($item_id);
 
@@ -779,6 +794,21 @@ class PharmacyController extends Controller
         else {
             return abort(401);
         }
+    }
+
+    public function printQrSubStock($id) {
+        $d = PharmacySupplySubStock::findOrFail($id);
+
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_SUBSTOCK_".$d->id.".docx");
+
+        $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_SUBSTOCKQR.docx'));
+        $templateProcessor->setValue('id', $d->id);
+        $templateProcessor->setValue('name', $d->pharmacysub->pharmacysupplymaster->name);
+        $templateProcessor->setValue('sku_code', $d->pharmacysub->pharmacysupplymaster->sku_code);
+        $templateProcessor->setValue('branch', $d->pharmacysub->pharmacybranch->name);
+
+        $templateProcessor->saveAs('php://output');
     }
 
     public function updateSubStock($id, Request $r) {
@@ -925,6 +955,20 @@ class PharmacyController extends Controller
     }
 
     public function printPatientCard($id) {
+        /*
+        TEMPLATE PROCESSOR
+
+        $d = PharmacyPatient::findOrFail($id);
+
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_CARD_".$d->lname.".docx");
+
+        $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_PATIENT_CARD.docx'));
+        $templateProcessor->setValue('patient_id', $d->id);
+
+        $templateProcessor->saveAs('php://output');
+        */
+
         $d = PharmacyPatient::findOrFail($id);
 
         header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
