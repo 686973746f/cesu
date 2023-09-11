@@ -69,7 +69,7 @@
                                 <label for="select_sub_stock_id"><b class="text-danger">*</b>Select Batch</label>
                                 <select class="form-control" name="select_sub_stock_id" id="select_sub_stock_id">
                                   @foreach($sub_list as $sl)
-                                  <option value="{{$sl->id}}">Batch ID: #{{$sl->id}} - EXP Date: {{date('m/d/Y', strtotime($sl->expiration_date))}}</option>
+                                  <option value="{{$sl->id}}" {{(request()->input('get_substock') != $sl->id) ? 'disabled' : ''}}>Batch ID: #{{$sl->id}} - EXP Date: {{date('m/d/Y', strtotime($sl->expiration_date))}}</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -127,8 +127,8 @@
                               <div class="form-group">
                                 <label for="receiving_patient_id"><b class="text-danger">*</b>Patient ID / Scan QR</label>
                                 <input type="text" class="form-control" name="receiving_patient_id" id="receiving_patient_id">
-                                @if($get_name)
-                                <small>Patient Selected: <b>{{$get_name}}</b></small>
+                                @if($get_patient)
+                                <small>Patient Selected: <b>{{$get_patient->getName()}}</b></small>
                                 @endif
                               </div>
                           </div>
@@ -173,7 +173,7 @@
 
         @if(request()->input('process_patient'))
             $('#select_recipient').val('PATIENT');
-            $('#receiving_patient_id').val("{{request()->input('process_patient')}}");
+            $('#receiving_patient_id').val("PATIENT_{{$get_patient->qr}}");
             $('#receiving_patient_id').prop('readonly', true);
             $('#selection_branch').addClass('d-none');
             $('#selection_others').addClass('d-none');

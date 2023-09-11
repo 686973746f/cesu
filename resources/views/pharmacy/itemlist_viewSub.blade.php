@@ -53,6 +53,10 @@
                                     <td class="font-weight-bold">Quantity Type</td>
                                     <td class="text-center">{{$d->pharmacysupplymaster->quantity_type}}</td>
                                 </tr>
+                                <tr>
+                                    <td ><b>Current Total Quantity</b></td>
+                                    <td class="text-center" colspan="3">{{$d->}}</td>
+                                </tr>
                             </tbody>
                         </table>
                         <form action="">
@@ -142,7 +146,7 @@
                                         <th>#</th>
                                         <th>Expiration Date</th>
                                         <th>Batch #</th>
-                                        <th>Quantity</th>
+                                        <th>Current Quantity</th>
                                         <th>Date Added / By</th>
                                         <th>Date Modified / By</th>
                                         <th></th>
@@ -197,8 +201,8 @@
                                         <td>{{($s->type == 'RECEIVED') ? '+ '.$s->getQtyAndType() : ''}}</td>
                                         <td>{{($s->type == 'ISSUED') ? '- '.$s->getQtyAndType() : ''}}</td>
                                         <td>{{$s->getBalance()}}</td>
-                                        <td>{{$s->total_cost}}</td>
-                                        <td>{{$s->drsi_number}}</td>
+                                        <td>{{($s->total_cost) ? $s->total_cost : 'N/A'}}</td>
+                                        <td>{{($s->drsi_number) ? $s->drsi_number : 'N/A'}}</td>
                                         <td>{{$s->getRecipientAndRemarks()}}</td>
                                         <td>{{$s->user->name}}</td>
                                     </tr>

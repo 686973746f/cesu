@@ -15,7 +15,7 @@
             <a href="{{route('vaxcert_home')}}" class="btn btn-block btn-primary">VaxCert Concerns</a>
             @endif
             @if(auth()->user()->canAccessSyndromic())
-            <a href="{{route('syndromic_home')}}" class="btn btn-block btn-primary">Community Base Disease Surveillance / Individual Treatment Records (ITR)</a>
+            <a href="{{route('syndromic_home')}}" class="btn btn-block btn-primary">Community Base Disease Surveillance System (CBDSS) / Individual Treatment Records (ITR)</a>
             <hr>
             @endif
             @if(auth()->user()->canAccessPidsr())

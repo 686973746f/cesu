@@ -164,35 +164,71 @@ class PharmacyController extends Controller
         if(request()->input('code')) {
             $code = request()->input('code');
 
-            //$s = PharmacySupplyMaster::where('sku_code', $code)->first();
-            $s = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($code) {
-                $q->where('sku_code', $code);
-            })
-            ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-            ->first();
+            if(Str::startsWith($code, 'PATIENT_')) {
+                $newString = Str::replaceFirst("PATIENT_", "", $code);
 
-            if($s) {
-                //find if sub supply exists
-                $t = PharmacySupplySubStock::where('subsupply_id', $s->id)
-                ->orderBy('expiration_date', 'ASC')
-                ->first();
+                $d = PharmacyPatient::where('qr', $newString)->first();
 
-                if($t) {
-                    return redirect()->route('pharmacy_modify_view', $t->id);
-                }
-            }
-            else {
-                $s1 = PharmacyPatient::where('qr', $code)->first();
-                
-                if($s1) {
-
+                if($d) {
                     return redirect()->route('pharmacy_modify_patient_stock', [
-                        'id' => $s1->id,
+                        'id' => $d->id,
                     ]);
                 }
                 else {
                     return redirect()->back()
-                    ->with('msg', 'Error: SKU Code or Patient ID does not exists in the database.')
+                    ->with('msg', 'Error: Patient QR does not exist in the system.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else if(Str::startsWith($code, 'SUBSTOCK_')) {
+                $newString = Str::replaceFirst("SUBSTOCK_", "", $code);
+
+                $d = PharmacySupplySubStock::where('id', $newString)->first();
+
+                if($d) {
+                    if($d->pharmacysub->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
+                        return redirect()->route('pharmacy_modify_view', [$d->pharmacysub->id, 'select_substock' => 1]);
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: You are not authorized to do that.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Item SubStock ID does not exist in the system.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else {
+                $d = PharmacySupplyMaster::where('sku_code', $code)->first();
+
+                if($d) {
+                    $e = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($code) {
+                        $q->where('sku_code', $code);
+                    })
+                    ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+                    ->first();
+
+                    if($e) {
+                        $t = PharmacySupplySubStock::where('subsupply_id', $d->id)
+                        ->orderBy('expiration_date', 'ASC')
+                        ->first();
+    
+                        if($t) {
+                            return redirect()->route('pharmacy_modify_view', $t->id);
+                        }
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Item ['.$d->name.'] was not yet initialized in the Branch '.auth()->user()->pharmacybranch->name)
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'Error: SKU Code does not exist in the system.')
                     ->with('msgtype', 'warning');
                 }
             }
@@ -213,17 +249,17 @@ class PharmacyController extends Controller
         ->get();
 
         if(request()->input('process_patient')) {
-            $get_name = PharmacyPatient::findOrFail(request()->input('process_patient'))->getName();
+            $get_patient = PharmacyPatient::findOrFail(request()->input('process_patient'));
         }
         else {
-            $get_name = NULL;
+            $get_patient = NULL;
         }
 
         return view('pharmacy.modify_stock', [
             'd' => $d,
             'sub_list' => $sub_list,
             'branch_list' => $branch_list,
-            'get_name' => $get_name,
+            'get_patient' => $get_patient,
         ]);
     }
 
@@ -279,6 +315,55 @@ class PharmacyController extends Controller
                             $stock->current_piece_stock = $stock->current_piece_stock - ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
                         }
 
+                        //Get ID of Patient based on input
+                        if($r->select_recipient == 'PATIENT') {
+                            if(Str::startsWith($r->receiving_patient_id, 'PATIENT_')) {
+                                $newString = Str::replaceFirst("PATIENT_", "", $r->receiving_patient_id);
+
+                                $search_patient = PharmacyPatient::where('qr', $newString)->first();
+                            }
+                            else {
+                                $search_patient = PharmacyPatient::where('qr', $r->receiving_patient_id)
+                                ->orWhere('id', $r->receiving_patient_id)
+                                ->first();
+                            }
+
+                            if($search_patient) {
+                                $get_patient_id = $search_patient->id;
+                            }
+                            else {
+                                return redirect()->back()
+                                ->withInput()
+                                ->with('msg', 'Patient record does not exist on the server. Please double check and try again.')
+                                ->with('msgtype', 'warning');
+                            }
+                        }
+
+                        //IF BRANCH TRANSFER, INITIALIZE
+                        if($r->select_recipient == 'BRANCH') {
+                            //check if subsupply in branch exist
+                            $branch_sub = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($d) {
+                                $q->where('sku_code', $d->pharmacysupplymaster->sku_code);
+                            })
+                            ->where('pharmacy_branch_id', $r->receiving_branch_id)
+                            ->first();
+
+                            if($branch_sub) {
+                                //adjust qty of sub
+
+                                //check if substock exist
+
+                                //create stock card
+                            }
+                            else {
+                                //create subsupply
+
+                                //create substock
+
+                                //create stock card
+                            }
+                        }
+
                         //PROCESS STOCK CARD
                         $create_sc = $r->user()->pharmacystockcard()->create([
                             'subsupply_id' => $d->id,
@@ -293,7 +378,7 @@ class PharmacyController extends Controller
                             'drsi_number' => $r->drsi_number,
 
                             'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
-                            'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $r->receiving_patient_id : NULL,
+                            'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $get_patient_id : NULL,
                             'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
 
                             'remarks' => $r->remarks,
@@ -1004,15 +1089,61 @@ class PharmacyController extends Controller
                 $meds = request()->input('alt_meds_id');
             }
 
-            $e = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($meds) {
-                $q->where('sku_code', $meds);
+            if(Str::startsWith($meds, 'SUBSTOCK_')) {
+                $newString = Str::replaceFirst("SUBSTOCK_", "", $meds);
+                
+                $f = PharmacySupplySubStock::where('id', $newString)->first();
+
+                if($f) {
+                    if($f->pharmacysub->pharmacy_branch_id == auth()->user()->id) {
+                        $get_substock = $f->id;
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: You are not authorized to do that.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+
+                }
+                
+                $sku_code = $f->pharmacysub->pharmacysupplymaster->sku_code;
+            }
+            else {
+                $get_substock = NULL;
+
+                $sku_code = $meds;
+            }
+
+            $e = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($sku_code) {
+                $q->where('sku_code', $sku_code);
             })->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
             ->first();
 
             if($e) {
+                //check qty if not equals to Zero
+                if($e->pharmacysupplymaster->quantity_type == 'BOX') {
+                    if($e->master_box_stock == 0 && $e->master_piece_stock == 0) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: The Item '.$e->pharmacysupplymaster->name.' in '.$e->pharmacybranch->name.' has no available stock.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+                    if($e->master_box_stock == 0) {
+                        if($e->master_box_stock == 0 && $e->master_piece_stock == 0) {
+                            return redirect()->back()
+                            ->with('msg', 'Error: The Item '.$e->pharmacysupplymaster->name.' in '.$e->pharmacybranch->name.' has no available stock.')
+                            ->with('msgtype', 'warning');
+                        }
+                    }
+                }
+
                 return redirect()->route('pharmacy_modify_view', [
                     $e->id,
                     'process_patient' => $d->id,
+                    'get_substock' => $get_substock,
                 ]);
             }
             else {

@@ -2,11 +2,13 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="text-right">
-        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#addPatient">Add Patient</button>
-    </div>
     <div class="card">
-        <div class="card-header"><b>Patient List</b> (Total: {{$list->total()}})</div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>Patient List</b> (Total: {{$list->total()}})</div>
+                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPatient">Add Patient</button></div>
+            </div>
+        </div>
         <div class="card-body">
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">

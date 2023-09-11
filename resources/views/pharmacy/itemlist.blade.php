@@ -6,7 +6,11 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b>List of Inventory</b> (Branch: {{auth()->user()->pharmacybranch->name}} | Total: {{$list->total()}})</div>
-                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterItem">Add Master Item</button></div>
+                <div>
+                    @if(auth()->user()->isAdminPharmacy())
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterItem">Add Master Item</button>
+                    @endif
+                </div>
                 <!-- <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct">Add Product</button></div> -->
             </div>
         </div>
@@ -60,6 +64,7 @@
     </div>
 </div>
 
+@if(auth()->user()->isAdminPharmacy())
 <form action="{{route('pharmacy_add_master_item')}}" method="POST">
     @csrf
     <div class="modal fade" id="addMasterItem" tabindex="-1" role="dialog">
@@ -211,4 +216,5 @@
         }
     }).trigger('change');
 </script>
+@endif
 @endsection

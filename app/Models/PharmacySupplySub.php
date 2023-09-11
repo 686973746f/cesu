@@ -54,4 +54,8 @@ class PharmacySupplySub extends Model
     public function pharmacybranch() {
         return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
     }
+
+    public function getMasterStock() {
+        
+    }
 }
