@@ -70,7 +70,7 @@
             </div>
             <div class="modal-body">
                 <div id="problemdiv1">
-                    <h5 class="text-center">Dito ba sa City of General Trias, Cavite binakunahan ang concern ng iyong VaxCert?</h5>
+                    <h5 class="text-center">Dito ba sa General Trias, Cavite binakunahan ang record na may problema sa iyong VaxCert?</h5>
                     <a href="{{route('vaxcert_walkin_file')}}" class="btn btn-success btn-lg btn-block">Oo/Yes</a>
                     <button type="button" id="problembtn_no" class="btn btn-danger btn-lg btn-block">Hindi/No</button>
                 </div>

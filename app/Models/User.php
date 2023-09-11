@@ -166,7 +166,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     
     public function pharmacybranch() {
-        return $this->hasOne(PharmacyBranch::class, 'id');
+        return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
     }
 
     public function createpharmacybranch() {
