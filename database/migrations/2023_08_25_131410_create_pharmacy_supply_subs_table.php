@@ -34,7 +34,7 @@ class CreatePharmacySupplySubsTable extends Migration
             $table->integer('default_issuance_per_box')->nullable();
             $table->integer('default_issuance_per_piece')->nullable();
             
-            $table->integer('master_box_stock');
+            $table->integer('master_box_stock')->nullable();
             $table->integer('master_piece_stock')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');

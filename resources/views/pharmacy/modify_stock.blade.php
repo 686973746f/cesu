@@ -60,7 +60,7 @@
                               <label for="qty_type"><b class="text-danger">*</b>Quantity Type</label>
                               <select class="form-control" name="qty_type" id="qty_type">
                                 <option value="BOX" id="type_option_box">Per Box</option>
-                                <option value="PIECE">Per Piece</option>
+                                <option value="PIECE" id="type_option_piece">Per Piece</option>
                               </select>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                 <label for="select_sub_stock_id"><b class="text-danger">*</b>Select Batch</label>
                                 <select class="form-control" name="select_sub_stock_id" id="select_sub_stock_id">
                                   @foreach($sub_list as $sl)
-                                  <option value="{{$sl->id}}" {{(request()->input('get_substock') != $sl->id) ? 'disabled' : ''}}>Batch ID: #{{$sl->id}} - EXP Date: {{date('m/d/Y', strtotime($sl->expiration_date))}}</option>
+                                  <option value="{{$sl->id}}" {{(request()->input('get_substock') && request()->input('get_substock') != $sl->id) ? 'disabled' : ''}}>Batch #{{$sl->id}} - EXP Date: {{date('m/d/Y', strtotime($sl->expiration_date))}}</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -156,13 +156,13 @@
             theme: 'bootstrap',
         });
         
-        $get_qtyType = '{{$d->pharmacysupplymaster->quantity_type}}';
+        var get_qtyType = '{{$d->pharmacysupplymaster->quantity_type}}';
         
-        if($get_qtyType == 'BOX') {
+        if(get_qtyType == 'BOX') {
             $('#qty_type').val('BOX');
 
-            if({{$d->master_piece_stock}} < {{$d->pharmacysupplymaster->config_piecePerBox}}) {
-                $('#type_option_box').prop('disabled', true);
+            if({{$d->master_piece_stock}} < {{($d->pharmacysupplymaster->config_piecePerBox) ? $d->pharmacysupplymaster->config_piecePerBox : 0}}) {
+                $('#type_option_box').addClass('d-none');
             }
         }
         else {
@@ -200,10 +200,13 @@
 
                 $('#if_issuing').removeClass('d-none');
                 $('#select_recipient').prop('required', true);
+
+                $('#type_option_piece').removeClass('d-none');
             }
             else {
                 $('#select_sub_stock_id').prop('required', false);
                 $('#select_sub_stock_id').prop('disabled', true);
+                $('#select_sub_stock_id').val("");
 
                 $('#if_received').removeClass('d-none');
                 $('#expiration_date').prop('required', true);
@@ -211,6 +214,11 @@
                 $('#if_issuing').addClass('d-none');
                 $('#select_recipient').val('');
                 $('#select_recipient').prop('required', false);
+
+                if(get_qtyType != 'PIECE') {
+                    $('#qty_type').val('BOX').trigger('change');
+                    $('#type_option_piece').addClass('d-none');
+                }
             }
         }).trigger('change');
 

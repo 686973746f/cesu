@@ -20,7 +20,7 @@ class CreatePharmacySupplySubStocksTable extends Migration
             $table->text('batch_number')->nullable();
             $table->text('lot_number')->nullable();
 
-            $table->integer('current_box_stock');
+            $table->integer('current_box_stock')->nullable();
             $table->integer('current_piece_stock')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');

@@ -64,8 +64,8 @@ class PharmacyExcelImport implements OnEachRow, WithHeadingRow
                 'supply_master_id' => $new1->id,
                 'pharmacy_branch_id' => 1,
 
-                'master_box_stock' => $row['current_qty_in_stock'],
-                'master_piece_stock' => ($row['qty_type_boxpiece'] == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : NULL,
+                'master_box_stock' => ($new1->quantity_type == 'BOX') ? $row['current_qty_in_stock'] : NULL,
+                'master_piece_stock' => ($new1->quantity_type == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : $row['current_qty_in_stock'],
 
                 'created_by' => 58,
             ]);
@@ -74,8 +74,8 @@ class PharmacyExcelImport implements OnEachRow, WithHeadingRow
                 $new3 = PharmacySupplySubStock::create([
                     'subsupply_id' => $new2->id,
                     'expiration_date' => $this->transformDateTime($row['expiration_date']),
-                    'current_box_stock' => $row['current_qty_in_stock'],
-                    'current_piece_stock' => ($row['qty_type_boxpiece'] == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : NULL,
+                    'current_box_stock' => ($new1->quantity_type == 'BOX') ? $row['current_qty_in_stock'] : NULL,
+                    'current_piece_stock' => ($new1->quantity_type == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : $row['current_qty_in_stock'],
 
                     'created_by' => 58,
                 ]);
@@ -83,12 +83,12 @@ class PharmacyExcelImport implements OnEachRow, WithHeadingRow
                 $new4 = PharmacyStockCard::create([
                     'subsupply_id' => $new2->id,
                     'type' => 'RECEIVED',
-                    'before_qty_box' => 0,
-                    'before_qty_piece' => ($row['qty_type_boxpiece'] == 'BOX') ? 0 : NULL,
+                    'before_qty_box' => ($new1->quantity_type == 'BOX') ? 0 : NULL,
+                    'before_qty_piece' => 0,
                     'qty_to_process' => $row['current_qty_in_stock'],
-                    'qty_type' => ($row['qty_type_boxpiece'] == 'BOX') ? 'BOX' : 'PIECE',
-                    'after_qty_box' => $row['current_qty_in_stock'],
-                    'after_qty_piece' => ($row['qty_type_boxpiece'] == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : NULL,
+                    'qty_type' => $new1->quantity_type,
+                    'after_qty_box' => ($new1->quantity_type == 'BOX') ? $row['current_qty_in_stock'] : NULL,
+                    'after_qty_piece' => ($new1->quantity_type == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : $row['current_qty_in_stock'],
                     'remarks' => 'INITIAL IMPORTING',
 
                     'created_by' => 58,
@@ -105,8 +105,8 @@ class PharmacyExcelImport implements OnEachRow, WithHeadingRow
                 $new3 = PharmacySupplySubStock::create([
                     'subsupply_id' => $check2->id,
                     'expiration_date' => $this->transformDateTime($row['expiration_date']),
-                    'current_box_stock' => $row['current_qty_in_stock'],
-                    'current_piece_stock' => ($row['qty_type_boxpiece'] == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : NULL,
+                    'current_box_stock' => ($check2->pharmacysupplymaster->quantity_type == 'BOX') ? $row['current_qty_in_stock'] : NULL,
+                    'current_piece_stock' => ($check2->pharmacysupplymaster->quantity_type == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : $row['current_qty_in_stock'],
 
                     'created_by' => 58,
                 ]);
@@ -114,12 +114,12 @@ class PharmacyExcelImport implements OnEachRow, WithHeadingRow
                 $new4 = PharmacyStockCard::create([
                     'subsupply_id' => $check2->id,
                     'type' => 'RECEIVED',
-                    'before_qty_box' => 0,
-                    'before_qty_piece' => ($row['qty_type_boxpiece'] == 'BOX') ? 0 : NULL,
+                    'before_qty_box' => ($check2->pharmacysupplymaster->quantity_type == 'BOX') ? 0 : NULL,
+                    'before_qty_piece' => 0,
                     'qty_to_process' => $row['current_qty_in_stock'],
-                    'qty_type' => ($row['qty_type_boxpiece'] == 'BOX') ? 'BOX' : 'PIECE',
-                    'after_qty_box' => $row['current_qty_in_stock'],
-                    'after_qty_piece' => ($row['qty_type_boxpiece'] == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : NULL,
+                    'qty_type' => ($check2->pharmacysupplymaster->quantity_type == 'BOX') ? 'BOX' : 'PIECE',
+                    'after_qty_box' => ($check2->pharmacysupplymaster->quantity_type == 'BOX') ? $row['current_qty_in_stock'] : NULL,
+                    'after_qty_piece' => ($check2->pharmacysupplymaster->quantity_type == 'BOX') ? ($row['current_qty_in_stock'] * $row['if_box_how_many_qty_inside_per_box']) : $row['current_qty_in_stock'],
                     'remarks' => 'INITIAL IMPORTING',
 
                     'created_by' => 58,

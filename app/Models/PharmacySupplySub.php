@@ -55,6 +55,17 @@ class PharmacySupplySub extends Model
         return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
     }
 
+    public function getMainQty() {
+        if($this->pharmacysupplymaster->quantity_type == 'BOX') {
+            $get_qty = $this->master_box_stock;
+        }
+        else {
+            $get_qty = $this->master_piece_stock;
+        }
+        
+        return $get_qty;
+    }
+
     public function getMasterStock() {
         
     }
