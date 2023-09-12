@@ -55,7 +55,7 @@
                                 </tr>
                                 <tr>
                                     <td ><b>Current Total Quantity</b></td>
-                                    <td class="text-center" colspan="3">{{$d->}}</td>
+                                    <td class="text-center" colspan="3">{{$d->displayQty()}}</td>
                                 </tr>
                             </tbody>
                         </table>

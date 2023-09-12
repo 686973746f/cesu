@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PharmacySupplySub extends Model
 {
@@ -64,6 +65,15 @@ class PharmacySupplySub extends Model
         }
         
         return $get_qty;
+    }
+
+    public function displayQty() {
+        if($this->pharmacysupplymaster->quantity_type == 'BOX') {
+            return $this->master_box_stock.' '.Str::plural('BOX', $this->master_box_stock).' ('.$this->master_piece_stock.' '.Str::plural('PC', $this->master_piece_stock).')';
+        }
+        else {
+            return $this->master_piece_stock.' '.Str::plural('PC', $this->master_piece_stock);
+        }
     }
 
     public function getMasterStock() {
