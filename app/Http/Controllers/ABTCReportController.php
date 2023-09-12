@@ -1229,7 +1229,8 @@ class ABTCReportController extends Controller
                 ->where('gender', 'MALE');
             });
 
-            ${'bgrd'. $bctr} = Rabies::where('Muncity', 'GENERAL TRIAS')
+            ${'bgrd'. $bctr} = Rabies::where('enabled', 1)
+            ->where('Muncity', 'GENERAL TRIAS')
             ->where('Province', 'CAVITE')
             ->where('Barangay', $b->brgyName);
 
