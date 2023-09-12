@@ -138,6 +138,14 @@ class AutoRecoveredActiveCases extends Command
     
                     $update->outcomeCondition = 'Recovered';
                     //$update->outcomeRecovDate = date('Y-m-d');
+
+                    /*
+                    TEMP FIX 09122023
+                    if(Carbon::parse($swabDateCollected)->addDays($daysToRecover)->lt(date('Y-m-d'))) {
+                        $update->morbidityMonth = date('Y-m-d');
+                    }
+                    */
+                    
                     $update->outcomeRecovDate = Carbon::parse($swabDateCollected)->addDays($daysToRecover)->format('Y-m-d');
     
                     if($update->isDirty()) {

@@ -419,6 +419,9 @@ class PharmacyController extends Controller
                             $before_branch_qty_box = $branch_subsupply->getOriginal('master_box_stock');
                             $before_branch_qty_piece = $branch_subsupply->getOriginal('master_piece_stock');
 
+                            $after_branch_qty_box = $branch_subsupply->master_box_stock;
+                            $after_branch_qty_piece = $branch_subsupply->master_piece_stock;
+
                             if($branch_subsupply->isDirty()) {
                                 $branch_subsupply->save();
                             }
@@ -435,8 +438,11 @@ class PharmacyController extends Controller
 
                             $sspid = $new_branch_subsupply->id;
 
-                            $before_branch_qty_box = $new_branch_subsupply->master_box_stock;
-                            $before_branch_qty_piece = $new_branch_subsupply->master_piece_stock;
+                            $before_branch_qty_box = 0;
+                            $before_branch_qty_piece = 0;
+
+                            $after_branch_qty_box = $new_branch_subsupply->master_box_stock;
+                            $after_branch_qty_piece = $new_branch_subsupply->master_piece_stock;
                         }
                     }
                     else {
@@ -452,6 +458,9 @@ class PharmacyController extends Controller
 
                             $before_branch_qty_box = $branch_subsupply->getOriginal('master_box_stock');
                             $before_branch_qty_piece = $branch_subsupply->getOriginal('master_piece_stock');
+
+                            $after_branch_qty_box = $branch_subsupply->master_box_stock;
+                            $after_branch_qty_piece = $branch_subsupply->master_piece_stock;
 
                             if($branch_subsupply->isDirty()) {
                                 $branch_subsupply->save();
@@ -469,8 +478,11 @@ class PharmacyController extends Controller
 
                             $sspid = $new_branch_subsupply->id;
 
-                            $before_branch_qty_box = $new_branch_subsupply->master_box_stock;
-                            $before_branch_qty_piece = $new_branch_subsupply->master_piece_stock;
+                            $before_branch_qty_box = 0;
+                            $before_branch_qty_piece = 0;
+
+                            $after_branch_qty_box = $new_branch_subsupply->master_box_stock;
+                            $after_branch_qty_piece = $new_branch_subsupply->master_piece_stock;
                         }
                     }
                 }
@@ -484,6 +496,9 @@ class PharmacyController extends Controller
                         
                         $before_branch_qty_box = NULL;
                         $before_branch_qty_piece = $branch_subsupply->getOriginal('master_piece_stock');
+
+                        $after_branch_qty_box = NULL;
+                        $after_branch_qty_piece = $branch_subsupply->master_piece_stock;
 
                         if($branch_subsupply->isDirty()) {
                             $branch_subsupply->save();
@@ -501,7 +516,10 @@ class PharmacyController extends Controller
                         ]);
 
                         $before_branch_qty_box = NULL;
-                        $before_branch_qty_piece = $new_branch_subsupply->master_piece_stock;
+                        $before_branch_qty_piece = 0;
+
+                        $after_branch_qty_box = NULL;
+                        $after_branch_qty_piece = $branch_subsupply->master_piece_stock;
 
                         $sspid = $new_branch_subsupply->id;
                     }
@@ -582,8 +600,8 @@ class PharmacyController extends Controller
                     'before_qty_piece' => $before_branch_qty_piece,
                     'qty_to_process' => $r->qty_to_process,
                     'qty_type' => $r->qty_type,
-                    'after_qty_box' => ($d->pharmacysupplymaster->quantity_type == 'BOX') ? $branch_subsupply->master_box_stock : NULL,
-                    'after_qty_piece' => $branch_subsupply->master_piece_stock,
+                    'after_qty_box' => $after_branch_qty_box,
+                    'after_qty_piece' => $after_branch_qty_piece,
                     //'total_cost' => $r->total_cost,
                     //'drsi_number' => $r->drsi_number,
 
@@ -594,12 +612,93 @@ class PharmacyController extends Controller
                     'remarks' => 'RECEIVED FROM '.$d->pharmacybranch->name,
                 ]);
             }
+
+            $txt = 'Processing of ISSUED Item was successful';
         }
         else if ($r->type == 'RECEIVED') {
             //RECEIVE, BOX MODE ONLY LOCKED TO MAIN BRANCH
 
+            if($d->pharmacysupplymaster->quantity_type == 'BOX') {
+                $d->master_box_stock += $r->qty_to_process;
+                $d->master_piece_stock += ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
+            }
+            else {
+                $d->master_piece_stock += $r->qty_to_process;
+                
+            }
+
+            //ADD TO SUBSTOCK
+            $substock = PharmacySupplySubStock::where('subsupply_id', $d->id)
+            ->where('expiration_date', $r->expiration_date)
+            ->first();
+
+            if($d->pharmacysupplymaster->quantity_type == 'BOX') {
+                if($substock) {
+                    $substock->current_box_stock =+ $r->qty_to_process;
+                    $substock->current_piece_stock += ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox);
+
+                    if($substock->isDirty()) {
+                        $substock->save();
+                    }
+                }
+                else {
+                    $new_substock = $r->user()->pharmacysupplysubstock()->create([
+                        'subsupply_id' => $d->id,
+                        'expiration_date' => $r->expiration_date,
+                        'current_box_stock' => $r->qty_to_process,
+                        'current_piece_stock' => ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox),
+                    ]);
+                }
+            }
+            else {
+                if($substock) {
+                    $substock->current_piece_stock += $r->qty_to_process;
+
+                    if($substock->isDirty()) {
+                        $substock->save();
+                    }
+                }
+                else {
+                    $new_substock = $r->user()->pharmacysupplysubstock()->create([
+                        'subsupply_id' => $d->id,
+                        'expiration_date' => $r->expiration_date,
+                        //'current_box_stock' => $r->qty_to_process,
+                        'current_piece_stock' => $r->qty_to_process,
+                    ]);
+                }
+            }
             
+            //CREATE STOCK CARD
+            $new_stockcard_branch = $r->user()->pharmacystockcard()->create([
+                'subsupply_id' => $d->id,
+                'type' => 'RECEIVED',
+                'before_qty_box' => ($d->pharmacysupplymaster->quantity_type == 'BOX') ? $d->getOriginal('master_box_stock') : NULL,
+                'before_qty_piece' => $d->getOriginal('master_piece_stock'),
+                'qty_to_process' => $r->qty_to_process,
+                'qty_type' => $r->qty_type,
+                'after_qty_box' => ($d->pharmacysupplymaster->quantity_type == 'BOX') ? $d->master_box_stock : NULL,
+                'after_qty_piece' => $d->master_piece_stock,
+
+                //'total_cost' => $r->total_cost,
+                //'drsi_number' => $r->drsi_number,
+
+                //'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
+                //'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $get_patient_id : NULL,
+                //'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
+                
+                'remarks' => mb_strtoupper($r->remarks),
+            ]);
+
+            if($d->isDirty()) {
+                $d->save();
+            }
+
+            $txt = 'Processing of RECEIVED Item was successful';
         }
+
+        return redirect()->route('pharmacy_home')
+        ->with('msg', $txt)
+        ->with('msgtype', 'warning');
     }
     
     /*

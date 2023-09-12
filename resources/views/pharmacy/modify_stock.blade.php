@@ -140,8 +140,8 @@
                           </div>
                     </div>
                     <div class="form-group">
-                        <label for="remarks">Remarks</label>
-                        <input type="text" class="form-control" name="remarks" id="remarks">
+                        <label for="remarks"><b id="remarks_asterisk" class="text-danger d-none">*</b>Remarks</label>
+                        <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase;">
                     </div>
                 </div>
                 <div class="card-footer">
@@ -202,6 +202,9 @@
                 $('#select_recipient').prop('required', true);
 
                 $('#type_option_piece').removeClass('d-none');
+
+                $('#remarks').prop('required', false);
+                $('#remarks_asterisk').addClass('d-none');
             }
             else {
                 $('#select_sub_stock_id').prop('required', false);
@@ -219,6 +222,9 @@
                     $('#qty_type').val('BOX').trigger('change');
                     $('#type_option_piece').addClass('d-none');
                 }
+
+                $('#remarks').prop('required', true);
+                $('#remarks_asterisk').removeClass('d-none');
             }
         }).trigger('change');
 

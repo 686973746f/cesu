@@ -493,7 +493,7 @@ class DailyCasesLogging extends Command
                     ->where('records.address_city', 'GENERAL TRIAS');
                 })
                 ->where('status', 'approved')
-                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-1 Day')), date('Y-m-d')]) //before ->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
@@ -508,7 +508,7 @@ class DailyCasesLogging extends Command
                     ->whereNull('records.vaccinationDate3');
                 })
                 ->where('status', 'approved')
-                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-1 Day')), date('Y-m-d')]) //before ->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
@@ -523,7 +523,7 @@ class DailyCasesLogging extends Command
                     ->whereNull('records.vaccinationDate3');
                 })
                 ->where('status', 'approved')
-                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-1 Day')), date('Y-m-d')]) //before ->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
@@ -538,7 +538,7 @@ class DailyCasesLogging extends Command
                     ->whereNull('records.vaccinationDate3');
                 })
                 ->where('status', 'approved')
-                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-1 Day')), date('Y-m-d')]) //before ->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
@@ -553,7 +553,7 @@ class DailyCasesLogging extends Command
                     ->whereRaw('DATE(DATE_ADD(records.vaccinationDate3, INTERVAL 14 DAY)) <= CURDATE()');
                 })
                 ->where('status', 'approved')
-                ->whereDate('morbidityMonth', date('Y-m-d'))
+                ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-1 Day')), date('Y-m-d')]) //before ->whereDate('morbidityMonth', date('Y-m-d'))
                 ->whereDate('outcomeRecovDate', '<', date('Y-m-d'))
                 ->where('outcomeCondition', 'Recovered')
                 ->count();
