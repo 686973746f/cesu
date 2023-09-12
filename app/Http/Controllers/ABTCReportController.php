@@ -1991,8 +1991,8 @@ class ABTCReportController extends Controller
         $templateProcessor->setValue('ag7f', number_format($ag7f));
         $templateProcessor->setValue('ag8f', number_format($ag8f));
 
-        $templateProcessor->setValue('ct1', number_format($ct1));
-        $templateProcessor->setValue('ct2', number_format($ct2));
+        $templateProcessor->setValue('ct1', number_format(0));
+        $templateProcessor->setValue('ct2', number_format($ct2 + $ct1)); //Category 1 flagged as Cat2 for Counting purposes
         $templateProcessor->setValue('ct3', number_format($ct3));
         $templateProcessor->setValue('ctt', number_format($ct1 + $ct2 + $ct3));
 
