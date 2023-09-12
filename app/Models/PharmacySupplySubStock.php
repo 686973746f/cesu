@@ -49,9 +49,9 @@ class PharmacySupplySubStock extends Model
         return $get_qty;
     }
 
-    public function getQtyAndType() {
+    public function displayQty() {
         if($this->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
-            return $this->current_box_stock.' '.Str::plural('BOX', $this->current_box_stock).' ('.$this->current_piece_stock.' '.Str::plural('PC', $this->current_piece_stock).')';
+            return $this->current_box_stock.' '.Str::plural('BOX', $this->current_box_stock).' ('.($this->current_box_stock * $this->pharmacysub->pharmacysupplymaster->config_piecePerBox).' '.Str::plural('PC', ($this->current_box_stock * $this->pharmacysub->pharmacysupplymaster->config_piecePerBox)).')';
         }
         else {
             return Str::plural('PC', $this->current_piece_stock);

@@ -81,7 +81,7 @@ class PharmacyStockCard extends Model
 
     public function getBalance() {
         if($this->qty_type == 'BOX') {
-            return $this->after_qty_box.' '.Str::plural('BOX', $this->after_qty_box).' ('.$this->after_qty_piece.' '.Str::plural('PC', $this->after_qty_piece).')';
+            return $this->after_qty_box.' '.Str::plural('BOX', $this->after_qty_box).' ('.($this->after_qty_box * $this->pharmacysub->pharmacysupplymaster->config_piecePerBox).' '.Str::plural('PC', $this->after_qty_box * $this->pharmacysub->pharmacysupplymaster->config_piecePerBox).')';
         }
         else {
             return $this->after_qty_piece.' '.Str::plural('PC', $this->after_qty_piece);

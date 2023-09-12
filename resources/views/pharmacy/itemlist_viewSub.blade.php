@@ -158,7 +158,7 @@
                                         <td>{{$ind+1}}</td>
                                         <td><a href="{{route('pharmacy_view_substock', $sl->id)}}">{{date('m/d/Y (D)', strtotime($sl->expiration_date))}}</a></td>
                                         <td>{{($sl->batch_number) ? $sl->batch_number : 'N/A'}}</td>
-                                        <td>{{$sl->getQtyAndType()}}</td>
+                                        <td>{{$sl->displayQty()}}</td>
                                         <td><small>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</small></td>
                                         <td><small>{{($sl->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($sl->updated_at)).' / '.$sl->getUpdatedBy->name : 'N/A'}}</small></td>
                                         <td><a href="{{route('pharmacy_printqr_substock', $sl->id)}}" class="btn btn-success">Print QR</a></td>
