@@ -12,8 +12,11 @@ class PharmacyStockLog extends Model
     protected $fillable = [
         'subsupply_id',
         'type',
-        'get_stock',
-        'stock_credit',
-        'stock_debit',
+        'get_stock_box',
+        'get_stock_piece',
+        'stock_credit_box',
+        'stock_debit_box',
+        'stock_credit_piece',
+        'stock_debit_piece',
     ];
 }

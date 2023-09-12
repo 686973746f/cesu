@@ -38,6 +38,17 @@ class PharmacySupplySubStock extends Model
         return $this->belongsTo(PharmacySupplySub::class, 'subsupply_id');
     }
 
+    public function getMainQty() {
+        if($this->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
+            $get_qty = $this->current_box_stock;
+        }
+        else {
+            $get_qty = $this->current_piece_stock;
+        }
+        
+        return $get_qty;
+    }
+
     public function getQtyAndType() {
         if($this->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
             return $this->current_box_stock.' '.Str::plural('BOX', $this->current_box_stock).' ('.$this->current_piece_stock.' '.Str::plural('PC', $this->current_piece_stock).')';

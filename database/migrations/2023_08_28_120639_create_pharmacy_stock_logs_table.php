@@ -17,9 +17,12 @@ class CreatePharmacyStockLogsTable extends Migration
             $table->id();
             $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
             $table->string('type');
-            $table->integer('get_stock');
-            $table->integer('stock_credit')->nullable();
-            $table->integer('stock_debit')->nullable();
+            $table->integer('get_stock_box')->nullable();
+            $table->integer('get_stock_piece')->nullable();
+            $table->integer('stock_credit_box')->nullable();
+            $table->integer('stock_debit_box')->nullable();
+            $table->integer('stock_credit_piece')->nullable();
+            $table->integer('stock_debit_piece')->nullable();
             $table->timestamps();
         });
     }

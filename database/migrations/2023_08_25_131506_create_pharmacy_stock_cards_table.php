@@ -27,9 +27,9 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->double('total_cost')->nullable();
             $table->text('drsi_number')->nullable();
             
-            $table->text('recipient')->nullable();
             $table->foreignId('receiving_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('receiving_patient_id')->nullable()->constrained('pharmacy_patients')->onDelete('cascade');
+            $table->text('recipient')->nullable();
             $table->text('remarks')->nullable();
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
