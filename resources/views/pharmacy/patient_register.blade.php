@@ -161,6 +161,7 @@
                     <option value="RESPIRATORY PROBLEM">RESPIRATORY PROBLEM</option>
                     <option value="TB-DOTS">TB-DOTS</option>
                     <option value="WOMEN">WOMEN</option>
+                    <option value="OTHERS">OTHERS</option>
                   </select>
                 </div>
             </div>

@@ -23,6 +23,7 @@ class CreatePharmacySupplyMastersTable extends Migration
             $table->string('quantity_type')->default('BOX');
 
             $table->integer('config_piecePerBox')->nullable();
+            $table->tinyInteger('enabled')->default(1);
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

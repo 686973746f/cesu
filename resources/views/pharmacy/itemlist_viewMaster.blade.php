@@ -12,6 +12,24 @@
                     {{session('msg')}}
                 </div>
                 @endif
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="bg-light">Created at / By</td>
+                            <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}} / {{$d->user->name}}</td>
+                            <td class="bg-light">Updated at / By</td>
+                            <td class="text-center">{{($d->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($d->updated_at)).' / '.$d->getUpdatedBy->name : 'N/A'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <div class="form-group">
+                  <label for="enabled"><b class="text-danger">*</b>Enabled</label>
+                  <select class="form-control" name="enabled" id="enabled" required>
+                    <option value="1" {{(old('enabled', $d->enabled) == 1) ? 'selected' : ''}}>Yes</option>
+                    <option value="0" {{(old('enabled', $d->enabled) == 0) ? 'selected' : ''}}>No</option>
+                  </select>
+                </div>
                 <div class="form-group">
                   <label for="name"><b class="text-danger">*</b>Name</label>
                   <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" required>
@@ -53,28 +71,17 @@
                             <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
                             <select class="form-control" name="quantity_type" id="quantity_type" required>
                                 <option value="BOX" {{(old('category', $d->category) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
-                                <option value="BOTTLE" {{(old('category', $d->category) == 'GENERAL') ? 'selected' : ''}}>PER PIECE/BOTTLES</option>
+                                <option value="BOTTLE" {{(old('category', $d->category) == 'GENERAL') ? 'selected' : ''}}>PER PIECE (BOTTLE)</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group d-none" id="maxpiece_div">
                             <label for="config_piecePerBox"><b class="text-danger">*</b>Max pieces inside per Box</label>
                             <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" min="1" value="{{old('config_piecePerBox', $d->config_piecePerBox)}}">
                         </div>
                     </div>
                 </div>
-                <hr>
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td class="bg-light">Created at / By</td>
-                            <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}} / {{$d->user->name}}</td>
-                            <td class="bg-light">Updated at / By</td>
-                            <td class="text-center">{{($d->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($d->updated_at)).' / '.$d->getUpdatedBy->name : 'N/A'}}</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success btn-block">Update</button>
@@ -82,4 +89,18 @@
         </div>
     </form>
 </div>
+
+<script>
+    $('#quantity_type').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'BOX') {
+            $('#maxpiece_div').removeClass('d-none');
+            $('#config_piecePerBox').prop('required', true);
+        }
+        else {
+            $('#maxpiece_div').addClass('d-none');
+            $('#config_piecePerBox').prop('required', true);
+        }
+    }).trigger('change');
+</script>
 @endsection

@@ -65,24 +65,27 @@ class PharmacyController extends Controller
                     'default_issuance_per_box' => NULL,
                     'default_issuance_per_piece' => NULL,
     
-                    'master_box_stock' => $r->master_box_stock,
-                    'master_piece_stock' => ($r->quantity_type == 'BOX') ? ($r->config_piecePerBox * $r->master_box_stock) : NULL, 
+                    'master_box_stock' => ($r->quantity_type == 'BOX') ? $r->master_box_stock : NULL,
+                    'master_piece_stock' => ($r->quantity_type == 'BOX') ? ($r->config_piecePerBox * $r->master_box_stock) : $r->master_box_stock, 
                 ]);
     
                 $e = $r->user()->pharmacysupplysubstock()->create([
                     'subsupply_id' => $d->id,
                     'expiration_date' => $r->expiration_date,
-                    'current_box_stock' => $r->master_box_stock,
-                    'current_piece_stock' => ($r->quantity_type == 'BOX') ? ($r->config_piecePerBox * $r->master_box_stock) : NULL, 
+                    'current_box_stock' => ($r->quantity_type == 'BOX') ? $r->master_box_stock : NULL,
+                    'current_piece_stock' => ($r->quantity_type == 'BOX') ? ($r->config_piecePerBox * $r->master_box_stock) : $r->master_box_stock,
                 ]);
     
                 $f = $r->user()->pharmacystockcard()->create([
                     'subsupply_id' => $d->id,
     
                     'type' => 'RECEIVED',
-                    'before_qty' => 0,
+                    'before_qty_box' => ($r->quantity_type == 'BOX') ? 0 : NULL,
+                    'before_qty_piece' => 0,
                     'qty_to_process' => $r->master_box_stock,
-                    'after_qty' => $r->master_box_stock,
+                    'qty_type' => $r->quantity_type,
+                    'after_qty_box' => ($r->quantity_type == 'BOX') ? $r->master_box_stock : NULL,
+                    'after_qty_piece' => ($r->quantity_type == 'BOX') ? ($r->config_piecePerBox * $r->master_box_stock) : $r->master_box_stock,
                     'total_cost' => NULL,
                     'drsi_number' => NULL,
     
@@ -741,6 +744,7 @@ class PharmacyController extends Controller
         if(!($d)) {
             $u = PharmacySupplyMaster::where('id', $id)
             ->update([
+                'enabled' => $r->enabled,
                 'name' => mb_strtoupper($r->name),
                 'sku_code' => mb_strtoupper($r->sku_code),
                 'sku_code_doh' => mb_strtoupper($r->sku_code_doh),

@@ -102,17 +102,19 @@ class PharmacyPatient extends Model
     }
 
     public function getStreetPurok() {
-        if($this->address_houseno) {
-            $get_txt = $this->address_houseno;
+        if($this->address_houseno && $this->address_street) {
+            $get_txt = $this->address_houseno.', '.$this->address_street;
         }
-
-        if($this->address_street) {
-            if($get_txt) {
-                $get_txt = $get_txt.', '.$this->address_street;
+        else if($this->address_houseno || $this->address_street) {
+            if($this->address_houseno) {
+                $get_txt = $this->address_houseno;
             }
-            else {
+            else if($this->address_street) {
                 $get_txt = $this->address_street;
             }
+        }
+        else {
+            $get_txt = 'N/A';
         }
         
         return $get_txt;
