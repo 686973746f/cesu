@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Brgy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -807,6 +808,72 @@ class PharmacyController extends Controller
         else {
             return abort(401);
         }
+    }
+
+    public function viewItemMonthlyStock($item_id) {
+        $item = PharmacySupplySub::findOrFail($item_id);
+
+        $s = PharmacyStockCard::where('subsupply_id', $item->id)
+        ->where('status', 'approved');
+
+        /*
+        if(request()->input('year')) {
+            $sy = request()->input('year');
+
+            $s = $s->whereYear('created_at', $sy);
+        }
+        else {
+            $sy = date('Y');
+
+            $s = $s->whereYear('created_at', $sy);
+        }
+        */
+
+        $month_array = [];
+
+        //month loop
+        for($i=1;$i<=12;$i++) {
+            $nomonth = Carbon::create()->month($i)->format('m');
+
+            $s = $s->whereMonth('created_at', $nomonth);
+
+            $issued_query = PharmacyStockCard::where('subsupply_id', $item->id)
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', $nomonth)
+            ->where('status', 'approved')
+            ->where('type', 'ISSUED')
+            ->get();
+
+            $issued_count = 0;
+            
+            foreach($issued_query as $iq) {
+                $issued_count += $iq->qty_to_process;
+            }
+
+            $received_query = PharmacyStockCard::where('subsupply_id', $item->id)
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', $nomonth)
+            ->where('status', 'approved')
+            ->where('type', 'RECEIVED')
+            ->get();
+
+            $received_count = 0;
+
+            foreach($received_query as $rq) {
+                $received_count += $rq->qty_to_process;
+            }
+
+            $month_array[] = [
+                'month' => Carbon::create()->month($i)->format('F'),
+                'issued_count' => $issued_count,
+                'received_count' => $received_count,
+            ];
+        }
+
+        return view('pharmacy.itemlist_viewSubMonthlyStock', [
+            'd' => $item,
+            'month_array' => $month_array,
+        ]);
     }
 
     public function printQrItem ($item_id) {
