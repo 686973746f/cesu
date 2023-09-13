@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('pharmacy_modify_process', $d->id)}}" method="POST">
+        <form action="{{route('pharmacy_modify_process', $d->id)}}" method="POST" autocomplete="off">
             @csrf
             <div class="card">
                 <div class="card-header"><b>Modify Stock</b></div>
@@ -98,7 +98,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="drsi_number">DR/SI/RIS/PTR/BL No.</label>
-                                <input type="text" class="form-control" name="drsi_number" id="drsi_number">
+                                <input type="text" class="form-control" name="drsi_number" id="drsi_number" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,9 @@
                             <label for="select_recipient"><b class="text-danger">*</b>Recipient / Transfer to</label>
                             <select class="form-control" name="select_recipient" id="select_recipient">
                               <option value="" disabled {{(is_null(old('select_recipient'))) ? 'selected' : ''}}>Choose...</option>
+                              @if(auth()->user()->isAdminPharmacy())
                               <option value="BRANCH" id="selection_branch">Entities (BHS/Hospitals/Other Institutions)</option>
+                              @endif
                               <option value="PATIENT" id="selection_patient">Patient</option>
                               <option value="OTHERS" id="selection_others">Others</option>
                             </select>

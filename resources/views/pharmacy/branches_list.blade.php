@@ -75,11 +75,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                           <label for="name"><b class="text-danger">*</b>Name</label>
-                          <input type="text" class="form-control" name="name" id="name" required>
+                          <input type="text" class="form-control" name="name" id="name" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                           <label for="name">Focal Person</label>
-                          <input type="text" class="form-control" name="focal_person" id="focal_person">
+                          <input type="text" class="form-control" name="focal_person" id="focal_person" style="text-transform: uppercase;">
                         </div>
                         <div class="form-group">
                           <label for="contact_number">Contact Number</label>
@@ -87,18 +87,18 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <input type="text" class="form-control" name="description" id="description">
+                            <input type="text" class="form-control" name="description" id="description" style="text-transform: uppercase;">
                           </div>
                         <div class="form-group">
                           <label for="level"><b class="text-danger">*</b>Level</label>
                           <select class="form-control" name="level" id="level" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                            <option value="1">1 (Main Entity)</option>
+                            <option value="2">2 (Sub Entity)</option>
                           </select>
                         </div>
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="if_bhs" id="if_bhs" value="1" >Check if Branch is BHS
+                            <input type="checkbox" class="form-check-input" name="if_bhs" id="if_bhs" value="1">Check if Branch is BHS
                           </label>
                         </div>
                         <div class="form-group d-none mt-2" id="div_bhs">
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-block">Save</button>
                     </div>
                 </div>
             </div>

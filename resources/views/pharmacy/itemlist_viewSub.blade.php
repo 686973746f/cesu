@@ -198,8 +198,8 @@
                                     <tr class="text-center">
                                         <td class="text-center">{{$ind+1}}</td>
                                         <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
-                                        <td>{{($s->type == 'RECEIVED') ? '+ '.$s->getQtyAndType() : ''}}</td>
-                                        <td>{{($s->type == 'ISSUED') ? '- '.$s->getQtyAndType() : ''}}</td>
+                                        <td class="text-success">{{($s->type == 'RECEIVED') ? '+ '.$s->getQtyAndType() : ''}}</td>
+                                        <td class="text-danger">{{($s->type == 'ISSUED') ? '- '.$s->getQtyAndType() : ''}}</td>
                                         <td>{{$s->getBalance()}}</td>
                                         <td>{{($s->total_cost) ? $s->total_cost : 'N/A'}}</td>
                                         <td>{{($s->drsi_number) ? $s->drsi_number : 'N/A'}}</td>

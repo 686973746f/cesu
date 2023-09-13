@@ -5,6 +5,20 @@
     <div class="card">
         <div class="card-header"><b>Report</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
         <div class="card-body">
+            <form action="" method="GET">
+                <div class="input-group">
+                    <select class="custom-select" id="select_branch" name="select_branch" required>
+                        <option value="" disabled selected>Select Branch to Filter Report</option>
+                        @foreach($list_branch as $ind => $br)
+                            <option value="{{$br->id}}" {{(old('select_branch', request()->input('select_branch')) == $br->id) ? 'selected': ''}}>{{$br->name}}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-success" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+            <hr>
             <div class="row">
                 <div class="col-md-8">
                     <table class="table table-bordered table-striped">
@@ -64,9 +78,9 @@
                         <tbody>
                             @foreach($expired_list as $expired_item)
                             <tr>
-                                <td>{{$expired_item->pharmacysub->pharmacysupplymaster->name}}</td>
-                                <td>{{$expired_item->current_box_stock}}</td>
-                                <td><b class="text-danger">{{date('m/d/Y', strtotime($expired_item->expiration_date))}}</b></td>
+                                <td><b>{{$expired_item->pharmacysub->pharmacysupplymaster->name}}</b></td>
+                                <td>{{$expired_item->displayQty()}}</td>
+                                <td><b class="text-danger">{{date('m/d/Y (D)', strtotime($expired_item->expiration_date))}}</b></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -130,4 +144,8 @@
         </div>
     </div>
 </div>
+
+<script>
+    
+</script>
 @endsection

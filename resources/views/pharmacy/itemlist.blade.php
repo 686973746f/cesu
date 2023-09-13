@@ -48,9 +48,9 @@
                     @foreach($list as $ind => $i)
                     <tr>
                         <td class="text-center">{{$list->firstItem() + $ind}}</td>
-                        <td><a href="{{route('pharmacy_itemlist_viewitem', $i->id)}}">{{$i->pharmacysupplymaster->name}}</a></td>
+                        <td><b><a href="{{route('pharmacy_itemlist_viewitem', $i->id)}}">{{$i->pharmacysupplymaster->name}}</a></b></td>
                         <td class="text-center">{{$i->pharmacysupplymaster->sku_code}}</td>
-                        <td class="text-center">{{$i->master_box_stock}}</td>
+                        <td class="text-center">{{$i->displayQty()}}</td>
                         <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
                         <td class="text-center"><small>{{(!is_null($i->updated_by)) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : 'N/A'}}</small></td>
                     </tr>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="form-group">
                         <label for="sku_code"><b class="text-danger">*</b>SKU Code</label>
-                        <input type="text" class="form-control" name="sku_code" id="sku_code" required>
+                        <input type="text" class="form-control" name="sku_code" id="sku_code" style="text-transform: uppercase;" required>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -194,7 +194,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>

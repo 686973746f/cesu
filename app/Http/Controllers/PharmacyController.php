@@ -813,10 +813,10 @@ class PharmacyController extends Controller
     public function viewItemMonthlyStock($item_id) {
         $item = PharmacySupplySub::findOrFail($item_id);
 
+        /*
         $s = PharmacyStockCard::where('subsupply_id', $item->id)
         ->where('status', 'approved');
 
-        /*
         if(request()->input('year')) {
             $sy = request()->input('year');
 
@@ -835,7 +835,7 @@ class PharmacyController extends Controller
         for($i=1;$i<=12;$i++) {
             $nomonth = Carbon::create()->month($i)->format('m');
 
-            $s = $s->whereMonth('created_at', $nomonth);
+            //$s = $s->whereMonth('created_at', $nomonth);
 
             $issued_query = PharmacyStockCard::where('subsupply_id', $item->id)
             ->whereYear('created_at', date('Y'))
@@ -1010,6 +1010,8 @@ class PharmacyController extends Controller
         else {
 
         }
+
+        $list_branch = PharmacyBranch::get();
         
         //get expiration within 3 months
         $expired_list = PharmacySupplySubStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
@@ -1019,6 +1021,7 @@ class PharmacyController extends Controller
 
         return view('pharmacy.report', [
             'expired_list' => $expired_list,
+            'list_branch' => $list_branch,
         ]);
     }
 
