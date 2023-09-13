@@ -1005,13 +1005,52 @@ class PharmacyController extends Controller
 
     public function viewReport() {
         if(request()->input('select_branch')) {
-
+            $selected_branch = request()->input('select_branch');
         }
         else {
-
+            $selected_branch = auth()->user()->pharmacy_branch_id;
         }
 
         $list_branch = PharmacyBranch::get();
+
+        //get sub item stocks
+        $list_subitem = PharmacySupplySub::where('pharmacy_branch_id', $selected_branch)
+        ->get();
+
+        $si_array = [];
+
+        foreach($list_subitem as $key => $si) {
+            //loop through months
+
+            $issued_jan = 0;
+            $received_jan = 0;
+            $issued_feb = 0;
+            $received_feb = 0;
+            $issued_mar = 0;
+            $received_mar = 0;
+            $issued_apr = 0;
+            $received_apr = 0;
+            $issued_may = 0;
+            $received_may = 0;
+            $issued_jun = 0;
+            $received_jun = 0;
+            $issued_jul = 0;
+            $received_jul = 0;
+            $issued_aug = 0;
+            $received_aug = 0;
+            $issued_sep = 0;
+            $received_sep = 0;
+            $issued_oct = 0;
+            $received_oct = 0;
+            $issued_nov = 0;
+            $received_nov = 0;
+            $issued_dec = 0;
+            $received_dec = 0;
+
+            $si_array[] = [
+                'name' => $si->pharmacysupplymaster->name,
+            ];
+        }
         
         //get expiration within 3 months
         $expired_list = PharmacySupplySubStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
@@ -1022,6 +1061,7 @@ class PharmacyController extends Controller
         return view('pharmacy.report', [
             'expired_list' => $expired_list,
             'list_branch' => $list_branch,
+            'si_array' => $si_array,
         ]);
     }
 

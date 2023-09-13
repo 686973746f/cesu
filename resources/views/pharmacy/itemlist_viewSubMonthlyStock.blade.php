@@ -9,10 +9,11 @@
                     <table class="table table-bordered table-striped text-center">
                         <thead class="thead-light">
                             <tr>
-                                <th colspan="25">Year {{date('Y')}}</th>
+                                <th colspan="26">Year {{date('Y')}}</th>
                             </tr>
                             <tr>
                                 <th rowspan="2">Item</th>
+                                <th rowspan="2">Current Stock</th>
                                 @foreach($month_array as $m)
                                 <th colspan="2">{{$m['month']}}</th>
                                 @endforeach
@@ -27,6 +28,7 @@
                         <tbody>
                             <tr>
                                 <td><b>{{$d->pharmacysupplymaster->name}}</b></td>
+                                <td>{{$d->displayQty()}}</td>
                                 @foreach($month_array as $m)
                                 <td class="{{($m['received_count'] != 0) ? 'text-success' : ''}}">{{($m['received_count'] != 0) ? '+ '.$m['received_count'] : '0'}}</td>
                                 <td class="{{($m['issued_count'] != 0) ? 'text-danger' : ''}}">{{($m['issued_count'] != 0) ? '- '.$m['issued_count'] : '0'}}</td>

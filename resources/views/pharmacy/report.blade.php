@@ -5,6 +5,7 @@
     <div class="card">
         <div class="card-header"><b>Report</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
         <div class="card-body">
+            @if(auth()->user()->isAdminPharmacy())
             <form action="" method="GET">
                 <div class="input-group">
                     <select class="custom-select" id="select_branch" name="select_branch" required>
@@ -19,6 +20,7 @@
                 </div>
             </form>
             <hr>
+            @endif
             <div class="row">
                 <div class="col-md-8">
                     <table class="table table-bordered table-striped">
@@ -91,53 +93,17 @@
                 <table class="table table-bordered table-striped text-center">
                     <thead class="thead-light">
                         <tr>
-                            <th colspan="26">Stock Report (Year {{date('Y')}})</th>
-                        </tr>
-                        <tr>
-                            <th rowspan="2">Name</th>
-                            <th rowspan="2">Category</th>
-                            <th colspan="2">JAN</th>
-                            <th colspan="2">FEB</th>
-                            <th colspan="2">MAR</th>
-                            <th colspan="2">APR</th>
-                            <th colspan="2">MAY</th>
-                            <th colspan="2">JUN</th>
-                            <th colspan="2">JUL</th>
-                            <th colspan="2">AUG</th>
-                            <th colspan="2">SEP</th>
-                            <th colspan="2">OCT</th>
-                            <th colspan="2">NOV</th>
-                            <th colspan="2">DEC</th>
-                        </tr>
-                        <tr>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
-                            <th>+</th>
-                            <th>-</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Current Stock</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                        @foreach($si_array as $key => $si)
+                        <tr>
+                            <td>{{$si['name']}}</td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

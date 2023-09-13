@@ -41,7 +41,7 @@
                             @foreach($list as $ind => $i)
                             <tr>
                                 <td class="text-center">{{$list->firstItem() + $ind}}</td>
-                                <td><a href="{{route('pharmacy_view_masteritem', $i->id)}}">{{$i->name}}</a></td>
+                                <td><b><a href="{{route('pharmacy_view_masteritem', $i->id)}}">{{$i->name}}</a></b></td>
                                 <td class="text-center">{{$i->sku_code}}</td>
                                 <td class="text-center">{{($i->sku_code_doh) ? $i->sku_code_doh : 'N/A'}}</td>
                                 <td class="text-center">{{$i->category}}</td>
