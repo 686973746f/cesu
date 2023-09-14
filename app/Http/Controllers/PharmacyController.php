@@ -817,55 +817,25 @@ class PharmacyController extends Controller
     public function viewItemMonthlyStock($item_id) {
         $item = PharmacySupplySub::findOrFail($item_id);
 
-        /*
-        $s = PharmacyStockCard::where('subsupply_id', $item->id)
-        ->where('status', 'approved');
-
-        if(request()->input('year')) {
-            $sy = request()->input('year');
-
-            $s = $s->whereYear('created_at', $sy);
-        }
-        else {
-            $sy = date('Y');
-
-            $s = $s->whereYear('created_at', $sy);
-        }
-        */
-
         $month_array = [];
 
         //month loop
         for($i=1;$i<=12;$i++) {
             $nomonth = Carbon::create()->month($i)->format('m');
 
-            //$s = $s->whereMonth('created_at', $nomonth);
-
-            $issued_query = PharmacyStockCard::where('subsupply_id', $item->id)
+            $issued_count = PharmacyStockCard::where('subsupply_id', $item->id)
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', $nomonth)
             ->where('status', 'approved')
             ->where('type', 'ISSUED')
-            ->get();
+            ->sum('qty_to_process');
 
-            $issued_count = 0;
-            
-            foreach($issued_query as $iq) {
-                $issued_count += $iq->qty_to_process;
-            }
-
-            $received_query = PharmacyStockCard::where('subsupply_id', $item->id)
+            $received_count = PharmacyStockCard::where('subsupply_id', $item->id)
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', $nomonth)
             ->where('status', 'approved')
             ->where('type', 'RECEIVED')
-            ->get();
-
-            $received_count = 0;
-
-            foreach($received_query as $rq) {
-                $received_count += $rq->qty_to_process;
-            }
+            ->sum('qty_to_process');
 
             $month_array[] = [
                 'month' => Carbon::create()->month($i)->format('F'),
@@ -1073,31 +1043,19 @@ class PharmacyController extends Controller
             for($i=1;$i<=12;$i++) {
                 $nomonth = Carbon::create()->month($i)->format('m');
 
-                $issued_count = 0;
-
-                $issued_query = PharmacyStockCard::where('subsupply_id', $item['id'])
+                $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
                 ->whereYear('created_at', date('Y'))
                 ->whereMonth('created_at', $nomonth)
                 ->where('status', 'approved')
                 ->where('type', 'ISSUED')
-                ->get();
+                ->sum('qty_to_process');
 
-                foreach($issued_query as $iq) {
-                    $issued_count += $iq->qty_to_process;
-                }
-
-                $received_count = 0;
-
-                $received_query = PharmacyStockCard::where('subsupply_id', $item['id'])
+                $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
                 ->whereYear('created_at', date('Y'))
                 ->whereMonth('created_at', $nomonth)
                 ->where('status', 'approved')
                 ->where('type', 'RECEIVED')
-                ->get();
-
-                foreach($received_query as $rq) {
-                    $received_count += $rq->qty_to_process;
-                }
+                ->sum('qty_to_process');
 
                 $monthlyStocks[] = [
                     'month' => Carbon::create()->month($i)->format('F'),
