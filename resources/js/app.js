@@ -21,6 +21,7 @@ import 'select2';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import download from 'downloadjs';
 import L from 'leaflet';
+import { Chart } from 'chart.js/auto';
 
 window.JSZip = jsZip;
 window.ClipboardJS = require('clipboard');
@@ -29,3 +30,4 @@ window.StandardFonts = StandardFonts;
 window.rgb = rgb;
 window.download = download;
 window.L = L;
+window.Chart = Chart;
