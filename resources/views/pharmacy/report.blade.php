@@ -90,18 +90,31 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped text-center">
-                    <thead class="thead-light">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
                         <tr>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Current Stock</th>
+                            <th rowspan="2">Name</th>
+                            <th rowspan="2">Current Stock</th>
+                            @for($i=1;$i<=12;$i++)
+                            <th colspan="2">{{mb_strtoupper(Carbon\Carbon::create()->month($i)->format('M'))}}</th>
+                            @endfor
+                        </tr>
+                        <tr>
+                            @for($i=1;$i<=12;$i++)
+                            <th class="text-success">+</th>
+                            <th class="text-danger">-</th>
+                            @endfor
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($si_array as $key => $si)
                         <tr>
-                            <td>{{$si['name']}}</td>
+                            <td><b><a href="{{route('pharmacy_itemlist_viewitem', $si['id'])}}">{{$si['name']}}</a></b></td>
+                            <td class="text-center"><small>{{$si['current_stock']}}</small></td>
+                            @foreach($si['monthly_stocks'] as $ms)
+                            <td class="text-center {{($ms['received'] != 0) ? 'text-success font-weight-bold' : ''}}">{{$ms['received']}}</td>
+                            <td class="text-center {{($ms['issued'] != 0) ? 'text-danger font-weight-bold' : ''}}">{{$ms['issued']}}</td>
+                            @endforeach
                         </tr>
                         @endforeach
                     </tbody>

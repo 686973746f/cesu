@@ -896,56 +896,28 @@ class PharmacyController extends Controller
     }
 
     public function updateItem($item_id, Request $r) {
-        $item = PharmacySupply::findOrFail($item_id);
+        $d = PharmacySupplySub::findOrFail($item_id);
 
-        if($item->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
+        if($d->ifAuthorizedToUpdate()) {
+            $d->update([
+                'self_sku_code' => $r->self_sku_code,
+                'self_description' => $r->self_description,
 
-            $check = PharmacySupply::where('sku_code', mb_strtoupper($r->sku_code))
-            ->where('id', '!=', $item->id)
-            ->first();
+                'po_contract_number' => $r->po_contract_number,
+                'supplier' => $r->supplier,
+                'dosage_form' => $r->dosage_form,
+                'dosage_strength' => $r->dosage_strength,
+                'unit_measure' => $r->unit_measure,
+                'entity_name' => $r->entity_name,
+                'source_of_funds' => $r->source_of_funds,
+                'unit_cost' => $r->unit_cost,
+                'mode_of_procurement' => $r->mode_of_procurement,
+                'end_user' => $r->end_user,
+            ]);
 
-            if($check) {
-                return redirect()->back()
-                ->with('msg', 'Error: SKU Code already exists in the system.')
-                ->with('msgtype', 'warning');
-            }
-            else {
-                $check2 = PharmacySupply::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-                ->where('id', '!=', $item->id)
-                ->first();
-
-                if($check2) {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Item Name already exists in the system.')
-                    ->with('msgtype', 'warning');
-                }
-                else {
-                    $item->update([
-                        'name' => mb_strtoupper($r->name),
-                        'category' => ($r->filled('category')) ? mb_strtoupper($r->category) : NULL,
-                        'quantity_type' => $r->quantity_type,
-
-                        'sku_code' => mb_strtoupper($r->sku_code),
-                        'po_contract_number' => $r->po_contract_number,
-                        'supplier' => $r->supplier,
-                        'description' => $r->description,
-                        'dosage_form' => $r->dosage_form,
-                        'dosage_strength' => $r->dosage_strength,
-                        'unit_measure' => $r->unit_measure,
-                        'entity_name' => $r->entity_name,
-                        'source_of_funds' => $r->source_of_funds,
-                        'unit_cost' => $r->unit_cost,
-                        'mode_of_procurement' => $r->mode_of_procurement,
-                        'end_user' => $r->end_user,
-
-                        'config_piecePerBox' => $r->config_piecePerBox,
-                    ]);
-
-                    return redirect()->back()
-                    ->with('msg', 'Item Details were updated successfully.')
-                    ->with('msgtype', 'success');
-                }
-            }
+            return redirect()->route('pharmacy_itemlist_viewitem')
+            ->with('msg', 'Details of the Sub-Item was updated successfully.')
+            ->with('msgtype', 'success');
         }
         else {
             return abort(401);
@@ -1076,55 +1048,86 @@ class PharmacyController extends Controller
 
         $list_branch = PharmacyBranch::get();
 
-        //get sub item stocks
+        //TOP FAST MOVING MEDS
+
+        //TOP BRGY
+        
+
+        //STOCKS MASTERLIST
         $list_subitem = PharmacySupplySub::where('pharmacy_branch_id', $selected_branch)
         ->get();
 
         $si_array = [];
 
         foreach($list_subitem as $key => $si) {
-            //loop through months
-
-            $issued_jan = 0;
-            $received_jan = 0;
-            $issued_feb = 0;
-            $received_feb = 0;
-            $issued_mar = 0;
-            $received_mar = 0;
-            $issued_apr = 0;
-            $received_apr = 0;
-            $issued_may = 0;
-            $received_may = 0;
-            $issued_jun = 0;
-            $received_jun = 0;
-            $issued_jul = 0;
-            $received_jul = 0;
-            $issued_aug = 0;
-            $received_aug = 0;
-            $issued_sep = 0;
-            $received_sep = 0;
-            $issued_oct = 0;
-            $received_oct = 0;
-            $issued_nov = 0;
-            $received_nov = 0;
-            $issued_dec = 0;
-            $received_dec = 0;
-
-            $si_array[] = [
+            $items_list[] = [
                 'name' => $si->pharmacysupplymaster->name,
+                'current_stock' => $si->displayQty(),
+                'id' => $si->id,
+            ];
+        }
+
+        foreach($items_list as $item) {
+            $monthlyStocks = [];
+
+            for($i=1;$i<=12;$i++) {
+                $nomonth = Carbon::create()->month($i)->format('m');
+
+                $issued_count = 0;
+
+                $issued_query = PharmacyStockCard::where('subsupply_id', $item['id'])
+                ->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', $nomonth)
+                ->where('status', 'approved')
+                ->where('type', 'ISSUED')
+                ->get();
+
+                foreach($issued_query as $iq) {
+                    $issued_count += $iq->qty_to_process;
+                }
+
+                $received_count = 0;
+
+                $received_query = PharmacyStockCard::where('subsupply_id', $item['id'])
+                ->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', $nomonth)
+                ->where('status', 'approved')
+                ->where('type', 'RECEIVED')
+                ->get();
+
+                foreach($received_query as $rq) {
+                    $received_count += $rq->qty_to_process;
+                }
+
+                $monthlyStocks[] = [
+                    'month' => Carbon::create()->month($i)->format('F'),
+                    'issued' => $issued_count,
+                    'received' => $received_count,
+                ];
+            }
+
+            $result[] = [
+                'name' => $item['name'],
+                'id' => $item['id'],
+                'current_stock' => $item['current_stock'],
+                'monthly_stocks' => $monthlyStocks,
             ];
         }
         
-        //get expiration within 3 months
+        //NEAREST EXPIRATION DATES
         $expired_list = PharmacySupplySubStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
         ->where('current_box_stock', '>', 0)
         ->orderBy('expiration_date', 'ASC')
         ->get();
 
+        //GET PATIENT AGE GROUPS / MALE,FEMALE
+
+        //GET PATIENT TOP REASON FOR MEDS
+
         return view('pharmacy.report', [
             'expired_list' => $expired_list,
             'list_branch' => $list_branch,
-            'si_array' => $si_array,
+            'si_array' => $result,
         ]);
     }
 

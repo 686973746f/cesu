@@ -79,4 +79,13 @@ class PharmacySupplySub extends Model
     public function getMasterStock() {
         
     }
+
+    public function ifAuthorizedToUpdate() {
+        if(auth()->user()->isAdminPharmacy() || auth()->user()->pharmacy_branch_id == $this->pharmacy_branch_id) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
