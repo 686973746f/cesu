@@ -988,6 +988,65 @@ class PharmacyController extends Controller
             $d->batch_number = $r->batch_number;
             $d->lot_number = $r->lot_number;
 
+            if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
+                $d->current_box_stock = $r->change_qty_box;
+                $d->current_piece_stock = $r->change_qty_piece;
+                
+                if($d->isDirty('current_box_stock')) {
+                    $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
+
+                    if($d->getOriginal('current_box_stock') > $r->change_qty_box) {
+                        $sb->master_box_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box);
+                        $sb->master_piece_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
+                    }
+                    else {
+                        $sb->master_box_stock += ($r->change_qty_box - $d->getOriginal('current_box_stock'));
+                        $sb->master_piece_stock += ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
+                    }
+
+                    if($sb->isDirty()) {
+                        $sb->save();
+                    }
+                }
+
+                /*
+                if($d->isDirty('current_piece_stock')) {
+                    $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
+
+                    if($d->getOriginal('current_piece_stock') > $r->change_qty_piece) {
+                        $piece_multiplier = ($d->getOriginal('current_piece_stock') - $r->change_qty_piece) * $d->pharmacysupplymaster->config_piecePerBox;
+                        
+                        $sb->master_piece_stock -= ($d->getOriginal('current_piece_stock') - $r->change_qty_piece);
+                    }
+                    else {
+                        $sb->master_piece_stock += ($r->change_qty_piece - $d->getOriginal('current_piece_stock'));
+                    }
+
+                    if($sb->isDirty()) {
+                        $sb->save();
+                    }
+                }
+                */
+            }
+            else {
+                $d->current_piece_stock = $r->change_qty_piece;
+
+                if($d->isDirty('current_piece_stock')) {
+                    $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
+
+                    if($d->getOriginal('current_piece_stock') > $r->change_qty_piece) {
+                        $sb->pharmacysub->master_piece_stock -= ($d->getOriginal('current_piece_stock') - $r->change_qty_piece);
+                    }
+                    else {
+                        $sb->pharmacysub->master_piece_stock += ($r->change_qty_piece - $d->getOriginal('current_piece_stock'));
+                    }
+
+                    if($sb->isDirty()) {
+                        $sb->save();
+                    }
+                }
+            }
+
             if($d->isDirty()) {
                 $d->save();
             }
@@ -1124,7 +1183,7 @@ class PharmacyController extends Controller
             'email' => $r->email,
             'contact_number' => $r->contact_number,
             'contact_number2' => $r->contact_number2,
-            'philhealth' => NULL,
+            'philhealth' => $r->philhealth,
     
             'address_region_code' => $r->address_region_code,
             'address_region_text' => $r->address_region_text,
@@ -1134,8 +1193,8 @@ class PharmacyController extends Controller
             'address_muncity_text' => $r->address_muncity_text,
             'address_brgy_code' => $r->address_brgy_text,
             'address_brgy_text' => $r->address_brgy_text,
-            'address_street' => mb_strtoupper($r->address_street),
-            'address_houseno' => mb_strtoupper($r->address_houseno),
+            'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
+            'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
             
             'concerns_list' => implode(',', $r->concerns_list),
             'qr' => $qr,
@@ -1202,7 +1261,47 @@ class PharmacyController extends Controller
     }
     
     public function updatePatient($id, Request $r) {
+        $d = PharmacyPatient::findOrFail($id);
 
+        if(!(PharmacyPatient::ifDuplicateFoundOnUpdate($d->id, $r->lname, $r->fname, $r->mname, $r->suffix, $r->bdate))) {
+            $d->update([
+                'lname' => mb_strtoupper($r->lname),
+                'fname' => mb_strtoupper($r->fname),
+                'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+                'bdate' => $r->bdate,
+                'gender' => $r->gender,
+                'email' => $r->email,
+                'contact_number' => $r->contact_number,
+                'contact_number2' => $r->contact_number2,
+                'philhealth' => $r->philhealth,
+        
+                'address_region_code' => $r->address_region_code,
+                'address_region_text' => $r->address_region_text,
+                'address_province_code' => $r->address_province_code,
+                'address_province_text' => $r->address_province_text,
+                'address_muncity_code' => $r->address_muncity_code,
+                'address_muncity_text' => $r->address_muncity_text,
+                'address_brgy_code' => $r->address_brgy_text,
+                'address_brgy_text' => $r->address_brgy_text,
+                'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
+                'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+                
+                'concerns_list' => implode(',', $r->concerns_list),
+    
+                'status' => $r->status,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            return redirect()->route('pharmacy_view_patient_list')
+            ->with('msg', 'Patient data was updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Patient data already exists in the server.')
+            ->with('msgtype', 'warning');
+        }
     }
 
     public function modifyStockPatientView($id) {

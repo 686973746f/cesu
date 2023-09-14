@@ -61,7 +61,7 @@
                             @endif
                         </td>
                         <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
-                        <td class="text-center"><small>{{($i->getUpdatedBy()) ? $i->getUpdatedBy() : 'N/A'}}</small></td>
+                        <td class="text-center"><small>{{($i->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : 'N/A'}}</small></td>
                     </tr>
                     @endforeach
                 </tbody>

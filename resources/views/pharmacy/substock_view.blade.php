@@ -48,6 +48,27 @@
                         </div>
                     </div>
                 </div>
+                @if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX')
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="change_qty_box">Current Quantity (in Box)</label>
+                            <input type="number" class="form-control" name="change_qty_box" id="change_qty_box" value="{{old('change_qty_box', $d->current_box_stock)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="change_qty_piece">Current Quantity (in Piece/s)</label>
+                            <input type="number" class="form-control" name="change_qty_piece" id="change_qty_piece" value="{{old('change_qty_piece', $d->current_piece_stock)}}" required>
+                        </div>
+                    </div>
+                </div>
+                @else
+                <div class="form-group">
+                  <label for="change_qty_piece">Current Quantity (in Piece/s)</label>
+                  <input type="number" class="form-control" name="change_qty_piece" id="change_qty_piece" required>
+                </div>
+                @endif
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary btn-block">Submit</button>

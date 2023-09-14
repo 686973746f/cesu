@@ -23,7 +23,7 @@
                                 <td class="bg-light">Date Encoded / By</td>
                                 <td class="text-center">{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}} / {{$d->user->name}}</td>
                                 <td class="bg-light">Date Updated / By</td>
-                                <td class="text-center">{{($d->getUpdatedBy()) ? $d->getUpdatedBy() : 'N/A'}}</td>
+                                <td class="text-center">{{($d->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($d->updated_at)).' / '.$d->getUpdatedBy->name : 'N/A'}}</td>
                             </tr>
                             <tr>
                                 <td class="bg-light">Encoded on Branch</td>
@@ -76,7 +76,7 @@
                             <div class="form-group">
                                 <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
                                 <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $d->bdate)}}">
-                                <small>Age: {{Carbon\Carbon::parse(request()->input('bdate'))->age}}</small>
+                                <small>Age: {{Carbon\Carbon::parse($d->bdate)->age}}</small>
                             </div>
                         </div>
                         <div class="col-md-3">

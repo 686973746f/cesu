@@ -44,6 +44,7 @@ class PharmacyPatient extends Model
         'status_remarks',
 
         'pharmacy_branch_id',
+        'updated_by',
     ];
 
     public function user() {
@@ -152,7 +153,42 @@ class PharmacyPatient extends Model
         if(!is_null($suffix)) {
             $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
 
-            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $suffix)->first();
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+        }
+        else {
+            $check = $check->first();
+        }
+
+        if($check) {
+            return $check;
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public static function ifDuplicateFoundOnUpdate($id, $lname, $fname, $mname, $suffix, $bdate) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+
+        $check = PharmacyPatient::where('id', '!=', $id)
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->whereDate('bdate', $bdate);
+
+        if(!is_null($mname)) {
+            $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
+
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
+        }
+
+        if(!is_null($suffix)) {
+            $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+
+            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
         }
         else {
             $check = $check->first();
