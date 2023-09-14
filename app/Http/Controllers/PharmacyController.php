@@ -1030,39 +1030,82 @@ class PharmacyController extends Controller
                 //CHECK IF HAS ISSUANCE RECORD FIRST
                 $check = PharmacyStockCard::where('receiving_branch_id', $e->id)
                 ->where('status', 'approved')
-                ->where('type', 'ISSUED');
+                ->where('type', 'ISSUED')
+                ->whereYear('created_at', $input_year);
 
                 if($input_type == 'YEARLY') {
-                    $check = $check->whereYear('created_at', $input_year)->first();
+                    $check = $check->first();
                 }
                 else if($input_type == 'QUARTERLY') {
+                    $selected_qtr = request()->input('quarter');
+                    
+                    if($selected_qtr == 1) {
+                        $qtr_date1 = Carbon::parse($input_year.'-01-01')->format('Y-m-d');
+                        $qtr_date2 = Carbon::parse($input_year.'-03-31')->format('Y-m-d');
+                    }
+                    else if($selected_qtr == 2) {
+                        $qtr_date1 = Carbon::parse($input_year.'-04-01')->format('Y-m-d');
+                        $qtr_date2 = Carbon::parse($input_year.'-06-30')->format('Y-m-d');
+                    }
+                    else if($selected_qtr == 3) {
+                        $qtr_date1 = Carbon::parse($input_year.'-07-01')->format('Y-m-d');
+                        $qtr_date2 = Carbon::parse($input_year.'-09-30')->format('Y-m-d');
+                    }
+                    else if($selected_qtr == 4) {
+                        $qtr_date1 = Carbon::parse($input_year.'-10-01')->format('Y-m-d');
+                        $qtr_date2 = Carbon::parse($input_year.'-12-31')->format('Y-m-d');
+                    }
 
+                    $check = $check->whereBetween('created_at', [$qtr_date1, $qtr_date2])->first();
                 }
                 else if($input_type == 'MONTHLY') {
+                    $convert_month = Carbon::create()->month(request()->input('month'))->format('m');
 
+                    $check = $check->whereMonth('created_at', $convert_month)->first();
                 }
                 else if($input_type == 'WEEKLY') {
-
+                    $check = $check->whereRaw('WEEK(created_at) = ?', [request()->input('week')])->first();
                 }
 
                 if($check) {
                     $issued_box_qry = PharmacyStockCard::where('receiving_branch_id', $e->id)
                     ->where('status', 'approved')
                     ->where('type', 'ISSUED')
-                    ->where('qty_type', 'BOX');
+                    ->where('qty_type', 'BOX')
+                    ->whereYear('created_at', $input_year);
 
                     if($input_type == 'YEARLY') {
-                        $issued_box_count = $issued_box_qry->whereYear('created_at', $input_year)
-                        ->sum('qty_to_process');
+                        $issued_box_count = $issued_box_qry->sum('qty_to_process');
                     }
                     else if($input_type == 'QUARTERLY') {
-    
+                        $selected_qtr = request()->input('quarter');
+
+                        if($selected_qtr == 1) {
+                            $qtr_date1 = Carbon::parse($input_year.'-01-01')->format('Y-m-d');
+                            $qtr_date2 = Carbon::parse($input_year.'-03-31')->format('Y-m-d');
+                        }
+                        else if($selected_qtr == 2) {
+                            $qtr_date1 = Carbon::parse($input_year.'-04-01')->format('Y-m-d');
+                            $qtr_date2 = Carbon::parse($input_year.'-06-30')->format('Y-m-d');
+                        }
+                        else if($selected_qtr == 3) {
+                            $qtr_date1 = Carbon::parse($input_year.'-07-01')->format('Y-m-d');
+                            $qtr_date2 = Carbon::parse($input_year.'-09-30')->format('Y-m-d');
+                        }
+                        else if($selected_qtr == 4) {
+                            $qtr_date1 = Carbon::parse($input_year.'-10-01')->format('Y-m-d');
+                            $qtr_date2 = Carbon::parse($input_year.'-12-31')->format('Y-m-d');
+                        }
+
+                        $issued_box_count = $check->whereBetween('created_at', [$qtr_date1, $qtr_date2])->sum('qty_to_process');
                     }
                     else if($input_type == 'MONTHLY') {
-    
+                        $convert_month = Carbon::create()->month(request()->input('month'))->format('m');
+
+                        $issued_box_count = $check->whereMonth('created_at', $convert_month)->sum('qty_to_process');
                     }
                     else if($input_type == 'WEEKLY') {
-    
+                        $issued_box_count = $check->whereRaw('WEEK(created_at) = ?', [request()->input('week')])->sum('qty_to_process');
                     }
 
                     $entities_arr[] = [
