@@ -64,6 +64,14 @@ class PharmacyPatient extends Model
         return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
     }
 
+    public function getPendingCartMain() {
+        return PharmacyCartMain::where('patient_id', $this->id)
+        ->where('status', 'PENDING')
+        ->where('created_by', auth()->user()->id)
+        ->where('branch_id', auth()->user()->pharmacy_branch_id)
+        ->first();
+    }
+
     public function getName() {
         $fullname = $this->lname.", ".$this->fname;
 

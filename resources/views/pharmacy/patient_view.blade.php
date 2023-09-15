@@ -30,7 +30,7 @@
                                 <td class="text-center">{{$d->pharmacybranch->name}}</td>
                                 <td class="bg-light">QR</td>
                                 <td class="text-center">
-                                    <div>{!! QrCode::size(70)->generate($d->qr) !!}</div>
+                                    <div>{!! QrCode::size(70)->generate('PATIENT_'.$d->qr) !!}</div>
                                     <div>{{$d->qr}}</div>
                                     <div>ID: #{{$d->id}}</div>
                                 </td>

@@ -2,52 +2,98 @@
 
 @section('content')
     <div class="container">
-        <form action="" method="GET" id="myForm">
-            <div class="card">
-                <div class="card-header"><b>Issuance of Meds to Patient</b></div>
-                <div class="card-body">
-                    @if(session('msg'))
-                    <div class="alert alert-{{session('msgtype')}}" role="alert">
-                        {{session('msg')}}
+        <div class="row">
+            <div class="col-md-6">
+                <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST" id="myForm">
+                    @csrf
+                    <div class="card">
+                        <div class="card-header"><b>Issuance of Meds to Patient</b></div>
+                        <div class="card-body">
+                            @if(session('msg'))
+                            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                                {{session('msg')}}
+                            </div>
+                            @endif
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-light">Name of Patient</td>
+                                        <td class="text-center"><b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->getName()}}</a></b></td>
+                                        <td class="bg-light">Patient ID</td>
+                                        <td class="text-center">#{{$d->id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light">Age / Sex</td>
+                                        <td class="text-center">{{$d->getAge()}} / {{$d->sg()}}</td>
+                                        <td class="bg-light">Birthdate</td>
+                                        <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div class="form-group">
+                                <label for="">Scan QR of Meds to Issue</label>
+                                <input type="text" class="form-control" name="meds" id="meds" autocomplete="off" autofocus>
+                            </div>
+                            <div class="form-group">
+                              <label for="alt_meds_id">OR Manually Select from Inventory List</label>
+                              <select class="form-control" name="alt_meds_id" id="alt_meds_id">
+                                <option value="" disabled {{(is_null(old('alt_meds_id'))) ? 'selected' : ''}}>Choose...</option>
+                                @foreach($meds_list as $m)
+                                <option value="{{$m->pharmacysupplymaster->sku_code}}">{{$m->pharmacysupplymaster->name}}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="type_to_process">Type to Process</label>
+                                      <select class="form-control" name="type_to_process" id="type_to_process" required>
+                                        <option value="PIECE">Piece</option>
+                                        <option value="BOX">Box</option>
+                                      </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="qty">Quantity <span id="qty_span"></span></label>
+                                        <input type="text" class="form-control" name="qty" id="qty" min="1" max="999" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-block">Add</button>
+                        </div>
                     </div>
-                    @endif
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="bg-light">Name of Patient</td>
-                                <td class="text-center"><b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->getName()}}</a></b></td>
-                                <td class="bg-light">Patient ID</td>
-                                <td class="text-center">#{{$d->id}}</td>
-                            </tr>
-                            <tr>
-                                <td class="bg-light">Age / Sex</td>
-                                <td class="text-center">{{$d->getAge()}} / {{$d->sg()}}</td>
-                                <td class="bg-light">Birthdate</td>
-                                <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr>
-                    <div class="form-group">
-                        <label for="">Input or Scan QR of Meds to Issue</label>
-                        <input type="text" class="form-control" name="meds" id="meds" autocomplete="off" autofocus>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                      <label for="alt_meds_id">Or manually select from the Inventory</label>
-                      <select class="form-control" name="alt_meds_id" id="alt_meds_id">
-                        <option value="" disabled {{(is_null(old('alt_meds_id'))) ? 'selected' : ''}}>Choose...</option>
-                        @foreach($meds_list as $m)
-                        <option value="{{$m->pharmacysupplymaster->sku_code}}">{{$m->pharmacysupplymaster->name}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                </div>
+                </form>
             </div>
-        </form>
+            <div class="col-md-6">
+                <form action="">
+                    <div class="card">
+                        <div class="card-header"><b>List</b></div>
+                        <div class="card-body">
+                            @forelse($load_subcart as $c)
+                            <div class="d-flex justify-content-between">
+                                <div>{{$c->pharmacysub->pharmacysupplymaster->name}}</div>
+                                <div>
+                                    {{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}
+                                    <a href="" class="btn btn-danger btn-sm ml-2">X</a>
+                                </div>
+                            </div>
+                            <hr>
+                            @empty
+                            <h6 class="text-center">Cart is still empty.</h6>
+                            @endforelse
+                        </div>
+                        <div class="card-footer text-right">
+                            <button type="submit" class="btn btn-success" {{(!($load_cart->pharmacycartsub())) ? 'disabled' : ''}}>Process</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -68,5 +114,15 @@
                 }
             });
         });
+
+        $('#type_to_process').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'PIECE') {
+                $('#qty_span').text('(in Pieces)');
+            }
+            else {
+                $('#qty_span').text('(in Boxes)');
+            }
+        }).trigger('change');
     </script>
 @endsection

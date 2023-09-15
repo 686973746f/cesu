@@ -28,7 +28,7 @@
                 @endif
                 <form action="{{route('pharmacy_modify_qr')}}" method="GET">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search Patient ID | SKU Code | Meds QR" name="code" id="code" autocomplete="off" required autofocus>
+                        <input type="text" class="form-control" placeholder="Search Patient ID | SKU Code | Meds QR" name="code" id="code" required autofocus>
                         <div class="input-group-append">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-search mr-2" aria-hidden="true"></i>Search</button>
                         </div>

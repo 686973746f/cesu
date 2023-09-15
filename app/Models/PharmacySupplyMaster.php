@@ -18,6 +18,10 @@ class PharmacySupplyMaster extends Model
         'quantity_type',
         'config_piecePerBox',
 
+        'maxbox_perduration',
+        'maxpiece_perduration',
+        'duration_days',
+
         'created_by',
     ];
 

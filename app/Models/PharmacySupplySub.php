@@ -32,6 +32,10 @@ class PharmacySupplySub extends Model
         'master_box_stock',
         'master_piece_stock',
 
+        'self_maxbox_perduration',
+        'self_maxpiece_perduration',
+        'self_duration_days',
+
         'created_by',
     ];
 

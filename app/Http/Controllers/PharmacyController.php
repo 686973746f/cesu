@@ -7,6 +7,8 @@ use App\Models\Brgy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PharmacyBranch;
+use App\Models\PharmacyCartMain;
+use App\Models\PharmacyCartSub;
 use App\Models\PharmacySupply;
 use App\Models\PharmacyPatient;
 use App\Models\PharmacyStockLog;
@@ -246,6 +248,116 @@ class PharmacyController extends Controller
         else {
             return abort(401);
         }
+    }
+
+    public function addCartItem($patient_id, Request $r) {
+        $get_patient = PharmacyPatient::findOrFail($patient_id);
+
+        if($r->meds) {
+            $sku_code = $r->meds;
+        }
+        else {
+            $sku_code = $r->alt_meds_id;
+        }
+
+        $find_substock = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($sku_code) {
+            $q->where('sku_code', $sku_code);
+        })
+        ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+        ->first();
+
+        if($find_substock) {
+            //search if substock exist in the subcart
+            $subcart_search = PharmacyCartSub::where('main_cart_id', $get_patient->getPendingCartMain()->id)
+            ->where('subsupply_id', $find_substock->id)
+            ->first();
+
+            if($subcart_search) {
+                return redirect()->back()
+                ->with('msg', 'Error: Medicine '.$find_substock->pharmacysupplymaster->name.' already exists in the list.')
+                ->with('msgtype', 'warning');
+            }
+
+            if($find_substock->pharmacysupplymaster->quantity_type == 'PIECE' && $r->type_to_process == 'BOX') {
+                return redirect()->back()
+                ->with('msg', 'Error: Meds '.$find_substock->pharmacysupplymaster->name.' only allows issuance type by PIECE.')
+                ->with('msgtype', 'warning');
+            }
+
+            if($r->type_to_process == 'BOX') {
+                if($find_substock->master_box_stock == 0) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Meds '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else {
+                if($find_substock->master_piece_stock == 0) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Meds '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            $create_subcart = PharmacyCartSub::create([
+                'main_cart_id' => $get_patient->getPendingCartMain()->id,
+                'subsupply_id' => $find_substock->id,
+                'qty_to_process' => $r->qty,
+                'type_to_process' => $r->type_to_process,
+            ]);
+
+            return redirect()->back()
+            ->with('msg', 'Meds '.$find_substock->pharmacysupplymaster->name.' added to list successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: SKU Code does not exist in the server. Please double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+    }
+
+    public function processCartItem($patient_id, Request $r) {
+        $d = PharmacyPatient::findOrFail($patient_id);
+
+        $get_maincart = PharmacyCartMain::findOrFail($d->$d->getPendingCartMain()->id);
+
+        $subcart_list = PharmacyCartSub::where('main_cart_id', $get_maincart->id)->get();
+
+        foreach($subcart_list as $sc) {
+            //check if subsupply has enough stocks
+            $subsupply = PharmacySupplySub::findOrFail($sc->subsupply_id);
+
+            if($sc->type_to_process == 'BOX') {
+                if($sc->qty_to_process <= $subsupply->master_box_stock) {
+
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Medicine '.$sc->pharmacysub->pharmacysupplymaster->name.' Box stocks were updated before processing.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else {
+                if($sc->qty_to_process <= $subsupply->master_piece_stock) {
+                    
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Medicine '.$sc->pharmacysub->pharmacysupplymaster->name.' Piece stocks were updated before processing.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            //make stock card
+            $r->user()->pharmacystockcard()->create([
+                
+            ]);
+        }
+
+        return redirect()->route('pharmacy_home')
+        ->with('msg', 'Issuance successfully processed.')
+        ->with('msgtype', 'success');
     }
 
     public function modifyStockView($subsupply_id) {
@@ -1364,6 +1476,34 @@ class PharmacyController extends Controller
     public function modifyStockPatientView($id) {
         $d = PharmacyPatient::findOrFail($id);
 
+        $search_cart = PharmacyCartMain::where('patient_id', $d->id)
+        ->where('status', 'PENDING')
+        ->where('created_by', auth()->user()->id)
+        ->first();
+
+        if($search_cart) {
+            $load_cart = $search_cart;
+        }
+        else {
+            $load_cart = request()->user()->pharmacycartmain()->create([
+                'patient_id' => $d->id,
+                'branch_id' => auth()->user()->pharmacy_branch_id,
+            ]);
+        }
+
+        $load_subcart = PharmacyCartSub::where('main_cart_id', $load_cart->id)->get();
+
+        $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+        ->get();
+
+        return view('pharmacy.modify_stock_patientview', [
+            'd' => $d,
+            'meds_list' => $meds_list,
+            'load_cart' => $load_cart,
+            'load_subcart' => $load_subcart,
+        ]);
+
+        /*
         if(request()->input('meds') || request()->input('alt_meds_id')) {
             if(request()->input('meds')) {
                 $meds = request()->input('meds');
@@ -1433,14 +1573,9 @@ class PharmacyController extends Controller
 
             }
         }
+        */
 
-        $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-        ->get();
-
-        return view('pharmacy.modify_stock_patientview', [
-            'd' => $d,
-            'meds_list' => $meds_list,
-        ]);
+        
     }
 
     public function listBranch() {
