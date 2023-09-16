@@ -39,7 +39,12 @@
 </style>
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Medical Certificate Preview</b></div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div><b>Medical Certificate Preview</b></div>
+                    <div><button type="button" class="btn btn-success" onclick="window.print()"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print <i>(CTRL + P)</i></button></div>
+                </div>
+            </div>
             <div class="card-body" id="divToPrint">
                 <div class="text-center">
                     <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
@@ -78,6 +83,7 @@
                         
                     </div>
                 </div>
+                <h4 class="text-center"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a Healthier</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
                 <hr>
                 <div class="text-center">
                     <h6><b>Office of the City Health Officer</b></h6>

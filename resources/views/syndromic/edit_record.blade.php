@@ -566,9 +566,26 @@
                       </div>
                     </div>
                 </div>
-                <div class="form-group">
-                  <label for="bigmessage">Doctor's Note:</label>
-                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3">{{$d->bigmessage}}</textarea>
+                <div class="card mb-3">
+                  <div class="card-header"><b>Doctor's Note</b></div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="dcnote_assessment">Assessment</label>
+                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3">{{old('dcnote_assessment', $d->dcnote_assessment)}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="dcnote_plan">Plan of Action</label>
+                      <textarea class="form-control" name="dcnote_plan" id="dcnote_plan" rows="3">{{old('dcnote_plan', $d->dcnote_plan)}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
+                      <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3">{{old('dcnote_diagprocedure', $d->dcnote_diagprocedure)}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="rx">RX</label>
+                      <input type="text" class="form-control" name="rx" id="rx" value="{{old('rx', $d->rx)}}">
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -597,7 +614,7 @@
                     <div class="form-group">
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
-                        <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
+                        <option {{(is_null(old('name_of_physician', $d->name_of_physician))) ? 'selected' : ''}}>None</option>
                         @foreach($doclist as $dr)
                         <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
                         @endforeach

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Brgy;
+use App\Models\PharmacyPatient;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -177,7 +178,9 @@ class SyndromicController extends Controller
             $qr = date('Y').'-'.$sc.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT).chr(mt_rand(65, 90)).chr(mt_rand(65, 90));
 
             $search = SyndromicPatient::where('qr', $qr)->first();
-            if(!$search) {
+            $search2 = PharmacyPatient::where('qr', $qr)->first();
+
+            if(!$search && !$search2) {
                 $foundunique = true;
             }
         }
@@ -232,7 +235,7 @@ class SyndromicController extends Controller
 
         if($check) {
             return redirect()->back()
-            ->with('msg', 'ITR already created today for the patient.')
+            ->with('msg', 'Error: Patient ITR Record that was encoded today already exists in the server.')
             ->with('msgtype', 'warning');
         }
         else {
@@ -276,11 +279,17 @@ class SyndromicController extends Controller
         //permission check
         $perm_list = explode(",", auth()->user()->permission_list);
 
+        //GET LAST CHECK UP
+        $lastcheckup = SyndromicRecords::where('syndromic_patient_id', $p->id)
+        ->orderBy('consultation_date', 'DESC')
+        ->first();
+
         if(!$check1) {
             $c = $r->user()->syndromicrecord()->create([
                 'chief_complain' => mb_strtoupper($r->chief_complain),
                 'syndromic_patient_id' => $p->id,
                 'opdno' => $getopd_num,
+                'last_checkup_date' => ($lastcheckup) ? date('Y-m-d', strtotime($lastcheckup->consultation_date)) : NULL,
                 'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,
                 'bloodpressure' => $r->bloodpressure,
@@ -373,7 +382,13 @@ class SyndromicController extends Controller
                 'outcome_recovered_date' => ($r->outcome == 'RECOVERED') ? $r->outcome_recovered_date : NULL,
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
-                'bigmessage' => $r->bigmessage,
+                //'bigmessage' => $r->bigmessage,
+                'dcnote_assessment' => $r->dcnote_assessment,
+                'dcnote_plan' => $r->dcnote_plan,
+                'dcnote_diagprocedure' => $r->dcnote_diagprocedure,
+                'rx' => $r->rx,
+                'remarks' => $r->remarks,
+
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
                 'dru_name'=> SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name,
@@ -392,13 +407,60 @@ class SyndromicController extends Controller
 
                 'qr' => $for_qr,
             ]);
-    
+
+            //Auto Create Pharmacy Account
+            $pharmacy_check = PharmacyPatient::where('itr_id', $p->id)->first();
+            
+            if(!($pharmacy_check)) {
+                $create_pharma = $r->user()->pharmacypatient()->create([
+                    'lname' => $p->lname,
+                    'fname' => $p->fname,
+                    'mname' => $p->mname,
+                    'suffix' => $p->suffix,
+                    'bdate' => $p->bdate,
+                    'gender' => $p->gender,
+                    'email' => $p->email,
+                    'contact_number' => $p->contact_number,
+                    'contact_number2' => $p->contact_number2,
+                    'philhealth' => $p->philhealth,
+            
+                    'address_region_code' => $p->address_region_code,
+                    'address_region_text' => $p->address_region_text,
+                    'address_province_code' => $p->address_province_code,
+                    'address_province_text' => $p->address_province_text,
+                    'address_muncity_code' => $p->address_muncity_code,
+                    'address_muncity_text' => $p->address_muncity_text,
+                    'address_brgy_code' => $p->address_brgy_code,
+                    'address_brgy_text' => $p->address_brgy_text,
+                    'address_street' => $p->address_street,
+                    'address_houseno' => $p->address_houseno,
+                    
+                    'concerns_list' => NULL, //for creation ng pharmacy encoder
+                    'qr' => $p->qr,
+            
+                    'id_file' => NULL,
+                    'selfie_file' => NULL,
+            
+                    'status' => 'ENABLED',
+            
+                    'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+                ]);
+            }
+            else {
+                $create_pharma = PharmacyPatient::findOrFail($pharmacy_check->id);
+            }
+
             return redirect()->route('syndromic_home')
             ->with('msg', 'Record successfully created.')
+            ->with('option_medcert', $c->id)
+            ->with('option_pharmacy', $create_pharma->id)
             ->with('msgtype', 'success');
         }
         else {
-            
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Patient ITR Record that was encoded today already exists in the server.')
+            ->with('msgtype', 'warning');
         }        
     }
 
@@ -711,6 +773,16 @@ class SyndromicController extends Controller
 
     public function viewMedCert($record_id) {
         $d = SyndromicRecords::findOrFail($record_id);
+
+        if($d->medcert_enabled == 0) {
+            $d->medcert_enabled = 1;
+            $d->medcert_generated_date = date('Y-m-d');
+            $d->medcert_validity_date = date('Y-m-d');
+
+            if($d->isDirty()) {
+                $d->save();
+            }
+        }
 
         if(!is_null($d->name_of_physician)) {
             return view('syndromic.view_medcert', ['d' => $d]);

@@ -62,10 +62,10 @@ class PharmacyStockCard extends Model
 
     public function getQtyAndType() {
         if($this->qty_type == 'BOX') {
-            return Str::plural('BOX', $this->qty_to_process);
+            return $this->qty_to_process.' '.Str::plural('BOX', $this->qty_to_process);
         }
         else {
-            return Str::plural('PC', $this->qty_to_process);
+            return $this->qty_to_process.' '. Str::plural('PC', $this->qty_to_process);
         }
     }
 

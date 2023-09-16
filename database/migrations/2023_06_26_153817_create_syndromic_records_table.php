@@ -17,6 +17,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->id();
             $table->foreignId('syndromic_patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             $table->text('opdno');
+            $table->date('last_checkup_date')->nullable();
             $table->dateTime('consultation_date');
             $table->string('chief_complain');
             $table->string('temperature');
@@ -107,7 +108,13 @@ class CreateSyndromicRecordsTable extends Migration
             $table->date('date_admitted')->nullable();
             $table->date('date_released')->nullable();
 
-            $table->text('bigmessage')->nullable();
+            $table->text('dcnote')->nullable();
+            $table->text('dcnote_assessment')->nullable();
+            $table->text('dcnote_plan')->nullable();
+            $table->text('dcnote_diagprocedure')->nullable();
+            $table->text('rx')->nullable();
+            $table->text('remarks')->nullable();
+
             $table->text('name_of_interviewer')->nullable();
             $table->text('name_of_physician')->nullable();
             $table->text('dru_name')->nullable();

@@ -274,27 +274,37 @@ class PharmacyController extends Controller
 
             if($subcart_search) {
                 return redirect()->back()
-                ->with('msg', 'Error: Medicine '.$find_substock->pharmacysupplymaster->name.' already exists in the list.')
+                ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' already exists in the list.')
                 ->with('msgtype', 'warning');
             }
 
             if($find_substock->pharmacysupplymaster->quantity_type == 'PIECE' && $r->type_to_process == 'BOX') {
                 return redirect()->back()
-                ->with('msg', 'Error: Meds '.$find_substock->pharmacysupplymaster->name.' only allows issuance type by PIECE.')
+                ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' only allows issuance type by PIECE.')
                 ->with('msgtype', 'warning');
             }
 
             if($r->type_to_process == 'BOX') {
                 if($find_substock->master_box_stock == 0) {
                     return redirect()->back()
-                    ->with('msg', 'Error: Meds '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                    ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                    ->with('msgtype', 'warning');
+                }
+                else if($r->qty > $find_substock->master_box_stock) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_box_stock.' '.Str::plural('BOX', $find_substock->master_box_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('BOX', $r->qty))
                     ->with('msgtype', 'warning');
                 }
             }
             else {
                 if($find_substock->master_piece_stock == 0) {
                     return redirect()->back()
-                    ->with('msg', 'Error: Meds '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                    ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                    ->with('msgtype', 'warning');
+                }
+                else if($r->qty > $find_substock->master_piece_stock) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_piece_stock.' '.Str::plural('PC', $find_substock->master_piece_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('PC', $r->qty))
                     ->with('msgtype', 'warning');
                 }
             }
@@ -320,44 +330,151 @@ class PharmacyController extends Controller
     public function processCartItem($patient_id, Request $r) {
         $d = PharmacyPatient::findOrFail($patient_id);
 
-        $get_maincart = PharmacyCartMain::findOrFail($d->$d->getPendingCartMain()->id);
+        if($r->submit == 'clear') {
+            $sc = PharmacyCartSub::where('main_cart_id', $d->getPendingCartMain()->id)
+            ->delete();
 
-        $subcart_list = PharmacyCartSub::where('main_cart_id', $get_maincart->id)->get();
-
-        foreach($subcart_list as $sc) {
-            //check if subsupply has enough stocks
-            $subsupply = PharmacySupplySub::findOrFail($sc->subsupply_id);
-
-            if($sc->type_to_process == 'BOX') {
-                if($sc->qty_to_process <= $subsupply->master_box_stock) {
-
-                }
-                else {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Medicine '.$sc->pharmacysub->pharmacysupplymaster->name.' Box stocks were updated before processing.')
-                    ->with('msgtype', 'warning');
-                }
-            }
-            else {
-                if($sc->qty_to_process <= $subsupply->master_piece_stock) {
-                    
-                }
-                else {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Medicine '.$sc->pharmacysub->pharmacysupplymaster->name.' Piece stocks were updated before processing.')
-                    ->with('msgtype', 'warning');
-                }
-            }
-
-            //make stock card
-            $r->user()->pharmacystockcard()->create([
-                
-            ]);
+            return redirect()->back()
+            ->with('msg', 'Cart was reset.')
+            ->with('msgtype', 'success');
         }
+        else if($r->delete) {
+            $sc = PharmacyCartSub::where('main_cart_id', $d->getPendingCartMain()->id)
+            ->where('id', $r->delete)->delete();
 
-        return redirect()->route('pharmacy_home')
-        ->with('msg', 'Issuance successfully processed.')
-        ->with('msgtype', 'success');
+            return redirect()->back()
+            ->with('msg', 'Item removed from cart.')
+            ->with('msgtype', 'success');
+        }
+        else if($r->submit == 'process') {
+            $get_maincart = PharmacyCartMain::findOrFail($d->getPendingCartMain()->id);
+
+            $subcart_list = PharmacyCartSub::where('main_cart_id', $get_maincart->id)->get();
+
+            foreach($subcart_list as $sc) {
+                //check if subsupply has enough stocks
+                $subsupply = PharmacySupplySub::findOrFail($sc->subsupply_id);
+
+                if($sc->type_to_process == 'BOX') {
+                    if($sc->qty_to_process <= $subsupply->master_box_stock) {
+                        $subsupply->master_box_stock -= $sc->qty_to_process;
+                        $subsupply->master_piece_stock -= ($sc->qty_to_process * $sc->pharmacysupplymaster->config_piecePerBox);
+
+                        $qty_remaining = $sc->qty_to_process;
+
+                        $substock_search = PharmacySupplySubStock::where('subsupply_id', $subsupply->id)
+                        ->where('current_box_stock', '!=', 0)
+                        ->orderBy('expiration_date', 'ASC')
+                        ->get();
+
+                        foreach($substock_search as $substock) {
+                            if($qty_remaining != 0) {
+                                if($qty_remaining <= $substock->current_box_stock) {
+                                    $substock->current_box_stock -= $qty_remaining;
+                                    $substock->current_piece_stock -= ($qty_remaining * $substock->pharmacysub->pharmacysupplymaster->config_piecePerBoxconfig_piecePerBox);
+
+                                    $qty_remaining = 0;
+                                }
+                                else {
+                                    $substock->current_box_stock = 0;
+                                    $substock->current_piece_stock = 0;
+
+                                    $qty_remaining -= ($qty_remaining - $substock->getOriginal('current_box_stock'));
+                                }
+
+                                if($substock->isDirty()) {
+                                    $substock->save();
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Medicine '.$sc->pharmacysub->pharmacysupplymaster->name.' Box stocks were updated before processing.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+                    if($sc->qty_to_process <= $subsupply->master_piece_stock) {
+                        $subsupply->master_piece_stock -= $sc->qty_to_process;
+
+                        if($subsupply->pharmacysupplymaster->quantity_type == 'BOX') {
+                            while(($subsupply->master_box_stock * $subsupply->pharmacysupplymaster->config_piecePerBox) > $subsupply->master_piece_stock) {
+                                $subsupply->master_box_stock--;
+                            }
+                        }
+
+                        $qty_remaining = $sc->qty_to_process;
+
+                        $substock_search = PharmacySupplySubStock::where('subsupply_id', $subsupply->id)
+                        ->where('current_piece_stock', '!=', 0)
+                        ->orderBy('expiration_date', 'ASC')
+                        ->get();
+
+                        foreach($substock_search as $substock) {
+                            if($qty_remaining != 0) {
+                                if($qty_remaining <= $substock->current_piece_stock) {
+                                    $substock->current_piece_stock -= $qty_remaining;
+
+                                    if($substock->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
+                                        while(($substock->current_box_stock * $substock->pharmacysub->pharmacysupplymaster->config_piecePerBox) > $substock->current_piece_stock) {
+                                            $substock->current_box_stock--;
+                                        }
+                                    }
+
+                                    $qty_remaining = 0;
+                                }
+                                else {
+                                    $substock->current_piece_stock = 0;
+
+                                    if($substock->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
+                                        $substock->current_box_stock = 0;
+                                    }
+
+                                    $qty_remaining -= ($qty_remaining - $substock->getOriginal('current_box_stock'));
+                                }
+
+                                if($substock->isDirty()) {
+                                    $substock->save();
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Medicine '.$sc->pharmacysub->pharmacysupplymaster->name.' Piece stocks were updated before processing.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+
+                //make stock card
+                $r->user()->pharmacystockcard()->create([
+                    'subsupply_id' => $subsupply->id,
+                    'type' => 'ISSUED',
+                    'before_qty_box' => ($subsupply->pharmacysupplymaster->quantity_type == 'BOX') ? $subsupply->getOriginal('master_box_stock') : NULL,
+                    'before_qty_piece' => $subsupply->getOriginal('master_piece_stock'),
+                    'qty_to_process' => $sc->qty_to_process,
+                    'qty_type' => $sc->type_to_process,
+                    'after_qty_box' => ($subsupply->pharmacysupplymaster->quantity_type == 'BOX') ? $subsupply->master_box_stock : NULL,
+                    'after_qty_piece' => $subsupply->master_piece_stock,
+
+                    'receiving_patient_id' => $d->id,
+                ]);
+
+                if($subsupply->isDirty()) {
+                    $subsupply->save();
+                }
+            }
+            
+            $get_maincart->status = 'COMPLETED';
+            if($get_maincart->isDirty()) {
+                $get_maincart->save();
+            }
+
+            return redirect()->route('pharmacy_home')
+            ->with('msg', 'Issuance successfully processed.')
+            ->with('msgtype', 'success');
+        }
     }
 
     public function modifyStockView($subsupply_id) {

@@ -30,6 +30,10 @@
             Unfortunately, you don't have permission to access the record because it was created by other user on other barangay. You may contact CESU Staff or the Encoder of the record ({{session('p')->user->name}}) to gain rights access for the patient record.
             @endif
         @endif
+        @if(session('option_medcert'))
+        <hr>
+        Options: <a href="{{route('syndromic_view_medcert', session('option_medcert'))}}" class="btn btn-primary">Print Medical Certificate</a> <a href="{{route('pharmacy_print_patient_card', session('option_pharmacy'))}}" class="btn btn-primary">Print Pharmacy Card</a>
+        @endif
     </div>
     @endif
     <div class="card mb-3">

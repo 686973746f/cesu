@@ -43,6 +43,7 @@ class PharmacyPatient extends Model
         'status',
         'status_remarks',
 
+        'itr_id',
         'pharmacy_branch_id',
         'updated_by',
     ];

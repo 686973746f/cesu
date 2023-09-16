@@ -15,6 +15,7 @@ class SyndromicRecords extends Model
     protected $fillable = [
         'syndromic_patient_id',
         'opdno',
+        'last_checkup_date',
         'consultation_date',
         'chief_complain',
         'temperature',
@@ -104,7 +105,13 @@ class SyndromicRecords extends Model
         'date_admitted',
         'date_released',
 
-        'bigmessage',
+        'dcnote',
+        'dcnote_assessment',
+        'dcnote_plan',
+        'dcnote_diagprocedure',
+        'rx',
+        'remarks',
+
         'name_of_interviewer',
         'name_of_physician',
         'dru_name',

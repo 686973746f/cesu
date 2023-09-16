@@ -7,10 +7,10 @@
                 <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST" id="myForm">
                     @csrf
                     <div class="card">
-                        <div class="card-header"><b>Issuance of Meds to Patient</b></div>
+                        <div class="card-header"><b>Issuance of Meds to Patient</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
                         <div class="card-body">
                             @if(session('msg'))
-                            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                            <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                                 {{session('msg')}}
                             </div>
                             @endif
@@ -40,7 +40,7 @@
                               <select class="form-control" name="alt_meds_id" id="alt_meds_id">
                                 <option value="" disabled {{(is_null(old('alt_meds_id'))) ? 'selected' : ''}}>Choose...</option>
                                 @foreach($meds_list as $m)
-                                <option value="{{$m->pharmacysupplymaster->sku_code}}">{{$m->pharmacysupplymaster->name}}</option>
+                                <option value="{{$m->pharmacysupplymaster->sku_code}}">{{$m->pharmacysupplymaster->name}} - {{$m->displayQty()}}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -70,25 +70,34 @@
                 </form>
             </div>
             <div class="col-md-6">
-                <form action="">
+                <form action="{{route('pharmacy_patient_process_cart', $d->id)}}" method="POST">
+                    @csrf
                     <div class="card">
-                        <div class="card-header"><b>List</b></div>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <div><b>Cart</b> ({{$load_subcart->count()}})</div>
+                                <div><button type="submit" class="btn btn-outline-secondary" name="submit" value="clear" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Reset/Clear</button></div>
+                            </div>
+                        </div>
                         <div class="card-body">
                             @forelse($load_subcart as $c)
                             <div class="d-flex justify-content-between">
                                 <div>{{$c->pharmacysub->pharmacysupplymaster->name}}</div>
                                 <div>
                                     {{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}
-                                    <a href="" class="btn btn-danger btn-sm ml-2">X</a>
+                                    <button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button>
                                 </div>
                             </div>
+                            @if(!($loop->last))
                             <hr>
+                            @endif
+                            
                             @empty
                             <h6 class="text-center">Cart is still empty.</h6>
                             @endforelse
                         </div>
                         <div class="card-footer text-right">
-                            <button type="submit" class="btn btn-success" {{(!($load_cart->pharmacycartsub())) ? 'disabled' : ''}}>Process</button>
+                            <button type="submit" name="submit" value="process" class="btn btn-success" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Process</button>
                         </div>
                     </div>
                 </form>

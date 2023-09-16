@@ -69,9 +69,8 @@
                     <div class="form-group">
                       <label for="is_hospitalized"><span class="text-danger font-weight-bold">*</span>Patient was Admitted?</label>
                       <select class="form-control" name="is_hospitalized" id="is_hospitalized" required>
-                        <option disabled {{(is_null(old('is_hospitalized'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('is_hospitalized') == 'Y') ? 'selected' : ''}}>YES</option>
-                        <option value="N" {{(old('is_hospitalized') == 'N') ? 'selected' : ''}}>NO</option>
+                        <option value="N" {{(old('is_hospitalized') == 'N') ? 'selected' : ''}}>No</option>
+                        <option value="Y" {{(old('is_hospitalized') == 'Y') ? 'selected' : ''}}>Yes</option>
                       </select>
                     </div>
                     <div id="if_hospitalized" class="d-none">
@@ -555,17 +554,26 @@
                       </div>
                     </div>
                 </div>
-                <div class="form-group">
-                  <label for="bigmessage">Doctor's Note:</label>
-                  <textarea class="form-control" name="bigmessage" id="bigmessage" rows="3">
-                    Assessment:
-                    
-                    
-                    Plan of Action:
-
-
-                    Diagnostic Procedure:
-                  </textarea>
+                <div class="card mb-3">
+                  <div class="card-header"><b>Doctor's Note</b></div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="dcnote_assessment">Assessment</label>
+                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3">{{old('dcnote_assessment')}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="dcnote_plan">Plan of Action</label>
+                      <textarea class="form-control" name="dcnote_plan" id="dcnote_plan" rows="3">{{old('dcnote_plan')}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
+                      <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3">{{old('dcnote_diagprocedure')}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="rx">RX</label>
+                      <input type="text" class="form-control" name="rx" id="rx" value="{{old('rx')}}">
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -592,15 +600,19 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
-                      <select class="form-control" name="name_of_physician" id="name_of_physician" required>
-                        <option disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
+                      <label for="name_of_physician">Name of Physician</label>
+                      <select class="form-control" name="name_of_physician" id="name_of_physician">
+                        <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @foreach($doclist as $d)
                         <option value="{{$d->doctor_name}}" {{(old('name_of_physician') == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}} ({{$d->dru_name}})</option>
                         @endforeach
                       </select>
                     </div>
                   </div>
+                </div>
+                <div class="form-group">
+                  <label for="remarks">Remarks</label>
+                  <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks')}}">
                 </div>
             </div>
             <div class="card-footer">

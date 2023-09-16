@@ -9,7 +9,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th>Case ID</th>
-                        <th>Case Date</th>
+                        <th>Checkup Date</th>
                         <th>Date Encoded / By</th>
                     </tr>
                 </thead>
