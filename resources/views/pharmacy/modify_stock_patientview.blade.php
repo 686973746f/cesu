@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if(!is_null($d->concerns_list))
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -18,15 +20,19 @@
                                 <tbody>
                                     <tr>
                                         <td class="bg-light">Name of Patient</td>
-                                        <td class="text-center"><b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->getName()}}</a></b></td>
-                                        <td class="bg-light">Patient ID</td>
-                                        <td class="text-center">#{{$d->id}}</td>
-                                    </tr>
-                                    <tr>
+                                        <td class="text-center"><b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->getName()}} <small>(#{{$d->id}})</small></a></b></td>
                                         <td class="bg-light">Age / Sex</td>
                                         <td class="text-center">{{$d->getAge()}} / {{$d->sg()}}</td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light">Birthdate</td>
                                         <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}}</td>
+                                        <td class="bg-light">Barangay</td>
+                                        <td class="text-center">{{$d->address_brgy_text}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light">Requesting Meds for</td>
+                                        <td class="text-center" colspan="3">{{$d->concerns_list}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -64,7 +70,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-block">Add</button>
+                            <button type="submit" class="btn btn-primary btn-block" name="submit" name="add_cart">Add</button>
                         </div>
                     </div>
                 </form>
@@ -134,4 +140,83 @@
             }
         }).trigger('change');
     </script>
+@else
+<div class="container">
+    <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST" id="myForm">
+        @csrf
+        <div class="card">
+            <div class="card-header"><b>Initialize Patient Record</b></div>
+            <div class="card-body">
+                <div class="alert alert-info text-center" role="alert">
+                    This is the Patient's <b>first time</b> on requesting Medicine at Pharmacy. Please specify the following to initialize the patient record before issuing medicines.
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <td class="bg-light">Name of Patient / ID</td>
+                        <td class="text-center"><b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->getName()}} <small>(#{{$d->id}})</small></a></b></td>
+                        <td class="bg-light">Age / Sex</td>
+                        <td class="text-center">{{$d->getAge()}} / {{$d->sg()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Birthdate</td>
+                        <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}}</td>
+                        <td class="bg-light">Barangay</td>
+                        <td class="text-center">{{$d->address_brgy_text}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Date of Consultation</td>
+                        <td class="text-center">{{date('m/d/Y', strtotime($d->getLatestItr()->consultation_date))}}</td>
+                        <td class="bg-light">Chief Complain</td>
+                        <td class="text-center">{{$d->getLatestItr()->chief_complain}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">Diagnosis</td>
+                        <td class="text-center" colspan="3">{{$d->getLatestItr()->dcnote_diagprocedure}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-light">RX</td>
+                        <td class="text-center" colspan="3">{{$d->getLatestItr()->rx}}</td>
+                    </tr>
+                </table>
+                <hr>
+                <div class="form-group">
+                    <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Meds for <i>(Select all that apply)</i></label>
+                    <select class="form-control" name="concerns_list[]" id="concerns_list" multiple required>
+                      <option value="ACCIDENT/INJURIES/WOUNDS">ACCIDENT/INJURIES/WOUNDS</option>
+                      <option value="CHILDREN">CHILDREN</option>
+                      <option value="COLDS">COLDS</option>
+                      <option value="DIABETES">DIABETES</option>
+                      <option value="DERMA/SKIN PROBLEM">DERMA/SKIN PROBLEM</option>
+                      <option value="FAMILY PLANNING">FAMILY PLANNING</option>
+                      <option value="FEVER/HEADACHE">FEVER/HEADACHE</option>
+                      <option value="HYPERTENSION/HEART/HIGH CHOLESTEROL">HYPERTENSION/HEART/HIGH CHOLESTEROL</option>
+                      <option value="IMMUNE DEFICIENCY">IMMUNE DEFICIENCY</option>
+                      <option value="IMMUNIZATION">IMMUNIZATION</option>
+                      <option value="KIDNEY PROBLEM">KIDNEY PROBLEM</option>
+                      <option value="LIVER PROBLEM">LIVER PROBLEM</option>
+                      <option value="MENTAL HEALTH">MENTAL HEALTH</option>
+                      <option value="MICROBIAL INFECTIONS">MICROBIAL INFECTIONS</option>
+                      <option value="MILD/SEVERE PAIN">MILD/SEVERE PAIN</option>
+                      <option value="MUSCLE PROBLEM">MUSCLE PROBLEM</option>
+                      <option value="NERVES PROBLEM">NERVES PROBLEM</option>
+                      <option value="RESPIRATORY PROBLEM">RESPIRATORY PROBLEM</option>
+                      <option value="TB-DOTS">TB-DOTS</option>
+                      <option value="WOMEN">WOMEN</option>
+                      <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-success btn-block" name="submit" value="submit_changes">Submit Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $('#concerns_list').select2({
+        theme: 'bootstrap',
+    });
+</script>
+@endif
 @endsection

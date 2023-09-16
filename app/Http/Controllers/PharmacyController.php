@@ -253,78 +253,95 @@ class PharmacyController extends Controller
     public function addCartItem($patient_id, Request $r) {
         $get_patient = PharmacyPatient::findOrFail($patient_id);
 
-        if($r->meds) {
-            $sku_code = $r->meds;
-        }
-        else {
-            $sku_code = $r->alt_meds_id;
-        }
+        if($r->submit == 'submit_changes') {
+            $get_patient->concerns_list = implode(',', $r->concerns_list);
 
-        $find_substock = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($sku_code) {
-            $q->where('sku_code', $sku_code);
-        })
-        ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-        ->first();
+            if($get_patient->isDirty()) {
+                $get_patient->updated_by = auth()->user()->id;
 
-        if($find_substock) {
-            //search if substock exist in the subcart
-            $subcart_search = PharmacyCartSub::where('main_cart_id', $get_patient->getPendingCartMain()->id)
-            ->where('subsupply_id', $find_substock->id)
-            ->first();
-
-            if($subcart_search) {
-                return redirect()->back()
-                ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' already exists in the list.')
-                ->with('msgtype', 'warning');
+                $get_patient->save();
             }
-
-            if($find_substock->pharmacysupplymaster->quantity_type == 'PIECE' && $r->type_to_process == 'BOX') {
-                return redirect()->back()
-                ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' only allows issuance type by PIECE.')
-                ->with('msgtype', 'warning');
-            }
-
-            if($r->type_to_process == 'BOX') {
-                if($find_substock->master_box_stock == 0) {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
-                    ->with('msgtype', 'warning');
-                }
-                else if($r->qty > $find_substock->master_box_stock) {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_box_stock.' '.Str::plural('BOX', $find_substock->master_box_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('BOX', $r->qty))
-                    ->with('msgtype', 'warning');
-                }
-            }
-            else {
-                if($find_substock->master_piece_stock == 0) {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
-                    ->with('msgtype', 'warning');
-                }
-                else if($r->qty > $find_substock->master_piece_stock) {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_piece_stock.' '.Str::plural('PC', $find_substock->master_piece_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('PC', $r->qty))
-                    ->with('msgtype', 'warning');
-                }
-            }
-
-            $create_subcart = PharmacyCartSub::create([
-                'main_cart_id' => $get_patient->getPendingCartMain()->id,
-                'subsupply_id' => $find_substock->id,
-                'qty_to_process' => $r->qty,
-                'type_to_process' => $r->type_to_process,
-            ]);
 
             return redirect()->back()
-            ->with('msg', 'Meds '.$find_substock->pharmacysupplymaster->name.' added to list successfully.')
+            ->with('msg', 'Patient data was initialized successfully. You may now input medicine/s for issuing to the patient.')
             ->with('msgtype', 'success');
         }
-        else {
-            return redirect()->back()
-            ->with('msg', 'Error: SKU Code does not exist in the server. Please double check and try again.')
-            ->with('msgtype', 'warning');
+        else if($r->submit == 'add_cart') {
+            if($r->meds) {
+                $sku_code = $r->meds;
+            }
+            else {
+                $sku_code = $r->alt_meds_id;
+            }
+    
+            $find_substock = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($sku_code) {
+                $q->where('sku_code', $sku_code);
+            })
+            ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->first();
+    
+            if($find_substock) {
+                //search if substock exist in the subcart
+                $subcart_search = PharmacyCartSub::where('main_cart_id', $get_patient->getPendingCartMain()->id)
+                ->where('subsupply_id', $find_substock->id)
+                ->first();
+    
+                if($subcart_search) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' already exists in the list.')
+                    ->with('msgtype', 'warning');
+                }
+    
+                if($find_substock->pharmacysupplymaster->quantity_type == 'PIECE' && $r->type_to_process == 'BOX') {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' only allows issuance type by PIECE.')
+                    ->with('msgtype', 'warning');
+                }
+    
+                if($r->type_to_process == 'BOX') {
+                    if($find_substock->master_box_stock == 0) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                        ->with('msgtype', 'warning');
+                    }
+                    else if($r->qty > $find_substock->master_box_stock) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_box_stock.' '.Str::plural('BOX', $find_substock->master_box_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('BOX', $r->qty))
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+                    if($find_substock->master_piece_stock == 0) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
+                        ->with('msgtype', 'warning');
+                    }
+                    else if($r->qty > $find_substock->master_piece_stock) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_piece_stock.' '.Str::plural('PC', $find_substock->master_piece_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('PC', $r->qty))
+                        ->with('msgtype', 'warning');
+                    }
+                }
+    
+                $create_subcart = PharmacyCartSub::create([
+                    'main_cart_id' => $get_patient->getPendingCartMain()->id,
+                    'subsupply_id' => $find_substock->id,
+                    'qty_to_process' => $r->qty,
+                    'type_to_process' => $r->type_to_process,
+                ]);
+    
+                return redirect()->back()
+                ->with('msg', 'Meds '.$find_substock->pharmacysupplymaster->name.' added to list successfully.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'Error: SKU Code does not exist in the server. Please double check and try again.')
+                ->with('msgtype', 'warning');
+            }
         }
+
+       
     }
 
     public function processCartItem($patient_id, Request $r) {

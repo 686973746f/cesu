@@ -442,7 +442,8 @@ class SyndromicController extends Controller
                     'selfie_file' => NULL,
             
                     'status' => 'ENABLED',
-            
+                    
+                    'itr_id' => $p->id,
                     'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
             }

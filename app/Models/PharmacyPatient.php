@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\SyndromicRecords;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -205,6 +206,19 @@ class PharmacyPatient extends Model
 
         if($check) {
             return $check;
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public function getLatestItr() {
+        $s = SyndromicRecords::where('syndromic_patient_id', $this->itr_id)
+        ->orderBy('created_at', 'DESC')
+        ->first();
+
+        if($s) {
+            return $s;
         }
         else {
             return NULL;
