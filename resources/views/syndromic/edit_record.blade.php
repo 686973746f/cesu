@@ -4,8 +4,10 @@
 <div class="container">
   <div class="text-right mb-3">
     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
-    @if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
+    @if($d->outcome != 'DIED')
+      @if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
+      @endif
     @endif
   </div>
     <form action="{{route('syndromic_updateRecord', $d->id)}}" method="POST">
@@ -652,6 +654,7 @@
         </div>
     </form>
 </div>
+@if($d->outcome != 'DIED')
 @if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
 <form action="{{route('syndromic_generate_medcert', $d->id)}}" method="POST">
   @csrf
@@ -667,34 +670,40 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="medcert_generated_date"><span class="text-danger font-weight-bold">*</span>Date</label>
-            <input type="date" class="form-control" value="{{old('medcert_generated_date', date('Y-m-d'))}}" name="medcert_generated_date" id="medcert_generated_date" max="{{date('Y-m-d')}}" required>
+            <input type="date" class="form-control" value="{{old('medcert_generated_date', ($d->medcert_enabled == 0) ? date('Y-m-d') : $d->medcert_generated_date)}}" name="medcert_generated_date" id="medcert_generated_date" max="{{date('Y-m-d')}}" required>
           </div>
           <div class="form-group">
             <label for="medcert_validity_date"><span class="text-danger font-weight-bold">*</span>Effectivity Date</label>
-            <input type="date" class="form-control" value="{{old('medcert_validity_date', date('Y-m-d'))}}" name="medcert_validity_date" id="medcert_validity_date" min="{{date('Y-m-d')}}" max="{{'12-31-'.date('Y')}}" required>
+            <input type="date" class="form-control" value="{{old('medcert_validity_date', ($d->medcert_enabled == 0) ? date('Y-m-d') : $d->medcert_validity_date)}}" name="medcert_validity_date" id="medcert_validity_date" min="{{date('Y-m-d')}}" max="{{'12-31-'.date('Y')}}" required>
           </div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="medcert_start_date">Start Date (From)</label>
-                <input type="date" class="form-control" value="{{old('medcert_start_date')}}" name="medcert_start_date" id="medcert_start_date" max="{{date('Y-m-d')}}">
+                <input type="date" class="form-control" value="{{old('medcert_start_date', $d->medcert_start_date)}}" name="medcert_start_date" id="medcert_start_date" max="{{date('Y-m-d')}}">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="medcert_end_date">End Date (To)</label>
-                <input type="date" class="form-control" value="{{old('medcert_end_date')}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-d')}}">
+                <input type="date" class="form-control" value="{{old('medcert_end_date', $d->medcert_end_date)}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-d')}}">
               </div>
             </div>
           </div>
+          @if($d->outcome != 'RECOVERED')
+          <div class="alert alert-info" role="alert">
+            <b class="text-danger">Note:</b> Generating MedCert will mark the Patient as <b class="text-success">Recovered.</b>
+          </div>
+          @endif
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary btn-block">Generate</button>
         </div>
       </div>
     </div>
   </div>
 </form>
+@endif
 @endif
 
 <script>

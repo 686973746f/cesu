@@ -756,10 +756,13 @@ class SyndromicController extends Controller
 
     public function generateMedCert($record_id, Request $r) {
         $d = SyndromicRecords::findOrFail($record_id);
-
+        
         $d->medcert_enabled = 1;
         $d->medcert_generated_date = $r->medcert_generated_date;
         $d->medcert_validity_date = $r->medcert_validity_date;
+        $d->outcome = 'RECOVERED';
+        $d->outcome_recovered_date = $r->medcert_validity_date;
+
         if($r->filled('medcert_start_date') && $r->filled('medcert_end_date')) {
             $d->medcert_start_date = $r->medcert_start_date;
             $d->medcert_end_date = $r->medcert_end_date;
@@ -779,6 +782,8 @@ class SyndromicController extends Controller
             $d->medcert_enabled = 1;
             $d->medcert_generated_date = date('Y-m-d');
             $d->medcert_validity_date = date('Y-m-d');
+            $d->outcome = 'RECOVERED';
+            $d->outcome_recovered_date = date('Y-m-d');
 
             if($d->isDirty()) {
                 $d->save();

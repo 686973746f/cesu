@@ -24,6 +24,9 @@ use PhpOffice\PhpWord\TemplateProcessor;
 PERMISSION LIST
 PHARMACY_ADMIN
 PHARMACY_ENCODER
+
+PHARMACY_BRGY_ADMIN
+PHARMACY_BRGY_ENCODER
 */
 
 class PharmacyController extends Controller
@@ -105,71 +108,6 @@ class PharmacyController extends Controller
             ->with('msg', 'Error: Master Item already exists in the database. Please double check the Item Name and SKU Code.')
             ->with('msgtype', 'warning');
         }   
-    }
-
-    public function addSubItem($master_id, Request $r) {
-
-        /*
-        $check = PharmacySupply::where('sku_code', mb_strtoupper($r->sku_code))
-        ->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-        ->first();
-
-        if(!($check)) {
-            $add = $r->user()->pharmacysupply()->create([
-                'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
-                'name' => mb_strtoupper($r->name),
-                'category' => $r->category,
-                'quantity_type' => $r->quantity_type,
-    
-                'sku_code' => mb_strtoupper($r->sku_code),
-                'po_contract_number' => $r->po_contract_number,
-                'supplier' => $r->supplier,
-                'description' => $r->description,
-                'dosage_form' => $r->dosage_form,
-                'dosage_strength' => $r->dosage_strength,
-                'unit_measure' => $r->unit_measure,
-                'entity_name' => $r->entity_name,
-                'source_of_funds' => $r->source_of_funds,
-                'unit_cost' => $r->unit_cost,
-                'mode_of_procurement' => $r->mode_of_procurement,
-                'end_user' => $r->end_user,
-    
-                'config_piecePerBox' => $r->config_piecePerBox,
-                'master_box_stock' => $r->supply_base_stock,
-                'master_piece_stock' => ($r->filled('config_piecePerBox')) ? ($r->config_piecePerBox * $r->supply_base_stock) : NULL,
-            ]);
-    
-            $add_stock = $r->user()->pharmacysupplystock()->create([
-                'supply_id' => $add->id,
-                'expiration_date' => $r->expiration_date,
-    
-                'current_box_stock' => $r->supply_base_stock,
-                'current_piece_stock' => ($r->filled('config_piecePerBox')) ? ($r->config_piecePerBox * $r->supply_base_stock) : NULL,
-            ]);
-
-            $add_stock_card = $r->user()->pharmacystockcard()->create([
-                'supply_id' => $add->id,
-                'type' => 'RECEIVED',
-                'before_qty' => 0,
-                'qty_to_process' => $r->supply_base_stock,
-                'after_qty' => $r->supply_base_stock,
-                'total_cost' => NULL,
-                'drsi_number'=> NULL,
-
-                'recipient' => NULL,
-                'remarks'=> NULL,
-            ]);
-
-            return redirect()->route('pharmacy_itemlist')
-            ->with('msg', 'Item ['.$r->name.'] was successfully added.')
-            ->with('msgtype', 'success');
-        }
-        else {
-            return redirect()->back()
-            ->with('msg', 'Error: Item already exists in the database.')
-            ->with('msgtype', 'warning');
-        }
-        */
     }
 
     public function modifyStockQr() {
