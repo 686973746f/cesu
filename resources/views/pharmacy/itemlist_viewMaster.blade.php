@@ -82,6 +82,32 @@
                         </div>
                     </div>
                 </div>
+                <hr>
+                <div class="card">
+                    <div class="card-header">Restriction Duration Settings for Patients</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="duration_days">Duration of Reset in Days <i>(Leave Blank if Not Applicable)</i></label>
+                                    <input type="duration_days" class="form-control" name="duration_days" id="duration_days" min="1" value="{{old('duration_days', $d->duration_days)}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                @if($d->quantity_type == 'BOX')
+                                <div class="form-group">
+                                    <label for="maxbox_perduration">Maximum Amount of BOXES to Request after Duration Reset <i>(Leave Blank if Not Applicable)</i></label>
+                                    <input type="duration_days" class="form-control" name="maxbox_perduration" id="maxbox_perduration" min="1" value="{{old('maxbox_perduration', $d->maxbox_perduration)}}">
+                                </div>
+                                @endif
+                                <div class="form-group">
+                                    <label for="name">Maximum Amount of PIECES to Request after Duration Reset <i>(Leave Blank if Empty)</i></label>
+                                    <input type="maxpiece_perduration" class="form-control" name="maxpiece_perduration" id="maxpiece_perduration" min="1" value="{{old('maxpiece_perduration', $d->maxpiece_perduration)}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success btn-block">Update</button>

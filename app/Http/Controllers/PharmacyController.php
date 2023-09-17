@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangayHealthStation;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use Illuminate\Support\Str;
@@ -1662,9 +1663,7 @@ class PharmacyController extends Controller
             ->paginate(10);
         }
 
-        $list_brgy = Brgy::where('city_id', 1)
-        ->where('displayInList', 1)
-        ->get();
+        $list_brgy = BarangayHealthStation::get();
         
         return view('pharmacy.branches_list', [
             'list' => $list,
@@ -1676,6 +1675,14 @@ class PharmacyController extends Controller
         $s = PharmacyBranch::where('name', mb_strtoupper($r->name))->first();
 
         if(!($s)) {
+            $bs = PharmacyBranch::where('if_bhs_id', $r->if_bhs_id)->first();
+            if($bs) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: Only 1 Pharmacy Branch/Entity Only per BHS.')
+                ->with('msgtype', 'warning');
+            }
+
             $c = $r->user()->createpharmacybranch()->create([
                 'name' => mb_strtoupper($r->name),
                 'focal_person' => $r->filled('focal_person') ? mb_strtoupper($r->focal_person) : NULL,
@@ -1700,21 +1707,45 @@ class PharmacyController extends Controller
     public function viewBranch($id) {
         $d = PharmacyBranch::findOrFail($id);
 
+        $bhs_list = BarangayHealthStation::get();
+
         return view('pharmacy.branches_view', [
             'd' => $d,
+            'bhs_list' => $bhs_list,
         ]);
     }
 
     public function updateBranch($id, Request $r) {
         $d = PharmacyBranch::findOrFail($id);
 
-        $search = PharmacyBranch::where('name', mb_strtoupper($r->name))
+        $search = PharmacyBranch::where('id', '!=', $d->id)
+        ->where('name', mb_strtoupper($r->name))
         ->first();
 
         if(!($search)) {
+            if($r->filled('if_bhs_id')) {
+                $bhs_search = PharmacyBranch::where('id', '!=', $d->id)
+                ->where('if_bhs_id', $r->if_bhs_id)
+                ->first();
+
+                if($bhs_search) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Only 1 Pharmacy Branch/Entity Only per BHS.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
             $d->name = mb_strtoupper($r->name);
-            $d->focal_person = ($r->filled('focal_person')) ? $r->focal_person : NULL;
-            $d->focal_person = ($r->filled('contact_number')) ? $r->contact_number : NULL;
+            $d->focal_person = ($r->filled('focal_person')) ? mb_strtoupper($r->focal_person) : NULL;
+            $d->contact_number = ($r->filled('contact_number')) ? $r->contact_number : NULL;
+            $d->description = ($r->filled('description')) ? mb_strtoupper($r->description) : NULL;
+            $d->level = $r->level;
+            $d->if_bhs_id = ($r->filled('if_bhs_id')) ? $r->if_bhs_id : NULL;
+            $d->updated_by = auth()->user()->id;
+
+            if($d->isDirty()) {
+                $d->save();
+            }
 
             return redirect()->route('pharmacy_list_branch')
             ->with('msg', 'Pharmacy Branch (ID: #'.$d->id.') was updated successfully.')

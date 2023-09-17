@@ -48,7 +48,7 @@
                                 <td class="text-center">{{($i->focal_person) ? $i->focal_person : 'N/A'}}</td>
                                 <td class="text-center">{{($i->contact_number) ? $i->contact_number : 'N/A'}}</td>
                                 <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
-                                <td class="text-center"><small>{{($i->getUpdatedBy()) ? $i->getUpdatedBy() : 'N/A'}}</small></td>
+                                <td class="text-center"><small>{{($i->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : 'N/A'}}</small></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -75,30 +75,30 @@
                     <div class="modal-body">
                         <div class="form-group">
                           <label for="name"><b class="text-danger">*</b>Name</label>
-                          <input type="text" class="form-control" name="name" id="name" style="text-transform: uppercase;" required>
+                          <input type="text" class="form-control" name="name" id="name" style="text-transform: uppercase;" value="{{old('name')}}" required>
                         </div>
                         <div class="form-group">
                           <label for="name">Focal Person</label>
-                          <input type="text" class="form-control" name="focal_person" id="focal_person" style="text-transform: uppercase;">
+                          <input type="text" class="form-control" name="focal_person" id="focal_person" style="text-transform: uppercase;" value="{{old('focal_person')}}">
                         </div>
                         <div class="form-group">
                           <label for="contact_number">Contact Number</label>
-                          <input type="text" class="form-control" name="contact_number" id="contact_number" pattern="[0-9]{11}">
+                          <input type="text" class="form-control" name="contact_number" id="contact_number" pattern="[0-9]{11}" value="{{old('contact_number')}}">
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <input type="text" class="form-control" name="description" id="description" style="text-transform: uppercase;">
+                            <input type="text" class="form-control" name="description" id="description" style="text-transform: uppercase;" value="{{old('description')}}">
                           </div>
                         <div class="form-group">
                           <label for="level"><b class="text-danger">*</b>Level</label>
                           <select class="form-control" name="level" id="level" required>
-                            <option value="1">1 (Main Entity)</option>
-                            <option value="2">2 (Sub Entity)</option>
+                            <option value="1" {{(old('level') == 1) ? 'selected' : ''}}>1 (Main Entity)</option>
+                            <option value="2" {{(old('level') == 2) ? 'selected' : ''}}>2 (Sub Entity)</option>
                           </select>
                         </div>
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="if_bhs" id="if_bhs" value="1">Check if Branch is BHS
+                            <input type="checkbox" class="form-check-input" name="if_bhs" id="if_bhs" value="1" {{(old('if_bhs')) ? 'checked' : ''}}>Check if Branch is BHS
                           </label>
                         </div>
                         <div class="form-group d-none mt-2" id="div_bhs">
@@ -106,7 +106,7 @@
                           <select class="form-control" name="if_bhs_id" id="if_bhs_id">
                             <option value="" disabled {{!(old('if_bhs_id')) ? 'selected' : ''}}>Choose...</option>
                             @foreach($list_brgy as $b)
-                            <option value="{{$b->id}}">{{$b->brgyName}}</option>
+                            <option value="{{$b->id}}" {{(old('if_bhs_id') == $b->id) ? 'selected' : ''}}>{{$b->name}}</option>
                             @endforeach
                           </select>
                         </div>

@@ -92,4 +92,65 @@ class PharmacySupplySub extends Model
             return false;
         }
     }
+
+    public function ifHasStock() {
+        if($this->pharmacysupplymaster->quantity_type == 'BOX') {
+            if($this->master_box_stock != 0 || $this->master_piece_stock != 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            if($this->master_piece_stock != 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    public function ifPatientCanIssueMedsBasedOnDuration($patient_id, $selected_qty_type) {
+        if($this->self_duration_days) {
+            $duration_days = $this->self_duration_days;
+        }
+        else {
+            $duration_days = $this->pharmacysupplymaster->duration_days;
+        }
+
+        if($duration_days) {
+            if($selected_qty_type == 'BOX') {
+                if($this->self_maxbox_perduration) {
+                    $src_stockcard = PharmacyStockCard::where('receiving_patient_id', $patient_id)
+                    ->where('type', 'ISSUED')
+                    ->where('qty_type', 'BOX')
+                    ->whereHas('pharmacysub', function ($q) {
+                        $q->whereHas('pharmacysupplymaster', function ($r) {
+                            $r->where('sku_code', $this->pharmacysupplymaster->sku_code);
+                        });
+                    })
+                    ->sum('qty_to_process');
+                }
+                else if($this->pharmacysupplymaster->maxbox_perduration) {
+
+                }
+                else {
+                    return true;
+                }
+            }
+            else {
+                if($this->pharmacysupplymaster->quantity_type == 'BOX') {
+
+                }
+                else {
+
+                }
+            }
+        }
+        else {
+            return true;
+        }
+    }
 }

@@ -46,7 +46,7 @@
                               <select class="form-control" name="alt_meds_id" id="alt_meds_id">
                                 <option value="" disabled {{(is_null(old('alt_meds_id'))) ? 'selected' : ''}}>Choose...</option>
                                 @foreach($meds_list as $m)
-                                <option value="{{$m->pharmacysupplymaster->sku_code}}">{{$m->pharmacysupplymaster->name}} - {{$m->displayQty()}}</option>
+                                <option value="{{$m->pharmacysupplymaster->sku_code}}" {{(!($m->ifHasStock())) ? 'disabled' : ''}}>{{$m->pharmacysupplymaster->name}} - {{$m->displayQty()}} {{(!($m->ifHasStock())) ? '- NO STOCK' : ''}}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-block" name="submit" name="add_cart">Add</button>
+                            <button type="submit" class="btn btn-primary btn-block" name="submit" value="add_cart">Add</button>
                         </div>
                     </div>
                 </form>
