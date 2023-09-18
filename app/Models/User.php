@@ -21,6 +21,43 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/*
+GLOBAL_ADMIN
+
+CESU_ADMIN
+CESU_ENCODER
+
+CESU_BRGY_ADMIN
+CESU_BRGY_ENCODER
+
+ABTC_ADMIN
+ABTC_ENCODER
+
+PIDSR_ADMIN
+PIDSR_ENCODER
+
+VAXCERT_ADMIN
+VAXCERT_ENCODER
+
+FHSIS_ADMIN
+FHSIS_ENCODER
+
+ITR_ADMIN
+ITR_ENCODER
+
+ITR_HOSPITAL
+
+ITR_BRGY_ADMIN
+ITR_BRGY_ENCODER
+
+PHARMACY_ADMIN
+PHARMACY_ENCODER
+
+PHARMACY_BRGY_ADMIN
+PHARMACY_BRGY_ENCODER
+
+*/
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
