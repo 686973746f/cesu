@@ -13,6 +13,7 @@ use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class SyndromicController extends Controller
@@ -90,7 +91,9 @@ class SyndromicController extends Controller
     public function downloadOpdExcel() {
         $year = request()->input('year');
 
-        $get_records = SyndromicRecords::whereYear('consultation_date', $year)->get();
+        $get_records = SyndromicRecords::whereYear('consultation_date', $year)
+        ->orderBy('consultation_date', 'DESC')
+        ->get();
 
         $spreadsheet = IOFactory::load(storage_path('ITR_OPD_RECORD.xlsx'));
         $sheet = $spreadsheet->getActiveSheet();
@@ -276,9 +279,13 @@ class SyndromicController extends Controller
             ->with('msgtype', 'warning');
         }
         else {
+            $number_in_line = SyndromicRecords::where('created_by', auth()->user()->id)
+            ->whereDate('created_at', date('Y-m-d'))->count() + 1;
+
             return view('syndromic.new_record', [
                 'patient' => $patient,
                 'doclist' => $doclist,
+                'number_in_line' => $number_in_line,
             ]);
         }
     }
@@ -623,7 +630,16 @@ class SyndromicController extends Controller
     }
 
     public function deletePatient($patient_id) {
+        if(auth()->user()->isAdminSyndromic()) {
+            $d = SyndromicPatient::findOrFail($patient_id)->delete();
 
+            return redirect()->route('syndromic_home')
+            ->with('msg', 'Patient data was deleted successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function viewExistingRecordList($patient_id) {
@@ -802,13 +818,70 @@ class SyndromicController extends Controller
     }
 
     public function deleteRecord($record_id) {
-        
+        if(auth()->user()->isAdminSyndromic()) {
+            $d = SyndromicRecords::findOrFail($record_id)->delete();
+
+            return redirect()->route('syndromic_home')
+            ->with('msg', 'Record associated with the patient was deleted successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
     }
 
-    public function generateItrDocx($record_id) {
+    public function downloadItrDocx($record_id) {
         $d = SyndromicRecords::findOrFail($record_id);
 
+        $paylname = 'ITR_'.$d->syndromic_patient->lname.'_'.date('mdY', strtotime($d->created_at)).'.docx';
+
+        $templateProcessor  = new TemplateProcessor(storage_path('CHO_ITR.docx'));
         
+        //$templateProcessor->setValue('asd', '');
+        $templateProcessor->setValue('opd_number', $d->opdno);
+        $templateProcessor->setValue('line_number', $d->line_number);
+
+        $templateProcessor->setValue('last_name', $d->syndromic_patient->lname);
+        $templateProcessor->setValue('first_name', $d->syndromic_patient->fname);
+        $templateProcessor->setValue('middle_name', ($d->syndromic_patient->mname) ? $d->syndromic_patient->mname : 'N/A');
+        $templateProcessor->setValue('suffix', ($d->syndromic_patient->lname) ? $d->syndromic_patient->lname : 'N/A');
+        $templateProcessor->setValue('complete_address', $d->syndromic_patient->getStreetPurok());
+        $templateProcessor->setValue('barangay', $d->syndromic_patient->address_brgy_text);
+        $templateProcessor->setValue('city', $d->syndromic_patient->address_muncity_text);
+        $templateProcessor->setValue('bdate', date('m/d/Y', strtotime($d->syndromic_patient->bdate)));
+        $templateProcessor->setValue('age', $d->syndromic_patient->getAge());
+        $templateProcessor->setValue('sex', substr($d->syndromic_patient->gender,0,1));
+        $templateProcessor->setValue('cs', $d->syndromic_patient->cs);
+        $templateProcessor->setValue('get_contactno', $d->syndromic_patient->getContactNumber());
+        $templateProcessor->setValue('philhealth', ($d->syndromic_patient->philhealth) ? $d->syndromic_patient->philhealth : 'N/A');
+        $templateProcessor->setValue('email', ($d->syndromic_patient->email) ? $d->syndromic_patient->email : 'N/A');
+        $templateProcessor->setValue('mother_name', ($d->syndromic_patient->mother_name) ? $d->syndromic_patient->mother_name : 'N/A');
+        $templateProcessor->setValue('father_name', ($d->syndromic_patient->father_name) ? $d->syndromic_patient->father_name : 'N/A');
+        $templateProcessor->setValue('spouse_name', ($d->syndromic_patient->spouse_name) ? $d->syndromic_patient->spouse_name : 'N/A');
+        $templateProcessor->setValue('minor_guardian', ($d->syndromic_patient->ifminor_resperson) ? $d->syndromic_patient->ifminor_resperson : 'N/A');
+        $templateProcessor->setValue('guardian_res', ($d->syndromic_patient->ifminor_resrelation) ? $d->syndromic_patient->ifminor_resrelation : 'N/A');
+        
+        $templateProcessor->setValue('chief_complain', $d->chief_complain);
+        $templateProcessor->setValue('con_date', date('m/d/Y h:i A', strtotime($d->consultation_date)));
+        $templateProcessor->setValue('temp', $d->temperature);
+        $templateProcessor->setValue('bp', ($d->bloodpressure) ? $d->bloodpressure : 'N/A');
+        $templateProcessor->setValue('height', ($d->height) ? $d->height : 'N/A');
+        $templateProcessor->setValue('weight', ($d->weight) ? $d->weight : 'N/A');
+        $templateProcessor->setValue('rr', ($d->respiratoryrate) ? $d->respiratoryrate : 'N/A');
+        $templateProcessor->setValue('pulse', ($d->pulserate) ? $d->pulserate : 'N/A');
+        
+        $templateProcessor->setValue('list_assessment', $d->dcnote_assessment);
+        $templateProcessor->setValue('list_plan', $d->dcnote_plan);
+        $templateProcessor->setValue('list_diag', $d->dcnote_diagprocedure);
+
+        $templateProcessor->setValue('doctor_name', $d->name_of_physician);
+        $templateProcessor->setValue('doctor_position', $d->getPhysicianDetails()->position);
+        $templateProcessor->setValue('doctor_regno', $d->getPhysicianDetails()->reg_no);
+
+        ob_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment; filename="'. urlencode($paylname).'"');
+        $templateProcessor->saveAs('php://output');
     }
 
     public function generateMedCert($record_id, Request $r) {

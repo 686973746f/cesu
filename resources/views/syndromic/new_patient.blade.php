@@ -12,6 +12,9 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    <div class="alert alert-primary" role="alert">
+                        <b class="text-danger">Note:</b> All fields marked with an Asterisk (<b class="text-danger">*</b>) are <b>REQUIRED</b> to be filled-out.
+                    </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">

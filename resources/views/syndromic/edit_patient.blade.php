@@ -5,7 +5,7 @@
         @if(auth()->user()->isAdminSyndromic())
         <form action="{{route('syndromic_deletePatient', $d->id)}}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
         </form>
         @endif
 

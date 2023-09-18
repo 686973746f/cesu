@@ -12,10 +12,19 @@
                     {{session('msg')}}
                 </div>
                 @endif
+                <div class="alert alert-primary" role="alert">
+                  <b class="text-danger">Note:</b> All fields marked with an Asterisk (<b class="text-danger">*</b>) are <b>REQUIRED</b> to be filled-out.
+                </div>
                 <div class="row">
                     <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="line_number"><b class="text-danger">*</b>Number in Line (Automated)</label>
+                          <input type="number" class="form-control" name="line_number" id="line_number" value="{{old('line_number', $number_in_line)}}" required>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label for="consultation_date">Date and Time of Consultation</label>
+                            <label for="consultation_date"><b class="text-danger">*</b>Date and Time of Consultation</label>
                             <input type="datetime-local" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date', date('Y-m-d\TH:i'))}}" required>
                         </div>
                     </div>
@@ -27,31 +36,31 @@
                     </div>
                     <div class="col-md-3">
                       <div class="form-group">
-                          <label for="bloodpressure"><b id="bp_asterisk" class="text-danger d-none">*</b>Blood Pressure</label>
+                          <label for="bloodpressure"><b id="bp_asterisk" class="text-danger d-none">*</b>Blood Pressure (BP)</label>
                           <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure')}}">
                       </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="weight"><span class="text-danger font-weight-bold">*</span>Weight (in kilograms)</label>
                             <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" required>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label for="height">Height (in Centimeters)</label>
                         <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="600">
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label for="respiratoryrate">Respiratory Rate (RR)</label>
                         <input type="text" class="form-control" name="respiratoryrate" id="respiratoryrate" value="{{old('respiratoryrate')}}">
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label for="pulserate">Pulse Rate (PR)</label>
                         <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate')}}">
@@ -95,7 +104,6 @@
                     </div>
                   </div>
                 </div>
-                <hr>
                 <div class="card mb-3">
                     <div class="card-header"><b>Signs and Symptoms</b> (Please check if applicable)</div>
                     <div class="card-body">

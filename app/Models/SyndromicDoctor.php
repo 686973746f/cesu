@@ -10,6 +10,9 @@ class SyndromicDoctor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'doctor_name',  
+        'doctor_name',
+        'dru_name',
+        'position',
+        'reg_no',
     ];
 }

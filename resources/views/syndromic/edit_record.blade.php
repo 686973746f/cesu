@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container">
+  @if(auth()->user()->isAdminSyndromic())
+  <div class="text-right mb-3">
+    <form action="{{route('syndromic_deleteRecord', $d->id)}}" method="POST">
+      @csrf
+      <button type="submit" class="btn btn-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete this record associated with the Patient?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
+    </form>
+  </div>
+  @endif
+  
   <div class="text-right mb-3">
     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
     <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
@@ -28,7 +37,12 @@
                 </div>
                 @endif
                 <div class="row">
-                    <hr>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="line_number"><b class="text-danger">*</b>Number in Line</label>
+                          <input type="number" class="form-control" name="line_number" id="line_number" value="{{old('line_number', $d->line_number)}}" required>
+                      </div>
+                    </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="consultation_date">Date and Time of Consultation</label>
@@ -43,31 +57,31 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="bloodpressure"><b id="bp_asterisk" class="text-danger d-none">*</b>Blood Pressure</label>
+                            <label for="bloodpressure"><b id="bp_asterisk" class="text-danger d-none">*</b>Blood Pressure (BP)</label>
                             <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="weight"><span class="text-danger font-weight-bold">*</span>Weight (in kilograms)</label>
-                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="weight"><span class="text-danger font-weight-bold">*</span>Weight (in kilograms)</label>
+                          <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" required>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label for="height">Height (in Centimeters)</label>
                         <input type="number" class="form-control" name="height" id="height" value="{{old('height', $d->height)}}">
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label for="respiratoryrate">Respiratory Rate (RR)</label>
                         <input type="text" class="form-control" name="respiratoryrate" id="respiratoryrate" value="{{old('respiratoryrate', $d->respiratoryrate)}}">
                     </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label for="pulserate">Pulse Rate (PR)</label>
                         <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate', $d->pulserate)}}">
@@ -111,7 +125,6 @@
                     </div>
                   </div>
                 </div>
-                <hr>
                 <div class="card mb-3">
                     <div class="card-header"><b>Signs and Symptoms</b> (Please check if applicable)</div>
                     <div class="card-body">
