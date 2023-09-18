@@ -35,87 +35,270 @@
     @foreach($list as $l)
         @php
         if($l['type'] == 'Acute Flaccid Paralysis') {
-            array_push($afp_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($afp_list[$barangay])) {
+                $afp_list[$barangay] = [];
+            }
+
+            $afp_list[$barangay][] = $l;
+
+            //array_push($afp_list, $l);
         }
         else if($l['type'] == 'AEFI') {
-            array_push($aef_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($aef_list[$barangay])) {
+                $aef_list[$barangay] = [];
+            }
+
+            $aef_list[$barangay][] = $l;
+            
+            //array_push($aef_list, $l);
         }
         else if($l['type'] == 'Anthrax') {
-            array_push($ant_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($ant_list[$barangay])) {
+                $ant_list[$barangay] = [];
+            }
+
+            $ant_list[$barangay][] = $l;
+
+            //array_push($ant_list, $l);
         }
         else if($l['type'] == 'Measles') {
-            array_push($mea_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($mea_list[$barangay])) {
+                $mea_list[$barangay] = [];
+            }
+
+            $mea_list[$barangay][] = $l;
+
+            //array_push($mea_list, $l);
         }
         else if($l['type'] == 'Meningococcal Disease') {
-            array_push($mgc_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($mgc_list[$barangay])) {
+                $mgc_list[$barangay] = [];
+            }
+
+            $mgc_list[$barangay][] = $l;
+            
+            //array_push($mgc_list, $l);
         }
         else if($l['type'] == 'Neonatal Tetanus') {
-            array_push($nt_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($nt_list[$barangay])) {
+                $nt_list[$barangay] = [];
+            }
+
+            $nt_list[$barangay][] = $l;
+
+            //array_push($nt_list, $l);
         }
         else if($l['type'] == 'Paralytic Shellfish Poisoning') {
-            array_push($psp_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($psp_list[$barangay])) {
+                $psp_list[$barangay] = [];
+            }
+
+            $psp_list[$barangay][] = $l;
+
+            //array_push($psp_list, $l);
         }
         else if($l['type'] == 'Rabies') {
-            array_push($rab_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($rab_list[$barangay])) {
+                $rab_list[$barangay] = [];
+            }
+
+            $rab_list[$barangay][] = $l;
+
+            //array_push($rab_list, $l);
         }
         else if($l['type'] == 'Acute Bloody Diarrhea') {
-            array_push($abd_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($abd_list[$barangay])) {
+                $abd_list[$barangay] = [];
+            }
+
+            $abd_list[$barangay][] = $l;
+
+            //array_push($abd_list, $l);
         }
         else if($l['type'] == 'Acute Encephalitis Syndrome') {
-            array_push($aes_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($aes_list[$barangay])) {
+                $aes_list[$barangay] = [];
+            }
+
+            $aes_list[$barangay][] = $l;
+
+            //array_push($aes_list, $l);
         }
         else if($l['type'] == 'Acute Hemorrhagic Fever Syndrome') {
-            array_push($ahf_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($ahf_list[$barangay])) {
+                $ahf_list[$barangay] = [];
+            }
+
+            $ahf_list[$barangay][] = $l;
+
+            //array_push($ahf_list, $l);
         }
         else if($l['type'] == 'Acute Viral Hepatitis') {
-            array_push($hep_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($hep_list[$barangay])) {
+                $hep_list[$barangay] = [];
+            }
+
+            $hep_list[$barangay][] = $l;
+
+            //array_push($hep_list, $l);
         }
         else if($l['type'] == 'AMES') {
-            array_push($ame_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($ame_list[$barangay])) {
+                $ame_list[$barangay] = [];
+            }
+
+            $ame_list[$barangay][] = $l;
+
+            //array_push($ame_list, $l);
         }
         else if($l['type'] == 'Bacterial Meningitis') {
-            array_push($mgt_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($mgt_list[$barangay])) {
+                $mgt_list[$barangay] = [];
+            }
+
+            $mgt_list[$barangay][] = $l;
+
+            //array_push($mgt_list, $l);
         }
         else if($l['type'] == 'Chikungunya') {
-            array_push($chi_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($chi_list[$barangay])) {
+                $chi_list[$barangay] = [];
+            }
+
+            $chi_list[$barangay][] = $l;
+
+            //array_push($chi_list, $l);
         }
         else if($l['type'] == 'Cholera') {
-            array_push($cho_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($cho_list[$barangay])) {
+                $cho_list[$barangay] = [];
+            }
+
+            $cho_list[$barangay][] = $l;
+
+            //array_push($cho_list, $l);
         }
         else if($l['type'] == 'Dengue') {
-            array_push($den_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($den_list[$barangay])) {
+                $den_list[$barangay] = [];
+            }
+
+            $den_list[$barangay][] = $l;
+
+            //array_push($den_list, $l);
         }
         else if($l['type'] == 'Diphtheria') {
-            array_push($dip_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($dip_list[$barangay])) {
+                $dip_list[$barangay] = [];
+            }
+
+            $dip_list[$barangay][] = $l;
+
+            //array_push($dip_list, $l);
         }
         else if($l['type'] == 'Influenza-like Illness') {
-            array_push($ili_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($ili_list[$barangay])) {
+                $ili_list[$barangay] = [];
+            }
+
+            $ili_list[$barangay][] = $l;
+
+            //array_push($ili_list, $l);
         }
         else if($l['type'] == 'Leptospirosis') {
-            array_push($lep_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($lep_list[$barangay])) {
+                $lep_list[$barangay] = [];
+            }
+
+            $lep_list[$barangay][] = $l;
+
+            //array_push($lep_list, $l);
         }
         else if($l['type'] == 'Malaria') {
-            array_push($mal_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($mal_list[$barangay])) {
+                $mal_list[$barangay] = [];
+            }
+
+            $mal_list[$barangay][] = $l;
+
+            //array_push($mal_list, $l);
         }
         else if($l['type'] == 'Non-Neonatal Tetanus') {
-            array_push($nnt_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($nnt_list[$barangay])) {
+                $nnt_list[$barangay] = [];
+            }
+
+            $nnt_list[$barangay][] = $l;
+
+            //array_push($nnt_list, $l);
         }
         else if($l['type'] == 'Pertussis') {
-            array_push($per_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($per_list[$barangay])) {
+                $per_list[$barangay] = [];
+            }
+
+            $per_list[$barangay][] = $l;
+
+            //array_push($per_list, $l);
         }
         else if($l['type'] == 'RotaVirus') {
-            array_push($rtv_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($rtv_list[$barangay])) {
+                $rtv_list[$barangay] = [];
+            }
+
+            $rtv_list[$barangay][] = $l;
+
+            //array_push($rtv_list, $l);
         }
         else if($l['type'] == 'Typhoid and Parathyphoid Fever') {
-            array_push($typ_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($typ_list[$barangay])) {
+                $typ_list[$barangay] = [];
+            }
+
+            $typ_list[$barangay][] = $l;
+
+            //array_push($typ_list, $l);
         }
         else if($l['type'] == 'Hfmd') {
-            array_push($hfm_list, $l);
+            $barangay = $l['brgy'];
+            if (!isset($hfm_list[$barangay])) {
+                $hfm_list[$barangay] = [];
+            }
+
+            $hfm_list[$barangay][] = $l;
+
+            //array_push($hfm_list, $l);
         }
         @endphp
     @endforeach
 
     @php
+    /*
     usort($afp_list, function($a, $b) {
         return strcmp($a['brgy'], $b['brgy']);
     });
@@ -219,6 +402,7 @@
     usort($hfm_list, function($a, $b) {
         return strcmp($a['brgy'], $b['brgy']);
     });
+    */
     
     @endphp
     
@@ -228,72 +412,117 @@
     @if(!empty($afp_list))
     <ul>
         <b>Acute Flaccid Paralysis:</b>
-        @foreach($afp_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($afp_list as $brgy => $rows)
+        <li>Acute Flaccid Paralysis <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($aef_list))
     <ul>
         <b>Adverse Event Following Immunization (AEFI):</b>
-        @foreach($aef_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | {{$p['aefi_type']}} Case | Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($aef_list as $brgy => $rows)
+        <li>Adverse Event Following Immunization (AEFI) <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | {{$p['aefi_type']}} Case | Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($ant_list))
     <ul>
         <b>Anthrax:</b>
-        @foreach($ant_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($ant_list as $brgy => $rows)
+        <li>Acute Flaccid Paralysis <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($hfm_list))
     <ul>
         <b>HFMD:</b>
-        @foreach($hfm_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($hfm_list as $brgy => $rows)
+        <li>HFMD <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($mea_list))
     <ul>
         <b>Measles:</b>
-        @foreach($mea_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($mea_list as $brgy => $rows)
+        <li>Measles <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($mgc_list))
     <ul>
         <b>Meningococcal Disease:</b>
-        @foreach($mgc_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($mgc_list as $brgy => $rows)
+        <li>Meningococcal Disease <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($nt_list))
     <ul>
         <b>Neonatal Tetanus:</b>
-        @foreach($nt_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($nt_list as $brgy => $rows)
+        <li>Neonatal Tetanus <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($psp_list))
     <ul>
         <b>Paralytic Shellfish Poisoning:</b>
-        @foreach($psp_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($psp_list as $brgy => $rows)
+        <li>Paralytic Shellfish Poisoning <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($rab_list))
     <ul>
         <b>Rabies:</b>
-        @foreach($rab_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($rab_list as $brgy => $rows)
+        <li>Rabies <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
@@ -306,136 +535,221 @@
     @if(!empty($abd_list))
     <ul>
         <b>Acute Bloody Diarrhea:</b>
-        @foreach($abd_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($abd_list as $brgy => $rows)
+        <li>Acute Bloody Diarrhea <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($aes_list))
     <ul>
         <b>Acute Encephalitis Syndrome:</b>
-        @foreach($aes_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($aes_list as $brgy => $rows)
+        <li>Acute Encephalitis Syndrome <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($ahf_list))
     <ul>
         <b>Acute Hemorrhagic Fever Syndrome:</b>
-        @foreach($ahf_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($ahf_list as $brgy => $rows)
+        <li>Acute Hemorrhagic Fever Syndrome <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($hep_list))
     <ul>
         <b>Acute Viral Hepatitis:</b>
-        @foreach($hep_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($hep_list as $brgy => $rows)
+        <li>Acute Viral Hepatitis <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($ame_list))
     <ul>
         <b>AMES:</b>
-        @foreach($ame_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($ame_list as $brgy => $rows)
+        <li>AMES <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($mgt_list))
     <ul>
         <b>Bacterial Meningitis:</b>
-        @foreach($mgt_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($mgt_list as $brgy => $rows)
+        <li>Bacterial Meningitis <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($chi_list))
     <ul>
         <b>Chikungunya:</b>
-        @foreach($chi_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($chi_list as $brgy => $rows)
+        <li>Chikungunya <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($cho_list))
     <ul>
         <b>Cholera:</b>
-        @foreach($cho_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($cho_list as $brgy => $rows)
+        <li>Cholera <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($den_list))
     <ul>
         <b>Dengue:</b>
-        @foreach($den_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($den_list as $brgy => $rows)
+        <li>Dengue <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($dip_list))
     <ul>
         <b>Diphtheria:</b>
-        @foreach($dip_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($dip_list as $brgy => $rows)
+        <li>Diphtheria <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($ili_list))
     <ul>
         <b>Influenza-like Illness:</b>
-        @foreach($ili_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($ili_list as $brgy => $rows)
+        <li>Influenza-like Illness <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($lep_list))
     <ul>
         <b>Leptospirosis:</b>
-        @foreach($lep_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($lep_list as $brgy => $rows)
+        <li>Leptospirosis <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($mal_list))
     <ul>
         <b>Malaria:</b>
-        @foreach($mal_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($mal_list as $brgy => $rows)
+        <li>Malaria <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($nnt_list))
     <ul>
         <b>Non-Neonatal Tetanus:</b>
-        @foreach($nnt_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($nnt_list as $brgy => $rows)
+        <li>Non-Neonatal Tetanus <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($per_list))
     <ul>
         <b>Pertussis:</b>
-        @foreach($per_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($per_list as $brgy => $rows)
+        <li>Pertussis <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($rtv_list))
     <ul>
         <b>RotaVirus:</b>
-        @foreach($rtv_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($rtv_list as $brgy => $rows)
+        <li>RotaVirus <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
     @if(!empty($typ_list))
     <ul>
         <b>Typhoid and Parathyphoid Fever:</b>
-        @foreach($typ_list as $ind => $p)
-        <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | BRGY. {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+        @foreach($typ_list as $brgy => $rows)
+        <li>Typhoid and Parathyphoid Fever <b>(BRGY. {{$brgy}})</b>:</li>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b> | {{$p['age']}}/{{$p['sex']}} | <b>BRGY. {{mb_strtoupper($p['brgy'])}}</b>, {{mb_strtoupper($p['address'])}} | Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}} | DRU: {{mb_strtoupper($p['dru'])}}</li>
+            @endforeach
+        </ul>
         @endforeach
     </ul>
     @endif
