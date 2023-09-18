@@ -622,6 +622,10 @@ class SyndromicController extends Controller
         }
     }
 
+    public function deletePatient($patient_id) {
+
+    }
+
     public function viewExistingRecordList($patient_id) {
         $list = SyndromicRecords::where('syndromic_patient_id', $patient_id)
         ->orderBy('created_at', 'DESC')
@@ -795,6 +799,10 @@ class SyndromicController extends Controller
         return redirect()->back()
         ->with('msg', $msg)
         ->with('msgtype', 'success');
+    }
+
+    public function deleteRecord($record_id) {
+        
     }
 
     public function generateItrDocx($record_id) {

@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        @if(auth()->user()->isAdminSyndromic())
+        <form action="{{route('syndromic_deletePatient', $d->id)}}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        @endif
+
         <form action="{{route('syndromic_updatePatient', $d->id)}}" method="POST">
             @csrf
             <div class="card">
