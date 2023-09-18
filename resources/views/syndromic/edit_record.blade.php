@@ -4,7 +4,7 @@
 <div class="container">
   <div class="text-right mb-3">
     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
-    <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR</a>
+    <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
     @if($d->outcome != 'DIED')
       @if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>

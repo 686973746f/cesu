@@ -4,6 +4,7 @@
 <div class="container-fluid">
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr">New Patient</button>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report">Report</button>
         <a href="{{route('syndromic_map')}}" class="btn btn-primary">Map</a>
     </div>
     <form action="" method="GET">
@@ -134,6 +135,63 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="accordianId" role="tablist" aria-multiselectable="true">
+                    <form action="{{route('syndromic_download_opd_excel')}}" method="GET">
+                        <div class="card">
+                            <div class="card-header text-center" role="tab" id="section1HeaderId">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+                                        Download OPD Excel Masterlist
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                          <label for="year"><b class="text-danger">*</b>Select Year</label>
+                                          <input type="number" class="form-control" name="year" id="year" min="2023" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary btn-block">Download (.XLSX)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!--
+                    <div class="card">
+                        <div class="card-header" role="tab" id="section2HeaderId">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
+                                    Test
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
+                            <div class="card-body">
+                                <p>Test</p>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     //Select2 Init for Address Bar

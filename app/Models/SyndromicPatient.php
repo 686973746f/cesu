@@ -118,6 +118,25 @@ class SyndromicPatient extends Model
         return $get_brgy_id;
     }
 
+    public function getStreetPurok() {
+        if($this->address_houseno && $this->address_street) {
+            $get_txt = $this->address_houseno.', '.$this->address_street;
+        }
+        else if($this->address_houseno || $this->address_street) {
+            if($this->address_houseno) {
+                $get_txt = $this->address_houseno;
+            }
+            else if($this->address_street) {
+                $get_txt = $this->address_street;
+            }
+        }
+        else {
+            $get_txt = 'N/A';
+        }
+        
+        return $get_txt;
+    }
+
     public function userHasPermissionToAccess() {
         if(in_array("GLOBAL_ADMIN", auth()->user()->getPermissions()) || in_array("ITR_ADMIN", auth()->user()->getPermissions()) || in_array("ITR_ENCODER", auth()->user()->getPermissions())) {
             return true;

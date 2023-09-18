@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Brgy;
-use App\Models\PharmacyPatient;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PharmacyPatient;
 use App\Models\SyndromicDoctor;
 use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class SyndromicController extends Controller
 {
@@ -83,6 +85,41 @@ class SyndromicController extends Controller
                 ]);
             }
         }
+    }
+
+    public function downloadOpdExcel() {
+        $year = request()->input('year');
+
+        $get_records = SyndromicRecords::whereYear('consultation_date', $year)->get();
+
+        $spreadsheet = IOFactory::load(storage_path('ITR_OPD_RECORD.xlsx'));
+        $sheet = $spreadsheet->getActiveSheet();
+
+        foreach($get_records as $ind => $d) {
+            $curtab = $ind + 2;
+
+            //$sheet->setCellValue('A'.$curtab, '');
+            $sheet->setCellValue('A'.$curtab, date('m/d/Y', strtotime($d->consultation_date)));
+            $sheet->setCellValue('B'.$curtab, $d->opdno);
+            $sheet->setCellValue('C'.$curtab, $d->syndromic_patient->getName());
+            $sheet->setCellValue('D'.$curtab, $d->syndromic_patient->address_brgy_text);
+            $sheet->setCellValue('E'.$curtab, $d->syndromic_patient->getStreetPurok());
+            $sheet->setCellValue('F'.$curtab, date('m/d/Y', strtotime($d->syndromic_patient->bdate)));
+            $sheet->setCellValue('G'.$curtab, $d->syndromic_patient->getAge());
+            $sheet->setCellValue('H'.$curtab, $d->syndromic_patient->gender);
+            $sheet->setCellValue('I'.$curtab, $d->syndromic_patient->contact_number);
+            $sheet->setCellValue('J'.$curtab, $d->dcnote_diagprocedure);
+            $sheet->setCellValue('K'.$curtab, $d->rx);
+            $sheet->setCellValue('L'.$curtab, date('m/d/Y', strtotime($d->created_at)));
+            $sheet->setCellValue('M'.$curtab, $d->user->name);
+        }
+
+        $fileName = 'OPD_MASTERLIST_'.$year.'.xlsx';
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
     }
 
     public function newPatient() {
