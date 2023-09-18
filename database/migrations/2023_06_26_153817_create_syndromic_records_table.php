@@ -17,12 +17,14 @@ class CreateSyndromicRecordsTable extends Migration
             $table->id();
             $table->foreignId('syndromic_patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             $table->text('opdno');
+            $table->integer('line_number')->nullable();
             $table->date('last_checkup_date')->nullable();
             $table->dateTime('consultation_date');
             $table->string('chief_complain');
             $table->string('temperature');
-            $table->string('bloodpressure');
-            $table->string('weight');
+            $table->string('bloodpressure')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('height')->nullable();
             $table->string('respiratoryrate')->nullable();
             $table->string('pulserate')->nullable();
             $table->string('saturationperioxigen')->nullable();

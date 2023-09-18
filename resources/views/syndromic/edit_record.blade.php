@@ -4,6 +4,7 @@
 <div class="container">
   <div class="text-right mb-3">
     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
+    <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR</a>
     @if($d->outcome != 'DIED')
       @if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
@@ -27,6 +28,7 @@
                 </div>
                 @endif
                 <div class="row">
+                    <hr>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="consultation_date">Date and Time of Consultation</label>
@@ -41,8 +43,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="bloodpressure"><span class="text-danger font-weight-bold">*</span>Blood Pressure</label>
-                            <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}" required>
+                            <label for="bloodpressure"><b id="bp_asterisk" class="text-danger d-none">*</b>Blood Pressure</label>
+                            <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -54,22 +56,28 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="respiratoryrate">Respiratory Rate (RR)</label>
-                            <input type="text" class="form-control" name="respiratoryrate" id="respiratoryrate" value="{{old('respiratoryrate', $d->respiratoryrate)}}">
-                        </div>
+                      <div class="form-group">
+                        <label for="height">Height (in Centimeters)</label>
+                        <input type="number" class="form-control" name="height" id="height" value="{{old('height', $d->height)}}">
+                      </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="pulserate">Pulse Rate (PR)</label>
-                            <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate', $d->pulserate)}}">
-                        </div>
+                      <div class="form-group">
+                        <label for="respiratoryrate">Respiratory Rate (RR)</label>
+                        <input type="text" class="form-control" name="respiratoryrate" id="respiratoryrate" value="{{old('respiratoryrate', $d->respiratoryrate)}}">
+                    </div>
                     </div>
                     <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="pulserate">Pulse Rate (PR)</label>
+                        <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate', $d->pulserate)}}">
+                      </div>
+                        <!--
                         <div class="form-group">
                             <label for="saturationperioxigen">Saturation of Oxygen (SpO2)</label>
                             <input type="text" class="form-control" name="saturationperioxigen" id="saturationperioxigen" value="{{old('saturationperioxigen', $d->saturationperioxigen)}}">
                         </div>
+                        -->
                     </div>
                 </div>
                 <div class="row">
@@ -624,14 +632,6 @@
                     </div>
                   </div>
                 </div>
-                <hr>
-                <div class="card">
-                  <div class=""></div>
-                  <div class="card-body">
-                    <h4 class="card-title">Title</h4>
-                    <p class="card-text">Text</p>
-                  </div>
-                </div>
             </div>
             <div class="card-footer">
               <div class="row">
@@ -718,6 +718,17 @@
           return false;
       }
   });
+
+  var getage = {{$d->syndromic_patient->getAge()}};
+
+  if(getage < 18) {
+    $('#bp_asterisk').addClass('d-none');
+    $('#bloodpressure').prop('required', false);
+  }
+  else {
+    $('#bp_asterisk').removeClass('d-none');
+    $('#bloodpressure').prop('required', true);
+  }
 
   $('#fever_yn').change(function (e) { 
     e.preventDefault();

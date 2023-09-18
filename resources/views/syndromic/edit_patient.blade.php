@@ -115,14 +115,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="ifminor_resperson"><span class="text-danger font-weight-bold">*</span>Patient is minor, input Name of Responsible Person/Guardian/Parent</label>
-                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson', $d->ifminor_resperson)}}" required>
+                              <label for="ifminor_resperson">Patient is minor, input Name of Responsible Person/Guardian/Parent</label>
+                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson', $d->ifminor_resperson)}}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="ifminor_resrelation"><span class="text-danger font-weight-bold">*</span>Relationship</label>
-                              <select class="form-control" name="ifminor_resrelation" id="ifminor_resrelation" required>
+                              <label for="ifminor_resrelation">Relationship</label>
+                              <select class="form-control" name="ifminor_resrelation" id="ifminor_resrelation">
+                                <option value="" {{(is_null(old('ifminor_resrelation', $d->ifminor_resrelation))) ? 'selected' : ''}}>None</option>
                                 <option value="PARENT" {{(old('ifminor_resrelation', $d->ifminor_resrelation) == 'PARENT') ? 'selected' : ''}}>Parent/Magulang</option>
                                 <option value="SIBLING" {{(old('ifminor_resrelation', $d->ifminor_resrelation) == 'SIBLING') ? 'selected' : ''}}>Sibling/Kapatid</option>
                                 <option value="OTHERS" {{(old('ifminor_resrelation', $d->ifminor_resrelation) == 'OTHERS') ? 'selected' : ''}}>Others</option>

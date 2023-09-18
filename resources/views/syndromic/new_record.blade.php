@@ -26,36 +26,42 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="bloodpressure"><span class="text-danger font-weight-bold">*</span>Blood Pressure</label>
-                            <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure')}}" required>
-                        </div>
+                      <div class="form-group">
+                          <label for="bloodpressure"><b id="bp_asterisk" class="text-danger d-none">*</b>Blood Pressure</label>
+                          <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure')}}">
+                      </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="weight"><span class="text-danger font-weight-bold">*</span>Weight (in kilograms)</label>
-                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight')}}" required>
+                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="respiratoryrate">Respiratory Rate (RR)</label>
-                            <input type="text" class="form-control" name="respiratoryrate" id="respiratoryrate" value="{{old('respiratoryrate')}}">
-                        </div>
+                      <div class="form-group">
+                        <label for="height">Height (in Centimeters)</label>
+                        <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="600">
+                      </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="pulserate">Pulse Rate (PR)</label>
-                            <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate')}}">
-                        </div>
+                      <div class="form-group">
+                        <label for="respiratoryrate">Respiratory Rate (RR)</label>
+                        <input type="text" class="form-control" name="respiratoryrate" id="respiratoryrate" value="{{old('respiratoryrate')}}">
+                      </div>
                     </div>
                     <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="pulserate">Pulse Rate (PR)</label>
+                        <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate')}}">
+                      </div>
+                        <!--
                         <div class="form-group">
-                            <label for="saturationperioxigen">Saturation of Oxygen (SpO2)</label>
-                            <input type="text" class="form-control" name="saturationperioxigen" id="saturationperioxigen" value="{{old('saturationperioxigen')}}">
+                          <label for="saturationperioxigen">Saturation of Oxygen (SpO2)</label>
+                          <input type="text" class="form-control" name="saturationperioxigen" id="saturationperioxigen" value="{{old('saturationperioxigen')}}">
                         </div>
+                        -->
                     </div>
                 </div>
                 <div class="row">
@@ -634,6 +640,17 @@
           return false;
       }
   });
+
+  var getage = {{$patient->getAge()}};
+
+  if(getage < 18) {
+    $('#bp_asterisk').addClass('d-none');
+    $('#bloodpressure').prop('required', false);
+  }
+  else {
+    $('#bp_asterisk').removeClass('d-none');
+    $('#bloodpressure').prop('required', true);
+  }
 
   $('#fever_yn').change(function (e) { 
     e.preventDefault();

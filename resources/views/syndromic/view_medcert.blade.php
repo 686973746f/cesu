@@ -58,13 +58,11 @@
                 <p style="font-size: 20px;">BP: <u class="mr-3">{{(!is_null($d->bloodpressure)) ? $d->bloodpressure : '_____'}}</u> PR: <u class="mr-3">{{(!is_null($d->pulserate)) ? $d->pulserate : '_____'}}</u> RR: <u class="mr-3">{{(!is_null($d->respiratoryrate)) ? $d->respiratoryrate : '_____'}}</u> HT: <u class="mr-3">_____</u> WT: <u class="mr-3">{{(!is_null($d->weight)) ? $d->weight.'kg' : '_____'}}</u> TEMP: <u>{{(!is_null($d->temperature)) ? $d->temperature.'°C' : '_____'}}</u></p>
                 <p style="font-size: 20px;margin-bottom: 300px;"><b>FINDINGS / IMPRESSION:</b></p>
                 <p style="font-size: 20px;margin-bottom: 300px;"><b>REMARKS:</b></p>
-
                 <table class="table table-borderless">
                     <tbody>
                         <tr>
                             <td class="text-center">
-                                <h5 style="margin-bottom: 0px;" class="mt-3">________________________________</h5>
-                                <h5 style="margin-bottom: 0px;"><b>{{$d->name_of_physician}}</b></h5>
+                                <h5 style="margin-bottom: 0px;"><b><u>{{$d->name_of_physician}}</u></b></h5>                                
                                 <h5 style="margin-bottom: 0px;">{{$d->getPhysicianDetails()->position}}</h5>
                                 <h5>Reg. No. {{$d->getPhysicianDetails()->reg_no}}</h5>
                             </td>

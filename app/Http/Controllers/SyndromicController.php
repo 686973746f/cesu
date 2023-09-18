@@ -386,8 +386,8 @@ class SyndromicController extends Controller
                 'dcnote_assessment' => $r->dcnote_assessment,
                 'dcnote_plan' => $r->dcnote_plan,
                 'dcnote_diagprocedure' => $r->dcnote_diagprocedure,
-                'rx' => $r->rx,
-                'remarks' => $r->remarks,
+                'rx' => ($r->filled('rx')) ? $r->rx : NULL,
+                'remarks' => ($r->filled('remarks')) ? $r->remarks : NULL,
 
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
@@ -711,7 +711,13 @@ class SyndromicController extends Controller
                 'outcome_recovered_date' => ($r->outcome == 'RECOVERED') ? $r->outcome_recovered_date : NULL,
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
-                'bigmessage' => $r->bigmessage,
+                //'bigmessage' => $r->bigmessage,
+                'dcnote_assessment' => $r->dcnote_assessment,
+                'dcnote_plan' => $r->dcnote_plan,
+                'dcnote_diagprocedure' => $r->dcnote_diagprocedure,
+                'rx' => ($r->filled('rx')) ? $r->rx : NULL,
+                'remarks' => ($r->filled('remarks')) ? $r->remarks : NULL,
+
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
                 'dru_name'=> SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name,
@@ -752,6 +758,12 @@ class SyndromicController extends Controller
         return redirect()->back()
         ->with('msg', $msg)
         ->with('msgtype', 'success');
+    }
+
+    public function generateItrDocx($record_id) {
+        $d = SyndromicRecords::findOrFail($record_id);
+
+        
     }
 
     public function generateMedCert($record_id, Request $r) {

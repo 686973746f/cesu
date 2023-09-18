@@ -77,8 +77,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Contact Number</label>
-                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', '09')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                <label for="contact_number">Contact Number</label>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact_number2">Contact Number 2 (Optional)</label>
@@ -106,15 +106,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="ifminor_resperson"><span class="text-danger font-weight-bold">*</span>Patient is minor, input Name of Responsible Person/Guardian/Parent</label>
-                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson')}}" required>
+                              <label for="ifminor_resperson"><span class="text-danger font-weight-bold">*</span>Patient is minor, input Name of Responsible Person/Guardian/Parent (Mother or Father)</label>
+                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson')}}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="ifminor_resrelation"><span class="text-danger font-weight-bold">*</span>Relationship</label>
-                              <select class="form-control" name="ifminor_resrelation" id="ifminor_resrelation" required>
-                                <option value="" disabled {{(is_null(old('ifminor_resrelation'))) ? 'selected' : ''}}>Choose...</option>
+                              <select class="form-control" name="ifminor_resrelation" id="ifminor_resrelation">
+                                <option value="" {{(is_null(old('ifminor_resrelation'))) ? 'selected' : ''}}>None</option>
                                 <option value="PARENT" {{(old('cs') == 'PARENT') ? 'selected' : ''}}>Parent/Magulang</option>
                                 <option value="SIBLING" {{(old('cs') == 'SIBLING') ? 'selected' : ''}}>Sibling/Kapatid</option>
                                 <option value="OTHERS" {{(old('cs') == 'OTHERS') ? 'selected' : ''}}>Others</option>
@@ -173,13 +173,13 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="address_houseno" class="form-label"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="" required>
+                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="address_street" class="form-label"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
-                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                             </div>
                         </div>
                     </div>
