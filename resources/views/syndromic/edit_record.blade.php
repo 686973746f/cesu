@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="bloodpressure"><b id="bp_asterisk" class="text-danger d-none">*</b>Blood Pressure (BP)</label>
+                            <label for="bloodpressure">Blood Pressure (BP)</label>
                             <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}">
                         </div>
                     </div>
@@ -733,15 +733,6 @@
   });
 
   var getage = {{$d->syndromic_patient->getAge()}};
-
-  if(getage < 18) {
-    $('#bp_asterisk').addClass('d-none');
-    $('#bloodpressure').prop('required', false);
-  }
-  else {
-    $('#bp_asterisk').removeClass('d-none');
-    $('#bloodpressure').prop('required', true);
-  }
 
   $('#fever_yn').change(function (e) { 
     e.preventDefault();

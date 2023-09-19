@@ -45,7 +45,7 @@
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Description</td>
-                                    <td class="text-center" colspan="3">{{$d->pharmacysupplymaster->description}}</td>
+                                    <td class="text-center" colspan="3">{{($d->pharmacysupplymaster->description) ? $d->pharmacysupplymaster->description : 'N/A'}}</td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Category</td>
