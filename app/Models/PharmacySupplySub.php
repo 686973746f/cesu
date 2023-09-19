@@ -112,7 +112,7 @@ class PharmacySupplySub extends Model
         }
     }
 
-    public function ifPatientCanIssueMedsBasedOnDuration($patient_id, $selected_qty_type) {
+    public function ifPatientReachedDurationLimit($patient_id, $selected_qty_type) {
         if($this->self_duration_days) {
             $duration_days = $this->self_duration_days;
         }
@@ -152,5 +152,9 @@ class PharmacySupplySub extends Model
         else {
             return true;
         }
+    }
+
+    public function ifPatientReachedQtyLimit($patient_id) {
+        
     }
 }
