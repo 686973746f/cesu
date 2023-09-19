@@ -864,10 +864,10 @@ class SyndromicController extends Controller
         
         $templateProcessor->setValue('chief_complain', $d->chief_complain);
         $templateProcessor->setValue('con_date', date('m/d/Y h:i A', strtotime($d->consultation_date)));
-        $templateProcessor->setValue('temp', $d->temperature);
+        $templateProcessor->setValue('temp', $d->temperature.'°C');
         $templateProcessor->setValue('bp', ($d->bloodpressure) ? $d->bloodpressure : 'N/A');
-        $templateProcessor->setValue('height', ($d->height) ? $d->height : 'N/A');
-        $templateProcessor->setValue('weight', ($d->weight) ? $d->weight : 'N/A');
+        $templateProcessor->setValue('height', ($d->height) ? $d->height.'cm' : 'N/A');
+        $templateProcessor->setValue('weight', ($d->weight) ? $d->weight.'kg' : 'N/A');
         $templateProcessor->setValue('rr', ($d->respiratoryrate) ? $d->respiratoryrate : 'N/A');
         $templateProcessor->setValue('pulse', ($d->pulserate) ? $d->pulserate : 'N/A');
         
