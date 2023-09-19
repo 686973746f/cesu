@@ -844,7 +844,7 @@ class SyndromicController extends Controller
         $templateProcessor->setValue('last_name', $d->syndromic_patient->lname);
         $templateProcessor->setValue('first_name', $d->syndromic_patient->fname);
         $templateProcessor->setValue('middle_name', ($d->syndromic_patient->mname) ? $d->syndromic_patient->mname : 'N/A');
-        $templateProcessor->setValue('suffix', ($d->syndromic_patient->lname) ? $d->syndromic_patient->lname : 'N/A');
+        $templateProcessor->setValue('suffix', ($d->syndromic_patient->suffix) ? $d->syndromic_patient->suffix : 'N/A');
         $templateProcessor->setValue('complete_address', $d->syndromic_patient->getStreetPurok());
         $templateProcessor->setValue('barangay', $d->syndromic_patient->address_brgy_text);
         $templateProcessor->setValue('city', $d->syndromic_patient->address_muncity_text);
