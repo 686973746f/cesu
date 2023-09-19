@@ -876,6 +876,7 @@ class SyndromicController extends Controller
         $templateProcessor->setValue('rx', ($d->rx) ? $d->rx : '');
         $templateProcessor->setValue('list_diag', ($d->dcnote_diagprocedure) ? $d->dcnote_diagprocedure : '');
 
+        /*
         $templateProcessor->setValue('abdoons', ($d->abdominalpain_onset) ? date('m/d/Y', strtotime($d->abdominalpain_onset)) : 'N/A');
         $templateProcessor->setValue('amsons', ($d->alteredmentalstatus_onset) ? date('m/d/Y', strtotime($d->alteredmentalstatus_onset)) : 'N/A');
         $templateProcessor->setValue('abtons', ($d->animalbite_onset) ? date('m/d/Y', strtotime($d->animalbite_onset)) : 'N/A');
@@ -925,6 +926,7 @@ class SyndromicController extends Controller
         $templateProcessor->setValue('s22c', ($d->vomiting == 1) ? '☑' : '☐');
         $templateProcessor->setValue('s23c', ($d->weaknessofextremities == 1) ? '☑' : '☐');
         $templateProcessor->setValue('s24c', ($d->other_symptoms == 1) ? '☑' : '☐');
+        */
 
         $templateProcessor->setValue('doctor_name', $d->name_of_physician);
         $templateProcessor->setValue('doctor_position', $d->getPhysicianDetails()->position);

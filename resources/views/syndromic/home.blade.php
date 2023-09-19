@@ -39,14 +39,60 @@
         @endif
     </div>
     @endif
+    
+    @if(in_array('ITR_ADMIN', auth()->user()->getPermissions()) && request()->input('opd_view') || in_array('ITR_ENCODER', auth()->user()->getPermissions()) && request()->input('opd_view'))
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>OPD List for {{date('m/d/Y (F)')}}</b></div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Line #</th>
+                        <th>OPD No.</th>
+                        <th>Name</th>
+                        <th>Age/Sex</th>
+                        <th>Birthdate</th>
+                        <th>House No/Subdivision</th>
+                        <th>Barangay</th>
+                        <th>City/Province</th>
+                        <th>Contact Number</th>
+                        <th>Encoded At / By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @else
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>Showing <b>UNVERIFIED</b> cases by Barangay</div>
+                <div>
+                    Showing <b>UNVERIFIED</b> cases by Barangay
+                    @if(!(request()->input('opd_view')))
+                    <a href="{{route('syndromic_home')}}?opd_view=1" class="btn btn-secondary">Change View to OPD List</a>
+                    @else
+                    <a href="{{route('syndromic_home')}}" class="btn btn-secondary">Change View to BRGY List</a>
+                    @endif
+                </div>
                 @if(request()->input('showVerified'))
-                <div><a href="{{route('syndromic_home')}}">Show UNVERIFIED CASES</a></div>
+                <div>
+                    <a href="{{route('syndromic_home')}}" class="btn btn-warning">Show UNVERIFIED CASES</a>
+                </div>
                 @else
-                <div><a href="{{route('syndromic_home')}}?showVerified=1">Show VERIFIED CASES</a></div>
+                <div>
+                    <a href="{{route('syndromic_home')}}?showVerified=1" class="btn btn-primary">Show VERIFIED CASES</a>
+                </div>
                 @endif
             </div>
         </div>
@@ -55,6 +101,7 @@
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
                         <tr>
+                            <th>#</th>
                             <th>Name / ITR ID</th>
                             <th>Birthdate</th>
                             <th>Age/Sex</th>
@@ -68,8 +115,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($list as $l)
+                        @foreach($list as $ind => $l)
                         <tr>
+                            <td class="text-center">{{$list->firstItem() + $ind}}</td>
                             <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $l->id)}}">{{$l->syndromic_patient->getName()}} <small>(#{{$l->syndromic_patient->id}})</small></a></b></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($l->syndromic_patient->bdate))}}</td>
                             <td class="text-center">{{$l->syndromic_patient->getAge()}} / {{substr($l->syndromic_patient->gender,0,1)}}</td>
@@ -90,6 +138,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 
 <form action="{{route('syndromic_newPatient')}}" method="GET">
