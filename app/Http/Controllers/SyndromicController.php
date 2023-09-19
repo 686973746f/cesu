@@ -839,6 +839,7 @@ class SyndromicController extends Controller
         
         //$templateProcessor->setValue('asd', '');
         $templateProcessor->setValue('opd_number', $d->opdno);
+        $templateProcessor->setValue('qcode', $d->opdno);
         $templateProcessor->setValue('line_number', $d->line_number);
 
         $templateProcessor->setValue('last_name', $d->syndromic_patient->lname);
