@@ -3,10 +3,12 @@
 @section('content')
     <div class="container">
         @if(auth()->user()->isAdminSyndromic())
-        <form action="{{route('syndromic_deletePatient', $d->id)}}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete</button>
-        </form>
+        <div class="text-right mb-3">
+            <form action="{{route('syndromic_deletePatient', $d->id)}}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete Patient</button>
+            </form>
+        </div>
         @endif
 
         <form action="{{route('syndromic_updatePatient', $d->id)}}" method="POST">
