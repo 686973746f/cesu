@@ -5,7 +5,9 @@
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr">New Patient</button>
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report">Report</button>
+        @if(auth()->user()->isAdminSyndromic())
         <a href="{{route('syndromic_map')}}" class="btn btn-primary">Map</a>
+        @endif
     </div>
     <form action="" method="GET">
         <div class="row">
