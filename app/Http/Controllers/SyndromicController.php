@@ -427,9 +427,9 @@ class SyndromicController extends Controller
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
                 //'bigmessage' => $r->bigmessage,
-                'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? $r->dcnote_assessment : NULL,
-                'dcnote_plan' => ($r->filled('dcnote_plan')) ? $r->dcnote_plan : NULL,
-                'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? $r->dcnote_diagprocedure : NULL,
+                'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
+                'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
+                'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
                 'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
@@ -769,9 +769,9 @@ class SyndromicController extends Controller
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
                 //'bigmessage' => $r->bigmessage,
-                'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? $r->dcnote_assessment : NULL,
-                'dcnote_plan' => ($r->filled('dcnote_plan')) ? $r->dcnote_plan : NULL,
-                'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? $r->dcnote_diagprocedure : NULL,
+                'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
+                'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
+                'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
                 'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
