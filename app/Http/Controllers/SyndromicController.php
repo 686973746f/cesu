@@ -427,11 +427,11 @@ class SyndromicController extends Controller
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
                 //'bigmessage' => $r->bigmessage,
-                'dcnote_assessment' => $r->dcnote_assessment,
-                'dcnote_plan' => $r->dcnote_plan,
-                'dcnote_diagprocedure' => $r->dcnote_diagprocedure,
-                'rx' => ($r->filled('rx')) ? $r->rx : NULL,
-                'remarks' => ($r->filled('remarks')) ? $r->remarks : NULL,
+                'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? $r->dcnote_assessment : NULL,
+                'dcnote_plan' => ($r->filled('dcnote_plan')) ? $r->dcnote_plan : NULL,
+                'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? $r->dcnote_diagprocedure : NULL,
+                'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
+                'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
@@ -769,11 +769,11 @@ class SyndromicController extends Controller
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
                 //'bigmessage' => $r->bigmessage,
-                'dcnote_assessment' => $r->dcnote_assessment,
-                'dcnote_plan' => $r->dcnote_plan,
-                'dcnote_diagprocedure' => $r->dcnote_diagprocedure,
-                'rx' => ($r->filled('rx')) ? $r->rx : NULL,
-                'remarks' => ($r->filled('remarks')) ? $r->remarks : NULL,
+                'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? $r->dcnote_assessment : NULL,
+                'dcnote_plan' => ($r->filled('dcnote_plan')) ? $r->dcnote_plan : NULL,
+                'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? $r->dcnote_diagprocedure : NULL,
+                'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
+                'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
