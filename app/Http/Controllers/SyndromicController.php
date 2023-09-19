@@ -111,7 +111,7 @@ class SyndromicController extends Controller
             $sheet->setCellValue('G'.$curtab, $d->syndromic_patient->getAge());
             $sheet->setCellValue('H'.$curtab, $d->syndromic_patient->gender);
             $sheet->setCellValue('I'.$curtab, $d->syndromic_patient->contact_number);
-            $sheet->setCellValue('J'.$curtab, $d->dcnote_diagprocedure);
+            $sheet->setCellValue('J'.$curtab, $d->dcnote_assessment);
             $sheet->setCellValue('K'.$curtab, $d->rx);
             $sheet->setCellValue('L'.$curtab, date('m/d/Y', strtotime($d->created_at)));
             $sheet->setCellValue('M'.$curtab, $d->user->name);
