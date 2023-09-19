@@ -1493,8 +1493,8 @@ class PharmacyController extends Controller
         $templateProcessor->setValue('dreg', date('m/d/Y', strtotime($d->created_at)));
         $templateProcessor->setValue('name', $d->getName());
         $templateProcessor->setValue('bdate', date('m/d/Y', strtotime($d->bdate)));
-        $templateProcessor->setValue('agesex', $d->getAge().' / '.$d->sg());
-        $templateProcessor->setValue('address', $d->getCompleteAddress());
+        $templateProcessor->setValue('sex', $d->gender());
+        $templateProcessor->setValue('brgy', $d->address_brgy_text);
         $templateProcessor->setValue('patient_qr', 'PATIENT_'.$d->qr);
         $templateProcessor->setValue('qr', $d->qr);
         $templateProcessor->setValue('branch', $d->pharmacybranch->name);
@@ -1756,5 +1756,17 @@ class PharmacyController extends Controller
             ->with('msg', 'Error: Another Branch with the updated name already exists in the server.')
             ->with('msgtype', 'warning');
         }
+    }
+
+    public function walkinpart1() {
+
+    }
+
+    public function walkinpart2() {
+
+    }
+
+    public function globalcard() {
+
     }
 }
