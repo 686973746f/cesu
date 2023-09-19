@@ -143,7 +143,7 @@
                             </div>
                             <div class="form-group">
                               <label for="abdominalpain_remarks">Abdominal Pain Remarks</label>
-                              <input type="text" class="form-control" name="abdominalpain_remarks" id="abdominalpain_remarks" value="{{old('abdominalpain_remarks', $d->abdominalpain_remarks)}}">
+                              <input type="text" class="form-control" name="abdominalpain_remarks" id="abdominalpain_remarks" value="{{old('abdominalpain_remarks', $d->abdominalpain_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -161,7 +161,7 @@
                             </div>
                             <div class="form-group">
                               <label for="alteredmentalstatus_remarks">Altered Mental Status Remarks</label>
-                              <input type="text" class="form-control" name="alteredmentalstatus_remarks" id="alteredmentalstatus_remarks" value="{{old('alteredmentalstatus_remarks', $d->alteredmentalstatus_remarks)}}">
+                              <input type="text" class="form-control" name="alteredmentalstatus_remarks" id="alteredmentalstatus_remarks" value="{{old('alteredmentalstatus_remarks', $d->alteredmentalstatus_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -179,7 +179,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="animalbite_remarks">Animal Bite Remarks</label>
-                                <input type="text" class="form-control" name="animalbite_remarks" id="animalbite_remarks" value="{{old('animalbite_remarks', $d->animalbite_remarks)}}">
+                                <input type="text" class="form-control" name="animalbite_remarks" id="animalbite_remarks" value="{{old('animalbite_remarks', $d->animalbite_remarks)}}" style="text-transform: uppercase;">
                               </div>
                             </div>
                         </div>
@@ -197,7 +197,7 @@
                             </div>
                             <div class="form-group">
                               <label for="cough_remarks">Cough Remarks</label>
-                              <input type="text" class="form-control" name="cough_remarks" id="cough_remarks" value="{{old('cough_remarks', $d->cough_remarks)}}">
+                              <input type="text" class="form-control" name="cough_remarks" id="cough_remarks" value="{{old('cough_remarks', $d->cough_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -215,7 +215,7 @@
                             </div>
                             <div class="form-group">
                               <label for="colds_remarks">Colds Remarks</label>
-                              <input type="text" class="form-control" name="colds_remarks" id="colds_remarks" value="{{old('colds_remarks', $d->colds_remarks)}}">
+                              <input type="text" class="form-control" name="colds_remarks" id="colds_remarks" value="{{old('colds_remarks', $d->colds_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -233,7 +233,7 @@
                             </div>
                             <div class="form-group">
                               <label for="conjunctivitis_remarks">Conjunctivitis Remarks</label>
-                              <input type="text" class="form-control" name="conjunctivitis_remarks" id="conjunctivitis_remarks" value="{{old('conjunctivitis_remarks', $d->conjunctivitis_remarks)}}">
+                              <input type="text" class="form-control" name="conjunctivitis_remarks" id="conjunctivitis_remarks" value="{{old('conjunctivitis_remarks', $d->conjunctivitis_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -257,7 +257,7 @@
                             </div>
                             <div class="form-group">
                               <label for="diarrhea_remarks">Diarrhea Remarks</label>
-                              <input type="text" class="form-control" name="diarrhea_remarks" id="diarrhea_remarks" value="{{old('diarrhea_remarks', $d->diarrhea_remarks)}}">
+                              <input type="text" class="form-control" name="diarrhea_remarks" id="diarrhea_remarks" value="{{old('diarrhea_remarks', $d->diarrhea_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -275,7 +275,7 @@
                             </div>
                             <div class="form-group">
                               <label for="anorexia_remarks">Eating Disorder Remarks</label>
-                              <input type="text" class="form-control" name="anorexia_remarks" id="anorexia_remarks" value="{{old('anorexia_remarks', $d->anorexia_remarks)}}">
+                              <input type="text" class="form-control" name="anorexia_remarks" id="anorexia_remarks" value="{{old('anorexia_remarks', $d->anorexia_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -293,7 +293,7 @@
                             </div>
                             <div class="form-group">
                               <label for="fatigue_remarks">Fatigue Remarks</label>
-                              <input type="text" class="form-control" name="fatigue_remarks" id="fatigue_remarks" value="{{old('fatigue_remarks', $d->fatigue_remarks)}}">
+                              <input type="text" class="form-control" name="fatigue_remarks" id="fatigue_remarks" value="{{old('fatigue_remarks', $d->fatigue_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -311,7 +311,7 @@
                             </div>
                             <div class="form-group">
                               <label for="fever_remarks">Fever Remarks</label>
-                              <input type="text" class="form-control" name="fever_remarks" id="fever_remarks" value="{{old('fever_remarks', $d->fever_remarks)}}">
+                              <input type="text" class="form-control" name="fever_remarks" id="fever_remarks" value="{{old('fever_remarks', $d->fever_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -329,7 +329,7 @@
                             </div>
                             <div class="form-group">
                               <label for="headache_remarks">Headache Remarks</label>
-                              <input type="text" class="form-control" name="headache_remarks" id="headache_remarks" value="{{old('headache_remarks', $d->headache_remarks)}}">
+                              <input type="text" class="form-control" name="headache_remarks" id="headache_remarks" value="{{old('headache_remarks', $d->headache_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -347,7 +347,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="jointpain_remarks">Joint Pain Remarks</label>
-                                <input type="text" class="form-control" name="jointpain_remarks" id="jointpain_remarks" value="{{old('jointpain_remarks', $d->jointpain_remarks)}}">
+                                <input type="text" class="form-control" name="jointpain_remarks" id="jointpain_remarks" value="{{old('jointpain_remarks', $d->jointpain_remarks)}}" style="text-transform: uppercase;">
                               </div>
                             </div>
                         </div>
@@ -365,7 +365,7 @@
                             </div>
                             <div class="form-group">
                               <label for="jaundice_remarks">Jaundice Remarks</label>
-                              <input type="text" class="form-control" name="jaundice_remarks" id="jaundice_remarks" value="{{old('jaundice_remarks', $d->jaundice_remarks)}}">
+                              <input type="text" class="form-control" name="jaundice_remarks" id="jaundice_remarks" value="{{old('jaundice_remarks', $d->jaundice_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -383,7 +383,7 @@
                             </div>
                             <div class="form-group">
                               <label for="lossofsmell_remarks">Loss of Smell Remarks</label>
-                              <input type="text" class="form-control" name="lossofsmell_remarks" id="lossofsmell_remarks" value="{{old('lossofsmell_remarks', $d->lossofsmell_remarks)}}">
+                              <input type="text" class="form-control" name="lossofsmell_remarks" id="lossofsmell_remarks" value="{{old('lossofsmell_remarks', $d->lossofsmell_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -401,7 +401,7 @@
                             </div>
                             <div class="form-group">
                               <label for="lossoftaste_remarks">Loss of Taste Remarks</label>
-                              <input type="text" class="form-control" name="lossoftaste_remarks" id="lossoftaste_remarks" value="{{old('lossoftaste_remarks', $d->lossoftaste_remarks)}}">
+                              <input type="text" class="form-control" name="lossoftaste_remarks" id="lossoftaste_remarks" value="{{old('lossoftaste_remarks', $d->lossoftaste_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -419,7 +419,7 @@
                             </div>
                             <div class="form-group">
                               <label for="musclepain_remarks">Muscle Pain Remarks</label>
-                              <input type="text" class="form-control" name="musclepain_remarks" id="musclepain_remarks" value="{{old('musclepain_remarks', $d->musclepain_remarks)}}">
+                              <input type="text" class="form-control" name="musclepain_remarks" id="musclepain_remarks" value="{{old('musclepain_remarks', $d->musclepain_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -437,7 +437,7 @@
                             </div>
                             <div class="form-group">
                               <label for="nausea_remarks">Nausea Remarks</label>
-                              <input type="text" class="form-control" name="nausea_remarks" id="nausea_remarks" value="{{old('nausea_remarks', $d->nausea_remarks)}}">
+                              <input type="text" class="form-control" name="nausea_remarks" id="nausea_remarks" value="{{old('nausea_remarks', $d->nausea_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -455,7 +455,7 @@
                             </div>
                             <div class="form-group">
                               <label for="paralysis_remarks">Paralysis Remarks</label>
-                              <input type="text" class="form-control" name="paralysis_remarks" id="paralysis_remarks" value="{{old('paralysis_remarks', $d->paralysis_remarks)}}">
+                              <input type="text" class="form-control" name="paralysis_remarks" id="paralysis_remarks" value="{{old('paralysis_remarks', $d->paralysis_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -473,7 +473,7 @@
                             </div>
                             <div class="form-group" >
                               <label for="rash_remarks">Rash Remarks</label>
-                              <input type="text" class="form-control" name="rash_remarks" id="rash_remarks" value="{{old('rash_remarks', $d->rash_remarks)}}">
+                              <input type="text" class="form-control" name="rash_remarks" id="rash_remarks" value="{{old('rash_remarks', $d->rash_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -491,7 +491,7 @@
                             </div>
                             <div class="form-group">
                               <label for="mouthsore_remarks">Mouth Sore Remarks</label>
-                              <input type="text" class="form-control" name="mouthsore_remarks" id="mouthsore_remarks" value="{{old('mouthsore_remarks', $d->mouthsore_remarks)}}">
+                              <input type="text" class="form-control" name="mouthsore_remarks" id="mouthsore_remarks" value="{{old('mouthsore_remarks', $d->mouthsore_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -509,7 +509,7 @@
                             </div>
                             <div class="form-group">
                               <label for="sorethroat_remarks">Sore Throat Remarks</label>
-                              <input type="text" class="form-control" name="sorethroat_remarks" id="sorethroat_remarks" value="{{old('sorethroat_remarks', $d->sorethroat_remarks)}}">
+                              <input type="text" class="form-control" name="sorethroat_remarks" id="sorethroat_remarks" value="{{old('sorethroat_remarks', $d->sorethroat_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -527,7 +527,7 @@
                             </div>
                             <div class="form-group">
                               <label for="dyspnea_remarks">Shortness of Breath Remarks</label>
-                              <input type="text" class="form-control" name="dyspnea_remarks" id="dyspnea_remarks" value="{{old('dyspnea_remarks', $d->dyspnea_remarks)}}">
+                              <input type="text" class="form-control" name="dyspnea_remarks" id="dyspnea_remarks" value="{{old('dyspnea_remarks', $d->dyspnea_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -545,7 +545,7 @@
                             </div>
                             <div class="form-group">
                               <label for="vomiting_remarks">Vomiting Remarks</label>
-                              <input type="text" class="form-control" name="vomiting_remarks" id="vomiting_remarks" value="{{old('vomiting_remarks', $d->vomiting_remarks)}}">
+                              <input type="text" class="form-control" name="vomiting_remarks" id="vomiting_remarks" value="{{old('vomiting_remarks', $d->vomiting_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -563,7 +563,7 @@
                             </div>
                             <div class="form-group">
                               <label for="weaknessofextremities_remarks">Weakness of Extremities Remarks</label>
-                              <input type="text" class="form-control" name="weaknessofextremities_remarks" id="weaknessofextremities_remarks" value="{{old('weaknessofextremities_remarks', $d->weaknessofextremities_remarks)}}">
+                              <input type="text" class="form-control" name="weaknessofextremities_remarks" id="weaknessofextremities_remarks" value="{{old('weaknessofextremities_remarks', $d->weaknessofextremities_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
                         </div>
@@ -578,7 +578,7 @@
                             <hr>
                             <div class="form-group">
                               <label for="other_symptoms_onset_remarks">Specify <i><small>(Can be separated with commas ",")</small></i></label>
-                              <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks', $d->other_symptoms_onset_remarks)}}">
+                              <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks', $d->other_symptoms_onset_remarks)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
                               <label for="other_symptoms_onset">Date of Onset</label>
@@ -594,15 +594,15 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label for="dcnote_assessment">Assessment</label>
-                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3">{{old('dcnote_assessment', $d->dcnote_assessment)}}</textarea>
+                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment', $d->dcnote_assessment)}}</textarea>
                     </div>
                     <div class="form-group">
                       <label for="dcnote_plan">Plan of Action</label>
-                      <textarea class="form-control" name="dcnote_plan" id="dcnote_plan" rows="3">{{old('dcnote_plan', $d->dcnote_plan)}}</textarea>
+                      <textarea class="form-control" name="dcnote_plan" id="dcnote_plan" rows="3" style="text-transform: uppercase;">{{old('dcnote_plan', $d->dcnote_plan)}}</textarea>
                     </div>
                     <div class="form-group">
                       <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
-                      <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3">{{old('dcnote_diagprocedure', $d->dcnote_diagprocedure)}}</textarea>
+                      <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure', $d->dcnote_diagprocedure)}}</textarea>
                     </div>
                     <div class="form-group">
                       <label for="rx">RX</label>
@@ -644,6 +644,10 @@
                       </select>
                     </div>
                   </div>
+                </div>
+                <div class="form-group">
+                  <label for="remarks">Remarks</label>
+                  <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
             </div>
             <div class="card-footer">

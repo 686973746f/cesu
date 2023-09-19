@@ -71,7 +71,7 @@
                             </div>
                             <div class="form-group d-none" id="ifmarried_div">
                                 <label for="spouse_name"><span class="text-danger font-weight-bold">*</span>Spouse Name</label>
-                                <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name')}}">
+                                <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name')}}" style="text-transform: uppercase;">
                               </div>
                             <div class="form-group">
                               <label for="">Email Address (Optional)</label>
@@ -94,13 +94,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="mother_name">Mother's Name</label>
-                              <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{old('mother_name')}}">
+                              <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{old('mother_name')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="father_name">Father's Name</label>
-                                <input type="text" class="form-control" name="father_name" id="father_name" value="{{old('father_name')}}">
+                                <input type="text" class="form-control" name="father_name" id="father_name" value="{{old('father_name')}}" style="text-transform: uppercase;">
                               </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="ifminor_resperson"><span class="text-danger font-weight-bold">*</span>Patient is minor, input Name of Responsible Person/Guardian/Parent (Mother or Father)</label>
-                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson')}}">
+                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-6">
