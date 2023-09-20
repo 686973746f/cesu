@@ -267,8 +267,14 @@ class PharmacyController extends Controller
 
                 if(!($r->enable_override)) {
                     //Check if lagpas na qty limit
+                    /*
                     $search_qtylimit = PharmacyQtyLimitPatient::where('finished', 0)
                     ->where('master_supply_id', $get_master_id)
+                    ->where('patient_id', $get_patient->id)
+                    ->first();
+                    */
+
+                    $search_qtylimit = PharmacyQtyLimitPatient::where('master_supply_id', $get_master_id)
                     ->where('patient_id', $get_patient->id)
                     ->first();
 

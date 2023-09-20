@@ -98,7 +98,7 @@ class SyndromicPatient extends Model
     }
 
     public function getContactNumber() {
-        if($this->contact_number || $this->$this->contact_number2) {
+        if(!is_null($this->contact_number) || !is_null($this->$this->contact_number2)) {
             $txt = $this->contact_number;
 
             if(!is_null($this->contact_number2)) {
@@ -111,7 +111,6 @@ class SyndromicPatient extends Model
         else {
             return 'N/A';
         }
-        
     }
 
     public function getFullAddress() {
