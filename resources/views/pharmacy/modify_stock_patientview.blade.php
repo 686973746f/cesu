@@ -2,7 +2,7 @@
 
 @section('content')
 
-@if(!($init_prescription))
+@if($prescription)
     <div class="container">
         <div class="row">
             <div class="col-md-6">

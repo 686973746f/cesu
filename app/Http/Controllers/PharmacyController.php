@@ -191,6 +191,79 @@ class PharmacyController extends Controller
         }
     }
 
+    public function modifyStockView($subsupply_id) {
+        $d = PharmacySupplySub::findOrFail($subsupply_id);
+
+        $sub_list = PharmacySupplySubStock::where('subsupply_id', $d->id)
+        ->get();
+
+        $branch_list = PharmacyBranch::where('id', '!=', auth()->user()->pharmacy_branch_id)
+        ->orderBy('name', 'ASC')
+        ->get();
+
+        if(request()->input('process_patient')) {
+            $get_patient = PharmacyPatient::findOrFail(request()->input('process_patient'));
+        }
+        else {
+            $get_patient = NULL;
+        }
+
+        return view('pharmacy.modify_stock', [
+            'd' => $d,
+            'sub_list' => $sub_list,
+            'branch_list' => $branch_list,
+            'get_patient' => $get_patient,
+        ]);
+    }
+
+    public function modifyStockPatientView($id) {
+        $d = PharmacyPatient::findOrFail($id);
+
+        //get latest prescription
+        $prescription = PharmacyPrescription::where('finished', 0)
+        ->where('patient_id', $d->id)
+        ->latest()
+        ->first();
+
+        if($prescription) {
+            $search_cart = PharmacyCartMain::where('patient_id', $d->id)
+            ->where('status', 'PENDING')
+            ->where('prescription_id', $prescription->id)
+            ->where('created_by', auth()->user()->id)
+            ->first();
+
+            if($search_cart) {
+                $load_cart = $search_cart;
+            }
+            else {
+                $load_cart = request()->user()->pharmacycartmain()->create([
+                    'patient_id' => $d->id,
+                    'prescription_id' => $prescription->id,
+                    'branch_id' => auth()->user()->pharmacy_branch_id,
+                ]);
+            }
+
+            $load_subcart = PharmacyCartSub::where('main_cart_id', $load_cart->id)->get();
+
+            $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->get();
+
+            return view('pharmacy.modify_stock_patientview', [
+                'd' => $d,
+                'meds_list' => $meds_list,
+                'load_cart' => $load_cart,
+                'load_subcart' => $load_subcart,
+                'prescription' => $prescription,
+            ]);
+        }
+        else {
+            return view('pharmacy.modify_stock_patientview', [
+                'd' => $d,
+                'prescription' => $prescription,
+            ]);
+        }
+    }
+
     public function addCartItem($patient_id, Request $r) {
         $get_patient = PharmacyPatient::findOrFail($patient_id);
 
@@ -510,7 +583,7 @@ class PharmacyController extends Controller
                 }
 
                 //Create QTY Limit
-                $src_qty_limit = 
+                //$src_qty_limit = Pharmacy
             }
             
             $get_maincart->status = 'COMPLETED';
@@ -522,77 +595,6 @@ class PharmacyController extends Controller
             ->with('msg', 'Issuance successfully processed.')
             ->with('msgtype', 'success');
         }
-    }
-
-    public function modifyStockView($subsupply_id) {
-        $d = PharmacySupplySub::findOrFail($subsupply_id);
-
-        $sub_list = PharmacySupplySubStock::where('subsupply_id', $d->id)
-        ->get();
-
-        $branch_list = PharmacyBranch::where('id', '!=', auth()->user()->pharmacy_branch_id)
-        ->orderBy('name', 'ASC')
-        ->get();
-
-        if(request()->input('process_patient')) {
-            $get_patient = PharmacyPatient::findOrFail(request()->input('process_patient'));
-        }
-        else {
-            $get_patient = NULL;
-        }
-
-        return view('pharmacy.modify_stock', [
-            'd' => $d,
-            'sub_list' => $sub_list,
-            'branch_list' => $branch_list,
-            'get_patient' => $get_patient,
-        ]);
-    }
-
-    public function modifyStockPatientView($id) {
-        $d = PharmacyPatient::findOrFail($id);
-
-        $search_cart = PharmacyCartMain::where('patient_id', $d->id)
-        ->where('status', 'PENDING')
-        ->where('created_by', auth()->user()->id)
-        ->first();
-
-        if($search_cart) {
-            $load_cart = $search_cart;
-        }
-        else {
-            $load_cart = request()->user()->pharmacycartmain()->create([
-                'patient_id' => $d->id,
-                'branch_id' => auth()->user()->pharmacy_branch_id,
-            ]);
-        }
-
-        $load_subcart = PharmacyCartSub::where('main_cart_id', $load_cart->id)->get();
-
-        $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-        ->get();
-
-        //search for recent prescription
-        $prescription = PharmacyPrescription::where('finished', 0)
-        ->where('patient_id', $d->id)
-        ->latest()
-        ->first();
-
-        if($prescription) {
-            $init_prescription = false;
-        }
-        else {
-            $init_prescription = true;
-        }
-
-        return view('pharmacy.modify_stock_patientview', [
-            'd' => $d,
-            'meds_list' => $meds_list,
-            'load_cart' => $load_cart,
-            'load_subcart' => $load_subcart,
-            'init_prescription' => $init_prescription,
-            'prescription' => $prescription,
-        ]);
     }
 
     public function modifyStockProcess($subsupply_id, Request $r) {

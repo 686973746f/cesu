@@ -12,6 +12,6 @@ class PharmacyPrescription extends Model
     protected $fillable = [
         'patient_id',
         'finished',
-        'concerns_list',  
+        'concerns_list',
     ];
 }

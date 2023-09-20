@@ -13,6 +13,7 @@ class PharmacyCartMain extends Model
         'status',
         'patient_id',
         'branch_id',
+        'prescription_id',
     ];
 
     public function user() {

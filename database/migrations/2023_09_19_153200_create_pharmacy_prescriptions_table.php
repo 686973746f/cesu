@@ -15,7 +15,7 @@ class CreatePharmacyPrescriptionsTable extends Migration
     {
         Schema::create('pharmacy_prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
+            $table->foreignId('patient_id')->nullable()->constrained('pharmacy_patients')->onDelete('cascade');
             $table->text('concerns_list');
             
             $table->tinyInteger('finished')->default(0);
