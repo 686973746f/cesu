@@ -183,6 +183,7 @@
                           <option value="HYPERTENSION/HEART/HIGH CHOLESTEROL" {{(old('concerns_list') == 'HYPERTENSION/HEART/HIGH CHOLESTEROL' || in_array('HYPERTENSION/HEART/HIGH CHOLESTEROL', explode(",", $d->concerns_list))) ? 'selected' : ''}}>HYPERTENSION/HEART/HIGH CHOLESTEROL</option>
                           <option value="IMMUNE DEFICIENCY" {{(old('concerns_list') == 'IMMUNE DEFICIENCY' || in_array('IMMUNE DEFICIENCY', explode(",", $d->concerns_list))) ? 'selected' : ''}}>IMMUNE DEFICIENCY</option>
                           <option value="IMMUNIZATION" {{(old('concerns_list') == 'IMMUNIZATION' || in_array('IMMUNIZATION', explode(",", $d->concerns_list))) ? 'selected' : ''}}>IMMUNIZATION</option>
+                          <option value="INFECTION" {{(old('concerns_list') == 'INFECTION' || in_array('INFECTION', explode(",", $d->concerns_list))) ? 'selected' : ''}}>INFECTION</option>
                           <option value="KIDNEY PROBLEM" {{(old('concerns_list') == 'KIDNEY PROBLEM' || in_array('KIDNEY PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>KIDNEY PROBLEM</option>
                           <option value="LIVER PROBLEM" {{(old('concerns_list') == 'LIVER PROBLEM' || in_array('LIVER PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>LIVER PROBLEM</option>
                           <option value="MENTAL HEALTH" {{(old('concerns_list') == 'MENTAL HEALTH' || in_array('MENTAL HEALTH', explode(",", $d->concerns_list))) ? 'selected' : ''}}>MENTAL HEALTH</option>

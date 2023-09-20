@@ -151,6 +151,7 @@
                     <option value="HYPERTENSION/HEART/HIGH CHOLESTEROL">HYPERTENSION/HEART/HIGH CHOLESTEROL</option>
                     <option value="IMMUNE DEFICIENCY">IMMUNE DEFICIENCY</option>
                     <option value="IMMUNIZATION">IMMUNIZATION</option>
+                    <option value="INFECTION">INFECTION</option>
                     <option value="KIDNEY PROBLEM">KIDNEY PROBLEM</option>
                     <option value="LIVER PROBLEM">LIVER PROBLEM</option>
                     <option value="MENTAL HEALTH">MENTAL HEALTH</option>

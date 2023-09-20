@@ -40,11 +40,13 @@ class CreatePharmacyPatientsTable extends Migration
             $table->text('concerns_list')->nullable();
 
             $table->text('qr');
+            $table->text('global_qr')->nullable();
             $table->text('id_file')->nullable();
             $table->text('selfie_file')->nullable();
 
             $table->string('status')->default('ENABLED');
             $table->text('status_remarks')->nullable();
+            $table->tinyInteger('from_outside')->default(0);
             $table->foreignId('itr_id')->nullable()->constrained('syndromic_patients')->onDelete('cascade');
             $table->foreignId('pharmacy_branch_id')->constrained('pharmacy_branches')->onDelete('cascade');
 

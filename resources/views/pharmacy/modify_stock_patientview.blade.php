@@ -148,7 +148,7 @@
             <div class="card-header"><b>Initialize Patient Record</b></div>
             <div class="card-body">
                 <div class="alert alert-info text-center" role="alert">
-                    This is the Patient's <b>first time</b> on requesting Medicine at Pharmacy. Please specify the following to initialize the patient record before issuing medicines.
+                    <b>Patient was encoded from OPD.</b> Please fill-out the fields below before the patient can request medicines.
                 </div>
                 <table class="table table-bordered">
                     <tr>
@@ -171,7 +171,7 @@
                     </tr>
                     <tr>
                         <td class="bg-light">Diagnosis</td>
-                        <td class="text-center" colspan="3">{{$d->getLatestItr()->dcnote_diagprocedure}}</td>
+                        <td class="text-center" colspan="3">{{$d->getLatestItr()->dcnote_assessment}}</td>
                     </tr>
                     <tr>
                         <td class="bg-light">RX</td>
@@ -192,6 +192,7 @@
                       <option value="HYPERTENSION/HEART/HIGH CHOLESTEROL">HYPERTENSION/HEART/HIGH CHOLESTEROL</option>
                       <option value="IMMUNE DEFICIENCY">IMMUNE DEFICIENCY</option>
                       <option value="IMMUNIZATION">IMMUNIZATION</option>
+                      <option value="INFECTION">INFECTION</option>
                       <option value="KIDNEY PROBLEM">KIDNEY PROBLEM</option>
                       <option value="LIVER PROBLEM">LIVER PROBLEM</option>
                       <option value="MENTAL HEALTH">MENTAL HEALTH</option>

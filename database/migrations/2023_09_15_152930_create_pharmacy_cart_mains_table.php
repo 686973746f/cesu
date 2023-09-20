@@ -17,7 +17,7 @@ class CreatePharmacyCartMainsTable extends Migration
             $table->id();
             $table->string('status')->default('PENDING');
             $table->foreignId('patient_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
-            $table->foreignId('branch_id')->nullable()->constrained('pharmacy_patients')->onDelete('cascade');
+            $table->foreignId('branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
