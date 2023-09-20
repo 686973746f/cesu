@@ -86,7 +86,7 @@
                             </div>
                             <div class="form-group d-none" id="ifmarried_div">
                                 <label for="spouse_name"><span class="text-danger font-weight-bold">*</span>Spouse Name</label>
-                                <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name', $d->spouse_name)}}">
+                                <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name', $d->spouse_name)}}" style="text-transform: uppercase;">
                               </div>
                             <div class="form-group">
                               <label for="">Email Address (Optional)</label>
@@ -96,7 +96,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Contact Number</label>
-                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********">
                             </div>
                             <div class="form-group">
                                 <label for="contact_number2">Contact Number 2 (Optional)</label>
@@ -109,13 +109,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="mother_name">Mother's Name</label>
-                              <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{old('mother_name', $d->mother_name)}}">
+                              <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{old('mother_name', $d->mother_name)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="father_name">Father's Name</label>
-                                <input type="text" class="form-control" name="father_name" id="father_name" value="{{old('father_name', $d->father_name)}}">
+                                <input type="text" class="form-control" name="father_name" id="father_name" value="{{old('father_name', $d->father_name)}}" style="text-transform: uppercase;">
                               </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="ifminor_resperson">Patient is minor, input Name of Responsible Person/Guardian/Parent</label>
-                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson', $d->ifminor_resperson)}}">
+                              <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson', $d->ifminor_resperson)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -190,14 +190,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="address_houseno" class="form-label"><span class="text-danger font-weight-bold">*</span>House No./Lot/Building</label>
-                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno', $d->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="" required>
+                                <label for="address_houseno" class="form-label">House No./Lot/Building</label>
+                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno', $d->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="address_street" class="form-label"><span class="text-danger font-weight-bold">*</span>Street/Subdivision/Purok/Sitio</label>
-                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                <label for="address_street" class="form-label">Street/Subdivision/Purok/Sitio</label>
+                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                             </div>
                         </div>
                     </div>
