@@ -16,5 +16,5 @@ class PharmacyQtyLimitPatient extends Model
         'set_pieces_limit',
         'date_started',
         'date_finished',
-    ]
+    ];
 }

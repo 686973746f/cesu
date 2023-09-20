@@ -1112,7 +1112,7 @@ class VaxcertController extends Controller
             ['code' => 'Novavax', 'name' => 'Novavax'],
             ['code' => 'Pfizer', 'name' => 'Pfizer'],
             ['code' => 'PfizerBivalent', 'name' => 'Pfizer Bivalent'],
-            ['code' => 'Sinohpharm', 'name' => 'Sinopharm'],
+            ['code' => 'Sinopharm', 'name' => 'Sinopharm'],
             ['code' => 'Sinovac', 'name' => 'Sinovac'],
             ['code' => 'SputnikLight', 'name' => 'Sputnik Light'],
             ['code' => 'Gamaleya', 'name' => 'Sputnik V/Gamaleya'],

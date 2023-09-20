@@ -291,7 +291,12 @@ class PharmacyController extends Controller
 
                         if($curr_qty_obtained >= $search_qtylimit->set_pieces_limit) {
                             return redirect()->back()
-                            ->with('msg', 'Error: Cannnot issue due to Patient reached the Issuing limit based on his/her Medical Prescription.')
+                            ->with('msg', 'Error: Patient already reached the Quantity Limit based on the Patient Prescription (Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).').')
+                            ->with('msgtype', 'warning');
+                        }
+                        else if(($r->qty_to_process + $curr_qty_obtained) >= $search_qtylimit->set_pieces_limit) {
+                            return redirect()->back()
+                            ->with('msg', 'Error: Quantity to Issue Exceeds the Quantity Limit based on the Patient Prescription (Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).'). Adjust/Reduce the Quantity to Issue then try again.')
                             ->with('msgtype', 'warning');
                         }
                     }
@@ -324,7 +329,12 @@ class PharmacyController extends Controller
 
                             if($curr_qty_obtained >= $get_max_piece_allowed) {
                                 return redirect()->back()
-                                ->with('msg', 'Error: Cannnot issue due to Patient reached the Issuing Quantity Limit based on the Duration of Issuance from th.')
+                                ->with('msg', 'Error: Patient reached the Issuing Duration set by the System. Patient should come back on: ')
+                                ->with('msgtype', 'warning');
+                            }
+                            else if(($r->qty_to_process + $curr_qty_obtained) >= $get_max_piece_allowed) {
+                                return redirect()->back()
+                                ->with('msg', 'Error: Quantity to Issue Exceeds the Maximum Quantity Allowed per Duration.')
                                 ->with('msgtype', 'warning');
                             }
                         }

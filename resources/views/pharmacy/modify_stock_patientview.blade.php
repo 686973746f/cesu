@@ -97,7 +97,7 @@
                                         <th>#</th>
                                         <th>ITEM</th>
                                         <th>QTY TO ISSUE</th>
-                                        <th>MAX QTY LIMIT FOR PATIENT</th>
+                                        <th>MAX QTY LIMIT (BASED ON RX)</th>
                                         <th></th>
                                     </tr>
                                 </thead>
