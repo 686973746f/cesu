@@ -16,7 +16,8 @@ class CreatePharmacyCartMainsTable extends Migration
         Schema::create('pharmacy_cart_mains', function (Blueprint $table) {
             $table->id();
             $table->string('status')->default('PENDING');
-            $table->foreignId('patient_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
+            $table->foreignId('patient_id')->nullable()->constrained('pharmacy_patients')->onDelete('cascade');
+            $table->foreignId('prescription_id')->nullable()->constrained('pharmacy_prescriptions')->onDelete('cascade');
             $table->foreignId('branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
