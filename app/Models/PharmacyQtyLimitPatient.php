@@ -10,7 +10,6 @@ class PharmacyQtyLimitPatient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'finished',
         'prescription_id',
         'master_supply_id',
         'set_pieces_limit',

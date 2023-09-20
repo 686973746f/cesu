@@ -32,7 +32,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light">Prescription ID</td>
-                                        <td class="text-center" colspan="3">#{{$prescription->id}} <button type="button" class="btn btn-success ml-2">New Prescription</button></td>
+                                        <td class="text-center" colspan="3">#{{$prescription->id}} <button type="button" class="btn btn-success ml-2" id="new_prescription_btn">New Prescription</button></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light">Requesting Meds for</td>
@@ -67,8 +67,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="qty">Quantity <span id="qty_span"></span></label>
-                                        <input type="text" class="form-control" name="qty" id="qty" min="1" max="999" required>
+                                        <label for="qty_to_process">Quantity <span id="qty_span"></span></label>
+                                        <input type="text" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" required>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +113,12 @@
                                         <td style="vertical-align: middle;"><b>{{$c->pharmacysub->pharmacysupplymaster->name}}</b></td>
                                         <td style="vertical-align: middle;">{{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}</td>
                                         <td style="vertical-align: middle;">
+                                            @if($c->displayPrescriptionLimit())
+                                            {{$c->displayPrescriptionLimit()}}
+                                            @else
                                             <input type="number" class="form-control" name="set_pieces_limit[]" id="set_pieces_limit" min="1" max="900">
+                                            @endif
+                                            
                                         </td>
                                         <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button></td>
                                     </tr>
@@ -133,15 +138,16 @@
         </div>
     </div>
 
-    <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST">
+    <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST" class="d-none">
         @csrf
-        <button type="submit" class="btn btn-primary" id="submit" name="submit" value="new_prescription"></button>
+        <button type="submit" class="btn btn-primary" id="new_prescription_hdn" name="submit" value="new_prescription"></button>
     </form>
 
     <script>
         $('#alt_meds_id').select2({
             theme: 'bootstrap',
         });
+        
 
         $(document).ready(function () {
             $("#myForm").submit(function (event) {
@@ -153,6 +159,18 @@
                     // Prevent the form from submitting
                     event.preventDefault();
                     alert("Please scan or manually input the item to issue before proceeding.");
+                }
+            });
+
+            $('#new_prescription_btn').click(function (e) { 
+                e.preventDefault();
+                
+                var result = confirm("Current Prescription will be marked as Finished. Continue?");
+
+                if (result) {
+                    $('#new_prescription_hdn').click();
+                } else {
+
                 }
             });
         });

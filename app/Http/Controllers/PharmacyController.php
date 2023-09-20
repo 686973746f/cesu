@@ -288,7 +288,24 @@ class PharmacyController extends Controller
             ->with('msgtype', 'success');
         }
         else if($r->submit == 'new_prescription') {
-            
+            $get_latest_prescription = PharmacyPrescription::where('finished', 0)
+            ->where('patient_id', $get_patient->id)
+            ->latest()
+            ->first();
+
+            if($get_latest_prescription) {
+                $get_latest_prescription->update([
+                    'finished' => 1,
+                ]);
+            }
+
+            //get main cart and delete
+            $delete_main_cart = PharmacyCartMain::where('prescription_id', $get_latest_prescription->id)
+            ->where('patient_id', $get_patient->id)
+            ->where('branch_id', auth()->user()->pharmacy_branch_id)
+            ->delete();
+
+            return redirect()->back();
         }
         else if($r->submit == 'add_cart') {
             if($r->meds) {
@@ -330,9 +347,9 @@ class PharmacyController extends Controller
                         ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
                         ->with('msgtype', 'warning');
                     }
-                    else if($r->qty > $find_substock->master_box_stock) {
+                    else if($r->qty_to_process > $find_substock->master_box_stock) {
                         return redirect()->back()
-                        ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_box_stock.' '.Str::plural('BOX', $find_substock->master_box_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('BOX', $r->qty))
+                        ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_box_stock.' '.Str::plural('BOX', $find_substock->master_box_stock).'] does not have enough stock to process '.$r->qty_to_process.' '.Str::plural('BOX', $r->qty_to_process))
                         ->with('msgtype', 'warning');
                     }
                 }
@@ -342,9 +359,9 @@ class PharmacyController extends Controller
                         ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
                         ->with('msgtype', 'warning');
                     }
-                    else if($r->qty > $find_substock->master_piece_stock) {
+                    else if($r->qty_to_process > $find_substock->master_piece_stock) {
                         return redirect()->back()
-                        ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_piece_stock.' '.Str::plural('PC', $find_substock->master_piece_stock).'] does not have enough stock to process '.$r->qty.' '.Str::plural('PC', $r->qty))
+                        ->with('msg', 'Error: Item ['.$find_substock->pharmacysupplymaster->name.' - Current Stock: '.$find_substock->master_piece_stock.' '.Str::plural('PC', $find_substock->master_piece_stock).'] does not have enough stock to process '.$r->qty_to_process.' '.Str::plural('PC', $r->qty_to_process))
                         ->with('msgtype', 'warning');
                     }
                 }
@@ -367,18 +384,18 @@ class PharmacyController extends Controller
                                 $r->where('id', $get_master_id);
                             });
                         })
-                        ->whereBetween('created_at', [$search_qtylimit->date_started, date('Y-m-d')])
+                        ->whereDate('created_at', '>=', $search_qtylimit->date_started)
                         ->where('qty_type', 'PIECE')
                         ->sum('qty_to_process');
 
                         if($curr_qty_obtained >= $search_qtylimit->set_pieces_limit) {
                             return redirect()->back()
-                            ->with('msg', 'Error: Patient already reached the Quantity Limit based on the Patient Prescription (Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).').')
+                            ->with('msg', 'Error: Patient already reached the Quantity Limit based on the Patient Prescription. (Used: '.$curr_qty_obtained.' '.Str::plural('PC', $curr_qty_obtained).' | Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).')')
                             ->with('msgtype', 'warning');
                         }
-                        else if(($r->qty_to_process + $curr_qty_obtained) >= $search_qtylimit->set_pieces_limit) {
+                        else if(($r->qty_to_process + $curr_qty_obtained) > $search_qtylimit->set_pieces_limit) {
                             return redirect()->back()
-                            ->with('msg', 'Error: Quantity to Issue Exceeds the Quantity Limit based on the Patient Prescription (Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).'). Adjust/Reduce the Quantity to Issue then try again.')
+                            ->with('msg', 'Error: Quantity to Issue Exceeds the Quantity Limit based on the Patient Prescription. (Used: '.$curr_qty_obtained.' '.Str::plural('PC', $curr_qty_obtained).' | Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).') Adjust/Reduce the Quantity to Issue then try again.')
                             ->with('msgtype', 'warning');
                         }
                     }
@@ -411,10 +428,10 @@ class PharmacyController extends Controller
 
                             if($curr_qty_obtained >= $get_max_piece_allowed) {
                                 return redirect()->back()
-                                ->with('msg', 'Error: Patient reached the Issuing Duration set by the System. Patient should come back on: ')
+                                ->with('msg', 'Error: Patient reached the Issuing Quota for the System Duration. Patient should come back on: '.Carbon::parse($search_qtylimit->date_started)->addDays($get_days_duration)->format('m/d/Y (D)'))
                                 ->with('msgtype', 'warning');
                             }
-                            else if(($r->qty_to_process + $curr_qty_obtained) >= $get_max_piece_allowed) {
+                            else if(($r->qty_to_process + $curr_qty_obtained) > $get_max_piece_allowed) {
                                 return redirect()->back()
                                 ->with('msg', 'Error: Quantity to Issue Exceeds the Maximum Quantity Allowed per Duration set by the System. Adjust/Reduce the Quantity to Issue then try again.')
                                 ->with('msgtype', 'warning');
@@ -422,11 +439,11 @@ class PharmacyController extends Controller
                         }
                     }
                 }
-
+                
                 $create_subcart = PharmacyCartSub::create([
-                    'main_cart_id' => $get_patient->getPendingCartMain()->id,
+                    'main_cart_id' => $subcart_search->pharmacycartmain->id,
                     'subsupply_id' => $find_substock->id,
-                    'qty_to_process' => $r->qty,
+                    'qty_to_process' => $r->qty_to_process,
                     'type_to_process' => $r->type_to_process,
                 ]);
     
@@ -556,6 +573,19 @@ class PharmacyController extends Controller
                                 }
                             }
                         }
+
+                        //Create QTY Limit if not existing
+                        $search_qtylimit = PharmacyQtyLimitPatient::where('prescription_id', $get_maincart->prescription_id)
+                        ->where('master_supply_id', $sc->pharmacysub->pharmacysupplymaster->id)
+                        ->first();
+                        if(!($search_qtylimit)) {
+                            $create_qty_limit = PharmacyQtyLimitPatient::create([
+                                'prescription_id' => $get_maincart->prescription_id,
+                                'master_supply_id' => $sc->pharmacysub->pharmacysupplymaster->id,
+                                'set_pieces_limit' => $r->set_pieces_limit[$ind],
+                                'date_started' => date('Y-m-d'),
+                            ]);
+                        }
                     }
                     else {
                         return redirect()->back()
@@ -581,9 +611,6 @@ class PharmacyController extends Controller
                 if($subsupply->isDirty()) {
                     $subsupply->save();
                 }
-
-                //Create QTY Limit
-                //$src_qty_limit = Pharmacy
             }
             
             $get_maincart->status = 'COMPLETED';
