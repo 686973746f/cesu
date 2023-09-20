@@ -175,7 +175,7 @@
                     </tr>
                     <tr>
                         <td class="bg-light">RX</td>
-                        <td class="text-center" colspan="3">{{$d->getLatestItr()->rx}}</td>
+                        <td class="text-center" colspan="3">{{$d->getLatestItr()->dcnote_plan}}</td>
                     </tr>
                 </table>
                 <hr>

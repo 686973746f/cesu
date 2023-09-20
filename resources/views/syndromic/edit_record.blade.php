@@ -604,10 +604,12 @@
                       <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
                       <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure', $d->dcnote_diagprocedure)}}</textarea>
                     </div>
+                    <!--
                     <div class="form-group">
                       <label for="rx">RX</label>
                       <input type="text" class="form-control" name="rx" id="rx" value="{{old('rx', $d->rx)}}">
                     </div>
+                    -->
                   </div>
                 </div>
                 <div class="row">
