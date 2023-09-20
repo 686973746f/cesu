@@ -2,7 +2,7 @@
 
 @section('content')
 
-@if(!is_null($d->concerns_list))
+@if(!($init_prescription))
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -31,8 +31,12 @@
                                         <td class="text-center">{{$d->address_brgy_text}}</td>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light">Prescription ID</td>
+                                        <td class="text-center" colspan="3">#{{$prescription->id}} <button type="button" class="btn btn-success ml-2">New Prescription</button></td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light">Requesting Meds for</td>
-                                        <td class="text-center" colspan="3">{{$d->concerns_list}}</td>
+                                        <td class="text-center" colspan="3">{{$prescription->concerns_list}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -91,6 +95,7 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            @if($load_subcart->count())
                             <table class="table table-bordered table-striped text-center">
                                 <thead class="thead-light">
                                     <tr>
@@ -108,13 +113,16 @@
                                         <td style="vertical-align: middle;"><b>{{$c->pharmacysub->pharmacysupplymaster->name}}</b></td>
                                         <td style="vertical-align: middle;">{{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}</td>
                                         <td style="vertical-align: middle;">
-                                            <input type="number" class="form-control" name="set_pieces_limit[]" id="set_pieces_limit" min="1" max="900" required>
+                                            <input type="number" class="form-control" name="set_pieces_limit[]" id="set_pieces_limit" min="1" max="900">
                                         </td>
                                         <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            @else
+                            <h6 class="text-center">Cart is still empty.</h6>
+                            @endif
                         </div>
                         <div class="card-footer text-right">
                             <button type="submit" name="submit" value="process" class="btn btn-success" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Process</button>
@@ -124,6 +132,11 @@
             </div>
         </div>
     </div>
+
+    <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-primary" id="submit" name="submit" value="new_prescription"></button>
+    </form>
 
     <script>
         $('#alt_meds_id').select2({
@@ -162,7 +175,11 @@
             <div class="card-header"><b>Initialize Patient Record</b></div>
             <div class="card-body">
                 <div class="alert alert-info text-center" role="alert">
+                    @if(!is_null($d->itr_id))
                     <b>Patient was encoded from OPD.</b> Please fill-out the fields below before the patient can request medicines.
+                    @else
+                    Please fill-out the criteria below before the patient can request medicines.
+                    @endif
                 </div>
                 <table class="table table-bordered">
                     <tr>
@@ -177,6 +194,7 @@
                         <td class="bg-light">Barangay</td>
                         <td class="text-center">{{$d->address_brgy_text}}</td>
                     </tr>
+                    @if(!is_null($d->itr_id))
                     <tr>
                         <td class="bg-light">Date of Consultation</td>
                         <td class="text-center">{{date('m/d/Y', strtotime($d->getLatestItr()->consultation_date))}}</td>
@@ -191,6 +209,7 @@
                         <td class="bg-light">RX</td>
                         <td class="text-center" colspan="3">{{$d->getLatestItr()->dcnote_plan}}</td>
                     </tr>
+                    @endif
                 </table>
                 <hr>
                 <div class="form-group">

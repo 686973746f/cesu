@@ -37,7 +37,7 @@ class CreatePharmacyPatientsTable extends Migration
             $table->text('address_street')->nullable();
             $table->text('address_houseno')->nullable();
 
-            $table->text('concerns_list')->nullable();
+            //$table->text('concerns_list')->nullable();
 
             $table->text('qr');
             $table->text('global_qr')->nullable();

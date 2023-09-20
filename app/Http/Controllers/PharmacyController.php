@@ -12,6 +12,7 @@ use App\Models\PharmacyCartMain;
 use App\Models\PharmacyCartSub;
 use App\Models\PharmacySupply;
 use App\Models\PharmacyPatient;
+use App\Models\PharmacyPrescription;
 use App\Models\PharmacyQtyLimitPatient;
 use App\Models\PharmacyStockLog;
 use App\Models\PharmacyStockCard;
@@ -194,6 +195,7 @@ class PharmacyController extends Controller
         $get_patient = PharmacyPatient::findOrFail($patient_id);
 
         if($r->submit == 'submit_changes') {
+            /*
             $get_patient->concerns_list = implode(',', $r->concerns_list);
 
             if($get_patient->isDirty()) {
@@ -201,10 +203,19 @@ class PharmacyController extends Controller
 
                 $get_patient->save();
             }
+            */
+
+            $r->user()->pharmacyprescription()->create([
+                'patient_id' => $get_patient->id,
+                'concerns_list' => implode(',', $r->concerns_list),
+            ]);
 
             return redirect()->back()
             ->with('msg', 'Patient data was initialized successfully. You may now input medicine/s for issuing to the patient.')
             ->with('msgtype', 'success');
+        }
+        else if($r->submit == 'new_prescription') {
+            
         }
         else if($r->submit == 'add_cart') {
             if($r->meds) {
@@ -266,16 +277,14 @@ class PharmacyController extends Controller
                 }
 
                 if(!($r->enable_override)) {
-                    //Check if lagpas na qty limit
-                    /*
-                    $search_qtylimit = PharmacyQtyLimitPatient::where('finished', 0)
-                    ->where('master_supply_id', $get_master_id)
+                    $get_latest_prescription = PharmacyPrescription::where('finished', 0)
                     ->where('patient_id', $get_patient->id)
+                    ->latest()
                     ->first();
-                    */
 
+                    //Check if lagpas na qty limit
                     $search_qtylimit = PharmacyQtyLimitPatient::where('master_supply_id', $get_master_id)
-                    ->where('patient_id', $get_patient->id)
+                    ->where('prescription_id', $get_latest_prescription->id)
                     ->first();
 
                     if($search_qtylimit) {
@@ -302,7 +311,7 @@ class PharmacyController extends Controller
                     }
 
                     //Check if sobra na ng kuha based on duration
-                    if($find_substock->pharmacysupplymaster->maxpiece_perduration || $find_substock->self_maxpiece_perduration) {
+                    if(!is_null($find_substock->pharmacysupplymaster->maxpiece_perduration) || !is_null($find_substock->self_maxpiece_perduration)) {
                         if($find_substock->self_maxpiece_perduration) {
                             $get_max_piece_allowed = $find_substock->self_maxpiece_perduration;
                         }
@@ -334,7 +343,7 @@ class PharmacyController extends Controller
                             }
                             else if(($r->qty_to_process + $curr_qty_obtained) >= $get_max_piece_allowed) {
                                 return redirect()->back()
-                                ->with('msg', 'Error: Quantity to Issue Exceeds the Maximum Quantity Allowed per Duration.')
+                                ->with('msg', 'Error: Quantity to Issue Exceeds the Maximum Quantity Allowed per Duration set by the System. Adjust/Reduce the Quantity to Issue then try again.')
                                 ->with('msgtype', 'warning');
                             }
                         }
@@ -534,6 +543,52 @@ class PharmacyController extends Controller
             'sub_list' => $sub_list,
             'branch_list' => $branch_list,
             'get_patient' => $get_patient,
+        ]);
+    }
+
+    public function modifyStockPatientView($id) {
+        $d = PharmacyPatient::findOrFail($id);
+
+        $search_cart = PharmacyCartMain::where('patient_id', $d->id)
+        ->where('status', 'PENDING')
+        ->where('created_by', auth()->user()->id)
+        ->first();
+
+        if($search_cart) {
+            $load_cart = $search_cart;
+        }
+        else {
+            $load_cart = request()->user()->pharmacycartmain()->create([
+                'patient_id' => $d->id,
+                'branch_id' => auth()->user()->pharmacy_branch_id,
+            ]);
+        }
+
+        $load_subcart = PharmacyCartSub::where('main_cart_id', $load_cart->id)->get();
+
+        $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+        ->get();
+
+        //search for recent prescription
+        $prescription = PharmacyPrescription::where('finished', 0)
+        ->where('patient_id', $d->id)
+        ->latest()
+        ->first();
+
+        if($prescription) {
+            $init_prescription = false;
+        }
+        else {
+            $init_prescription = true;
+        }
+
+        return view('pharmacy.modify_stock_patientview', [
+            'd' => $d,
+            'meds_list' => $meds_list,
+            'load_cart' => $load_cart,
+            'load_subcart' => $load_subcart,
+            'init_prescription' => $init_prescription,
+            'prescription' => $prescription,
         ]);
     }
 
@@ -1494,6 +1549,18 @@ class PharmacyController extends Controller
             }
         }
 
+        $foundunique = false;
+
+        while(!$foundunique) {
+            $global_qr = mb_strtoupper(Str::random(20));
+
+            $search = PharmacyPatient::where('global_qr', $global_qr)->first();
+            if(!$search) {
+                $foundunique = true;
+            }
+        }
+
+        //STORE PATIENT
         $c = $r->user()->pharmacypatient()->create([
             'lname' => mb_strtoupper($r->lname),
             'fname' => mb_strtoupper($r->fname),
@@ -1517,8 +1584,9 @@ class PharmacyController extends Controller
             'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
             'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
             
-            'concerns_list' => implode(',', $r->concerns_list),
+            //'concerns_list' => implode(',', $r->concerns_list),
             'qr' => $qr,
+            'global_qr' => $global_qr,
     
             'id_file' => NULL,
             'selfie_file' => NULL,
@@ -1526,6 +1594,12 @@ class PharmacyController extends Controller
             'status' => 'ENABLED',
     
             'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+        ]);
+
+        //MAKE PRESCRIPTION DATA
+        $prescription = $r->user()->pharmacyprescription()->create([
+            'patient_id' => $c->id,
+            'concerns_list' => implode(',', $r->concerns_list),
         ]);
 
         return redirect()->route('pharmacy_view_patient_list')
@@ -1625,110 +1699,7 @@ class PharmacyController extends Controller
         }
     }
 
-    public function modifyStockPatientView($id) {
-        $d = PharmacyPatient::findOrFail($id);
-
-        $search_cart = PharmacyCartMain::where('patient_id', $d->id)
-        ->where('status', 'PENDING')
-        ->where('created_by', auth()->user()->id)
-        ->first();
-
-        if($search_cart) {
-            $load_cart = $search_cart;
-        }
-        else {
-            $load_cart = request()->user()->pharmacycartmain()->create([
-                'patient_id' => $d->id,
-                'branch_id' => auth()->user()->pharmacy_branch_id,
-            ]);
-        }
-
-        $load_subcart = PharmacyCartSub::where('main_cart_id', $load_cart->id)->get();
-
-        $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-        ->get();
-
-        return view('pharmacy.modify_stock_patientview', [
-            'd' => $d,
-            'meds_list' => $meds_list,
-            'load_cart' => $load_cart,
-            'load_subcart' => $load_subcart,
-        ]);
-
-        /*
-        if(request()->input('meds') || request()->input('alt_meds_id')) {
-            if(request()->input('meds')) {
-                $meds = request()->input('meds');
-            }
-            else {
-                $meds = request()->input('alt_meds_id');
-            }
-
-            if(Str::startsWith($meds, 'SUBSTOCK_')) {
-                $newString = Str::replaceFirst("SUBSTOCK_", "", $meds);
-                
-                $f = PharmacySupplySubStock::where('id', $newString)->first();
-
-                if($f) {
-                    if($f->pharmacysub->pharmacy_branch_id == auth()->user()->id) {
-                        $get_substock = $f->id;
-                    }
-                    else {
-                        return redirect()->back()
-                        ->with('msg', 'Error: You are not authorized to do that.')
-                        ->with('msgtype', 'warning');
-                    }
-                }
-                else {
-
-                }
-                
-                $sku_code = $f->pharmacysub->pharmacysupplymaster->sku_code;
-            }
-            else {
-                $get_substock = NULL;
-
-                $sku_code = $meds;
-            }
-
-            $e = PharmacySupplySub::whereHas('pharmacysupplymaster', function ($q) use ($sku_code) {
-                $q->where('sku_code', $sku_code);
-            })->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-            ->first();
-
-            if($e) {
-                //check qty if not equals to Zero
-                if($e->pharmacysupplymaster->quantity_type == 'BOX') {
-                    if($e->master_box_stock == 0 && $e->master_piece_stock == 0) {
-                        return redirect()->back()
-                        ->with('msg', 'Error: The Item '.$e->pharmacysupplymaster->name.' in '.$e->pharmacybranch->name.' has no available stock.')
-                        ->with('msgtype', 'warning');
-                    }
-                }
-                else {
-                    if($e->master_box_stock == 0) {
-                        if($e->master_box_stock == 0 && $e->master_piece_stock == 0) {
-                            return redirect()->back()
-                            ->with('msg', 'Error: The Item '.$e->pharmacysupplymaster->name.' in '.$e->pharmacybranch->name.' has no available stock.')
-                            ->with('msgtype', 'warning');
-                        }
-                    }
-                }
-
-                return redirect()->route('pharmacy_modify_view', [
-                    $e->id,
-                    'process_patient' => $d->id,
-                    'get_substock' => $get_substock,
-                ]);
-            }
-            else {
-
-            }
-        }
-        */
-
-        
-    }
+    
 
     public function listBranch() {
         if(request()->input('q')) {

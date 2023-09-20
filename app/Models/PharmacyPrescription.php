@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PharmacyQtyLimitPatient extends Model
+class PharmacyPrescription extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'patient_id',
         'finished',
-        'prescription_id',
-        'master_supply_id',
-        'set_pieces_limit',
-        'date_started',
-        'date_finished',
+        'concerns_list',  
     ];
 }

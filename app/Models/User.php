@@ -234,6 +234,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(PharmacyCartMain::class, 'created_by');
     }
 
+    public function pharmacyprescription() {
+        return $this->hasMany(PharmacyPrescription::class, 'created_by');
+    }
+
     public function defaultInterviewer() {
         if(!is_null($this->interviewer_id)) {
             $i = Interviewers::find($this->interviewer_id);

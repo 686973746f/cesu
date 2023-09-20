@@ -15,8 +15,7 @@ class CreatePharmacyQtyLimitPatientsTable extends Migration
     {
         Schema::create('pharmacy_qty_limit_patients', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('finished')->default(0);
-            $table->foreignId('patient_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
+            $table->foreignId('prescription_id')->nullable()->constrained('pharmacy_prescriptions')->onDelete('cascade');
             $table->foreignId('master_supply_id')->nullable()->constrained('pharmacy_supply_masters')->onDelete('cascade');
             $table->integer('set_pieces_limit');
             $table->date('date_started');
