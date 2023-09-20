@@ -395,7 +395,7 @@ class PharmacyController extends Controller
 
             $subcart_list = PharmacyCartSub::where('main_cart_id', $get_maincart->id)->get();
 
-            foreach($subcart_list as $sc) {
+            foreach($subcart_list as $ind => $sc) {
                 //check if subsupply has enough stocks
                 $subsupply = PharmacySupplySub::findOrFail($sc->subsupply_id);
 
@@ -508,6 +508,9 @@ class PharmacyController extends Controller
                 if($subsupply->isDirty()) {
                     $subsupply->save();
                 }
+
+                //Create QTY Limit
+                $src_qty_limit = 
             }
             
             $get_maincart->status = 'COMPLETED';
