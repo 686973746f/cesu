@@ -247,7 +247,7 @@
                                 <option value="Novavax" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
                                 <option value="PfizerBivalent" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinohpharm" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinopharm" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
                                 <option value="Gamaleya" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
@@ -333,7 +333,7 @@
                                 <option value="Novavax" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
                                 <option value="PfizerBivalent" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinohpharm" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinopharm" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
                                 <option value="Gamaleya" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
@@ -418,7 +418,7 @@
                                 <option value="Novavax" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
                                 <option value="PfizerBivalent" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinohpharm" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinopharm" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
                                 <option value="Gamaleya" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
@@ -502,7 +502,7 @@
                                 <option value="Novavax" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
                                 <option value="Pfizer" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
                                 <option value="PfizerBivalent" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinohpharm" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinohpharm') ? 'selected' : ''}}>Sinopharm</option>
+                                <option value="Sinopharm" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
                                 <option value="Sinovac" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
                                 <option value="SputnikLight" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
                                 <option value="Gamaleya" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
