@@ -55,7 +55,12 @@ class SyndromicPatient extends Model
     }
 
     public function getUpdatedBy() {
-        return $this->belongsTo(User::class, 'updated_by');
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }
     }
     
     public function getName() {
@@ -93,14 +98,20 @@ class SyndromicPatient extends Model
     }
 
     public function getContactNumber() {
-        $txt = $this->contact_number;
+        if($this->contact_number || $this->$this->contact_number2) {
+            $txt = $this->contact_number;
 
-        if(!is_null($this->contact_number2)) {
-            return $txt.'/'.$this->contact_number2;
+            if(!is_null($this->contact_number2)) {
+                return $txt.'/'.$this->contact_number2;
+            }
+            else {
+                return $txt;
+            }
         }
         else {
-            return $txt;
+            return 'N/A';
         }
+        
     }
 
     public function getFullAddress() {

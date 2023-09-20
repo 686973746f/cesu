@@ -12,6 +12,7 @@ use App\Models\PharmacyCartMain;
 use App\Models\PharmacyCartSub;
 use App\Models\PharmacySupply;
 use App\Models\PharmacyPatient;
+use App\Models\PharmacyQtyLimitPatient;
 use App\Models\PharmacyStockLog;
 use App\Models\PharmacyStockCard;
 use App\Models\PharmacySupplySub;
@@ -220,6 +221,8 @@ class PharmacyController extends Controller
             ->first();
     
             if($find_substock) {
+                $get_master_id = $find_substock->pharmacysupplymaster->id;
+
                 //search if substock exist in the subcart
                 $subcart_search = PharmacyCartSub::where('main_cart_id', $get_patient->getPendingCartMain()->id)
                 ->where('subsupply_id', $find_substock->id)
@@ -261,7 +264,67 @@ class PharmacyController extends Controller
                         ->with('msgtype', 'warning');
                     }
                 }
-    
+
+                if(!($r->enable_override)) {
+                    //Check if lagpas na qty limit
+                    $search_qtylimit = PharmacyQtyLimitPatient::where('finished', 0)
+                    ->where('master_supply_id', $get_master_id)
+                    ->where('patient_id', $get_patient->id)
+                    ->first();
+
+                    if($search_qtylimit) {
+                        //get sum of pieces in stock card and compare to limit
+                        $curr_qty_obtained = PharmacyStockCard::whereHas('pharmacysub', function ($q) use ($get_master_id) {
+                            $q->whereHas('pharmacysupplymaster', function ($r) use ($get_master_id) {
+                                $r->where('id', $get_master_id);
+                            });
+                        })
+                        ->whereBetween('created_at', [$search_qtylimit->date_started, date('Y-m-d')])
+                        ->where('qty_type', 'PIECE')
+                        ->sum('qty_to_process');
+
+                        if($curr_qty_obtained >= $search_qtylimit->set_pieces_limit) {
+                            return redirect()->back()
+                            ->with('msg', 'Error: Cannnot issue due to Patient reached the Issuing limit based on his/her Medical Prescription.')
+                            ->with('msgtype', 'warning');
+                        }
+                    }
+
+                    //Check if sobra na ng kuha based on duration
+                    if($find_substock->pharmacysupplymaster->maxpiece_perduration || $find_substock->self_maxpiece_perduration) {
+                        if($find_substock->self_maxpiece_perduration) {
+                            $get_max_piece_allowed = $find_substock->self_maxpiece_perduration;
+                        }
+                        else {
+                            $get_max_piece_allowed = $find_substock->pharmacysupplymaster->maxpiece_perduration;
+                        }
+
+                        if($find_substock->self_duration_days) {
+                            $get_days_duration = $find_substock->self_duration_days;
+                        }
+                        else {
+                            $get_days_duration = $find_substock->pharmacysupplymaster->duration_days;
+                        }
+                        
+                        if($search_qtylimit) {
+                            $curr_qty_obtained = PharmacyStockCard::whereHas('pharmacysub', function ($q) use ($get_master_id) {
+                                $q->whereHas('pharmacysupplymaster', function ($r) use ($get_master_id) {
+                                    $r->where('id', $get_master_id);
+                                });
+                            })
+                            ->whereBetween('created_at', [$search_qtylimit->date_started, Carbon::parse($search_qtylimit->date_started)->addDays($get_days_duration)->format('Y-m-d')])
+                            ->where('qty_type', 'PIECE')
+                            ->sum('qty_to_process');
+
+                            if($curr_qty_obtained >= $get_max_piece_allowed) {
+                                return redirect()->back()
+                                ->with('msg', 'Error: Cannnot issue due to Patient reached the Issuing Quantity Limit based on the Duration of Issuance from th.')
+                                ->with('msgtype', 'warning');
+                            }
+                        }
+                    }
+                }
+
                 $create_subcart = PharmacyCartSub::create([
                     'main_cart_id' => $get_patient->getPendingCartMain()->id,
                     'subsupply_id' => $find_substock->id,

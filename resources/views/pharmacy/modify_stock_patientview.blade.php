@@ -57,7 +57,7 @@
                                       <label for="type_to_process">Type to Process</label>
                                       <select class="form-control" name="type_to_process" id="type_to_process" required>
                                         <option value="PIECE">Piece</option>
-                                        <option value="BOX">Box</option>
+                                        <!--<option value="BOX">Box</option>-->
                                       </select>
                                     </div>
                                 </div>
@@ -67,6 +67,11 @@
                                         <input type="text" class="form-control" name="qty" id="qty" min="1" max="999" required>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="enable_override" id="enable_override" value="checkedValue"> Enable Override <i>(Ignore Quantity and Duration Limit)</i>
+                              </label>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -86,37 +91,30 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @forelse($load_subcart as $c)
                             <table class="table table-bordered table-striped text-center">
                                 <thead class="thead-light">
                                     <tr>
+                                        <th>#</th>
                                         <th>ITEM</th>
                                         <th>QTY TO ISSUE</th>
-                                        <th>MAX QTY LIMIT</th>
+                                        <th>MAX QTY LIMIT FOR PATIENT</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($load_subcart as $ind => $c)
                                     <tr>
-                                        <td>{{$c->pharmacysub->pharmacysupplymaster->name}}</td>
-                                        <td>{{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}</td>
-                                        <td>
-                                            <div class="form-group">
-                                              <label for=""></label>
-                                              <input type="number" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-                                            </div>
+                                        <td style="vertical-align: middle;">{{$ind+1}}</td>
+                                        <td style="vertical-align: middle;"><b>{{$c->pharmacysub->pharmacysupplymaster->name}}</b></td>
+                                        <td style="vertical-align: middle;">{{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}</td>
+                                        <td style="vertical-align: middle;">
+                                            <input type="number" class="form-control" name="set_pieces_limit[]" id="set_pieces_limit" min="1" max="900" required>
                                         </td>
-                                        <td><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button></td>
+                                        <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button></td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-                            @if(!($loop->last))
-                            <hr>
-                            @endif
-                            
-                            @empty
-                            <h6 class="text-center">Cart is still empty.</h6>
-                            @endforelse
                         </div>
                         <div class="card-footer text-right">
                             <button type="submit" name="submit" value="process" class="btn btn-success" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Process</button>
