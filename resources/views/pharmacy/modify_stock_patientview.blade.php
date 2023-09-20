@@ -87,13 +87,29 @@
                         </div>
                         <div class="card-body">
                             @forelse($load_subcart as $c)
-                            <div class="d-flex justify-content-between">
-                                <div>{{$c->pharmacysub->pharmacysupplymaster->name}}</div>
-                                <div>
-                                    {{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}
-                                    <button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button>
-                                </div>
-                            </div>
+                            <table class="table table-bordered table-striped text-center">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ITEM</th>
+                                        <th>QTY TO ISSUE</th>
+                                        <th>MAX QTY LIMIT</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{$c->pharmacysub->pharmacysupplymaster->name}}</td>
+                                        <td>{{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}</td>
+                                        <td>
+                                            <div class="form-group">
+                                              <label for=""></label>
+                                              <input type="number" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                            </div>
+                                        </td>
+                                        <td><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             @if(!($loop->last))
                             <hr>
                             @endif

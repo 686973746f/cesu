@@ -81,7 +81,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="contact_number">Contact Number</label>
-                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********">
                             </div>
                             <div class="form-group">
                                 <label for="contact_number2">Contact Number 2 (Optional)</label>
