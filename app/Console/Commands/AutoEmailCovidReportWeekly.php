@@ -44,25 +44,37 @@ class AutoEmailCovidReportWeekly extends Command
      */
     public function handle()
     {
-        $data = DailyCases::whereDate('set_date', date('Y-m-d'))
+        $set_temp = true;
+
+        //temp format for last week
+        if($set_temp) {
+            $curr_date = date('2023-09-15');
+            $last_week_date = date('2023-09-09');
+        }
+        else {
+            $curr_date = date('Y-m-d');
+            $last_week_date = date('Y-m-d', strtotime('-6 Days'));
+        }
+        
+        $data = DailyCases::whereDate('set_date', $curr_date)
         ->where('type', '4PM')
         ->first();
         
-        $weekly_new_recoveries = DailyCases::whereBetween('set_date', [date('Y-m-d', strtotime('-6 Days')), date('Y-m-d')])
+        $weekly_new_recoveries = DailyCases::whereBetween('set_date', [$last_week_date, $curr_date])
         ->where('type', '4PM')
         ->sum('new_recoveries');
 
-        $weekly_late_recoveries = DailyCases::whereBetween('set_date', [date('Y-m-d', strtotime('-6 Days')), date('Y-m-d')])
+        $weekly_late_recoveries = DailyCases::whereBetween('set_date', [$last_week_date, $curr_date])
         ->where('type', '4PM')
         ->sum('late_recoveries');
 
-        $weekly_new_deaths = DailyCases::whereBetween('set_date', [date('Y-m-d', strtotime('-6 Days')), date('Y-m-d')])
+        $weekly_new_deaths = DailyCases::whereBetween('set_date', [$last_week_date, $curr_date])
         ->where('type', '4PM')
         ->sum('new_deaths');
         
         $templateProcessor  = new TemplateProcessor(storage_path('COVIDGENTRITEMPLATE_NEW.docx'));
 
-        $templateProcessor->setValue('date', date('m/d/Y', strtotime('-6 Days')).' - '.date('m/d/Y'));
+        $templateProcessor->setValue('date', date('m/d/Y', strtotime($last_week_date)).' - '.date('m/d/Y', strtotime($curr_date)));
         $templateProcessor->setValue('gt_cases', number_format($data->total_all_confirmed_cases));
         $templateProcessor->setValue('c_t', number_format($data->total_active));
         $templateProcessor->setValue('c_n', number_format($data->new_cases));
@@ -99,7 +111,7 @@ class AutoEmailCovidReportWeekly extends Command
             ->where('status', 'approved')
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Active')
-            ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
+            ->whereDate('morbidityMonth', '<=', $curr_date)
             ->count();
             
             $bgynew_total += $brgyActiveCount;
@@ -112,7 +124,7 @@ class AutoEmailCovidReportWeekly extends Command
             })
             ->where('status', 'approved')
             ->where('outcomeCondition', 'Recovered')
-            ->whereBetween('morbidityMonth', [date('Y-m-d', strtotime('-6 Days')), date('Y-m-d')])
+            ->whereBetween('morbidityMonth', [$last_week_date, $curr_date])
             ->count();
 
             $bgynew_recovered_total += $brgyWeeklyRecoveryCount;
@@ -152,12 +164,16 @@ class AutoEmailCovidReportWeekly extends Command
             $templateProcessor->setValue('bgy'.$i.'_rec', '');
         }
 
-
         $templateProcessor->setValue('bgynew_gtotal', number_format($bgynew_total));
         $templateProcessor->setValue('bgynew_gtotal_rec', number_format($bgynew_recovered_total));
-        $templateProcessor->saveAs(storage_path('CITY-OF-GENERAL-TRIAS-WEEKLY-'.date('F-d-Y').'.docx'));
+        $templateProcessor->saveAs(storage_path('CITY-OF-GENERAL-TRIAS-WEEKLY-'.date('F-d-Y', strtotime($curr_date)).'.docx'));
 
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWordWeekly());
-        File::delete(public_path('CITY-OF-GENERAL-WEEKLY-'.date('F-d-Y', strtotime('-7 Days')).'.docx'));
+        if($set_temp) {
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new CovidReportWordWeekly());
+        }
+        else {
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWordWeekly());
+            File::delete(public_path('CITY-OF-GENERAL-WEEKLY-'.date('F-d-Y', strtotime('-7 Days')).'.docx'));
+        }
     }
 }

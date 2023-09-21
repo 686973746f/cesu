@@ -1841,7 +1841,7 @@ class PharmacyController extends Controller
     }
 
     public function walkinpart1() {
-
+        
     }
 
     public function walkinpart2() {
