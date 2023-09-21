@@ -814,6 +814,39 @@ class FormsController extends Controller
                 }
             }
         }
+        else if($request->submit == 'export_dasma_docx') {
+            $exported_update = Forms::whereIn('id', $list)
+            ->update([
+                'isExported' => '1',
+                'exportedDate' => NOW(),
+            ]);
+
+            $models = Forms::with('records')->whereIn('id', $list)->get();
+
+            $models = $models->sortBy('records.lname');
+
+            $templateProcessor  = new TemplateProcessor(storage_path('CIF_DASMA.docx'));
+
+            $replacements = array();
+
+            foreach($models as $item) {
+                array_push($replacements, array(
+                    'name' => $item->records->getName(),
+                    'age' => $item->records->getAge(),
+                    'sex' => substr($item->records->gender,0,1),
+                    'bdate' => date('m/d/Y', strtotime($item->records->bdate)),
+                ));
+            }
+
+            $templateProcessor->cloneBlock('clone_block', 0, true, false, $replacements);
+
+            $paylname = 'CIF_CDMDL_'.date('mdY').'.docx';
+
+            ob_clean();
+            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            header('Content-Disposition: attachment; filename="'. urlencode($paylname).'"');
+            $templateProcessor->saveAs('php://output');
+        }
         else if($request->submit == 'printsticker_dasma') {
             $models = Forms::with('records')->whereIn('id', $list)->get();
 
@@ -831,7 +864,12 @@ class FormsController extends Controller
                         $timeStartedDateTime = Carbon::parse($item->getLatestTestDate().' '.date('H:i', strtotime('08:30')));
                     }
                     else {
-                        $timeStartedDateTime = Carbon::parse($item->getLatestTestDate().' '.date('H:i', strtotime('14:00')));
+                        if(time() > strtotime('16:00')) {
+                            $timeStartedDateTime = Carbon::parse($item->getLatestTestDate().' '.date('H:i', strtotime('08:30')));
+                        }
+                        else {
+                            $timeStartedDateTime = Carbon::parse($item->getLatestTestDate().' '.date('H:i', strtotime('14:00')));
+                        }
                     }
     
                     $timeStartedDateTime->addMinutes($pila_count * 2);
