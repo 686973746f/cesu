@@ -38,23 +38,23 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="lname"><b class="text-danger">*</b>Last Name/Surname/Apelyido</label>
-                            <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+" required autofocus>
+                            <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+" required>
                         </div>
                         <div class="form-group">
                             <label for="fname"><b class="text-danger">*</b>First Name</label>
-                            <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+" required>
+                            <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="mname">Middle Name <i>(If Applicable)</i></label>
-                                    <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+" maxlength="50">
+                                    <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="suffix">Suffix <i>(If Applicable)</i></label>
-                                    <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+" maxlength="50">
+                                    <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="50" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- ']+">
                                 </div>
                             </div>
                         </div>
