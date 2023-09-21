@@ -48,8 +48,8 @@ class AutoEmailCovidReportWeekly extends Command
 
         //temp format for last week
         if($set_temp) {
-            $curr_date = date('2023-09-15');
-            $last_week_date = date('2023-09-09');
+            $curr_date = '2023-09-15';
+            $last_week_date = '2023-09-09';
         }
         else {
             $curr_date = date('Y-m-d');
@@ -80,10 +80,11 @@ class AutoEmailCovidReportWeekly extends Command
         $templateProcessor->setValue('c_n', number_format($data->new_cases));
         $templateProcessor->setValue('c_l', number_format($data->late_cases));
         $templateProcessor->setValue('r_t', number_format($data->total_recoveries));
+        $templateProcessor->setValue('d_t', number_format($data->total_deaths));
 
         $templateProcessor->setValue('r_n', number_format($weekly_new_recoveries));
         $templateProcessor->setValue('r_l', number_format($weekly_late_recoveries));
-        $templateProcessor->setValue('d_t', number_format($weekly_new_deaths));
+        $templateProcessor->setValue('d_n', number_format($weekly_new_deaths));
 
         $templateProcessor->setValue('as', number_format($data->active_asymptomatic_count));
         $templateProcessor->setValue('mi', number_format($data->active_mild_with_comorbid_count + $data->active_mild_without_comorbid_count));
