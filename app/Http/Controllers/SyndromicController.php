@@ -475,6 +475,17 @@ class SyndromicController extends Controller
             $pharmacy_check = PharmacyPatient::where('itr_id', $p->id)->first();
             
             if(!($pharmacy_check)) {
+                $foundunique = false;
+
+                while(!$foundunique) {
+                    $global_qr = Str::random(20);
+
+                    $search = PharmacyPatient::where('global_qr', $global_qr)->first();
+                    if(!$search) {
+                        $foundunique = true;
+                    }
+                }
+
                 $create_pharma = $r->user()->pharmacypatient()->create([
                     'lname' => $p->lname,
                     'fname' => $p->fname,
@@ -498,8 +509,9 @@ class SyndromicController extends Controller
                     'address_street' => $p->address_street,
                     'address_houseno' => $p->address_houseno,
                     
-                    'concerns_list' => NULL, //for creation ng pharmacy encoder
+                    //'concerns_list' => NULL, //for creation ng pharmacy encoder
                     'qr' => $p->qr,
+                    'global_qr' => $global_qr,
             
                     'id_file' => NULL,
                     'selfie_file' => NULL,

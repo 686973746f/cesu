@@ -15,6 +15,7 @@ class PharmacyBranch extends Model
         'contact_number',
         'description',
         'level',
+        'qr',
         'if_bhs_id',
     ];
 

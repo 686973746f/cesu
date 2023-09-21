@@ -1570,73 +1570,87 @@ class PharmacyController extends Controller
     }
 
     public function storePatient(Request $r) {
-        $foundunique = false;
+        $lname = $r->lname;
+        $fname = $r->fname;
+        $mname = $r->mname;
+        $suffix = $r->suffix;
+        $bdate = $r->bdate;
 
-        while(!$foundunique) {
-            $qr = mb_strtoupper(Str::random(6));
+        if(!(PharmacyPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate))) {
+            $foundunique = false;
 
-            $search = PharmacyPatient::where('qr', $qr)->first();
-            if(!$search) {
-                $foundunique = true;
+            while(!$foundunique) {
+                $qr = mb_strtoupper(Str::random(6));
+
+                $search = PharmacyPatient::where('qr', $qr)->first();
+                if(!$search) {
+                    $foundunique = true;
+                }
             }
-        }
 
-        $foundunique = false;
+            $foundunique = false;
 
-        while(!$foundunique) {
-            $global_qr = mb_strtoupper(Str::random(20));
+            while(!$foundunique) {
+                $global_qr = Str::random(20);
 
-            $search = PharmacyPatient::where('global_qr', $global_qr)->first();
-            if(!$search) {
-                $foundunique = true;
+                $search = PharmacyPatient::where('global_qr', $global_qr)->first();
+                if(!$search) {
+                    $foundunique = true;
+                }
             }
+
+            //STORE PATIENT
+            $c = $r->user()->pharmacypatient()->create([
+                'lname' => mb_strtoupper($r->lname),
+                'fname' => mb_strtoupper($r->fname),
+                'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+                'bdate' => $r->bdate,
+                'gender' => $r->gender,
+                'email' => $r->email,
+                'contact_number' => $r->contact_number,
+                'contact_number2' => $r->contact_number2,
+                'philhealth' => $r->philhealth,
+        
+                'address_region_code' => $r->address_region_code,
+                'address_region_text' => $r->address_region_text,
+                'address_province_code' => $r->address_province_code,
+                'address_province_text' => $r->address_province_text,
+                'address_muncity_code' => $r->address_muncity_code,
+                'address_muncity_text' => $r->address_muncity_text,
+                'address_brgy_code' => $r->address_brgy_text,
+                'address_brgy_text' => $r->address_brgy_text,
+                'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
+                'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+                
+                //'concerns_list' => implode(',', $r->concerns_list),
+                'qr' => $qr,
+                'global_qr' => $global_qr,
+        
+                'id_file' => NULL,
+                'selfie_file' => NULL,
+        
+                'status' => 'ENABLED',
+        
+                'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+            ]);
+
+            //MAKE PRESCRIPTION DATA
+            $prescription = $r->user()->pharmacyprescription()->create([
+                'patient_id' => $c->id,
+                'concerns_list' => implode(',', $r->concerns_list),
+            ]);
+
+            return redirect()->route('pharmacy_view_patient_list')
+            ->with('msg', 'Patient record successfully created.')
+            ->with('msgtype', 'success');
         }
-
-        //STORE PATIENT
-        $c = $r->user()->pharmacypatient()->create([
-            'lname' => mb_strtoupper($r->lname),
-            'fname' => mb_strtoupper($r->fname),
-            'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
-            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
-            'bdate' => $r->bdate,
-            'gender' => $r->gender,
-            'email' => $r->email,
-            'contact_number' => $r->contact_number,
-            'contact_number2' => $r->contact_number2,
-            'philhealth' => $r->philhealth,
-    
-            'address_region_code' => $r->address_region_code,
-            'address_region_text' => $r->address_region_text,
-            'address_province_code' => $r->address_province_code,
-            'address_province_text' => $r->address_province_text,
-            'address_muncity_code' => $r->address_muncity_code,
-            'address_muncity_text' => $r->address_muncity_text,
-            'address_brgy_code' => $r->address_brgy_text,
-            'address_brgy_text' => $r->address_brgy_text,
-            'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
-            'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
-            
-            //'concerns_list' => implode(',', $r->concerns_list),
-            'qr' => $qr,
-            'global_qr' => $global_qr,
-    
-            'id_file' => NULL,
-            'selfie_file' => NULL,
-    
-            'status' => 'ENABLED',
-    
-            'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
-        ]);
-
-        //MAKE PRESCRIPTION DATA
-        $prescription = $r->user()->pharmacyprescription()->create([
-            'patient_id' => $c->id,
-            'concerns_list' => implode(',', $r->concerns_list),
-        ]);
-
-        return redirect()->route('pharmacy_view_patient_list')
-        ->with('msg', 'Patient record successfully created.')
-        ->with('msgtype', 'success');
+        else {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Patient was just encoded into the system.')
+            ->with('msgtype', 'danger');
+        }
     }
 
     public function viewPatient($id) {
@@ -1765,12 +1779,24 @@ class PharmacyController extends Controller
                 ->with('msgtype', 'warning');
             }
 
+            $foundunique = false;
+
+            while(!$foundunique) {
+                $qr = mb_strtoupper(Str::random(5));
+
+                $search = PharmacyBranch::where('qr', $qr)->first();
+                if(!$search) {
+                    $foundunique = true;
+                }
+            }
+
             $c = $r->user()->createpharmacybranch()->create([
                 'name' => mb_strtoupper($r->name),
                 'focal_person' => $r->filled('focal_person') ? mb_strtoupper($r->focal_person) : NULL,
                 'contact_number' => $r->filled('contact_number') ? mb_strtoupper($r->contact_number) : NULL,
                 'description' => $r->filled('description') ? mb_strtoupper($r->description) : NULL,
                 'level' => $r->level,
+                'qr' => $qr,
                 'if_bhs_id' => ($r->if_bhs) ? $r->if_bhs_id : NULL,
             ]);
 
@@ -1840,15 +1866,163 @@ class PharmacyController extends Controller
         }
     }
 
-    public function walkinpart1() {
+    public function walkinpart1($branch_qr) {
+        $branch = PharmacyBranch::where('qr', $branch_qr)->first();
+
+        if($branch) {
+            return view('pharmacy.walkin', [
+                'branch' => $branch,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function walkinpart2($branch_qr) {
+        $branch = PharmacyBranch::where('qr', $branch_qr)->first();
+
+        if($branch) {
+            if(request()->input('lname') && request()->input('fname') && request()->input('bdate')) {
+                $lname = request()->input('lname');
+                $fname = request()->input('fname');
+                $mname = request()->input('mname');
+                $suffix = request()->input('suffix');
+                $bdate = request()->input('bdate');
+                
+                if(!(PharmacyPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate))) {
+                    return view('pharmacy.walkin_part2', [
+                        'branch' => $branch,
+                    ]);
+                }
+                else {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: You are already registered. Please proceed to [Old Patient] button or go directly to CHO General Trias for your Card.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else {
+                return abort(401);
+            }
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function walkinpart3($branch_qr, Request $r) {
+        $branch = PharmacyBranch::where('qr', $branch_qr)->first();
+
+        if($branch) {
+            $lname = $r->lname;
+            $fname = $r->fname;
+            $mname = $r->mname;
+            $suffix = $r->suffix;
+            $bdate = $r->bdate;
+
+            if(!(PharmacyPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate))) {
+                $foundunique = false;
+
+                while(!$foundunique) {
+                    $qr = mb_strtoupper(Str::random(6));
+
+                    $search = PharmacyPatient::where('qr', $qr)->first();
+                    if(!$search) {
+                        $foundunique = true;
+                    }
+                }
+
+                $foundunique = false;
+
+                while(!$foundunique) {
+                    $global_qr = Str::random(20);
+
+                    $search = PharmacyPatient::where('global_qr', $global_qr)->first();
+                    if(!$search) {
+                        $foundunique = true;
+                    }
+                }
+
+                //STORE PATIENT
+                $c = $r->user()->pharmacypatient()->create([
+                    'lname' => mb_strtoupper($r->lname),
+                    'fname' => mb_strtoupper($r->fname),
+                    'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+                    'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+                    'bdate' => $r->bdate,
+                    'gender' => $r->gender,
+                    'email' => $r->email,
+                    'contact_number' => $r->contact_number,
+                    'contact_number2' => $r->contact_number2,
+                    'philhealth' => $r->philhealth,
+            
+                    'address_region_code' => $r->address_region_code,
+                    'address_region_text' => $r->address_region_text,
+                    'address_province_code' => $r->address_province_code,
+                    'address_province_text' => $r->address_province_text,
+                    'address_muncity_code' => $r->address_muncity_code,
+                    'address_muncity_text' => $r->address_muncity_text,
+                    'address_brgy_code' => $r->address_brgy_text,
+                    'address_brgy_text' => $r->address_brgy_text,
+                    'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
+                    'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+                    
+                    //'concerns_list' => implode(',', $r->concerns_list),
+                    'qr' => $qr,
+                    'global_qr' => $global_qr,
+            
+                    'id_file' => NULL,
+                    'selfie_file' => NULL,
+            
+                    'status' => 'ENABLED',
+            
+                    'pharmacy_branch_id' => $branch->id,
+                ]);
+
+                //MAKE PRESCRIPTION DATA
+                $prescription = PharmacyPrescription::create([
+                    'patient_id' => $c->id,
+                    'concerns_list' => implode(',', $r->concerns_list),
+                ]);
+
+                return redirect()->route('pharmacy_getcard', ['q' => $c->global_qr])
+                ->with('msg', 'Registration Complete. You may now download your Pharmacy Card.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: Patient was just encoded into the system.')
+                ->with('msgtype', 'danger');
+            }
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function searchcard(Request $r) {
         
     }
 
-    public function walkinpart2() {
-
-    }
-
     public function globalcard() {
+        if(request()->input('q')) {
+            $d = PharmacyPatient::where('global_qr', request()->input('q'))->first();
 
+            if($d) {
+                return view('pharmacy.online_card', [
+                    'd' => $d,
+                ]);
+            }
+            else {
+                return redirect()->route('pharmacy_walkin')
+                ->with('msg', 'Error: QR Code does not exists. You may double check and try again.')
+                ->with('msgtype', 'warning');
+            }
+        }
+        else {
+            return abort(401);
+        }
     }
 }

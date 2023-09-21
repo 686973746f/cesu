@@ -21,6 +21,7 @@ class CreatePharmacyBranchesTable extends Migration
             $table->text('contact_number')->nullable();
             $table->text('description')->nullable();
             $table->string('level')->nullable();
+            $table->text('qr')->nullable();
             $table->foreignId('if_bhs_id')->nullable()->constrained('barangay_health_stations')->onDelete('cascade');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

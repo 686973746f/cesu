@@ -37,6 +37,7 @@ class PharmacyPatient extends Model
         
         'concerns_list',
         'qr',
+        'global_qr',
 
         'id_file',
         'selfie_file',
