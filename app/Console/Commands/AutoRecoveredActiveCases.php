@@ -75,17 +75,16 @@ class AutoRecoveredActiveCases extends Command
                     $daysToRecover = 10;
                 }
                 else {
+                    /*
                     if(!is_null($item->records->vaccinationDate2)) {
                         $date1 = Carbon::parse($item->records->vaccinationDate2);
                         $days_diff = $date1->diffInDays($dateToday);
 
                         if($days_diff >= 14) {
-                            //$daysToRecover = 7;
-                            $daysToRecover = 5;
+                            $daysToRecover = 7;
                         }
                         else {
-                            //$daysToRecover = 10;
-                            $daysToRecover = 5;
+                            $daysToRecover = 10;
                         }
                     }
                     else {
@@ -94,19 +93,19 @@ class AutoRecoveredActiveCases extends Command
                             $days_diff = $date1->diffInDays($dateToday);
 
                             if($days_diff >= 14) {
-                                //$daysToRecover = 7;
-                                $daysToRecover = 5;
+                                $daysToRecover = 7;
                             }
                             else {
-                                //$daysToRecover = 10;
-                                $daysToRecover = 5;
+                                $daysToRecover = 10;
                             }
                         }
                         else {
-                            //$daysToRecover = 10;
-                            $daysToRecover = 5;
+                            $daysToRecover = 10;
                         }
                     }
+                    */
+
+                    $daysToRecover = 5;
                 }
     
                 /*

@@ -44,7 +44,7 @@ class AutoEmailCovidReportWeekly extends Command
      */
     public function handle()
     {
-        $set_temp = true;
+        $set_temp = false;
 
         //temp format for last week
         if($set_temp) {

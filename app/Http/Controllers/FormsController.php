@@ -1681,9 +1681,12 @@ class FormsController extends Controller
                     }
 
                     if($request->dispositionType == 1 || $request->healthStatus == 'Severe' || $request->healthStatus == 'Critical') {
-                        $daysToRecover = 21;
+                        //$daysToRecover = 21;
+
+                        $daysToRecover = 10;
                     }
                     else {
+                        /*
                         if(!is_null($rec->vaccinationDate2)) {
                             $date1 = Carbon::parse($rec->vaccinationDate2);
                             $days_diff = $date1->diffInDays($dateToday);
@@ -1711,6 +1714,9 @@ class FormsController extends Controller
                                 $daysToRecover = 10;
                             }
                         }
+                        */
+
+                        $daysToRecover = 5;
                     }
 
                     $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
@@ -2900,9 +2906,11 @@ class FormsController extends Controller
                         }
 
                         if($request->dispositionType == 1 || $request->healthStatus == 'Severe' || $request->healthStatus == 'Critical') {
-                            $daysToRecover = 21;
+                            //$daysToRecover = 21;
+                            $daysToRecover = 10;
                         }
                         else {
+                            /*
                             if(!is_null($rec->records->vaccinationDate2)) {
                                 $date1 = Carbon::parse($rec->records->vaccinationDate2);
                                 $days_diff = $date1->diffInDays($dateToday);
@@ -2930,6 +2938,9 @@ class FormsController extends Controller
                                     $daysToRecover = 10;
                                 }
                             }
+                            */
+
+                            $daysToRecover = 5;
                         }
 
                         $startDate = Carbon::parse(date('Y-m-d', strtotime($swabDateCollected)));
