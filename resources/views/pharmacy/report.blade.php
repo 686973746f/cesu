@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-md-8" id="div2">
                                 <div class="form-group">
-                                    <label for="type">Select Type</label>
+                                    <label for="type"><b class="text-danger">*</b>Select Type</label>
                                     <select class="form-control" name="type" id="type" required>
                                       <option value="" disabled selected>Choose...</option>
                                       <option value="YEARLY">YEARLY (CURRENT)</option>
@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-md-4" id="div3">
                                 <div class="form-group d-none" id="squarter">
-                                    <label for="quarter">Select Quarter</label>
+                                    <label for="quarter"><b class="text-danger">*</b>Select Quarter</label>
                                     <select class="form-control" name="quarter" id="quarter">
                                       <option value="1">1ST QUARTER</option>
                                       <option value="2">2ND QUARTER</option>
@@ -43,7 +43,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="smonth">
-                                    <label for="month">Select Month</label>
+                                    <label for="month"><b class="text-danger">*</b>Select Month</label>
                                     <select class="form-control" name="month" id="month">
                                       <option value="1">JANUARY</option>
                                       <option value="2">FEBRUARY</option>
@@ -60,7 +60,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="sweek">
-                                    <label for="week">Select Week</label>
+                                    <label for="week"><b class="text-danger">*</b>Select Week</label>
                                     <input type="number" min="1" max="53" class="form-control" name="week" id="week" value="{{date('W')}}">
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
             @if(request()->input('type'))
             <hr>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-4">
                     <table class="table table-bordered table-striped">
                         <thead class="thead-light text-center">
                             <tr>
@@ -99,27 +99,34 @@
                         </tbody>
                     </table>
 
-                    <table class="table table-striped table-bordered">
-                        <thead class="thead-light text-center">
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="thead-light">
                             <tr>
-                                <th colspan="4">Top 10 Issuers BHS/Hospitals/Others</th>
+                                <th colspan="4">Top 10 Requestors in Entities (BHS/Hospitals/Others)</th>
                             </tr>
                             <tr>
                                 <th>Top</th>
                                 <th>Name</th>
                                 <th>Issued QTY (Boxes)</th>
-                                <th>Issued QTY (Pieces)</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($entities_arr as $ind => $r)
                             <tr>
-                                <td scope="row"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>#{{$ind+1}}</td>
+                                <td><a href="{{route('pharmacy_view_branch', $r['id'])}}">{{$r['name']}}</a></td>
+                                <td>{{$r['issued_box_count']}}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="col-md-4">
+                    <canvas id="age_group_chart"></canvas>
+                    <div style="width: 300px;">
+                        <canvas id="concerns_chart"></canvas>
+                    </div>
+                    
                 </div>
                 <div class="col-md-4">
                     <table class="table table-striped table-bordered text-center">
@@ -145,6 +152,7 @@
                     </table>
                 </div>
             </div>
+            <hr>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
@@ -229,5 +237,72 @@ $('#type').change(function (e) {
         $('#div3').removeClass('d-none');
     }
 }).trigger('change');
+
+var male_set = {{json_encode($age_group_set_male)}};
+var female_set = {{json_encode($age_group_set_female)}};
+
+var ctx = document.getElementById('age_group_chart').getContext('2d');
+var data = {
+    labels: ['< 10', '11-20', '21-30', '31-40', '41-50', '51-60', '> 61'],
+    datasets: [
+        {
+            label: 'Male',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            data: male_set, // Your data for Dataset 1
+        },
+        {
+            label: 'Female',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+            data: female_set, // Your data for Dataset 2
+        },
+    ],
+};
+
+var options = {
+    scales: {
+        x: {
+            stacked: true,
+        },
+        y: {
+            stacked: true,
+        },
+    },
+    plugins: {
+        title: {
+            display: true,
+            text: 'Gender & Age Group of Requestors',
+        }
+    },
+};
+
+var stackedBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options,
+});
+
+var data = {
+        labels: ['Label 1', 'Label 2', 'Label 3'],
+        datasets: [{
+            data: [30, 40, 30], // Values for each slice of the pie
+            backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(75, 192, 192, 0.7)'],
+        }],
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('concerns_chart').getContext('2d');
+
+    // Create the pie chart
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+            // Pie chart options (e.g., legend, tooltips)
+        },
+    });
 </script>
 @endsection

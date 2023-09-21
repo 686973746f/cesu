@@ -113,6 +113,10 @@ class PharmacyPatient extends Model
         }
     }
 
+    public function getAgeInt() {
+        return Carbon::parse($this->bdate)->age;
+    }
+
     public function getStreetPurok() {
         if($this->address_houseno && $this->address_street) {
             $get_txt = $this->address_houseno.', '.$this->address_street;

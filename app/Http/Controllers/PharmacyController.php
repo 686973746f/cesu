@@ -441,7 +441,7 @@ class PharmacyController extends Controller
                 }
                 
                 $create_subcart = PharmacyCartSub::create([
-                    'main_cart_id' => $subcart_search->pharmacycartmain->id,
+                    'main_cart_id' => $get_patient->getPendingCartMain()->id,
                     'subsupply_id' => $find_substock->id,
                     'qty_to_process' => $r->qty_to_process,
                     'type_to_process' => $r->type_to_process,
@@ -606,6 +606,7 @@ class PharmacyController extends Controller
                     'after_qty_piece' => $subsupply->master_piece_stock,
 
                     'receiving_patient_id' => $d->id,
+                    'patient_age_years' => $d->getAgeInt(),
                 ]);
 
                 if($subsupply->isDirty()) {
@@ -653,6 +654,7 @@ class PharmacyController extends Controller
 
                 if($search_patient) {
                     $get_patient_id = $search_patient->id;
+                    $get_patient_age = $search_patient->getAgeInt();
                 }
                 else {
                     return redirect()->back()
@@ -738,6 +740,7 @@ class PharmacyController extends Controller
 
                 'receiving_branch_id' => ($r->select_recipient == 'BRANCH') ? $r->receiving_branch_id : NULL,
                 'receiving_patient_id' => ($r->select_recipient == 'PATIENT') ? $get_patient_id : NULL,
+                'patient_age_years' => ($r->select_recipient == 'PATIENT') ? $get_patient_age : NULL,
                 'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
                 
                 'remarks' => $r->remarks,
@@ -1460,11 +1463,16 @@ class PharmacyController extends Controller
                     }
 
                     $entities_arr[] = [
+                        'id' => $e->id,
                         'name' => $e->name,
                         'issued_box_count' => $issued_box_count,
                     ];
                 }
             }
+
+            usort($entities_arr, function ($a, $b) {
+                return $b['issued_box_count'] - $a['issued_box_count'];
+            });
 
             //STOCKS MASTERLIST
             $list_subitem = PharmacySupplySub::where('pharmacy_branch_id', $selected_branch)
@@ -1507,7 +1515,7 @@ class PharmacyController extends Controller
                     ];
                 }
 
-                $result[] = [
+                $si_array[] = [
                     'name' => $item['name'],
                     'id' => $item['id'],
                     'current_stock' => $item['current_stock'],
@@ -1522,13 +1530,170 @@ class PharmacyController extends Controller
             ->get();
 
             //GET PATIENT AGE GROUPS / MALE,FEMALE
+            //['< 10', '11-20', '21-30', '31-40', '41-50', '51-60', '> 61']
+
+            /*
+            MIGHT BE USEFUL IN THE FUTURE
+            $age_group1_count = PharmacyStockCard::whereHas('getReceivingPatient', function ($q) {
+                $q->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) > 10');
+            })
+            ->groupBy('receiving_patient_id')
+            ->select('receiving_patient_id', DB::raw('SUM(amount) as total_amount'))
+            ->get();
+
+            */
+            $age_group_set_male = [];
+            $age_group_set_female = [];
+
+            $age_group_set_male[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('patient_age_years', '<=', 10)
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_male[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->whereBetween('patient_age_years', [11,20])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_male[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->whereBetween('patient_age_years', [21,30])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_male[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->whereBetween('patient_age_years', [31,40])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_male[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->whereBetween('patient_age_years', [41,50])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_male[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->whereBetween('patient_age_years', [51,60])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_male[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('patient_age_years', '>', 60)
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_female[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('patient_age_years', '<=', 10)
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_female[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->whereBetween('patient_age_years', [11,20])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_female[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->whereBetween('patient_age_years', [21,30])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_female[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->whereBetween('patient_age_years', [31,40])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_female[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->whereBetween('patient_age_years', [41,50])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_female[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->whereBetween('patient_age_years', [51,60])
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
+
+            $age_group_set_female[] = PharmacyStockCard::whereNotNull('receiving_patient_id')
+            ->whereHas('getReceivingPatient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('patient_age_years', '>', 60)
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('receiving_patient_id')
+            ->pluck('receiving_patient_id')
+            ->count();
 
             //GET PATIENT TOP REASON FOR MEDS
-
+            
             return view('pharmacy.report', [
                 'expired_list' => $expired_list,
                 'list_branch' => $list_branch,
-                'si_array' => $result,
+                'entities_arr' => $entities_arr,
+                'si_array' => $si_array,
+                'age_group_set_male' => $age_group_set_male,
+                'age_group_set_female' => $age_group_set_female,
             ]);
         }
         else {

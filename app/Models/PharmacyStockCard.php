@@ -28,6 +28,7 @@ class PharmacyStockCard extends Model
         'recipient',
         'receiving_branch_id',
         'receiving_patient_id',
+        'patient_age_years',
         
         'remarks',
 
