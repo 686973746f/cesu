@@ -1987,7 +1987,7 @@ class PharmacyController extends Controller
                 ]);
 
                 return redirect()->route('pharmacy_getcard', ['q' => $c->global_qr])
-                ->with('msg', 'Registration Complete. You may now download your Pharmacy Card.')
+                ->with('msg', 'Registration Complete. You may now save your Pharmacy Card and present it to the Pharmacy together with your Prescription and Valid ID.')
                 ->with('msgtype', 'success');
             }
             else {

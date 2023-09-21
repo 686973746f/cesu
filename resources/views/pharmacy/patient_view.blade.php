@@ -208,10 +208,11 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>Stock Card / Transactions</b></div>
-                    <div></div>
+                    <div><a href="{{route('pharmacy_modify_patient_stock', $d->id)}}" class="btn btn-success">New Transaction</a></div>
                 </div>
             </div>
             <div class="card-body">
+                @if($scard->count() != 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" id="card_tbl">
                         <thead class="thead-light text-center">
@@ -238,6 +239,9 @@
                         </tbody>
                     </table>
                 </div>
+                @else
+                <h6 class="text-center">No Results found.</h6>
+                @endif
             </div>
         </div>
     </div>

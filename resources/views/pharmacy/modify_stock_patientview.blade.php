@@ -217,7 +217,7 @@
                         <td class="bg-light">Date of Consultation</td>
                         <td class="text-center">{{date('m/d/Y', strtotime($d->getLatestItr()->consultation_date))}}</td>
                         <td class="bg-light">Chief Complain</td>
-                        <td class="text-center">{{$d->getLatestItr()->chief_complain}}</td>
+                        <td class="text-center"><b>{{$d->getLatestItr()->chief_complain}}</b></td>
                     </tr>
                     <tr>
                         <td class="bg-light">Diagnosis</td>
@@ -231,7 +231,7 @@
                 </table>
                 <hr>
                 <div class="form-group">
-                    <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Meds for <i>(Select all that apply)</i></label>
+                    <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Medicine/s for <i>(Select all that apply)</i></label>
                     <select class="form-control" name="concerns_list[]" id="concerns_list" multiple required>
                       <option value="ACCIDENT/INJURIES/WOUNDS">ACCIDENT/INJURIES/WOUNDS</option>
                       <option value="CHILDREN">CHILDREN</option>

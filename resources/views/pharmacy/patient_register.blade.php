@@ -139,7 +139,7 @@
                 </div>
                 <hr>
                 <div class="form-group">
-                  <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Meds for <i>(Select all that apply)</i></label>
+                  <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Medicine/s for <i>(Select all that apply)</i></label>
                   <select class="form-control" name="concerns_list[]" id="concerns_list" multiple required>
                     <option value="ACCIDENT/INJURIES/WOUNDS">ACCIDENT/INJURIES/WOUNDS</option>
                     <option value="CHILDREN">CHILDREN</option>

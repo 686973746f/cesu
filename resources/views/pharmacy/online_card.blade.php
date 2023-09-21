@@ -42,7 +42,7 @@
                 <button type="button" name="" id="" class="btn btn-success btn-block" onclick="window.print()">Download/Print your Card</button>
                 <hr>
                 <div id="divToPrint">
-                    <div class="mx-5">
+                    <div class="mx-3">
                         <div class="text-center">
                             <img src="{{asset('assets/images/CHO_LETTERHEAD_WITH_CESU.png')}}" class="mb-3 img-fluid">
                             <h4 class="mb-5"><b><u>PHARMACY PATIENT CARD</u></b></h4>
