@@ -166,7 +166,7 @@ class AutoEmailCovidReportWeekly extends Command
 
         $templateProcessor->setValue('bgynew_gtotal', number_format($bgynew_total));
         $templateProcessor->setValue('bgynew_gtotal_rec', number_format($bgynew_recovered_total));
-        $templateProcessor->saveAs(storage_path('CITY-OF-GENERAL-TRIAS-WEEKLY-'.date('F-d-Y', strtotime($curr_date)).'.docx'));
+        $templateProcessor->saveAs(storage_path('CITY-OF-GENERAL-TRIAS-WEEKLY-'.date('F-d-Y').'.docx'));
 
         if($set_temp) {
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new CovidReportWordWeekly());
