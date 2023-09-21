@@ -1204,14 +1204,14 @@ class PharmacyController extends Controller
     public function printQrItem ($item_id) {
         $d = PharmacySupplySub::findOrFail($item_id);
 
-        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        header("Content-Disposition: attachment; filename=PHARMACY_SUBCARD_".$d->id.".docx");
-
         $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_SUBQR.docx'));
         $templateProcessor->setValue('sku_code', $d->pharmacysupplymaster->sku_code);
         $templateProcessor->setValue('name', $d->pharmacysupplymaster->name);
         $templateProcessor->setValue('branch', $d->pharmacybranch->name);
 
+        ob_clean();
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_SUBCARD_".$d->id.".docx");
         $templateProcessor->saveAs('php://output');
     }
 
@@ -1259,16 +1259,16 @@ class PharmacyController extends Controller
 
     public function printQrSubStock($id) {
         $d = PharmacySupplySubStock::findOrFail($id);
-
-        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        header("Content-Disposition: attachment; filename=PHARMACY_SUBSTOCK_".$d->id.".docx");
-
+        
         $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_SUBSTOCKQR.docx'));
         $templateProcessor->setValue('id', $d->id);
         $templateProcessor->setValue('name', $d->pharmacysub->pharmacysupplymaster->name);
         $templateProcessor->setValue('sku_code', $d->pharmacysub->pharmacysupplymaster->sku_code);
         $templateProcessor->setValue('branch', $d->pharmacysub->pharmacybranch->name);
 
+        ob_clean();
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_SUBSTOCK_".$d->id.".docx");
         $templateProcessor->saveAs('php://output');
     }
 

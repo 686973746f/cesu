@@ -522,6 +522,13 @@ Route::get('/vaxcert/sendticket', [VaxcertController::class, 'walkin'])->name('v
 Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
 Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
 
+//PHARMACY (WALK IN)
+Route::get('/pharmacy/register', [PharmacyController::class, 'walkinpart1'])->name('pharmacy_walkin');
+Route::get('/pharmacy/register/p2', [PharmacyController::class, 'walkinpart2'])->name('pharmacy_walkin2');
+Route::post('/pharmacy/register/p3', [PharmacyController::class, 'walkinpart3'])->name('pharmacy_walkin3');
+Route::get('/pharmacy/get_card', [PharmacyController::class, 'getcard'])->name('pharmacy_getcard');
+
+//ABTC QR
 Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_process'])->name('abtc_qr_process');
 
 //SYNDROMIC ONLINE MEDCERT
