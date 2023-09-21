@@ -1669,21 +1669,21 @@ class PharmacyController extends Controller
 
         $d = PharmacyPatient::findOrFail($id);
 
-        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        header("Content-Disposition: attachment; filename=PHARMACY_CARD_".$d->lname.".docx");
-
         $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_PATIENT_CARD.docx'));
 
         $templateProcessor->setValue('patient_id', $d->id);
         $templateProcessor->setValue('dreg', date('m/d/Y', strtotime($d->created_at)));
         $templateProcessor->setValue('name', $d->getName());
         $templateProcessor->setValue('bdate', date('m/d/Y', strtotime($d->bdate)));
-        $templateProcessor->setValue('sex', $d->gender());
+        $templateProcessor->setValue('sex', $d->gender);
         $templateProcessor->setValue('brgy', $d->address_brgy_text);
         $templateProcessor->setValue('patient_qr', 'PATIENT_'.$d->qr);
-        $templateProcessor->setValue('qr', $d->qr);
+        //$templateProcessor->setValue('qr', $d->qr);
         $templateProcessor->setValue('branch', $d->pharmacybranch->name);
 
+        ob_clean();
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_CARD_".$d->lname.".docx");
         $templateProcessor->saveAs('php://output');
     }
     

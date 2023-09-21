@@ -44,12 +44,12 @@ class AutoEmailCovidReportWeekly extends Command
      */
     public function handle()
     {
-        $set_temp = false;
+        $set_temp = true;
 
         //temp format for last week
         if($set_temp) {
             $curr_date = '2023-09-15';
-            $last_week_date = '2023-09-09';
+            $last_week_date = '2023-09-11';
         }
         else {
             $curr_date = date('Y-m-d');
