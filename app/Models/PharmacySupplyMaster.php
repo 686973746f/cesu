@@ -29,6 +29,10 @@ class PharmacySupplyMaster extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function pharmacysub() {
+        return $this->hasMany(PharmacySupplySub::class, 'supply_master_id');
+    }
+
     public function getUpdatedBy() {
         if(!is_null($this->updated_by)) {
             return $this->belongsTo(User::class, 'updated_by');

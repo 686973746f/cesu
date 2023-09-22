@@ -1376,6 +1376,28 @@ class PharmacyController extends Controller
             $input_year = request()->input('year');
 
             //TOP FAST MOVING MEDS
+            $fast_moving = PharmacyStockCard::where('type', 'ISSUED')
+            ->get();
+
+            $fast_moving_group = $fast_moving->groupBy(function ($stockCard) {
+                return $stockCard->pharmacysub->pharmacysupplymaster->id;
+            });
+
+            $fm_array = [];
+
+            foreach($fast_moving_group as $id => $fm) {
+                $qty_total = $fm->where('qty_type', 'PIECE')->sum('qty_to_process') + ($fm->where('qty_type', 'BOX')->sum('qty_to_process') * PharmacySupplyMaster::find($id)->config_piecePerBox);
+
+                $fm_array[] = [
+                    'master_id' => $id,
+                    'name' => PharmacySupplyMaster::find($id)->name,
+                    'qty_total' => $qty_total,
+                ];
+            }
+
+            usort($fm_array, function ($a, $b) {
+                return $b['qty_total'] - $a['qty_total'];
+            });
 
             //TOP BRGY ISSUANCE
             $list_entities = PharmacyBranch::where('id', '!=', auth()->user()->pharmacy_branch_id)->get();
@@ -1691,6 +1713,7 @@ class PharmacyController extends Controller
                 'expired_list' => $expired_list,
                 'list_branch' => $list_branch,
                 'entities_arr' => $entities_arr,
+                'fm_array' => $fm_array,
                 'si_array' => $si_array,
                 'age_group_set_male' => $age_group_set_male,
                 'age_group_set_female' => $age_group_set_female,

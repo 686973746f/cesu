@@ -56,6 +56,10 @@ class PharmacySupplySub extends Model
         return $this->belongsTo(PharmacySupplyMaster::class, 'supply_master_id');
     }
 
+    public function stockcard() {
+        return $this->hasMany(PharmacyStockCard::class, 'subsupply_id');
+    }
+
     public function pharmacybranch() {
         return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
     }

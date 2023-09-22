@@ -79,23 +79,25 @@
             <hr>
             <div class="row">
                 <div class="col-md-4">
-                    <table class="table table-bordered table-striped">
-                        <thead class="thead-light text-center">
+                    <table class="table table-bordered table-striped text-center">
+                        <thead class="thead-light">
                             <tr>
                                 <th colspan="3">Top Fast Moving Meds</th>
                             </tr>
                             <tr>
+                                <th>#</th>
                                 <th>Item Name</th>
-                                <th>Current Stock</th>
-                                <th>% of Issuance vs. Previous Month</th>
+                                <th>Total Stocks Issued</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($fm_array as $fm)
                             <tr>
-                                <td scope="row"></td>
-                                <td></td>
-                                <td></td>
+                                <td>#{{$loop->iteration}}</td>
+                                <td><a href="">{{$fm['name']}}</a></td>
+                                <td>{{$fm['qty_total']}} {{Str::plural('PC', $fm['qty_total'])}}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
 
@@ -238,6 +240,7 @@ $('#type').change(function (e) {
     }
 }).trigger('change');
 
+@if(request()->input('type'))
 var male_set = {{json_encode($age_group_set_male)}};
 var female_set = {{json_encode($age_group_set_female)}};
 
@@ -286,23 +289,29 @@ var stackedBarChart = new Chart(ctx, {
 });
 
 var data = {
-        labels: ['Label 1', 'Label 2', 'Label 3'],
-        datasets: [{
-            data: [30, 40, 30], // Values for each slice of the pie
-            backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(75, 192, 192, 0.7)'],
-        }],
-    };
+    labels: ['INFECTION', 'MAINTENANCE', 'WOMEN'],
+    datasets: [{
+        data: [30, 40, 30], // Values for each slice of the pie
+        backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(75, 192, 192, 0.7)'],
+    }],
+};
 
-    // Get the canvas element
-    var ctx = document.getElementById('concerns_chart').getContext('2d');
+// Get the canvas element
+var ctx = document.getElementById('concerns_chart').getContext('2d');
 
-    // Create the pie chart
-    var myPieChart = new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: {
-            // Pie chart options (e.g., legend, tooltips)
+// Create the pie chart
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Requestor Types',
+            }
         },
-    });
+    },
+});
+@endif
 </script>
 @endsection
