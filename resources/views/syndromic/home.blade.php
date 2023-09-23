@@ -24,18 +24,33 @@
     </form>
     @if(session('msg'))
     <div class="alert alert-{{session('msgtype')}}" role="alert">
-        {{session('msg')}}
+        <b>{{session('msg')}}</b>
         @if(session('p'))
+        @php $p = session('p') @endphp
         <hr>
             @if(session('p')->userHasPermissionToAccess())
-            To view the existing record of the patient, click <a href="{{route('syndromic_viewPatient', session('p')->id)}}">HERE</a>
+                <div class="alert alert-primary" role="alert">
+                    <div><b>Full Name: </b> <b><u>{{$p->getName()}}</u></b></div>
+                    <div><b>Birthdate: </b> {{date('m/d/Y', strtotime($p->bdate))}}</div>
+                    <div><b>Age/Sex:</b> {{$p->getAge()}} / {{substr($p->gender, 0,1)}}</div>
+                    <div><b>Address: </b> {{$p->getFullAddress()}}</div>
+                    <div><b>Date Encoded / By: </b> {{date('m/d/Y h:i A', strtotime($p->created_at))}} by {{$p->user->name}}</div>
+                    @if($p->getLastCheckup())
+                    <hr>
+                    <div><b>OPD No.: </b> <b><a href="{{route('syndromic_viewRecord', $p->getLastCheckup()->id)}}">{{$p->getLastCheckup()->opdno}}</a></b></div>
+                    <div><b>Date of Last Checkup: </b> {{date('m/d/Y', strtotime($p->getLastCheckup()->consultation_date))}}</div>
+                    @endif
+                    <hr>
+                    > To view/update the Patient details, click <a href="{{route('syndromic_viewPatient', session('p')->id)}}">HERE</a>
+                </div>
+            </div>
             @else
             Unfortunately, you don't have permission to access the record because it was created by other user on other barangay. You may contact CESU Staff or the Encoder of the record ({{session('p')->user->name}}) to gain rights access for the patient record.
             @endif
         @endif
         @if(session('option_medcert'))
         <hr>
-        Options: <a href="{{route('syndromic_view_medcert', session('option_medcert'))}}" class="btn btn-primary">Print Medical Certificate</a> <a href="{{route('pharmacy_print_patient_card', session('option_pharmacy'))}}" class="btn btn-primary">Print Pharmacy Card</a>
+        Options: <a href="{{route('syndromic_view_medcert', session('option_medcert'))}}" class="btn btn-primary">Print MedCert</a> <a href="{{route('pharmacy_print_patient_card', session('option_pharmacy'))}}" class="btn btn-primary">Print Pharmacy Card</a>
         @endif
     </div>
     @endif
@@ -48,6 +63,15 @@
             </div>
         </div>
         <div class="card-body">
+            <form action="{{route('syndromic_home')}}" method="GET">
+                <input type="hidden" name="opd_view" value="{{request()->input('opd_view')}}">
+                <div class="input-group mb-3">
+                    <input type="date" class="form-control" name="d" id="d" value="{{(request()->input('d')) ? request()->input('d') : date('Y-m-d')}}" min="2023-01-01" max="{{date('Y-m-d')}}" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success" type="submit"><i class="fas fa-calendar-alt mr-2"></i>Date Search</button>
+                    </div>
+                </div>
+            </form>
             @if($list->count() != 0)
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -62,22 +86,24 @@
                             <th>Barangay</th>
                             <th>City/Province</th>
                             <th>Contact Number</th>
+                            <th>List of Suspected Disease/s</th>
                             <th>Encoded At / By</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list as $ind => $i)
                         <tr>
-                            <td>#{{$i->line_number}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td class="text-center"><b>#{{$i->line_number}}</b></td>
+                            <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $i->id)}}">{{$i->opdno}}</a></b></td>
+                            <td><a href="{{route('syndromic_viewPatient', $i->syndromic_patient->id)}}">{{$i->syndromic_patient->getName()}}</a></td>
+                            <td class="text-center">{{$i->syndromic_patient->getAge()}} / {{substr($i->syndromic_patient->gender,0,1)}}</td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($i->syndromic_patient->bdate))}}</td>
+                            <td class="text-center"><small>{{$i->syndromic_patient->getStreetPurok()}}</small></td>
+                            <td class="text-center">{{$i->syndromic_patient->address_brgy_text}}</td>
+                            <td class="text-center">{{$i->syndromic_patient->address_muncity_text}}, {{$i->syndromic_patient->address_province_text}}</td>
+                            <td class="text-center">{{$i->syndromic_patient->getContactNumber()}}</td>
+                            <td class="text-center">{{$i->getListOfSuspDiseases()}}</td>
+                            <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -135,7 +161,7 @@
                             <td><b><a href="{{route('syndromic_viewRecord', $l->id)}}">{{$l->syndromic_patient->getName()}} <small>(#{{$l->syndromic_patient->id}})</small></a></b></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($l->syndromic_patient->bdate))}}</td>
                             <td class="text-center">{{$l->syndromic_patient->getAge()}} / {{substr($l->syndromic_patient->gender,0,1)}}</td>
-                            <td class="text-center"><small>{{$l->syndromic_patient->address_houseno}}, {{$l->syndromic_patient->address_street}}</small></td>
+                            <td class="text-center"><small>{{$l->syndromic_patient->getStreetPurok()}}</small></td>
                             <td class="text-center">{{$l->syndromic_patient->address_brgy_text}}</td>
                             <td class="text-center">{{$l->syndromic_patient->getContactNumber()}}</td>
                             <td class="text-center">{{$l->listSymptoms()}}</td>

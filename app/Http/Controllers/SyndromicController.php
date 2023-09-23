@@ -31,7 +31,14 @@ class SyndromicController extends Controller
 
         if(auth()->user()->isStaffSyndromic() && request()->input('opd_view')) {
             //STAFF ACCOUNT OPD VIEW
-            $ll = SyndromicRecords::whereDate('created_at', date('Y-m-d'))
+            if(request()->input('d')) {
+                $sdate = request()->input('d');
+            }
+            else {
+                $sdate = date('Y-m-d');
+            }
+
+            $ll = SyndromicRecords::whereDate('created_at', $sdate)
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
@@ -139,8 +146,8 @@ class SyndromicController extends Controller
             $sheet->setCellValue('E'.$curtab, $d->syndromic_patient->getStreetPurok());
             $sheet->setCellValue('F'.$curtab, date('m/d/Y', strtotime($d->syndromic_patient->bdate)));
             $sheet->setCellValue('G'.$curtab, $d->syndromic_patient->getAge());
-            $sheet->setCellValue('H'.$curtab, $d->syndromic_patient->gender);
-            $sheet->setCellValue('I'.$curtab, $d->syndromic_patient->contact_number);
+            $sheet->setCellValue('H'.$curtab, substr($d->syndromic_patient->gender,0,1));
+            $sheet->setCellValue('I'.$curtab, $d->syndromic_patient->getContactNumber());
             $sheet->setCellValue('J'.$curtab, $d->dcnote_assessment);
             $sheet->setCellValue('K'.$curtab, $d->dcnote_plan);
             $sheet->setCellValue('L'.$curtab, date('m/d/Y', strtotime($d->created_at)));
@@ -161,8 +168,38 @@ class SyndromicController extends Controller
         $bdate = request()->input('bdate');
         
         $mname = request()->input('mname');
+        $suffix = request()->input('suffix');
+
+        $getname = $lname.', '.$fname;
+
+        if(request()->input('mname')) {
+            $getname = $getname.' '.$mname;
+        }
+
+        if(request()->input('suffix')) {
+            $getname = $getname.' '.$suffix;
+        }
+
+        $s = SyndromicPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate);
+
+        if(!($s)) {
+            //getAge
+            $cbdate = Carbon::parse($bdate);
+            $getage = $cbdate->diffInYears(Carbon::now());
+            
+            return view('syndromic.new_patient', [
+                'getage' => $getage,
+            ]);
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Patient ('.mb_strtoupper($getname).') already exists in the database.')
+            ->with('p', SyndromicPatient::find($s->id))
+            ->with('msgtype', 'warning');
+        }
 
         //new method of checking duplicate before storing records
+        /*
         $s = SyndromicPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
         ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
         ->whereDate('bdate', $bdate);
@@ -187,110 +224,108 @@ class SyndromicController extends Controller
         }
 
         if($s) {
-            return redirect()->back()
-            ->with('msg', 'Error: Patient ('.$getname.') already exists in the database.')
-            ->with('p', $s)
-            ->with('msgtype', 'warning');
+            
         }
         else {
-            //getAge
-            $cbdate = Carbon::parse($bdate);
-            $getage = $cbdate->diffInYears(Carbon::now());
             
-            return view('syndromic.new_patient', [
-                'getage' => $getage,
-            ]);
         }
+        */
     }
 
     public function storePatient(Request $request) {
-
-        if(date('n') == 1) {
-            $sc = 'A';
-        }
-        else if(date('n') == 2) {
-            $sc = 'B';
-        }
-        else if(date('n') == 3) {
-            $sc = 'C';
-        }
-        else if(date('n') == 4) {
-            $sc = 'D';
-        }
-        else if(date('n') == 5) {
-            $sc = 'E';
-        }
-        else if(date('n') == 6) {
-            $sc = 'F';
-        }
-        else if(date('n') == 7) {
-            $sc = 'G';
-        }
-        else if(date('n') == 8) {
-            $sc = 'H';
-        }
-        else if(date('n') == 9) {
-            $sc = 'I';
-        }
-        else if(date('n') == 10) {
-            $sc = 'J';
-        }
-        else if(date('n') == 11) {
-            $sc = 'K';
-        }
-        else if(date('n') == 12) {
-            $sc = 'L';
-        }
-        
-        $foundunique = false;
-
-        while(!$foundunique) {
-            $qr = date('Y').'-'.$sc.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT).chr(mt_rand(65, 90)).chr(mt_rand(65, 90));
-
-            $search = SyndromicPatient::where('qr', $qr)->first();
-            $search2 = PharmacyPatient::where('qr', $qr)->first();
-
-            if(!$search && !$search2) {
-                $foundunique = true;
+        if(!(PharmacyPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->date))) {
+            if(date('n') == 1) {
+                $sc = 'A';
             }
+            else if(date('n') == 2) {
+                $sc = 'B';
+            }
+            else if(date('n') == 3) {
+                $sc = 'C';
+            }
+            else if(date('n') == 4) {
+                $sc = 'D';
+            }
+            else if(date('n') == 5) {
+                $sc = 'E';
+            }
+            else if(date('n') == 6) {
+                $sc = 'F';
+            }
+            else if(date('n') == 7) {
+                $sc = 'G';
+            }
+            else if(date('n') == 8) {
+                $sc = 'H';
+            }
+            else if(date('n') == 9) {
+                $sc = 'I';
+            }
+            else if(date('n') == 10) {
+                $sc = 'J';
+            }
+            else if(date('n') == 11) {
+                $sc = 'K';
+            }
+            else if(date('n') == 12) {
+                $sc = 'L';
+            }
+            
+            $foundunique = false;
+    
+            while(!$foundunique) {
+                $qr = date('Y').'-'.$sc.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT).chr(mt_rand(65, 90)).chr(mt_rand(65, 90));
+    
+                $search = SyndromicPatient::where('qr', $qr)->first();
+                $search2 = PharmacyPatient::where('qr', $qr)->first();
+    
+                if(!$search && !$search2) {
+                    $foundunique = true;
+                }
+            }
+    
+            $c = $request->user()->syndromicpatient()->create([
+                'lname' => mb_strtoupper($request->lname),
+                'fname' => mb_strtoupper($request->fname),
+                'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
+                'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+                'bdate' => $request->bdate,
+                'gender' => $request->gender,
+                'cs' => $request->cs,
+                'spouse_name' => ($request->cs == 'MARRIED') ? $request->spouse_name : NULL,
+                'email' => $request->email,
+                'contact_number' => $request->contact_number,
+                'contact_number2' => $request->contact_number2,
+    
+                'mother_name' => $request->mother_name,
+                'father_name' => $request->father_name,
+    
+                'address_region_code' => $request->address_region_code,
+                'address_region_text' => $request->address_region_text,
+                'address_province_code' => $request->address_province_code,
+                'address_province_text' => $request->address_province_text,
+                'address_muncity_code' => $request->address_muncity_code,
+                'address_muncity_text' => $request->address_muncity_text,
+                'address_brgy_code' => $request->address_brgy_text,
+                'address_brgy_text' => $request->address_brgy_text,
+                'address_street' => $request->filled('address_street') ? mb_strtoupper($request->address_street) : NULL,
+                'address_houseno' => $request->filled('address_houseno') ? mb_strtoupper($request->address_houseno) : NULL,
+    
+                'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
+                'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
+    
+                'qr' => $qr,
+            ]);
+    
+            return redirect()->route('syndromic_newRecord', $c->id)
+            ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
+            ->with('msgtype', 'success');
         }
-
-        $c = $request->user()->syndromicpatient()->create([
-            'lname' => mb_strtoupper($request->lname),
-            'fname' => mb_strtoupper($request->fname),
-            'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
-            'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
-            'bdate' => $request->bdate,
-            'gender' => $request->gender,
-            'cs' => $request->cs,
-            'spouse_name' => ($request->cs == 'MARRIED') ? $request->spouse_name : NULL,
-            'email' => $request->email,
-            'contact_number' => $request->contact_number,
-            'contact_number2' => $request->contact_number2,
-
-            'mother_name' => $request->mother_name,
-            'father_name' => $request->father_name,
-
-            'address_region_code' => $request->address_region_code,
-            'address_region_text' => $request->address_region_text,
-            'address_province_code' => $request->address_province_code,
-            'address_province_text' => $request->address_province_text,
-            'address_muncity_code' => $request->address_muncity_code,
-            'address_muncity_text' => $request->address_muncity_text,
-            'address_brgy_code' => $request->address_brgy_text,
-            'address_brgy_text' => $request->address_brgy_text,
-            'address_street' => mb_strtoupper($request->address_street),
-            'address_houseno' => mb_strtoupper($request->address_houseno),
-
-            'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
-            'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
-
-            'qr' => $qr,
-        ]);
-
-        return redirect()->route('syndromic_newRecord', $c->id)
-        ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
-        ->with('msgtype', 'success');
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Patient was already encoded and your input was blocked to avoid duplicate entries.')
+            ->with('msgtype', 'warning');
+        }
     }
 
     public function newRecord($patient_id) {
@@ -590,38 +625,11 @@ class SyndromicController extends Controller
         $bdate = $request->bdate;
         
         $mname = $request->mname;
+        $suffix = $request->suffix;
 
-        //new method of checking duplicate before storing records
-        $s = SyndromicPatient::where('id', '!=', $patient_id)
-        ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-        ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-        ->whereDate('bdate', $bdate);
+        $s = SyndromicPatient::ifDuplicateFoundOnUpdate($patient_id, $lname, $fname, $mname, $suffix, $bdate);
 
-        if($request->filled('mname')) {
-            $getname = $lname.', '.$fname.' '.$mname;
-
-            $s = $s->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)));
-        }
-        else {
-            $getname = $lname.', '.$fname;
-        }
-
-        if($request->filled('suffix')) {
-            $suffix = $request->suffix;
-            $getname = $getname.' '.$suffix;
-
-            $s = $s->where('suffix', $suffix)->first();
-        }
-        else {
-            $s = $s->first();
-        }
-
-        if($s) {
-            return redirect()->back()
-            ->with('msg', 'Cannot update record. Patient name already exists.')
-            ->with('msgtype', 'warning');
-        }
-        else {
+        if(!($s)) {
             $getpatient = SyndromicPatient::findOrFail($patient_id);
 
             if($getpatient->userHasPermissionToShareAccess()) {
@@ -656,8 +664,8 @@ class SyndromicController extends Controller
                 'address_muncity_text' => $request->address_muncity_text,
                 'address_brgy_code' => $request->address_brgy_text,
                 'address_brgy_text' => $request->address_brgy_text,
-                'address_street' => mb_strtoupper($request->address_street),
-                'address_houseno' => mb_strtoupper($request->address_houseno),
+                'address_street' => $request->filled('address_street') ? mb_strtoupper($request->address_street) : NULL,
+                'address_houseno' => $request->filled('address_houseno') ? mb_strtoupper($request->address_houseno) : NULL,
 
                 'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
                 'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
@@ -670,6 +678,47 @@ class SyndromicController extends Controller
             ->with('msg', 'Patient record was updated successfully.')
             ->with('msgtype', 'success');
         }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Cannot update record. Patient name already exists.')
+            ->with('msgtype', 'warning');
+        }
+
+        /*
+        //new method of checking duplicate before storing records
+        $s = SyndromicPatient::where('id', '!=', $patient_id)
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
+        ->whereDate('bdate', $bdate);
+
+        if($request->filled('mname')) {
+            $getname = $lname.', '.$fname.' '.$mname;
+
+            $s = $s->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)));
+        }
+        else {
+            $getname = $lname.', '.$fname;
+        }
+
+        if($request->filled('suffix')) {
+            $suffix = $request->suffix;
+            $getname = $getname.' '.$suffix;
+
+            $s = $s->where('suffix', $suffix)->first();
+        }
+        else {
+            $s = $s->first();
+        }
+
+        if($s) {
+            return redirect()->back()
+            ->with('msg', 'Cannot update record. Patient name already exists.')
+            ->with('msgtype', 'warning');
+        }
+        else {
+            
+        }
+        */
     }
 
     public function deletePatient($patient_id) {

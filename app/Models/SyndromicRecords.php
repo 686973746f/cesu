@@ -154,7 +154,12 @@ class SyndromicRecords extends Model
     }
 
     public function getUpdatedBy() {
-        return $this->belongsTo(User::class, 'updated_by');
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }
     }
 
     public function getCesuVerified() {
@@ -486,7 +491,12 @@ class SyndromicRecords extends Model
             }
         }
 
-        return implode(", ", $list_arr);
+        if($list_arr) {
+            return implode(", ", $list_arr);
+        }
+        else {
+            return 'N/A';
+        }
     }
 
     public function getMedCertStartDate() {

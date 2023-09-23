@@ -5,7 +5,13 @@
     <form action="{{route('syndromic_storeRecord', $patient->id)}}" method="POST">
         @csrf
         <div class="card">
-            <div class="card-header"><b>Edit ITR</b> | Patient: {{$patient->getName()}}</div>
+            <div class="card-header">
+              @if(Str::contains(request()->url(), 'new'))
+              <div><b>New ITR</b></div>
+              @else
+              <div><b>View/Edit ITR</b></div>
+              @endif
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -15,6 +21,34 @@
                 <div class="alert alert-primary" role="alert">
                   <b class="text-danger">Note:</b> All fields marked with an Asterisk (<b class="text-danger">*</b>) are <b>REQUIRED</b> to be filled-out.
                 </div>
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div><b>NAME / ID:</b></div>
+                        <div><b><a href="{{route('syndromic_viewPatient', $patient->id)}}">{{$patient->getName()}} <small>(#{{$patient->id}})</small></a></b></div>
+                      </td>
+                      <td>
+                        <div><b>BIRTHDATE:</b></div>
+                        <div>{{date('m/d/Y', strtotime($patient->bdate))}}</div>
+                      </td>
+                      <td>
+                        <div><b>AGE/SEX:</b></div>
+                        <div>{{$patient->getAge()}} / {{substr($patient->gender, 0,1)}}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div><b>ADDRESS:</b></div>
+                        <div>{{$patient->getFullAddress()}}</div>
+                      </td>
+                      <td>
+                        <div><b>CONTACT NUMBER/S:</b></div>
+                        <div>{{$patient->getContactNumber()}}</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 <div class="row">
                     <div class="col-md-3">
                       <div class="form-group">

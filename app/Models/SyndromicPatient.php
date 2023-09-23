@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -113,21 +114,6 @@ class SyndromicPatient extends Model
         }
     }
 
-    public function getFullAddress() {
-        //will be used at MedCert
-        return $this->address_houseno.', '.$this->address_street.', BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
-    }
-
-    public function getBrgyId() {
-        $get_province_id = Provinces::where('provinceName', $this->address_province_text)->pluck('id')->first();
-
-        $get_city_id = City::where('province_id', $get_province_id)->where('cityName', $this->address_muncity_text)->pluck('id')->first();
-
-        $get_brgy_id = Brgy::where('city_id', $get_city_id)->where('brgyName', $this->address_brgy_text)->pluck('id')->first();
-
-        return $get_brgy_id;
-    }
-
     public function getStreetPurok() {
         if($this->address_houseno && $this->address_street) {
             $get_txt = $this->address_houseno.', '.$this->address_street;
@@ -145,6 +131,107 @@ class SyndromicPatient extends Model
         }
         
         return $get_txt;
+    }
+
+    public function getFullAddress() {
+        //will be used at MedCert
+        if($this->getStreetPurok() != 'N/A') {
+            return $this->getStreetPurok().', BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+        }
+        else {
+            return 'BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+        }
+    }
+
+    public function getBrgyId() {
+        $get_province_id = Provinces::where('provinceName', $this->address_province_text)->pluck('id')->first();
+
+        $get_city_id = City::where('province_id', $get_province_id)->where('cityName', $this->address_muncity_text)->pluck('id')->first();
+
+        $get_brgy_id = Brgy::where('city_id', $get_city_id)->where('brgyName', $this->address_brgy_text)->pluck('id')->first();
+
+        return $get_brgy_id;
+    }
+
+    
+
+    public static function ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+
+        $check = SyndromicPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->whereDate('bdate', $bdate);
+
+        if(!($check->first())) {
+            if(!is_null($mname)) {
+                $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
+            }
+    
+            if(!is_null($suffix)) {
+                $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+            }
+            else {
+                $check = $check->first();
+            }
+    
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
+        else {
+            return $check->first();
+        }
+    }
+
+    public static function ifDuplicateFoundOnUpdate($id, $lname, $fname, $mname, $suffix, $bdate) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+
+        $check = SyndromicPatient::where('id', '!=', $id)
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->whereDate('bdate', $bdate);
+
+        if(!($check->first())) {
+            if(!is_null($mname)) {
+                $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
+            }
+    
+            if(!is_null($suffix)) {
+                $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+            }
+            else {
+                $check = $check->first();
+            }
+    
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
+        else {
+            return $check;
+        }
     }
 
     public function userHasPermissionToAccess() {

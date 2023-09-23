@@ -25,10 +25,9 @@
         <div class="card">
             <div class="card-header">
               <div class="d-flex justify-content-between">
-                <div><b>Edit ITR</b> | <b>ITR ID:</b> {{$d->id}} | <b>Patient:</b> <a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}}</a></div>
-                <div><b>Date Encoded:</b> {{date('m/d/Y h:i A', strtotime($d->created_at))}} by {{$d->user->name}} @if(!is_null($d->updated_by)) | <b>Date Updated:</b> {{date('m/d/Y h:i A', strtotime($d->updated_at))}} by {{$d->getUpdatedBy->name}}@endif</div>
+                <div><b>Edit ITR</b></div>
+                <div></div>
               </div>
-              
             </div>
             <div class="card-body">
                 @if(session('msg'))
@@ -36,6 +35,52 @@
                     {{session('msg')}}
                 </div>
                 @endif
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div><b>ITR ID:</b></div>
+                        <div>#{{$d->id}}</div>
+                      </td>
+                      <td>
+                        <div><b>DATE ENCODED / BY:</b></div>
+                        <div>{{date('m/d/Y h:i A', strtotime($d->created_at))}} by {{$d->user->name}}</div>
+                      </td>
+                      <td>
+                        <div><b>DATE UPDATED / BY:</b></div>
+                        @if($d->getUpdatedBy())
+                        <div>{{date('m/d/Y h:i A', strtotime($d->updated_at))}} by {{$d->getUpdatedBy->name}}</div>
+                        @else
+                        <div>N/A</div>
+                        @endif
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div><b>NAME / ID:</b></div>
+                        <div><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}} <small>(#{{$d->syndromic_patient->id}})</small></a></b></div>
+                      </td>
+                      <td>
+                        <div><b>BIRTHDATE:</b></div>
+                        <div>{{date('m/d/Y', strtotime($d->syndromic_patient->bdate))}}</div>
+                      </td>
+                      <td>
+                        <div><b>AGE/SEX:</b></div>
+                        <div>{{$d->syndromic_patient->getAge()}} / {{substr($d->syndromic_patient->gender, 0,1)}}</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div><b>ADDRESS:</b></div>
+                        <div>{{$d->syndromic_patient->getFullAddress()}}</div>
+                      </td>
+                      <td>
+                        <div><b>CONTACT NUMBER/S:</b></div>
+                        <div>{{$d->syndromic_patient->getContactNumber()}}</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 <div class="row">
                     <div class="col-md-3">
                       <div class="form-group">
