@@ -10,23 +10,19 @@
     </form>
   </div>
   @endif
-  
-  <div class="text-right mb-3">
-    <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
-    <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
-    @if($d->outcome != 'DIED')
-      @if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
-      @endif
-    @endif
-  </div>
     <form action="{{route('syndromic_updateRecord', $d->id)}}" method="POST">
         @csrf
         <div class="card">
             <div class="card-header">
               <div class="d-flex justify-content-between">
                 <div><b>Edit ITR</b></div>
-                <div></div>
+                <div>
+                  <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
+                  <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
+                  @if($d->outcome != 'DIED' && auth()->user()->isStaffSyndromic())
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
+                  @endif
+                </div>
               </div>
             </div>
             <div class="card-body">

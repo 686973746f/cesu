@@ -110,7 +110,7 @@
                               @if(auth()->user()->isAdminPharmacy())
                               <option value="BRANCH" id="selection_branch">Entities (BHS/Hospitals/Other Institutions)</option>
                               @endif
-                              <option value="PATIENT" id="selection_patient">Patient</option>
+                              <!--<option value="PATIENT" id="selection_patient">Patient</option>-->
                               <option value="OTHERS" id="selection_others">Others</option>
                             </select>
                           </div>

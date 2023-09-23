@@ -1950,9 +1950,27 @@ class PharmacyController extends Controller
 
         $bhs_list = BarangayHealthStation::get();
 
+        /*
+        where(function ($q) use ($id) {
+            $q->whereNotNull('receiving_branch_id')
+            ->where('receiving_branch_id', $id);
+        })
+        */
+
+        $get_transactions = PharmacyStockcard::WhereHas('user', function ($q) use ($id) {
+            $q->where('pharmacy_branch_id', $id);
+        })
+        ->orWhereHas('pharmacysub', function ($q) use ($id) {
+            $q->where('pharmacy_branch_id', $id);
+        })
+        ->orderBy('created_at', 'DESC')
+        ->take(10)
+        ->get();
+
         return view('pharmacy.branches_view', [
             'd' => $d,
             'bhs_list' => $bhs_list,
+            'get_transactions' => $get_transactions,
         ]);
     }
 

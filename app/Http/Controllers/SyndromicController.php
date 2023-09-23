@@ -931,9 +931,9 @@ class SyndromicController extends Controller
         $templateProcessor  = new TemplateProcessor(storage_path('CHO_ITR.docx'));
         
         //$templateProcessor->setValue('asd', '');
-        $templateProcessor->setValue('opd_number', $d->opdno);
+        $templateProcessor->setValue('opdno', $d->opdno);
         $templateProcessor->setValue('qcode', $d->opdno);
-        $templateProcessor->setValue('line_number', $d->line_number);
+        $templateProcessor->setValue('lineno', $d->line_number);
 
         $templateProcessor->setValue('last_name', $d->syndromic_patient->lname);
         $templateProcessor->setValue('first_name', $d->syndromic_patient->fname);

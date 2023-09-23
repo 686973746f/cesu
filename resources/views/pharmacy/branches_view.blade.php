@@ -4,7 +4,7 @@
 <div class="container">
     <form action="{{route('pharmacy_update_branch', $d->id)}}" method="POST">
         @csrf
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>View Branch/Entity</b></div>
@@ -16,13 +16,19 @@
                   <label for="name"><b class="text-danger">*</b>Branch/Entity Name</label>
                   <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" required>
                 </div>
-                <div class="form-group">
-                    <label for="focal_person">Focal Person</label>
-                    <input type="text" class="form-control" name="focal_person" id="focal_person" value="{{old('focal_person', $d->focal_person)}}">
-                </div>
-                <div class="form-group">
-                    <label for="contact_number">Contact Number</label>
-                    <input type="text" class="form-control" name="contact_number" id="contact_number" value="{{old('contact_number', $d->contact_number)}}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="focal_person">Focal Person</label>
+                            <input type="text" class="form-control" name="focal_person" id="focal_person" value="{{old('focal_person', $d->focal_person)}}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="contact_number">Contact Number</label>
+                            <input type="text" class="form-control" name="contact_number" id="contact_number" value="{{old('contact_number', $d->contact_number)}}">
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
@@ -52,6 +58,45 @@
             </div>
         </div>
     </form>
+    <div class="card">
+        <div class="card-header"><b>Recent Transactions</b></div>
+        <div class="card-body">
+            @if($get_transactions->count() != 0)
+            <table class="table table-bordered table-striped text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Transaction ID</th>
+                        <th>Type</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Recipient/Remarks</th>
+                        <th>Processed By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($get_transactions as $t)
+                    <tr>
+                        <td>{{date('m/d/Y h:i A', strtotime($t->created_at))}}</td>
+                        <td>#{{$t->id}}</td>
+                        <td>{{$t->type}}</td>
+                        <td>{{$t->pharmacysub->pharmacysupplymaster->name}}</td>
+                        <td class="{{($t->type == 'ISSUED') ? 'text-danger' : 'text-success'}}">
+                            <b>{{($t->type == 'ISSUED') ? '-' : '+'}} {{$t->getQtyAndType()}}</b>
+                        </td>
+                        <td>
+                            {{$t->getRecipientAndRemarks()}}
+                        </td>
+                        <td>{{$t->user->name}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @else
+            <p class="text-center">No transactions yet.</p>
+            @endif
+        </div>
+    </div>
 </div>
 
 <script>

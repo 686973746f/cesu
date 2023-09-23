@@ -19,36 +19,50 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <tbody>
-                                        <tr>
-                                            <td class="bg-light">Name of Patient</td>
-                                            <td class="text-center"><b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->getName()}} <small>(#{{$d->id}})</small></a></b></td>
-                                            <td class="bg-light">Age / Sex</td>
-                                            <td class="text-center">{{$d->getAge()}} / {{$d->sg()}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light">Birthdate</td>
-                                            <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}}</td>
-                                            <td class="bg-light">Barangay</td>
-                                            <td class="text-center">{{$d->address_brgy_text}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light">Prescription ID</td>
-                                            <td class="text-center" colspan="3">#{{$prescription->id}} <button type="button" class="btn btn-success ml-2" id="new_prescription_btn">New Prescription</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light">Requesting Meds for</td>
-                                            <td class="text-center" colspan="3">{{$prescription->concerns_list}}</td>
-                                        </tr>
+                                      <tr>
+                                        <td>
+                                          <div><b>NAME / ID:</b></div>
+                                          <div><b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->getName()}} <small>(#{{$d->id}})</small></a></b></div>
+                                        </td>
+                                        <td>
+                                          <div><b>BIRTHDATE:</b></div>
+                                          <div>{{date('m/d/Y', strtotime($d->bdate))}}</div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                            <div><b>AGE/SEX:</b></div>
+                                            <div>{{$d->getAge()}} / {{$d->sg()}}</div>
+                                        </td>
+                                        <td>
+                                          <div><b>BARANGAY:</b></div>
+                                          <div>{{$d->address_brgy_text}}</div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                            <div><b>PRESCRIPTION ID / DATE:</b></div>
+                                            <div>#{{$prescription->id}} - {{date('m/d/Y', strtotime($prescription->created_at))}}</div>
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            <button type="button" class="btn btn-success ml-2" id="new_prescription_btn">New Prescription</button>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="2">
+                                            <div><b>REQUESTING MEDS FOR:</b></div>
+                                            <div>{{$prescription->concerns_list}}</div>
+                                        </td>
+                                      </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <hr>
                             <div class="form-group">
-                                <label for="">Scan QR of Meds to Issue</label>
+                                <label for=""><b class="text-danger">*</b>Scan QR of Meds to Issue</label>
                                 <input type="text" class="form-control" name="meds" id="meds" autocomplete="off" autofocus>
                             </div>
                             <div class="form-group">
-                              <label for="alt_meds_id">OR Manually Select from Inventory List</label>
+                              <label for="alt_meds_id"><b class="text-danger">*</b>OR Manually Select from Inventory List</label>
                               <select class="form-control" name="alt_meds_id" id="alt_meds_id">
                                 <option value="" disabled {{(is_null(old('alt_meds_id'))) ? 'selected' : ''}}>Choose...</option>
                                 @foreach($meds_list as $m)
@@ -60,7 +74,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                      <label for="type_to_process">Type to Process</label>
+                                      <label for="type_to_process"><b class="text-danger">*</b>Type to Process</label>
                                       <select class="form-control" name="type_to_process" id="type_to_process" required>
                                         <option value="PIECE">Piece</option>
                                         <!--<option value="BOX">Box</option>-->
@@ -69,7 +83,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="qty_to_process">Quantity <span id="qty_span"></span></label>
+                                        <label for="qty_to_process"><b class="text-danger">*</b>Quantity <span id="qty_span"></span></label>
                                         <input type="text" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" required>
                                     </div>
                                 </div>
@@ -93,7 +107,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <div><b>Cart</b> ({{$load_subcart->count()}})</div>
-                                <div><button type="submit" class="btn btn-outline-secondary" name="submit" value="clear" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Reset/Clear</button></div>
+                                <div><button type="button" class="btn btn-outline-secondary" id="resetFakeBtn" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Reset/Clear</button></div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -118,11 +132,11 @@
                                             @if($c->displayPrescriptionLimit())
                                             {{$c->displayPrescriptionLimit()}}
                                             @else
-                                            <input type="number" class="form-control" name="set_pieces_limit[]" id="set_pieces_limit" min="1" max="900">
+                                            <input type="number" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" required>
                                             @endif
                                             
                                         </td>
-                                        <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger">X</button></td>
+                                        <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger deleteButton"><b>X</b></button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -132,7 +146,7 @@
                             @endif
                         </div>
                         <div class="card-footer text-right">
-                            <button type="submit" name="submit" value="process" class="btn btn-success" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Process</button>
+                            <button type="submit" name="submit" value="process" class="btn btn-success" {{($load_subcart->count() == 0) ? 'disabled' : ''}}>Finish Processing</button>
                         </div>
                     </div>
                 </form>
@@ -143,6 +157,11 @@
     <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST" class="d-none">
         @csrf
         <button type="submit" class="btn btn-primary" id="new_prescription_hdn" name="submit" value="new_prescription"></button>
+    </form>
+
+    <form action="{{route('pharmacy_patient_process_cart', $d->id)}}" method="POST" class="d-none">
+        @csrf
+        <button type="submit" class="btn btn-outline-secondary" name="submit" value="clear" id="resetRealBtn"></button>
     </form>
 
     <script>
@@ -171,9 +190,21 @@
 
                 if (result) {
                     $('#new_prescription_hdn').click();
-                } else {
-
                 }
+            });
+
+            $('#resetFakeBtn').click(function (e) { 
+                e.preventDefault();
+
+                var result = confirm("This will clear the items listed on the Cart of the Patient, continue?");
+
+                if (result) {
+                    $('#resetRealBtn').click();
+                }
+            });
+
+            $('.deleteButton').click(function (e) { 
+                $('.pcslimit').prop('required', false);
             });
         });
 
