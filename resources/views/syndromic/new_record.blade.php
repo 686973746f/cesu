@@ -616,11 +616,11 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="name_of_physician">Name of Physician</label>
+                      <label for="name_of_physician"><b class="text-danger">*</b>Name of Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician') == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}} ({{$d->dru_name}})</option>
+                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', ) == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}} ({{$d->dru_name}})</option>
                         @endforeach
                       </select>
                     </div>
