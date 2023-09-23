@@ -40,37 +40,55 @@
     </div>
     @endif
     
-    @if(in_array('ITR_ADMIN', auth()->user()->getPermissions()) && request()->input('opd_view') || in_array('ITR_ENCODER', auth()->user()->getPermissions()) && request()->input('opd_view'))
+    @if(auth()->user()->isStaffSyndromic() && request()->input('opd_view'))
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>OPD List for {{date('m/d/Y (F)')}}</b></div>
+                <div><b>OPD List for {{date('F d, Y (D)')}}</b> <a href="{{route('syndromic_home')}}" class="btn btn-outline-secondary">Switch to BRGY View</a></div>
             </div>
         </div>
         <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Line #</th>
-                        <th>OPD No.</th>
-                        <th>Name</th>
-                        <th>Age/Sex</th>
-                        <th>Birthdate</th>
-                        <th>House No/Subdivision</th>
-                        <th>Barangay</th>
-                        <th>City/Province</th>
-                        <th>Contact Number</th>
-                        <th>Encoded At / By</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            @if($list->count() != 0)
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="text-center thead-light">
+                        <tr>
+                            <th>Line #</th>
+                            <th>OPD No.</th>
+                            <th>Name</th>
+                            <th>Age/Sex</th>
+                            <th>Birthdate</th>
+                            <th>House No/Subdivision</th>
+                            <th>Barangay</th>
+                            <th>City/Province</th>
+                            <th>Contact Number</th>
+                            <th>Encoded At / By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $ind => $i)
+                        <tr>
+                            <td>#{{$i->line_number}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination justify-content-center mt-3">
+                {{$list->appends(request()->input())->links()}}
+            </div>
+            @else
+            <p class="text-center">No results found.</p>
+            @endif
         </div>
     </div>
     @else
@@ -79,11 +97,7 @@
             <div class="d-flex justify-content-between">
                 <div>
                     Showing <b>UNVERIFIED</b> cases by Barangay
-                    @if(!(request()->input('opd_view')))
-                    <a href="{{route('syndromic_home')}}?opd_view=1" class="btn btn-secondary">Change View to OPD List</a>
-                    @else
-                    <a href="{{route('syndromic_home')}}" class="btn btn-secondary">Change View to BRGY List</a>
-                    @endif
+                    <a href="{{route('syndromic_home', ['opd_view' => 1])}}" class="btn btn-outline-secondary">Switch to OPD View</a>
                 </div>
                 @if(request()->input('showVerified'))
                 <div>
@@ -118,7 +132,7 @@
                         @foreach($list as $ind => $l)
                         <tr>
                             <td class="text-center">{{$list->firstItem() + $ind}}</td>
-                            <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $l->id)}}">{{$l->syndromic_patient->getName()}} <small>(#{{$l->syndromic_patient->id}})</small></a></b></td>
+                            <td><b><a href="{{route('syndromic_viewRecord', $l->id)}}">{{$l->syndromic_patient->getName()}} <small>(#{{$l->syndromic_patient->id}})</small></a></b></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($l->syndromic_patient->bdate))}}</td>
                             <td class="text-center">{{$l->syndromic_patient->getAge()}} / {{substr($l->syndromic_patient->gender,0,1)}}</td>
                             <td class="text-center"><small>{{$l->syndromic_patient->address_houseno}}, {{$l->syndromic_patient->address_street}}</small></td>

@@ -21,63 +21,40 @@ class SyndromicController extends Controller
     public function index() {
         $plist = explode(",", auth()->user()->permission_list);
 
-        if(in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
-            $default_view_opd = 1;
+        /*
+        if(in_array('GLOBAL_ADMIN', $plist) && !request()->input('opd_view') || in_array('ITR_BRGY_ADMIN', $plist) && !request()->input('opd_view') || in_array('ITR_BRGY_ENCODER', $plist) && !request()->input('opd_view')) {
+            return redirect()->route('syndromic_home', [
+                'opd_view' => 1,
+            ]);
         }
-        else {
-            $default_view_opd = 0;
-        }
+        */
 
-        if(in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
-            if(!(request()->input('q'))) {
-                if(request()->input('opd_view')) {
-                    $ll = SyndromicRecords::whereDate('created_at', date('Y-m-d'))
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(10);
-                }
-                else {
-                    if(!(request()->input('showVerified'))) {
-                        $ll = SyndromicRecords::where('brgy_verified', 0);
-                    }
-                    else {
-                        $ll = SyndromicRecords::where('brgy_verified', 1);
-                    }
-    
-                    $ll = $ll->whereHas('syndromic_patient', function ($q) {
-                        $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
-                        ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
-                        ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
-                    })
-                    ->orderBy('created_at', 'ASC')
-                    ->paginate(10);
-    
-                    return view('syndromic.home', [
-                        'list' => $ll,
-                    ]);
-                }
+        if(auth()->user()->isStaffSyndromic() && request()->input('opd_view')) {
+            //STAFF ACCOUNT OPD VIEW
+            $ll = SyndromicRecords::whereDate('created_at', date('Y-m-d'))
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+            return view('syndromic.home', [
+                'list' => $ll,
+            ]);
+        }
+        else if(auth()->user()->isStaffSyndromic()) {
+            //STAFF ACCOUNT BRGY VIEW
+            if(request()->input('q')) {
+                $q = request()->input('q');
+
+                $ll = SyndromicPatient::where(function ($qry) use ($q) {
+                    $qry->where('id', $q)
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
+                })
+                ->paginate(10);
+
+                return view('syndromic.search_patient', [
+                    'list' => $ll,
+                ]);
             }
             else {
-                if(request()->input('opd_view')) {
-
-                }
-                else {
-                    $ll = SyndromicPatient::where(function ($q) {
-                        $q->where('id', $q)
-                        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
-                    })
-                    ->where('address_brgy_text', auth()->user()->brgy->brgyName)
-                    ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
-                    ->where('address_province_text', auth()->user()->brgy->city->province->provinceName)
-                    ->paginate(10);
-    
-                    return view('syndromic.search_patient', [
-                        'list' => $ll,
-                    ]);
-                }
-            }
-        }
-        else {
-            if(!(request()->input('q'))) {
                 if(!(request()->input('showVerified'))) {
                     $ll = SyndromicRecords::where('brgy_verified', 0)
                     ->orderBy('created_at', 'ASC')
@@ -85,7 +62,7 @@ class SyndromicController extends Controller
                 }
                 else {
                     $ll = SyndromicRecords::where('brgy_verified', 1)
-                    ->orderBy('created_at', 'ASC')
+                    ->orderBy('created_at', 'DESC')
                     ->paginate(10);
                 }
 
@@ -93,14 +70,48 @@ class SyndromicController extends Controller
                     'list' => $ll,
                 ]);
             }
-            else {
+        }
+        else {
+            //BRGY ACCOUNT BRGY VIEW
+            if(request()->input('q')) {
                 $q = request()->input('q');
 
-                $ll = SyndromicPatient::where('id', $q)
-                ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%")
+                $ll = SyndromicPatient::where(function ($qry) use ($q) {
+                    $qry->where('id', $q)
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
+                })
+                ->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                ->where('address_province_text', auth()->user()->brgy->city->province->provinceName)
                 ->paginate(10);
-
+                
                 return view('syndromic.search_patient', [
+                    'list' => $ll,
+                ]);
+            }
+            else {
+                if(!(request()->input('showVerified'))) {
+                    $ll = SyndromicRecords::whereHas('syndromic_patient', function ($q) {
+                        $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                        ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                        ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
+                    })
+                    ->where('brgy_verified', 0)
+                    ->orderBy('created_at', 'ASC')
+                    ->paginate(10);
+                }
+                else {
+                    $ll = SyndromicRecords::whereHas('syndromic_patient', function ($q) {
+                        $q->where('address_brgy_text', auth()->user()->brgy->brgyName)
+                        ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
+                        ->where('address_province_text', auth()->user()->brgy->city->province->provinceName);
+                    })
+                    ->where('brgy_verified', 1)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
+                }
+
+                return view('syndromic.home', [
                     'list' => $ll,
                 ]);
             }
@@ -352,6 +363,7 @@ class SyndromicController extends Controller
                 'chief_complain' => mb_strtoupper($r->chief_complain),
                 'syndromic_patient_id' => $p->id,
                 'opdno' => $getopd_num,
+                'line_number' => $r->line_number,
                 'last_checkup_date' => ($lastcheckup) ? date('Y-m-d', strtotime($lastcheckup->consultation_date)) : NULL,
                 'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,

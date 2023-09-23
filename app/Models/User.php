@@ -384,6 +384,17 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function isStaffSyndromic() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function getAccessLevelSyndromic() {
         
     }

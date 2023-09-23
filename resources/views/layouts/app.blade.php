@@ -14,8 +14,6 @@
     <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -35,6 +33,10 @@
                     @if(Str::contains(request()->url(), 'pharmacy'))
                     <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 3rem;">
                     Pharmacy
+                    @elseif(Str::contains(request()->url(), 'syndromic'))
+                    <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 3rem;">
+                    <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
+                    CBDSS
                     @else
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
                     {{ config('app.name', 'Laravel') }}

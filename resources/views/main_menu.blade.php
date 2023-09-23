@@ -15,7 +15,7 @@
             <a href="{{route('vaxcert_home')}}" class="btn btn-block btn-primary btn-lg">VaxCert Concerns</a>
             @endif
             @if(auth()->user()->canAccessSyndromic())
-            <a href="{{route('syndromic_home')}}" class="btn btn-block btn-primary btn-lg">Community Base Disease Surveillance System (CBDSS) / Individual Treatment Records (ITR)</a>
+            <a href="{{(auth()->user()->isStaffSyndromic()) ? route('syndromic_home', ['opd_view' => 1]) : route('syndromic_home')}}" class="btn btn-block btn-primary btn-lg">Community Base Disease Surveillance System (CBDSS) / Individual Treatment Records (ITR)</a>
             @endif
             @if(auth()->user()->canAccessPidsr())
             <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary btn-lg">Integrated Philippine Integrated Disease Surveillance and Response (PIDSR)</a>
