@@ -168,35 +168,7 @@
                                 <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Meds for <i>(Select all that apply)</i></label>
-                        <select class="form-control" name="concerns_list[]" id="concerns_list" multiple required>
-                          <option value="ACCIDENT/INJURIES/WOUNDS" {{(old('concerns_list') == 'ACCIDENT/INJURIES/WOUNDS' || in_array('ACCIDENT/INJURIES/WOUNDS', explode(",", $d->concerns_list))) ? 'selected' : ''}}>ACCIDENT/INJURIES/WOUNDS</option>
-                          <option value="CHILDREN" {{(old('concerns_list') == 'v' || in_array('CHILDREN', explode(",", $d->concerns_list))) ? 'selected' : ''}}>CHILDREN</option>
-                          <option value="COLDS" {{(old('concerns_list') == 'COLDS' || in_array('COLDS', explode(",", $d->concerns_list))) ? 'selected' : ''}}>COLDS</option>
-                          <option value="DIABETES" {{(old('concerns_list') == 'DIABETES' || in_array('DIABETES', explode(",", $d->concerns_list))) ? 'selected' : ''}}>DIABETES</option>
-                          <option value="DERMA/SKIN PROBLEM" {{(old('concerns_list') == 'DERMA/SKIN PROBLEM' || in_array('DERMA/SKIN PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>DERMA/SKIN PROBLEM</option>
-                          <option value="FAMILY PLANNING" {{(old('concerns_list') == 'FAMILY PLANNING' || in_array('FAMILY PLANNING', explode(",", $d->concerns_list))) ? 'selected' : ''}}>FAMILY PLANNING</option>
-                          <option value="FEVER/HEADACHE" {{(old('concerns_list') == 'FEVER/HEADACHE' || in_array('FEVER/HEADACHE', explode(",", $d->concerns_list))) ? 'selected' : ''}}>FEVER/HEADACHE</option>
-                          <option value="HYPERTENSION/HEART/HIGH CHOLESTEROL" {{(old('concerns_list') == 'HYPERTENSION/HEART/HIGH CHOLESTEROL' || in_array('HYPERTENSION/HEART/HIGH CHOLESTEROL', explode(",", $d->concerns_list))) ? 'selected' : ''}}>HYPERTENSION/HEART/HIGH CHOLESTEROL</option>
-                          <option value="IMMUNE DEFICIENCY" {{(old('concerns_list') == 'IMMUNE DEFICIENCY' || in_array('IMMUNE DEFICIENCY', explode(",", $d->concerns_list))) ? 'selected' : ''}}>IMMUNE DEFICIENCY</option>
-                          <option value="IMMUNIZATION" {{(old('concerns_list') == 'IMMUNIZATION' || in_array('IMMUNIZATION', explode(",", $d->concerns_list))) ? 'selected' : ''}}>IMMUNIZATION</option>
-                          <option value="INFECTION" {{(old('concerns_list') == 'INFECTION' || in_array('INFECTION', explode(",", $d->concerns_list))) ? 'selected' : ''}}>INFECTION</option>
-                          <option value="KIDNEY PROBLEM" {{(old('concerns_list') == 'KIDNEY PROBLEM' || in_array('KIDNEY PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>KIDNEY PROBLEM</option>
-                          <option value="LIVER PROBLEM" {{(old('concerns_list') == 'LIVER PROBLEM' || in_array('LIVER PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>LIVER PROBLEM</option>
-                          <option value="MENTAL HEALTH" {{(old('concerns_list') == 'MENTAL HEALTH' || in_array('MENTAL HEALTH', explode(",", $d->concerns_list))) ? 'selected' : ''}}>MENTAL HEALTH</option>
-                          <option value="MICROBIAL INFECTIONS" {{(old('concerns_list') == 'MICROBIAL INFECTIONS' || in_array('MICROBIAL INFECTIONS', explode(",", $d->concerns_list))) ? 'selected' : ''}}>MICROBIAL INFECTIONS</option>
-                          <option value="MILD/SEVERE PAIN" {{(old('concerns_list') == 'MILD/SEVERE PAIN' || in_array('MILD/SEVERE PAIN', explode(",", $d->concerns_list))) ? 'selected' : ''}}>MILD/SEVERE PAIN</option>
-                          <option value="MUSCLE PROBLEM" {{(old('concerns_list') == 'MUSCLE PROBLEM' || in_array('MUSCLE PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>MUSCLE PROBLEM</option>
-                          <option value="NERVES PROBLEM" {{(old('concerns_list') == 'NERVES PROBLEM' || in_array('NERVES PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>NERVES PROBLEM</option>
-                          <option value="RESPIRATORY PROBLEM" {{(old('concerns_list') == 'RESPIRATORY PROBLEM' || in_array('RESPIRATORY PROBLEM', explode(",", $d->concerns_list))) ? 'selected' : ''}}>RESPIRATORY PROBLEM</option>
-                          <option value="TB-DOTS" {{(old('concerns_list') == 'TB-DOTS' || in_array('TB-DOTS', explode(",", $d->concerns_list))) ? 'selected' : ''}}>TB-DOTS</option>
-                          <option value="WOMEN" {{(old('concerns_list') == 'WOMEN' || in_array('WOMEN', explode(",", $d->concerns_list))) ? 'selected' : ''}}>WOMEN</option>
-                          <option value="OTHERS" {{(old('concerns_list') == 'OTHERS' || in_array('OTHERS', explode(",", $d->concerns_list))) ? 'selected' : ''}}>OTHERS</option>
-                        </select>
-                    </div>    
+                    </div>   
                 </div>
                 <div class="card-header">
                     <button type="submit" class="btn btn-primary btn-block">Update</button>

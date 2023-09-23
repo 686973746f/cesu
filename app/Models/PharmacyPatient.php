@@ -44,6 +44,7 @@ class PharmacyPatient extends Model
 
         'status',
         'status_remarks',
+        'from_outside',
 
         'itr_id',
         'pharmacy_branch_id',
@@ -63,6 +64,37 @@ class PharmacyPatient extends Model
         }
     }
 
+    public static function getReasonList() {
+        $array = [
+            'ACCIDENT/INJURIES/WOUNDS',
+            'CHILDREN',
+            'COLDS',
+            'DIABETES',
+            'DERMA/SKIN PROBLEM',
+            'FAMILY PLANNING',
+            'FEVER/HEADACHE',
+            'HYPERTENSION/HEART/HIGH CHOLESTEROL',
+            'IMMUNE DEFICIENCY',
+            'IMMUNIZATION',
+            'INFECTION',
+            'KIDNEY PROBLEM',
+            'LIVER PROBLEM',
+            'MENTAL HEALTH',
+            'MICROBIAL INFECTIONS',
+            'MILD/SEVERE PAIN',
+            'MUSCLE PROBLEM',
+            'NERVES PROBLEM',
+            'RESPIRATORY PROBLEM',
+            'TB-DOTS',
+            'WOMEN',
+            'OTHERS',
+        ];
+
+        sort($array);
+
+        return $array;
+    }
+
     public function pharmacybranch() {
         return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
     }
@@ -72,6 +104,13 @@ class PharmacyPatient extends Model
         ->where('status', 'PENDING')
         ->where('created_by', auth()->user()->id)
         ->where('branch_id', auth()->user()->pharmacy_branch_id)
+        ->first();
+    }
+
+    public function getLatestPrescription() {
+        return PharmacyPrescription::where('patient_id', $this->id)
+        ->where('finished', 0)
+        ->latest()
         ->first();
     }
 
@@ -159,26 +198,31 @@ class PharmacyPatient extends Model
         })
         ->whereDate('bdate', $bdate);
 
-        if(!is_null($mname)) {
-            $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
-
-            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
-        }
-
-        if(!is_null($suffix)) {
-            $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
-
-            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+        if(!($check->first())) {
+            if(!is_null($mname)) {
+                $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
+            }
+    
+            if(!is_null($suffix)) {
+                $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+            }
+            else {
+                $check = $check->first();
+            }
+    
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
         }
         else {
-            $check = $check->first();
-        }
-
-        if($check) {
             return $check;
-        }
-        else {
-            return NULL;
         }
     }
 
@@ -219,7 +263,7 @@ class PharmacyPatient extends Model
 
     public function getLatestItr() {
         $s = SyndromicRecords::where('syndromic_patient_id', $this->itr_id)
-        ->orderBy('created_at', 'DESC')
+        ->latest()
         ->first();
 
         if($s) {

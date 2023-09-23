@@ -141,28 +141,9 @@
                 <div class="form-group">
                   <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Medicine/s for <i>(Select all that apply)</i></label>
                   <select class="form-control" name="concerns_list[]" id="concerns_list" multiple required>
-                    <option value="ACCIDENT/INJURIES/WOUNDS">ACCIDENT/INJURIES/WOUNDS</option>
-                    <option value="CHILDREN">CHILDREN</option>
-                    <option value="COLDS">COLDS</option>
-                    <option value="DIABETES">DIABETES</option>
-                    <option value="DERMA/SKIN PROBLEM">DERMA/SKIN PROBLEM</option>
-                    <option value="FAMILY PLANNING">FAMILY PLANNING</option>
-                    <option value="FEVER/HEADACHE">FEVER/HEADACHE</option>
-                    <option value="HYPERTENSION/HEART/HIGH CHOLESTEROL">HYPERTENSION/HEART/HIGH CHOLESTEROL</option>
-                    <option value="IMMUNE DEFICIENCY">IMMUNE DEFICIENCY</option>
-                    <option value="IMMUNIZATION">IMMUNIZATION</option>
-                    <option value="INFECTION">INFECTION</option>
-                    <option value="KIDNEY PROBLEM">KIDNEY PROBLEM</option>
-                    <option value="LIVER PROBLEM">LIVER PROBLEM</option>
-                    <option value="MENTAL HEALTH">MENTAL HEALTH</option>
-                    <option value="MICROBIAL INFECTIONS">MICROBIAL INFECTIONS</option>
-                    <option value="MILD/SEVERE PAIN">MILD/SEVERE PAIN</option>
-                    <option value="MUSCLE PROBLEM">MUSCLE PROBLEM</option>
-                    <option value="NERVES PROBLEM">NERVES PROBLEM</option>
-                    <option value="RESPIRATORY PROBLEM">RESPIRATORY PROBLEM</option>
-                    <option value="TB-DOTS">TB-DOTS</option>
-                    <option value="WOMEN">WOMEN</option>
-                    <option value="OTHERS">OTHERS</option>
+                    @foreach(App\Models\PharmacyPatient::getReasonList() as $rea)
+                    <option value="{{$rea}}">{{$rea}}</option>
+                    @endforeach
                   </select>
                 </div>
             </div>

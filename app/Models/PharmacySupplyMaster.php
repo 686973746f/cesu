@@ -41,6 +41,23 @@ class PharmacySupplyMaster extends Model
             return NULL;
         }
     }
+
+    public static function getCategories() {
+        $array = [
+            'GENERAL',
+            'ANTIBIOTICS',
+            'BOTTLES',
+            'FAMILY PLANNING',
+            'MAINTENANCE',
+            'OINTMENT',
+            'YELLOW RX',
+            'OTHERS',
+        ];
+
+        sort($array);
+
+        return $array;
+    }
     
     public function getQtyType() {
         if($this->quantity_type == 'BOX') {

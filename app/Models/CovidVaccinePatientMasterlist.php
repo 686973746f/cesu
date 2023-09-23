@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\VaxcertConcern;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -71,6 +72,19 @@ class CovidVaccinePatientMasterlist extends Model
         }
 
         return $str;
+    }
+
+    public function showCbcrName() {
+        $input = $this->bakuna_center_cbcr_id;
+
+        $key = array_search($input, array_column(VaxcertConcern::getCbcrList(), 'cbcr_code'));
+
+        if ($key !== false) {
+            return VaxcertConcern::getCbcrList()[$key]['cbcr_name'];
+        }
+    
+        // Return null or an appropriate value if no matching code is found
+        return null;
     }
 
     public function getAge() {

@@ -265,17 +265,9 @@
                                 <label for="dose1_manufacturer"><span class="text-danger font-weight-bold">*</span>1ST Dose Manufacturer</label>
                                 <select class="form-control" name="dose1_manufacturer" id="dose1_manufacturer" required>
                                     <option disabled {{(is_null(old('dose1_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="AZ" {{(old('dose1_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                    <option value="J&J" {{(old('dose1_manufacturer') == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                    <option value="Moderna" {{(old('dose1_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                    <option value="ModernaBivalent" {{(old('dose1_manufacturer') == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                    <option value="Novavax" {{(old('dose1_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                    <option value="Pfizer" {{(old('dose1_manufacturer') == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                    <option value="PfizerBivalent" {{(old('dose1_manufacturer') == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                    <option value="Sinopharm" {{(old('dose1_manufacturer') == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                    <option value="Sinovac" {{(old('dose1_manufacturer') == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                    <option value="SputnikLight" {{(old('dose1_manufacturer') == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                    <option value="Gamaleya" {{(old('dose1_manufacturer') == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    <option value="{{$vl['code']}}" {{(old('dose1_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -330,16 +322,9 @@
                                 <label for="dose2_manufacturer"><span class="text-danger font-weight-bold">*</span>2ND Dose Manufacturer</label>
                                 <select class="form-control" name="dose2_manufacturer" id="dose2_manufacturer">
                                     <option disabled {{(is_null(old('dose2_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="AZ" {{(old('dose2_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                    <option value="Moderna" {{(old('dose2_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                    <option value="ModernaBivalent" {{(old('dose2_manufacturer') == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                    <option value="Novavax" {{(old('dose2_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                    <option value="Pfizer" {{(old('dose2_manufacturer') == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                    <option value="PfizerBivalent" {{(old('dose2_manufacturer') == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                    <option value="Sinopharm" {{(old('dose2_manufacturer') == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                    <option value="Sinovac" {{(old('dose2_manufacturer') == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                    <option value="SputnikLight" {{(old('dose2_manufacturer') == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                    <option value="Gamaleya" {{(old('dose2_manufacturer') == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    <option value="{{$vl['code']}}" {{(old('dose2_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -394,17 +379,9 @@
                                 <label for="dose3_manufacturer"><span class="text-danger font-weight-bold">*</span>3RD Dose (Booster 1) Manufacturer</label>
                                 <select class="form-control" name="dose3_manufacturer" id="dose3_manufacturer">
                                     <option disabled {{(is_null(old('dose3_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="AZ" {{(old('dose3_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                    <option value="J&J" {{(old('dose3_manufacturer') == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                    <option value="Moderna" {{(old('dose3_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                    <option value="ModernaBivalent" {{(old('dose3_manufacturer') == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                    <option value="Novavax" {{(old('dose3_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                    <option value="Pfizer" {{(old('dose3_manufacturer') == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                    <option value="PfizerBivalent" {{(old('dose3_manufacturer') == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                    <option value="Sinopharm" {{(old('dose3_manufacturer') == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                    <option value="Sinovac" {{(old('dose3_manufacturer') == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                    <option value="SputnikLight" {{(old('dose3_manufacturer') == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                    <option value="Gamaleya" {{(old('dose3_manufacturer') == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    <option value="{{$vl['code']}}" {{(old('dose3_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -459,17 +436,9 @@
                                 <label for="dose4_manufacturer"><span class="text-danger font-weight-bold">*</span>4TH Dose (Booster 2) Manufacturer</label>
                                 <select class="form-control" name="dose4_manufacturer" id="dose4_manufacturer">
                                     <option disabled {{(is_null(old('dose4_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="AZ" {{(old('dose4_manufacturer') == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                    <option value="J&J" {{(old('dose4_manufacturer') == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                    <option value="Moderna" {{(old('dose4_manufacturer') == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                    <option value="ModernaBivalent" {{(old('dose4_manufacturer') == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                    <option value="Novavax" {{(old('dose4_manufacturer') == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                    <option value="Pfizer" {{(old('dose4_manufacturer') == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                    <option value="PfizerBivalent" {{(old('dose4_manufacturer') == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                    <option value="Sinopharm" {{(old('dose4_manufacturer') == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                    <option value="Sinovac" {{(old('dose4_manufacturer') == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                    <option value="SputnikLight" {{(old('dose4_manufacturer') == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                    <option value="Gamaleya" {{(old('dose4_manufacturer') == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    <option value="{{$vl['code']}}" {{(old('dose4_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">

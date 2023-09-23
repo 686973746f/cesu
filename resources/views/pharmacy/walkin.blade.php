@@ -4,20 +4,19 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                <div class="text-center">
+                    <img src="{{asset('assets/images/CHO_LETTERHEAD_WITH_CESU.png')}}" class="mb-3 img-fluid" style="width: 50rem;">
+                </div>
                 <div class="card">
-                    <div class="card-header"><b>GenTrias LGU Pharmacy Online Registration</b></div>
+                    <div class="card-header text-center"><b>GenTrias LGU Pharmacy Online Registration</b></div>
                     <div class="card-body">
-                        <div class="text-center">
-                            <img src="{{asset('assets/images/CHO_LETTERHEAD_WITH_CESU.png')}}" class="mb-3 img-fluid" style="width: 50rem;">
-                        </div>
-                        <hr>
                         @if(session('msg'))
                         <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                             {{session('msg')}}
                         </div>
                         @endif
-                        <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#new_patient">New Patient</button>
-                        <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#old_patient">Old Patient</button>
+                        <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#new_patient"><b>New Patient</b></button>
+                        <!--<button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#old_patient">Old Patient (Get your Card)</button>-->
                     </div>
                 </div>
                 <p class="text-center mt-3">GenTrias LGU Pharmacy Inventory System - Developed and Maintained by <u>Christian James Historillo</u> for CHO Gen. Trias, Cavite ©{{date('Y')}}</p>
@@ -30,7 +29,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">New Patient (Branch: {{$branch->name}})</h5>
+                        <h5 class="modal-title"><b>New Patient</b> (Branch: {{$branch->name}})</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

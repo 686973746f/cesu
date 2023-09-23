@@ -27,7 +27,8 @@
                                 <th>Vaccination Date</th>
                                 <th>Vaccine</th>
                                 <th>Batch No.</th>
-                                <th>Bakuna Center Code</th>
+                                <th>Bakuna Center Name</th>
+                                <th>Bakuna Center CBCR</th>
                                 <th>Vaccinator Name</th>
                                 <th>Category</th>
                                 <th>Comorbidity</th>
@@ -74,6 +75,7 @@
                                 <td class="{{$a->doseCheckColor()}}">{{date('m/d/Y', strtotime($a->vaccination_date))}} {{$a->showDoseType()}}</td>
                                 <td>{{$a->vaccine_manufacturer_name}}</td>
                                 <td>{{$a->batch_number}}</td>
+                                <td><small>{{$a->showCbcrName()}}</small></td>
                                 <td><small>{{$a->bakuna_center_cbcr_id}}</small></td>
                                 <td>{{$a->vaccinator_name}}</td>
                                 <td>{{$a->category}}</td>

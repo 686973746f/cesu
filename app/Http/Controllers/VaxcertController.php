@@ -1090,39 +1090,9 @@ class VaxcertController extends Controller
             "Yogad",
         ];
 
-        $gentri_cbcr_list = [
-            ['cbcr_code' => 'CBC000000000006637', 'cbcr_name' => 'CITY OF GENERAL TRIAS CONVENTION CENTER'],
-            ['cbcr_code' => 'CBC000000000005586', 'cbcr_name' => 'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER (GENTRIDOCS)'],
-            ['cbcr_code' => 'CBC000000000002325', 'cbcr_name' => 'CITY OF GENERAL TRIAS HEALTH OFFICE (CHO GENTRIAS)'],
-            ['cbcr_code' => 'CBC000000000009906', 'cbcr_name' => 'DBA VACCINATION FACILITY'],
-            ['cbcr_code' => 'CBC000000000005588', 'cbcr_name' => 'DIVINE GRACE MEDICAL HOSPITAL'],
-            ['cbcr_code' => 'CBC000000000007978', 'cbcr_name' => 'GEN TRIAS LGU / VISTA MALL GEN TRIAS / RED CROSS CAVITE CHAPTER VACCINATION SITE'],
-            ['cbcr_code' => 'CBC000000000007746', 'cbcr_name' => 'GENERAL TRIAS MOBILE VACCINATION CENTER (BARANGAY)'],
-            ['cbcr_code' => 'CBC000000000005587', 'cbcr_name' => 'GENTRIMEDICAL CENTER AND HOSPITAL'],
-            ['cbcr_code' => 'CBC000000000007459', 'cbcr_name' => 'ROBINSONS PLACE GEN TRIAS BAKUNA CENTER'],
-            ['cbcr_code' => 'CBC000000000008481', 'cbcr_name' => 'SSMC GATEWAY VACCINATION CENTER'],
-            ['cbcr_code' => 'CBC000000000008932', 'cbcr_name' => 'ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS'],
-        ];
-
-        $vaccine_list = [
-            ['code' => 'AZ', 'name' => 'AstraZeneca'],
-            ['code' => 'J&J', 'name' => 'Johnson and Johnson (J&J) / Janssen'],
-            ['code' => 'Moderna', 'name' => 'Moderna'],
-            ['code' => 'ModernaBivalent', 'name' => 'Moderna Bivalent'],
-            ['code' => 'Novavax', 'name' => 'Novavax'],
-            ['code' => 'Pfizer', 'name' => 'Pfizer'],
-            ['code' => 'PfizerBivalent', 'name' => 'Pfizer Bivalent'],
-            ['code' => 'Sinopharm', 'name' => 'Sinopharm'],
-            ['code' => 'Sinovac', 'name' => 'Sinovac'],
-            ['code' => 'SputnikLight', 'name' => 'Sputnik Light'],
-            ['code' => 'Gamaleya', 'name' => 'Sputnik V/Gamaleya'],
-        ];
-
         return view('vaxcert.templatemaker', [
             'pretemp' => $pretemp,
             'indg_list' => $indg_list,
-            'vaccine_list' => $vaccine_list,
-            'gentri_cbcr_list' => $gentri_cbcr_list,
         ]);
     }
 

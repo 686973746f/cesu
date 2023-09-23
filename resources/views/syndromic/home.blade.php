@@ -170,7 +170,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="suffix">Suffix <i>(If Applicable)</i></label>
-                                <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" maxlength="50">
+                                <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="50" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                             </div>
                         </div>
                     </div>

@@ -77,8 +77,27 @@
 
             @if(request()->input('type'))
             <hr>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><b>Gender and Age Group of Requestors</b></div>
+                        <div class="card-body">
+                            <canvas id="age_group_chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><b>Types of Requestors</b></div>
+                        <div class="card-body">
+                            <canvas id="concerns_chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <table class="table table-bordered table-striped text-center">
                         <thead class="thead-light">
                             <tr>
@@ -123,14 +142,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-4">
-                    <canvas id="age_group_chart"></canvas>
-                    <div style="width: 300px;">
-                        <canvas id="concerns_chart"></canvas>
-                    </div>
-                    
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <table class="table table-striped table-bordered text-center">
                         <thead class="thead-light">
                             <tr>
@@ -274,12 +286,6 @@ var options = {
             stacked: true,
         },
     },
-    plugins: {
-        title: {
-            display: true,
-            text: 'Gender & Age Group of Requestors',
-        }
-    },
 };
 
 var stackedBarChart = new Chart(ctx, {
@@ -288,11 +294,28 @@ var stackedBarChart = new Chart(ctx, {
     options: options,
 });
 
+var labels = [
+    @foreach ($reason_array as $reason)
+        '{{ $reason['name'] }}',
+    @endforeach
+];
+
+var reasonCount = {{json_encode(array_column($reason_array, 'count'))}};
+
+var dynamicColors = [];
+for (var i = 0; i < reasonCount.length; i++) {
+    dynamicColors.push('rgba(' +
+        Math.floor(Math.random() * 256) + ',' +
+        Math.floor(Math.random() * 256) + ',' +
+        Math.floor(Math.random() * 256) + ',' +
+        '0.6)');
+}
+
 var data = {
-    labels: ['INFECTION', 'MAINTENANCE', 'WOMEN'],
+    labels: labels,
     datasets: [{
-        data: [30, 40, 30], // Values for each slice of the pie
-        backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(75, 192, 192, 0.7)'],
+        data: reasonCount, // Values for each slice of the pie
+        backgroundColor: dynamicColors,
     }],
 };
 
@@ -303,14 +326,6 @@ var ctx = document.getElementById('concerns_chart').getContext('2d');
 var myPieChart = new Chart(ctx, {
     type: 'pie',
     data: data,
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: 'Requestor Types',
-            }
-        },
-    },
 });
 @endif
 </script>

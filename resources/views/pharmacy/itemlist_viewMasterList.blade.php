@@ -93,14 +93,9 @@
                             <label for="category"><b class="text-danger">*</b>Category</label>
                             <select class="form-control" name="category" id="category" required>
                                 <option value="" disabled {{is_null(old('category')) ? 'selected' : ''}}>Select...</option>
-                                <option value="GENERAL">GENERAL</option>
-                                <option value="ANTIBIOTICS">ANTIBIOTICS</option>
-                                <option value="BOTTLES">BOTTLES</option>
-                                <option value="FAMILY PLANNING">FAMILY PLANNING</option>
-                                <option value="MAINTENANCE">MAINTENANCE</option>
-                                <option value="OINTMENT">OINTMENT</option>
-                                <option value="YELLOW RX">YELLOW RX</option>
-                                <option value="OTHERS">OTHERS</option>
+                                @foreach(App\Models\PharmacySupplyMaster::getCategories() as $arr)
+                                <option value="{{$arr}}">{{$arr}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
