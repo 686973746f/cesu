@@ -178,4 +178,17 @@ class SyndromicPatient extends Model
             return false;
         }
     }
+
+    public function getLastCheckup() {
+        $f = SyndromicRecords::where('syndromic_patient_id', $this->id)
+        ->latest()
+        ->first();
+
+        if($f) {
+            return $f;
+        }
+        else {
+            return NULL;
+        }
+    }
 }

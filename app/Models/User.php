@@ -475,4 +475,10 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
     }
+
+    public function getItrDefaultDoctor() {
+        $f = SyndromicDoctor::findOrFail($this->itr_doctor_id);
+
+        return $f;
+    }
 }

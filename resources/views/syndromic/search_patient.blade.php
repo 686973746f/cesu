@@ -30,6 +30,7 @@
                         <th>Street/Subdivision</th>
                         <th>Barangay</th>
                         <th>City</th>
+                        <th>Last Checkup</th>
                         <th>Encoded by / At</th>
                         <th>Updated by / At</th>
                     </tr>
@@ -45,6 +46,7 @@
                         <td class="text-center">{{$d->getStreetPurok()}}</td>
                         <td class="text-center">{{$d->address_brgy_text}}</td>
                         <td class="text-center">{{$d->address_muncity_text}}</td>
+                        <td class="text-center"></td>
                         <td class="text-center"><small>{{$d->user->name}} @ {{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></td>
                         <td class="text-center"><small>{{($d->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($d->created_at)).' / '.$d->getUpdatedBy->name : 'N/A'}}</small></td>
                     </tr>

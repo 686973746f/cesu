@@ -718,6 +718,7 @@ class SyndromicController extends Controller
         if($r->submit == 'update') {
             $u = SyndromicRecords::where('id', $d->id)
             ->update([
+                'line_number' => $r->line_number,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
                 'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,

@@ -620,7 +620,7 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', ) == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}} ({{$d->dru_name}})</option>
+                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}} ({{$d->dru_name}})</option>
                         @endforeach
                       </select>
                     </div>
