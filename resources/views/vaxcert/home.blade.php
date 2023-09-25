@@ -9,7 +9,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>VaxCert Concerns</b></div>
+                <div><b>VaxCert Concerns</b> (Total: {{$list->total()}})</div>
                 <div>
                     @if(request()->input('viewcomplete'))
                     Currently Viewing <b class="text-success">COMPLETED</b> List <i>(Oldest to Newest)</i>. <a href="{{route('vaxcert_home')}}" class="btn btn-warning ml-3">Show Pending</a>
@@ -43,6 +43,7 @@
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
                         <tr>
+                            <th>#</th>
                             <th>Ticket ID / Code</th>
                             <th>Name</th>
                             <th>Birthdate</th>
@@ -61,7 +62,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($list as $d)
+                        @foreach($list as $key => $d)
                         @php
                         if($d->status == 'PENDING') {
                             $stext = 'text-warning';
@@ -71,6 +72,7 @@
                         }
                         @endphp
                         <tr>
+                            <td class="text-center">{{$list->firstItem() + $key}}</td>
                             <td class="text-center">#{{$d->id}} - {{$d->sys_code}}</td>
                             <td><b><a href="{{route('vaxcert_viewpatient', $d->id)}}">{{$d->getName()}}</a></b></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->bdate))}}</td>
