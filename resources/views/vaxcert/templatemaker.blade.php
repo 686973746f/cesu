@@ -156,7 +156,7 @@
                                 <label for="dose1_vaccine_manufacturer_name"><span class="text-danger font-weight-bold">*</span>1ST Dose Manufacturer</label>
                                 <select class="form-control" name="dose1_vaccine_manufacturer_name" id="dose1_vaccine_manufacturer_name">
                                     <option disabled {{(is_null(old('dose1_vaccine_manufacturer_name'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                     <option value="{{$vl['code']}}" {{(old('dose1_vaccine_manufacturer_name') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                     @endforeach
                                 </select>
@@ -165,7 +165,7 @@
                                 <label for="dose1_bakuna_center_cbcr_id"><span class="text-danger font-weight-bold">*</span>1ST Dose Bakuna Center CBCR ID (GenTrias LGU ONLY)</label>
                                 <select class="form-control" name="dose1_bakuna_center_cbcr_id" id="dose1_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose1_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
-                                  @foreach(App\Models\VaxCertConcern::getCbcrList() as $g)
+                                  @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
                                   <option value="{{$g['cbcr_code']}}" {{(old('dose1_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>
@@ -194,7 +194,7 @@
                                 <label for="dose2_vaccine_manufacturer_name"><span class="text-danger font-weight-bold">*</span>2ND Dose Manufacturer</label>
                                 <select class="form-control" name="dose2_vaccine_manufacturer_name" id="dose2_vaccine_manufacturer_name">
                                     <option disabled {{(is_null(old('dose2_vaccine_manufacturer_name'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                         @if($vl['code'] != 'J&J')
                                         <option value="{{$vl['code']}}" {{(old('dose2_vaccine_manufacturer_name') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                         @endif
@@ -205,7 +205,7 @@
                                 <label for="dose2_bakuna_center_cbcr_id"><span class="text-danger font-weight-bold">*</span>2ND Dose Bakuna Center CBCR ID (GenTrias LGU ONLY)</label>
                                 <select class="form-control" name="dose2_bakuna_center_cbcr_id" id="dose2_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose2_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
-                                  @foreach(App\Models\VaxCertConcern::getCbcrList() as $g)
+                                  @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
                                   <option value="{{$g['cbcr_code']}}" {{(old('dose2_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>
@@ -234,7 +234,7 @@
                                 <label for="dose3_vaccine_manufacturer_name"><span class="text-danger font-weight-bold">*</span>3RD Dose Manufacturer</label>
                                 <select class="form-control" name="dose3_vaccine_manufacturer_name" id="dose3_vaccine_manufacturer_name">
                                     <option disabled {{(is_null(old('dose3_vaccine_manufacturer_name'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                     <option value="{{$vl['code']}}" {{(old('dose3_vaccine_manufacturer_name') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                     @endforeach
                                 </select>
@@ -243,7 +243,7 @@
                                 <label for="dose3_bakuna_center_cbcr_id"><span class="text-danger font-weight-bold">*</span>3RD Dose Bakuna Center CBCR ID (GenTrias LGU ONLY)</label>
                                 <select class="form-control" name="dose3_bakuna_center_cbcr_id" id="dose3_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose3_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
-                                  @foreach(App\Models\VaxCertConcern::getCbcrList() as $g)
+                                  @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
                                   <option value="{{$g['cbcr_code']}}" {{(old('dose3_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>
@@ -272,7 +272,7 @@
                                 <label for="dose4_vaccine_manufacturer_name"><span class="text-danger font-weight-bold">*</span>4TH Dose Manufacturer</label>
                                 <select class="form-control" name="dose4_vaccine_manufacturer_name" id="dose4_vaccine_manufacturer_name">
                                     <option disabled {{(is_null(old('dose4_vaccine_manufacturer_name'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                     <option value="{{$vl['code']}}" {{(old('dose4_vaccine_manufacturer_name') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                     @endforeach
                                 </select>
@@ -281,7 +281,7 @@
                                 <label for="dose4_bakuna_center_cbcr_id"><span class="text-danger font-weight-bold">*</span>4TH Dose Bakuna Center CBCR ID (GenTrias LGU ONLY)</label>
                                 <select class="form-control" name="dose4_bakuna_center_cbcr_id" id="dose4_bakuna_center_cbcr_id">
                                   <option disabled {{(is_null(old('dose4_bakuna_center_cbcr_id'))) ? 'selected' : ''}}>Choose...</option>
-                                  @foreach(App\Models\VaxCertConcern::getCbcrList() as $g)
+                                  @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
                                   <option value="{{$g['cbcr_code']}}" {{(old('dose4_bakuna_center_cbcr_id') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
                                   @endforeach
                                 </select>

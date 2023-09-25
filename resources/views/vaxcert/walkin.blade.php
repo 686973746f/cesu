@@ -265,7 +265,7 @@
                                 <label for="dose1_manufacturer"><span class="text-danger font-weight-bold">*</span>1ST Dose Manufacturer</label>
                                 <select class="form-control" name="dose1_manufacturer" id="dose1_manufacturer" required>
                                     <option disabled {{(is_null(old('dose1_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                     <option value="{{$vl['code']}}" {{(old('dose1_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                     @endforeach
                                 </select>
@@ -322,7 +322,7 @@
                                 <label for="dose2_manufacturer"><span class="text-danger font-weight-bold">*</span>2ND Dose Manufacturer</label>
                                 <select class="form-control" name="dose2_manufacturer" id="dose2_manufacturer">
                                     <option disabled {{(is_null(old('dose2_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                     <option value="{{$vl['code']}}" {{(old('dose2_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                     @endforeach
                                 </select>
@@ -379,7 +379,7 @@
                                 <label for="dose3_manufacturer"><span class="text-danger font-weight-bold">*</span>3RD Dose (Booster 1) Manufacturer</label>
                                 <select class="form-control" name="dose3_manufacturer" id="dose3_manufacturer">
                                     <option disabled {{(is_null(old('dose3_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                     <option value="{{$vl['code']}}" {{(old('dose3_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                     @endforeach
                                 </select>
@@ -436,7 +436,7 @@
                                 <label for="dose4_manufacturer"><span class="text-danger font-weight-bold">*</span>4TH Dose (Booster 2) Manufacturer</label>
                                 <select class="form-control" name="dose4_manufacturer" id="dose4_manufacturer">
                                     <option disabled {{(is_null(old('dose4_manufacturer'))) ? 'selected' : ''}}>Choose...</option>
-                                    @foreach(App\Models\VaxCertConcern::getVaccineBrandsList() as $vl)
+                                    @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
                                     <option value="{{$vl['code']}}" {{(old('dose4_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
                                     @endforeach
                                 </select>
