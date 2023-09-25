@@ -240,17 +240,9 @@
                         <div class="col-md-4">
                             <label for="dose1_manufacturer"><span class="text-danger font-weight-bold">*</span>1ST Dose Manufacturer</label>
                             <select class="form-control" name="dose1_manufacturer" id="dose1_manufacturer" required>
-                                <option value="AZ" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="ModernaBivalent" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                <option value="Novavax" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="PfizerBivalent" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinopharm" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{(old('dose1_manufacturer', $d->dose1_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
+                                <option value="{{$vl['code']}}" {{(old('dose1_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -276,17 +268,9 @@
                               <label for="dose1_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
                               <select class="form-control" name="dose1_bakuna_center_code" id="dose1_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="CBC000000000002325" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
-                                <option value="CBC000000000005586" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
-                                <option value="CBC000000000006637" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000006637') ? 'selected' : ''}}>CONVENTION</option>
-                                <option value="CBC000000000009906" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000009906') ? 'selected' : ''}}>DBA VACCINATION FACILITY</option>
-                                <option value="CBC000000000005588" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000005588') ? 'selected' : ''}}>DIVINE GRACE MEDICAL HOSPITAL (DGMC)</option>
-                                <option value="CBC000000000005587" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000005587') ? 'selected' : ''}}>GENTRIMEDICAL CENTER AND HOSPITAL (GENTRIMED)</option>
-                                <option value="CBC000000000007746" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000007746') ? 'selected' : ''}}>MOBILE VACCINATION</option>
-                                <option value="CBC000000000007459" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000007459') ? 'selected' : ''}}>ROBINSONS PLACE GENENERAL TRIAS</option>
-                                <option value="CBC000000000008481" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000008481') ? 'selected' : ''}}>SSMC GATEWAY VACCINATION CENTER</option>
-                                <option value="CBC000000000008932" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000008932') ? 'selected' : ''}}>ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS</option>
-                                <option value="CBC000000000007978" {{(old('dose1_bakuna_center_code', $d->dose1_bakuna_center_code) == 'CBC000000000007978') ? 'selected' : ''}}>VISTA MALL SAN FRANCISCO / RED CROSS</option>
+                                @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose1_bakuna_center_code') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
+                                @endforeach
                               </select>
                             </div>
                             @else
@@ -326,17 +310,9 @@
                         <div class="col-md-4">
                             <label for="dose2_manufacturer"><span class="text-danger font-weight-bold">*</span>2ND Dose Manufacturer</label>
                             <select class="form-control" name="dose2_manufacturer" id="dose2_manufacturer">
-                                <option value="AZ" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="ModernaBivalent" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                <option value="Novavax" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="PfizerBivalent" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinopharm" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{(old('dose2_manufacturer', $d->dose2_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
+                                <option value="{{$vl['code']}}" {{(old('dose2_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -362,17 +338,9 @@
                               <label for="dose2_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
                               <select class="form-control" name="dose2_bakuna_center_code" id="dose2_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="CBC000000000002325" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
-                                <option value="CBC000000000005586" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
-                                <option value="CBC000000000006637" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000006637') ? 'selected' : ''}}>CONVENTION</option>
-                                <option value="CBC000000000009906" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000009906') ? 'selected' : ''}}>DBA VACCINATION FACILITY</option>
-                                <option value="CBC000000000005588" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000005588') ? 'selected' : ''}}>DIVINE GRACE MEDICAL HOSPITAL (DGMC)</option>
-                                <option value="CBC000000000005587" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000005587') ? 'selected' : ''}}>GENTRIMEDICAL CENTER AND HOSPITAL (GENTRIMED)</option>
-                                <option value="CBC000000000007746" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000007746') ? 'selected' : ''}}>MOBILE VACCINATION</option>
-                                <option value="CBC000000000007459" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000007459') ? 'selected' : ''}}>ROBINSONS PLACE GENENERAL TRIAS</option>
-                                <option value="CBC000000000008481" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000008481') ? 'selected' : ''}}>SSMC GATEWAY VACCINATION CENTER</option>
-                                <option value="CBC000000000008932" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000008932') ? 'selected' : ''}}>ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS</option>
-                                <option value="CBC000000000007978" {{(old('dose2_bakuna_center_code', $d->dose2_bakuna_center_code) == 'CBC000000000007978') ? 'selected' : ''}}>VISTA MALL SAN FRANCISCO / RED CROSS</option>
+                                @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose2_bakuna_center_code') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
+                                @endforeach
                               </select>
                             </div>
                             @else
@@ -411,17 +379,9 @@
                         <div class="col-md-4">
                             <label for="dose3_manufacturer"><span class="text-danger font-weight-bold">*</span>3RD Dose (Booster 1) Manufacturer</label>
                             <select class="form-control" name="dose3_manufacturer" id="dose3_manufacturer">
-                                <option value="AZ" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="ModernaBivalent" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                <option value="Novavax" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="PfizerBivalent" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinopharm" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{(old('dose3_manufacturer', $d->dose3_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
+                                <option value="{{$vl['code']}}" {{(old('dose3_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -447,17 +407,9 @@
                               <label for="dose3_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
                               <select class="form-control" name="dose3_bakuna_center_code" id="dose3_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="CBC000000000002325" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
-                                <option value="CBC000000000005586" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
-                                <option value="CBC000000000006637" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000006637') ? 'selected' : ''}}>CONVENTION</option>
-                                <option value="CBC000000000009906" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000009906') ? 'selected' : ''}}>DBA VACCINATION FACILITY</option>
-                                <option value="CBC000000000005588" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000005588') ? 'selected' : ''}}>DIVINE GRACE MEDICAL HOSPITAL (DGMC)</option>
-                                <option value="CBC000000000005587" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000005587') ? 'selected' : ''}}>GENTRIMEDICAL CENTER AND HOSPITAL (GENTRIMED)</option>
-                                <option value="CBC000000000007746" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000007746') ? 'selected' : ''}}>MOBILE VACCINATION</option>
-                                <option value="CBC000000000007459" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000007459') ? 'selected' : ''}}>ROBINSONS PLACE GENENERAL TRIAS</option>
-                                <option value="CBC000000000008481" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000008481') ? 'selected' : ''}}>SSMC GATEWAY VACCINATION CENTER</option>
-                                <option value="CBC000000000008932" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000008932') ? 'selected' : ''}}>ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS</option>
-                                <option value="CBC000000000007978" {{(old('dose3_bakuna_center_code', $d->dose3_bakuna_center_code) == 'CBC000000000007978') ? 'selected' : ''}}>VISTA MALL SAN FRANCISCO / RED CROSS</option>
+                                @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose3_bakuna_center_code') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
+                                @endforeach
                               </select>
                             </div>
                             @else
@@ -495,17 +447,9 @@
                         <div class="col-md-4">
                             <label for="dose4_manufacturer"><span class="text-danger font-weight-bold">*</span>4TH Dose (Booster 2) Manufacturer</label>
                             <select class="form-control" name="dose4_manufacturer" id="dose4_manufacturer">
-                                <option value="AZ" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'AZ') ? 'selected' : ''}}>AstraZeneca</option>
-                                <option value="J&J" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'J&J') ? 'selected' : ''}}>Johnson and Johnson (J&J)/Janssen</option>
-                                <option value="Moderna" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Moderna') ? 'selected' : ''}}>Moderna</option>
-                                <option value="ModernaBivalent" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'ModernaBivalent') ? 'selected' : ''}}>Moderna Bivalent</option>
-                                <option value="Novavax" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Novavax') ? 'selected' : ''}}>Novavax</option>
-                                <option value="Pfizer" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Pfizer') ? 'selected' : ''}}>Pfizer</option>
-                                <option value="PfizerBivalent" {{(old('dose4_manufacturer', $d->dose4_manufacturer) == 'PfizerBivalent') ? 'selected' : ''}}>Pfizer Bivalent</option>
-                                <option value="Sinopharm" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinopharm') ? 'selected' : ''}}>Sinopharm</option>
-                                <option value="Sinovac" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Sinovac') ? 'selected' : ''}}>Sinovac</option>
-                                <option value="SputnikLight" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'SputnikLight') ? 'selected' : ''}}>Sputnik Light</option>
-                                <option value="Gamaleya" {{(old('dose4_manufacturer' , $d->dose4_manufacturer) == 'Gamaleya') ? 'selected' : ''}}>Sputnik V/Gamaleya</option>
+                                @foreach(App\Models\VaxcertConcern::getVaccineBrandsList() as $vl)
+                                <option value="{{$vl['code']}}" {{(old('dose4_manufacturer') == $vl['code']) ? 'selected' : ''}}>{{$vl['name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -531,17 +475,9 @@
                               <label for="dose4_bakuna_center_code"><span class="text-danger font-weight-bold">*</span>Select CBCR ID Based on Vaccination Site</label>
                               <select class="form-control" name="dose4_bakuna_center_code" id="dose4_bakuna_center_code">
                                 <option disabled {{(is_null(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="CBC000000000002325" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000002325') ? 'selected' : ''}}>CHO GENERAL TRIAS</option>
-                                <option value="CBC000000000005586" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000005586') ? 'selected' : ''}}>CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER</option>
-                                <option value="CBC000000000006637" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000006637') ? 'selected' : ''}}>CONVENTION</option>
-                                <option value="CBC000000000009906" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000009906') ? 'selected' : ''}}>DBA VACCINATION FACILITY</option>
-                                <option value="CBC000000000005588" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000005588') ? 'selected' : ''}}>DIVINE GRACE MEDICAL HOSPITAL (DGMC)</option>
-                                <option value="CBC000000000005587" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000005587') ? 'selected' : ''}}>GENTRIMEDICAL CENTER AND HOSPITAL (GENTRIMED)</option>
-                                <option value="CBC000000000007746" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000007746') ? 'selected' : ''}}>MOBILE VACCINATION</option>
-                                <option value="CBC000000000007459" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000007459') ? 'selected' : ''}}>ROBINSONS PLACE GENENERAL TRIAS</option>
-                                <option value="CBC000000000008481" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000008481') ? 'selected' : ''}}>SSMC GATEWAY VACCINATION CENTER</option>
-                                <option value="CBC000000000008932" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000008932') ? 'selected' : ''}}>ST. EDUARD INTEGRATED SCHOOL LNC / LGU GENTRIAS</option>
-                                <option value="CBC000000000007978" {{(old('dose4_bakuna_center_code', $d->dose4_bakuna_center_code) == 'CBC000000000007978') ? 'selected' : ''}}>VISTA MALL SAN FRANCISCO / RED CROSS</option>
+                                @foreach(App\Models\VaxcertConcern::getCbcrList() as $g)
+                                  <option value="{{$g['cbcr_code']}}" {{(old('dose4_bakuna_center_code') == $g['cbcr_code']) ? 'selected' : ''}}>{{$g['cbcr_name']}} ({{$g['cbcr_code']}})</option>
+                                @endforeach
                               </select>
                             </div>
                             @else
