@@ -2128,6 +2128,7 @@ class PharmacyController extends Controller
             
                     'status' => 'ENABLED',
                     'from_outside' => 1,
+                    'outside_name' => mb_strtoupper($r->outside_name),
             
                     'pharmacy_branch_id' => $branch->id,
                 ]);
