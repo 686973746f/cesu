@@ -49,6 +49,7 @@ class PharmacyPatient extends Model
 
         'itr_id',
         'pharmacy_branch_id',
+        'created_by',
         'updated_by',
     ];
 

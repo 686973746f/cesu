@@ -2131,6 +2131,7 @@ class PharmacyController extends Controller
                     'outside_name' => mb_strtoupper($r->outside_name),
             
                     'pharmacy_branch_id' => $branch->id,
+                    'created_by' => 58, //TONETTE
                 ]);
 
                 //MAKE PRESCRIPTION DATA
