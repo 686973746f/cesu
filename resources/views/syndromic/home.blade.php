@@ -92,7 +92,7 @@
                     </thead>
                     <tbody>
                         @foreach($list as $ind => $i)
-                        @if($i->syndromic_patient->id)
+                        @if(!is_null(($i->syndromic_patient->id))
                         <tr>
                             <td class="text-center"><b>#{{$i->line_number}}</b></td>
                             <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $i->id)}}">{{$i->opdno}}</a></b></td>
