@@ -801,9 +801,13 @@
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
     }
-    else {
+    else if($(this).val() == 'REQUEST_MEDS') {
       $('#if_noncheckup').removeClass('d-none');
       $('#outsidecho_name').prop('required', true);
+    }
+    else {
+      $('#if_noncheckup').addClass('d-none');
+      $('#outsidecho_name').prop('required', false);
     }
   }).trigger('change');
 
