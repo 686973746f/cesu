@@ -70,7 +70,7 @@
                                 </select>
                             </div>
                             <div class="form-group d-none" id="ifmarried_div">
-                                <label for="spouse_name"><span class="text-danger font-weight-bold">*</span>Spouse Name</label>
+                                <label for="spouse_name">Spouse Name</label>
                                 <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name')}}" style="text-transform: uppercase;">
                               </div>
                             <div class="form-group">
@@ -109,13 +109,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="ifminor_resperson"><span class="text-danger font-weight-bold">*</span>Patient is minor, input Name of Responsible Person/Guardian/Parent (Mother or Father)</label>
+                              <label for="ifminor_resperson">Patient is minor, input Name of Responsible Person/Guardian/Parent (Mother or Father)</label>
                               <input type="text" class="form-control" name="ifminor_resperson" id="ifminor_resperson" value="{{old('ifminor_resperson')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label for="ifminor_resrelation"><span class="text-danger font-weight-bold">*</span>Relationship</label>
+                              <label for="ifminor_resrelation">Relationship</label>
                               <select class="form-control" name="ifminor_resrelation" id="ifminor_resrelation">
                                 <option value="" {{(is_null(old('ifminor_resrelation'))) ? 'selected' : ''}}>None</option>
                                 <option value="PARENT" {{(old('cs') == 'PARENT') ? 'selected' : ''}}>Parent/Magulang</option>
@@ -372,11 +372,11 @@
             e.preventDefault();
             if($(this).val() == 'MARRIED') {
                 $('#ifmarried_div').removeClass('d-none');
-                $('#spouse_name').prop('required', true);
+                //$('#spouse_name').prop('required', true);
             }
             else {
                 $('#ifmarried_div').addClass('d-none');
-                $('#spouse_name').prop('required', false);
+                //$('#spouse_name').prop('required', false);
             }
         }).trigger('change');
     </script>

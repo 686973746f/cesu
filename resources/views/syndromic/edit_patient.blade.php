@@ -85,7 +85,7 @@
                                 </select>
                             </div>
                             <div class="form-group d-none" id="ifmarried_div">
-                                <label for="spouse_name"><span class="text-danger font-weight-bold">*</span>Spouse Name</label>
+                                <label for="spouse_name">Spouse Name</label>
                                 <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name', $d->spouse_name)}}" style="text-transform: uppercase;">
                               </div>
                             <div class="form-group">
@@ -402,11 +402,11 @@
             e.preventDefault();
             if($(this).val() == 'MARRIED') {
                 $('#ifmarried_div').removeClass('d-none');
-                $('#spouse_name').prop('required', true);
+                //$('#spouse_name').prop('required', true);
             }
             else {
                 $('#ifmarried_div').addClass('d-none');
-                $('#spouse_name').prop('required', false);
+                //$('#spouse_name').prop('required', false);
             }
         }).trigger('change');
     </script>

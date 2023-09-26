@@ -53,8 +53,8 @@
                   <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
                     <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
-                    <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>OPD Check-up</option>
-                    <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>Requesting Meds (for Pharmacy)</option>
+                    <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>From OPD</option>
+                    <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>From Outside (for Pharmacy Request)</option>
                   </select>
                 </div>
                 <div id="if_noncheckup" class="d-none">
@@ -668,7 +668,7 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $d->doctor_name) ? 'selected' : ''}} class="official_drlist">{{$d->doctor_name}} ({{$d->dru_name}})</option>
+                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $d->doctor_name) ? 'selected' : ''}} class="{{($d->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$d->doctor_name}} ({{$d->dru_name}})</option>
                         @endforeach
                         <option value="OTHERS" {{old('name_of_physician')}}>OTHERS</option>
                       </select>
@@ -716,6 +716,7 @@
       $('.required_before').removeClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', true);
       $('.official_drlist').removeClass('d-none');
+      $('.outside_drlist').addClass('d-none');
       $('#ifotherdoctor').addClass('d-none');
       $('#other_doctor').prop('required', false);
     }
@@ -724,8 +725,10 @@
       $('#outsidecho_name').prop('required', true);
       $('.required_before').addClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', false);
-      $('#name_of_physician').val('OTHERS').trigger('change');
+      $('#name_of_physician').val('').trigger('change');
+      //$('#name_of_physician').val('OTHERS').trigger('change');
       $('.official_drlist').addClass('d-none');
+      $('.outside_drlist').removeClass('d-none');
       $('#ifotherdoctor').removeClass('d-none');
       $('#other_doctor').prop('required', true);
     }
@@ -735,6 +738,7 @@
       $('.required_before').removeClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', true);
       $('.official_drlist').removeClass('d-none');
+      $('.outside_drlist').addClass('d-none');
       $('#ifotherdoctor').addClass('d-none');
       $('#other_doctor').prop('required', false);
     }

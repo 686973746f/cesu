@@ -807,31 +807,24 @@
 
   $('#checkup_type').change(function (e) { 
     e.preventDefault();
-    if($(this).val() == 'CHECKUP') {
-      $('#if_noncheckup').addClass('d-none');
-      $('#outsidecho_name').prop('required', false);
-      $('.required_before').removeClass('d-none'); //Weight Asterisk
-      $('#weight').prop('required', true);
-      $('.official_drlist').removeClass('d-none');
-      $('#ifotherdoctor').addClass('d-none');
-      $('#other_doctor').prop('required', false);
-    }
-    else if($(this).val() == 'REQUEST_MEDS') {
+    if($(this).val() == 'REQUEST_MEDS') {
       $('#if_noncheckup').removeClass('d-none');
       $('#outsidecho_name').prop('required', true);
       $('.required_before').addClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', false);
-      $('#name_of_physician').val('OTHERS').trigger('change');
+      $('#name_of_physician').val('').trigger('change');
+      //$('#name_of_physician').val('OTHERS').trigger('change');
       $('.official_drlist').addClass('d-none');
+      $('.outside_drlist').removeClass('d-none');
       $('#ifotherdoctor').removeClass('d-none');
       $('#other_doctor').prop('required', true);
-    }
-    else {
+    } else {
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
       $('.required_before').removeClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', true);
       $('.official_drlist').removeClass('d-none');
+      $('.outside_drlist').addClass('d-none');
       $('#ifotherdoctor').addClass('d-none');
       $('#other_doctor').prop('required', false);
     }
