@@ -505,6 +505,7 @@ class SyndromicController extends Controller
 
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
+                'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
                 'dru_name'=> SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name,
 
                 'brgy_verified' => (in_array('ITR_BRGY_ADMIN', $perm_list) || in_array('ITR_BRGY_ENCODER', $perm_list)) ? 1 : 0,
@@ -879,6 +880,7 @@ class SyndromicController extends Controller
 
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
+                'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
                 'dru_name'=> SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name,
 
                 'updated_by' => auth()->user()->id,
