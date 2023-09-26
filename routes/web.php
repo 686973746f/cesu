@@ -503,6 +503,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/item_list/substock/{id}', [PharmacyController::class, 'viewSubStock'])->name('pharmacy_view_substock');
     Route::get('/pharmacy/item_list/substock/{id}/print_qr', [PharmacyController::class, 'printQrSubStock'])->name('pharmacy_printqr_substock');
     Route::post('/pharmacy/item_list/substock/{id}', [PharmacyController::class, 'updateSubStock'])->name('pharmacy_update_substock');
+
+    Route::get('/pharmacy/prescription/{id}/view', [PharmacyController::class, 'viewPrescription'])->name('pharmacy_view_prescription');
+    Route::post('/pharmacy/prescription/{id}/update', [PharmacyController::class, 'updatePrescription'])->name('pharmacy_update_prescription');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {

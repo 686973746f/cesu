@@ -14,4 +14,8 @@ class PharmacyPrescription extends Model
         'finished',
         'concerns_list',
     ];
+
+    public function pharmacypatient() {
+        return $this->belongsTo(PharmacyPatient::class, 'patient_id');
+    }
 }

@@ -42,7 +42,7 @@
                                       <tr>
                                         <td>
                                             <div><b>PRESCRIPTION ID / DATE:</b></div>
-                                            <div>#{{$prescription->id}} - {{date('m/d/Y', strtotime($prescription->created_at))}}</div>
+                                            <div><a href="{{route('pharmacy_view_prescription', $prescription->id)}}">#{{$prescription->id}} - {{date('m/d/Y', strtotime($prescription->created_at))}}</a></div>
                                         </td>
                                         <td style="vertical-align: middle;">
                                             <button type="button" class="btn btn-success ml-2" id="new_prescription_btn">New Prescription</button>

@@ -2179,4 +2179,24 @@ class PharmacyController extends Controller
             return abort(401);
         }
     }
+
+    public function viewPrescription($id) {
+        $d = PharmacyPrescription::findOrFail($id);
+
+        return view('pharmacy.prescription_view', ['d' => $d]);
+    }
+
+    public function updatePrescription($id, Request $r) {
+        $d = PharmacyPrescription::findOrFail($id);
+
+        $d->concerns_list = implode(',', $r->concerns_list);
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+        
+        return redirect()->route('pharmacy_modify_patient_stock', $d->pharmacypatient->id)
+        ->with('msg', 'Prescription details were updated successfully.')
+        ->with('msgtype', 'success');
+    }
 }
