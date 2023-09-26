@@ -243,68 +243,26 @@
         var cdefault = "{{old('address_muncity_code', $d->address_muncity_code)}}";
         var bdefault = "{{old('address_brgy_text', $d->address_brgy_text)}}";
 
-        //Region Select Initialize
-        $.getJSON("{{asset('json/refregion.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.regDesc > b.regDesc) {
-                    return 1;
-                }
-                if (a.regDesc < b.regDesc) {
-                    return -1;
-                }
-
-                return 0;
-            });
-
-            $.each(sorted, function(key, val) {
-                $('#address_region_code').append($('<option>', {
-                    value: val.regCode,
-                    text: val.regDesc,
-                    selected: (val.regCode == rdefault) ? true : false, //default is Region IV-A
-                }));
-            });
-        }).fail(function(jqxhr, textStatus, error) {
-            // Error callback
-            var err = textStatus + ", " + error;
-            console.log("Failed to load Region JSON: " + err);
-            window.location.reload(); // Reload the page
-        });
-
-        $('#address_region_code').change(function (e) { 
-            e.preventDefault();
-            //Empty and Disable
-            $('#address_province_code').empty();
-            $("#address_province_code").append('<option value="" selected disabled>Choose...</option>');
-
-            $('#address_muncity_code').empty();
-            $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
-
-            //Re-disable Select
-            $('#address_muncity_code').prop('disabled', true);
-            $('#address_brgy_text').prop('disabled', true);
-
-            //Set Values for Hidden Box
-            $('#address_region_text').val($('#address_region_code option:selected').text());
-
-            $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
+        $(document).ready(function () {
+            //Region Select Initialize
+            $.getJSON("{{asset('json/refregion.json')}}", function(data) {
                 var sorted = data.sort(function(a, b) {
-                    if (a.provDesc > b.provDesc) {
-                    return 1;
+                    if (a.regDesc > b.regDesc) {
+                        return 1;
                     }
-                    if (a.provDesc < b.provDesc) {
-                    return -1;
+                    if (a.regDesc < b.regDesc) {
+                        return -1;
                     }
+
                     return 0;
                 });
 
                 $.each(sorted, function(key, val) {
-                    if($('#address_region_code').val() == val.regCode) {
-                        $('#address_province_code').append($('<option>', {
-                            value: val.provCode,
-                            text: val.provDesc,
-                            selected: (val.provCode == pdefault) ? true : false, //default for Cavite
-                        }));
-                    }
+                    $('#address_region_code').append($('<option>', {
+                        value: val.regCode,
+                        text: val.regDesc,
+                        selected: (val.regCode == rdefault) ? true : false, //default is Region IV-A
+                    }));
                 });
             }).fail(function(jqxhr, textStatus, error) {
                 // Error callback
@@ -312,87 +270,133 @@
                 console.log("Failed to load Region JSON: " + err);
                 window.location.reload(); // Reload the page
             });
-        }).trigger('change');
 
-        $('#address_province_code').change(function (e) {
-            e.preventDefault();
-            //Empty and Disable
-            $('#address_muncity_code').empty();
-            $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+            $('#address_region_code').change(function (e) { 
+                e.preventDefault();
+                //Empty and Disable
+                $('#address_province_code').empty();
+                $("#address_province_code").append('<option value="" selected disabled>Choose...</option>');
 
-            //Re-disable Select
-            $('#address_muncity_code').prop('disabled', false);
-            $('#address_brgy_text').prop('disabled', true);
+                $('#address_muncity_code').empty();
+                $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
 
-            //Set Values for Hidden Box
-            $('#address_province_text').val($('#address_province_code option:selected').text());
+                //Re-disable Select
+                $('#address_muncity_code').prop('disabled', true);
+                $('#address_brgy_text').prop('disabled', true);
 
-            $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.citymunDesc > b.citymunDesc) {
+                //Set Values for Hidden Box
+                $('#address_region_text').val($('#address_region_code option:selected').text());
+
+                $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
+                    var sorted = data.sort(function(a, b) {
+                        if (a.provDesc > b.provDesc) {
                         return 1;
-                    }
-                    if (a.citymunDesc < b.citymunDesc) {
+                        }
+                        if (a.provDesc < b.provDesc) {
                         return -1;
-                    }
-                    return 0;
-                });
-                $.each(sorted, function(key, val) {
-                    if($('#address_province_code').val() == val.provCode) {
-                        $('#address_muncity_code').append($('<option>', {
-                            value: val.citymunCode,
-                            text: val.citymunDesc,
-                            selected: (val.citymunCode == cdefault) ? true : false, //default for General Trias
-                        })); 
-                    }
-                });
-            }).fail(function(jqxhr, textStatus, error) {
-                // Error callback
-                var err = textStatus + ", " + error;
-                console.log("Failed to load CityMun JSON: " + err);
-                window.location.reload(); // Reload the page
-            });
-        }).trigger('change');
+                        }
+                        return 0;
+                    });
 
-        $('#address_muncity_code').change(function (e) {
-            e.preventDefault();
-            //Empty and Disable
-            $('#address_brgy_text').empty();
-            $("#address_brgy_text").append('<option value="" selected disabled>Choose...</option>');
-
-            //Re-disable Select
-            $('#address_muncity_code').prop('disabled', false);
-            $('#address_brgy_text').prop('disabled', false);
-
-            //Set Values for Hidden Box
-            $('#address_muncity_text').val($('#address_muncity_code option:selected').text());
-
-            $.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.brgyDesc > b.brgyDesc) {
-                    return 1;
-                    }
-                    if (a.brgyDesc < b.brgyDesc) {
-                    return -1;
-                    }
-                    return 0;
+                    $.each(sorted, function(key, val) {
+                        if($('#address_region_code').val() == val.regCode) {
+                            $('#address_province_code').append($('<option>', {
+                                value: val.provCode,
+                                text: val.provDesc,
+                                selected: (val.provCode == pdefault) ? true : false, //default for Cavite
+                            }));
+                        }
+                    });
+                }).fail(function(jqxhr, textStatus, error) {
+                    // Error callback
+                    var err = textStatus + ", " + error;
+                    console.log("Failed to load Region JSON: " + err);
+                    window.location.reload(); // Reload the page
                 });
-                $.each(sorted, function(key, val) {
-                    if($('#address_muncity_code').val() == val.citymunCode) {
-                        $('#address_brgy_text').append($('<option>', {
-                            value: val.brgyDesc.toUpperCase(),
-                            text: val.brgyDesc.toUpperCase(),
-                            selected: (val.brgyDesc.toUpperCase() == bdefault) ? true : false,
-                        }));
-                    }
+            }).trigger('change');
+
+            $('#address_province_code').change(function (e) {
+                e.preventDefault();
+                //Empty and Disable
+                $('#address_muncity_code').empty();
+                $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+
+                //Re-disable Select
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_text').prop('disabled', true);
+
+                //Set Values for Hidden Box
+                $('#address_province_text').val($('#address_province_code option:selected').text());
+
+                $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
+                    var sorted = data.sort(function(a, b) {
+                        if (a.citymunDesc > b.citymunDesc) {
+                            return 1;
+                        }
+                        if (a.citymunDesc < b.citymunDesc) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                    $.each(sorted, function(key, val) {
+                        if($('#address_province_code').val() == val.provCode) {
+                            $('#address_muncity_code').append($('<option>', {
+                                value: val.citymunCode,
+                                text: val.citymunDesc,
+                                selected: (val.citymunCode == cdefault) ? true : false, //default for General Trias
+                            })); 
+                        }
+                    });
+                }).fail(function(jqxhr, textStatus, error) {
+                    // Error callback
+                    var err = textStatus + ", " + error;
+                    console.log("Failed to load CityMun JSON: " + err);
+                    window.location.reload(); // Reload the page
                 });
-            }).fail(function(jqxhr, textStatus, error) {
-                // Error callback
-                var err = textStatus + ", " + error;
-                console.log("Failed to load Province BRGY: " + err);
-                window.location.reload(); // Reload the page
-            });
-        }).trigger('change');
+            }).trigger('change');
+
+            $('#address_muncity_code').change(function (e) {
+                e.preventDefault();
+                //Empty and Disable
+                $('#address_brgy_text').empty();
+                $("#address_brgy_text").append('<option value="" selected disabled>Choose...</option>');
+
+                //Re-disable Select
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_text').prop('disabled', false);
+
+                //Set Values for Hidden Box
+                $('#address_muncity_text').val($('#address_muncity_code option:selected').text());
+
+                $.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
+                    var sorted = data.sort(function(a, b) {
+                        if (a.brgyDesc > b.brgyDesc) {
+                        return 1;
+                        }
+                        if (a.brgyDesc < b.brgyDesc) {
+                        return -1;
+                        }
+                        return 0;
+                    });
+                    $.each(sorted, function(key, val) {
+                        if($('#address_muncity_code').val() == val.citymunCode) {
+                            $('#address_brgy_text').append($('<option>', {
+                                value: val.brgyDesc.toUpperCase(),
+                                text: val.brgyDesc.toUpperCase(),
+                                selected: (val.brgyDesc.toUpperCase() == bdefault) ? true : false,
+                            }));
+                        }
+                    });
+                }).fail(function(jqxhr, textStatus, error) {
+                    // Error callback
+                    var err = textStatus + ", " + error;
+                    console.log("Failed to load Province BRGY: " + err);
+                    window.location.reload(); // Reload the page
+                });
+            }).trigger('change');
+        });
+
+        
 
         $('#address_region_text').val('{{$d->address_region_text}}');
         $('#address_province_text').val('{{$d->address_province_text}}');

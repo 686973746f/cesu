@@ -59,7 +59,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>OPD List for {{date('F d, Y (D)')}}</b> <a href="{{route('syndromic_home')}}" class="btn btn-outline-secondary">Switch to BRGY View</a></div>
+                <div><b>OPD List for {{(!(request()->input('d'))) ? date('F d, Y (D)') : date('F d, Y (D)', strtotime(request()->input('d')))}}</b> - Total: {{$list->total()}} <a href="{{route('syndromic_home')}}" class="btn btn-outline-secondary">Switch to BRGY View</a></div>
             </div>
         </div>
         <div class="card-body">
@@ -94,8 +94,8 @@
                         @foreach($list as $ind => $i)
                         <tr>
                             <td class="text-center"><b>#{{$i->line_number}}</b></td>
-                            <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $i->id)}}">{{$i->opdno}}</a></b></td>
-                            <td><a href="{{route('syndromic_viewPatient', $i->syndromic_patient->id)}}">{{$i->syndromic_patient->getName()}}</a></td>
+                            <td class="text-center">{{$i->opdno}}</td>
+                            <td><b><a href="{{route('syndromic_viewRecord', $i->id)}}">{{$i->syndromic_patient->getName()}}</a></b></td>
                             <td class="text-center">{{$i->syndromic_patient->getAge()}} / {{substr($i->syndromic_patient->gender,0,1)}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($i->syndromic_patient->bdate))}}</td>
                             <td class="text-center"><small>{{$i->syndromic_patient->getStreetPurok()}}</small></td>

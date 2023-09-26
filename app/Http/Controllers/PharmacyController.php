@@ -35,6 +35,16 @@ PHARMACY_BRGY_ENCODER
 class PharmacyController extends Controller
 {
     public function home() {
+        //perms and init check
+        if(!(auth()->user()->canAccessPharmacy())) {
+
+        }
+
+        if(is_null(auth()->user()->pharmacy_branch_id)) {
+
+        }
+
+
         return view('pharmacy.home');
     }
 
@@ -392,7 +402,7 @@ class PharmacyController extends Controller
 
                         if($curr_qty_obtained >= $search_qtylimit->set_pieces_limit) {
                             return redirect()->back()
-                            ->with('msg', 'Error: Patient already reached the Quantity Limit based on the Patient Prescription. (Used: '.$curr_qty_obtained.' '.Str::plural('PC', $curr_qty_obtained).' | Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).')')
+                            ->with('msg', 'Error: Patient already reached the Quantity Limit based on the Patient Prescription. (Used: '.$curr_qty_obtained.' '.Str::plural('PC', $curr_qty_obtained).' | Max Limit: '.$search_qtylimit->set_pieces_limit.' '.Str::plural('PC', $search_qtylimit->set_pieces_limit).'). Advise the Patient to re-consult to OPD for a new prescription.')
                             ->with('msgtype', 'warning');
                         }
                         else if(($r->qty_to_process + $curr_qty_obtained) > $search_qtylimit->set_pieces_limit) {
@@ -430,7 +440,7 @@ class PharmacyController extends Controller
 
                             if($curr_qty_obtained >= $get_max_piece_allowed) {
                                 return redirect()->back()
-                                ->with('msg', 'Error: Patient reached the Issuing Quota for the System Duration. Patient should come back on: '.Carbon::parse($search_qtylimit->date_started)->addDays($get_days_duration)->format('m/d/Y (D)'))
+                                ->with('msg', 'Error: Patient reached the Issuing Quota for the System Duration. Patient should come back after '.Carbon::parse($search_qtylimit->date_started)->addDays($get_days_duration)->format('m/d/Y (D)'))
                                 ->with('msgtype', 'warning');
                             }
                             else if(($r->qty_to_process + $curr_qty_obtained) > $get_max_piece_allowed) {
@@ -450,7 +460,7 @@ class PharmacyController extends Controller
                 ]);
     
                 return redirect()->back()
-                ->with('msg', 'Meds '.$find_substock->pharmacysupplymaster->name.' added to list successfully.')
+                ->with('msg', 'Medicine '.$find_substock->pharmacysupplymaster->name.' added to list successfully.')
                 ->with('msgtype', 'success');
             }
             else {
@@ -459,8 +469,6 @@ class PharmacyController extends Controller
                 ->with('msgtype', 'warning');
             }
         }
-
-       
     }
 
     public function processCartItem($patient_id, Request $r) {
@@ -1830,7 +1838,7 @@ class PharmacyController extends Controller
 
         ob_clean();
         header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        header("Content-Disposition: attachment; filename=PHARMACY_CARD_".$d->lname.".docx");
+        header("Content-Disposition: attachment; filename=PHARMACY_CARD_".$d->lname."_".date('mdY').".docx");
         $templateProcessor->saveAs('php://output');
     }
     
@@ -1904,14 +1912,16 @@ class PharmacyController extends Controller
         $s = PharmacyBranch::where('name', mb_strtoupper($r->name))->first();
 
         if(!($s)) {
-            $bs = PharmacyBranch::where('if_bhs_id', $r->if_bhs_id)->first();
-            if($bs) {
-                return redirect()->back()
-                ->withInput()
-                ->with('msg', 'Error: Only 1 Pharmacy Branch/Entity Only per BHS.')
-                ->with('msgtype', 'warning');
+            if($r->if_bhs) {
+                $bs = PharmacyBranch::where('if_bhs_id', $r->if_bhs_id)->first();
+                if($bs) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: Only 1 Pharmacy Branch/Entity Only per BHS.')
+                    ->with('msgtype', 'warning');
+                }
             }
-
+            
             $foundunique = false;
 
             while(!$foundunique) {

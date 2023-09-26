@@ -156,7 +156,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="chief_complain"><span class="text-danger font-weight-bold">*</span>Chief Complain</label>
-                      <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain', $d->chief_complain)}}" required>
+                      <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain', $d->chief_complain)}}" style="text-transform: uppercase;" required>
                     </div>
                   </div>
                   <div class="col-md-6">
