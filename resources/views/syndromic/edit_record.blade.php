@@ -812,7 +812,7 @@
       $('#outsidecho_name').prop('required', true);
       $('.required_before').addClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', false);
-      $('#name_of_physician').val('').trigger('change');
+      //$('#name_of_physician').val('').trigger('change');
       //$('#name_of_physician').val('OTHERS').trigger('change');
       $('.official_drlist').addClass('d-none');
       $('.outside_drlist').removeClass('d-none');
