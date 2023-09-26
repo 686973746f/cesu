@@ -698,7 +698,7 @@
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         @foreach($doclist as $dr)
-                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}} class="{{($d->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
+                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
                         @endforeach
                         <option value="OTHERS" {{(old('name_of_physician', $d->name_of_physician) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
                       </select>

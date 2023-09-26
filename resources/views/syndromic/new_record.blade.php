@@ -667,8 +667,8 @@
                       <label for="name_of_physician"><b class="text-danger">*</b>Name of Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
-                        @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $d->doctor_name) ? 'selected' : ''}} class="{{($d->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$d->doctor_name}} ({{$d->dru_name}})</option>
+                        @foreach($doclist as $dr)
+                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
                         @endforeach
                         <option value="OTHERS" {{old('name_of_physician')}}>OTHERS</option>
                       </select>
