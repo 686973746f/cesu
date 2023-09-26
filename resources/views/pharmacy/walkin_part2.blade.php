@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="outside_name"><b class="text-danger">*</b>Name of Hospital/Clinic</label>
-                        <input type="text" class="form-control" name="outside_name" id="outside_name" value="{{old('outside_name', $d->outside_name)}}" style="text-transform: uppercase;" required>
+                        <input type="text" class="form-control" name="outside_name" id="outside_name" value="{{old('outside_name')}}" style="text-transform: uppercase;" required>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
