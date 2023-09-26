@@ -721,8 +721,8 @@
       $('#weight').prop('required', false);
       $('#name_of_physician').val('').trigger('change');
       //$('#name_of_physician').val('OTHERS').trigger('change');
-      $('.official_drlist').addClass('d-none');
-      $('.outside_drlist').removeClass('d-none');
+      $('.official_drlist').prop('disabled', true);
+      $('.outside_drlist').prop('disabled', false);
       //$('#ifotherdoctor').removeClass('d-none');
       //$('#other_doctor').prop('required', true);
     }
@@ -731,8 +731,8 @@
       $('#outsidecho_name').prop('required', false);
       $('.required_before').removeClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', true);
-      $('.official_drlist').removeClass('d-none');
-      $('.outside_drlist').addClass('d-none');
+      $('.official_drlist').prop('disabled', false);
+      $('.outside_drlist').prop('disabled', true);
       //$('#ifotherdoctor').addClass('d-none');
       //$('#other_doctor').prop('required', false);
     }
