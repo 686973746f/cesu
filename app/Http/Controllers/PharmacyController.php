@@ -1861,7 +1861,7 @@ class PharmacyController extends Controller
                 'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
                 'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
                 
-                'concerns_list' => implode(',', $r->concerns_list),
+                //'concerns_list' => implode(',', $r->concerns_list),
     
                 'status' => $r->status,
                 'updated_by' => auth()->user()->id,
