@@ -671,7 +671,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                       <select class="form-control" name="outcome" id="outcome" required>
@@ -693,7 +693,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-8">
                     <div class="form-group">
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
@@ -804,6 +804,10 @@
 
   var getage = {{$d->syndromic_patient->getAge()}};
 
+  $('#name_of_physician').select2({
+    theme: 'bootstrap',
+  });
+
   $('#checkup_type').change(function (e) { 
     e.preventDefault();
     if($(this).val() == 'REQUEST_MEDS') {
@@ -815,8 +819,8 @@
       //$('#name_of_physician').val('OTHERS').trigger('change');
       $('.official_drlist').addClass('d-none');
       $('.outside_drlist').removeClass('d-none');
-      $('#ifotherdoctor').removeClass('d-none');
-      $('#other_doctor').prop('required', true);
+      //$('#ifotherdoctor').removeClass('d-none');
+      //$('#other_doctor').prop('required', true);
     } else {
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
@@ -824,6 +828,17 @@
       $('#weight').prop('required', true);
       $('.official_drlist').removeClass('d-none');
       $('.outside_drlist').addClass('d-none');
+      //$('#ifotherdoctor').addClass('d-none');
+      //$('#other_doctor').prop('required', false);
+    }
+  }).trigger('change');
+
+  $('#name_of_physician').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'OTHERS') {
+      $('#ifotherdoctor').removeClass('d-none');
+      $('#other_doctor').prop('required', true);
+    } else {
       $('#ifotherdoctor').addClass('d-none');
       $('#other_doctor').prop('required', false);
     }
