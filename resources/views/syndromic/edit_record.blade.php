@@ -80,6 +80,20 @@
                     </tr>
                   </tbody>
                 </table>
+                <div class="form-group">
+                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
+                  <select class="form-control" name="checkup_type" id="checkup_type" required>
+                    <option value="" disabled {{is_null(old('checkup_type', $d->checkup_type)) ? 'selected' : ''}}>Choose...</option>
+                    <option value="CHECKUP" {{(old('checkup_type', $d->checkup_type) == 'CHECKUP') ? 'selected' : ''}}>OPD Check-up</option>
+                    <option value="REQUEST_MEDS" {{(old('checkup_type', $d->checkup_type) == 'REQUEST_MEDS') ? 'selected' : ''}}>Requesting Meds (for Pharmacy)</option>
+                  </select>
+                </div>
+                <div id="if_noncheckup" class="d-none">
+                  <div class="form-group">
+                    <label for="outsidecho_name"><b class="text-danger">*</b>Name of Hospital/Clinic</label>
+                    <input type="text" class="form-control" name="outsidecho_name" id="outsidecho_name" value="{{old('outsidecho_name', $d->outsidecho_name)}}" style="text-transform: uppercase;">
+                  </div>
+                </div>
                 <div class="row">
                     <div class="col-md-3">
                       <div class="form-group">
@@ -137,20 +151,6 @@
                         </div>
                         -->
                     </div>
-                </div>
-                <div class="form-group">
-                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
-                  <select class="form-control" name="checkup_type" id="checkup_type" required>
-                    <option value="" disabled {{is_null(old('checkup_type', $d->checkup_type)) ? 'selected' : ''}}>Choose...</option>
-                    <option value="CHECKUP" {{(old('checkup_type', $d->checkup_type) == 'CHECKUP') ? 'selected' : ''}}>OPD Check-up</option>
-                    <option value="REQUEST_MEDS" {{(old('checkup_type', $d->checkup_type) == 'REQUEST_MEDS') ? 'selected' : ''}}>Requesting Meds (for Pharmacy)</option>
-                  </select>
-                </div>
-                <div id="if_noncheckup" class="d-none">
-                  <div class="form-group">
-                    <label for="outsidecho_name"><b class="text-danger">*</b>Name of Hospital/Clinic</label>
-                    <input type="text" class="form-control" name="outsidecho_name" id="outsidecho_name" value="{{old('outsidecho_name', $d->outsidecho_name)}}" style="text-transform: uppercase;">
-                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">

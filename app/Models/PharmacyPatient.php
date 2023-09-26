@@ -89,6 +89,7 @@ class PharmacyPatient extends Model
             'TB-DOTS',
             'WOMEN',
             'OTHERS',
+            'DIALYSIS',
         ];
 
         sort($array);

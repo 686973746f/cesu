@@ -2096,7 +2096,7 @@ class PharmacyController extends Controller
                 }
 
                 //STORE PATIENT
-                $c = $r->user()->pharmacypatient()->create([
+                $c = PharmacyPatient::create([
                     'lname' => mb_strtoupper($r->lname),
                     'fname' => mb_strtoupper($r->fname),
                     'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,

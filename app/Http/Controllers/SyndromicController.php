@@ -40,6 +40,7 @@ class SyndromicController extends Controller
 
             $ll = SyndromicRecords::whereDate('created_at', $sdate)
             ->orderBy('created_at', 'DESC')
+            ->where('checkup_type', 'CHECKUP')
             ->paginate(10);
 
             return view('syndromic.home', [

@@ -123,6 +123,7 @@ class CreateSyndromicRecordsTable extends Migration
 
             $table->text('name_of_interviewer')->nullable();
             $table->text('name_of_physician')->nullable();
+            $table->text('other_doctor')->nullable();
             $table->text('dru_name')->nullable();
             $table->string('status');
             $table->tinyInteger('brgy_verified')->default(0);

@@ -119,6 +119,7 @@ class SyndromicRecords extends Model
 
         'name_of_interviewer',
         'name_of_physician',
+        'other_doctor',
         'dru_name',
         'status',
         'brgy_verified',

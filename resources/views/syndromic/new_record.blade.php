@@ -49,6 +49,20 @@
                     </tr>
                   </tbody>
                 </table>
+                <div class="form-group">
+                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
+                  <select class="form-control" name="checkup_type" id="checkup_type" required>
+                    <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
+                    <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>OPD Check-up</option>
+                    <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>Requesting Meds (for Pharmacy)</option>
+                  </select>
+                </div>
+                <div id="if_noncheckup" class="d-none">
+                  <div class="form-group">
+                    <label for="outsidecho_name"><b class="text-danger">*</b>Name of Hospital/Clinic</label>
+                    <input type="text" class="form-control" name="outsidecho_name" id="outsidecho_name" value="{{old('outsidecho_name')}}" style="text-transform: uppercase;">
+                  </div>
+                </div>
                 <div class="row">
                     <div class="col-md-3">
                       <div class="form-group">
@@ -78,8 +92,8 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="weight"><span class="text-danger font-weight-bold">*</span>Weight (in kilograms)</label>
-                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" required>
+                            <label for="weight"><b class="text-danger" class="required_before">*</b>Weight (in kilograms)</label>
+                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -106,20 +120,6 @@
                       </div>
                       -->
                     </div>
-                </div>
-                <div class="form-group">
-                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
-                  <select class="form-control" name="checkup_type" id="checkup_type" required>
-                    <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
-                    <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>OPD Check-up</option>
-                    <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>Requesting Meds (for Pharmacy)</option>
-                  </select>
-                </div>
-                <div id="if_noncheckup" class="d-none">
-                  <div class="form-group">
-                    <label for="outsidecho_name"><b class="text-danger">*</b>Name of Hospital/Clinic</label>
-                    <input type="text" class="form-control" name="outsidecho_name" id="outsidecho_name" value="{{old('outsidecho_name')}}" style="text-transform: uppercase;">
-                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -668,9 +668,14 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @foreach($doclist as $d)
-                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $d->doctor_name) ? 'selected' : ''}}>{{$d->doctor_name}} ({{$d->dru_name}})</option>
+                        <option value="{{$d->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $d->doctor_name) ? 'selected' : ''}} class="official_drlist">{{$d->doctor_name}} ({{$d->dru_name}})</option>
                         @endforeach
+                        <option value="OTHERS" {{old('name_of_physician')}}>OTHERS</option>
                       </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="other_doctor">Other Name of Physician</label>
+                      <input type="text" class="form-control" name="other_doctor" id="other_doctor" value="{{old('other_doctor')}}" style="text-transform: uppercase;">
                     </div>
                   </div>
                 </div>
@@ -706,14 +711,21 @@
     if($(this).val() == 'CHECKUP') {
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
+      $('.required_before').removeClass('d-none'); //Weight Asterisk
+      $('#weight').prop('required', true);
     }
     else if($(this).val() == 'REQUEST_MEDS') {
       $('#if_noncheckup').removeClass('d-none');
       $('#outsidecho_name').prop('required', true);
+      $('.required_before').addClass('d-none'); //Weight Asterisk
+      $('#weight').prop('required', false);
+      $('#name_of_physician').val('OTHERS').trigger('change');
     }
     else {
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
+      $('.required_before').removeClass('d-none'); //Weight Asterisk
+      $('#weight').prop('required', true);
     }
   }).trigger('change');
 
