@@ -18,6 +18,7 @@
                 <div><b>Edit ITR</b></div>
                 <div>
                   <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
+                  <a href="{{route('pharmacy_print_patient_card', $d->getPharmacyDetails()->id)}}" class="btn btn-primary">Print Pharmacy Card</a>
                   <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
                   @if($d->outcome != 'DIED' && auth()->user()->isStaffSyndromic())
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>

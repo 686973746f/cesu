@@ -165,6 +165,14 @@ class SyndromicRecords extends Model
         }
     }
 
+    public function getPharmacyDetails() {
+        $f = PharmacyPatient::where('itr_id', $this->syndromic_patient_id)
+        ->latest()
+        ->first();
+
+        return $f;
+    }
+
     public function getCesuVerified() {
         if($this->cesu_verified == 1) {
             return date('m/d/Y h:i A', strtotime($this->cesu_verified_date)).' by '.$this->getCesuVerifiedBy->name;
