@@ -84,8 +84,8 @@
                   <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
                     <option value="" disabled {{is_null(old('checkup_type', $d->checkup_type)) ? 'selected' : ''}}>Choose...</option>
-                    <option value="CHECKUP" {{(old('checkup_type', $d->checkup_type) == 'CHECKUP') ? 'selected' : ''}}>OPD Check-up</option>
-                    <option value="REQUEST_MEDS" {{(old('checkup_type', $d->checkup_type) == 'REQUEST_MEDS') ? 'selected' : ''}}>Requesting Meds (for Pharmacy)</option>
+                    <option value="CHECKUP" {{(old('checkup_type', $d->checkup_type) == 'CHECKUP') ? 'selected' : ''}}>From OPD</option>
+                    <option value="REQUEST_MEDS" {{(old('checkup_type', $d->checkup_type) == 'REQUEST_MEDS') ? 'selected' : ''}}>From Outside (for Pharmacy Medicine Request)</option>
                   </select>
                 </div>
                 <div id="if_noncheckup" class="d-none">
