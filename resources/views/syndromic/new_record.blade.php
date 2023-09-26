@@ -673,9 +673,11 @@
                         <option value="OTHERS" {{old('name_of_physician')}}>OTHERS</option>
                       </select>
                     </div>
-                    <div class="form-group">
-                      <label for="other_doctor">Other Name of Physician</label>
-                      <input type="text" class="form-control" name="other_doctor" id="other_doctor" value="{{old('other_doctor')}}" style="text-transform: uppercase;">
+                    <div id="ifotherdoctor" class="d-none">
+                      <div class="form-group">
+                        <label for="other_doctor"><b class="text-danger">*</b>Other Name of Physician</label>
+                        <input type="text" class="form-control" name="other_doctor" id="other_doctor" value="{{old('other_doctor')}}" style="text-transform: uppercase;">
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -713,6 +715,9 @@
       $('#outsidecho_name').prop('required', false);
       $('.required_before').removeClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', true);
+      $('.official_drlist').removeClass('d-none');
+      $('#ifotherdoctor').addClass('d-none');
+      $('#other_doctor').prop('required', false);
     }
     else if($(this).val() == 'REQUEST_MEDS') {
       $('#if_noncheckup').removeClass('d-none');
@@ -720,12 +725,18 @@
       $('.required_before').addClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', false);
       $('#name_of_physician').val('OTHERS').trigger('change');
+      $('.official_drlist').addClass('d-none');
+      $('#ifotherdoctor').removeClass('d-none');
+      $('#other_doctor').prop('required', true);
     }
     else {
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
       $('.required_before').removeClass('d-none'); //Weight Asterisk
       $('#weight').prop('required', true);
+      $('.official_drlist').removeClass('d-none');
+      $('#ifotherdoctor').addClass('d-none');
+      $('#other_doctor').prop('required', false);
     }
   }).trigger('change');
 

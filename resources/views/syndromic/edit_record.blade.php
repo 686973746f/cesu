@@ -123,7 +123,7 @@
                 <div class="row">
                     <div class="col-md-3">
                       <div class="form-group">
-                          <label for="weight"><span class="text-danger font-weight-bold">*</span>Weight (in kilograms)</label>
+                          <label for="weight"><b class="text-danger" class="required_before">*</b>Weight (in kilograms)</label>
                           <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" required>
                       </div>
                     </div>
@@ -699,9 +699,16 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <option {{(is_null(old('name_of_physician', $d->name_of_physician))) ? 'selected' : ''}}>None</option>
                         @foreach($doclist as $dr)
-                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
+                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}} class="official_drlist">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
                         @endforeach
+                        <option value="OTHERS" {{(old('name_of_physician', $d->name_of_physician) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
                       </select>
+                    </div>
+                    <div id="ifotherdoctor" class="d-none">
+                      <div class="form-group">
+                        <label for="other_doctor"><b class="text-danger">*</b>Other Name of Physician</label>
+                        <input type="text" class="form-control" name="other_doctor" id="other_doctor" value="{{old('other_doctor')}}" style="text-transform: uppercase;">
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -803,14 +810,30 @@
     if($(this).val() == 'CHECKUP') {
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
+      $('.required_before').removeClass('d-none'); //Weight Asterisk
+      $('#weight').prop('required', true);
+      $('.official_drlist').removeClass('d-none');
+      $('#ifotherdoctor').addClass('d-none');
+      $('#other_doctor').prop('required', false);
     }
     else if($(this).val() == 'REQUEST_MEDS') {
       $('#if_noncheckup').removeClass('d-none');
       $('#outsidecho_name').prop('required', true);
+      $('.required_before').addClass('d-none'); //Weight Asterisk
+      $('#weight').prop('required', false);
+      $('#name_of_physician').val('OTHERS').trigger('change');
+      $('.official_drlist').addClass('d-none');
+      $('#ifotherdoctor').removeClass('d-none');
+      $('#other_doctor').prop('required', true);
     }
     else {
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
+      $('.required_before').removeClass('d-none'); //Weight Asterisk
+      $('#weight').prop('required', true);
+      $('.official_drlist').removeClass('d-none');
+      $('#ifotherdoctor').addClass('d-none');
+      $('#other_doctor').prop('required', false);
     }
   }).trigger('change');
 
