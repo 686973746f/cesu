@@ -33,7 +33,8 @@
                         <thead class="thead-light text-center">
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
+                                <th>Name / ID</th>
+                                <th>Unique ID / QR</th>
                                 <th>Focal Person</th>
                                 <th>Contact Number</th>
                                 <th>Created At / By</th>
@@ -44,7 +45,8 @@
                             @foreach($list as $k => $i)
                             <tr>
                                 <td class="text-center"><b>{{$list->firstItem() + $k}}</b></td>
-                                <td><a href="{{route('pharmacy_view_branch', $i->id)}}"><b>{{$i->name}}</b></a></td>
+                                <td><a href="{{route('pharmacy_view_branch', $i->id)}}"><b>{{$i->name}}</b></a> #{{$i->id}}</td>
+                                <td class="text-center">{{$i->qr}}</td>
                                 <td class="text-center">{{($i->focal_person) ? $i->focal_person : 'N/A'}}</td>
                                 <td class="text-center">{{($i->contact_number) ? $i->contact_number : 'N/A'}}</td>
                                 <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
