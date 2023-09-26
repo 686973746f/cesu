@@ -20,7 +20,11 @@ class CreateSyndromicRecordsTable extends Migration
             $table->integer('line_number')->nullable();
             $table->date('last_checkup_date')->nullable();
             $table->dateTime('consultation_date');
+            $table->string('checkup_type')->nullable();
+            
             $table->string('chief_complain');
+            $table->tinyInteger('rx_outsidecho')->default(0);
+            $table->text('outsidecho_name')->nullable();
             $table->string('temperature');
             $table->string('bloodpressure')->nullable();
             $table->string('weight')->nullable();

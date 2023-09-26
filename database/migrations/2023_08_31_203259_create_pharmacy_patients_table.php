@@ -47,6 +47,7 @@ class CreatePharmacyPatientsTable extends Migration
             $table->string('status')->default('ENABLED');
             $table->text('status_remarks')->nullable();
             $table->tinyInteger('from_outside')->default(0);
+            $table->text('outside_name')->nullable();
             $table->foreignId('itr_id')->nullable()->constrained('syndromic_patients')->onDelete('cascade');
             $table->foreignId('pharmacy_branch_id')->constrained('pharmacy_branches')->onDelete('cascade');
 

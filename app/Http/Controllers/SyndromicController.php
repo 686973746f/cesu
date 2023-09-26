@@ -395,7 +395,10 @@ class SyndromicController extends Controller
 
         if(!$check1) {
             $c = $r->user()->syndromicrecord()->create([
+                'checkup_type' => $r->checkup_type,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
+                'rx_outsidecho' => ($r->checkup_type == 'REQUEST_MEDS') ? 1 : 0,
+                'outsidecho_name' => ($r->checkup_type == 'REQUEST_MEDS' && $r->filled('outsidecho_name')) ? mb_strtoupper($r->outsidecho_name) : NULL,
                 'syndromic_patient_id' => $p->id,
                 'opdno' => $getopd_num,
                 'line_number' => $r->line_number,
@@ -564,7 +567,9 @@ class SyndromicController extends Controller
                     'selfie_file' => NULL,
             
                     'status' => 'ENABLED',
-                    
+
+                    'from_outside' => ($r->checkup_type == 'REQUEST_MEDS') ? 1: 0,
+                    'outside_name' => ($r->checkup_type == 'REQUEST_MEDS' && $r->filled('outsidecho_name')) ? mb_strtoupper($r->outsidecho_name) : NULL,
                     'itr_id' => $p->id,
                     'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
@@ -767,8 +772,11 @@ class SyndromicController extends Controller
         if($r->submit == 'update') {
             $u = SyndromicRecords::where('id', $d->id)
             ->update([
+                'checkup_type' => $r->checkup_type,
                 'line_number' => $r->line_number,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
+                'rx_outsidecho' => ($r->checkup_type == 'REQUEST_MEDS') ? 1 : 0,
+                'outsidecho_name' => ($r->checkup_type == 'REQUEST_MEDS' && $r->filled('outsidecho_name')) ? mb_strtoupper($r->outsidecho_name) : NULL,
                 'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,
                 'bloodpressure' => ($r->filled('bloodpressure')) ? $r->bloodpressure : NULL,

@@ -99,13 +99,27 @@
                         <label for="pulserate">Pulse Rate (PR)</label>
                         <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate')}}">
                       </div>
-                        <!--
-                        <div class="form-group">
-                          <label for="saturationperioxigen">Saturation of Oxygen (SpO2)</label>
-                          <input type="text" class="form-control" name="saturationperioxigen" id="saturationperioxigen" value="{{old('saturationperioxigen')}}">
-                        </div>
-                        -->
+                      <!--
+                      <div class="form-group">
+                        <label for="saturationperioxigen">Saturation of Oxygen (SpO2)</label>
+                        <input type="text" class="form-control" name="saturationperioxigen" id="saturationperioxigen" value="{{old('saturationperioxigen')}}">
+                      </div>
+                      -->
                     </div>
+                </div>
+                <div class="form-group">
+                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
+                  <select class="form-control" name="checkup_type" id="checkup_type" required>
+                    <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
+                    <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>OPD Check-up</option>
+                    <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>Requesting Meds (for Pharmacy)</option>
+                  </select>
+                </div>
+                <div id="if_noncheckup" class="d-none">
+                  <div class="form-group">
+                    <label for="outsidecho_name"><b class="text-danger">*</b>Name of Hospital/Clinic</label>
+                    <input type="text" class="form-control" name="outsidecho_name" id="outsidecho_name" value="{{old('outsidecho_name')}}" style="text-transform: uppercase;">
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -610,7 +624,7 @@
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment')}}</textarea>
                     </div>
                     <div class="form-group">
-                      <label for="dcnote_plan">Plan of Action</label>
+                      <label for="dcnote_plan">Plan of Action / RX</label>
                       <textarea class="form-control" name="dcnote_plan" id="dcnote_plan" rows="3" style="text-transform: uppercase;">{{old('dcnote_plan')}}</textarea>
                     </div>
                     <div class="form-group">
@@ -686,6 +700,18 @@
   });
 
   var getage = {{$patient->getAge()}};
+
+  $('#checkup_type').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'CHECKUP') {
+      $('#if_noncheckup').addClass('d-none');
+      $('#outsidecho_name').prop('required', false);
+    }
+    else {
+      $('#if_noncheckup').removeClass('d-none');
+      $('#outsidecho_name').prop('required', true);
+    }
+  }).trigger('change');
 
   $('#fever_yn').change(function (e) { 
     e.preventDefault();

@@ -45,6 +45,7 @@ class PharmacyPatient extends Model
         'status',
         'status_remarks',
         'from_outside',
+        'outside_name',
 
         'itr_id',
         'pharmacy_branch_id',

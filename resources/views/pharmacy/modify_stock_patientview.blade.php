@@ -261,6 +261,12 @@
                         <td class="text-center" colspan="3">{{$d->getLatestItr()->dcnote_plan}}</td>
                     </tr>
                     @endif
+                    @if($d->from_outside == 1)
+                    <tr>
+                        <td class="bg-light">Name of Hospital/Clinic</td>
+                        <td class="text-center" colspan="3">{{$d->outside_name}}</td>
+                    </tr>
+                    @endif
                 </table>
                 <hr>
                 <div class="form-group">
