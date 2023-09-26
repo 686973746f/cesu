@@ -494,7 +494,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 
     Route::get('/pharmacy/patients', [PharmacyController::class, 'viewPatientList'])->name('pharmacy_view_patient_list');
     Route::get('/pharmacy/patients/view/{id}', [PharmacyController::class, 'viewPatient'])->name('pharmacy_view_patient');
-    Route::get('/pharmacy/patients/view/{id}/print_card', [PharmacyController::class, 'printPatientCard'])->name('pharmacy_print_patient_card');
+    
     Route::post('/pharmacy/patients/view/{id}', [PharmacyController::class, 'updatePatient'])->name('pharmacy_update_patient');
 
     Route::get('/pharmacy/patients/create', [PharmacyController::class, 'newPatient'])->name('pharmacy_add_patient');
@@ -503,6 +503,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/item_list/substock/{id}', [PharmacyController::class, 'viewSubStock'])->name('pharmacy_view_substock');
     Route::get('/pharmacy/item_list/substock/{id}/print_qr', [PharmacyController::class, 'printQrSubStock'])->name('pharmacy_printqr_substock');
     Route::post('/pharmacy/item_list/substock/{id}', [PharmacyController::class, 'updateSubStock'])->name('pharmacy_update_substock');
+});
+
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
+    Route::get('/pharmacy/patients/view/{id}/print_card', [PharmacyController::class, 'printPatientCard'])->name('pharmacy_print_patient_card');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyAdminMode']], function() {
