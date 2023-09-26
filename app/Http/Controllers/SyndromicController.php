@@ -732,6 +732,9 @@ class SyndromicController extends Controller
         if(auth()->user()->isAdminSyndromic()) {
             $d = SyndromicPatient::findOrFail($patient_id)->delete();
 
+            //also delete records associated with the patient
+            $r = SyndromicRecords::where('syndromic_patient_id', $patient_id)->delete();
+
             return redirect()->route('syndromic_home')
             ->with('msg', 'Patient data was deleted successfully.')
             ->with('msgtype', 'success');

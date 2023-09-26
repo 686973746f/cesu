@@ -92,7 +92,6 @@
                     </thead>
                     <tbody>
                         @foreach($list as $ind => $i)
-                        @if(!is_null($i->syndromic_patient->id))
                         <tr>
                             <td class="text-center"><b>#{{$i->line_number}}</b></td>
                             <td class="text-center"><b><a href="{{route('syndromic_viewRecord', $i->id)}}">{{$i->opdno}}</a></b></td>
@@ -106,7 +105,6 @@
                             <td class="text-center">{{$i->getListOfSuspDiseases()}}</td>
                             <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
                         </tr>
-                        @endif
                         @endforeach
                     </tbody>
                 </table>
