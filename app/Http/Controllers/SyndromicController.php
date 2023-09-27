@@ -234,7 +234,7 @@ class SyndromicController extends Controller
     }
 
     public function storePatient(Request $request) {
-        if(!(PharmacyPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->date))) {
+        if(!(SyndromicPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->date))) {
             if(date('n') == 1) {
                 $sc = 'A';
             }
