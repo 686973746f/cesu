@@ -39,6 +39,9 @@ class CreatePharmacyPatientsTable extends Migration
 
             //$table->text('concerns_list')->nullable();
 
+            $table->tinyInteger('is_lgustaff')->default(0);
+            $table->text('lgu_office_name')->nullable();
+
             $table->text('qr');
             $table->text('global_qr')->nullable();
             $table->text('id_file')->nullable();

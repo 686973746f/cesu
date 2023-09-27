@@ -47,6 +47,9 @@ class PharmacyPatient extends Model
         'from_outside',
         'outside_name',
 
+        'is_lgustaff',
+        'lgu_office_name',
+
         'itr_id',
         'pharmacy_branch_id',
         'created_by',

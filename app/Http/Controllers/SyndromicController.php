@@ -175,6 +175,13 @@ class SyndromicController extends Controller
 
         if(request()->input('mname')) {
             $getname = $getname.' '.$mname;
+
+            if(strlen($mname) < 2) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'ERROR: Middle Name is Invalid. It should be more than or equal to 2 Letters.')
+                ->with('msgtype', 'warning');
+            }
         }
 
         if(request()->input('suffix')) {
@@ -633,6 +640,15 @@ class SyndromicController extends Controller
         
         $mname = $request->mname;
         $suffix = $request->suffix;
+
+        if($request->filled('mname')) {
+            if(strlen($mname) < 2) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'ERROR: Middle Name is Invalid. It should be more than or equal to 2 Letters.')
+                ->with('msgtype', 'warning');
+            }
+        }
 
         $s = SyndromicPatient::ifDuplicateFoundOnUpdate($patient_id, $lname, $fname, $mname, $suffix, $bdate);
 

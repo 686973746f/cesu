@@ -48,6 +48,9 @@ class SyndromicPatient extends Model
         'id_file',
         'selfie_file',
 
+        'is_lgustaff',
+        'lgu_office_name',
+
         'shared_access_list',
     ];
 

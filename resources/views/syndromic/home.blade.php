@@ -7,6 +7,7 @@
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report">Report</button>
         @if(auth()->user()->isAdminSyndromic())
         <a href="{{route('syndromic_map')}}" class="btn btn-primary">Map</a>
+        <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#settings">Settings</button>
         @endif
     </div>
     <form action="" method="GET">
@@ -182,7 +183,7 @@
 </div>
 
 <form action="{{route('syndromic_newPatient')}}" method="GET">
-    <div class="modal fade" id="additr" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal fade" id="additr" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -227,7 +228,7 @@
     </div>
 </form>
 
-<div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal fade" id="report" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -279,6 +280,21 @@
                     </div>
                     -->
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="settings" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
             </div>
         </div>
     </div>

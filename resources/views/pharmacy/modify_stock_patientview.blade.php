@@ -270,6 +270,18 @@
                 </table>
                 <hr>
                 <div class="form-group">
+                    <label for="is_lgustaff"><b class="text-danger">*</b>Is the Patient a Staff from LGU?</label>
+                    <select class="form-control" name="is_lgustaff" id="is_lgustaff" required>
+                        <option value="" {{(is_null(old('is_lgustaff'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="Y" {{(old('is_lgustaff') == 'Y') ? 'selected' : ''}}>Yes</option>
+                        <option value="N" {{(old('is_lgustaff') == 'N') ? 'selected' : ''}}>No</option>
+                    </select>
+                </div>
+                <div class="form-group d-none" id="if_lgustaff">
+                  <label for="lgu_office_name">Name of LGU Office <i>(Optional)</i></label>
+                  <input type="text" class="form-control" name="lgu_office_name" id="lgu_office_name" value="{{old('lgu_office_name')}}" style="text-transform: uppercase;">
+                </div>
+                <div class="form-group">
                     <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Medicine/s for <i>(Select all that apply)</i></label>
                     <select class="form-control" name="concerns_list[]" id="concerns_list" multiple required>
                         @foreach($getReasonList as $rea)
@@ -288,6 +300,16 @@
 <script>
     $('#concerns_list').select2({
         theme: 'bootstrap',
+    });
+
+    $('#is_lgustaff').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#if_lgustaff').removeClass('d-none');
+        }
+        else {
+            $('#if_lgustaff').addClass('d-none');
+        }
     });
 </script>
 @endif

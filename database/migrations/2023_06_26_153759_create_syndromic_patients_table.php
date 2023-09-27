@@ -45,6 +45,9 @@ class CreateSyndromicPatientsTable extends Migration
             $table->string('ifminor_resperson')->nullable();
             $table->string('ifminor_resrelation')->nullable();
 
+            $table->tinyInteger('is_lgustaff')->default(0);
+            $table->text('lgu_office_name')->nullable();
+
             $table->string('qr');
             $table->string('id_file')->nullable();
             $table->string('selfie_file')->nullable();
