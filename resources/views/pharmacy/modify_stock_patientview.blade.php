@@ -269,6 +269,7 @@
                     @endif
                 </table>
                 <hr>
+                @if(is_null($d->is_lgustaff))
                 <div class="form-group">
                     <label for="is_lgustaff"><b class="text-danger">*</b>Is the Patient a Staff from LGU?</label>
                     <select class="form-control" name="is_lgustaff" id="is_lgustaff" required>
@@ -277,6 +278,7 @@
                         <option value="N" {{(old('is_lgustaff') == 'N') ? 'selected' : ''}}>No</option>
                     </select>
                 </div>
+                @endif
                 <div class="form-group d-none" id="if_lgustaff">
                   <label for="lgu_office_name">Name of LGU Office <i>(Optional)</i></label>
                   <input type="text" class="form-control" name="lgu_office_name" id="lgu_office_name" value="{{old('lgu_office_name')}}" style="text-transform: uppercase;">

@@ -292,11 +292,13 @@ class PharmacyController extends Controller
             }
             */
 
-            $get_patient->is_lgustaff = ($r->is_lgustaff == 'Y') ? 1 : 0;
-            $get_patient->lgu_office_name = ($r->is_lgustaff == 'Y' && $r->filled('lgu_office_name')) ? mb_strtoupper($r->lgu_office_name) : NULL;
+            if(is_null($get_patient->is_lgustaff)) {
+                $get_patient->is_lgustaff = ($r->is_lgustaff == 'Y') ? 1 : 0;
+                $get_patient->lgu_office_name = ($r->is_lgustaff == 'Y' && $r->filled('lgu_office_name')) ? mb_strtoupper($r->lgu_office_name) : NULL;
 
-            if($get_patient->isDirty()) {
-                $get_patient->save();
+                if($get_patient->isDirty()) {
+                    $get_patient->save();
+                }
             }
 
             $r->user()->pharmacyprescription()->create([
