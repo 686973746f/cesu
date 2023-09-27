@@ -35,7 +35,7 @@ class PharmacyPatient extends Model
         'address_street',
         'address_houseno',
         
-        'concerns_list',
+        //'concerns_list',
         'qr',
         'global_qr',
 

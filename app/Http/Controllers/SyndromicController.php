@@ -681,6 +681,31 @@ class SyndromicController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
+            //Also update Pharmacy Record
+            $pharma_record = PharmacyPatient::where('itr_id', $patient_id)->first();
+
+            if($pharma_record) {
+                $pharma_record->update([
+                    'lname' => mb_strtoupper($request->lname),
+                    'fname' => mb_strtoupper($request->fname),
+                    'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
+                    'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+                    'bdate' => $request->bdate,
+                    'gender' => $request->gender,
+                    
+                    'address_region_code' => $request->address_region_code,
+                    'address_region_text' => $request->address_region_text,
+                    'address_province_code' => $request->address_province_code,
+                    'address_province_text' => $request->address_province_text,
+                    'address_muncity_code' => $request->address_muncity_code,
+                    'address_muncity_text' => $request->address_muncity_text,
+                    'address_brgy_code' => $request->address_brgy_text,
+                    'address_brgy_text' => $request->address_brgy_text,
+                    'address_street' => $request->filled('address_street') ? mb_strtoupper($request->address_street) : NULL,
+                    'address_houseno' => $request->filled('address_houseno') ? mb_strtoupper($request->address_houseno) : NULL,
+                ]);
+            }
+
             return redirect()->back()
             ->with('msg', 'Patient record was updated successfully.')
             ->with('msgtype', 'success');
