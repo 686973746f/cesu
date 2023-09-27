@@ -24,11 +24,24 @@
         });
     </script>
 </head>
+@php
+//HOME LINKS
+
+if(Str::contains(request()->url(), 'pharmacy')) {
+    $homelink = route('pharmacy_home');
+}
+else if(Str::contains(request()->url(), 'syndromic')) {
+    $homelink = route('syndromic_home');
+}
+else {
+    $homelink = route('home');
+}
+@endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-success shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{route('home')}}">
+                <a class="navbar-brand" href="{{$homelink}}">
                     
                     @if(Str::contains(request()->url(), 'pharmacy'))
                     <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 3rem;">
@@ -49,47 +62,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @if(session('default_menu') == 'COVID')
-                            @if(auth()->check() && auth()->user()->isLevel1())
-                            <li class="nav-item">
-                                <a class="nav-link {{Request::is('records*') ? 'active' : ''}}" href="{{route('records.index')}}">Patients</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{Request::is('forms*') ? 'active' : ''}}" href="{{route('forms.index')}}">CIFs</a>
-                            </li>
-                            @if(auth()->user()->isCesuAccount())
-                            <li class="nav-item">
-                                <a class="nav-link {{Request::is('selfreport*') ? 'active' : ''}}" href="{{route('selfreport.view')}}">Self-Report</a>
-                            </li>
-                            @endif
-                            @if(auth()->user()->canUseLinelist())
-                            <li class="nav-item">
-                                <a class="nav-link {{Request::is('linelist*') ? 'active' : ''}}" href="{{route('linelist.index')}}">Line Lists</a>
-                            </li>
-                            @endif
-                            @if(auth()->user()->isCesuAccount() || auth()->user()->isBrgyAccount() && auth()->user()->brgy->displayInList == 1)
-                            <li class="nav-item">
-                                <a class="nav-link {{Request::is('report*') ? 'active' : ''}}" href="{{route('report.index')}}">Reports</a>
-                            </li>
-                            @endif
-                            @if(auth()->user()->isAdmin == 1)
-                            <li class="nav-item">
-                                <a class="nav-link {{Request::is('admin*') ? 'active' : ''}}" href="{{route('adminpanel.index')}}">Admin Panel</a>
-                            </li>
-                            @endif
-                            @endif
-                        @elseif(session('default_menu') == 'ABTC')
                         <li class="nav-item">
-                            <a class="nav-link {{Request::is('abtc/patient/*') ? 'active' : ''}}" href="{{route('abtc_patient_index')}}">Patients</a>
+                            <a class="nav-link {{(Str::contains(request()->url(), 'main_menu')) ? 'active text-warning' : ''}}" href="{{route('home')}}"><b>MAIN MENU</b></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{Request::is('abtc/sched/*') ? 'active' : ''}}" href="{{route('abtc_schedule_index')}}">Schedule</a>
-                        </li>
-                        @endif
 
                         @if(auth()->check())
                         <li class="nav-item">
-                            <span class="text-white nav-link"><b>MW: {{date('W')}}</b></span>
+                            <span class="text-white nav-link"><b>MW: {{date('W')}} | YEAR: {{date('Y')}}</b></span>
                         </li>
                         @endif
                     </ul>

@@ -1886,7 +1886,18 @@ class PharmacyController extends Controller
         }
     }
 
-    
+    public function deletePatient($patient_id) {
+        if(auth()->user()->isAdminPharmacy()) {
+            $d = PharmacyPatient::where('id', $patient_id)->delete();
+
+            return redirect()->route('pharmacy_view_patient_list')
+            ->with('msg', 'Patient was deleted successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
+    }
 
     public function listBranch() {
         if(request()->input('q')) {

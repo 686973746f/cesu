@@ -496,6 +496,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/patients/view/{id}', [PharmacyController::class, 'viewPatient'])->name('pharmacy_view_patient');
     
     Route::post('/pharmacy/patients/view/{id}', [PharmacyController::class, 'updatePatient'])->name('pharmacy_update_patient');
+    Route::post('/pharmacy/patients/view/{id}/delete', [PharmacyController::class, 'deletePatient'])->name('pharmacy_delete_patient');
 
     Route::get('/pharmacy/patients/create', [PharmacyController::class, 'newPatient'])->name('pharmacy_add_patient');
     Route::post('/pharmacy/patients/create', [PharmacyController::class, 'storePatient'])->name('pharmacy_store_patient');

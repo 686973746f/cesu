@@ -2,6 +2,14 @@
 
 @section('content')
     <div class="container">
+        @if(auth()->user()->isAdminPharmacy())
+        <form action="{{route('pharmacy_delete_patient', $d->id)}}" method="POST" class="mb-3">
+            @csrf
+            <div class="text-right">
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete this Patient?')">Delete Patient</button>
+            </div>
+        </form>
+        @endif
         <form action="{{route('pharmacy_update_patient', $d->id)}}" method="POST">
             @csrf
             <div class="card mb-3">

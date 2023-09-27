@@ -6,7 +6,7 @@
         <div class="text-right mb-3">
             <form action="{{route('syndromic_deletePatient', $d->id)}}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete this Patient</button>
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete this Patient?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete this Patient</button>
             </form>
         </div>
         @endif
