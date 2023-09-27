@@ -19,10 +19,11 @@
                     @endphp
                     <hr>
                     <div class="alert alert-info" role="alert">
-                        <div><b>Date Encoded / By:</b> {{date('m/d/Y', strtotime($ep->created_at))}} / {{$ep->user->name}}</div>
+                        <div><b>Date Encoded / By:</b> {{date('m/d/Y h:i A', strtotime($ep->created_at))}} / {{$ep->user->name}}</div>
                         <div><b>Existing Patient Name:</b> {{$ep->getName()}}</div>
                         <div><b>Birthdate:</b> {{date('m/d/Y', strtotime($ep->bdate))}}</div>
                         <div><b>Age/Sex:</b> {{$ep->getAge()}} / {{substr($ep->gender,0,1)}}</div>
+                        <div><b>Address:</b> {{$ep->getCompleteAddress()}}</div>
                         <div>To view/edit the Existing Patient, click <b><a href="{{route('pharmacy_view_patient', $ep->id)}}">HERE</a></b></div>
                     </div>
                 @endif

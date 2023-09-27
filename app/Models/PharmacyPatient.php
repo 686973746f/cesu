@@ -185,7 +185,7 @@ class PharmacyPatient extends Model
             $get_txt = $this->getStreetPurok();
         }
         
-        $get_txt = $get_txt.', BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+        $get_txt = $get_txt.' BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
 
         return $get_txt;
     }
