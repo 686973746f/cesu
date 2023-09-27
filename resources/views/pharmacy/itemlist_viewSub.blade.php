@@ -174,8 +174,7 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <div><b>Stock Card / Transactions</b></div>
-                            <div><button type="button" class="btn btn-success" {{($scard->count() == 0) ? 'disabled' : ''}}>Download</button></div>
-                        </div>
+                            <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#stockcard">Download Stock Card (.XLSX)</button></div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -215,6 +214,31 @@
             </div>
         </div>
     </div>
+
+    <form action="{{route('pharmacy_itemlist_export_stockcard', $d->id)}}" method="POST">
+        @csrf
+        <div class="modal fade" id="stockcard" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Download Stock Cark</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="year"><b class="text-danger">*</b>Year</label>
+                          <input type="number" class="form-control" name="year" id="year" value="{{date('Y')}}" min="2023" max="{{date('Y')}}" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     
     <script>
         $(document).bind('keydown', function(e) {

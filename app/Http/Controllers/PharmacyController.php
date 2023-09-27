@@ -18,13 +18,15 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PharmacySupplyStock;
 use App\Models\PharmacyPrescription;
 use App\Models\PharmacySupplyMaster;
+use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\BarangayHealthStation;
 use App\Models\PharmacySupplySubStock;
 use App\Models\PharmacyQtyLimitPatient;
-use PhpOffice\PhpWord\TemplateProcessor;
-use Rap2hpoutre\FastExcel\SheetCollection;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use OpenSpout\Common\Entity\Style\Style;
-use Rap2hpoutre\FastExcel\FastExcel;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Rap2hpoutre\FastExcel\SheetCollection;
 
 /*
 PERMISSION LIST
@@ -1404,10 +1406,40 @@ class PharmacyController extends Controller
         }        
     }
 
-    public function exportStockCard($supply_id) {
-        $item = PharmacyStockCard::where('supply_id', $supply_id)
+    public function exportStockCard($supply_id, Request $r) {
+        $d = PharmacySupplySub::findOrFail($supply_id);
+
+        $spreadsheet = IOFactory::load(storage_path('PHARMA_STOCKCARD.xlsx'));
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('G3', ($d->pharmacysupplymaster->sku_code_doh) ? $d->pharmacysupplymaster->sku_code_doh : 'N/A');
+        $sheet->setCellValue('C8', ($d->po_contract_number) ? $d->po_contract_number : 'N/A');
+        $sheet->setCellValue('C9', ($d->supplier) ? $d->supplier : 'N/A');
+        $sheet->setCellValue('C10', $d->pharmacysupplymaster->name);
+        $sheet->setCellValue('C11', ($d->dosage_form) ? $d->dosage_form : 'N/A');
+        $sheet->setCellValue('C12', ($d->dosage_strength) ? $d->dosage_strength : 'N/A');
+        $sheet->setCellValue('C13', ($d->unit_measure) ? $d->unit_measure : 'N/A');
+        $sheet->setCellValue('G8', ($d->entity_name) ? $d->entity_name : 'N/A');
+        $sheet->setCellValue('G9', ($d->source_of_funds) ? $d->source_of_funds : 'N/A');
+        $sheet->setCellValue('G10', ($d->unit_cost) ? $d->unit_cost : 'N/A');
+        $sheet->setCellValue('G11', ($d->mode_of_procurement) ? $d->mode_of_procurement : 'N/A');
+        $sheet->setCellValue('G13', ($d->end_user) ? $d->end_user : 'N/A');
+
+        $transaction = PharmacyStockCard::where('subsupply_id', $d->id)
         ->orderBy('created_at', 'ASC')
         ->get();
+
+        foreach($transaction as $t) {
+            
+        }
+        
+
+        $fileName = 'STOCKCARD_'.$d->pharmacysupplymaster->name.'_'.date('mdY').'.xlsx';
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
     }
 
     public function viewReport() {
@@ -2297,10 +2329,11 @@ class PharmacyController extends Controller
         ->download($file_name, function ($f) {
 
             return [
-                'DATE' => date('m/d/Y', strtotime($f->created_at)),
-                'NAME' => $f->getReceivingPatient->getName(),
+                'DATE/TIME' => date('m/d/Y h:i A', strtotime($f->created_at)),
+                'NAME' => $f->getReceivingPatient->lname.', '.$f->getReceivingPatient->fname,
                 'AGE' => $f->getReceivingPatient->getAge(),
-                'ADDRESS' => $f->getReceivingPatient->getCompleteAddress(),
+                'SEX' => substr($f->getReceivingPatient->gender,0,1),
+                'BARANGAY' => $f->getReceivingPatient->address_brgy_text,
                 'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
                 'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
                 'ENCODER' => $f->user->name,

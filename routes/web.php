@@ -488,6 +488,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     
     Route::get('/pharmacy/item_list/{item_id}/view', [PharmacyController::class, 'viewItem'])->name('pharmacy_itemlist_viewitem');
     Route::get('/pharmacy/item_list/{item_id}/print', [PharmacyController::class, 'printQrItem'])->name('pharmacy_itemlist_printqr');
+    Route::post('/pharmacy/item_list/{item_id}/export_stockcard', [PharmacyController::class, 'exportStockCard'])->name('pharmacy_itemlist_export_stockcard');
     Route::get('/pharmacy/item_list/{item_id}/monthly_stock', [PharmacyController::class, 'viewItemMonthlyStock'])->name('pharmacy_view_monthlystock');
     Route::post('/pharmacy/item_list/{item_id}/view/update', [PharmacyController::class, 'updateItem'])->name('pharmacy_itemlist_updateitem');
 
