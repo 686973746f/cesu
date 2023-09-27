@@ -292,6 +292,19 @@ class PharmacyController extends Controller
             }
             */
 
+            //check if there was prescription issued today, and block it
+
+            $pcheck = PharmacyPrescription::where('patient_id', $get_patient->id)
+            ->whereDate('created_at', date('Y-m-d'))
+            ->first();
+
+            if($pcheck) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'ERROR: Patient has existing prescription that was created today and your request was blocked to avoid duplicate entries.')
+                ->with('msgtype', 'warning');
+            }
+
             if(is_null($get_patient->is_lgustaff)) {
                 $get_patient->is_lgustaff = ($r->is_lgustaff == 'Y') ? 1 : 0;
                 $get_patient->lgu_office_name = ($r->is_lgustaff == 'Y' && $r->filled('lgu_office_name')) ? mb_strtoupper($r->lgu_office_name) : NULL;
