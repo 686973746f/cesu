@@ -62,7 +62,7 @@
                                     <div class="card-body">
                                         @if(auth()->user()->isAdminPharmacy())
                                         <div class="form-group">
-                                          <label for="select_branch"><b class="text-danger">*</b></label>
+                                          <label for="select_branch"><b class="text-danger">*</b>Select Branch</label>
                                           <select class="form-control" name="select_branch" id="select_branch" required>
                                             <option value="ALL">ALL BRANCHES</option>
                                             @foreach(App\Models\PharmacyBranch::get() as $b)
@@ -75,13 +75,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="start_date"><b class="text-danger">*</b>Start Date</label>
-                                                    <input type="text" class="form-control" name="start_date" id="start_date" max="{{date('Y-m-d')}}" min="2023-01-01" value="{{date('Y-m-d')}}" required>
+                                                    <input type="date" class="form-control" name="start_date" id="start_date" max="{{date('Y-m-d')}}" min="2023-01-01" value="{{date('Y-m-d')}}" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="end_date"><b class="text-danger">*</b>End Date</label>
-                                                    <input type="text" class="form-control" name="end_date" id="end_date" max="{{date('Y-m-d')}}" min="2023-01-01" value="{{date('Y-m-d')}}" required>
+                                                    <input type="date" class="form-control" name="end_date" id="end_date" max="{{date('Y-m-d')}}" min="2023-01-01" value="{{date('Y-m-d')}}" required>
                                                 </div>
                                             </div>
                                         </div>

@@ -2261,6 +2261,7 @@ class PharmacyController extends Controller
         ->headerStyle($header_style)
         ->rowsStyle($rows_style)
         ->download($file_name, function ($f) {
+            
             return [
                 'DATE' => date('m/d/Y', strtotime($f->created_at)),
                 'NAME' => $f->getReceivingPatient->getName(),
