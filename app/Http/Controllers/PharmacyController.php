@@ -2234,13 +2234,16 @@ class PharmacyController extends Controller
     public function generateMedicineDispensary(Request $r) {
 
         $list_query = PharmacyStockCard::whereBetween('created_at', [$r->start_date, $r->end_date])
-        ->whereNotNull('receiving_patient_id');
+        ->whereNotNull('receiving_patient_id')
+        ->where('type', 'ISSUED');
 
         if($r->select_branch != 'ALL') {
             $list_query = $list_query->whereHas('pharmacysub', function ($q) use ($r) {
                 $q->where('pharmacy_branch_id', $r->select_branch);
             });
         }
+
+        $list_query = $list_query->orderBy('created_at', 'DESC');
 
         function queryGenerator($query) {
             foreach ($query->cursor() as $u) {
@@ -2253,22 +2256,21 @@ class PharmacyController extends Controller
         ]);
 
         $header_style = (new Style())->setFontBold();
-        $rows_style = (new Style())->setShouldWrapText();
+        //$rows_style = (new Style())->setShouldWrapText();
 
         $file_name = 'PHARMACY_MEDICINE_DISPENSARY_'.date('mdY').'.xlsx';
 
         return (new FastExcel($sheets))
         ->headerStyle($header_style)
-        ->rowsStyle($rows_style)
         ->download($file_name, function ($f) {
-            
+
             return [
                 'DATE' => date('m/d/Y', strtotime($f->created_at)),
                 'NAME' => $f->getReceivingPatient->getName(),
                 'AGE' => $f->getReceivingPatient->getAge(),
                 'ADDRESS' => $f->getReceivingPatient->getCompleteAddress(),
                 'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
-                'QUANTITY' => $f->qty_to_process.' '.$f->qty_type,
+                'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
                 'ENCODER' => $f->user->name,
             ];
         });
