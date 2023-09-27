@@ -329,6 +329,16 @@ class PharmacyController extends Controller
             ->latest()
             ->first();
 
+            //block if prescription was just created yesterday or today
+            $date1 = Carbon::parse($get_latest_prescription->created_at);
+            $date2 = Carbon::parse(date('Y-m-d'));
+            $date3 = Carbon::parse(date('Y-m-d', strtotime('-1 Day')));
+            if ($date1->equalTo($date2) || $date1->equalTo($date3)) {
+                return redirect()->back()
+                ->with('msg', 'ERROR: Patient just had a recent prescription 1-2 Days ago.')
+                ->with('msgtype', 'warning');
+            }
+
             if($get_latest_prescription) {
                 $get_latest_prescription->update([
                     'finished' => 1,
