@@ -431,13 +431,21 @@ class ABTCReportController extends Controller
 
                 $cat1_count = 0;
 
+                $cat1_count_be = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->where('category_level', 1)
+                ->where('vaccination_site_id', $v->id)
+                ->whereBetween('case_date', [$sd, $ed])
+                ->count();
+
                 $cat2_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
-                ->count();
+                ->count() + $cat1_count_be;
 
                 $cat3_count = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
@@ -578,13 +586,21 @@ class ABTCReportController extends Controller
             foreach($vslist as $i => $v) {
                 $i = $i + 6; //Row 6 Start ng pag-fill ng Values
 
+                $cat1_be = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->where('category_level', 1)
+                ->where('vaccination_site_id', $v->id)
+                ->whereBetween('case_date', [$sd, $ed])
+                ->count();
+
                 $cat2_total = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
                 })
                 ->where('category_level', 2)
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
-                ->count();
+                ->count() + $cat1_be;
 
                 /*
                 $cat2_rig = AbtcBakunaRecords::whereHas('patient', function($q) {
@@ -606,7 +622,7 @@ class ABTCReportController extends Controller
                 ->where('outcome', 'C')
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
-                ->count();
+                ->count() + $cat1_be;
 
                 $cat2_incomplete = AbtcBakunaRecords::whereHas('patient', function($q) {
                     $q->where('register_status', 'VERIFIED');
