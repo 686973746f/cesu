@@ -225,7 +225,7 @@ class PharmacyPatient extends Model
             }
         }
         else {
-            return $check;
+            return $check->first();
         }
     }
 

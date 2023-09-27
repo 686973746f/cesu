@@ -23,7 +23,7 @@
             </div>
             <div class="card-body">
                 @if(session('msg'))
-                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
                     {{session('msg')}}
                 </div>
                 @endif
@@ -50,7 +50,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="accordianId" role="tablist" aria-multiselectable="true">
-                        <form action="" method="POST">
+                        <form action="{{route('pharmacy_getdispensary')}}" method="POST">
                             @csrf
                             <div class="card">
                                 <div class="card-header text-center" role="tab" id="section1HeaderId">

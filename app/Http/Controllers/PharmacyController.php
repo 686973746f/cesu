@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BarangayHealthStation;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PharmacyBranch;
-use App\Models\PharmacyCartMain;
-use App\Models\PharmacyCartSub;
 use App\Models\PharmacySupply;
+use App\Models\PharmacyCartSub;
 use App\Models\PharmacyPatient;
-use App\Models\PharmacyPrescription;
-use App\Models\PharmacyQtyLimitPatient;
+use App\Models\PharmacyCartMain;
 use App\Models\PharmacyStockLog;
 use App\Models\PharmacyStockCard;
 use App\Models\PharmacySupplySub;
 use Illuminate\Support\Facades\DB;
 use App\Models\PharmacySupplyStock;
+use App\Models\PharmacyPrescription;
 use App\Models\PharmacySupplyMaster;
+use App\Models\BarangayHealthStation;
 use App\Models\PharmacySupplySubStock;
+use App\Models\PharmacyQtyLimitPatient;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Rap2hpoutre\FastExcel\SheetCollection;
+use OpenSpout\Common\Entity\Style\Style;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 /*
 PERMISSION LIST
@@ -43,7 +46,6 @@ class PharmacyController extends Controller
         if(is_null(auth()->user()->pharmacy_branch_id)) {
 
         }
-
 
         return view('pharmacy.home');
     }
@@ -633,7 +635,7 @@ class PharmacyController extends Controller
             }
 
             return redirect()->route('pharmacy_home')
-            ->with('msg', 'Issuance successfully processed.')
+            ->with('msg', 'Issuance of Medicine/s was processed successfully. You may now return the Card and Prescription of the Patient.')
             ->with('msgtype', 'success');
         }
     }
@@ -1698,8 +1700,16 @@ class PharmacyController extends Controller
 
     public function newPatient() {
         if(request()->input('lname') && request()->input('fname') && request()->input('bdate')) {
-            if(PharmacyPatient::ifDuplicateFound(request()->input('lname'), request()->input('fname'), request()->input('mname'), request()->input('suffix'), request()->input('bdate'))) {
-                dd('exit');
+            $getname = mb_strtoupper(request()->input('lname')).', '.mb_strtoupper(request()->input('fname'));
+
+            $s = PharmacyPatient::ifDuplicateFound(request()->input('lname'), request()->input('fname'), request()->input('mname'), request()->input('suffix'), request()->input('bdate'));
+
+            if($s) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Patient ['.$getname.'] already exists in the system.')
+                ->with('ep', $s)
+                ->with('msgtype', 'warning');
             }
             else {
                 return view('pharmacy.patient_register');
@@ -2219,5 +2229,41 @@ class PharmacyController extends Controller
         return redirect()->route('pharmacy_modify_patient_stock', $d->pharmacypatient->id)
         ->with('msg', 'Prescription details were updated successfully.')
         ->with('msgtype', 'success');
+    }
+
+    public function generateMedicineDispensary(Request $r) {
+
+        $list_query = PharmacyStockCard::whereBetween('created_at', [$r->start_date, $r->end_date])
+        ->whereNotNull('receiving_patient_id');
+
+        if($r->select_branch != 'ALL') {
+            $list_query = $list_query->whereHas('pharmacysub', function ($q) use ($r) {
+                $q->where('pharmacy_branch_id', $r->select_branch);
+            });
+        }
+
+        function queryGenerator($query) {
+            foreach ($query->cursor() as $u) {
+                yield $u;
+            }
+        }
+
+        $sheets = new SheetCollection([
+            'MAIN' => suspectedGenerator($list_query),
+        ]);
+
+        $header_style = (new Style())->setFontBold();
+        $rows_style = (new Style())->setShouldWrapText();
+
+        $file_name = 'PHARMACY_MEDICINE_DISPENSARY_'.date('mdY').'.xlsx';
+
+        return (new FastExcel($sheets))
+        ->headerStyle($header_style)
+        ->rowsStyle($rows_style)
+        ->download($file_name, function ($f) {
+            return [
+
+            ];
+        });
     }
 }

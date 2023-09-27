@@ -11,8 +11,21 @@
         </div>
         <div class="card-body">
             @if(session('msg'))
-            <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
                 {{session('msg')}}
+                @if(session('ep'))
+                    @php
+                    $ep = session('ep');
+                    @endphp
+                    <hr>
+                    <div class="alert alert-info" role="alert">
+                        <div><b>Date Encoded / By:</b> {{date('m/d/Y', strtotime($ep->created_at))}} / {{$ep->user->name}}</div>
+                        <div><b>Existing Patient Name:</b> {{$ep->getName()}}</div>
+                        <div><b>Birthdate:</b> {{date('m/d/Y', strtotime($ep->bdate))}}</div>
+                        <div><b>Age/Sex:</b> {{$ep->getAge()}} / {{substr($ep->gender,0,1)}}</div>
+                        <div>To view/edit the Existing Patient, click <b><a href="{{route('pharmacy_view_patient', $ep->id)}}">HERE</a></b></div>
+                    </div>
+                @endif
             </div>
             @endif
             <form action="" method="GET">
