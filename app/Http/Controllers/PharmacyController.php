@@ -1707,7 +1707,7 @@ class PharmacyController extends Controller
             if($s) {
                 return redirect()->back()
                 ->withInput()
-                ->with('msg', 'Patient ['.$getname.'] already exists in the system.')
+                ->with('msg', 'ERROR: Patient ['.$getname.'] already exists in the system.')
                 ->with('ep', $s)
                 ->with('msgtype', 'warning');
             }
@@ -2249,7 +2249,7 @@ class PharmacyController extends Controller
         }
 
         $sheets = new SheetCollection([
-            'MAIN' => suspectedGenerator($list_query),
+            'MAIN' => queryGenerator($list_query),
         ]);
 
         $header_style = (new Style())->setFontBold();
@@ -2262,7 +2262,13 @@ class PharmacyController extends Controller
         ->rowsStyle($rows_style)
         ->download($file_name, function ($f) {
             return [
-
+                'DATE' => date('m/d/Y', strtotime($f->created_at)),
+                'NAME' => $f->getReceivingPatient->getName(),
+                'AGE' => $f->getReceivingPatient->getAge(),
+                'ADDRESS' => $f->getReceivingPatient->getCompleteAddress(),
+                'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
+                'QUANTITY' => $f->qty_to_process.' '.$f->qty_type,
+                'ENCODER' => $f->user->name,
             ];
         });
     }
