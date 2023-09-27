@@ -394,13 +394,11 @@
                     window.location.reload(); // Reload the page
                 });
             }).trigger('change');
+
+            $('#address_region_text').val('{{$d->address_region_text}}');
+            $('#address_province_text').val('{{$d->address_province_text}}');
+            $('#address_muncity_text').val('{{$d->address_muncity_text}}');
         });
-
-        
-
-        $('#address_region_text').val('{{$d->address_region_text}}');
-        $('#address_province_text').val('{{$d->address_province_text}}');
-        $('#address_muncity_text').val('{{$d->address_muncity_text}}');
 
         $('#cs').change(function (e) { 
             e.preventDefault();
