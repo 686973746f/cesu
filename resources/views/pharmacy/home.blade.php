@@ -63,7 +63,7 @@
                                         @if(auth()->user()->isAdminPharmacy())
                                         <div class="form-group">
                                           <label for="select_branch"><b class="text-danger">*</b>Select Branch</label>
-                                          <select class="form-control" name="select_branch" id="select_branch" required>
+                                          <select class="form-control" name="select_branch" id="select_branch_1" required>
                                             <option value="ALL">ALL BRANCHES</option>
                                             @foreach(App\Models\PharmacyBranch::get() as $b)
                                             <option value="{{$b->id}}" {{(old('select_branch', auth()->user()->pharmacy_branch_id) == $b->id) ? 'selected' : ''}}>{{$b->name}}</option>
@@ -105,7 +105,7 @@
                                         @if(auth()->user()->isAdminPharmacy())
                                             <div class="form-group">
                                               <label for="select_branch"><b class="text-danger">*</b>Select Branch</label>
-                                              <select class="form-control" name="select_branch" id="select_branch" required>
+                                              <select class="form-control" name="select_branch" id="select_branch_2" required>
                                                 <option value="ALL">ALL BRANCHES</option>
                                                 @foreach(App\Models\PharmacyBranch::get() as $b)
                                                 <option value="{{$b->id}}" {{(old('select_branch', auth()->user()->pharmacy_branch_id) == $b->id) ? 'selected' : ''}}>{{$b->name}}</option>
@@ -188,6 +188,16 @@
     <script>
         $('#searchbtn').click(function (e) { 
             $('#loading').modal('show');
+        });
+
+        $("#select_branch_1").select2({
+            theme: 'bootstrap',
+            dropdownParent: $('#report'),
+        });
+
+        $("#select_branch_2").select2({
+            theme: 'bootstrap',
+            dropdownParent: $('#report'),
         });
 
         $('#type').change(function (e) { 

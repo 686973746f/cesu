@@ -103,7 +103,7 @@
             <div class="col-md-6">
                 <form action="{{route('pharmacy_patient_process_cart', $d->id)}}" method="POST">
                     @csrf
-                    <div class="card">
+                    <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <div><b>Cart</b> ({{$load_subcart->count()}})</div>
@@ -150,6 +150,39 @@
                         </div>
                     </div>
                 </form>
+
+                @if($scard->count() != 0)
+                <div id="accordianId" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="section1HeaderId">
+                            <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">▼ Show Previous Transaction (from the last 30 Days) - Click to View</a>
+                        </div>
+                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Date/Time</th>
+                                                <th>Medicine</th>
+                                                <th>Quantity</th>
+                                                <th>Encoder</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td scope="row"></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -171,6 +204,18 @@
         
 
         $(document).ready(function () {
+            @if($scard->count() != 0)
+            $('#accordianId').on('show.bs.collapse', function () {
+                // Accordion is being opened, change the text
+                $('#section1HeaderId a').text('▲ Hide Previous Transaction/s (from the last 30 Days) - Click to Hide');
+            });
+
+            $('#accordianId').on('hide.bs.collapse', function () {
+                // Accordion is being closed, change the text back
+                $('#section1HeaderId a').text('▼ Show Previous Transaction/s (from the last 30 Days) - Click to View');
+            });
+            @endif
+            
             $("#myForm").submit(function (event) {
                 var medsValue = $("#meds").val();
                 var altMedsValue = $("#alt_meds_id").val();

@@ -281,12 +281,18 @@ class PharmacyController extends Controller
             $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
             ->get();
 
+            $scard = PharmacyStockCard::where('receiving_patient_id', $d->id)
+            ->whereBetween('created_at', [date('Y-m-d', strtotime('-30 Days')), date('Y-m-d')])
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
             return view('pharmacy.modify_stock_patientview', [
                 'd' => $d,
                 'meds_list' => $meds_list,
                 'load_cart' => $load_cart,
                 'load_subcart' => $load_subcart,
                 'prescription' => $prescription,
+                'scard' => $scard,
             ]);
         }
         else {
