@@ -332,6 +332,7 @@ class PharmacyController extends Controller
             ->first();
 
             //block if prescription was just created yesterday or today
+            /*
             $date1 = Carbon::parse($get_latest_prescription->created_at);
             $date2 = Carbon::parse(date('Y-m-d'));
             $date3 = Carbon::parse(date('Y-m-d', strtotime('-1 Day')));
@@ -346,6 +347,7 @@ class PharmacyController extends Controller
                     'finished' => 1,
                 ]);
             }
+            */
 
             //get main cart and delete
             $delete_main_cart = PharmacyCartMain::where('prescription_id', $get_latest_prescription->id)
@@ -2297,8 +2299,14 @@ class PharmacyController extends Controller
 
     public function generateMedicineDispensary(Request $r) {
 
-        $list_query = PharmacyStockCard::whereBetween('created_at', [$r->start_date, $r->end_date])
-        ->whereNotNull('receiving_patient_id')
+        if(Carbon::parse($r->start_date)->equalTo(Carbon::parse($r->end_date))) {
+            $list_query = PharmacyStockCard::whereDate('created_at', $r->start_date);
+        }
+        else {
+            $list_query = PharmacyStockCard::whereBetween('created_at', [$r->start_date, $r->end_date]);
+        }
+
+        $list_query = $list_query->whereNotNull('receiving_patient_id')
         ->where('type', 'ISSUED');
 
         if($r->select_branch != 'ALL') {
