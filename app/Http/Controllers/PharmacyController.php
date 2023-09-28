@@ -339,6 +339,12 @@ class PharmacyController extends Controller
             ->latest()
             ->first();
 
+            if($get_latest_prescription) {
+                $get_latest_prescription->update([
+                    'finished' => 1,
+                ]);
+            }
+
             //block if prescription was just created yesterday or today
             /*
             $date1 = Carbon::parse($get_latest_prescription->created_at);
@@ -350,11 +356,7 @@ class PharmacyController extends Controller
                 ->with('msgtype', 'warning');
             }
 
-            if($get_latest_prescription) {
-                $get_latest_prescription->update([
-                    'finished' => 1,
-                ]);
-            }
+            
             */
 
             //get main cart and delete
