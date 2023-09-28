@@ -223,11 +223,19 @@ class PharmacyController extends Controller
             $get_patient = NULL;
         }
 
+        if(request()->input('select_branch')) {
+            $select_branch = PharmacyBranch::findOrFail(request()->input('select_branch'));
+        }
+        else {
+            $select_branch = NULL;
+        }
+
         return view('pharmacy.modify_stock', [
             'd' => $d,
             'sub_list' => $sub_list,
             'branch_list' => $branch_list,
             'get_patient' => $get_patient,
+            'select_branch' => $select_branch,
         ]);
     }
 
@@ -1107,9 +1115,16 @@ class PharmacyController extends Controller
             $txt = 'Processing of RECEIVED Item was successful';
         }
 
-        return redirect()->route('pharmacy_home')
-        ->with('msg', $txt)
-        ->with('msgtype', 'success');
+        if($r->redirect_to_branch) {
+            return redirect()->route('pharmacy_view_branch', $r->redirect_to_branch)
+            ->with('msg', $txt)
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->route('pharmacy_home')
+            ->with('msg', $txt)
+            ->with('msgtype', 'success');
+        }        
     }
 
     public function masterItemHome() {

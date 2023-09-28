@@ -12,6 +12,11 @@
                 </div>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="form-group">
                   <label for="name"><b class="text-danger">*</b>Branch/Entity Name</label>
                   <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" required>

@@ -120,6 +120,7 @@
                             </select>
                           </div>
                           <div id="if_branch" class="d-none">
+                            @if(is_null($select_branch))
                               <div class="form-group">
                                   <label for="receiving_branch_id"><b class="text-danger">*</b>Select Branch</label>
                                   <select class="form-control" name="receiving_branch_id" id="receiving_branch_id">
@@ -129,6 +130,14 @@
                                     @endforeach
                                   </select>
                               </div>
+                            @else
+                                <div class="form-group">
+                                    <label for="receiving_branch_id"><b class="text-danger">*</b>Select Branch</label>
+                                    <select class="form-control" name="receiving_branch_id" id="receiving_branch_id" required>
+                                    <option value="{{$select_branch->id}}">{{$select_branch->name}}</option>
+                                    </select>
+                                </div>
+                            @endif
                           </div>
                           <div id="if_patient" class="d-none">
                               <div class="form-group">
@@ -150,6 +159,9 @@
                         <label for="remarks"><b id="remarks_asterisk" class="text-danger d-none">*</b>Remarks</label>
                         <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase;">
                     </div>
+                    @if(!is_null($select_branch))
+                    <input type="text" class="d-none" value="{{$select_branch->id}}" id="redirect_to_branch" name="redirect_to_branch">
+                    @endif
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block">Process</button>
