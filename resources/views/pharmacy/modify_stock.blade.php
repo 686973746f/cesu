@@ -185,7 +185,8 @@
             }
         }
         else {
-            $('#qty_type').prop('disabled', true);
+            $('#qty_type').prop('disabled', false);
+            $('#type_option_box').addClass('d-none');
             $('#qty_type').prop('required', false);
             $('#qty_type').val('PIECE');
         }
