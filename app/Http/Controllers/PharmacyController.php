@@ -1466,10 +1466,18 @@ class PharmacyController extends Controller
         ->orderBy('created_at', 'ASC')
         ->get();
 
+        $start_row = 16;
+
         foreach($transaction as $t) {
-            
+            $sheet->setCellValue('A'.$start_row, date('Y-m-d', strtotime($t->created_at)));
+            $sheet->setCellValue('B'.$start_row, ($t->type == 'RECEIVED') ? $t->getQtyAndType() : '');
+            $sheet->setCellValue('D'.$start_row, ($t->type == 'ISSUED') ? $t->getQtyAndType() : '');
+            $sheet->setCellValue('E'.$start_row, $t->getBalance());
+            $sheet->setCellValue('F'.$start_row, ($t->total_cost) ? $t->total_cost : 'N/A');
+            $sheet->setCellValue('G'.$start_row, ($t->drsi_number) ? $t->drsi_number : 'N/A');
+            $sheet->setCellValue('H'.$start_row, $t->getRecipientAndRemarks());
+            $start_row++;
         }
-        
 
         $fileName = 'STOCKCARD_'.$d->pharmacysupplymaster->name.'_'.date('mdY').'.xlsx';
         ob_clean();
@@ -1506,11 +1514,13 @@ class PharmacyController extends Controller
             foreach($fast_moving_group as $id => $fm) {
                 $qty_total = $fm->where('qty_type', 'PIECE')->sum('qty_to_process') + ($fm->where('qty_type', 'BOX')->sum('qty_to_process') * PharmacySupplyMaster::find($id)->config_piecePerBox);
 
-                $fm_array[] = [
-                    'master_id' => $id,
-                    'name' => PharmacySupplyMaster::find($id)->name,
-                    'qty_total' => $qty_total,
-                ];
+                if($qty_total != 1) {
+                    $fm_array[] = [
+                        'master_id' => $id,
+                        'name' => PharmacySupplyMaster::find($id)->name,
+                        'qty_total' => $qty_total,
+                    ];
+                }
             }
 
             usort($fm_array, function ($a, $b) {
@@ -1562,14 +1572,22 @@ class PharmacyController extends Controller
                 }
 
                 if($check) {
-                    $issued_box_qry = PharmacyStockCard::where('receiving_branch_id', $e->id)
+                    $issue_box_qry = PharmacyStockCard::where('receiving_branch_id', $e->id)
                     ->where('status', 'approved')
                     ->where('type', 'ISSUED')
                     ->where('qty_type', 'BOX')
                     ->whereYear('created_at', $input_year);
 
+                    $issue_piece_qry = PharmacyStockCard::where('receiving_branch_id', $e->id)
+                    ->where('status', 'approved')
+                    ->where('type', 'ISSUED')
+                    ->where('qty_type', 'PIECE')
+                    ->whereYear('created_at', $input_year);
+
                     if($input_type == 'YEARLY') {
-                        $issued_box_count = $issued_box_qry->sum('qty_to_process');
+                        $issued_box_count = ($issue_box_qry->sum('qty_to_process') * $check->pharmacysub->pharmacysupplymaster->config_piecePerBox);
+
+                        $issued_box_piece_count = $issue_piece_qry->sum('qty_to_process');
                     }
                     else if($input_type == 'QUARTERLY') {
                         $selected_qtr = request()->input('quarter');
@@ -1605,13 +1623,13 @@ class PharmacyController extends Controller
                     $entities_arr[] = [
                         'id' => $e->id,
                         'name' => $e->name,
-                        'issued_box_count' => $issued_box_count,
+                        'issued_qty_total' => $issued_box_count + $issued_box_piece_count,
                     ];
                 }
             }
 
             usort($entities_arr, function ($a, $b) {
-                return $b['issued_box_count'] - $a['issued_box_count'];
+                return $b['issued_qty_total'] - $a['issued_qty_total'];
             });
 
             //STOCKS MASTERLIST

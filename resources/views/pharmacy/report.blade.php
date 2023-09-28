@@ -39,12 +39,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($fm_array as $fm)
+                            @foreach($fm_array as $ind => $fm)
+                            @if($ind+1 <= 10)
                             <tr>
                                 <td>#{{$loop->iteration}}</td>
-                                <td><a href="">{{$fm['name']}}</a></td>
+                                <td><a href="{{route('pharmacy_itemlist_viewitem', $fm['master_id'])}}">{{$fm['name']}}</a></td>
                                 <td>{{$fm['qty_total']}} {{Str::plural('PC', $fm['qty_total'])}}</td>
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -57,16 +59,18 @@
                             <tr>
                                 <th>Top</th>
                                 <th>Name</th>
-                                <th>Issued QTY (Boxes)</th>
+                                <th>Issued Quantity (in Pieces)</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($entities_arr as $ind => $r)
+                            @if($ind+1 <= 10)
                             <tr>
                                 <td>#{{$ind+1}}</td>
                                 <td><a href="{{route('pharmacy_view_branch', $r['id'])}}">{{$r['name']}}</a></td>
-                                <td>{{$r['issued_box_count']}}</td>
+                                <td>{{$r['issued_qty_total']}}</td>
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>
