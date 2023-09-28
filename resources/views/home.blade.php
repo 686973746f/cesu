@@ -22,11 +22,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    
                     @if(session('status'))
                         <div class="text-center alert alert-{{session('statustype')}}" role="alert">
                             {{session('status')}}
                         </div>
+                    @endif
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                        {{session('msg')}}
+                    </div>
                     @endif
                     <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#quicksearch"><i class="fas fa-search mr-2"></i>Patient Quick Search</button>
                     <hr>

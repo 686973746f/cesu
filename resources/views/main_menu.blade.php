@@ -5,6 +5,11 @@
     <div class="card">
         <div class="card-header"><b>Main Menu</b></div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             @if(auth()->user()->canAccessCovid())
             <a href="{{route('covid_home')}}" class="btn btn-block btn-primary btn-lg">COVID-19</a>
             @endif

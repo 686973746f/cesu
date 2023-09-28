@@ -42,11 +42,15 @@ class PharmacyController extends Controller
     public function home() {
         //perms and init check
         if(!(auth()->user()->canAccessPharmacy())) {
-
+            return redirect()->route('home')
+            ->with('msg', 'ERROR: You are not allowed to do that.')
+            ->with('msgtype', 'warning');
         }
 
         if(is_null(auth()->user()->pharmacy_branch_id)) {
-
+            return redirect()->route('home')
+            ->with('msg', 'ERROR: You are not linked to a Pharmacy Branch yet. Please contact the System Admin.')
+            ->with('msgtype', 'warning');
         }
 
         return view('pharmacy.home');
@@ -137,6 +141,12 @@ class PharmacyController extends Controller
                 $d = PharmacyPatient::where('qr', $newString)->first();
 
                 if($d) {
+                    if($d->status == 'DISABLED') {
+                        return redirect()-back()
+                        ->with('msg', 'ERROR: Account of Patient '.$d->getName().' was DISABLED in the system. Issuance of Medicine/s was blocked. You may contact Pharmacist/Encoder if you think this was a mistake.')
+                        ->with('msgtype', 'danger');
+                    }
+
                     return redirect()->route('pharmacy_modify_patient_stock', [
                         'id' => $d->id,
                     ]);
@@ -521,6 +531,12 @@ class PharmacyController extends Controller
 
     public function processCartItem($patient_id, Request $r) {
         $d = PharmacyPatient::findOrFail($patient_id);
+
+        if($d->status == 'DISABLED') {
+            return redirect()-back()
+            ->with('msg', 'ERROR: Account of Patient '.$d->getName().' was DISABLED in the system. Issuance of Medicine/s was blocked. You may contact Pharmacist/Encoder if you think this was a mistake.')
+            ->with('msgtype', 'danger');
+        }
 
         if($r->submit == 'clear') {
             $sc = PharmacyCartSub::where('main_cart_id', $d->getPendingCartMain()->id)
