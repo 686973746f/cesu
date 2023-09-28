@@ -102,7 +102,7 @@ class PharmacyPatient extends Model
             'UTI',
             'TOOTH ACHE',
             'INSOMIA',
-            'CHOMOTHERAPHY/CANCER',
+            'CHEMOTHERAPHY/CANCER',
             'ALLERGY',
             'DIARRHEA',
         ];
