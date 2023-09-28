@@ -375,7 +375,9 @@ class PharmacyController extends Controller
             ->where('branch_id', auth()->user()->pharmacy_branch_id)
             ->delete();
 
-            return redirect()->back();
+            return redirect()->back()
+            ->with('msg', 'New prescription was successfully created. Please fill-out the details below before issuing Medicine/s to the Patient.')
+            ->with('msgtype', 'success');
         }
         else if($r->submit == 'add_cart') {
             if($r->meds) {
@@ -697,7 +699,7 @@ class PharmacyController extends Controller
             }
 
             return redirect()->route('pharmacy_home')
-            ->with('msg', 'Issuance of Medicine/s was processed successfully. You may now return the Card and Prescription of the Patient.')
+            ->with('msg', 'Issuance of Medicine/s was processed successfully. You may now return the Card and Prescription to the Patient.')
             ->with('msgtype', 'success');
         }
     }
