@@ -27,11 +27,11 @@
                     {{session('msg')}}
                 </div>
                 @endif
-                <form action="{{route('pharmacy_modify_qr')}}" method="GET">
+                <form action="{{route('pharmacy_modify_qr')}}" method="GET" autocomplete="off">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Search Patient ID | SKU Code | Meds QR" name="code" id="code" required autofocus>
                         <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-search mr-2" aria-hidden="true"></i>Search</button>
+                        <button class="btn btn-primary" type="submit" id="searchbtn"><i class="fa fa-search mr-2" aria-hidden="true"></i>Search</button>
                         </div>
                     </div>
                 </form>
@@ -110,4 +110,21 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h4>Loading...</h4>
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:30px"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#searchbtn').click(function (e) { 
+            $('#loading').modal('show');
+        });
+    </script>
 @endsection
