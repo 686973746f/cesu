@@ -51,16 +51,19 @@
                                 <label for="type"><b class="text-danger">*</b>Type</label>
                                 <select class="form-control" name="type" id="type" required>
                                   <option value="ISSUED">ISSUED (SUBTRACT)</option>
+                                  @if(!(request()->input('select_branch')))
                                   <option value="RECEIVED">RECEIVED (ADD)</option>
+                                  @endif
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="qty_type"><b class="text-danger">*</b>Quantity Type</label>
-                              <select class="form-control" name="qty_type" id="qty_type">
-                                <option value="BOX" id="type_option_box">Per Box</option>
-                                <option value="PIECE" id="type_option_piece">Per Piece</option>
+                              <select class="form-control" name="qty_type" id="qty_type" required>
+                                <option value="" disabled {{(is_null(old('qty_type'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="BOX" {{(old('qty_type') == 'BOX') ? 'selected' : ''}} id="type_option_box">Per Box</option>
+                                <option value="PIECE" {{(old('qty_type') == 'PIECE') ? 'selected' : ''}} id="type_option_piece">Per Piece</option>
                               </select>
                             </div>
                         </div>
@@ -85,7 +88,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="qty_to_process"><b class="text-danger">*</b>Quantity to Process (in <span id="qty_to_process_in"></span>)</label>
-                                <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="{{$d->master_box_stock}}" value="1" required>
+                                <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="{{$d->master_box_stock}}" value="{{old('qty_to_process')}}" required>
                                 <small class="text-muted">Current Amount in Stock: {{$d->master_box_stock}} {{$d->pharmacysupplymaster->getQtyType()}} {{(($d->master_piece_stock)) ? '('.$d->master_piece_stock.' Pieces)' : ''}}</small>
                             </div>
                         </div>
@@ -111,7 +114,9 @@
                               <option value="BRANCH" id="selection_branch">Entities (BHS/Hospitals/Other Institutions)</option>
                               @endif
                               <!--<option value="PATIENT" id="selection_patient">Patient</option>-->
+                              @if(!(request()->input('select_branch')))
                               <option value="OTHERS" id="selection_others">Others</option>
+                              @endif
                             </select>
                           </div>
                           <div id="if_branch" class="d-none">
@@ -147,7 +152,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block">Process</button>
+                    <button type="submit" class="btn btn-success btn-block">Process</button>
                 </div>
             </div>
         </form>
@@ -172,6 +177,12 @@
             $('#qty_type').prop('required', false);
             $('#qty_type').val('PIECE');
         }
+
+        @if(request()->input('select_branch'))
+        var branch_id = {{request()->input('select_branch')}};
+        $('#select_recipient').val('BRANCH').trigger('change');
+        $('#receiving_branch_id').val(branch_id).trigger('change');
+        @endif
 
         @if(request()->input('process_patient'))
             $('#select_recipient').val('PATIENT');

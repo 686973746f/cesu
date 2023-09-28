@@ -2064,11 +2064,22 @@ class PharmacyController extends Controller
         ->take(10)
         ->get();
 
+        $list_substock = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)->get();
+
         return view('pharmacy.branches_view', [
             'd' => $d,
             'bhs_list' => $bhs_list,
             'get_transactions' => $get_transactions,
+            'list_substock' => $list_substock,
         ]);
+    }
+
+    public function newBranchTransaction($branch_id, Request $r) {
+        $b = PharmacyBranch::findOrFail($branch_id);
+
+        $ss = PharmacySupplySub::findOrFail($r->select_medicine);
+
+        return redirect()->route('pharmacy_modify_view', [$ss->id, 'select_branch' => $b->id]);
     }
 
     public function updateBranch($id, Request $r) {

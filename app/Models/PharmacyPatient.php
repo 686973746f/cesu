@@ -94,6 +94,17 @@ class PharmacyPatient extends Model
             'WOMEN',
             'OTHERS',
             'DIALYSIS',
+            'FEVER',
+            'GIT',
+            'URIC ACID',
+            'VERTIGO/DIZZY',
+            'HEADACHE',
+            'UTI',
+            'TOOTH ACHE',
+            'INSOMIA',
+            'CHOMOTHERAPHY/CANCER',
+            'ALLERGY',
+            'DIARRHEA',
         ];
 
         sort($array);

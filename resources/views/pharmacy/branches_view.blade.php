@@ -59,7 +59,12 @@
         </div>
     </form>
     <div class="card">
-        <div class="card-header"><b>Recent Transactions</b></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>Transactions</b></div>
+                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#newtr">New Transaction</button></div>
+            </div>
+        </div>
         <div class="card-body">
             @if($get_transactions->count() != 0)
             <table class="table table-bordered table-striped text-center">
@@ -99,8 +104,42 @@
     </div>
 </div>
 
+<form action="{{route('pharmacy_branch_newtransaction', $d->id)}}" method="POST">
+    @csrf
+    <div class="modal fade" id="newtr" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Transaction to Branch</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="meds"><b class="text-danger">*</b>Select Medicine to Issue</label>
+                      <select class="form-control" name="select_medicine" id="select_medicine" required>
+                        <option value="" {{is_null(old('select_medicine')) ? 'selected' : ''}}>Choose...</option>
+                        @foreach($list_substock as $s)
+                        <option value="{{$s->id}}" {{(old('select_medicine') == $s->id) ? 'selected' : ''}} {{(!($s->ifHasStock())) ? 'disabled' : ''}}>{{$s->pharmacysupplymaster->name}} - {{$s->displayQty()}} {{(!($s->ifHasStock())) ? '- NO STOCK' : ''}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <script>
     $("#if_bhs_id").select2({
+        theme: 'bootstrap',
+    });
+
+    $("#select_medicine").select2({
         theme: 'bootstrap',
     });
 </script>
