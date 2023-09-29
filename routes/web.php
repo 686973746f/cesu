@@ -91,124 +91,126 @@ Route::post('/email/verification-notification', function (Request $request) {
 //MAIN LOGIN ROUTES
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
     Route::get('/main_menu', [HomeController::class, 'index'])->name('home');
-    Route::get('/home', [HomeController::class, 'covid_home'])->name('covid_home');
+    
     Route::get('/account/changepw', [ChangePasswordController::class, 'index'])->name('changepw.index');
     Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
 });
 
 //PASWAB INTERNAL
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount', 'canAccessCovid']], function() {
-    Route::post('/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
-    Route::get('/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
-    Route::get('/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
-    Route::post('/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);
-    Route::post('/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
+    Route::post('/covid/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
+    Route::get('/covid/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
+    Route::get('/covid/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
+    Route::post('/covid/forms/paswab/{id}/approve', [PaSwabController::class, 'approve']);
+    Route::post('/covid/forms/paswab/{id}/reject', [PaSwabController::class, 'reject']);
 
-    Route::get('/ct/report', [ReportV2Controller::class, 'viewCtReport'])->name('report.ct.index');
+    Route::get('/covid/ct/report', [ReportV2Controller::class, 'viewCtReport'])->name('report.ct.index');
 
-    Route::get('/check_pending', [HomeController::class, 'pendingSchedChecker'])->name('pendingshedchecker.index');
+    Route::get('/covid/check_pending', [HomeController::class, 'pendingSchedChecker'])->name('pendingshedchecker.index');
 });
 
 //COVID
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1', 'canAccessCovid']], function() {
-    Route::get('/records/duplicatechecker', [RecordsController::class, 'duplicateCheckerDashboard'])->name('records.duplicatechecker');
-    Route::post('/records/check', [RecordsController::class, 'check'])->name('records.check');
-    Route::resource('records', RecordsController::class);
+    Route::get('/covid/home', [HomeController::class, 'covid_home'])->name('covid_home');
 
-    Route::get('/forms/ajaxList', [FormsController::class, 'ajaxList'])->name('forms.ajaxList');
-    Route::get('/forms/ajaxRecordList/{current_record_id}', [FormsController::class, 'recordajaxlist'])->name('forms.ajaxRecordList');
-    Route::get('/forms/ajaxcclist/', [FormsController::class, 'ajaxcclist'])->name('forms.ajaxcclist');
-    Route::get('/forms/printCIFList/', [FormsController::class, 'printCIFList'])->name('forms.ciflist.print');
-    Route::get('/forms/printAntigenLinelist/', [FormsController::class, 'printAntigenLinelist'])->name('forms.antigenlinelist.print');
+    Route::get('/covid/records/duplicatechecker', [RecordsController::class, 'duplicateCheckerDashboard'])->name('records.duplicatechecker');
+    Route::post('/covid/records/check', [RecordsController::class, 'check'])->name('records.check');
+    Route::resource('/covid/records', RecordsController::class);
 
-    Route::get('/forms/selfreport/', [SelfReportController::class, 'view'])->name('selfreport.view');
-    Route::get('/forms/selfreport/assess/{id}', [SelfReportController::class, 'edit'])->name('selfreport.edit');
-    Route::post('/forms/selfreport/assess/{id}', [SelfReportController::class, 'finishAssessment'])->name('selfreport.finishAssessment');
-    Route::post('/forms/selfreport/convert_to_suspected/{id}', [SelfReportController::class, 'convertToSuspected'])->name('selfreport_convertToSuspected');
-    Route::get('/forms/selfreport/viewdoc/{id}', [SelfReportController::class, 'viewDocument'])->name('selfreport.viewdocument');
-    Route::match(array('GET','POST') ,'/forms/reswab/{id}', [FormsController::class, 'reswab'])->name('forms.reswab');
-    Route::resource('/forms', FormsController::class);
-    Route::get('/forms/{id}/existing', [FormsController::class, 'viewExistingForm'])->name('forms.existing');
-    Route::get('/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');
-    Route::post('/forms/{id}/create', [FormsController::class, 'store']);
-    Route::post('/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
-    Route::post('/forms/{id}/edit/qrecovered', [FormsController::class, 'qSetRecovered'])->name('forms.qSetRecovered');
-    Route::post('/forms/{id}/edit/tempsched', [FormsController::class, 'setTempSched'])->name('forms.setTempSched');
-    Route::post('/forms/{id}/edit/changedispo', [FormsController::class, 'cChangeDispo'])->name('forms.cChangeDispo');
-    Route::post('/forms/{id}/edit/transfer', [FormsController::class, 'transfercif'])->name('forms.transfercif');
+    Route::get('/covid/forms/ajaxList', [FormsController::class, 'ajaxList'])->name('forms.ajaxList');
+    Route::get('/covid/forms/ajaxRecordList/{current_record_id}', [FormsController::class, 'recordajaxlist'])->name('forms.ajaxRecordList');
+    Route::get('/covid/forms/ajaxcclist/', [FormsController::class, 'ajaxcclist'])->name('forms.ajaxcclist');
+    Route::get('/covid/forms/printCIFList/', [FormsController::class, 'printCIFList'])->name('forms.ciflist.print');
+    Route::get('/covid/forms/printAntigenLinelist/', [FormsController::class, 'printAntigenLinelist'])->name('forms.antigenlinelist.print');
 
-    Route::get('/forms/download/{id}', [FormsController::class, 'downloadDocs']);
-    Route::post('/forms/singleExport/{id}', [FormsController::class, 'soloExport'])->name('forms.soloprint.cif');
-    Route::get('/forms/printAntigen/{id}/{testType}', [FormsController::class, 'printAntigen'])->name('forms.soloprint.antigen');
+    Route::get('/covid/forms/selfreport/', [SelfReportController::class, 'view'])->name('selfreport.view');
+    Route::get('/covid/forms/selfreport/assess/{id}', [SelfReportController::class, 'edit'])->name('selfreport.edit');
+    Route::post('/covid/forms/selfreport/assess/{id}', [SelfReportController::class, 'finishAssessment'])->name('selfreport.finishAssessment');
+    Route::post('/covid/forms/selfreport/convert_to_suspected/{id}', [SelfReportController::class, 'convertToSuspected'])->name('selfreport_convertToSuspected');
+    Route::get('/covid/forms/selfreport/viewdoc/{id}', [SelfReportController::class, 'viewDocument'])->name('selfreport.viewdocument');
+    Route::match(array('GET','POST') ,'/covid/forms/reswab/{id}', [FormsController::class, 'reswab'])->name('forms.reswab');
+    Route::resource('/covid/forms', FormsController::class);
+    Route::get('/covid/forms/{id}/existing', [FormsController::class, 'viewExistingForm'])->name('forms.existing');
+    Route::get('/covid/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');
+    Route::post('/covid/forms/{id}/create', [FormsController::class, 'store']);
+    Route::post('/covid/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
+    Route::post('/covid/forms/{id}/edit/qrecovered', [FormsController::class, 'qSetRecovered'])->name('forms.qSetRecovered');
+    Route::post('/covid/forms/{id}/edit/tempsched', [FormsController::class, 'setTempSched'])->name('forms.setTempSched');
+    Route::post('/covid/forms/{id}/edit/changedispo', [FormsController::class, 'cChangeDispo'])->name('forms.cChangeDispo');
+    Route::post('/covid/forms/{id}/edit/transfer', [FormsController::class, 'transfercif'])->name('forms.transfercif');
 
-    Route::post('/forms/medcert/{form_id}', [FormsController::class, 'generateMedCert'])->name('generate_medcert');
+    Route::get('/covid/forms/download/{id}', [FormsController::class, 'downloadDocs']);
+    Route::post('/covid/forms/singleExport/{id}', [FormsController::class, 'soloExport'])->name('forms.soloprint.cif');
+    Route::get('/covid/forms/printAntigen/{id}/{testType}', [FormsController::class, 'printAntigen'])->name('forms.soloprint.antigen');
 
-    Route::get('/forms/ct_exposure/{form_id}/create', [ContactTracingController::class, 'ctFormsExposureCreate'])->name('ct_exposure_create');
-    Route::post('/forms/ct_exposure/{form_id}/create', [ContactTracingController::class, 'ctFormsExposureStore'])->name('ct_exposure_store');
-    Route::get('/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureEdit'])->name('ct_exposure_edit');
-    Route::post('/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureUpdate'])->name('ct_exposure_update');
-    Route::post('/forms/ct_exposure/{ct_id}/delete', [ContactTracingController::class, 'ctFormsExposureDelete'])->name('ct_exposure_delete');
+    Route::post('/covid/forms/medcert/{form_id}', [FormsController::class, 'generateMedCert'])->name('generate_medcert');
 
-    Route::get('/linelist', [LineListController::class, 'index'])->name('linelist.index');
-    Route::post('/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');
-    Route::post('/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');
-    Route::post('/linelist/lasalle/create', [LineListController::class, 'lasalleStore'])->name('linelist.lasalle.store');
+    Route::get('/covid/forms/ct_exposure/{form_id}/create', [ContactTracingController::class, 'ctFormsExposureCreate'])->name('ct_exposure_create');
+    Route::post('/covid/forms/ct_exposure/{form_id}/create', [ContactTracingController::class, 'ctFormsExposureStore'])->name('ct_exposure_store');
+    Route::get('/covid/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureEdit'])->name('ct_exposure_edit');
+    Route::post('/covid/forms/ct_exposure/{form_id}/{ct_id}/edit', [ContactTracingController::class, 'ctFormsExposureUpdate'])->name('ct_exposure_update');
+    Route::post('/covid/forms/ct_exposure/{ct_id}/delete', [ContactTracingController::class, 'ctFormsExposureDelete'])->name('ct_exposure_delete');
 
-    Route::get('/linelist/ajaxList', [LineListController::class, 'ajaxLineList'])->name('linelist.ajax');
-    Route::get('/linelist/{link}/print/{id}', [LineListController::class, 'print'])->name('linelist.print');
+    Route::get('/covid/linelist', [LineListController::class, 'index'])->name('linelist.index');
+    Route::post('/covid/linelist', [LineListController::class, 'createLineList'])->name('linelist.create');
+    Route::post('/covid/linelist/oni/create', [LineListController::class, 'oniStore'])->name('linelist.oni.store');
+    Route::post('/covid/linelist/lasalle/create', [LineListController::class, 'lasalleStore'])->name('linelist.lasalle.store');
+
+    Route::get('/covid/linelist/ajaxList', [LineListController::class, 'ajaxLineList'])->name('linelist.ajax');
+    Route::get('/covid/linelist/{link}/print/{id}', [LineListController::class, 'print'])->name('linelist.print');
 
     //Linelist V2
-    Route::post('linelistv2/create', [LineListController::class, 'createlinelistv2'])->name('llv2.create');
-    Route::get('linelistv2/view/{masterid}', [LineListController::class, 'viewlinelistv2'])->name('llv2.view');
-    Route::post('linelistv2/view/{masterid}/add', [LineListController::class, 'linelistv2addsub'])->name('llv2.add');
-    Route::post('linelistv2/view/{masterid}/process/{subid}', [LineListController::class, 'processlinelistv2'])->name('llv2.process');
-    Route::post('linelistv2/view/{masterid}/close', [LineListController::class, 'linelistv2close'])->name('llv2.close');
+    Route::post('covid/linelistv2/create', [LineListController::class, 'createlinelistv2'])->name('llv2.create');
+    Route::get('covid/linelistv2/view/{masterid}', [LineListController::class, 'viewlinelistv2'])->name('llv2.view');
+    Route::post('covid/linelistv2/view/{masterid}/add', [LineListController::class, 'linelistv2addsub'])->name('llv2.add');
+    Route::post('covid/linelistv2/view/{masterid}/process/{subid}', [LineListController::class, 'processlinelistv2'])->name('llv2.process');
+    Route::post('covid/linelistv2/view/{masterid}/close', [LineListController::class, 'linelistv2close'])->name('llv2.close');
 
-    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-    Route::get('/report/daily', [ReportController::class, 'viewDaily'])->name('report.daily');
-    Route::get('/report/situational')->name('report.situational.index');
-    Route::get('/report/situationalv2', [ReportController::class, 'viewSituationalv2'])->name('report.situationalv2.index');
-    Route::get('/report/situational/excel', [ReportController::class, 'printSituationalv2'])->name('report.situationalv2.print');
-    Route::get('/report/clustering', [ReportV2Controller::class, 'clustering_index'])->name('clustering_index');
-    Route::get('/report/clustering/{city}/{brgy}', [ReportController::class, 'viewClustering'])->name('clustering_view');
-    Route::get('/report/clustering/{city}/{brgy}/view_list/q={subd}', [ReportV2Controller::class, 'clustering_viewlist'])->name('clustering_viewlist');
-    Route::post('/report/dohExportAll/', [ReportController::class, 'dohExportAll'])->name('report.DOHExportAll');
-    Route::get('/report/dilgExportAll/', [ReportController::class, 'dilgExportAll'])->name('report.dilgExportAll');
-    Route::post('/report/export', [ReportController::class, 'reportExport'])->name('report.export');
-    Route::get('/report/v2/dashboard', [ReportV2Controller::class, 'viewDashboard'])->name('reportv2.dashboard');
+    Route::get('/covid/report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/covid/report/daily', [ReportController::class, 'viewDaily'])->name('report.daily');
+    Route::get('/covid/report/situational')->name('report.situational.index');
+    Route::get('/covid/report/situationalv2', [ReportController::class, 'viewSituationalv2'])->name('report.situationalv2.index');
+    Route::get('/covid/report/situational/excel', [ReportController::class, 'printSituationalv2'])->name('report.situationalv2.print');
+    Route::get('/covid/report/clustering', [ReportV2Controller::class, 'clustering_index'])->name('clustering_index');
+    Route::get('/covid/report/clustering/{city}/{brgy}', [ReportController::class, 'viewClustering'])->name('clustering_view');
+    Route::get('/covid/report/clustering/{city}/{brgy}/view_list/q={subd}', [ReportV2Controller::class, 'clustering_viewlist'])->name('clustering_viewlist');
+    Route::post('/covid/report/dohExportAll/', [ReportController::class, 'dohExportAll'])->name('report.DOHExportAll');
+    Route::get('/covid/report/dilgExportAll/', [ReportController::class, 'dilgExportAll'])->name('report.dilgExportAll');
+    Route::post('/covid/report/export', [ReportController::class, 'reportExport'])->name('report.export');
+    Route::get('/covid/report/v2/dashboard', [ReportV2Controller::class, 'viewDashboard'])->name('reportv2.dashboard');
 
-    Route::get('/report/cm', [ReportV2Controller::class, 'cmIndex'])->name('report_cm_index');
+    Route::get('/covid/report/cm', [ReportV2Controller::class, 'cmIndex'])->name('report_cm_index');
 
     //ajax
-    Route::get('/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
+    Route::get('/covid/ajaxGetUserRecord/{id}', [FormsController::class, 'ajaxGetUserRecord']);
     //Route::get('/ajaxGetLineList', [LineListController::class, 'ajaxGetLineList']);
 
-    Route::post('/options', [OptionsController::class, 'submit'])->name('options.submit');
-    Route::get('/options', [OptionsController::class, 'index'])->name('options.index');
+    Route::post('/covid/options', [OptionsController::class, 'submit'])->name('options.submit');
+    Route::get('/covid/options', [OptionsController::class, 'index'])->name('options.index');
 
-    Route::post('/forms', [FormsController::class, 'options'])->name('forms.options'); //print to excel, for admin only (temporary)
+    Route::post('/covid/forms', [FormsController::class, 'options'])->name('forms.options'); //print to excel, for admin only (temporary)
 
-    Route::post('/msheet/{forms_id}/create', [MonitoringSheetController::class, 'create'])->name('msheet.create');
-    Route::get('/msheet/{id}/view', [MonitoringSheetController::class, 'view'])->name('msheet.view');
-    Route::get('/msheet/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.print');
-    Route::get('/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.viewdate');
-    Route::post('/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.updatemonitoring');
+    Route::post('/covid/msheet/{forms_id}/create', [MonitoringSheetController::class, 'create'])->name('msheet.create');
+    Route::get('/covid/msheet/{id}/view', [MonitoringSheetController::class, 'view'])->name('msheet.view');
+    Route::get('/covid/msheet/{id}/print', [MonitoringSheetController::class, 'print'])->name('msheet.print');
+    Route::get('/covid/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'viewdate'])->name('msheet.viewdate');
+    Route::post('/covid/msheet/{id}/{date}/{mer}', [MonitoringSheetController::class, 'updatemonitoring'])->name('msheet.updatemonitoring');
 
-    Route::get('/ct/index', [ContactTracingController::class, 'dashboard_index'])->name('ct.dashboard.index');
-    Route::get('/ct/sp/index', [SecondaryTertiaryRecordsController::class, 'index'])->name('sc_index');
-    Route::get('/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'create'])->name('sc_create');
-    Route::post('/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'store'])->name('sc_store');
-    Route::get('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'edit'])->name('sc_edit');
-    Route::put('/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'update'])->name('sc_update');
+    Route::get('/covid/ct/index', [ContactTracingController::class, 'dashboard_index'])->name('ct.dashboard.index');
+    Route::get('/covid/ct/sp/index', [SecondaryTertiaryRecordsController::class, 'index'])->name('sc_index');
+    Route::get('/covid/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'create'])->name('sc_create');
+    Route::post('/covid/ct/sp/create', [SecondaryTertiaryRecordsController::class, 'store'])->name('sc_store');
+    Route::get('/covid/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'edit'])->name('sc_edit');
+    Route::put('/covid/ct/{id}/edit', [SecondaryTertiaryRecordsController::class, 'update'])->name('sc_update');
 
-    Route::get('/report/encoding_calendar', [ReportV2Controller::class, 'encodingCalendar'])->name('encoding_calendar');
+    Route::get('/covid/report/encoding_calendar', [ReportV2Controller::class, 'encodingCalendar'])->name('encoding_calendar');
 
-    Route::get('/report/ctreport2', [ContactTracingController::class, 'ctlgureport'])->name('ctlgu_report');
+    Route::get('/covid/report/ctreport2', [ContactTracingController::class, 'ctlgureport'])->name('ctlgu_report');
 
-    Route::get('/casechecker', [ReportV2Controller::class, 'casechecker_index'])->name('casechecker_index');
+    Route::get('/covid/casechecker', [ReportV2Controller::class, 'casechecker_index'])->name('casechecker_index');
     
-    Route::get('/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
-    Route::get('/report/fhsis', [ReportV2Controller::class, 'm2fhsis'])->name('report.fhsis');
+    Route::get('/covid/report/accomplishment', [ReportV2Controller::class, 'accomplishment_index'])->name('report.accomplishment');
+    Route::get('/covid/report/fhsis', [ReportV2Controller::class, 'm2fhsis'])->name('report.fhsis');
 
     //Monkeypox
     /*
@@ -235,61 +237,61 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 'canAccessCovid']], function()
 {
     //Admin Page
-    Route::get('/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
+    Route::get('/covid/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
 
     //Barangay
-    Route::get('/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
-    Route::get('/admin/brgy/view/{id}', [AdminPanelController::class, 'brgyView'])->name('adminpanel.brgy.view');
-    Route::post('/admin/brgy/view/{id}', [AdminPanelController::class, 'brgyUpdate'])->name('adminpanel.brgy.update');
-    Route::get('/admin/brgy/view/{brgy_id}/user/{user_id}', [AdminPanelController::class, 'brgyViewUser'])->name('adminpanel.brgy.view.user');
-    Route::post('/admin/brgy/view/{brgy_id}/user/{user_id}', [AdminPanelController::class, 'brgyUpdateUser'])->name('adminpanel.brgy.update.user');
+    Route::get('/covid/admin/brgy', [AdminPanelController::class, 'brgyIndex'])->name('adminpanel.brgy.index');
+    Route::get('/covid/admin/brgy/view/{id}', [AdminPanelController::class, 'brgyView'])->name('adminpanel.brgy.view');
+    Route::post('/covid/admin/brgy/view/{id}', [AdminPanelController::class, 'brgyUpdate'])->name('adminpanel.brgy.update');
+    Route::get('/covid/admin/brgy/view/{brgy_id}/user/{user_id}', [AdminPanelController::class, 'brgyViewUser'])->name('adminpanel.brgy.view.user');
+    Route::post('/covid/admin/brgy/view/{brgy_id}/user/{user_id}', [AdminPanelController::class, 'brgyUpdateUser'])->name('adminpanel.brgy.update.user');
 
     //Referral Code
-    Route::get('/admin/referral_code/', [AdminPanelController::class, 'referralCodeView'])->name('adminpanel.code.view');
-    Route::post('/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
-    Route::post('/admin/brgy/create/code/{brgy_id}/', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
+    Route::get('/covid/admin/referral_code/', [AdminPanelController::class, 'referralCodeView'])->name('adminpanel.code.view');
+    Route::post('/covid/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
+    Route::post('/covid/admin/brgy/create/code/{brgy_id}/', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
 
     //Admin Accounts
-    Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
-    Route::get('/admin/accounts/view/{id}', [AdminPanelController::class, 'accountView'])->name('adminpanel.account.view');
-    Route::post('/admin/accounts/view/{id}', [AdminPanelController::class, 'accountUpdate'])->name('adminpanel.account.update');
-    Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
-    Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('adminpanel.account.options');
+    Route::get('/covid/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
+    Route::get('/covid/admin/accounts/view/{id}', [AdminPanelController::class, 'accountView'])->name('adminpanel.account.view');
+    Route::post('/covid/admin/accounts/view/{id}', [AdminPanelController::class, 'accountUpdate'])->name('adminpanel.account.update');
+    Route::post('/covid/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
+    Route::post('/covid/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('adminpanel.account.options');
 
     //Interviewers
-    Route::post('/admin/interviewers/options/{id}', [InterviewersController::class, 'options'])->name('adminpanel.interviewers.options');
-    Route::resource('/admin/interviewers', InterviewersController::class);
+    Route::post('/covid/admin/interviewers/options/{id}', [InterviewersController::class, 'options'])->name('adminpanel.interviewers.options');
+    Route::resource('/covid/admin/interviewers', InterviewersController::class);
 
     //Companies
-    Route::resource('/companies', CompaniesController::class);
-    Route::post('/companies/code/create', [CompaniesController::class, 'makeCode'])->name('companies.makecode');
+    Route::resource('/covid/companies', CompaniesController::class);
+    Route::post('/covid/companies/code/create', [CompaniesController::class, 'makeCode'])->name('companies.makecode');
 
     //Paswablinks
-    Route::get('/admin/paswablinks', [PaSwabLinksController::class, 'index'])->name('paswablinks.index');
-    Route::post('/admin/paswablinks', [PaSwabLinksController::class, 'store'])->name('paswablinks.store');
-    Route::post('/admin/paswablinks/{id}/options', [PaSwabLinksController::class, 'linkInit']);
+    Route::get('/covid/admin/paswablinks', [PaSwabLinksController::class, 'index'])->name('paswablinks.index');
+    Route::post('/covid/admin/paswablinks', [PaSwabLinksController::class, 'store'])->name('paswablinks.store');
+    Route::post('/covid/admin/paswablinks/{id}/options', [PaSwabLinksController::class, 'linkInit']);
 
     //Encoder Stats
-    Route::get('/admin/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
+    Route::get('/covid/admin/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
 
-    Route::get('/admin/antigen', [AntigenController::class, 'index'])->name('antigen_index');
-    Route::get('/admin/antigen/create', [AntigenController::class, 'create'])->name('antigen_create');
-    Route::post('/admin/antigen/create', [AntigenController::class, 'store'])->name('antigen_store');
-    Route::get('/admin/antigen/{id}/edit', [AntigenController::class, 'edit'])->name('antigen_edit');
-    Route::post('/admin/antigen/{id}/edit', [AntigenController::class, 'update'])->name('antigen_update');
+    Route::get('/covid/admin/antigen', [AntigenController::class, 'index'])->name('antigen_index');
+    Route::get('/covid/admin/antigen/create', [AntigenController::class, 'create'])->name('antigen_create');
+    Route::post('/covid/admin/antigen/create', [AntigenController::class, 'store'])->name('antigen_store');
+    Route::get('/covid/admin/antigen/{id}/edit', [AntigenController::class, 'edit'])->name('antigen_edit');
+    Route::post('/covid/admin/antigen/{id}/edit', [AntigenController::class, 'update'])->name('antigen_update');
 
     //Acceptance Letter
-    Route::get('/acceptance', [AcceptanceLetterController::class, 'index'])->name('acceptance.index');
-    Route::post('/acceptance/store', [AcceptanceLetterController::class, 'store'])->name('acceptance.store');
-    Route::get('/acceptance/print/{id}', [AcceptanceLetterController::class, 'printview'])->name('acceptance.print');
+    Route::get('/covid/acceptance_letter', [AcceptanceLetterController::class, 'index'])->name('acceptance.index');
+    Route::post('/covid/acceptance_letter/store', [AcceptanceLetterController::class, 'store'])->name('acceptance.store');
+    Route::get('/covid/acceptance_letter/print/{id}', [AcceptanceLetterController::class, 'printview'])->name('acceptance.print');
 
     //MW
-    Route::get('/report/mw', [MorbidityWeekController::class, 'index'])->name('mw.index');
-    Route::post('/report/mw/process', [MorbidityWeekController::class, 'process'])->name('mw.process');
+    Route::get('/covid/report/mw', [MorbidityWeekController::class, 'index'])->name('mw.index');
+    Route::post('/covid/report/mw/process', [MorbidityWeekController::class, 'process'])->name('mw.process');
 
     //Site Settings
-    Route::get('/settings/site', [SiteSettingsController::class, 'index'])->name('ss.index');
-    Route::post('/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
+    Route::get('/covid/settings/site', [SiteSettingsController::class, 'index'])->name('ss.index');
+    Route::post('/covid/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
     
     //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
 });
