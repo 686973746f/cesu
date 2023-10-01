@@ -64,14 +64,22 @@ else {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        
+
+                        @if(auth()->check())
                         <li class="nav-item">
                             <a class="nav-link {{(Str::contains(request()->url(), 'main_menu')) ? 'active text-warning' : ''}}" href="{{route('home')}}"><b>MAIN MENU</b></a>
                         </li>
 
-                        @if(auth()->check())
                         @if(Str::contains(request()->url(), 'covid'))
                         <li class="nav-item">
-                            <a class="nav-link {{(Str::contains(request()->url(), 'main_menu')) ? 'active text-warning' : ''}}" href="{{route('home')}}"><b>MAIN MENU</b></a>
+                            <a class="nav-link {{(Str::contains(request()->url(), 'records')) ? 'active text-warning' : ''}}" href="{{route('records.index')}}"><b>Patients</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{(Str::contains(request()->url(), 'forms')) ? 'active text-warning' : ''}}" href="{{route('forms.index')}}"><b>CIFs</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{(Str::contains(request()->url(), 'linelist')) ? 'active text-warning' : ''}}" href="{{route('linelist.index')}}"><b>Linelist</b></a>
                         </li>
                         @endif
 

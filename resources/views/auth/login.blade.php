@@ -89,11 +89,6 @@
                                     @endif
                                 </div>
                             </div>
-                            <hr>
-                            <div class="text-center">
-                                <p>{{ __('Don\'t have an account yet?') }}</p>
-                                <a href="{{ route('rcode.index') }}" class="btn btn-link">Register</a>
-                            </div>
                         </form>
                     </div>
                   </div>
