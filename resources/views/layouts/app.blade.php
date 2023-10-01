@@ -12,7 +12,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITEKEY') }}"></script>
+    @if(!(auth()->check()))
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    @endif
     <!-- Fonts -->
 
     <!-- Styles -->
