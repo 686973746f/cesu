@@ -131,7 +131,8 @@
 
 <script>
     function onSubmit(token) {
-      document.getElementById("loginForm").submit();
+        
+      $("#loginForm").submit();
     }
   </script>
 @endsection
