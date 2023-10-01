@@ -45,8 +45,14 @@ class LoginController extends Controller
         $request->validate([
             'g-recaptcha-response' => ['required', new Recaptcha],
         ]);
-
+        
         // Continue with the login logic
-        return $this->attemptLogin($request);
+        
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
+        }
+        else {
+            return $this->sendFailedLoginResponse($request);
+        }
     }
 }
