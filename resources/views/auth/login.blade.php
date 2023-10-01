@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <div class="container" style="font-family: Arial, Helvetica, sans-serif;">
     <div class="row justify-content-center">
         <div class="col-md-8">
