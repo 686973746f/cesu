@@ -66,9 +66,13 @@ else {
                             <a class="nav-link {{(Str::contains(request()->url(), 'main_menu')) ? 'active text-warning' : ''}}" href="{{route('home')}}"><b>MAIN MENU</b></a>
                         </li>
 
-                        @if
-
                         @if(auth()->check())
+                        @if(Str::contains(request()->url(), 'covid'))
+                        <li class="nav-item">
+                            <a class="nav-link {{(Str::contains(request()->url(), 'main_menu')) ? 'active text-warning' : ''}}" href="{{route('home')}}"><b>MAIN MENU</b></a>
+                        </li>
+                        @endif
+
                         <li class="nav-item">
                             <span class="text-white nav-link"><b>MW: {{date('W')}} | YEAR: {{date('Y')}}</b></span>
                         </li>

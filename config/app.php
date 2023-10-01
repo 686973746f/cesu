@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
     ],
 
     /*
@@ -232,6 +232,7 @@ return [
         'fExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
     ],
 
 ];
