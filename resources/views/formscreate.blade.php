@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="/forms/{{$id}}/create" method="POST">
+        <form action="/covid/forms/{{$id}}/create" method="POST">
             @csrf       
             <div class="card">
                 <div class="card-header">
