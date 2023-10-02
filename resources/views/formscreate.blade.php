@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('generated::VerGnayjSX8ucbbE', $id)}}" method="POST">
+        <form action="{{route('covid_forms_create', $id)}}" method="POST">
             @csrf       
             <div class="card">
                 <div class="card-header">

@@ -132,7 +132,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::resource('/covid/forms', FormsController::class);
     Route::get('/covid/forms/{id}/existing', [FormsController::class, 'viewExistingForm'])->name('forms.existing');
     Route::get('/covid/forms/{id}/new', [FormsController::class, 'new'])->name('forms.new');
-    Route::post('/covid/forms/{id}/create', [FormsController::class, 'store']);
+    Route::post('/covid/forms/{id}/create', [FormsController::class, 'store'])->name('covid_forms_create');
     Route::post('/covid/forms/{id}/edit', [FormsController::class, 'upload'])->name('forms.upload');
     Route::post('/covid/forms/{id}/edit/qrecovered', [FormsController::class, 'qSetRecovered'])->name('forms.qSetRecovered');
     Route::post('/covid/forms/{id}/edit/tempsched', [FormsController::class, 'setTempSched'])->name('forms.setTempSched');
