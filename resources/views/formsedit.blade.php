@@ -382,7 +382,7 @@
             @endif
         @endif
         @if(auth()->user()->ifTopAdmin() || $records->status == 'paswab_rejected')
-        <form action="/forms/{{$records->id}}" method="POST">
+        <form action="{{route('forms.destroy', $records->id)}}" method="POST">
             @csrf
             @method('delete')
             <div class="text-right mb-3">

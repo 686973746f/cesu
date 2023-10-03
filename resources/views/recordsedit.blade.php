@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         @if(auth()->user()->isAdmin == 1)
-        <form action="/records/{{$record->id}}" method="POST">
+        <form action="{{route('records.destroy', $record->id)}}" method="POST">
             @csrf
             @method('delete')
             <div class="text-right mb-3">
