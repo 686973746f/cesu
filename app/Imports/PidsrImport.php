@@ -103,8 +103,14 @@ class PidsrImport implements ToCollection, WithStartRow
                         $iepiid = $row[31];
                         $proceed = true;
                     }
+                    
+                    $find_name = Abd::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[26]))
+                    ->first();
 
-                    if($proceed) {
+                    if($proceed && !($find_name)) {
                         $c = Abd::create([
                             'Icd10Code' => $row[0],
                             'RegionOFDrU' => $row[1],
@@ -177,7 +183,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Aes::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[26]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Aes::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -251,7 +263,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Afp::where('FamilyName', $row[8])
+                    ->where('FirstName', $row[7])
+                    ->whereDate('DOB', $this->tDate($row[15]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[23]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Afp::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -414,7 +432,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Ahf::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[28]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Ahf::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -489,7 +513,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Ames::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[108]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Ames::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -650,9 +680,15 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
+                    $find_name = Anthrax::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[17]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[22]))
+                    ->first();
+
                     $ctr = 0;
 
-                    if($proceed) {
+                    if($proceed && !($find_name)) {
                         $c = Anthrax::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -775,7 +811,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Chikv::where('FamilyName', $row[8])
+                    ->where('FirstName', $row[7])
+                    ->whereDate('DOB', $this->tDate($row[17]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[4]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Chikv::create([
                             'Region' => $row[0],
                             'Province' => $row[1],
@@ -891,7 +933,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Cholera::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[26]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Cholera::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -965,7 +1013,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Dengue::where('FamilyName', $row[8])
+                    ->where('FirstName', $row[7])
+                    ->whereDate('DOB', $this->tDate($row[17]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[4]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Dengue::create([
                             'Region' => $row[0],
                             'Province' => $row[1],
@@ -1042,7 +1096,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Diph::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[27]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Diph::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1117,7 +1177,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Hepatitis::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[27]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Hepatitis::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1193,7 +1259,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Hfmd::where('FamilyName', $row[8])
+                    ->where('FirstName', $row[7])
+                    ->whereDate('DOB', $this->tDate($row[15]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[45]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Hfmd::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1325,7 +1397,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Influenza::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[25]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Influenza::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1401,7 +1479,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Leptospirosis::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[28]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Leptospirosis::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1500,7 +1584,13 @@ class PidsrImport implements ToCollection, WithStartRow
                     
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Malaria::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[26]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Malaria::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1578,7 +1668,13 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     $ctr = 0;
 
-                    if($proceed) {
+                    $find_name = Measles::where('FamilyName', $row[8])
+                    ->where('FirstName', $row[7])
+                    ->whereDate('DOB', $this->tDate($row[18]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[47]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Measles::create([
                         'Icd10Code' => $row[0],
                         'RegionOfDrU' => $row[1],
@@ -1727,7 +1823,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Meningitis::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[25]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Meningitis::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1801,7 +1903,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Meningo::where('FamilyName', $row[10])
+                    ->where('FirstName', $row[9])
+                    ->whereDate('DOB', $this->tDate($row[17]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[27]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Meningo::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1934,7 +2042,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Nnt::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[31]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Nnt::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -2011,7 +2125,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Nt::where('FamilyName', $row[8])
+                    ->where('FirstName', $row[7])
+                    ->whereDate('DOB', $this->tDate($row[16]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[34]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Nt::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -2118,7 +2238,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Pert::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[27]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Pert::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -2191,7 +2317,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Psp::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[16]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[23]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Psp::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -2265,7 +2397,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Rabies::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[16]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[27]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Rabies::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -2358,7 +2496,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Rotavirus::where('FamilyName', $row[10])
+                    ->where('FirstName', $row[9])
+                    ->whereDate('DOB', $this->tDate($row[16]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[62]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Rotavirus::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -2492,7 +2636,13 @@ class PidsrImport implements ToCollection, WithStartRow
                         $proceed = true;
                     }
 
-                    if($proceed) {
+                    $find_name = Rotavirus::where('FamilyName', $row[9])
+                    ->where('FirstName', $row[8])
+                    ->whereDate('DOB', $this->tDate($row[14]))
+                    ->whereDate('DateOfEntry', $this->tDate($row[26]))
+                    ->first();
+
+                    if($proceed && !($find_name)) {
                         $c = Typhoid::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
