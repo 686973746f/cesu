@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('syndromic_storeRecord', $patient->id)}}" method="POST">
+    <form action="{{route('syndromic_storeRecord', $patient->id)}}" method="POST" onsubmit="return validateForm()">
         @csrf
         <div class="card">
             <div class="card-header">
@@ -694,6 +694,24 @@
 </div>
 
 <script>
+  function validateForm() {
+      var checkboxes = document.querySelectorAll('.form-check-input');
+      var isChecked = false;
+
+      checkboxes.forEach(function (checkbox) {
+          if (checkbox.checked) {
+              isChecked = true;
+          }
+      });
+
+      if (!isChecked) {
+          alert('Please check at least one (1) symptoms before submitting the form.');
+          return false; // Prevent form submission
+      }
+
+      return true; // Allow form submission if at least one checkbox is checked
+  }
+
   $(document).bind('keydown', function(e) {
       if(e.ctrlKey && (e.which == 83)) {
           e.preventDefault();
