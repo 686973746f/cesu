@@ -196,11 +196,11 @@
                           </div>
                           <div id="abdominalpain_div" class="d-none">
                             <div class="form-group">
-                              <label for="abdominalpain_onset">Abdominal Pain Onset</label>
+                              <label for="abdominalpain_onset">Abdominal Pain Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="abdominalpain_onset" id="abdominalpain_onset" value="{{old('abdominalpain_onset', $d->abdominalpain_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="abdominalpain_remarks">Abdominal Pain Remarks</label>
+                              <label for="abdominalpain_remarks">Abdominal Pain Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="abdominalpain_remarks" id="abdominalpain_remarks" value="{{old('abdominalpain_remarks', $d->abdominalpain_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -214,11 +214,11 @@
                           </div>
                           <div class="d-none" id="alteredmentalstatus_div">
                             <div class="form-group">
-                              <label for="alteredmentalstatus_onset">ltered Mental Status Onset</label>
+                              <label for="alteredmentalstatus_onset">Altered Mental Status Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="alteredmentalstatus_onset" id="alteredmentalstatus_onset" value="{{old('alteredmentalstatus_onset', $d->alteredmentalstatus_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="alteredmentalstatus_remarks">Altered Mental Status Remarks</label>
+                              <label for="alteredmentalstatus_remarks">Altered Mental Status Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="alteredmentalstatus_remarks" id="alteredmentalstatus_remarks" value="{{old('alteredmentalstatus_remarks', $d->alteredmentalstatus_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -232,11 +232,11 @@
                             </div>
                             <div id="animalbite_div" class="d-none">
                               <div class="form-group">
-                                <label for="animalbite_onset">Animal Bite Onset</label>
+                                <label for="animalbite_onset">Animal Bite Onset <small>(Optional)</small></label>
                                 <input type="date" class="form-control" name="animalbite_onset" id="animalbite_onset" value="{{old('animalbite_onset', $d->animalbite_onset)}}" max="{{date('Y-m-d')}}">
                               </div>
                               <div class="form-group">
-                                <label for="animalbite_remarks">Animal Bite Remarks</label>
+                                <label for="animalbite_remarks">Animal Bite Remarks <small>(Optional)</small></label>
                                 <input type="text" class="form-control" name="animalbite_remarks" id="animalbite_remarks" value="{{old('animalbite_remarks', $d->animalbite_remarks)}}" style="text-transform: uppercase;">
                               </div>
                             </div>
@@ -250,11 +250,11 @@
                           </div>
                           <div id="cough_div" class="d-none">
                             <div class="form-group">
-                              <label for="cough_onset">Cough Onset</label>
+                              <label for="cough_onset">Cough Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="cough_onset" id="cough_onset" value="{{old('cough_onset', $d->cough_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="cough_remarks">Cough Remarks</label>
+                              <label for="cough_remarks">Cough Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="cough_remarks" id="cough_remarks" value="{{old('cough_remarks', $d->cough_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -268,11 +268,11 @@
                           </div>
                           <div id="colds_div" class="d-none">
                             <div class="form-group">
-                              <label for="colds_onset">Colds Onset</label>
+                              <label for="colds_onset">Colds Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="colds_onset" id="colds_onset" value="{{old('colds_onset', $d->colds_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="colds_remarks">Colds Remarks</label>
+                              <label for="colds_remarks">Colds Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="colds_remarks" id="colds_remarks" value="{{old('colds_remarks', $d->colds_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -286,11 +286,11 @@
                           </div>
                           <div id="conjunctivitis_div" class="d-none">
                             <div class="form-group">
-                              <label for="conjunctivitis_onset">Conjunctivitis Onset</label>
+                              <label for="conjunctivitis_onset">Conjunctivitis Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="conjunctivitis_onset" id="conjunctivitis_onset" value="{{old('conjunctivitis_onset', $d->conjunctivitis_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="conjunctivitis_remarks">Conjunctivitis Remarks</label>
+                              <label for="conjunctivitis_remarks">Conjunctivitis Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="conjunctivitis_remarks" id="conjunctivitis_remarks" value="{{old('conjunctivitis_remarks', $d->conjunctivitis_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -310,11 +310,11 @@
                               </label>
                             </div>
                             <div class="form-group">
-                              <label for="diarrhea_onset">Diarrhea Onset</label>
+                              <label for="diarrhea_onset">Diarrhea Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="diarrhea_onset" id="diarrhea_onset" value="{{old('diarrhea_onset', $d->diarrhea_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="diarrhea_remarks">Diarrhea Remarks</label>
+                              <label for="diarrhea_remarks">Diarrhea Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="diarrhea_remarks" id="diarrhea_remarks" value="{{old('diarrhea_remarks', $d->diarrhea_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -328,11 +328,11 @@
                           </div>
                           <div id="anorexia_div" class="d-none">
                             <div class="form-group">
-                              <label for="anorexia_onset">Eating Disorder Onset</label>
+                              <label for="anorexia_onset">Eating Disorder Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="anorexia_onset" id="anorexia_onset" value="{{old('anorexia_onset', $d->anorexia_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="anorexia_remarks">Eating Disorder Remarks</label>
+                              <label for="anorexia_remarks">Eating Disorder Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="anorexia_remarks" id="anorexia_remarks" value="{{old('anorexia_remarks', $d->anorexia_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -346,11 +346,11 @@
                           </div>
                           <div id="fatigue_div" class="d-none">
                             <div class="form-group">
-                              <label for="fatigue_onset">Fatigue Onset</label>
+                              <label for="fatigue_onset">Fatigue Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="fatigue_onset" id="fatigue_onset" value="{{old('fatigue_onset', $d->fatigue_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="fatigue_remarks">Fatigue Remarks</label>
+                              <label for="fatigue_remarks">Fatigue Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="fatigue_remarks" id="fatigue_remarks" value="{{old('fatigue_remarks', $d->fatigue_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -364,11 +364,11 @@
                           </div>
                           <div id="fever_div" class="d-none">
                             <div class="form-group">
-                              <label for="fever_onset">Fever Onset</label>
+                              <label for="fever_onset">Fever Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="fever_onset" id="fever_onset" value="{{old('fever_onset', $d->fever_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="fever_remarks">Fever Remarks</label>
+                              <label for="fever_remarks">Fever Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="fever_remarks" id="fever_remarks" value="{{old('fever_remarks', $d->fever_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -382,11 +382,11 @@
                           </div>
                           <div id="headache_div" class="d-none">
                             <div class="form-group">
-                              <label for="headache_onset">Headache Onset</label>
+                              <label for="headache_onset">Headache Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="headache_onset" id="headache_onset" value="{{old('headache_onset', $d->headache_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="headache_remarks">Headache Remarks</label>
+                              <label for="headache_remarks">Headache Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="headache_remarks" id="headache_remarks" value="{{old('headache_remarks', $d->headache_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -400,11 +400,11 @@
                             </div>
                             <div id="jointpain_div" class="d-none">
                               <div class="form-group">
-                                <label for="jointpain_onset">Joint Pain Onset</label>
+                                <label for="jointpain_onset">Joint Pain Onset <small>(Optional)</small></label>
                                 <input type="date" class="form-control" name="jointpain_onset" id="jointpain_onset" value="{{old('jointpain_onset', $d->jointpain_onset)}}" max="{{date('Y-m-d')}}">
                               </div>
                               <div class="form-group">
-                                <label for="jointpain_remarks">Joint Pain Remarks</label>
+                                <label for="jointpain_remarks">Joint Pain Remarks <small>(Optional)</small></label>
                                 <input type="text" class="form-control" name="jointpain_remarks" id="jointpain_remarks" value="{{old('jointpain_remarks', $d->jointpain_remarks)}}" style="text-transform: uppercase;">
                               </div>
                             </div>
@@ -418,11 +418,11 @@
                           </div>
                           <div id="jaundice_div" class="d-none">
                             <div class="form-group">
-                              <label for="jaundice_onset">Jaundice Onset</label>
+                              <label for="jaundice_onset">Jaundice Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="jaundice_onset" id="jaundice_onset" value="{{old('jaundice_onset', $d->jaundice_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="jaundice_remarks">Jaundice Remarks</label>
+                              <label for="jaundice_remarks">Jaundice Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="jaundice_remarks" id="jaundice_remarks" value="{{old('jaundice_remarks', $d->jaundice_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -436,11 +436,11 @@
                           </div>
                           <div id="lossofsmell_div" class="d-none">
                             <div class="form-group">
-                              <label for="lossofsmell_onset">Loss of Smell Onset</label>
+                              <label for="lossofsmell_onset">Loss of Smell Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="lossofsmell_onset" id="lossofsmell_onset" value="{{old('lossofsmell_onset', $d->lossofsmell_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="lossofsmell_remarks">Loss of Smell Remarks</label>
+                              <label for="lossofsmell_remarks">Loss of Smell Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="lossofsmell_remarks" id="lossofsmell_remarks" value="{{old('lossofsmell_remarks', $d->lossofsmell_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -454,11 +454,11 @@
                           </div>
                           <div id="lossoftaste_div" class="d-none">
                             <div class="form-group">
-                              <label for="lossoftaste_onset">Loss of Taste Onset</label>
+                              <label for="lossoftaste_onset">Loss of Taste Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="lossoftaste_onset" id="lossoftaste_onset" value="{{old('lossoftaste_onset', $d->lossoftaste_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="lossoftaste_remarks">Loss of Taste Remarks</label>
+                              <label for="lossoftaste_remarks">Loss of Taste Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="lossoftaste_remarks" id="lossoftaste_remarks" value="{{old('lossoftaste_remarks', $d->lossoftaste_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -472,11 +472,11 @@
                           </div>
                           <div id="musclepain_div" class="d-none">
                             <div class="form-group">
-                              <label for="musclepain_onset">Muscle Pain Onset</label>
+                              <label for="musclepain_onset">Muscle Pain Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="musclepain_onset" id="musclepain_onset" value="{{old('musclepain_onset', $d->musclepain_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="musclepain_remarks">Muscle Pain Remarks</label>
+                              <label for="musclepain_remarks">Muscle Pain Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="musclepain_remarks" id="musclepain_remarks" value="{{old('musclepain_remarks', $d->musclepain_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -490,11 +490,11 @@
                           </div>
                           <div id="nausea_div" class="d-none">
                             <div class="form-group">
-                              <label for="nausea_onset">Nausea Onset</label>
+                              <label for="nausea_onset">Nausea Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="nausea_onset" id="nausea_onset" value="{{old('nausea_onset', $d->nausea_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="nausea_remarks">Nausea Remarks</label>
+                              <label for="nausea_remarks">Nausea Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="nausea_remarks" id="nausea_remarks" value="{{old('nausea_remarks', $d->nausea_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -508,11 +508,11 @@
                           </div>
                           <div id="paralysis_div" class="d-none">
                             <div class="form-group">
-                              <label for="paralysis_onset">Paralysis Onset</label>
+                              <label for="paralysis_onset">Paralysis Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="paralysis_onset" id="paralysis_onset" value="{{old('paralysis_onset', $d->paralysis_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="paralysis_remarks">Paralysis Remarks</label>
+                              <label for="paralysis_remarks">Paralysis Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="paralysis_remarks" id="paralysis_remarks" value="{{old('paralysis_remarks', $d->paralysis_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -526,11 +526,11 @@
                           </div>
                           <div id="rash_div" class="d-none">
                             <div class="form-group">
-                              <label for="rash_onset">Rash Onset</label>
+                              <label for="rash_onset">Rash Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="rash_onset" id="rash_onset" value="{{old('rash_onset', $d->rash_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group" >
-                              <label for="rash_remarks">Rash Remarks</label>
+                              <label for="rash_remarks">Rash Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="rash_remarks" id="rash_remarks" value="{{old('rash_remarks', $d->rash_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -544,11 +544,11 @@
                           </div>
                           <div id="mouthsore_div" class="d-none">
                             <div class="form-group">
-                              <label for="mouthsore_onset">Mouth Sore Onset</label>
+                              <label for="mouthsore_onset">Mouth Sore Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="mouthsore_onset" id="mouthsore_onset" value="{{old('mouthsore_onset', $d->mouthsore_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="mouthsore_remarks">Mouth Sore Remarks</label>
+                              <label for="mouthsore_remarks">Mouth Sore Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="mouthsore_remarks" id="mouthsore_remarks" value="{{old('mouthsore_remarks', $d->mouthsore_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -562,11 +562,11 @@
                           </div>
                           <div id="sorethroat_div" class="d-none">
                             <div class="form-group">
-                              <label for="sorethroat_onset">Sore Throat Onset</label>
+                              <label for="sorethroat_onset">Sore Throat Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="sorethroat_onset" id="sorethroat_onset" value="{{old('sorethroat_onset', $d->sorethroat_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="sorethroat_remarks">Sore Throat Remarks</label>
+                              <label for="sorethroat_remarks">Sore Throat Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="sorethroat_remarks" id="sorethroat_remarks" value="{{old('sorethroat_remarks', $d->sorethroat_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -580,11 +580,11 @@
                           </div>
                           <div id="dyspnea_div" class="d-none">
                             <div class="form-group">
-                              <label for="dyspnea_onset">Shortness of Breath Onset</label>
+                              <label for="dyspnea_onset">Shortness of Breath Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="dyspnea_onset" id="dyspnea_onset" value="{{old('dyspnea_onset', $d->dyspnea_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="dyspnea_remarks">Shortness of Breath Remarks</label>
+                              <label for="dyspnea_remarks">Shortness of Breath Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="dyspnea_remarks" id="dyspnea_remarks" value="{{old('dyspnea_remarks', $d->dyspnea_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -598,11 +598,11 @@
                           </div>
                           <div id="vomiting_div" class="d-none">
                             <div class="form-group">
-                              <label for="vomiting_onset">Vomiting Onset</label>
+                              <label for="vomiting_onset">Vomiting Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="vomiting_onset" id="vomiting_onset" value="{{old('vomiting_onset', $d->vomiting_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="vomiting_remarks">Vomiting Remarks</label>
+                              <label for="vomiting_remarks">Vomiting Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="vomiting_remarks" id="vomiting_remarks" value="{{old('vomiting_remarks', $d->vomiting_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -616,11 +616,11 @@
                           </div>
                           <div id="weaknessofextremities_div" class="d-none">
                             <div class="form-group">
-                              <label for="weaknessofextremities_onset">Weakness of Extremities Onset</label>
+                              <label for="weaknessofextremities_onset">Weakness of Extremities Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="weaknessofextremities_onset" id="weaknessofextremities_onset" value="{{old('weaknessofextremities_onset', $d->weaknessofextremities_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                              <label for="weaknessofextremities_remarks">Weakness of Extremities Remarks</label>
+                              <label for="weaknessofextremities_remarks">Weakness of Extremities Remarks <small>(Optional)</small></label>
                               <input type="text" class="form-control" name="weaknessofextremities_remarks" id="weaknessofextremities_remarks" value="{{old('weaknessofextremities_remarks', $d->weaknessofextremities_remarks)}}" style="text-transform: uppercase;">
                             </div>
                           </div>
@@ -639,7 +639,7 @@
                               <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks', $d->other_symptoms_onset_remarks)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
-                              <label for="other_symptoms_onset">Date of Onset</label>
+                              <label for="other_symptoms_onset">Date of Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="other_symptoms_onset" id="other_symptoms_onset" value="{{old('other_symptoms_onset', $d->other_symptoms_onset)}}" max="{{date('Y-m-d')}}">
                             </div>
                           </div>
