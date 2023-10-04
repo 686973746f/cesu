@@ -6,7 +6,7 @@
         <form action="{{route('pharmacy_delete_patient', $d->id)}}" method="POST" class="mb-3">
             @csrf
             <div class="text-right">
-                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete this Patient?')">Delete Patient</button>
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete this Patient?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete Patient</button>
             </div>
         </form>
         @endif

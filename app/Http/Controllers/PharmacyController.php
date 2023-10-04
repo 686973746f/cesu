@@ -1239,6 +1239,10 @@ class PharmacyController extends Controller
         ]);
     }
 
+    public function initItem(Request $r) {
+
+    }
+
     public function viewItem($item_id) {
         $item = PharmacySupplySub::findOrFail($item_id);
 

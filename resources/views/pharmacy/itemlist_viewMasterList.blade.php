@@ -105,7 +105,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
+                                    <label for="quantity_type"><b class="text-danger">*</b>Main Quantity Type</label>
                                     <select class="form-control" name="quantity_type" id="quantity_type" required>
                                         <option value="BOX">PER BOX</option>
                                         <option value="BOTTLE">PER PIECE/BOTTLES</option>
@@ -201,6 +201,10 @@
     </form>
 
     <script>
+        @if(request()->input('trigger_additem'))
+        $('#addMasterItem').modal('show');
+        @endif
+
         $('#quantity_type').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'BOX') {
