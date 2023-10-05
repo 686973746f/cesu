@@ -526,6 +526,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/branches', [PharmacyController::class, 'listBranch'])->name('pharmacy_list_branch');
     Route::post('/pharmacy/branches/add', [PharmacyController::class, 'storeBranch'])->name('pharmacy_store_branch');
     Route::get('/pharmacy/branches/{id}', [PharmacyController::class, 'viewBranch'])->name('pharmacy_view_branch');
+    Route::get('/pharmacy/branches/{id}/print_card', [PharmacyController::class, 'printBranchCard'])->name('pharmacy_print_branch_card');
     Route::post('/pharmacy/branches/{id}/new_transaction', [PharmacyController::class, 'newBranchTransaction'])->name('pharmacy_branch_newtransaction');
     Route::post('/pharmacy/branches/{id}', [PharmacyController::class, 'updateBranch'])->name('pharmacy_update_branch');
 });

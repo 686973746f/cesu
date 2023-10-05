@@ -1976,7 +1976,23 @@ class PharmacyController extends Controller
 
         ob_clean();
         header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        header("Content-Disposition: attachment; filename=PHARMACY_CARD_".$d->lname."_".date('mdY').".docx");
+        header("Content-Disposition: attachment; filename=PHARMACY_PATIENT_CARD_".$d->lname."_".date('mdY').".docx");
+        $templateProcessor->saveAs('php://output');
+    }
+
+    public function printBranchCard($id) {
+        $d = PharmacyBranch::findOrFail($id);
+
+        $templateProcessor  = new TemplateProcessor(storage_path('PHARMACY_BRANCH_CARD.docx'));
+
+        $templateProcessor->setValue('name', $d->name);
+        $templateProcessor->setValue('id', $d->id);
+        $templateProcessor->setValue('dreg', date('m/d/Y', strtotime($d->created_at)));
+        $templateProcessor->setValue('qr', 'ENTITY_'.$d->qr);
+
+        ob_clean();
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHARMACY_BRANCH_CARD_".$d->qr.".docx");
         $templateProcessor->saveAs('php://output');
     }
     
