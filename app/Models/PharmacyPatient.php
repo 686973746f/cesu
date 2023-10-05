@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\PharmacyCartMain;
 use App\Models\SyndromicRecords;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -119,8 +120,8 @@ class PharmacyPatient extends Model
     public function getPendingCartMain() {
         return PharmacyCartMain::where('patient_id', $this->id)
         ->where('status', 'PENDING')
-        ->where('created_by', auth()->user()->id)
         ->where('branch_id', auth()->user()->pharmacy_branch_id)
+        ->latest()
         ->first();
     }
 
