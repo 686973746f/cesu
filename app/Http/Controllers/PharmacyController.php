@@ -262,7 +262,6 @@ class PharmacyController extends Controller
             $search_cart = PharmacyCartMain::where('patient_id', $d->id)
             ->where('status', 'PENDING')
             ->where('prescription_id', $prescription->id)
-            ->where('created_by', auth()->user()->id)
             ->first();
 
             if($search_cart) {
