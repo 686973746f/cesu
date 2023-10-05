@@ -146,15 +146,6 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="form-group">
-                        <label for="concerns_list"><span class="text-danger font-weight-bold">*</span>Requesting Medicine/s for <i>(Select all that apply)</i></label>
-                        <select class="form-control" name="concerns_list[]" id="concerns_list" multiple required>
-                            @foreach(App\Models\PharmacyPatient::getReasonList() as $rea)
-                            <option value="{{$rea}}">{{$rea}}</option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block">Finish</button>

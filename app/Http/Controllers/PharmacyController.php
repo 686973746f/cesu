@@ -2304,11 +2304,13 @@ class PharmacyController extends Controller
                     'created_by' => 58, //TONETTE
                 ]);
 
-                //MAKE PRESCRIPTION DATA
+                //MAKE PRESCRIPTION DATA, PHARMACY SHOULD MAKE IT NOT THE PATIENT
+                /*
                 $prescription = PharmacyPrescription::create([
                     'patient_id' => $c->id,
                     'concerns_list' => implode(',', $r->concerns_list),
                 ]);
+                */
 
                 return redirect()->route('pharmacy_getcard', ['q' => $c->global_qr])
                 ->with('msg', 'Registration Complete. You may now save your Pharmacy Card and present it to the Pharmacy together with your Prescription and Valid ID.')

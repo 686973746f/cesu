@@ -9,7 +9,7 @@
                 <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST" id="myForm">
                     @csrf
                     <div class="card">
-                        <div class="card-header"><b>Issuance of Meds to Patient</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
+                        <div class="card-header"><b>Dispense to Patient</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
                         <div class="card-body">
                             @if(session('msg'))
                             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
