@@ -75,6 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'pharmacy_branch_id',
     ];
 
     /**
@@ -236,6 +237,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function pharmacyprescription() {
         return $this->hasMany(PharmacyPrescription::class, 'created_by');
+    }
+
+    public function pharmacycartmainbranch() {
+        return $this->hasMany(PharmacyCartMainBranch::class, 'created_by');
     }
 
     public function defaultInterviewer() {

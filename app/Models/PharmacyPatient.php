@@ -118,11 +118,13 @@ class PharmacyPatient extends Model
     }
 
     public function getPendingCartMain() {
-        return PharmacyCartMain::where('patient_id', $this->id)
+        $data = PharmacyCartMain::where('patient_id', $this->id)
         ->where('status', 'PENDING')
         ->where('branch_id', auth()->user()->pharmacy_branch_id)
         ->latest()
         ->first();
+
+        return $data;
     }
 
     public function getLatestPrescription() {

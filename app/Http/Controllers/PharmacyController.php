@@ -20,6 +20,8 @@ use App\Models\PharmacyPrescription;
 use App\Models\PharmacySupplyMaster;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\BarangayHealthStation;
+use App\Models\PharmacyCartMainBranch;
+use App\Models\PharmacyCartSubBranch;
 use App\Models\PharmacySupplySubStock;
 use App\Models\PharmacyQtyLimitPatient;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -155,6 +157,23 @@ class PharmacyController extends Controller
                     return redirect()->back()
                     ->with('msg', 'Error: Patient QR does not exist in the system.')
                     ->with('msgtype', 'warning');
+                }
+            }
+            else if(Str::startsWith($code, 'ENTITY_')) {
+                $newString = Str::replaceFirst("PATIENT_", "", $code);
+
+                $d = PharmacyBranch::where('qr', $newString)->first();
+
+                if($d) {
+                    if($d->enabled == 0) {
+                        return redirect()-back()
+                        ->with('msg', 'ERROR: Account of Patient '.$d->name.' was DISABLED in the system. Issuance of Medicine/s was blocked. You may contact Pharmacist/Encoder if you think this was a mistake.')
+                        ->with('msgtype', 'danger');
+                    }
+
+                    return redirect()->route('pharmacy_modify_patient_stock', [
+                        'id' => $d->id,
+                    ]);
                 }
             }
             else if(Str::startsWith($code, 'SUBSTOCK_')) {
@@ -562,6 +581,12 @@ class PharmacyController extends Controller
             ->with('msgtype', 'success');
         }
         else if($r->submit == 'process') {
+            if(!($d->getPendingCartMain())) {
+                return redirect()->back()
+                ->with('msg', 'ERROR: Cart of the Patient ID: '.$d->id.'cannot be found. Please try again or contact the system admin.')
+                ->with('msgtype', 'danger');
+            }
+
             $get_maincart = PharmacyCartMain::findOrFail($d->getPendingCartMain()->id);
 
             $subcart_list = PharmacyCartSub::where('main_cart_id', $get_maincart->id)->get();
@@ -707,6 +732,37 @@ class PharmacyController extends Controller
             ->with('msg', 'Issuance of Medicine/s was processed successfully. You may now return the Card and Prescription to the Patient.')
             ->with('msgtype', 'success');
         }
+    }
+
+    public function modifyStockBranchView($branch_id) {
+        $d = PharmacyBranch::findOrFail($branch_id);
+
+        $maincart = PharmacyCartMainBranch::where('branch_id', $d->id)
+        ->where('processor_branch_id', auth()->user()->pharmacy_branch_id)
+        ->where('status', 'PENDING')
+        ->latest()
+        ->first();
+
+        if(!($maincart)) {
+            $maincart = auth()->user()->pharmacycartmainbranch()->create([
+                'status' => 'PENDING',
+                'branch_id' => $d->id,
+                'processor_branch_id' => auth()->user()->pharmacy_branch_id,
+            ]);
+        }
+
+        return view('pharmacy.modify_stock_branchview', [
+            'd' => $d,
+            'maincart' => $maincart,
+        ]);
+    }
+
+    public function addCartBranch($branch_id, Request $r) {
+
+    }
+
+    public function processCartBranch($branch_id, Request $r) {
+
     }
 
     public function modifyStockProcess($subsupply_id, Request $r) {

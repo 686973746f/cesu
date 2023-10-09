@@ -487,6 +487,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/process/patient/{id}/add_cart', [PharmacyController::class, 'addCartItem'])->name('pharmacy_patient_addcart');
     Route::post('/pharmacy/process/patient/{id}/process_cart', [PharmacyController::class, 'processCartItem'])->name('pharmacy_patient_process_cart');
     //Route::post('/pharmacy/process/patient/{id}', [PharmacyController::class, 'modifyStockPatientProcess'])->name('pharmacy_modify_patient_stock_process');
+
+    Route::get('/pharmacy/cart/branch/{branch_id}', [PharmacyController::class, 'modifyStockBranchView'])->name('pharmacy_viewBranchCart');
+    Route::post('/pharmacy/cart/branch/{branch_id}/add_cart', [PharmacyController::class, 'addCartBranch'])->name('pharmacy_addCartBranch');
+    Route::post('/pharmacy/cart/branch/{branch_id}/process_cart', [PharmacyController::class, 'processCartBranch'])->name('pharmacy_processCartBranch');
     
     Route::get('/pharmacy/item_list/{item_id}/view', [PharmacyController::class, 'viewItem'])->name('pharmacy_itemlist_viewitem');
     Route::get('/pharmacy/item_list/{item_id}/print', [PharmacyController::class, 'printQrItem'])->name('pharmacy_itemlist_printqr');
