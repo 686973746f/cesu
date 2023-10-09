@@ -272,29 +272,20 @@ class PharmacyController extends Controller
         $d = PharmacyPatient::findOrFail($id);
 
         //get latest prescription
-        $prescription = PharmacyPrescription::where('finished', 0)
-        ->where('patient_id', $d->id)
-        ->latest()
-        ->first();
+        $prescription = $d->getLatestPrescription();
 
         if($prescription) {
-            $search_cart = PharmacyCartMain::where('patient_id', $d->id)
-            ->where('status', 'PENDING')
-            ->where('prescription_id', $prescription->id)
-            ->first();
+            $search_cart = $d->getPendingCartMain();
 
-            if($search_cart) {
-                $load_cart = $search_cart;
-            }
-            else {
-                $load_cart = request()->user()->pharmacycartmain()->create([
+            if(!($search_cart)) {
+                $search_cart = request()->user()->pharmacycartmain()->create([
                     'patient_id' => $d->id,
                     'prescription_id' => $prescription->id,
                     'branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
             }
 
-            $load_subcart = PharmacyCartSub::where('main_cart_id', $load_cart->id)->get();
+            $load_subcart = PharmacyCartSub::where('main_cart_id', $search_cart->id)->get();
 
             $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
             ->get();
@@ -307,7 +298,7 @@ class PharmacyController extends Controller
             return view('pharmacy.modify_stock_patientview', [
                 'd' => $d,
                 'meds_list' => $meds_list,
-                'load_cart' => $load_cart,
+                'load_cart' => $search_cart,
                 'load_subcart' => $load_subcart,
                 'prescription' => $prescription,
                 'scard' => $scard,

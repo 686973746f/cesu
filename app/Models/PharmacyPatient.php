@@ -117,21 +117,24 @@ class PharmacyPatient extends Model
         return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
     }
 
-    public function getPendingCartMain() {
-        $data = PharmacyCartMain::where('patient_id', $this->id)
-        ->where('status', 'PENDING')
-        ->where('branch_id', auth()->user()->pharmacy_branch_id)
+    public function getLatestPrescription() {
+        $data = PharmacyPrescription::where('patient_id', $this->id)
+        ->where('finished', 0)
         ->latest()
         ->first();
 
         return $data;
     }
 
-    public function getLatestPrescription() {
-        return PharmacyPrescription::where('patient_id', $this->id)
-        ->where('finished', 0)
+    public function getPendingCartMain() {
+        $data = PharmacyCartMain::where('patient_id', $this->id)
+        ->where('status', 'PENDING')
+        ->where('prescription_id', $this->getLatestPrescription()->id)
+        ->where('branch_id', auth()->user()->pharmacy_branch_id)
         ->latest()
         ->first();
+
+        return $data;
     }
 
     public function getName() {
