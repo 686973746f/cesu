@@ -160,20 +160,29 @@ class PharmacyController extends Controller
                 }
             }
             else if(Str::startsWith($code, 'ENTITY_')) {
-                $newString = Str::replaceFirst("PATIENT_", "", $code);
+                $newString = Str::replaceFirst("ENTITY_", "", $code);
 
                 $d = PharmacyBranch::where('qr', $newString)->first();
 
                 if($d) {
+                    if($d->id == auth()->user()->pharmacy_branch_id) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: You cannot do transaction/s againsts your own Branch.')
+                        ->with('msgtype', 'warning');
+                    }
+
                     if($d->enabled == 0) {
                         return redirect()-back()
-                        ->with('msg', 'ERROR: Account of Patient '.$d->name.' was DISABLED in the system. Issuance of Medicine/s was blocked. You may contact Pharmacist/Encoder if you think this was a mistake.')
+                        ->with('msg', 'ERROR: The Branch '.$d->name.' was DISABLED in the system. Issuance of Medicine/s was blocked. You may contact Pharmacist/Encoder if you think this was a mistake.')
                         ->with('msgtype', 'danger');
                     }
 
-                    return redirect()->route('pharmacy_modify_patient_stock', [
-                        'id' => $d->id,
-                    ]);
+                    return redirect()->route('pharmacy_viewBranchCart', $d->id);
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Branch QR does not exist in the system.')
+                    ->with('msgtype', 'warning');
                 }
             }
             else if(Str::startsWith($code, 'SUBSTOCK_')) {
@@ -728,6 +737,12 @@ class PharmacyController extends Controller
     public function modifyStockBranchView($branch_id) {
         $d = PharmacyBranch::findOrFail($branch_id);
 
+        if($d->id == auth()->user()->pharmacy_branch_id) {
+            return redirect()->back()
+            ->with('msg', 'Error: You cannot do transaction/s againsts your own Branch.')
+            ->with('msgtype', 'warning');
+        }
+
         $maincart = PharmacyCartMainBranch::where('branch_id', $d->id)
         ->where('processor_branch_id', auth()->user()->pharmacy_branch_id)
         ->where('status', 'PENDING')
@@ -742,9 +757,15 @@ class PharmacyController extends Controller
             ]);
         }
 
+        $load_subcart = PharmacyCartSubBranch::where('main_cart_id', $maincart->id)->get();
+
+        $meds_list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)->get();
+
         return view('pharmacy.modify_stock_branchview', [
             'd' => $d,
             'maincart' => $maincart,
+            'load_subcart' => $load_subcart,
+            'meds_list' => $meds_list,
         ]);
     }
 
@@ -1697,6 +1718,7 @@ class PharmacyController extends Controller
             foreach($list_subitem as $key => $si) {
                 $items_list[] = [
                     'name' => $si->pharmacysupplymaster->name,
+                    'unit' => $si->pharmacysupplymaster->quantity_type,
                     'current_stock' => $si->displayQty(),
                     'id' => $si->id,
                 ];
@@ -1708,29 +1730,116 @@ class PharmacyController extends Controller
                 for($i=1;$i<=12;$i++) {
                     $nomonth = Carbon::create()->month($i)->format('m');
 
-                    $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', date('Y'))
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'ISSUED')
-                    ->sum('qty_to_process');
+                    if($item['unit'] == 'BOX') {
+                        $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', $nomonth)
+                        ->where('status', 'approved')
+                        ->where('type', 'ISSUED')
+                        ->where('qty_type', 'BOX')
+                        ->sum('qty_to_process');
 
-                    $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', date('Y'))
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'RECEIVED')
-                    ->sum('qty_to_process');
+                        $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', $nomonth)
+                        ->where('status', 'approved')
+                        ->where('type', 'RECEIVED')
+                        ->where('qty_type', 'BOX')
+                        ->sum('qty_to_process');
 
+                        $issued_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', $nomonth)
+                        ->where('status', 'approved')
+                        ->where('type', 'ISSUED')
+                        ->where('qty_type', 'PIECE')
+                        ->sum('qty_to_process');
+
+                        $received_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', $nomonth)
+                        ->where('status', 'approved')
+                        ->where('type', 'RECEIVED')
+                        ->where('qty_type', 'PIECE')
+                        ->sum('qty_to_process');
+
+                        if($issued_count == 0 && $issued_count_piece == 0) {
+                            $issued_txt = '';
+                            $received_txt = '';
+                        }
+                        else {
+                            if($issued_count == 0) {
+                                $issued_txt = '';
+
+                                if($issued_count_piece != 0) {
+                                    $issued_txt = '- ';
+                                }
+                            }
+                            else {
+                                $issued_txt = '- '.$issued_count.' '.Str::plural('BOX', $issued_count);
+                            }
+
+                            if($received_count == 0) {
+                                $received_txt = '';
+                                
+                                if($received_count_piece != 0) {
+                                    $received_txt = '+ ';
+                                }
+                            }
+                            else {
+                                $received_txt = '+ '.$received_count.' '.Str::plural('BOX', $received_count);
+                            }
+
+                            if($issued_count_piece != 0) {
+                                $issued_txt = $issued_txt.' '.$issued_count_piece.' '.Str::plural('PC', $issued_count_piece);
+                            }
+
+                            if($received_count_piece != 0) {
+                                $received_txt = $received_txt.' '.$received_count_piece.' '.Str::plural('PC', $received_count_piece);
+                            }
+                        }
+                        
+                    }
+                    else {
+                        $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', $nomonth)
+                        ->where('status', 'approved')
+                        ->where('type', 'ISSUED')
+                        ->sum('qty_to_process');
+
+                        $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', $nomonth)
+                        ->where('status', 'approved')
+                        ->where('type', 'RECEIVED')
+                        ->sum('qty_to_process');
+
+                        if($issued_count == 0) {
+                            $issued_txt = '';
+                        }
+                        else {
+                            $issued_txt = '- '.$issued_count.' '.Str::plural('PC', $issued_count);
+                        }
+
+                        if($received_count == 0) {
+                            $received_txt = '';
+                        }
+                        else {
+                            $received_txt = '+ '.$received_count.' '.Str::plural('PC', $received_count);
+                        }
+                    }
+                    
                     $monthlyStocks[] = [
                         'month' => Carbon::create()->month($i)->format('F'),
-                        'issued' => $issued_count,
-                        'received' => $received_count,
+                        'issued' => $issued_txt,
+                        'received' => $received_txt,
                     ];
                 }
 
                 $si_array[] = [
                     'name' => $item['name'],
+                    'unit' => $item['unit'],
                     'id' => $item['id'],
                     'current_stock' => $item['current_stock'],
                     'monthly_stocks' => $monthlyStocks,

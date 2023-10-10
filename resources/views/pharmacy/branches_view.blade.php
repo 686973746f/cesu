@@ -10,7 +10,10 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <div><b>View Branch/Entity</b></div>
-                            <div>Created At / By: {{date('m/d/Y h:i A', strtotime($d->created_at))}} / {{$d->user->name}} {{($d->getUpdatedBy()) ? '| Updated At / By: '.date('m/d/Y h:i A', strtotime($d->updated_at)).' / '.$d->getUpdatedBy->name : ''}}</div>
+                            <div>
+                                <div class="mb-3">Created At / By: {{date('m/d/Y h:i A', strtotime($d->created_at))}} / {{$d->user->name}} {{($d->getUpdatedBy()) ? '| Updated At / By: '.date('m/d/Y h:i A', strtotime($d->updated_at)).' / '.$d->getUpdatedBy->name : ''}}</div>
+                                <div class="text-center"><a href="{{route('pharmacy_print_branch_card', $d->id)}}" class="btn btn-primary">Print Branch Card</a></div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">

@@ -105,6 +105,7 @@
                     <thead class="thead-light text-center">
                         <tr>
                             <th rowspan="2">Name</th>
+                            <th rowspan="2">Unit</th>
                             <th rowspan="2">Current Stock</th>
                             @for($i=1;$i<=12;$i++)
                             <th colspan="2">{{mb_strtoupper(Carbon\Carbon::create()->month($i)->format('M'))}}</th>
@@ -121,6 +122,7 @@
                         @foreach($si_array as $key => $si)
                         <tr>
                             <td><b><a href="{{route('pharmacy_itemlist_viewitem', $si['id'])}}">{{$si['name']}}</a></b></td>
+                            <td class="text-center">{{$si['unit']}}</td>
                             <td class="text-center"><small>{{$si['current_stock']}}</small></td>
                             @foreach($si['monthly_stocks'] as $ms)
                             <td class="text-center {{($ms['received'] != 0) ? 'text-success font-weight-bold' : ''}}">{{$ms['received']}}</td>
