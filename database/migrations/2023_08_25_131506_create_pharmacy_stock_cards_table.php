@@ -35,6 +35,7 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->text('remarks')->nullable();
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('sentby_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->foreignId('processed_by')->nullable()->constrained('users')->onDelete('cascade');

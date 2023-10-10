@@ -34,6 +34,7 @@ class PharmacyStockCard extends Model
         'remarks',
 
         'created_by',
+        'sentby_branch_id',
         'processed_by',
     ];
 

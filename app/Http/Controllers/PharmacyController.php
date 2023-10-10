@@ -718,6 +718,8 @@ class PharmacyController extends Controller
                     'receiving_patient_id' => $d->id,
                     'patient_age_years' => $d->getAgeInt(),
                     'patient_prescription_id' => $d->getLatestPrescription()->id,
+
+                    'sentby_branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
 
                 if($subsupply->isDirty()) {
@@ -1094,24 +1096,118 @@ class PharmacyController extends Controller
                     //'patient_prescription_id' => $d->getLatestPrescription()->id,
 
                     'receiving_branch_id' => $d->id,
+                    'sentby_branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
+
+                //Search the Substock ID of the Branch and add the quantity received
+                $search_branchSubStock = PharmacySupplySub::where('supply_master_id', $subsupply->pharmacysupplymaster->id)
+                ->where('pharmacy_branch_id', $d->id)
+                ->first();
+
+                if($search_branchSubStock) {
+                    //UPDATE AND ADD TO EXISTING STOCKS
+                    if($sc->type_to_process == 'BOX') {
+                        $search_branchSubStock->master_box_stock += $sc->qty_to_process;
+                        $search_branchSubStock->master_piece_stock += ($sc->qty_to_process * $subsupply->pharmacysupplymaster->config_piecePerBox);
+                    }
+                    else {
+                        if($subsupply->pharmacysupplymaster->quantity_type == 'BOX') { 
+                            $search_branchSubStock->master_piece_stock += $sc->qty_to_process;
+                            $search_branchSubStock->master_box_stock = floor($search_branchSubStock->master_piece_stock / $subsupply->pharmacysupplymaster->config_piecePerBox);
+                        }
+                        else {
+                            $search_branchSubStock->master_piece_stock += $sc->qty_to_process;
+                        }
+                    }
+                    
+                    //FOR STOCK CARD PURPOSES
+                    if($sc->type_to_process == 'BOX' || $subsupply->pharmacysupplymaster->quantity_type == 'BOX') {
+                        $input_before_qty_box = $search_branchSubStock->getOriginal('master_box_stock');
+                        $input_before_qty_piece = $search_branchSubStock->getOriginal('master_piece_stock');
+
+                        $input_master_box_stock = $search_branchSubStock->master_box_stock;
+                        $input_master_piece_stock = $search_branchSubStock->master_piece_stock;
+                    }
+                    else {
+                        $input_before_qty_box = NULL;
+                        $input_before_qty_piece = $search_branchSubStock->getOriginal('master_piece_stock');
+
+                        $input_master_box_stock = NULL;
+                        $input_master_piece_stock = $search_branchSubStock->master_piece_stock;
+                    }
+
+                    if($search_branchSubStock->isDirty()) {
+                        $search_branchSubStock->save();
+                    }
+                }
+                else {
+                    if($sc->type_to_process == 'BOX') {
+                        /*
+                        If issuing type is BOX:
+                        - master_box_stock = master_box_stock + RECEIVED QTY
+                        - master_piece_stock = master_piece_stock + (RECEIVED QTY * MAXIMUM QTY PER BOX)
+                        */
+
+                        $input_master_box_stock = $sc->qty_to_process;
+                        $input_master_piece_stock = ($sc->qty_to_process * $subsupply->pharmacysupplymaster->config_piecePerBox);
+                    }
+                    else {
+                        /*
+                        If the master item is a BOX:
+                            - add base piece qty to received piece qty
+                            - get total new base piece qty then divide to maximum qty per box to update the box qty
+                        else:
+                            - just add the base piece qty to received piece qty
+                        */
+
+                        if($subsupply->pharmacysupplymaster->quantity_type == 'BOX') {
+                            $input_master_piece_stock = $sc->qty_to_process;
+                            $input_master_box_stock = floor($sc->qty_to_process / $subsupply->pharmacysupplymaster->config_piecePerBox);
+                        }
+                        else {
+                            $input_master_box_stock = NULL;
+                            $input_master_piece_stock = $sc->qty_to_process;
+                        }
+                    }
+
+                    //FOR STOCK CARD PURPOSES
+                    if($sc->type_to_process == 'BOX' || $subsupply->pharmacysupplymaster->quantity_type == 'BOX') {
+                        $input_before_qty_box = 0;
+                        $input_before_qty_piece = 0;
+                    }
+                    else {
+                        $input_before_qty_box = NULL;
+                        $input_before_qty_piece = 0;
+                    }
+
+                    $search_branchSubStock = $r->user()->pharmacysupplysub()->create([
+                        'supply_master_id' => $subsupply->pharmacysupplymaster->id,
+                        'pharmacy_branch_id' => $d->id,
+                        
+                        'master_box_stock' => $input_master_box_stock,
+                        'master_piece_stock' => $input_master_piece_stock,
+                    ]);
+                }
 
                 //make stock card (receive)
                 $r->user()->pharmacystockcard()->create([
-                    'subsupply_id' => $subsupply->id,
+                    'subsupply_id' => $search_branchSubStock->id,
                     'type' => 'RECEIVED',
-                    'before_qty_box' => ($subsupply->pharmacysupplymaster->quantity_type == 'BOX') ? $subsupply->getOriginal('master_box_stock') : NULL,
-                    'before_qty_piece' => $subsupply->getOriginal('master_piece_stock'),
+                    'before_qty_box' => $input_before_qty_box,
+                    'before_qty_piece' => $input_before_qty_piece,
+
                     'qty_to_process' => $sc->qty_to_process,
                     'qty_type' => $sc->type_to_process,
-                    'after_qty_box' => ($subsupply->pharmacysupplymaster->quantity_type == 'BOX') ? $subsupply->master_box_stock : NULL,
-                    'after_qty_piece' => $subsupply->master_piece_stock,
+                    
+                    'after_qty_box' => $input_master_box_stock,
+                    'after_qty_piece' => $input_master_piece_stock,
 
                     //'receiving_patient_id' => $d->id,
                     //'patient_age_years' => $d->getAgeInt(),
                     //'patient_prescription_id' => $d->getLatestPrescription()->id,
 
-                    'receiving_branch_id' => $d->id,
+                    //'receiving_branch_id' => $d->id,
+                    'sentby_branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
 
                 if($subsupply->isDirty()) {
@@ -1251,6 +1347,7 @@ class PharmacyController extends Controller
                 'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
                 
                 'remarks' => $r->remarks,
+                'sentby_branch_id' => auth()->user()->pharmacy_branch_id,
             ]);
 
             if($d->isDirty()) {
@@ -1475,6 +1572,7 @@ class PharmacyController extends Controller
                     //'recipient' => ($r->select_recipient == 'OTHERS') ? $r->recipient : NULL,
                     
                     'remarks' => 'RECEIVED FROM '.$d->pharmacybranch->name,
+                    'sentby_branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
             }
 
@@ -2654,16 +2752,12 @@ class PharmacyController extends Controller
             $q->where('pharmacy_branch_id', $id);
         })
         ->orderBy('created_at', 'DESC')
-        ->take(10)
-        ->get();
-
-        $list_substock = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)->get();
+        ->paginate(10);
 
         return view('pharmacy.branches_view', [
             'd' => $d,
             'bhs_list' => $bhs_list,
             'get_transactions' => $get_transactions,
-            'list_substock' => $list_substock,
         ]);
     }
 
