@@ -3623,7 +3623,7 @@
                     $('#tro2_others').addClass('d-none');
 
                     if(getCurrentClassification != 'Non-COVID-19 Case' && $('#caseClassification').val() == 'Non-COVID-19 Case') {
-                        $('#morbidityMonth').prop('min', "{{date('Y-m-d')}}");
+                        $('#morbidityMonth').prop('min', "{{date('Y-m-d', strtotime('-1 Day'))}}");
                     }
                 }
                 else {

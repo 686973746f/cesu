@@ -41,8 +41,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('autosendencoderstats:daily')->dailyAt('16:40')->evenInMaintenanceMode();
         $schedule->command('autoemailctreport:daily')->dailyAt('16:45')->evenInMaintenanceMode();
-        $schedule->command('compositemeasurev2:on15and30')->monthlyOn(15, '16:50');
-        $schedule->command('compositemeasurev2:on15and30')->monthlyOn(date('t'), '16:50');
+        //$schedule->command('compositemeasurev2:on15and30')->monthlyOn(15, '16:50');
+        //$schedule->command('compositemeasurev2:on15and30')->monthlyOn(date('t'), '16:50');
         $schedule->command('pidsrwndr:weekly')->weeklyOn(2, '11:00')->evenInMaintenanceMode();
         $schedule->command('covidvaccinelinelistimporter:weekly')->weeklyOn(1, '22:00')->evenInMaintenanceMode();
 
