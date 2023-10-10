@@ -176,12 +176,12 @@
         });
         
         var get_qtyType = '{{$d->pharmacysupplymaster->quantity_type}}';
-        if(get_qtyType == 'BOX') {
-            var set_maxqty = {{$d->master_box_stock}};
-        } else {
-            var set_maxqty = {{$d->master_piece_stock}};
-        }
-        
+        @if($d->pharmacysupplymaster->quantity_type == 'BOX')
+        var set_maxqty = {{$d->master_box_stock}};
+        @else
+        var set_maxqty = {{$d->master_piece_stock}};
+        @endif
+
         if(get_qtyType == 'BOX') {
             $('#qty_type').val('BOX');
 
