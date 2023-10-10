@@ -176,7 +176,7 @@
         });
         
         var get_qtyType = '{{$d->pharmacysupplymaster->quantity_type}}';
-        var set_maxqty = $d->master_box_stock;
+        var set_maxqty = {{$d->master_box_stock}};
         
         if(get_qtyType == 'BOX') {
             $('#qty_type').val('BOX');
