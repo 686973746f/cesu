@@ -6,7 +6,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>List of Branches</b> (Total: {{$list->total()}})</div>
-                    <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addBranch">Add Branch</button></div>
+                    <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addBranch">Add Branch/Entity</button></div>
                 </div>
             </div>
             <div class="card-body">

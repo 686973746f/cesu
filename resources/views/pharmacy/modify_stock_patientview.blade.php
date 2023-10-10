@@ -57,6 +57,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <input type="hidden" name="selected_maincart_id" value="{{$load_cart->id}}">
                             <div class="form-group">
                                 <label for=""><b class="text-danger">*</b>Scan QR of Meds to Issue</label>
                                 <input type="text" class="form-control" name="meds" id="meds" autocomplete="off" autofocus>
@@ -76,7 +77,7 @@
                                     <div class="form-group">
                                       <label for="type_to_process"><b class="text-danger">*</b>Type to Process</label>
                                       <select class="form-control" name="type_to_process" id="type_to_process" required>
-                                        <option value="PIECE">Piece</option>
+                                        <option value="PIECE" {{(old('type_to_process') == 'PIECE') ? 'selected' : ''}}>Piece</option>
                                         <!--<option value="BOX">Box</option>-->
                                       </select>
                                     </div>
@@ -84,18 +85,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="qty_to_process"><b class="text-danger">*</b>Quantity <span id="qty_span"></span></label>
-                                        <input type="text" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" required>
+                                        <input type="text" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" value="{{old('qty_to_process')}}" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="enable_override" id="enable_override" value="checkedValue"> Enable Override <i>(Ignore Quantity and Duration Limit)</i>
-                              </label>
-                            </div>
+                            <!--
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="enable_override" id="enable_override" value="checkedValue"> Enable Override <i>(Ignore Quantity and Duration Limit)</i>
+                                    </label>
+                                </div>
+                            -->
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-block" name="submit" value="add_cart">Add</button>
+                            <button type="submit" class="btn btn-primary btn-block" name="submit" value="add_cart">Add to Cart</button>
                         </div>
                     </div>
                 </form>
@@ -111,6 +114,7 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <input type="hidden" name="selected_maincart_id" value="{{$load_cart->id}}">
                             @if($load_subcart->count())
                             <table class="table table-bordered table-striped text-center">
                                 <thead class="thead-light">

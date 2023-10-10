@@ -7,7 +7,7 @@
             <form action="{{route('pharmacy_addCartBranch', $d->id)}}" method="POST" id="myForm">
                 @csrf
                 <div class="card">
-                    <div class="card-header"><b>Dispense to Patient</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
+                    <div class="card-header"><b>Dispense to Branch</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
                     <div class="card-body">
                         @if(session('msg'))
                         <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
@@ -19,7 +19,7 @@
                                 <tbody>
                                   <tr>
                                     <td>
-                                      <div><b>NAME / ID:</b></div>
+                                      <div><b>BRANCH NAME / ID:</b></div>
                                         <div>
                                             @if(auth()->user()->isAdminPharmacy())
                                             <b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->name}} <small>(#{{$d->id}})</small></a></b>
@@ -32,6 +32,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <input type="hidden" name="selected_maincart_id" value="{{$maincart->id}}">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Scan QR of Meds to Issue</label>
                             <input type="text" class="form-control" name="meds" id="meds" autocomplete="off" autofocus>
@@ -51,26 +52,22 @@
                                 <div class="form-group">
                                   <label for="type_to_process"><b class="text-danger">*</b>Type to Process</label>
                                   <select class="form-control" name="type_to_process" id="type_to_process" required>
-                                    <option value="PIECE">Piece</option>
-                                    <!--<option value="BOX">Box</option>-->
+                                    <option value="" disabled {{(is_null(old('type_to_process'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="BOX" {{(old('type_to_process') == 'BOX') ? 'selected' : ''}}>BOX</option>
+                                    <option value="PIECE" {{(old('type_to_process') == 'PIECE') ? 'selected' : ''}}>PIECE</option>
                                   </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="qty_to_process"><b class="text-danger">*</b>Quantity <span id="qty_span"></span></label>
-                                    <input type="text" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" required>
+                                    <input type="text" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" value="{{old('qty_to_process')}}" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="enable_override" id="enable_override" value="checkedValue"> Enable Override <i>(Ignore Quantity and Duration Limit)</i>
-                          </label>
-                        </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary btn-block" name="submit" value="add_cart">Add</button>
+                        <button type="submit" class="btn btn-primary btn-block" name="submit" value="add_cart">Add to Cart</button>
                     </div>
                 </div>
             </form>
@@ -86,6 +83,7 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <input type="hidden" name="selected_maincart_id" value="{{$maincart->id}}">
                         @if($load_subcart->count())
                         <table class="table table-bordered table-striped text-center">
                             <thead class="thead-light">
@@ -102,14 +100,6 @@
                                     <td style="vertical-align: middle;">{{$ind+1}}</td>
                                     <td style="vertical-align: middle;"><b>{{$c->pharmacysub->pharmacysupplymaster->name}}</b></td>
                                     <td style="vertical-align: middle;">{{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}</td>
-                                    <td style="vertical-align: middle;">
-                                        @if($c->displayPrescriptionLimit())
-                                        {{$c->displayPrescriptionLimit()}}
-                                        @else
-                                        <input type="number" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" required>
-                                        @endif
-                                        
-                                    </td>
                                     <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger deleteButton"><b>X</b></button></td>
                                 </tr>
                                 @endforeach
@@ -128,9 +118,38 @@
     </div>
 </div>
 
+<form action="{{route('pharmacy_processCartBranch', $d->id)}}" method="POST" class="d-none">
+    @csrf
+    <button type="submit" class="btn btn-outline-secondary" name="submit" value="clear" id="resetRealBtn"></button>
+</form>
+
 <script>
     $('#alt_meds_id').select2({
         theme: 'bootstrap',
+    });
+
+    $(document).ready(function () {
+        $("#myForm").submit(function (event) {
+            var medsValue = $("#meds").val();
+            var altMedsValue = $("#alt_meds_id").val();
+
+            // Check if either field is empty
+            if (medsValue === "" && altMedsValue === null) {
+                // Prevent the form from submitting
+                event.preventDefault();
+                alert("Please scan or manually input the item to issue before proceeding.");
+            }
+        });
+
+        $('#resetFakeBtn').click(function (e) { 
+            e.preventDefault();
+
+            var result = confirm("This will clear the items listed on the Cart of the Patient, continue?");
+
+            if (result) {
+                $('#resetRealBtn').click();
+            }
+        });
     });
 </script>
 @endsection

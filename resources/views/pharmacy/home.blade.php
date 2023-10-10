@@ -5,13 +5,13 @@
         <div class="text-right mb-3">
             <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#checkstock">Check Item Stock</button>-->
             <a href="{{route('pharmacy_itemlist')}}" class="btn btn-primary">View Inventory ({{auth()->user()->pharmacybranch->name}})</a>
-            <a href="{{route('pharmacy_view_patient_list')}}" class="btn btn-primary">View Patient List</a>
+            <a href="{{route('pharmacy_view_patient_list')}}" class="btn btn-primary">Patients</a>
             <!--<a href="{{route('pharmacy_viewreport')}}" class="btn btn-primary">Report</a>-->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#report">Report</button>
             @if(auth()->user()->isAdminPharmacy())
             <hr>
-            <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">View Master Item</a>
-            <a href="{{route('pharmacy_list_branch')}}" class="btn btn-warning">View Branches/Entities</a>
+            <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">Medicines Masterlist</a>
+            <a href="{{route('pharmacy_list_branch')}}" class="btn btn-warning">Branches/Entities</a>
             @endif
         </div>
         <div class="card">
