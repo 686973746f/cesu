@@ -1233,14 +1233,22 @@ class PharmacyController extends Controller
             $list = PharmacySupplyMaster::orderBy('name', 'ASC')
             ->paginate(10);
         }
+
+        //get latest sku_code and increment to 1
+        $lsku = PharmacySupplyMaster::orderBy('sku_code', 'DESC')->first();
+
+        $lsku = substr($lsku->sku_code, 1) + 1;
         
         return view('pharmacy.itemlist_viewMasterList', [
             'list' => $list,
+            'lsku' => 'G'.$lsku,
         ]);
     }
 
     public function viewMasterItem($id) {
         $d = PharmacySupplyMaster::findOrFail($id);
+
+        
         
         return view('pharmacy.itemlist_viewMaster', [
             'd' => $d,

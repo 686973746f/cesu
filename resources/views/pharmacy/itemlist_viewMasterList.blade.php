@@ -100,7 +100,7 @@
                         </div>
                         <div class="form-group">
                             <label for="sku_code"><b class="text-danger">*</b>SKU Code</label>
-                            <input type="text" class="form-control" name="sku_code" id="sku_code" style="text-transform: uppercase;" required>
+                            <input type="text" class="form-control" name="sku_code" id="sku_code" style="text-transform: uppercase;" value="{{old('sku_code', $lsku)}}" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
