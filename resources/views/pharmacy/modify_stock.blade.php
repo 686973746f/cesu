@@ -176,6 +176,7 @@
         });
         
         var get_qtyType = '{{$d->pharmacysupplymaster->quantity_type}}';
+        var set_maxqty = $d->master_box_stock;
         
         if(get_qtyType == 'BOX') {
             $('#qty_type').val('BOX');
@@ -231,6 +232,8 @@
 
                 $('#remarks').prop('required', false);
                 $('#remarks_asterisk').addClass('d-none');
+
+                $('#qty_to_process').attr('max', set_maxqty);
             }
             else {
                 $('#select_sub_stock_id').prop('required', false);
@@ -251,6 +254,8 @@
 
                 $('#remarks').prop('required', true);
                 $('#remarks_asterisk').removeClass('d-none');
+
+                $('#qty_to_process').removeAttr('max');
             }
         }).trigger('change');
 
