@@ -320,6 +320,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 //SYNDROMIC
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessSyndromic']], function() {
     Route::get('/syndromic', [SyndromicController::class, 'index'])->name('syndromic_home');
+    Route::get('/syndromic/dengue', [SyndromicController::class, 'dengue'])->name('syndromic_dengue');
     Route::get('/syndromic/download_opd_excel', [SyndromicController::class, 'downloadOpdExcel'])->name('syndromic_download_opd_excel');
     Route::get('/syndromic/patient/new', [SyndromicController::class, 'newPatient'])->name('syndromic_newPatient');
     Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
