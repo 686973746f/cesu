@@ -1243,48 +1243,44 @@ class SyndromicController extends Controller
         $arr = [];
 
         foreach ($list as $l) {
-            if($l->fever == 1) {
-                $casenum = 0;
+            if($l->headache == 1) {
+                $casenum++;
+            }
 
-                if($l->headache == 1) {
-                    $casenum++;
-                }
+            if($l->fatigue == 1) {
+                $casenum++;
+            }
 
-                if($l->fatigue == 1) {
-                    $casenum++;
-                }
+            if($l->musclepain == 1) {
+                $casenum++;
+            }
+            
+            if($l->jointpain == 1) {
+                $casenum++;
+            }
 
-                if($l->musclepain == 1) {
-                    $casenum++;
-                }
-                
-                if($l->jointpain == 1) {
-                    $casenum++;
-                }
+            if($l->anorexia == 1) {
+                $casenum++;
+            }
 
-                if($l->anorexia == 1) {
-                    $casenum++;
-                }
+            if($l->nausea == 1) {
+                $casenum++;
+            }
 
-                if($l->nausea == 1) {
-                    $casenum++;
-                }
+            if($l->vomiting == 1) {
+                $casenum++;
+            }
 
-                if($l->vomiting == 1) {
-                    $casenum++;
-                }
+            if($l->diarrhea == 1) {
+                $casenum++;
+            }
 
-                if($l->diarrhea == 1) {
-                    $casenum++;
-                }
+            if($l->rash == 1) {
+                $casenum++;
+            }
 
-                if($l->rash == 1) {
-                    $casenum++;
-                }
-
-                if($casenum >= 2) {
-                    $arr[] = $l;
-                }
+            if($casenum >= 2) {
+                $arr[] = $l;
             }
         }
 
