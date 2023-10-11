@@ -1238,7 +1238,7 @@ class SyndromicController extends Controller
     }
 
     public function dengue() {
-        $list = SyndromicRecords::whereBetween('created_at', [date('Y-m-d', strtotime('-3 Days')), date('Y-m-d')])->get();
+        $list = SyndromicRecords::whereBetween('created_at', [date('2023-10-06'), date('Y-m-d')])->get();
 
         $arr = [];
 
