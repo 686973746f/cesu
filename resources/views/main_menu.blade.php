@@ -35,6 +35,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="privacymodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Privacy Notice</h5>
+            </div>
+            <div class="modal-body">
+                <p>Your role as data encoders in the CESU General Trias WebSystem is vital in ensuring the security and privacy of personal data. We want to remind you that our data processing practices are strictly aligned with <b>Republic Act No. 10173</b>, also known as the <a href="https://privacy.gov.ph/data-privacy-act/"><b>Data Privacy Act of 2012</b></a>, and <b>Republic Act No. 11332</b>, also known as the <a href="https://lawphil.net/statutes/repacts/ra2019/ra_11332_2019.html"><b>Mandatory Reporting of Notifiable Diseases and Health Events of Public Health Concern Act</b></a></p>
+                <p>As system users, it is crucial to be aware of your responsibilities in handling personal information. This law sets out specific guidelines for the collection, processing, and protection of data. It emphasizes the importance of consent, accuracy, and security in your data-related tasks.</p>
+                <p>Remember that data subjects have rights under this law, including the right to access their data, the right to have data corrected, and the right to object to data processing. You play a significant role in upholding these rights.</p>
+                <p>Your commitment to data privacy is crucial to maintaining the trust and confidence of our clients. We appreciate your dedication to safeguarding personal data and ensuring compliance with the law.</p>
+                <p>Thank you for your cooperation and diligence in preserving the privacy and security of the data we handle.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--
 <div class="container">
     <canvas id="myChart"></canvas>
@@ -91,4 +111,8 @@
 </script>
 -->
 
+<script>
+    $('#privacymodal').modal({backdrop: 'static', keyboard: false});
+    $('#privacymodal').modal('show');
+</script>
 @endsection
