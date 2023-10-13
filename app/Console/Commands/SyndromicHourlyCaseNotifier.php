@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\SyndromicRecords;
+use App\Mail\SyndromicEmailSender;
+use Illuminate\Support\Facades\Mail;
 
 class SyndromicHourlyCaseNotifier extends Command
 {
@@ -11,7 +14,7 @@ class SyndromicHourlyCaseNotifier extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'syndromicchecker:hourly';
 
     /**
      * The console command description.
@@ -37,6 +40,17 @@ class SyndromicHourlyCaseNotifier extends Command
      */
     public function handle()
     {
-        return 0;
+        $list = SyndromicRecords::whereDate('created_at', date('Y-m-d'))
+        ->where('email_notified', 0);
+
+        if($list->get()->count() != 0) {
+            $get_list = $list->get();
+
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SyndromicEmailSender($get_list));
+        }
+
+        $update = $list->update([
+            'email_notified' => 1,
+        ]);
     }
 }

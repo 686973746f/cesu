@@ -149,6 +149,9 @@ class CreateSyndromicRecordsTable extends Migration
 
             $table->text('document_file')->nullable();
             $table->text('qr');
+
+            $table->tinyInteger('email_notified')->default(0);
+            $table->tinyInteger('view_notified')->default(0);
             
             $table->timestamps();
             $table->softDeletes();
