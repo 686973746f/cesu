@@ -201,6 +201,19 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="is_lgustaff"><b class="text-danger">*</b>Is Patient a LGU/Government Employee?</label>
+                        <select class="form-control" name="is_lgustaff" id="is_lgustaff" required>
+                            <option value="" {{(is_null(old('is_lgustaff', $d->is_lgustaff))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('is_lgustaff', $d->is_lgustaff) == 1) ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('is_lgustaff', $d->is_lgustaff) == 0) ? 'selected' : ''}}>No</option>
+                        </select>
+                    </div>
+                    <div class="form-group d-none" id="if_lgustaff">
+                        <label for="lgu_office_name"><b class="text-danger">*</b>Name of LGU/Government Office</label>
+                        <input type="text" class="form-control" name="lgu_office_name" id="lgu_office_name" value="{{old('lgu_office_name', $d->lgu_office_name)}}" style="text-transform: uppercase;">
+                    </div>
                     @if($d->userHasPermissionToShareAccess())
                     <hr>
                     <div class="form-group">
@@ -232,6 +245,18 @@
                 return false;
             }
         });
+
+        $('#is_lgustaff').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Y') {
+                $('#if_lgustaff').removeClass('d-none');
+                $('#lgu_office_name').prop('required', true);
+            }
+            else {
+                $('#if_lgustaff').addClass('d-none');
+                $('#lgu_office_name').prop('required', false);
+            }
+        }).trigger('change');
         
         //Select2 Init for Address Bar
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #shared_access_list').select2({

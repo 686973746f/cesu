@@ -604,7 +604,7 @@
                           <div id="other_symptoms_div" class="d-none">
                             <hr>
                             <div class="form-group">
-                              <label for="other_symptoms_onset_remarks">Specify <i><small>(Can be separated with commas ",")</small></i></label>
+                              <label for="other_symptoms_onset_remarks"><b class="text-danger">*</b>Specify <i><small>(Can be separated with commas ",")</small></i></label>
                               <input type="text" class="form-control" name="other_symptoms_onset_remarks" id="other_symptoms_onset_remarks" value="{{old('other_symptoms_onset_remarks')}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
@@ -620,8 +620,13 @@
                   <div class="card-header"><b>Doctor's Note</b></div>
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="dcnote_assessment">Assessment</label>
+                      <label for="dcnote_assessment">Assessment/Diagnosis Notes</label>
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment')}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="main_diagnosis"><b class="text-danger">*</b>Main Diagnosis (ICD 10 Code)</label>
+                      <select class="form-control" name="main_diagnosis" id="main_diagnosis" required>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="dcnote_plan">Plan of Action / RX</label>
@@ -630,6 +635,12 @@
                     <div class="form-group">
                       <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
                       <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure')}}</textarea>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                      <label for="other_diagnosis">Other Diagnosis (ICD 10 Code)</label>
+                      <select class="form-control" name="other_diagnosis[]" id="other_diagnosis" multiple>
+                      </select>
                     </div>
                     <!--
                     <div class="form-group">
@@ -721,6 +732,50 @@
               $('#submitBtn').prop('disabled', false);
           }, 2000);
           return false;
+      }
+  });
+
+  $('#main_diagnosis').select2({
+      theme: "bootstrap",
+      placeholder: 'Search by ICD10 Code or Description ...',
+      ajax: {
+          url: "{{route('syndromic_icd10list')}}",
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+              return {
+                  results:  $.map(data, function (item) {
+                      return {
+                          text: item.text,
+                          id: item.id,
+                          value: item.id,
+                      }
+                  })
+              };
+          },
+          cache: true
+      }
+  });
+
+  $('#other_diagnosis').select2({
+      theme: "bootstrap",
+      placeholder: 'Search by ICD10 Code or Description ...',
+      ajax: {
+          url: "{{route('syndromic_icd10list')}}",
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+              return {
+                  results:  $.map(data, function (item) {
+                      return {
+                          text: item.text,
+                          id: item.id,
+                          value: item.id,
+                      }
+                  })
+              };
+          },
+          cache: true
       }
   });
 
@@ -1045,9 +1100,11 @@
     e.preventDefault();
     if($(this).prop('checked')) {
       $('#other_symptoms_div').removeClass('d-none');
+      $('#other_symptoms_onset_remarks').prop('required', true);
     }
     else {
       $('#other_symptoms_div').addClass('d-none');
+      $('#other_symptoms_onset_remarks').prop('required', false);
     }
   }).trigger('change');
 

@@ -320,7 +320,7 @@
                 <hr>
                 @if(is_null($d->is_lgustaff))
                 <div class="form-group">
-                    <label for="is_lgustaff"><b class="text-danger">*</b>Is the Patient a Staff from LGU?</label>
+                    <label for="is_lgustaff"><b class="text-danger">*</b>Is Patient a LGU/Government Employee?</label>
                     <select class="form-control" name="is_lgustaff" id="is_lgustaff" required>
                         <option value="" {{(is_null(old('is_lgustaff'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="Y" {{(old('is_lgustaff') == 'Y') ? 'selected' : ''}}>Yes</option>

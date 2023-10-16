@@ -481,6 +481,17 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function isGlobalAdmin() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function getItrDefaultDoctor() {
         $f = SyndromicDoctor::findOrFail($this->itr_doctor_id);
 

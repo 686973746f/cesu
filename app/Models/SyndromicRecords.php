@@ -117,6 +117,9 @@ class SyndromicRecords extends Model
         'rx',
         'remarks',
 
+        'main_diagnosis',
+        'other_diagnosis',
+
         'name_of_interviewer',
         'name_of_physician',
         'other_doctor',
@@ -537,5 +540,11 @@ class SyndromicRecords extends Model
 
     public function permittedToEdit() {
         
+    }
+
+    public function getIcd10CodeString($code) {
+        $d = Icd10Code::where('ICD10_CODE', $code)->first();
+
+        return $d->ICD10_CODE.' - '.$d->ICD10_DESC;
     }
 }

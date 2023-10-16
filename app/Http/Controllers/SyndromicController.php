@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Brgy;
+use App\Models\Icd10Code;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PharmacyPatient;
+use App\Models\PharmacyPrescription;
+use App\Models\PharmacySupplySub;
 use App\Models\SyndromicDoctor;
 use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
@@ -321,6 +324,9 @@ class SyndromicController extends Controller
     
                 'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
                 'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
+
+                'is_lgustaff' => ($request->is_lgustaff == 'Y') ? 1 : 0,
+                'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
     
                 'qr' => $qr,
             ]);
@@ -505,8 +511,10 @@ class SyndromicController extends Controller
 
                 //'bigmessage' => $r->bigmessage,
                 'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
+                'main_diagnosis' => $r->main_diagnosis,
                 'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                 'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
+                'other_diagnosis' => implode(',', $r->other_diagnosis),
                 'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
@@ -581,11 +589,39 @@ class SyndromicController extends Controller
                     'outside_name' => ($r->checkup_type == 'REQUEST_MEDS' && $r->filled('outsidecho_name')) ? mb_strtoupper($r->outsidecho_name) : NULL,
                     'itr_id' => $p->id,
                     'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+                    
+                    'is_lgustaff' => $p->is_lgustaff,
+                    'lgu_office_name' => $p->lgu_office_name,
                 ]);
             }
             else {
                 $create_pharma = PharmacyPatient::findOrFail($pharmacy_check->id);
             }
+
+            /*
+            //PHARMA REASON LIST ALGORITHM
+            $s_prescription = PharmacyPrescription::where('patient_id', $create_pharma->id)
+            ->where('finished', 0)
+            ->update([
+                'finished' => 1,
+            ]);
+
+            //Create Prescription and Automate Reason for Meds
+            $c_prescription = $r->user()->pharmacyprescription()->create([
+                'patient_id' => $create_pharma->id,
+                'concerns_list' => NULL,
+            ]);
+
+            $search_cart = $create_pharma->getPendingCartMain();
+
+            if(!($search_cart)) {
+                $search_cart = request()->user()->pharmacycartmain()->create([
+                    'patient_id' => $create_pharma->id,
+                    'prescription_id' => $c_prescription->id,
+                    'branch_id' => auth()->user()->pharmacy_branch_id,
+                ]);
+            }
+            */
 
             return redirect()->route('syndromic_home')
             ->with('msg', 'Record successfully created.')
@@ -695,6 +731,9 @@ class SyndromicController extends Controller
 
                 'shared_access_list' => $sharedAccessList,
                 'updated_by' => auth()->user()->id,
+
+                'is_lgustaff' => ($request->is_lgustaff == 'Y') ? 1 : 0,
+                'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
             ]);
 
             //Also update Pharmacy Record
@@ -906,7 +945,7 @@ class SyndromicController extends Controller
                 'other_symptoms' => ($r->other_symptoms_yn) ? 1 : 0,
                 'other_symptoms_onset' => ($r->other_symptoms_yn) ? $r->other_symptoms_onset : NULL,
                 'other_symptoms_onset_remarks' => ($r->other_symptoms_yn) ? $r->other_symptoms_onset_remarks : NULL,
-                
+
                 'is_hospitalized' => ($r->is_hospitalized == 'Y') ? 1 : 0,
                 'date_admitted' => ($r->is_hospitalized == 'Y') ? $r->date_admitted : NULL,
                 'date_released' => ($r->is_hospitalized == 'Y') ? $r->date_released : NULL,
@@ -917,8 +956,10 @@ class SyndromicController extends Controller
 
                 //'bigmessage' => $r->bigmessage,
                 'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
+                'main_diagnosis' => $r->main_diagnosis,
                 'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                 'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
+                'other_diagnosis' => implode(',', $r->other_diagnosis),
                 'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
@@ -1235,5 +1276,48 @@ class SyndromicController extends Controller
 
     public function walkin_part3(Request $r) {
 
+    }
+
+    public function icd10list(Request $request) {
+        $list = [];
+        if($request->has('q') && strlen($request->input('q')) > 1) {
+            $s = mb_strtoupper($request->q);
+            
+            $data = Icd10Code::where('ICD10_CODE', 'LIKE', "%".$s."%")
+            ->orWhere('ICD10_DESC', 'LIKE', "%".$s."%")
+            ->get();
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->ICD10_CODE,
+                    'text' => $item->ICD10_CODE.' - '.$item->ICD10_DESC,
+                ]);
+            }
+        }
+
+        return response()->json($list);
+    }
+
+    public function pharmacyMedsList(Request $request) {
+        $list = [];
+
+        if($request->has('q') && strlen($request->input('q')) > 1) {
+            $s = mb_strtoupper($request->q);
+            
+            $data = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->whereHas('pharmacysupplymaster', function ($q) use ($s) {
+                $q->where('name', 'LIKE', "%".$s."%");
+            })
+            ->get();
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->id,
+                    'text' => $item->pharmacysupplymaster->name,
+                ]);
+            }
+        }
+
+        return response()->json($list);
     }
 }

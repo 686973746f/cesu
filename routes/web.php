@@ -326,6 +326,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
     Route::get('/syndromic/patient/{patient_id}/records/new', [SyndromicController::class, 'newRecord'])->name('syndromic_newRecord');
     Route::post('/syndromic/patient/{patient_id}/records/store', [SyndromicController::class, 'storeRecord'])->name('syndromic_storeRecord');
+
+    Route::get('/syndromic/icd10list', [SyndromicController::class, 'icd10list'])->name('syndromic_icd10list');
+    Route::get('/syndromic/icd10list/select/{code}', [SyndromicController::class, 'icd10list_getcode'])->name('syndromic_icd10list_getcode');
+
+    Route::get('/syndromic/pharmacy/meds_list', [SyndromicController::class, 'pharmacyMedsList'])->name('syndromic_medsList');
     
     Route::get('/syndromic/patient/{patient_id}/view', [SyndromicController::class, 'viewPatient'])->name('syndromic_viewPatient');
     Route::post('/syndromic/patient/{patient_id}/delete', [SyndromicController::class, 'deletePatient'])->name('syndromic_deletePatient');

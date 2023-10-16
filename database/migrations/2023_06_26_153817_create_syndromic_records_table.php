@@ -117,6 +117,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('dcnote')->nullable();
             $table->text('dcnote_assessment')->nullable();
             $table->text('dcnote_plan')->nullable();
+            $table->text('main_diagnosis')->nullable(); //icd10 code main
+            $table->text('other_diagnosis');
             $table->text('dcnote_diagprocedure')->nullable();
             $table->text('rx')->nullable();
             $table->text('remarks')->nullable();
