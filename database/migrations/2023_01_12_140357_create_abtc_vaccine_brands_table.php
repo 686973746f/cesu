@@ -17,6 +17,7 @@ class CreateAbtcVaccineBrandsTable extends Migration
             $table->id();
             $table->string('brand_name');
             $table->string('generic_name')->nullable();
+            $table->integer('est_maxdose_perbottle')->nullable();
             $table->tinyInteger('enabled')->default(1);
             $table->timestamps();
         });

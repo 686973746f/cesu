@@ -35,6 +35,7 @@
                                 <th>Change to</th>
                                 <th>Brand</th>
                                 <th>Override Status</th>
+                                <th>Vaccinated Here?</th>
                             </tr>
                         </thead>
                         <tbody>

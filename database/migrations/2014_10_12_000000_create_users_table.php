@@ -41,6 +41,8 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('option_enableAutoRedirectToCif')->default(0);
             $table->tinyInteger('encoder_stats_visible')->default(0);
             $table->foreignId('abtc_default_vaccinationsite_id')->nullable()->constrained('abtc_vaccination_sites')->onDelete('cascade');
+            $table->foreignId('abtc_default_vaccinebrand_id')->nullable()->constrained('abtc_vaccine_brands')->onDelete('cascade');
+            $table->date('abtc_default_vaccinebrand_date')->nullable();
             $table->text('permission_list')->nullable();
             $table->rememberToken();
             $table->timestamps();

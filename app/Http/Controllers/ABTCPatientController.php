@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use App\Models\AbtcVaccineBrand;
+use App\Models\AbtcVaccineStocks;
 use Illuminate\Support\Facades\Session;
 
 class ABTCPatientController extends Controller
@@ -20,8 +22,18 @@ class ABTCPatientController extends Controller
 
         $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
 
+        //get uninitialized vaccine stocks
+        $init_list = AbtcVaccineStocks::where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)->pluck('id');
+        if($init_list->count() == 0) {
+            $get_initVaccineList = AbtcVaccineBrand::where('enabled', 1)->get();
+        }
+        else {
+            $get_initVaccineList = AbtcVaccineBrand::whereNotIn('id', $init_list)->where('enabled', 1)->get();
+        }
+
         return view('abtc.home', [
             'vslist' => $vslist,
+            'get_initVaccineList' => $get_initVaccineList,
         ]);
     }
 

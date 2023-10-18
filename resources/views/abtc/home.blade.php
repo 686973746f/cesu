@@ -282,7 +282,70 @@
   </div>
 </div>
 @endif
+
+@if(!(auth()->user()->ifInitAbtcVaccineBrandDaily()))
+<form action="{{route('abtc_init_vbrand')}}" method="POST">
+  @csrf
+  <div class="modal fade" id="select_vaccine" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Select Default Vaccine for Today</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          @foreach(App\Models\AbtcVaccineBrand::get() as $vc)
+          <option value="{{$vc->id}}">{{$vc->brand_name}}</option>
+          @endforeach
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success btn-block">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
 <script>
+  $('#select_vaccine').modal({backdrop: 'static', keyboard: false});
+  $('#select_vaccine').modal('show');
+</script>
+@endif
+
+@if($get_initVaccineList->count() != 0 && auth()->user()->ifInitAbtcVaccineBrandDaily())
+<form action="{{route('abtc_init_vbrand')}}" method="POST">
+  @csrf
+  <div class="modal fade" id="init_vaccinestocks" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Select Default Vaccine for Today</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          @foreach(App\Models\AbtcVaccineBrand::get() as $vc)
+          <option value="{{$vc->id}}">{{$vc->brand_name}}</option>
+          @endforeach
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success btn-block">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  $('#init_vaccinestocks').modal({backdrop: 'static', keyboard: false});
+  $('#init_vaccinestocks').modal('show');
+</script>
+@endif
+<script>
+
   //Select2 Autofocus QR Modal
   $('#qs').on('shown.bs.modal', function() {
     $('#qr').focus();

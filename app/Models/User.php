@@ -497,4 +497,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $f;
     }
+    
+    public function ifInitAbtcVaccineBrandDaily() {
+        if(date('Y-m-d') != date('Y-m-d', strtotime($this->abtc_default_vaccinebrand_date))) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }

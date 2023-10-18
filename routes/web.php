@@ -360,6 +360,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']
 //ANIMAL BITE ABTC
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtc']], function () {
     Route::get('/abtc', [ABTCPatientController::class, 'home'])->name('abtc_home');
+    Route::post('/abtc/init_vbrand', [ABTCPatientController::class, 'initVaccineBrand'])->name('abtc_init_vbrand');
+    Route::post('/abtc/init_stocks', [ABTCPatientController::class, 'initVaccineStocks'])->name('abtc_init_vstocks');
     Route::get('/abtc/patient', [ABTCPatientController::class, 'index'])->name('abtc_patient_index');
     Route::get('/abtc/patient/create', [ABTCPatientController::class, 'create'])->name('abtc_patient_create');
     Route::post('/abtc/patient/create', [ABTCPatientController::class, 'store'])->name('abtc_patient_store');
