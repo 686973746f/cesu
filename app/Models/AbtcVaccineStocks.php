@@ -10,6 +10,11 @@ class AbtcVaccineStocks extends Model
     use HasFactory;
 
     protected $fillable = [
-        'wastage_dose_count',
+        'vaccine_id',
+        'branch_id',
+        'initial_stock',
+        'initial_date',
+        'current_stock',
+        'patient_dosecount_init',
     ];
 }

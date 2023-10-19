@@ -31,18 +31,23 @@ class AbtcBakunaRecords extends Model
         'brand_name',
         'd0_date',
         'd0_done',
+        'd0_vaccinated_inbranch',
         'd0_brand',
         'd3_date',
         'd3_done',
+        'd3_vaccinated_inbranch',
         'd3_brand',
         'd7_date',
         'd7_done',
+        'd7_vaccinated_inbranch',
         'd7_brand',
         'd14_date',
         'd14_done',
+        'd14_vaccinated_inbranch',
         'd14_brand',
         'd28_date',
         'd28_done',
+        'd28_vaccinated_inbranch',
         'd28_brand',
         'outcome',
         'date_died',
@@ -495,6 +500,24 @@ class AbtcBakunaRecords extends Model
             else if($this->d14_done != 1 && $this->pep_route == 'IM') {
                 return 'Day 14 ('.date('m/d/Y - l', strtotime($this->d7_date)).')';
             }
+        }
+    }
+
+    public function getTodayDose() {
+        if(date('Y-m-d') == date('Y-m-d', strtotime($this->d0_date))) {
+            return 1;
+        }
+        else if(date('Y-m-d') == date('Y-m-d', strtotime($this->d3_date))) {
+            return 2;
+        }
+        else if(date('Y-m-d') == date('Y-m-d', strtotime($this->d7_date))) {
+            return 3;
+        }
+        else if(date('Y-m-d') == date('Y-m-d', strtotime($this->d14_date))) {
+            return 4;
+        }
+        else if(date('Y-m-d') == date('Y-m-d', strtotime($this->d28_date))) {
+            return 5;
         }
     }
 }

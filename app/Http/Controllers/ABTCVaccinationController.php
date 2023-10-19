@@ -9,6 +9,7 @@ use PhpOffice\PhpWord\PhpWord;
 use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
+use App\Models\AbtcVaccineStocks;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class ABTCVaccinationController extends Controller
@@ -227,6 +228,24 @@ class ABTCVaccinationController extends Controller
                 'remarks' => $request->remarks,
             ]);
 
+            $get_vbrand = AbtcVaccineBrand::where('brand_name', $request->brand_name)->first();
+
+            //Init Vaccine Stocks
+            $vstock = AbtcVaccineStocks::where('vaccine_id', $get_vbrand->id)
+            ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->first();
+
+            $vstock->patient_dosecount_init++;
+            
+            if($vstock->patient_dosecount_init == $get_vbrand->est_maxdose_perbottle) {
+                $vstock->current_stock--;
+                $vstock->patient_dosecount_init = 0;
+            }
+
+            if($vstock->isDirty()) {
+                $vstock->save();
+            }
+
             return view('abtc.encode_finished', [
                 'f' => $f,
             ])
@@ -404,6 +423,7 @@ class ABTCVaccinationController extends Controller
                 if($get_br->ifAbleToProcessD0() == 'Y') {
                     $get_br->d0_done = 1;
                     $get_br->d0_brand = $get_br->brand_name;
+                    $get_br->d0_vaccinated_inbranch = 1;
                 }
                 else {
                     return abort(401);
@@ -423,6 +443,7 @@ class ABTCVaccinationController extends Controller
                 if($get_br->ifAbleToProcessD3() == 'Y') {
                     $get_br->d3_done = 1;
                     $get_br->d3_brand = $get_br->brand_name;
+                    $get_br->d3_vaccinated_inbranch = 1;
                 }
                 else {
                     return abort(401);
@@ -454,6 +475,7 @@ class ABTCVaccinationController extends Controller
                 if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0 && $get_br->is_booster == 0) {
                     $get_br->d7_done = 1;
                     $get_br->d7_brand = $get_br->brand_name;
+                    $get_br->d7_vaccinated_inbranch = 1;
                 }
                 else {
                     return abort(401);
@@ -476,6 +498,7 @@ class ABTCVaccinationController extends Controller
                 if($get_br->d14_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 0 && $get_br->is_booster == 0) {
                     $get_br->d14_done = 1;
                     $get_br->d14_brand = $get_br->brand_name;
+                    $get_br->d14_vaccinated_inbranch = 1;
                 }
                 else {
                     return abort(401);
@@ -490,6 +513,7 @@ class ABTCVaccinationController extends Controller
                     if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 1 && $get_br->d28_done == 0 && $get_br->is_booster == 0) {
                         $get_br->d28_done = 1;
                         $get_br->d28_brand = $get_br->brand_name;
+                        $get_br->d28_vaccinated_inbranch = 1;
                     }
                     else {
                         return abort(401);
@@ -499,6 +523,7 @@ class ABTCVaccinationController extends Controller
                     if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d28_done == 0 && $get_br->is_booster == 0) {
                         $get_br->d28_done = 1;
                         $get_br->d28_brand = $get_br->brand_name;
+                        $get_br->d28_vaccinated_inbranch = 1;
                     }
                     else {
                         return abort(401);
@@ -517,6 +542,24 @@ class ABTCVaccinationController extends Controller
                 $get_br->outcome = 'C';
     
                 $msg = 'Congratulations. You have completed your doses of Anti-Rabies Vaccine!';
+            }
+
+            $get_vbrand = AbtcVaccineBrand::where('brand_name', $get_br->brand_name)->first();
+
+            //Init Vaccine Stocks
+            $vstock = AbtcVaccineStocks::where('vaccine_id', $get_vbrand->id)
+            ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->first();
+
+            $vstock->patient_dosecount_init++;
+            
+            if($vstock->patient_dosecount_init == $get_vbrand->est_maxdose_perbottle) {
+                $vstock->current_stock--;
+                $vstock->patient_dosecount_init = 0;
+            }
+
+            if($vstock->isDirty()) {
+                $vstock->save();
             }
             
             $get_br->updated_by = auth()->user()->id;

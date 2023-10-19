@@ -188,7 +188,7 @@
                             <select class="form-select" name="brand_name" id="brand_name" required>
                                 <option value="" disabled {{is_null(old('brand_name')) ? 'selected' : ''}}>Choose...</option>
                                 @foreach($vblist as $v)
-                                <option value="{{$v->brand_name}}" {{(old('brand_name') == $v->brand_name) ? 'selected' : ''}}>{{$v->brand_name}}</option>
+                                <option value="{{$v->brand_name}}" {{(old('brand_name') == $v->brand_name) ? 'selected' : ''}} {{($v->ifHasStock()) ? '' : 'disabled'}}>{{$v->brand_name}} {{($v->ifHasStock()) ? '' : ' - OUT OF STOCK'}}</option>
                                 @endforeach
                             </select>
                         </div>

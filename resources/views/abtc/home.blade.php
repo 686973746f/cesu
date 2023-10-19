@@ -290,18 +290,21 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Select Default Vaccine for Today</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <h5 class="modal-title">Default Daily Vaccine</h5>
         </div>
         <div class="modal-body">
-          @foreach(App\Models\AbtcVaccineBrand::get() as $vc)
-          <option value="{{$vc->id}}">{{$vc->brand_name}}</option>
-          @endforeach
+          <div class="form-group">
+            <label for="selected_vaccine"><b class="text-danger">*</b>Select Vaccine to use today:</label>
+            <select class="form-control" name="selected_vaccine" id="selected_vaccine" required>
+              <option value="" disabled selected>Choose...</option>
+              @foreach(App\Models\AbtcVaccineBrand::get() as $vc)
+              <option value="{{$vc->id}}" {{($vc->ifHasStock()) ? '' : 'disabled'}}>{{$vc->brand_name}}{{($vc->ifHasStock()) ? '' : ' - OUT OF STOCK'}}</option>
+              @endforeach
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success btn-block">Save</button>
+          <button type="submit" class="btn btn-success btn-block">Save</button>
         </div>
       </div>
     </div>
@@ -321,18 +324,13 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Select Default Vaccine for Today</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <h5 class="modal-title">Initialize Vaccine Stocks</h5>
         </div>
         <div class="modal-body">
-          @foreach(App\Models\AbtcVaccineBrand::get() as $vc)
-          <option value="{{$vc->id}}">{{$vc->brand_name}}</option>
-          @endforeach
+          
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success btn-block">Save</button>
+          <button type="button" class="btn btn-success btn-block">Proceed</button>
         </div>
       </div>
     </div>

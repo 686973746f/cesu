@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\AbtcPatient;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
+use App\Models\AbtcVaccineStocks;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
-use App\Models\AbtcVaccineBrand;
-use App\Models\AbtcVaccineStocks;
 use Illuminate\Support\Facades\Session;
 
 class ABTCPatientController extends Controller
@@ -23,14 +24,14 @@ class ABTCPatientController extends Controller
         $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
 
         //get uninitialized vaccine stocks
-        $init_list = AbtcVaccineStocks::where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)->pluck('id');
+        $init_list = AbtcVaccineStocks::where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)->pluck('vaccine_id');
         if($init_list->count() == 0) {
             $get_initVaccineList = AbtcVaccineBrand::where('enabled', 1)->get();
         }
         else {
             $get_initVaccineList = AbtcVaccineBrand::whereNotIn('id', $init_list)->where('enabled', 1)->get();
         }
-
+        
         return view('abtc.home', [
             'vslist' => $vslist,
             'get_initVaccineList' => $get_initVaccineList,
@@ -249,5 +250,26 @@ class ABTCPatientController extends Controller
         else {
             return abort(401);
         }
+    }
+
+    public function initVaccineBrand(Request $r) {
+        $r->initVaccineBrand;
+
+        $update = User::findOrFail(auth()->user()->id);
+        
+        $update->abtc_default_vaccinebrand_id = $r->initVaccineBrand;
+        $update->abtc_default_vaccinebrand_date = date('Y-m-d');
+
+        if($update->isDirty()) {
+            $update->save();
+        }
+
+        return redirect()->route('abtc_home')
+        ->with('msg', 'Vaccine to be used today was initialized successfully. You may now proceed encoding.')
+        ->with('msgtype', 'success');
+    }
+
+    public function initVaccineStocks(Request $r) {
+        
     }
 }

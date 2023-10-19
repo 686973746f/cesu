@@ -12,6 +12,25 @@ class AbtcVaccineBrand extends Model
     protected $fillable = [
         'brand_name',
         'generic_name',
+        'est_maxdose_perbottle',
         'enabled',
     ];
+
+    public function ifHasStock() {
+        $s = AbtcVaccineStocks::where('vaccine_id', $this->id)
+        ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->first();
+
+        if($s) {
+            if($s->current_stock <= 0) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }
